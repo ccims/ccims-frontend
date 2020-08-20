@@ -1,0 +1,33 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-nav-list mat-icon {
+  color: rgba(0, 0, 0, 0.54);
+  padding-right: 20px;
+  padding-left: 4px;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
