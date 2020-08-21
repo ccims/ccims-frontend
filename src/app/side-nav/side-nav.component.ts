@@ -6,8 +6,7 @@ import { map, shareReplay } from 'rxjs/operators';
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
-  styleUrls: ['./side-nav.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent {
 
