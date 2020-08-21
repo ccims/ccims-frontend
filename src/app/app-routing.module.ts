@@ -5,7 +5,7 @@ import { ProjectOverviewComponent  } from './project-overview/project-overview.c
 
 const routes: Routes = [
   {path: '', redirectTo: 'projects', pathMatch: 'full'},
-  //{path: 'home', component: HomeComponent},
+  // {path: 'home', component: HomeComponent},
   {path: 'projects', component: ProjectListComponent},
   {path: 'projects/:id', component: ProjectOverviewComponent}
 ];

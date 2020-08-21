@@ -14,5 +14,7 @@ export class ProjectListComponent implements OnInit {
   ngOnInit(): void {
     this.projects = this.ps.getAll();
   }
-
+  remove(project: Project) {
+    console.log('Removing ' + project);
+  }
 }

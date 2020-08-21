@@ -29,6 +29,6 @@ export class ProjectStoreService {
   }
 
   getSingle(id: number): Project {
-    return this.projects.find(project => project.id === id)
+    return this.projects.find(project => project.id === id);
   }
 }
