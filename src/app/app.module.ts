@@ -14,6 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
 import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
     NavigationComponent,
     ProjectListComponent,
     ProjectOverviewComponent,
-    TopToolbarComponent
+    TopToolbarComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,
