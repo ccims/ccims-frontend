@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button class="example-icon" aria-label="Toggle sidenav"
+  (click)="drawer.toggle()"
+  *ngIf="isHandset$ | async">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <!--<span>CCIMS</span>-->
+  <button routerLink="/" mat-icon-button class="example-icon favorite-icon" aria-label="Home icon-button with a house">
+    <mat-icon>home</mat-icon>
+  </button>
+  <span id="current-project">LLVM (Project)</span>
+  <!--<span class="toolbar-spacer"></span>-->
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>
