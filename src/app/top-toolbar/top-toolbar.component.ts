@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -9,12 +9,18 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./top-toolbar.component.scss']
 })
 export class TopToolbarComponent {
+  @Output()
+  public menuClick = new EventEmitter();
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
     map(result => result.matches),
     shareReplay()
   );
+
+  public handleClick() {
+    this.menuClick.emit();
+}
 
 constructor(private breakpointObserver: BreakpointObserver) {}
 

@@ -1,0 +1,24 @@
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar {
+  justify-content: space-between;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+#current-project {
+  font-size: 12px;
+  border: 3px solid white;
+  border-radius: 0.5em;
+  padding: 0px 4px 0px 4px;
+  margin: auto;
+}

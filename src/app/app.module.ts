@@ -13,13 +13,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
+import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     ProjectListComponent,
-    ProjectOverviewComponent
+    ProjectOverviewComponent,
+    TopToolbarComponent
   ],
   imports: [
     BrowserModule,
