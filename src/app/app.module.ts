@@ -16,6 +16,7 @@ import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ComponentListComponent } from './component-list/component-list.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     ProjectListComponent,
     ProjectOverviewComponent,
     TopToolbarComponent,
-    SideNavComponent
+    SideNavComponent,
+    ComponentListComponent
   ],
   imports: [
     BrowserModule,
