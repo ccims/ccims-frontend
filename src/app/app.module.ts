@@ -14,6 +14,8 @@ import { ProjectListComponent } from './project-list-component/project-list.comp
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
 import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    GraphQLModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
