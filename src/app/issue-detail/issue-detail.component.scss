@@ -2,10 +2,12 @@
 
 #issue-state, #issue-header{
   display: flex;
+  text-align: center;
 }
 
 #issue-heading {
   display: inline;
+  margin-right: 8px;
 }
 #issue-action {
   margin-left: auto;
