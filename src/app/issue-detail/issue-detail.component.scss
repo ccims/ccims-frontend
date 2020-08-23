@@ -12,3 +12,11 @@
 #issue-action {
   margin-left: auto;
 }
+.issue-comment {
+  margin-left: 0;
+    // The Timeline
+    &::before {
+      left: 16px;
+    }
+  display: blocK;
+}
