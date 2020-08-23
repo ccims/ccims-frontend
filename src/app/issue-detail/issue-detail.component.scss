@@ -1,0 +1,17 @@
+
+
+#issue-state, #issue-header{
+  display: flex;
+}
+
+#issue-heading {
+  display: inline;
+}
+#issue-action {
+  margin-left: auto;
+}
+.container-xl {
+  max-width: 1280px;
+  margin-right: auto;
+  margin-left: auto;
+}

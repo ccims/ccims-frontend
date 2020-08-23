@@ -14,6 +14,7 @@ import { ProjectListComponent } from './project-list-component/project-list.comp
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
 import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     ProjectListComponent,
     ProjectOverviewComponent,
     TopToolbarComponent,
-    SideNavComponent
+    SideNavComponent,
+    IssueDetailComponent
   ],
   imports: [
     BrowserModule,
