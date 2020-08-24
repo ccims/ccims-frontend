@@ -9,9 +9,7 @@ const uri = 'https://api.github.com/graphql'; // <-- add the URL of the GraphQL 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
-    //@ts-ignore
     const token = environment.GH_AUTH_TOKEN;
-    console.log({ token })
     // return the headers to the context so httpLink can read them
     return {
        headers: {
