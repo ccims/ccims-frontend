@@ -1,1 +1,6 @@
-{{data}}
+<h1>Component List</h1>
+<mat-nav-list>
+     <a *ngFor="let component of components" mat-list-item>
+     <span matLine>{{ component }}</span>
+  </a>
+</mat-nav-list>

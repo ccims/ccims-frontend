@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  GH_AUTH_TOKEN: null
 };

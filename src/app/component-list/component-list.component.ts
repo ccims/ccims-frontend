@@ -9,7 +9,7 @@ import { ComponentService } from '../services/component.service';
 export class ComponentListComponent implements OnInit {
 
 
-  components: Observable<any[]>;
+  components: any;
   data: any;
   loading: boolean;
 
@@ -18,9 +18,10 @@ export class ComponentListComponent implements OnInit {
   // Get all courses
   ngOnInit() {
     //@ts-ignore
-    this.components = this.componentService.getAllComponents().subscribe(({ data, loading }) => {
+    this.componentService.getAllComponents().subscribe(({ data, loading }) => {
       this.loading = loading;
-      this.data = data;
+      //@ts-ignore
+      this.components = data.viewer.repositories.nodes.map(components => components.name);
     });
   }
 

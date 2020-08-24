@@ -20,12 +20,12 @@ export class ComponentService {
        }
     }
     `
-  }
+  };
   constructor(private apollo: Apollo) { }
 
   getAllComponents() {
-    return this.apollo.watchQuery(
+    return this.apollo.query(
       this.allComponentsQuery
-    ).valueChanges.pipe(map((result) => result.data));
+    );
   }
 }
