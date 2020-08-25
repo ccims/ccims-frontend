@@ -17,6 +17,7 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentListComponent } from './component-list/component-list.component';
+import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ComponentListComponent } from './component-list/component-list.componen
     ProjectOverviewComponent,
     TopToolbarComponent,
     SideNavComponent,
-    ComponentListComponent
+    ComponentListComponent,
+    IssueDetailComponent
   ],
   imports: [
     BrowserModule,

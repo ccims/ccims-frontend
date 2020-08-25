@@ -1,0 +1,22 @@
+
+
+#issue-state, #issue-header{
+  display: flex;
+  text-align: center;
+}
+
+#issue-heading {
+  display: inline;
+  margin-right: 8px;
+}
+#issue-action {
+  margin-left: auto;
+}
+.issue-comment {
+  margin-left: 0;
+    // The Timeline
+    &::before {
+      left: 16px;
+    }
+  display: blocK;
+}
