@@ -1,0 +1,32 @@
+
+.project-title-row {
+  width: 250px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.box {
+  display: inline-block;
+  vertical-align: top;
+  width: 85px;
+  height: 85px;
+  margin-right: 5px;
+}
+.content {
+  display: inline-block;
+}
+.title, .sub-title {
+  margin: 0;
+  padding: 3px 10px 3px 0;
+}
+.title {
+  font-size: 17px;
+  font-weight: bold;
+}
+.sub-title {
+  font-weight: bold;
+  color: #3F3F3F;
+}
+
+img {
+  width:100%;
+}
