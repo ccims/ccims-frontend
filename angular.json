@@ -30,8 +30,7 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
-              "./node_modules/@clr/ui/clr-ui.min.css",
-              "./node_modules/@primer/css/index.scss"
+              "src/styling/@primer/css/index.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
