@@ -9,14 +9,13 @@ import { GroupBehaviour } from '@ustutt/grapheditor-webcomponent/lib/grouping';
 import { DynamicTemplateContext, DynamicNodeTemplate } from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
 import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import { IssueGroupContainerParentBehaviour, IssueGroupContainerBehaviour } from './group-behaviours';
-import { Store, select } from '@ngrx/store';
 import { State, Project, Component as ProjectComponent, Issue, IssueType, IssueRelationType, IssuesState } from 'src/app/model/state';
-import { selectIssueGraphData } from 'src/app/reducers/issueGraph.selector';
 import { MatDialog } from '@angular/material/dialog';
-import { ApiService } from 'src/app/api/api.service';
-import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
+//import { ApiService } from 'src/app/api/api.service';
+//import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
+//import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
+import { exampleIssues, exampleComponents } from 'src/app/model/graph-state';
 
 @Component({
     selector: 'app-issue-graph',
@@ -56,7 +55,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     private issueToRelatedNode: Map<string, Set<string>> = new Map();
     private issueToGraphNode: Map<string, Set<string>> = new Map();
 
-    constructor(private store: Store<State>, private dialog: MatDialog, private bottomSheet: MatBottomSheet, private api: ApiService) {}
+    constructor(private dialog: MatDialog, private bottomSheet: MatBottomSheet) {}
 
     ngOnInit() {
         this.initGraph();
@@ -241,6 +240,10 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                 this.loadProjectSettings(this.project?.id);
 
                 this.graphDataSubscription?.unsubscribe();
+                this.currentComponents = exampleComponents;
+                this.currentIssues = exampleIssues;
+                this.updateGraph(this.currentComponents, this.currentIssues, this.projectIsNew);
+                this.projectIsNew = this.currentComponents?.length === 0;
                 /*
                 this.graphDataSubscription = this.store
                     .pipe(
@@ -301,7 +304,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                 this.addIssueGroupContainer(graph, componentNode);
                 needRender = true;
             } else {
-                if (componentNode.data !== comp) { // Identity comparison works becaus e of redux store
+                if (componentNode.data !== comp) { // Identity comparison works because of redux store
                     componentNode.title = comp.name;
                     componentNode.data = comp;
                     needRender = true;
@@ -697,7 +700,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
             const sourceNode = graph.getNode(edge.source);
             const targetNode = graph.getNode(edge.target);
             if (sourceNode != null && targetNode != null) {
-                this.api.addComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
+                //this.api.addComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
             }
         }
     }
@@ -727,7 +730,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
             const sourceNode = graph.getNode(edge.source);
             const targetNode = graph.getNode(edge.target);
             if (sourceNode != null && targetNode != null) {
-                this.api.removeComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
+                //this.api.removeComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
             }
         }
     }
@@ -738,6 +741,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
 
         if (node.type === 'component') {
             // TODO show a edit component dialog (or similar)
+            /*
             this.bottomSheet.open(GraphNodeInfoSheetComponent, {
                 data: {
                     projectId: this.project.id,
@@ -746,11 +750,14 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                 }
             });
             return;
+            */
+           console.log('Open component info sheet');
         }
         if (node.type === 'interface') {
             const graph: GraphEditor = this.graph.nativeElement;
             const componentNode = graph.getNode(node.componentNodeId);
             // TODO show a edit interface dialog (or similar)
+            /*
             this.bottomSheet.open(GraphNodeInfoSheetComponent, {
                 data: {
                     projectId: this.project.id,
@@ -761,6 +768,8 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                 }
             });
             return;
+            */
+            console.log('Open Interface Info Sheet');
         }
         if (node.type.startsWith('issue-')) {
             const graph: GraphEditor = this.graph.nativeElement;
@@ -769,6 +778,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
 
             if (rootNode.type === 'component') {
                 // TODO show a edit component dialog (or similar)
+                /*
                 this.bottomSheet.open(GraphNodeInfoSheetComponent, {
                     data: {
                         projectId: this.project.id,
@@ -777,11 +787,14 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                     }
                 });
                 return;
+                */
+               console.log('Show component bottom sheet');
             }
 
             if (rootNode.type === 'interface') {
                 const graph: GraphEditor = this.graph.nativeElement;
                 const componentNode = graph.getNode(node.componentNodeId);
+                /*
                 // TODO show a edit component dialog (or similar)
                 this.bottomSheet.open(GraphNodeInfoSheetComponent, {
                     data: {
@@ -792,6 +805,8 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                         issues: [...node.issues],
                     }
                 });
+                */
+               console.log('Show interface bottom sheet');
                 return;
             }
             return;
@@ -829,6 +844,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     private addInterfaceToComponent(componentId) {
+      /*
         const createComponentDialog = this.dialog.open(CreateInterfaceDialogComponent);
 
         createComponentDialog.afterClosed().subscribe((interfaceName: string) => {
@@ -836,5 +852,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                 this.api.addComponentInterface(componentId, interfaceName);
             }
         });
+      */
+     console.log('Open Create Interface Dialog Component');
     }
 }

@@ -160,7 +160,7 @@ const compPaymentService: Component = {
 };
 
 
-const projA: Project = {
+export const projA: Project = {
     id: Uuid('sandros-project', PROJECT_UUID_NAMESPACE),
 
     name: 'sandros-project',
