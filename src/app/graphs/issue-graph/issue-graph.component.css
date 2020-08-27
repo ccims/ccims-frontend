@@ -1,0 +1,35 @@
+.graph-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.graph {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.minimap {
+    top: 1rem;
+    left: 1rem;
+}
+
+.minimap, .minimap::before, .minimap::after {
+    position: absolute;
+    width: 8rem;
+    height: 6rem;
+}
+
+.minimap::before, .minimap::after {
+    content: "";
+    opacity: 0.5;
+}
+
+.minimap::before {
+    background-color: white;
+}
+
+.minimap::after {
+
+}

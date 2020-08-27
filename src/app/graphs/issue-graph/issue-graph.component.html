@@ -1,0 +1,235 @@
+<div class="graph-container">
+    <network-graph class="graph" mode="layout"
+        classes="component interface issue bug done interface-connect component-connect issue-relation related-to duplicate dependency"
+        #graph>
+        <style slot="style">
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <svg slot="graph">
+            <style>
+                .ghost {
+                    opacity: 0.5;
+                }
+
+                .link-handle {
+                    display: none;
+                    fill: black;
+                    opacity: 0.1;
+                }
+
+                .link-handle>* {
+                    transition: transform 0.25s ease-out;
+                }
+
+                .edge-group .link-handle {
+                    display: initial
+                }
+
+                .link-handle:hover {
+                    opacity: 0.7;
+                }
+
+                .link-handle:hover>* {
+                    transform: scale(1.5);
+                }
+
+                .text {
+                    fill: black;
+                    font-size: 6pt;
+                    text-overflow: ellipsis;
+                    word-break: break-word
+                }
+
+                .text.title {
+                    font-size: 9pt;
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+                }
+
+                .badge-background {
+                    fill: white;
+                    opacity: 0.85;
+                }
+
+                .text.badge {
+                    font-size: 6pt;
+                    text-anchor: middle;
+                    text-overflow: clip;
+                }
+
+                .background {
+                    opacity: 0;
+                }
+
+                .dropzone {
+                    stroke-dasharray: 2 1;
+                    opacity: 0.3;
+                    transition: opacity 0.2s ease-out
+                }
+
+                .dropzone:hover {
+                    opacity: 1;
+                }
+
+                .component.hovered .link-handle {
+                    display: initial;
+                }
+
+                .node.component rect {
+                    fill: white;
+                    stroke: black;
+                }
+
+                .edge-group.issue-relation {
+                    opacity: 0.7;
+                }
+
+                /* issue relation edge styling (use '.related-to', '.duplicate' and '.dependency' to style the individual types)*/
+                .edge-group.issue-relation .edge {
+                    stroke: gray;
+                    stroke-dasharray: 3 5;
+                    stroke-width: 3px;
+                    stroke-linecap: round;
+                }
+
+                .edge-group.issue-relation .marker {
+                    fill: gray;
+                }
+            </style>
+            <defs class="templates">
+                <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>
+                <path id="icon-undecided"
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z">
+                </path>
+                <path id="icon-bug"
+                    d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z">
+                </path>
+                <path id="icon-feature"
+                    d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z">
+                </path>
+                <g id="component" data-template-type="node">
+                    <rect width="100" height="60" x="-50" y="-30" data-link-handles="edges"></rect>
+                    <text class="title text" data-content="title" data-click="title" x="-46" y="-13" width="92"></text>
+                    <text class="text" data-content="description" x="-40" y="5" width="80" height="30"></text>
+                    <title data-content="title"></title>
+                </g>
+                <g id="interface" data-template-type="node">
+                    <circle cx="0" cy="0" r="7"></circle>
+                </g>
+                <g id="issue-group-container" data-template-type="node">
+                    <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
+                    <use href="#icon-folder" class="dropzone" stroke="black" fill="white" x="-19" y="-15"></use>
+                </g>
+                <g id="issue-undecided" data-template-type="node">
+                    <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
+                    <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
+                    <use href="#icon-undecided" fill="black" x="-12" y="-11"></use>
+                    <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
+                    <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
+                </g>
+                <g id="issue-feature" data-template-type="node">
+                    <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
+                    <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
+                    <use href="#icon-feature" fill="#005eff" x="-12" y="-11"></use>
+                    <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
+                    <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
+                </g>
+                <g id="issue-bug" data-template-type="node">
+                    <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
+                    <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
+                    <use href="#icon-bug" fill="red" x="-12" y="-11"></use>
+                    <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
+                    <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
+                </g>
+                <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">
+                    <path d="M -9 -4 L 0 0 L -9 4 z" />
+                </g>
+                <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">
+                    <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z" />
+                </g>
+            </defs>
+        </svg>
+    </network-graph>
+
+    <network-graph class="minimap" mode="display" classes="component interface issue bug done" #minimap>
+        <style slot="style">
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <svg slot="graph">
+            <style>
+                .view-box {
+                    fill: orange;
+                    opacity: 0.5;
+                }
+
+                .link-handle {
+                    display: none;
+                }
+
+                .node.component rect {
+                    fill: white;
+                    stroke: black;
+                }
+            </style>
+            <defs class="templates">
+                <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>
+                <path id="icon-undecided"
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z">
+                </path>
+                <path id="icon-bug"
+                    d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z">
+                </path>
+                <path id="icon-feature"
+                    d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z">
+                </path>
+                <g id="component" data-template-type="node">
+                    <rect width="100" height="60" x="-50" y="-30" data-link-handles="edges"></rect>
+                </g>
+                <g id="interface" data-template-type="node">
+                    <circle cx="0" cy="0" r="7"></circle>
+                </g>
+                <g id="issue" data-template-type="node">
+                    <rect width="30" height="30" x="-15" y="-15" data-link-handles="edges"></rect>
+                </g>
+                <g id="bug" data-template-type="node">
+                    <rect width="30" height="30" x="-15" y="-15" data-link-handles="edges"></rect>
+                </g>
+                <g id="issue-undecided" data-template-type="node">
+                    <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges">
+                    </use>
+                    <use href="#icon-undecided" fill="black" x="-12" y="-9"></use>
+                </g>
+                <g id="issue-feature" data-template-type="node">
+                    <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges">
+                    </use>
+                    <use href="#icon-feature" fill="#005eff" x="-12" y="-9"></use>
+                </g>
+                <g id="issue-bug" data-template-type="node">
+                    <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges">
+                    </use>
+                    <use href="#icon-bug" fill="red" x="-12" y="-9"></use>
+                </g>
+                <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">
+                    <path d="M -9 -4 L 0 0 L -9 4 z" />
+                </g>
+                <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">
+                    <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z" />
+                </g>
+            </defs>
+            <g class="zoom-group">
+                <g class="edges"></g>
+                <g class="nodes"></g>
+                <rect class="view-box" [attr.x]="currentVisibleArea?.x" [attr.y]="currentVisibleArea?.y"
+                    [attr.width]="currentVisibleArea?.width" [attr.height]="currentVisibleArea?.height">
+
+                </rect>
+            </g>
+        </svg>
+    </network-graph>
+</div>

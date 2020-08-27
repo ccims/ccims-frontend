@@ -19,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentListComponent } from './component-list/component-list.component';
 import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
+import { GraphsModule } from './graphs/graphs.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,8 @@ import { IssueDetailComponent } from './issue-detail/issue-detail.component';
     MatIconModule,
     MatListModule,
     GraphQLModule,
-    HttpClientModule
+    HttpClientModule,
+    GraphsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

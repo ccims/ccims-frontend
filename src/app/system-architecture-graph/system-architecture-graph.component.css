@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+.container app-issue-graph {
+    flex-grow: 1;
+}
+.slide-toggle {
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.bug-report-icon {
+    color: red;
+}
+
+.feature-request-icon {
+    color: #005eff;
+}
+
+.unclassified-issue-icon {
+    font-size: larger;
+}
+
+.feature-request-icon, .bug-report-icon, .notification-icon {
+    margin-top: 7px;
+}
+
+.create-component-button {
+    margin-left: 20px;
+    font-size: larger;
+    position: absolute;
+    right: 10px;
+    top: 2px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}

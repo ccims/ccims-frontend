@@ -1,0 +1,22 @@
+<div class="container">
+    <div>
+        <mat-slide-toggle matTooltip="Feature Requests" class="slide-toggle" [checked]="true" (change)="featureRequests = !featureRequests; updateBlacklistFilter()">
+            <mat-icon class="feature-request-icon">emoji_objects</mat-icon>
+        </mat-slide-toggle>
+        <mat-slide-toggle matTooltip="Bug Reports" class="slide-toggle" [checked]="true" (change)="bugReports = !bugReports; updateBlacklistFilter()">
+            <mat-icon class="bug-report-icon">bug_report</mat-icon>
+        </mat-slide-toggle>
+        <mat-slide-toggle matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true" (change)="undecided = !undecided; updateBlacklistFilter()">
+            <b class="unclassified-issue-icon">?</b>
+        </mat-slide-toggle>
+        <mat-slide-toggle matTooltip="Notifications" class="slide-toggle">
+            <mat-icon class="notification-icon">notifications</mat-icon>
+        </mat-slide-toggle>
+        <span class="spacer"></span>
+        <button mat-icon-button matTooltip="Create new Component" class="create-component-button"
+            (click)="this.openCreateComponentDialog()">
+            <mat-icon>extension</mat-icon>
+        </button>
+    </div>
+    <app-issue-graph [project]="project" [blacklistFilter]="getBlacklistFilter()"></app-issue-graph>
+</div>
