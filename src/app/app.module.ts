@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
 import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
@@ -20,6 +21,7 @@ import { ComponentListComponent } from './component-list/component-list.componen
 import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
 import { GraphsModule } from './graphs/graphs.module';
+import { SystemArchitectureGraphComponent } from './system-architecture-graph/system-architecture-graph.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { GraphsModule } from './graphs/graphs.module';
     TopToolbarComponent,
     SideNavComponent,
     ComponentListComponent,
-    IssueDetailComponent
+    IssueDetailComponent,
+    SystemArchitectureGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { GraphsModule } from './graphs/graphs.module';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatSlideToggleModule,
     GraphQLModule,
     HttpClientModule,
     GraphsModule

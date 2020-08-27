@@ -10,7 +10,7 @@ import { DynamicTemplateContext, DynamicNodeTemplate } from '@ustutt/grapheditor
 import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import { IssueGroupContainerParentBehaviour, IssueGroupContainerBehaviour } from './group-behaviours';
 import { Store, select } from '@ngrx/store';
-import { State, Project, Component as ProjectComponent, Issue, IssueType, IssueRelationType, IssuesState } from 'src/app/reducers/state';
+import { State, Project, Component as ProjectComponent, Issue, IssueType, IssueRelationType, IssuesState } from 'src/app/model/state';
 import { selectIssueGraphData } from 'src/app/reducers/issueGraph.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from 'src/app/api/api.service';
@@ -241,6 +241,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                 this.loadProjectSettings(this.project?.id);
 
                 this.graphDataSubscription?.unsubscribe();
+                /*
                 this.graphDataSubscription = this.store
                     .pipe(
                         select(selectIssueGraphData, {projectId: this.project?.id}),
@@ -251,6 +252,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                         this.updateGraph(issueGraphData.components, issueGraphData.issues, this.projectIsNew);
                         this.projectIsNew = issueGraphData.components?.length === 0; // prevent not fully loaded states resetting this flag
                     });
+                    */
             }
         } else {
             // only if project has not also changed
