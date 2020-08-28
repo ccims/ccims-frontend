@@ -11,6 +11,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
+
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
 import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
@@ -47,7 +49,8 @@ import { SystemArchitectureGraphComponent } from './system-architecture-graph/sy
     MatSlideToggleModule,
     GraphQLModule,
     HttpClientModule,
-    GraphsModule
+    GraphsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

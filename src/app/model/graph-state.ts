@@ -88,7 +88,7 @@ export const exampleIssues: IssuesState = {
     "relatedIssues": [
       {
         "relatedIssueId": "560762e2-06be-5374-a520-70cbdf98a82a",
-        "relationType": "DEPENDS"
+        "relationType": IssueRelationType.DEPENDS
       }
     ],
     "labels": [],
@@ -115,7 +115,7 @@ export const exampleIssues: IssuesState = {
     "relatedIssues": [
       {
         "relatedIssueId": "400b7b0a-389a-5faa-b3e0-91d7a16b19ad",
-        "relationType": "DEPENDS"
+        "relationType": IssueRelationType.DEPENDS
       }
     ],
     "labels": [],
@@ -131,7 +131,7 @@ export const exampleIssues: IssuesState = {
     "relatedIssues": [
       {
         "relatedIssueId": "df264bcf-95ff-51ed-8c0c-e36981b5baf2",
-        "relationType": "DEPENDS"
+        "relationType": IssueRelationType.DEPENDS
       }
     ],
     "labels": [],

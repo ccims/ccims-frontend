@@ -13,7 +13,7 @@ import { State, Project, Component as ProjectComponent, Issue, IssueType, IssueR
 import { MatDialog } from '@angular/material/dialog';
 //import { ApiService } from 'src/app/api/api.service';
 //import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+//import { MatBottomSheet } from '@angular/material/bottom-sheet';
 //import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
 import { exampleIssues, exampleComponents } from 'src/app/model/graph-state';
 
@@ -55,7 +55,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     private issueToRelatedNode: Map<string, Set<string>> = new Map();
     private issueToGraphNode: Map<string, Set<string>> = new Map();
 
-    constructor(private dialog: MatDialog, private bottomSheet: MatBottomSheet) {}
+    constructor(private dialog: MatDialog) {} //, private bottomSheet: MatBottomSheet) {}
 
     ngOnInit() {
         this.initGraph();
