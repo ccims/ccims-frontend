@@ -30,11 +30,10 @@ export interface ProjectsState {
 
 
 export interface ComponentInterface {
-
     id: string;
-
     interfaceName: string;
-    issues: string[];
+    //issues: string[];
+    issueCounts: IssueCounts;
 }
 
 export interface ComponentInterfaces {
@@ -45,6 +44,22 @@ export interface ComponentRelation {
     targetId: string;
     targetType: 'interface' | 'component';
 }
+
+export interface GraphComponent {
+  id: string;
+  name: string;
+  description: string;
+  issueCounts: IssueCounts;
+  imsId: string;
+  imsRepository;
+  owner: string;
+  interfaces: ComponentInterfaces;
+  componentRelations: ComponentRelation[];
+}
+
+export type IssueCounts = {
+  [key in IssueType]: number;
+};
 
 export interface Component {
 

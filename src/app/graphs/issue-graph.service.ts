@@ -1,13 +1,24 @@
-import { Component, IssuesState, IssueType, IssueRelationType, GraphComponent } from './state';
+import { Injectable } from '@angular/core';
+import { GraphComponent, IssuesState, IssueType, IssueRelationType } from 'src/app/model/state';
 
-export const exampleComponents: GraphComponent[] = [
+@Injectable({
+  providedIn: 'root'
+})
+export class IssueGraphService {
+
+exampleState: GraphComponent[] = [
   {
     "id": "f0f6426c-f9e4-56ee-a5de-5b37f431d4ca",
     "name": "order-service",
     "description": "",
+    "issues": [
+      "8ea071db-16e7-5c49-89e7-84ff07125028",
+      "4305e18b-1f70-5164-ab3e-144b183eccd8",
+      "7653fd8c-a0da-5fd2-a5a1-a4a093ec5667"
+    ],
     "imsId": null,
     "imsRepository": null,
-    "owner": null,
+    "imsOwner": null,
     "interfaces": {},
     "componentRelations": [
       {
@@ -166,3 +177,6 @@ export const exampleIssues: IssuesState = {
     "comments": []
   }
 };
+
+  constructor() { }
+}
