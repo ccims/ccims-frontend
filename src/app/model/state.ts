@@ -135,9 +135,7 @@ export enum IssueType {
 }
 
 export interface Issue {
-
     id: string;
-
     title: string;
     textBody: string;
     htmlBody: string;

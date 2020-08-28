@@ -87,13 +87,16 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private gs: GraphStoreService) {
     //, private bottomSheet: MatBottomSheet) {}
-    this.gs.state$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((current) => (this.graphState = current; this.updateGraph()));
   }
 
   ngOnInit() {
     this.initGraph();
+    this.gs.state$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((current) => {
+      this.graphState = current;
+      this.updateGraph();
+    });
   }
 
   ngOnDestroy() {
@@ -285,6 +288,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+        /*
     this.initGraph();
 
     if (changes.project != null) {
@@ -305,15 +309,11 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
         this.loadProjectSettings(this.project?.id);
 
         this.graphDataSubscription?.unsubscribe();
-        this.currentComponents = exampleComponents;
-        this.currentIssues = exampleIssues;
         this.updateGraph(
-          this.currentComponents,
-          this.currentIssues,
           this.projectIsNew
         );
         this.projectIsNew = this.currentComponents?.length === 0;
-        /*
+
                 this.graphDataSubscription = this.store
                     .pipe(
                         select(selectIssueGraphData, {projectId: this.project?.id}),
@@ -324,7 +324,6 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
                         this.updateGraph(issueGraphData.components, issueGraphData.issues, this.projectIsNew);
                         this.projectIsNew = issueGraphData.components?.length === 0; // prevent not fully loaded states resetting this flag
                     });
-                    */
       }
     } else {
       // only if project has not also changed
@@ -337,20 +336,18 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
           this.blacklistFilter[IssueType.UNCLASSIFIED] !=
             previous[IssueType.UNCLASSIFIED]
         ) {
+          console.log("Call update Graph");
           this.updateGraph(
-            this.currentComponents,
-            this.currentIssues,
             this.projectIsNew
           );
         }
       }
     }
+                        */
+
   }
 
-
   updateGraph(
-    components: ProjectComponent[],
-    issues: IssuesState,
     shouldZoom: boolean = true
   ) {
     const zeroPosition: Point = {x: 0, y: 0};
@@ -359,7 +356,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     //TODO: refactor into resetGraph method
     this.graph.edgeList = [];
     this.graph.nodeList = [];
-    this.graph.groupingManager.clearAllGroups();
+    //this.graph.groupingManager.clearAllGroups();
     const issueGroupParents: Node[] = [];
 
     this.graphState.forEach((graphComponent) => {
@@ -375,19 +372,21 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
       graph.addNode(componentGraphNode);
       this.addIssueGroupContainer(graph, componentGraphNode);
       needRender = true;
-      this.updateIssuesForNode(graph, componentGraphNode, graphComponent.issues, issues);
+      //this.updateIssuesForNode(graph, componentGraphNode, graphComponent.issues, issues);
+      //this.newUpdateIssuesForNode(graph, componentGraphNode, graphComponent.issueCounts);
       issueGroupParents.push(componentGraphNode);
 
       Object.keys(graphComponent.interfaces).forEach((interfaceId) => {
         const interfaceNodeId = `interface_${interfaceId}`;
-        const interface: GraphComponentInterface = graphComponent.interfaces[interfaceId];
+        //interface is a reserved keyword
+        const intface: GraphComponentInterface = graphComponent.interfaces[interfaceId];
         const interfaceNode = {
           id: interfaceNodeId,
-          ...interface.position,
-          title: interface.interfaceName,
+          ...intface.position,
+          title: intface.interfaceName,
           type: 'interface',
           componentNodeId: componentNodeId,
-          data: interface,
+          data: intface,
           relatedIssues: new Set<string>(),
         };
         graph.addNode(interfaceNode);
@@ -400,7 +399,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
         };
         graph.addEdge(edge);
         needRender = true;
-        this.updateIssuesForNode(graph, interfaceNode, interface.issues, issues); // new interface type has no issues only issue counts
+        //this.updateIssuesForNode(graph, interfaceNode, interface.issues, issues); // new interface type has no issues only issue counts
         issueGroupParents.push(interfaceNode);
       });
 
@@ -433,11 +432,14 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
       });
     });
 
+    /*
     issueGroupParents.forEach((node) =>
-      this.updateIssueRelations(graph, node, issues)
+      //this.updateIssueRelations(graph, node, issues)
+      console.log("Update issue relation");
     );
+    */
 
-    this.issuesById = issues;
+    //this.issuesById = issues;
 
       graph.completeRender();
       if (shouldZoom) {
