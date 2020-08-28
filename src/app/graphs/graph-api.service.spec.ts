@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GraphStoreService } from './graph-store.service';
+import { GraphApiService } from './graph-api.service';
 
-describe('IssueGraphService', () => {
-  let service: GraphStoreService;
+describe('GraphApiService', () => {
+  let service: GraphApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GraphStoreService);
+    service = TestBed.inject(GraphApiService);
   });
 
   it('should be created', () => {

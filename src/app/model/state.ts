@@ -1,3 +1,5 @@
+import { IssueGraphComponent } from '../graphs/issue-graph/issue-graph.component';
+import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 
 
 export interface Project {
@@ -32,12 +34,23 @@ export interface ProjectsState {
 export interface ComponentInterface {
     id: string;
     interfaceName: string;
-    //issues: string[];
-    issueCounts: IssueCounts;
+    issues: string[];
+}
+
+//TODO: refactor this to ComponentInterface when integration complete
+export interface GraphComponentInterface {
+  id: string;
+  interfaceName: string;
+  issueCounts: IssueCounts;
+  position: Point;
 }
 
 export interface ComponentInterfaces {
     [id: string]: ComponentInterface;
+}
+
+export interface GraphComponentInterfaces {
+  [id: string]: GraphComponentInterface;
 }
 
 export interface ComponentRelation {
@@ -53,7 +66,8 @@ export interface GraphComponent {
   imsId: string;
   imsRepository;
   owner: string;
-  interfaces: ComponentInterfaces;
+  position: Point;
+  interfaces: GraphComponentInterfaces;
   componentRelations: ComponentRelation[];
 }
 

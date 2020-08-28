@@ -127,13 +127,11 @@ const compShippingService: Component = {
     imsRepository: null,
     imsOwner: null,
     interfaces: {
-      /*
         [compInterfaceUUIDShipping]: {
             id: compInterfaceUUIDShipping,
             interfaceName: 'shipping-service-interface',
             issues: [issueC.id],
         }
-        */
     },
     componentRelations: [
         {
@@ -152,13 +150,11 @@ const compPaymentService: Component = {
     imsRepository: null,
     imsOwner: null,
     interfaces: {
-      /*
         [compInterfaceUUIDPayment]: {
             id: compInterfaceUUIDPayment,
             interfaceName: 'payment-service-interface',
             issues: [issueG.id],
         }
-        */
     },
     componentRelations: [],
 };

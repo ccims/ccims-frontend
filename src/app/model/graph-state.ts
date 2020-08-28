@@ -1,6 +1,8 @@
 import { Component, IssuesState, IssueType, IssueRelationType, GraphComponent } from './state';
+import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 
-export const exampleComponents: GraphComponent[] = [
+const zeroPosition: Point = {x: 0, y: 0};
+export const exampleGraph: GraphComponent[] = [
   {
     "id": "f0f6426c-f9e4-56ee-a5de-5b37f431d4ca",
     "name": "order-service",
@@ -14,6 +16,7 @@ export const exampleComponents: GraphComponent[] = [
       "BUG": 1,
       "FEATURE_REQUEST": 2
     },
+    "position": zeroPosition,
     "componentRelations": [
       {
         "targetId": "c4d9f5a3-4209-5999-a55b-1fed815685a8",
@@ -37,10 +40,12 @@ export const exampleComponents: GraphComponent[] = [
     "imsId": null,
     "imsRepository": null,
     "owner": null,
+    position: zeroPosition,
     "interfaces": {
       "c4d9f5a3-4209-5999-a55b-1fed815685a8": {
         "id": "c4d9f5a3-4209-5999-a55b-1fed815685a8",
         "interfaceName": "shipping-service-interface",
+        position: zeroPosition,
         "issueCounts": {
           "UNCLASSIFIED": 0,
           "BUG": 1,
@@ -62,6 +67,7 @@ export const exampleComponents: GraphComponent[] = [
     "imsId": null,
     "imsRepository": null,
     "owner": null,
+    position: zeroPosition,
     "issueCounts": {
       "UNCLASSIFIED": 0,
       "BUG": 0,
@@ -69,9 +75,10 @@ export const exampleComponents: GraphComponent[] = [
     },
     "interfaces": {
       "80fbb377-f87e-5435-86f9-9416e36ae949": {
+        "position": zeroPosition,
         "id": "80fbb377-f87e-5435-86f9-9416e36ae949",
         "interfaceName": "payment-service-interface",
-        "issueCounts": {
+          "issueCounts": {
           "UNCLASSIFIED": 0,
           "BUG": 0,
           "FEATURE_REQUEST": 1
