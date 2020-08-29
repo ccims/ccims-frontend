@@ -186,3 +186,13 @@ export const exampleGraph: GraphComponent[] = [
     "componentRelations": []
   }
 ];
+
+export const issues: IssuesState = {
+  [issueA.id]: issueA,
+  [issueB.id]: issueB,
+  [issueC.id]: issueC,
+  [issueD.id]: issueD,
+  [issueE.id]: issueE,
+  [issueF.id]: issueF,
+  [issueG.id]: issueG,
+};

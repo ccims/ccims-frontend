@@ -44,6 +44,7 @@ import { MatDialog } from '@angular/material/dialog';
 //import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
 import { GraphStoreService } from '../graph-store.service';
 import { GraphComponent, GraphComponentInterface } from '../../model/state';
+import { issues as mockIssues} from '../../model/graph-state';
 
 @Component({
   selector: 'app-issue-graph',
@@ -352,11 +353,11 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   ) {
     const zeroPosition: Point = {x: 0, y: 0};
     const graph: GraphEditor = this.graph.nativeElement;
-    let needRender = false;
     //TODO: refactor into resetGraph method
     this.graph.edgeList = [];
     this.graph.nodeList = [];
-    //this.graph.groupingManager.clearAllGroups();
+    //why is groupoingManager not initialized
+    this.graph?.groupingManager?.clearAllGroups();
     const issueGroupParents: Node[] = [];
 
     this.graphState.forEach((graphComponent) => {
@@ -371,7 +372,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
       };
       graph.addNode(componentGraphNode);
       this.addIssueGroupContainer(graph, componentGraphNode);
-      //this.updateIssuesForNode(graph, componentGraphNode, graphComponent.issues, issues);
+      this.updateIssuesForNode(graph, componentGraphNode, graphComponent.issues, mockIssues);
       //this.newUpdateIssuesForNode(graph, componentGraphNode, graphComponent.issueCounts);
       issueGroupParents.push(componentGraphNode);
 
@@ -397,8 +398,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
           dragHandles: [],
         };
         graph.addEdge(edge);
-        needRender = true;
-        //this.updateIssuesForNode(graph, interfaceNode, interface.issues, issues); // new interface type has no issues only issue counts
+        this.updateIssuesForNode(graph, interfaceNode, intface.issues, mockIssues); // new interface type has no issues only issue counts
         issueGroupParents.push(interfaceNode);
       });
 
@@ -427,16 +427,11 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
           };
         }
         graph.addEdge(edge);
-        needRender = true;
       });
     });
 
-    /*
-    issueGroupParents.forEach((node) =>
-      //this.updateIssueRelations(graph, node, issues)
-      console.log("Update issue relation");
-    );
-    */
+
+    issueGroupParents.forEach((node) => this.updateIssueRelations(graph, node, mockIssues));
 
     //this.issuesById = issues;
 
@@ -471,16 +466,8 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     );
   }
 
-  private updateIssuesForNode(
-    graph: GraphEditor,
-    parentNode: Node,
-    issueIds: string[],
-    issues: IssuesState
-  ) {
+  private updateIssuesForNode(graph: GraphEditor, parentNode: Node, issueIds: string[], issues: IssuesState) {
     this.issueToRelatedNode.set(parentNode.id.toString(), new Set(issueIds));
-    const issuesToAdd = new Set<string>();
-    const issuesToRemove = new Set<string>(parentNode.relatedIssues);
-    const issuesToUpdate = new Set<string>();
     issueIds.forEach((issueId) => {
       if (issues[issueId] == null) {
         return;
@@ -492,23 +479,8 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
       if (!this.issueToGraphNode.has(issueId)) {
         this.issueToGraphNode.set(issueId, new Set<string>());
       }
-      if (issuesToRemove.has(issueId)) {
-        issuesToUpdate.add(issueId);
-      } else {
-        issuesToAdd.add(issueId);
+      this.addIssueToNode(graph, parentNode, issues[issueId]);
       }
-      issuesToRemove.delete(issueId);
-    });
-
-    issuesToUpdate.forEach((issueId) =>
-      this.updateIssueOfNode(graph, parentNode, issues[issueId])
-    );
-
-    issuesToAdd.forEach((issueId) =>
-      this.addIssueToNode(graph, parentNode, issues[issueId])
-    );
-    issuesToRemove.forEach((issueId) =>
-      this.removeIssueFromNode(graph, parentNode, issues[issueId])
     );
   }
 
@@ -590,6 +562,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
       gm.addNodeToGroup(issueGroupContainer.id, issueFolderId);
     }
     issueFolderNode.issues.add(issue.id);
+    //relatedIssues contains issues in all folders
     parentNode.relatedIssues.add(issue.id);
     issueFolderNode.issueCount =
       issueFolderNode.issues.size > 99 ? '99+' : issueFolderNode.issues.size;
