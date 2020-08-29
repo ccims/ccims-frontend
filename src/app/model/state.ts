@@ -42,6 +42,7 @@ export interface GraphComponentInterface {
   id: string;
   interfaceName: string;
   issueCounts: IssueCounts;
+  issues: string[];
   position: Point;
 }
 
@@ -63,6 +64,7 @@ export interface GraphComponent {
   name: string;
   description: string;
   issueCounts: IssueCounts;
+  issues: string[];
   imsId: string;
   imsRepository;
   owner: string;

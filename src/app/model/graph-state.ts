@@ -1,10 +1,102 @@
-import { Component, IssuesState, IssueType, IssueRelationType, GraphComponent } from './state';
+import { Component, IssuesState, Issue, IssueType, IssueRelationType, GraphComponent } from './state';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import * as Uuid from 'uuid/v5';
+import {ISSUE_UUID_NAMESPACE, COMPONENT_INTERFACE_UUID_NAMESPACE, COMPONENT_UUID_NAMESPACE } from './namespace-constants';
 
+const issueTemplate: Issue = {
+  id: 'TODO',
+  title: '',
+  type: IssueType.BUG,
+  textBody: '',
+  htmlBody: '',
+  isOpen: true,
+  relatedIssues: [],
+  labels: [],
+  comments: [],
+};
+
+
+const issueA: Issue = {
+  ...issueTemplate,
+  id: Uuid('order-service bug', ISSUE_UUID_NAMESPACE),
+  title: 'order-service bug',
+  textBody: 'problem in accessing shipping service API',
+};
+
+const issueB: Issue = {
+  ...issueTemplate,
+  id: Uuid('order-service feature request', ISSUE_UUID_NAMESPACE),
+  title: 'order-service feature request',
+  textBody: 'updating to fr of shipping service API',
+  type: IssueType.FEATURE_REQUEST,
+};
+
+const issueC: Issue = {
+  ...issueTemplate,
+  id: Uuid('shipping-service-interface bug', ISSUE_UUID_NAMESPACE),
+  title: 'shipping-service-interface bug',
+  textBody: 'problem in API',
+};
+
+const issueD: Issue = {
+  ...issueTemplate,
+  id: Uuid('shipping-service bug', ISSUE_UUID_NAMESPACE),
+  title: 'shipping-service bug',
+  textBody: 'some problem within the component',
+};
+
+const issueE: Issue = {
+  ...issueTemplate,
+  id: Uuid('second shipping-service bug', ISSUE_UUID_NAMESPACE),
+  title: 'second shipping-service bug',
+  textBody: 'some problem within the component',
+};
+
+const issueF: Issue = {
+  ...issueTemplate,
+  id: Uuid('cross-component feature request', ISSUE_UUID_NAMESPACE),
+  title: 'cross-component feature request',
+  textBody: 'applying to update in another API',
+  type: IssueType.FEATURE_REQUEST,
+};
+
+const issueG: Issue = {
+  ...issueTemplate,
+  id: Uuid('payment-service-interface feature request', ISSUE_UUID_NAMESPACE),
+  title: 'payment-service-interface feature request',
+  textBody: 'A new feature in this API',
+  type: IssueType.FEATURE_REQUEST,
+};
+
+
+issueA.relatedIssues = [
+  {
+      relatedIssueId: issueC.id,
+      relationType: IssueRelationType.DEPENDS,
+  }
+];
+
+issueC.relatedIssues = [
+  {
+      relatedIssueId: issueD.id,
+      relationType: IssueRelationType.DEPENDS,
+  }
+];
+
+issueF.relatedIssues = [
+  {
+      relatedIssueId: issueG.id,
+      relationType: IssueRelationType.DEPENDS,
+  }
+];
+
+
+const compInterfaceUUIDShipping: string = Uuid('shipping-service-interface', COMPONENT_INTERFACE_UUID_NAMESPACE);
+const compInterfaceUUIDPayment: string = Uuid('payment-service-interface', COMPONENT_INTERFACE_UUID_NAMESPACE);
 const zeroPosition: Point = {x: 0, y: 0};
 export const exampleGraph: GraphComponent[] = [
   {
-    "id": "f0f6426c-f9e4-56ee-a5de-5b37f431d4ca",
+    id: Uuid('order-service', COMPONENT_UUID_NAMESPACE),
     "name": "order-service",
     "description": "",
     "imsId": null,
@@ -16,21 +108,24 @@ export const exampleGraph: GraphComponent[] = [
       "BUG": 1,
       "FEATURE_REQUEST": 2
     },
+    issues: [issueA.id, issueB.id, issueF.id],
+
     "position": zeroPosition,
     "componentRelations": [
       {
-        "targetId": "c4d9f5a3-4209-5999-a55b-1fed815685a8",
+        targetId: compInterfaceUUIDShipping,
         "targetType": "interface"
       },
       {
-        "targetId": "80fbb377-f87e-5435-86f9-9416e36ae949",
+        targetId: compInterfaceUUIDPayment,
         "targetType": "interface"
       }
     ]
   },
   {
-    "id": "00414e0f-def0-5d75-8a2d-1853ca741595",
-    "name": "shipping-service",
+    id: Uuid('shipping-service', COMPONENT_UUID_NAMESPACE),
+    name: 'shipping-service',
+    issues: [issueC.id, issueD.id, issueE.id, issueF.id],
     "description": "",
     "issueCounts": {
       "UNCLASSIFIED": 0,
@@ -41,21 +136,22 @@ export const exampleGraph: GraphComponent[] = [
     "imsRepository": null,
     "owner": null,
     position: zeroPosition,
-    "interfaces": {
-      "c4d9f5a3-4209-5999-a55b-1fed815685a8": {
-        "id": "c4d9f5a3-4209-5999-a55b-1fed815685a8",
-        "interfaceName": "shipping-service-interface",
+    interfaces: {
+      [compInterfaceUUIDShipping]: {
+        id: compInterfaceUUIDShipping,
+        interfaceName: "shipping-service-interface",
         position: zeroPosition,
         "issueCounts": {
           "UNCLASSIFIED": 0,
           "BUG": 1,
           "FEATURE_REQUEST": 0
         },
+        issues: [issueC.id]
       }
     },
     "componentRelations": [
       {
-        "targetId": "80fbb377-f87e-5435-86f9-9416e36ae949",
+        targetId: compInterfaceUUIDPayment,
         "targetType": "interface"
       }
     ]
@@ -67,6 +163,7 @@ export const exampleGraph: GraphComponent[] = [
     "imsId": null,
     "imsRepository": null,
     "owner": null,
+    issues: [issueG.id],
     position: zeroPosition,
     "issueCounts": {
       "UNCLASSIFIED": 0,
@@ -74,7 +171,7 @@ export const exampleGraph: GraphComponent[] = [
       "FEATURE_REQUEST": 1
     },
     "interfaces": {
-      "80fbb377-f87e-5435-86f9-9416e36ae949": {
+      [compInterfaceUUIDPayment]: {
         "position": zeroPosition,
         "id": "80fbb377-f87e-5435-86f9-9416e36ae949",
         "interfaceName": "payment-service-interface",
@@ -83,6 +180,7 @@ export const exampleGraph: GraphComponent[] = [
           "BUG": 0,
           "FEATURE_REQUEST": 1
         },
+        issues: [issueG.id],
       }
     },
     "componentRelations": []

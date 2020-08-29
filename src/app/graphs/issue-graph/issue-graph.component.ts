@@ -362,7 +362,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     this.graphState.forEach((graphComponent) => {
       const componentNodeId = `component_${graphComponent.id}`;
       const componentGraphNode = {
-        id: graphComponent.id,
+        id: componentNodeId,
         ...graphComponent.position,
         title: graphComponent.name,
         type: 'component',
@@ -371,7 +371,6 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
       };
       graph.addNode(componentGraphNode);
       this.addIssueGroupContainer(graph, componentGraphNode);
-      needRender = true;
       //this.updateIssuesForNode(graph, componentGraphNode, graphComponent.issues, issues);
       //this.newUpdateIssuesForNode(graph, componentGraphNode, graphComponent.issueCounts);
       issueGroupParents.push(componentGraphNode);
