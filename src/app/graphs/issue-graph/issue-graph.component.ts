@@ -44,7 +44,7 @@ import { MatDialog } from '@angular/material/dialog';
 //import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
 import { GraphStoreService } from '../graph-store.service';
 import { GraphComponent, GraphComponentInterface } from '../../model/state';
-import { issues as mockIssues} from '../../model/graph-state';
+import { issues as mockIssues } from '../../model/graph-state';
 
 @Component({
   selector: 'app-issue-graph',
@@ -63,8 +63,6 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     [IssueType.FEATURE_REQUEST]?: boolean;
     [IssueType.UNCLASSIFIED]?: boolean;
   } = {};
-
-  graphDataSubscription: Subscription;
 
   private currentComponents: ProjectComponent[];
   private currentIssues: IssuesState;
@@ -93,16 +91,15 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   ngOnInit() {
     this.initGraph();
     this.gs.state$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((current) => {
-      this.graphState = current;
-      this.updateGraph();
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((current) => {
+        this.graphState = current;
+        this.updateGraph();
+      });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
-    this.graphDataSubscription?.unsubscribe();
     this.saveNodePositionsSubscription?.unsubscribe();
   }
 
@@ -289,75 +286,74 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-        /*
-    this.initGraph();
+    /*
+this.initGraph();
 
-    if (changes.project != null) {
-      if (
-        changes.project.previousValue?.id !== changes.project.currentValue?.id
-      ) {
-        this.saveNodePositionsSubscription?.unsubscribe();
-        this.projectIsNew = true;
+if (changes.project != null) {
+  if (
+    changes.project.previousValue?.id !== changes.project.currentValue?.id
+  ) {
+    this.saveNodePositionsSubscription?.unsubscribe();
+    this.projectIsNew = true;
 
-        const graph: GraphEditor = this.graph.nativeElement;
-        graph.edgeList = [];
-        graph.nodeList = [];
-        graph.groupingManager.clearAllGroups();
+    const graph: GraphEditor = this.graph.nativeElement;
+    graph.edgeList = [];
+    graph.nodeList = [];
+    graph.groupingManager.clearAllGroups();
 
-        graph.completeRender();
-        graph.zoomToBoundingBox();
+    graph.completeRender();
+    graph.zoomToBoundingBox();
 
-        this.loadProjectSettings(this.project?.id);
+    this.loadProjectSettings(this.project?.id);
 
-        this.graphDataSubscription?.unsubscribe();
-        this.updateGraph(
-          this.projectIsNew
-        );
-        this.projectIsNew = this.currentComponents?.length === 0;
+    this.updateGraph(
+      this.projectIsNew
+    );
+    this.projectIsNew = this.currentComponents?.length === 0;
 
-                this.graphDataSubscription = this.store
-                    .pipe(
-                        select(selectIssueGraphData, {projectId: this.project?.id}),
-                        debounceTime(30), // to give time for rendering the graph
-                    ).subscribe(issueGraphData => {
-                        this.currentComponents = issueGraphData.components;
-                        this.currentIssues = issueGraphData.issues;
-                        this.updateGraph(issueGraphData.components, issueGraphData.issues, this.projectIsNew);
-                        this.projectIsNew = issueGraphData.components?.length === 0; // prevent not fully loaded states resetting this flag
-                    });
-      }
-    } else {
-      // only if project has not also changed
-      if (changes.blacklistFilter != null) {
-        const previous = changes.blacklistFilter.previousValue;
-        if (
-          this.blacklistFilter[IssueType.BUG] != previous[IssueType.BUG] ||
-          this.blacklistFilter[IssueType.FEATURE_REQUEST] !=
-            previous[IssueType.FEATURE_REQUEST] ||
-          this.blacklistFilter[IssueType.UNCLASSIFIED] !=
-            previous[IssueType.UNCLASSIFIED]
-        ) {
-          console.log("Call update Graph");
-          this.updateGraph(
-            this.projectIsNew
-          );
-        }
-      }
+            this.graphDataSubscription = this.store
+                .pipe(
+                    takeUntil(this.destroy$),
+                    select(selectIssueGraphData, {projectId: this.project?.id}),
+                    debounceTime(30), // to give time for rendering the graph
+                ).subscribe(issueGraphData => {
+                    this.currentComponents = issueGraphData.components;
+                    this.currentIssues = issueGraphData.issues;
+                    this.updateGraph(issueGraphData.components, issueGraphData.issues, this.projectIsNew);
+                    this.projectIsNew = issueGraphData.components?.length === 0; // prevent not fully loaded states resetting this flag
+                });
+  }
+} else {
+  // only if project has not also changed
+  if (changes.blacklistFilter != null) {
+    const previous = changes.blacklistFilter.previousValue;
+    if (
+      this.blacklistFilter[IssueType.BUG] != previous[IssueType.BUG] ||
+      this.blacklistFilter[IssueType.FEATURE_REQUEST] !=
+        previous[IssueType.FEATURE_REQUEST] ||
+      this.blacklistFilter[IssueType.UNCLASSIFIED] !=
+        previous[IssueType.UNCLASSIFIED]
+    ) {
+      console.log("Call update Graph");
+      this.updateGraph(
+        this.projectIsNew
+      );
     }
-                        */
+  }
+}
+                    */
 
   }
 
   updateGraph(
     shouldZoom: boolean = true
   ) {
-    const zeroPosition: Point = {x: 0, y: 0};
+    const zeroPosition: Point = { x: 0, y: 0 };
     const graph: GraphEditor = this.graph.nativeElement;
     //TODO: refactor into resetGraph method
     this.graph.edgeList = [];
     this.graph.nodeList = [];
-    //why is groupoingManager not initialized
-    this.graph?.groupingManager?.clearAllGroups();
+    graph.groupingManager.clearAllGroups();
     const issueGroupParents: Node[] = [];
 
     this.graphState.forEach((graphComponent) => {
@@ -435,10 +431,10 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
 
     //this.issuesById = issues;
 
-      graph.completeRender();
-      if (shouldZoom) {
-        graph.zoomToBoundingBox();
-      }
+    graph.completeRender();
+    if (shouldZoom) {
+      graph.zoomToBoundingBox();
+    }
   }
 
   private addIssueGroupContainer(graph: GraphEditor, node: Node) {
@@ -480,7 +476,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
         this.issueToGraphNode.set(issueId, new Set<string>());
       }
       this.addIssueToNode(graph, parentNode, issues[issueId]);
-      }
+    }
     );
   }
 
