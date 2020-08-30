@@ -15,7 +15,7 @@ import {
   DraggedEdge,
   edgeId,
 } from '@ustutt/grapheditor-webcomponent/lib/edge';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, take } from 'rxjs/operators';
 import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
 import { GroupBehaviour } from '@ustutt/grapheditor-webcomponent/lib/grouping';
@@ -73,7 +73,6 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   private graphInitialized = false;
 
   private saveNodePositionsSubject = new Subject<null>();
-  private saveNodePositionsSubscription: Subscription;
   private nodePositions: {
     [prop: string]: Point;
   } = {};
@@ -83,12 +82,14 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   private issuesById: IssuesState = {};
   private issueToRelatedNode: Map<string, Set<string>> = new Map();
   private issueToGraphNode: Map<string, Set<string>> = new Map();
+  private projectStorageKey: string;
 
   constructor(private dialog: MatDialog, private gs: GraphStoreService) {
     //, private bottomSheet: MatBottomSheet) {}
   }
 
   ngOnInit() {
+    this.projectStorageKey = `CCIMS-Project_${this.project.id}`;
     this.initGraph();
     this.gs.state$
       .pipe(takeUntil(this.destroy$))
@@ -96,11 +97,20 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
         this.graphState = current;
         this.updateGraph();
       });
+
+      this.saveNodePositionsSubject
+      .pipe(takeUntil(this.destroy$), debounceTime(300))
+      .subscribe(() => {
+        console.log("Setting: ", this.projectStorageKey)
+        if (this.nodePositions != null) {
+          const newData = JSON.stringify(this.nodePositions);
+          localStorage.setItem(this.projectStorageKey, newData);
+        }
+      });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
-    this.saveNodePositionsSubscription?.unsubscribe();
   }
 
   initGraph() {
@@ -355,12 +365,15 @@ if (changes.project != null) {
     this.graph.nodeList = [];
     graph.groupingManager.clearAllGroups();
     const issueGroupParents: Node[] = [];
+    this.nodePositions = this.loadNodePositions();
+
 
     this.graphState.forEach((graphComponent) => {
       const componentNodeId = `component_${graphComponent.id}`;
+      const position: Point = this.nodePositions?.[componentNodeId] ?? {x: 0, y: 0};
       const componentGraphNode = {
         id: componentNodeId,
-        ...graphComponent.position,
+        ...position,
         title: graphComponent.name,
         type: 'component',
         data: graphComponent,
@@ -374,11 +387,12 @@ if (changes.project != null) {
 
       Object.keys(graphComponent.interfaces).forEach((interfaceId) => {
         const interfaceNodeId = `interface_${interfaceId}`;
+        const position: Point = this.nodePositions?.[interfaceNodeId] ?? {x: 150, y: 0};
         //interface is a reserved keyword
         const intface: GraphComponentInterface = graphComponent.interfaces[interfaceId];
         const interfaceNode = {
           id: interfaceNodeId,
-          ...intface.position,
+          ...position,
           title: intface.interfaceName,
           type: 'interface',
           componentNodeId: componentNodeId,
@@ -860,33 +874,12 @@ if (changes.project != null) {
     console.log('Clicked on another type of node:', node);
   };
 
-  private loadProjectSettings(projectId: string) {
-    const key = `MPMTI-Project_${projectId}`;
-    if (projectId != null) {
-      const data = localStorage.getItem(key);
-      if (data != null && data !== '') {
-        this.nodePositions = JSON.parse(data);
-      } else {
-        this.nodePositions = {};
-      }
-      this.saveNodePositionsSubscription = this.saveNodePositionsSubject
-        .pipe(takeUntil(this.destroy$), debounceTime(300))
-        .subscribe(() => {
-          if (projectId !== this.project?.id) {
-            return;
-          }
-          if (this.nodePositions != null) {
-            const newData = JSON.stringify(this.nodePositions);
-            localStorage.setItem(key, newData);
-          }
-        });
-    } else {
-      this.nodePositions = {};
+  private loadNodePositions() {
+    const data = localStorage.getItem(this.projectStorageKey);
+    if(data == null) {
+      return {};
     }
-
-    this.issuesById = {};
-    this.issueToRelatedNode = new Map();
-    this.issueToGraphNode = new Map();
+    return JSON.parse(data);
   }
 
   private addInterfaceToComponent(componentId) {
