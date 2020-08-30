@@ -1,50 +1,22 @@
-import {
-  Component,
-  ViewChild,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  OnDestroy,
-} from '@angular/core';
-import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
-import {
-  Edge,
-  Point,
-  DraggedEdge,
-  edgeId,
-} from '@ustutt/grapheditor-webcomponent/lib/edge';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil, take } from 'rxjs/operators';
-import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
-import { GroupBehaviour } from '@ustutt/grapheditor-webcomponent/lib/grouping';
-import {
-  DynamicTemplateContext,
-  DynamicNodeTemplate,
-} from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
-import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
-import {
-  IssueGroupContainerParentBehaviour,
-  IssueGroupContainerBehaviour,
-} from './group-behaviours';
-import {
-  State,
-  Project,
-  Component as ProjectComponent,
-  Issue,
-  IssueType,
-  IssueRelationType,
-  IssuesState,
-} from 'src/app/model/state';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DynamicNodeTemplate, DynamicTemplateContext } from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
+import {DraggedEdge, Edge, edgeId, Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
+import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
+import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
+import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
+import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import {Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project} from 'src/app/model/state';
+import { issues as mockIssues } from '../../model/graph-state';
+import { GraphComponent, GraphComponentInterface } from '../../model/state';
 //import { ApiService } from 'src/app/api/api.service';
 //import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
 //import { MatBottomSheet } from '@angular/material/bottom-sheet';
 //import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
 import { GraphStoreService } from '../graph-store.service';
-import { GraphComponent, GraphComponentInterface } from '../../model/state';
-import { issues as mockIssues } from '../../model/graph-state';
+import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
 
 @Component({
   selector: 'app-issue-graph',
@@ -98,7 +70,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
         this.updateGraph();
       });
 
-      this.saveNodePositionsSubject
+    this.saveNodePositionsSubject
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(() => {
         console.log("Setting: ", this.projectStorageKey)
@@ -370,7 +342,7 @@ if (changes.project != null) {
 
     this.graphState.forEach((graphComponent) => {
       const componentNodeId = `component_${graphComponent.id}`;
-      const position: Point = this.nodePositions?.[componentNodeId] ?? {x: 0, y: 0};
+      const position: Point = this.nodePositions?.[componentNodeId] ?? { x: 0, y: 0 };
       const componentGraphNode = {
         id: componentNodeId,
         ...position,
@@ -387,7 +359,7 @@ if (changes.project != null) {
 
       Object.keys(graphComponent.interfaces).forEach((interfaceId) => {
         const interfaceNodeId = `interface_${interfaceId}`;
-        const position: Point = this.nodePositions?.[interfaceNodeId] ?? {x: 150, y: 0};
+        const position: Point = this.nodePositions?.[interfaceNodeId] ?? { x: 150, y: 0 };
         //interface is a reserved keyword
         const intface: GraphComponentInterface = graphComponent.interfaces[interfaceId];
         const interfaceNode = {
@@ -876,7 +848,7 @@ if (changes.project != null) {
 
   private loadNodePositions() {
     const data = localStorage.getItem(this.projectStorageKey);
-    if(data == null) {
+    if (data == null) {
       return {};
     }
     return JSON.parse(data);
