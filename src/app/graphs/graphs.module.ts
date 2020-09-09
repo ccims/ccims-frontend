@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { IssueGraphComponent } from './issue-graph/issue-graph.component';
 
 import '@ustutt/grapheditor-webcomponent/lib/index';
+import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-controls.component';
 
 
 @NgModule({
-    declarations: [IssueGraphComponent],
+    declarations: [IssueGraphComponent, IssueGraphControlsComponent],
     imports: [
         CommonModule
     ],
