@@ -18,5 +18,11 @@
     &::before {
       left: 16px;
     }
-  display: blocK;
+  display: block;
+}
+
+.TimelineItem {
+  &::before {
+    z-index: -1;
+  }
 }
