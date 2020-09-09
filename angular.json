@@ -29,11 +29,11 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss",
-              "src/styling/@primer/css/index.scss"
+              "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
+                "./node_modules/@primer"
               ]
             },
             "scripts": []

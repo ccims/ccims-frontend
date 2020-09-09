@@ -36,10 +36,6 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     [IssueType.UNCLASSIFIED]?: boolean;
   } = {};
 
-  private currentComponents: ProjectComponent[];
-  private currentIssues: IssuesState;
-  private projectIsNew: boolean = true;
-
   private graphState: GraphComponent[];
 
   private graphInitialized = false;
@@ -47,7 +43,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   private saveNodePositionsSubject = new Subject<null>();
   private nodePositions: {
     [prop: string]: Point;
-  } = {};
+  } = {}
 
   private destroy$ = new Subject();
 
@@ -327,9 +323,7 @@ if (changes.project != null) {
 
   }
 
-  updateGraph(
-    shouldZoom: boolean = true
-  ) {
+  updateGraph(shouldZoom: boolean = true) {
     const zeroPosition: Point = { x: 0, y: 0 };
     const graph: GraphEditor = this.graph.nativeElement;
     //TODO: refactor into resetGraph method
@@ -466,11 +460,7 @@ if (changes.project != null) {
     );
   }
 
-  private updateIssueOfNode(
-    graph: GraphEditor,
-    parentNode: Node,
-    issue: Issue
-  ) {
+  private updateIssueOfNode(graph: GraphEditor, parentNode: Node, issue: Issue) {
     let issueFolderId = `${parentNode.id}__undecided`;
     let issueType = 'issue-undecided';
     if (issue.type === IssueType.BUG) {
