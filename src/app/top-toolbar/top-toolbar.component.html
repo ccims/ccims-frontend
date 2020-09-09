@@ -7,8 +7,8 @@
   <button routerLink="/" mat-icon-button class="example-icon favorite-icon" aria-label="Home icon-button with a house">
     <mat-icon>home</mat-icon>
   </button>
-  <span id="current-project" [hidden]="!(isHandset$ | async)">LLVM (Project)</span>
-  <!--<span class="toolbar-spacer"></span>-->
+  <!--<span id="current-project" [hidden]="!(isHandset$ | async)">LLVM (Project)</span>-->
+  <span class="toolbar-spacer"></span>
   <!--This div makes the setting and account icon stay together - mat-toolbar has justify-content set-->
   <div>
   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
@@ -16,6 +16,9 @@
   </button>
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
     <mat-icon>account_circle</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>logout</mat-icon>
   </button>
   </div>
 </mat-toolbar>
