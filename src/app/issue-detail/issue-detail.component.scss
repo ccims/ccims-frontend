@@ -1,4 +1,4 @@
-@import "@primer/css/timeline/index.scss";
+
 
 #issue-state, #issue-header{
   display: flex;
@@ -18,7 +18,7 @@
     &::before {
       left: 16px;
     }
-  display: blocK;
+  display: block;
 }
 
 .TimelineItem {
