@@ -1,0 +1,85 @@
+query {
+  node(id:"project") {
+    ...on Project {
+      id
+      components {
+        nodes {
+          name
+          interfaces {
+            nodes {
+              id
+              name
+              bugs: issuesOnLocation(filterBy:{
+                category:BUG
+              }) {
+                totalCount
+              }
+              featureRequests: issuesOnLocation(filterBy:{
+                category:FEATURE_REQUEST
+              }) {
+                totalCount
+              }
+              unclassified: issuesOnLocation(filterBy:{
+                category:UNCLASSIFIED
+              }) {
+                totalCount
+              }
+              consumedBy {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+
+
+          bugs: issuesOnLocation(filterBy:{
+            category:BUG
+          }) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy:{
+            category:FEATURE_REQUEST
+          }) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy:{
+            category:UNCLASSIFIED
+          }) {
+            totalCount
+          }
+
+
+
+          forLinksBetweenLocations: issues(filterBy:{
+            linksIssues:true
+            # here you can add all the other filters you want to
+          }) {
+            nodes {
+              id,
+              category,
+              timeline {
+                nodes {
+                  issue {
+                    id
+                  }
+                  id
+                }
+              }
+              linkedIssues {
+                nodes {
+                  id
+                  locations {
+                    nodes {
+                      id
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
