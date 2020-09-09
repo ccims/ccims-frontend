@@ -23,7 +23,6 @@ import { ComponentListComponent } from './component-list/component-list.componen
 import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
 import { GraphsModule } from './graphs/graphs.module';
-import { SystemArchitectureGraphComponent } from './system-architecture-graph/system-architecture-graph.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,6 @@ import { SystemArchitectureGraphComponent } from './system-architecture-graph/sy
     SideNavComponent,
     ComponentListComponent,
     IssueDetailComponent,
-    SystemArchitectureGraphComponent
   ],
   imports: [
     BrowserModule,
