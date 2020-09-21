@@ -29,6 +29,7 @@
     "@ustutt/grapheditor-webcomponent": "^0.6.0",
     "apollo-angular": "^2.0.3",
     "graphql": "^15.0.0",
+    "ng-zorro-antd": "^9.3.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
