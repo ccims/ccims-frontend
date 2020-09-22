@@ -30,6 +30,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
+import { FrameComponent } from './frame/frame.component';
 
 registerLocaleData(en);
 
@@ -43,6 +44,7 @@ registerLocaleData(en);
     ComponentListComponent,
     IssueDetailComponent,
     LoginComponent,
+    FrameComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,11 @@
+<app-top-toolbar (menuClick)="drawer.toggle()"></app-top-toolbar>
+<mat-sidenav-container class="sidenav-container">
+  <!--if you set fixedInViewPort on the sidenav it will appear to the left of the mat-tooblar instead of under it-->
+  <mat-sidenav #drawer class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <app-side-nav></app-side-nav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
