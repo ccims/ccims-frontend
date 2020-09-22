@@ -24,15 +24,27 @@ import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
 import { GraphsModule } from './graphs/graphs.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { en_US } from 'ng-zorro-antd/i18n';
+
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import * as AllIcons from '@ant-design/icons-angular/icons';
+import { IconDefinition } from '@ant-design/icons-angular';
+
+
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
+import { RegisterComponent } from './register/register.component';
 
 registerLocaleData(en);
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
+
 
 @NgModule({
   declarations: [
@@ -45,6 +57,7 @@ registerLocaleData(en);
     IssueDetailComponent,
     LoginComponent,
     FrameComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +78,7 @@ registerLocaleData(en);
     ReactiveFormsModule,
     NgZorroAntdModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: NZ_ICONS, useValue: icons } ] ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

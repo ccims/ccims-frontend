@@ -8,6 +8,7 @@ import { IssueGraphControlsComponent } from './graphs/issue-graph-controls/issue
 import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
 import { AuthGuard } from './auth/auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {path: '', component: FrameComponent, canActivate: [AuthGuard],
@@ -24,7 +25,7 @@ const routes: Routes = [
   },
   // {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
-  // { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent},
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 ];
