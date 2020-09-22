@@ -23,11 +23,13 @@ import { ComponentListComponent } from './component-list/component-list.componen
 import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 
 import { GraphsModule } from './graphs/graphs.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { LoginComponent } from './login/login.component';
 
 registerLocaleData(en);
 
@@ -40,6 +42,7 @@ registerLocaleData(en);
     SideNavComponent,
     ComponentListComponent,
     IssueDetailComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,9 @@ registerLocaleData(en);
     HttpClientModule,
     GraphsModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    NgZorroAntdModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
