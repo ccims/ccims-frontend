@@ -4,11 +4,10 @@ import { ApolloClientOptions, InMemoryCache, ApolloLink } from '@apollo/client/c
 import { HttpLink } from 'apollo-angular/http';
 import { setContext } from '@apollo/link-context';
 import { onError } from '@apollo/client/link/error';
-import { environment } from '../environments/environment';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from './auth/authentication.service';
+import { environment } from '@environments/environment';
 
-const uri = 'https://api.github.com/graphql'; // <-- add the URL of the GraphQL server here
 
 export function provideApollo(httpLink: HttpLink, authService: AuthenticationService): ApolloClientOptions<any> {
 
@@ -65,7 +64,7 @@ export function provideApollo(httpLink: HttpLink, authService: AuthenticationSer
     }
   }
   );
-  const link = ApolloLink.from([basic, auth, httpLink.create({ uri })]);
+  const link = ApolloLink.from([basic, auth, httpLink.create({ uri: environment.apiUrl })]);
   const cache = new InMemoryCache();
   return {
     link,
