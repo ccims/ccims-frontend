@@ -14,11 +14,10 @@ export class ProjectListComponent implements OnInit {
   constructor(private ps: ProjectStoreService) { }
 
   createProject() {
-    this.ps.add({id:5, name: this.projectName});
-    this.projects = this.ps.getAll();
+    this.ps.create();
   }
   ngOnInit(): void {
-    this.projects = this.ps.getAll();
+    this.projects = []//this.ps.getAll();
   }
   remove(project: Project) {
     console.log('Removing ' + project);

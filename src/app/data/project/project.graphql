@@ -1,0 +1,7 @@
+mutation create{
+  createProject(input: {
+    name: "Test"
+    owner:"5d2f0ecf5477f001"
+    description:"Blah"
+  })
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MockProjectStoreService } from '@app/data/project/mock-project-store.service';
 import { Project } from '../data/project/project';
-import { ProjectStoreService } from '../data/project/project-store.service';
 
 @Component({
   selector: 'app-project-overview',
@@ -10,7 +10,7 @@ import { ProjectStoreService } from '../data/project/project-store.service';
 })
 export class ProjectOverviewComponent implements OnInit {
   project: Project;
-  constructor(private ps: ProjectStoreService, private route: ActivatedRoute) { }
+  constructor(private ps: MockProjectStoreService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
