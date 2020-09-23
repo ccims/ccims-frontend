@@ -7,10 +7,16 @@ import { ProjectStoreService } from '../services/project-store.service';
   styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
+  pendingCreate = false;
+  projectName?: string;
 
   projects: Project[];
   constructor(private ps: ProjectStoreService) { }
 
+  createProject() {
+    this.ps.add({id:5, name: this.projectName});
+    this.projects = this.ps.getAll();
+  }
   ngOnInit(): void {
     this.projects = this.ps.getAll();
   }

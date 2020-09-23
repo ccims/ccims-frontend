@@ -1,4 +1,10 @@
 <h1>Project List</h1>
+<nz-input-group [nzAddOnAfter]="suffixIconButton">
+  <input type="text" nz-input [(ngModel)]="projectName" placeholder="New Project" />
+</nz-input-group>
+<ng-template #suffixIconButton>
+  <button nz-button nzType="primary" [nzLoading]="pendingCreate" (click)="createProject()"><i nz-icon nzType="plus"></i></button>
+</ng-template>
 <mat-nav-list>
      <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
      <span matLine>{{ project.name }}</span>

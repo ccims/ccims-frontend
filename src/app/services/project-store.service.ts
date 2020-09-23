@@ -31,4 +31,7 @@ export class ProjectStoreService {
   getSingle(id: number): Project {
     return this.projects.find(project => project.id === id);
   }
+  add(project: Project) {
+    this.projects.push(project);
+  }
 }
