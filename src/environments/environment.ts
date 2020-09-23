@@ -1,4 +1,7 @@
+
+const host = 'http://localhost:8080'
 export const environment = {
-  production: true,
-  GH_AUTH_TOKEN: null
+  production: false,
+  apiUrl: `${host}/api`,
+  loginUrl: `${host}/login`
 };

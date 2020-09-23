@@ -16,6 +16,10 @@
       "dom",
       "esnext.asynciterable"
     ],
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@environments/*": ["src/environments/*"]
+    },
     "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
