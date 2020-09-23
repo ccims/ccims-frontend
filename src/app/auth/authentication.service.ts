@@ -9,14 +9,13 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  port = 3000;
-  host = 'http://localhost:' + this.port;
+  readonly userStorageKey = 'currentUser';
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient, private apollo: Apollo) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<User>(this.fetchUserFromStorage());
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -24,36 +23,25 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string) {
-    /*
-    return this.http.post<any>(`${this.host}/login`, { username, password })
-      .pipe(map(response => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('token', response.token);
-        //tokenContent = jwt.decode(response.token);
-        //this.currentUserSubject.next({username: tokenContent.name});
-        this.currentUserSubject.next({username: "test"});
-        return {username: "test"};
-      }));
-      */
-    /*
-            return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
-           .pipe(map(user => {
-               // store user details and jwt token in local storage to keep user logged in between page refreshes
-               localStorage.setItem('currentUser', JSON.stringify(user));
-               this.currentUserSubject.next(user);
-               return user;
-           }));
-           */
+  fetchUserFromStorage(): User {
+    return JSON.parse(localStorage.getItem(this.userStorageKey));
+  }
+
+  saveUserToStorage(user: User): void {
+    localStorage.setItem(this.userStorageKey, JSON.stringify(user));
+  }
+
+  login(username: string, password: string): Observable<User> {
     return this.http.post<any>(environment.loginUrl, { username, password })
       .pipe(map(response => {
         console.log(response);
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('token', response.token);
-        //tokenContent = jwt.decode(response.token);
-        //this.currentUserSubject.next({username: tokenContent.name});
-        this.currentUserSubject.next({ username: "test" });
-        return { username: "test" };
+        const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
+        const user = { name: tokenPayload.name, id: tokenPayload.sub };
+        this.saveUserToStorage(user);
+        this.currentUserSubject.next(user);
+        return user;
       }));
     /*
 const currentUser = {username: 'test'};
@@ -73,5 +61,6 @@ return of(currentUser);
 }
 
 interface User {
-  username: string;
+  name: string;
+  id: string;
 }
