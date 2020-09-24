@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MockProjectStoreService } from '@app/data/project/mock-project-store.service';
-import { Project } from '../data/project/project';
 
 @Component({
   selector: 'app-project-overview',
@@ -17,4 +16,8 @@ export class ProjectOverviewComponent implements OnInit {
     this.project = this.ps.getSingle(id);
   }
 
+}
+interface Project {
+  name: string;
+  id: number;
 }
