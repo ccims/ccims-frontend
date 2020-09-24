@@ -1,4 +1,6 @@
-<h1>Project List</h1>
+<div class="mat-toolbar-single-row"><h1 class="centered-headline">My Projects</h1>
+</div>
+<div class="listWrapper">
 <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
   <input type="text" [(ngModel)]="projectName" nz-input placeholder="input search text" />
 </nz-input-group>
@@ -15,5 +17,7 @@
      <button mat-icon-button (click)="remove(project)">
       <mat-icon>delete</mat-icon>
   </button>
+  <mat-divider></mat-divider>
   </a>
 </mat-nav-list>
+</div>
