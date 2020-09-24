@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Project } from './project';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +34,8 @@ export class MockProjectStoreService {
   create(project: Project) {
     this.projects.push(project);
   }
+}
+export interface Project {
+  name: string;
+  id: number;
 }

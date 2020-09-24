@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from '../data/project/project';
+import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
 @Component({
   selector: 'app-project-list',
@@ -9,15 +9,14 @@ import { ProjectStoreService } from '../data/project/project-store.service';
 export class ProjectListComponent implements OnInit {
   pendingCreate = false;
   projectName?: string;
-
-  projects: Project[];
+  projects: Pick<Project, 'id' | 'name'>[];
   constructor(private ps: ProjectStoreService) { }
 
   createProject() {
     this.ps.create();
   }
   ngOnInit(): void {
-    this.projects = []//this.ps.getAll();
+    this.ps.getAll().subscribe(projects => this.projects = projects);
   }
   remove(project: Project) {
     console.log('Removing ' + project);
