@@ -5,8 +5,8 @@ import { Project, IssueType } from 'src/app/model/state';
 //import { ComponentPartial } from '../reducers/components.actions';
 //import { ApiService } from '../api/api.service';
 import { projA } from 'src/app/model/demo-state';
-
-
+import {CreateComponentComponent} from '../../create-component/create-component.component';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 @Component({
   selector: 'app-issue-graph-controls',
   templateUrl: './issue-graph-controls.component.html',
@@ -25,16 +25,22 @@ export class IssueGraphControlsComponent implements OnInit {
        [IssueType.FEATURE_REQUEST]: false,
        [IssueType.UNCLASSIFIED]: false,
 
-   }
+   };
 
    constructor(public dialog: MatDialog) { }
 
    ngOnInit() { }
 
    public openCreateComponentDialog(): void {
-     /*
-       const createComponentDialog = this.dialog.open(CreateComponentDialogComponent);
 
+       let createComponentDialogRef = this.dialog.open(CreateComponentComponent);
+       createComponentDialogRef.afterClosed().subscribe(result =>{
+         console.log("data is saved ");
+         console.log(result);
+
+
+       });
+      /*
        createComponentDialog.afterClosed().subscribe((componentInformation: {ownerUsername: string, component: ComponentPartial}) => {
            // TODO add component to project, update graph and backend
            if (componentInformation) {

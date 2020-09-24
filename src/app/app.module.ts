@@ -31,6 +31,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
+import { CreateComponentComponent } from './create-component/create-component.component';
 
 registerLocaleData(en);
 
@@ -45,6 +46,7 @@ registerLocaleData(en);
     IssueDetailComponent,
     LoginComponent,
     FrameComponent,
+    CreateComponentComponent,
   ],
   imports: [
     BrowserModule,
