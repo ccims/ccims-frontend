@@ -8,7 +8,7 @@
   <button nz-button nzType="primary" [nzLoading]="pendingCreate" (click)="createProject()" nzSearch><i nz-icon nzType="plus"></i></button>
 </ng-template>
 
-<mat-nav-list>
+<mat-nav-list class="mat-nav-list-padding-removed">
      <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
      <span matLine>{{ project.name }}</span>
      <button mat-icon-button>
