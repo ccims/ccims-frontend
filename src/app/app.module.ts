@@ -33,6 +33,7 @@ import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
 import { CreateComponentComponent } from './create-component/create-component.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from'@angular/material/input';
 registerLocaleData(en);
 
 @NgModule({
@@ -59,6 +60,7 @@ registerLocaleData(en);
     MatIconModule,
     MatListModule,
     MatSlideToggleModule,
+    MatInputModule,
     GraphQLModule,
     HttpClientModule,
     GraphsModule,

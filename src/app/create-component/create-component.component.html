@@ -1,14 +1,18 @@
-<h1 mat-dialog-title>Hi</h1>
+<h1 mat-dialog-title>Create new Component</h1>
 <div mat-dialog-content>
-  <p>What's your favorite animal?</p>
+  <p>Component Details</p>
   <form >
   <mat-form-field>
-    <mat-label>Favorite Animal</mat-label>
-    <input matInput [(ngModel)]="this.name" >
+    <mat-label>NAME</mat-label>
+    <input matInput [(ngModel)]="this.name" name="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>URL</mat-label>
+    <input matInput [(ngModel)]="this.url" name ="url" >
   </mat-form-field>
 </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="this.name" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onOkClick()" cdkFocusInitial>Ok</button>
 </div>
