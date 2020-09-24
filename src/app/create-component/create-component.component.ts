@@ -1,5 +1,7 @@
 import { Component, OnInit,inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+
 
 @Component({
   selector: 'app-create-component',
@@ -14,7 +16,8 @@ name: string;
 url: string;
 owner?: string;
   constructor(
-    public dialogRef: MatDialogRef<CreateComponentComponent>) {}
+    public dialogRef: MatDialogRef<CreateComponentComponent>,
+    private formBuilder: FormBuilder) {}
 
   onNoClick(): void {
     // console.log(this.name);
@@ -27,8 +30,6 @@ owner?: string;
                 url:this.url}
     this.dialogRef.close(this.data);
   }
-
-
 }
 interface componentData{
   name: string;

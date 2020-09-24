@@ -32,7 +32,7 @@ import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
 import { CreateComponentComponent } from './create-component/create-component.component';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
 registerLocaleData(en);
 
 @NgModule({
@@ -65,7 +65,8 @@ registerLocaleData(en);
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    MatFormFieldModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
