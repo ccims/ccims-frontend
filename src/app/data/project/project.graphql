@@ -1,7 +1,25 @@
-mutation create{
+query GetAllProjects {
+  projects(filterBy: {
+    owner: ["5d2f0ecf5477f001"]
+  }) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}
+
+
+mutation CreateProject{
   createProject(input: {
     name: "Test"
     owner:"5d2f0ecf5477f001"
     description:"Blah"
-  })
+  }){
+    project {
+      id
+    }
+  }
 }
