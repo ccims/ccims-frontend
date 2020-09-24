@@ -9,7 +9,7 @@ import { ProjectStoreService } from '../data/project/project-store.service';
 export class ProjectListComponent implements OnInit {
   pendingCreate = false;
   projectName?: string;
-  projects: Pick<Project, "id" | "name">[];
+  projects: Pick<Project, 'id' | 'name'>[];
   constructor(private ps: ProjectStoreService) { }
 
   createProject() {
