@@ -3292,7 +3292,9 @@ export type CreateLabelInput = {
   components: Array<Scalars['ID']>;
 };
 
-export type GetAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllProjectsQueryVariables = Exact<{
+  filter?: Maybe<ProjectFilter>;
+}>;
 
 
 export type GetAllProjectsQuery = { projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id' | 'name'>> }>>> }> };
@@ -3305,8 +3307,8 @@ export type CreateProjectMutationVariables = Exact<{
 export type CreateProjectMutation = { createProject?: Maybe<{ project?: Maybe<Pick<Project, 'id'>> }> };
 
 export const GetAllProjectsDocument = gql`
-    query GetAllProjects {
-  projects(filterBy: {owner: ["5d2f0ecf5477f001"]}) {
+    query GetAllProjects($filter: ProjectFilter) {
+  projects(filterBy: $filter) {
     edges {
       node {
         id

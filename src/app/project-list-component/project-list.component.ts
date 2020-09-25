@@ -27,12 +27,6 @@ export class ProjectListComponent implements OnInit {
 
     const createComponentDialogRef = this.dialog.open(CreateProjectDialogComponent);
     createComponentDialogRef.afterClosed().subscribe(result => {
-      console.log('data is saved ');
-      if (result){
-        this.projects.push({name: result, id: '5'});
-        this.ps.create(result);
-      }
-
-
+      console.log(result);
     });
 }}

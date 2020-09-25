@@ -1,7 +1,5 @@
-query GetAllProjects {
-  projects(filterBy: {
-    owner: ["5d2f0ecf5477f001"]
-  }) {
+query GetAllProjects($filter: ProjectFilter){
+  projects(filterBy: $filter) {
     edges {
       node {
         id
