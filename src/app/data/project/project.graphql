@@ -12,12 +12,8 @@ query GetAllProjects {
 }
 
 
-mutation CreateProject{
-  createProject(input: {
-    name: "Test"
-    owner:"5d2f0ecf5477f001"
-    description:"Blah"
-  }){
+mutation CreateProject($input: CreateProjectInput!){
+  createProject(input: $input){
     project {
       id
     }
