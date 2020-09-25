@@ -17,3 +17,23 @@
   border-top-color: #000000;
   animation: spinner .8s linear infinite;
 }
+.error-div {
+background-color: #FF692C;
+border-radius: 2px;
+height: 25px;
+text-align: center;
+//animation-name: error-display;
+//animation-duration: .5s;
+opacity: .8;
+animation: fadeIn .7s;
+
+
+}
+@keyframes error-display {
+  from { transform: translatey(-25px)}
+  to   { transform: translateX(0px) }
+}
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:.8;}
+}
