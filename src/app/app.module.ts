@@ -38,7 +38,9 @@ import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
 import { RegisterComponent } from './register/register.component';
-
+import { CreateProjectDialogComponent } from '../dialogs/create-project-dialog/create-project-dialog.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -57,7 +59,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     IssueDetailComponent,
     LoginComponent,
     FrameComponent,
-    RegisterComponent
+    RegisterComponent,
+    CreateProjectDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +72,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatInputModule,
+    MatFormFieldModule,
     MatSlideToggleModule,
     GraphQLModule,
     HttpClientModule,

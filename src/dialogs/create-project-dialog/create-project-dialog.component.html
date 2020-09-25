@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Create new Project</h1>
+<div mat-dialog-content>
+  <p>Project Details</p>
+  <form >
+  <mat-form-field>
+    <mat-label>Name your Project</mat-label>
+    <input matInput [(ngModel)]="this.name" name="name">
+  </mat-form-field>
+</form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onOkClick()">Save Project</button>
+</div>
+
