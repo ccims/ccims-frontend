@@ -19,7 +19,9 @@ export class ProjectListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
-    // this.projects=[{name:"erstes",id:"1"},{name:"ezweites Projekt",id:"2"},{name:"drittes Projekt",id:"3"},{name:"viertes Projekt",id:"4"}]
+    // For Testing pupose only has to be deleted for production use
+    this.projects=[{name:'erstes',id:'1'},{name:'ezweites Projekt',id:'2'},
+    {name:'drittes Projekt',id:'3'},{name:'viertes Projekt',id:'4'}];
   }
   remove(project: Project) {
     console.log('Removing ' + project);
@@ -30,8 +32,8 @@ export class ProjectListComponent implements OnInit {
     createComponentDialogRef.afterClosed().subscribe(result => {
       console.log('data is saved ');
       if (result){
-        this.projects.push({name: result, id: 5});
-        // createProject();
+        this.projects.push({name: result, id: '5'});
+        // createProject(result);
       }
 
 

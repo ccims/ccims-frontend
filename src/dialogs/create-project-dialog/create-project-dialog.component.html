@@ -2,14 +2,14 @@
 <div mat-dialog-content>
   <p>Project Details</p>
   <form >
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Name your Project</mat-label>
-    <input matInput [(ngModel)]="this.name" name="name">
+    <input matInput [(ngModel)]="this.name" name="name" >
   </mat-form-field>
 </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onOkClick()">Save Project</button>
+  <button mat-button [class.spinner]="loading" [disabled]="loading" (click)="onOkClick()">Save Project</button>
 </div>
 

@@ -7,8 +7,9 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./create-project-dialog.component.scss']
 })
 export class CreateProjectDialogComponent implements OnInit {
-private name;
-  constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>) { }
+public name: string;
+public loading: boolean;
+  constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>) { this.loading = false; }
 
   ngOnInit(): void {
   }
@@ -18,7 +19,13 @@ private name;
 
   }
   onOkClick(): void{
+    this.loading = true;
     // console.log(this.url)
-    this.dialogRef.close(this.name);
+    // delete the timeout function for prod use
+    setTimeout(() => {
+      this.loading = false;
+      this.dialogRef.close(this.name);
+    }, 2000);
+
   }
 }
