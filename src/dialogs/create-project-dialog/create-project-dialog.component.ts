@@ -37,9 +37,9 @@ public saveFailed: boolean;
       // need good condition (checking save success??)
       if (this.name == ''|| !this.name) {
         this.saveFailed = true;
-      }else this.dialogRef.close(this.name);
-
-
+      } else {
+        this.dialogRef.close(this.name);
+      }
     }, 2000);
 
   }

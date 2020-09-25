@@ -1,10 +1,9 @@
-<h1 mat-dialog-title>Create new Project</h1>
+<h1 mat-dialog-title>Create Project</h1>
 <div class="error-div" *ngIf="this.saveFailed" [class.error-display]="this.saveFailed" color="warn"> There went something wrong</div>
 <div mat-dialog-content>
-  <p>Project Details</p>
   <form >
   <mat-form-field appearance="outline">
-    <mat-label>Name your Project</mat-label>
+    <mat-label>Name</mat-label>
     <input  reqired matInput [(ngModel)]="this.name" name="name" >
     <mat-error *ngIf="this.saveFailed">bad</mat-error>
   </mat-form-field>
@@ -12,6 +11,6 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [class.spinner]="loading" [disabled]="loading" (click)="onOkClick()">Save Project</button>
+  <button mat-button [class.spinner]="loading" [disabled]="loading" (click)="onOkClick()">Create</button>
 </div>
 
