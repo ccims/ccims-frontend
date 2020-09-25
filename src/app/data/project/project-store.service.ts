@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
-import { CreateProjectGQL, CreateProjectInput, GetAllProjectsGQL, Project } from 'src/generated/graphql';
+import { CreateProjectGQL, CreateProjectInput, GetAllProjectsGQL, Project, ProjectFilter } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/auth/authentication.service';
 
@@ -33,7 +33,10 @@ export class ProjectStoreService {
     */
 
   getAll(): Observable<Pick<Project, 'id' | 'name'>[]>{
-    return this.getAllQuery.fetch().pipe(
+    const filter: ProjectFilter = {
+      owner: [this.authService.currentUserValue.id]
+    };
+    return this.getAllQuery.fetch({filter}).pipe(
       map(({ data}) => data.projects.edges.map(edge => edge.node))
     );
   }
