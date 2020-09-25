@@ -19,7 +19,7 @@ public saveFailed: boolean;
       return 'You must enter a value';
     }
 
-    return this.saveFailed ? 'Save failed' : '';
+    return this.email.hasError('email') ? 'Not a valid email' : '';
   }
   ngOnInit(): void {
   }
