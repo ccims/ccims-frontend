@@ -146,7 +146,7 @@ export enum Priority {
   /** The issue has a low priority but higher than issues without priority */
   Low = 'LOW',
   /** The issue has a priority higher than low bot is not absolutely urgent */
-  Medium = 'MEDIUM',
+  Default = 'DEFAULT',
   /** Issues with this priority are __very__ urgent and need to be resolved quickly */
   High = 'HIGH'
 }
@@ -1975,6 +1975,13 @@ export type Query = {
   projects?: Maybe<ProjectPage>;
   /** Returns the user from which the PAI is currently being accessed */
   currentUser?: Maybe<User>;
+  /**
+   * Checks wether the given username is still available or already taken.
+   * 
+   * `true` is returned if the username is available and __NOT__ take
+   * `false, if it __IS__ already taken and can't be used for a new user
+   */
+  checkUsername?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -1997,6 +2004,12 @@ export type QueryProjectsArgs = {
   filterBy?: Maybe<ProjectFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+};
+
+
+/** All queries for requesting stuff */
+export type QueryCheckUsernameArgs = {
+  username: Scalars['String'];
 };
 
 /** Mutations to change the data within the ccims */
@@ -2031,9 +2044,9 @@ export type Mutation = {
   renameIssueTitle?: Maybe<RenameIssueTitlePayload>;
   /** Changes the category of an issue */
   changeIssueCategory?: Maybe<ChangeIssueCategoryPayload>;
-  /** Assignes a user to an issue */
+  /** Adds a user as assignee to the issue */
   addAssignee?: Maybe<AddAssigneePayload>;
-  /** Uassignes a user that is currently an assinee on an issue */
+  /** Unassignes a user that is currently an assinee on an issue */
   removeAssignee?: Maybe<RemoveAssigneePayload>;
   /** Closes an open issue */
   closeIssue?: Maybe<CloseIssuePayload>;
@@ -2047,7 +2060,7 @@ export type Mutation = {
   changeIssueDueDate?: Maybe<ChangeIssueDueDatePayload>;
   /** Changes the set estimated time on an issue */
   changeIssueEstimatedTime?: Maybe<ChangeIssueEstimatedTimePayload>;
-  /** Adds an issue to a location (component or interface) */
+  /** Adds an issue to a location (location or interface) */
   addIssueToLocation?: Maybe<AddIssueToLocationPayload>;
   /** Removes an issue from an issue location it was assigned to */
   removeIssueFromLocation?: Maybe<RemoveIssueFromLocationPayload>;
@@ -2065,10 +2078,20 @@ export type Mutation = {
   removeReactionFromComment?: Maybe<RemoveReactionFromCommentPayload>;
   /** Creates a new project */
   createProject?: Maybe<CreateProjectPayload>;
+  /** Delets the specified project */
+  deleteProject?: Maybe<DeleteProjectPayload>;
+  /** Updates the specified project */
+  updateProject?: Maybe<UpdateProjectPayload>;
+  /** Adds the specified component to the project if it is not already on the project */
+  addComponentToProject?: Maybe<AddComponentToProjectPayload>;
+  /** Removes the specified component from the project if it is on the project */
+  removeComponentFromProject?: Maybe<RemoveComponentFromProjectPayload>;
   /** Creates a new component in the ccims and adds it to the given users */
   createComponent?: Maybe<CreateComponentPayload>;
   /** Creates a new user in the system */
   createUser?: Maybe<CreateUserPayload>;
+  /** Create a new label in the system */
+  createLabel?: Maybe<CreateLabelPayload>;
 };
 
 
@@ -2086,7 +2109,7 @@ export type MutationCreateIssueArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueCommentArgs = {
-  input?: Maybe<AddIssueCommentInput>;
+  input: AddIssueCommentInput;
 };
 
 
@@ -2098,7 +2121,7 @@ export type MutationDeleteIssueCommentArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationLinkIssueArgs = {
-  input?: Maybe<LinkIssueInput>;
+  input: LinkIssueInput;
 };
 
 
@@ -2110,7 +2133,7 @@ export type MutationUnlinkIssueArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationAddLabelToIssueArgs = {
-  input?: Maybe<AddLabelToIssueInput>;
+  input: AddLabelToIssueInput;
 };
 
 
@@ -2134,31 +2157,31 @@ export type MutationUnpinIssueArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationRenameIssueTitleArgs = {
-  input?: Maybe<RenameIssueTitleInput>;
+  input: RenameIssueTitleInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssueCategoryArgs = {
-  input?: Maybe<ChangeIssueCategoryInput>;
+  input: ChangeIssueCategoryInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationAddAssigneeArgs = {
-  input?: Maybe<AddAssigneeInput>;
+  input: AddAssigneeInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveAssigneeArgs = {
-  input?: Maybe<RemoveAssigneeInput>;
+  input: RemoveAssigneeInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationCloseIssueArgs = {
-  input?: Maybe<CloseIssueInput>;
+  input: CloseIssueInput;
 };
 
 
@@ -2182,7 +2205,7 @@ export type MutationChangeIssueStartDateArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssueDueDateArgs = {
-  input?: Maybe<ChangeIssueDueDateInput>;
+  input: ChangeIssueDueDateInput;
 };
 
 
@@ -2194,7 +2217,7 @@ export type MutationChangeIssueEstimatedTimeArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueToLocationArgs = {
-  input?: Maybe<AddIssueToLocationInput>;
+  input: AddIssueToLocationInput;
 };
 
 
@@ -2206,7 +2229,7 @@ export type MutationRemoveIssueFromLocationArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueToComponentArgs = {
-  input?: Maybe<AddIssueToComponentInput>;
+  input: AddIssueToComponentInput;
 };
 
 
@@ -2247,6 +2270,30 @@ export type MutationCreateProjectArgs = {
 
 
 /** Mutations to change the data within the ccims */
+export type MutationDeleteProjectArgs = {
+  input: DeleteProjectInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateProjectArgs = {
+  input: UpdateProjectInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationAddComponentToProjectArgs = {
+  input: AddComponentToProjectInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationRemoveComponentFromProjectArgs = {
+  input: RemoveComponentFromProjectInput;
+};
+
+
+/** Mutations to change the data within the ccims */
 export type MutationCreateComponentArgs = {
   input: CreateComponentInput;
 };
@@ -2255,6 +2302,12 @@ export type MutationCreateComponentArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationCreateLabelArgs = {
+  input: CreateLabelInput;
 };
 
 /** The Payload/Response for the addIssueToLocation mutation */
@@ -2555,7 +2608,11 @@ export type RenameIssueTitleInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /** The ID of the issue to rename (Change the title of) */
   issue: Scalars['ID'];
-  /** The new title to set for the issue */
+  /**
+   * The new title to set for the issue.
+   * 
+   * Max. 256 characters
+   */
   newTitle: Scalars['String'];
 };
 
@@ -2602,7 +2659,7 @@ export type AddAssigneeInput = {
   /** The ID of the issue to which the new assignee should be added */
   issue: Scalars['ID'];
   /** The ID of the user to be added as assignee to the specified issue */
-  userToAssign: Scalars['ID'];
+  user: Scalars['ID'];
 };
 
 /** The Payload/Response for the removeAssignee mutation */
@@ -2826,7 +2883,7 @@ export type AddIssueToComponentInput = {
   /** The ID of the issue to be added to the specified component */
   issue: Scalars['ID'];
   /** The ID of the component the issue should be added to */
-  location: Scalars['ID'];
+  component: Scalars['ID'];
 };
 
 /** The Payload/Response for the removeIssueFromComponent mutation */
@@ -2978,6 +3035,88 @@ export type CreateProjectInput = {
   owner: Scalars['ID'];
 };
 
+/** The Payload/Response for the deleteProject mutation */
+export type DeleteProjectPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteProject mutation */
+export type DeleteProjectInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the project to delete */
+  projectId: Scalars['ID'];
+};
+
+/** The Payload/Response for the updateProject mutation */
+export type UpdateProjectPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The project updated by this mutation */
+  project?: Maybe<Project>;
+};
+
+/** The inputs for the updateProject mutation, updates only the provided fields */
+export type UpdateProjectInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the project to update */
+  projectId: Scalars['ID'];
+  /**
+   * The name of the project
+   * 
+   * Max. 256 characters
+   */
+  name?: Maybe<Scalars['String']>;
+  /**
+   * The description of the project
+   * 
+   * Max. 65536 characters
+   */
+  description?: Maybe<Scalars['String']>;
+};
+
+/** The Payload/Response for the addComponentToProject mutation */
+export type AddComponentToProjectPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The project to which the component was added */
+  project?: Maybe<Project>;
+  /** The component which was added to the project */
+  component?: Maybe<Component>;
+};
+
+/** The inputs for the addComponentToProject mutation */
+export type AddComponentToProjectInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the project to which to add the component */
+  projectId: Scalars['ID'];
+  /** The id of the component to add to the project */
+  componentId: Scalars['ID'];
+};
+
+/** The Payload/Response for the removeComponentFromProject mutation */
+export type RemoveComponentFromProjectPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The project from which the component was removed */
+  project: Project;
+  /** The component which was removed from the project */
+  component: Component;
+};
+
+/** The inputs for the removeComponentFromProject mutation */
+export type RemoveComponentFromProjectInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the project from which to remove the component */
+  projectId: Scalars['ID'];
+  /** The id of the component to remove from the project */
+  componentId: Scalars['ID'];
+};
+
 /** The Payload/Response for the createComponent mutation */
 export type CreateComponentPayload = {
   /** The string provided by the client on sending the mutation */
@@ -3021,14 +3160,14 @@ export type CreateComponentInput = {
    * 
    * In rare cases depending on the IMS type this might be empty or not a URL
    */
-  endpoint: Scalars['String'];
+  endpoint?: Maybe<Scalars['String']>;
   /**
    * Data needed for the connection to the IMS API.
    * 
    * See the documentation for the IMS extions for information which keys are expected.
    * This must be a valid JSON-string
    */
-  connectionData: Scalars['JSON'];
+  connectionData?: Maybe<Scalars['JSON']>;
   /**
    * If given, the component will be added to the projects with those IDs.
    * 
@@ -3077,6 +3216,44 @@ export type CreateUserInput = {
   email?: Maybe<Scalars['String']>;
 };
 
+/** The Payload/Response for the createLabel mutation */
+export type CreateLabelPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The label created by this mutation */
+  label?: Maybe<Label>;
+};
+
+/** The inputs for the createLabel mutation */
+export type CreateLabelInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /**
+   * The name of the label which to show in the GUI.
+   * 
+   * Max. 256 characters.
+   */
+  name: Scalars['String'];
+  /**
+   * The description text for the label.
+   * 
+   * Max. 65536 characters.
+   */
+  description?: Maybe<Scalars['String']>;
+  /**
+   * The color of the label
+   * 
+   * Must be a valid Color string
+   */
+  color: Scalars['Color'];
+  /**
+   * A list of components to which to add the label. At least one component is required
+   * 
+   * This must be a valid component ids
+   */
+  components: Array<Scalars['ID']>;
+};
+
 export type GetAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3086,6 +3263,13 @@ export type CreateProjectMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CreateProjectMutation = { createProject?: Maybe<{ project?: Maybe<Pick<Project, 'id'>> }> };
+
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+
+export type CreateUserMutation = { createUser?: Maybe<Pick<CreateUserPayload, 'clientMutationID'>> };
 
 export const GetAllProjectsDocument = gql`
     query GetAllProjects {
@@ -3125,6 +3309,24 @@ export const CreateProjectDocument = gql`
   })
   export class CreateProjectGQL extends Apollo.Mutation<CreateProjectMutation, CreateProjectMutationVariables> {
     document = CreateProjectDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateUserDocument = gql`
+    mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
+    document = CreateUserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

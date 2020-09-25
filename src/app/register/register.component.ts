@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 import { Observable, Observer } from 'rxjs';
+import { environment } from '@environments/environment';
+import { InMemoryCache } from '@apollo/client/core';
+import { CreateUserGQL, CreateUserInput } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-register',
@@ -10,14 +14,40 @@ import { Observable, Observer } from 'rxjs';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  validateForm: FormGroup;
 
-  submitForm(value: { userName: string; email: string; password: string; confirm: string; comment: string }): void {
+  validateForm: FormGroup;
+  isLoading = false;
+  graphqlClientName = environment.registerClientName;
+
+  constructor(private fb: FormBuilder, private apollo: Apollo, private createUserMutation: CreateUserGQL) {
+    apollo.createNamed(this.graphqlClientName, {uri: environment.signUpUrl, cache: new InMemoryCache()});
+    this.createUserMutation.client = this.graphqlClientName;
+    this.validateForm = this.fb.group({
+      userName: ['', [Validators.required], [this.userNameAsyncValidator]],
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [Validators.required]],
+      confirm: ['', [this.confirmValidator]],
+    });
+  }
+
+  submitForm(value: { username: string; email: string; password: string; confirm: string}): void {
     for (const key in this.validateForm.controls) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
-    console.log(value);
+    const input: CreateUserInput = {
+      username: value.username,
+      displayName: value.username,
+      password: value.password,
+      email: value.email
+    };
+
+    this.createUserMutation.mutate().subscribe(({ data }) => {
+      console.log('got data', data);
+    }, (error) => {
+      console.log('there was an error sending the query', error);
+    });
+
   }
 
   resetForm(e: MouseEvent): void {
@@ -44,7 +74,7 @@ export class RegisterComponent {
         }
         observer.complete();
       }, 1000);
-    });
+    })
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
@@ -53,15 +83,7 @@ export class RegisterComponent {
       return { confirm: true, error: true };
     }
     return {};
-  };
-
-  constructor(private fb: FormBuilder) {
-    this.validateForm = this.fb.group({
-      userName: ['', [Validators.required], [this.userNameAsyncValidator]],
-      email: ['', [Validators.email, Validators.required]],
-      password: ['', [Validators.required]],
-      confirm: ['', [this.confirmValidator]],
-      comment: ['', [Validators.required]]
-    });
   }
+
+
 }

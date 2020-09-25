@@ -3,5 +3,7 @@ const host = 'http://localhost:8080'
 export const environment = {
   production: false,
   apiUrl: `${host}/api`,
-  loginUrl: `${host}/login`
+  signUpUrl: `${host}/api/public`,
+  loginUrl: `${host}/login`,
+  registerClientName: 'registerClient'
 };
