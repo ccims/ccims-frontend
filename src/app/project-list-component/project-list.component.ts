@@ -17,6 +17,7 @@ export class ProjectListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
+    //this.projects=[{name:"erstes",id:"1"},{name:"ezweites Projekt",id:"2"},{name:"drittes Projekt",id:"3"},{name:"viertes Projekt",id:"4"}]
   }
   remove(project: Project) {
     console.log('Removing ' + project);
