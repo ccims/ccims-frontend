@@ -13,7 +13,7 @@ max-width: 100%;
   max-width: 100%;
 }
 .listWrapper{
-  width: 50%;
+  max-width: 50%;
   //background-color: black;
   -webkit-box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
 -moz-box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
@@ -28,4 +28,19 @@ margin-right: auto;
 
 .mat-nav-list-padding-removed{
   padding-top: 0px;
+}
+.floating-button{
+float: right;
+}
+.list-headder{
+max-width: 50%;
+margin-left: auto;
+margin-right: auto;
+height: 30px;
+margin-bottom: 5px;
+}
+.list-h2{
+  max-width: 50%;
+  float: left;
+  margin-bottom: 0px;
 }

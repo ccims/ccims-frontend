@@ -4,6 +4,9 @@
 
 .sidenav {
   width: 200px;
+  -webkit-box-shadow: 2px 0px 48px -21px rgba(0,0,0,0.75);
+-moz-box-shadow: 2px 0px 48px -21px rgba(0,0,0,0.75);
+box-shadow: 2px 0px 48px -21px rgba(0,0,0,0.75);
 }
 
 .sidenav .mat-toolbar {
