@@ -1,5 +1,8 @@
 {
   "extends": "tslint:recommended",
+  "linterOptions": {
+    "exclude": ["src/generated"]
+  },
   "rules": {
     "align": {
       "options": [

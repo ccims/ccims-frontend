@@ -5,8 +5,7 @@ import { Apollo } from 'apollo-angular';
 import { Observable, Observer } from 'rxjs';
 import { environment } from '@environments/environment';
 import { InMemoryCache } from '@apollo/client/core';
-import { RegisterUserGQL } from 'src/generated/graphql';
-import { RegisterUserInput } from 'src/generated/public-graphql';
+import { RegisterUserGQL,  RegisterUserInput } from 'src/generated/public-graphql';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +23,7 @@ export class RegisterComponent {
     apollo.createNamed(this.graphqlClientName, {uri: environment.signUpUrl, cache: new InMemoryCache()});
     this.registerUserMutation.client = this.graphqlClientName;
     this.validateForm = this.fb.group({
-      userName: ['', [Validators.required], [this.userNameAsyncValidator]],
+      username: ['', [Validators.required], [this.userNameAsyncValidator]],
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
       confirm: ['', [this.confirmValidator]],
@@ -32,7 +31,7 @@ export class RegisterComponent {
   }
 
   submitForm(value: { username: string; email: string; password: string; confirm: string}): void {
-    for (const key in this.validateForm.controls) {
+    for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
@@ -43,7 +42,7 @@ export class RegisterComponent {
       email: value.email
     };
 
-    this.registerUserMutation.mutate().subscribe(({ data }) => {
+    this.registerUserMutation.mutate({input}).subscribe(({ data }) => {
       console.log('got data', data);
     }, (error) => {
       console.log('there was an error sending the query', error);
@@ -54,7 +53,7 @@ export class RegisterComponent {
   resetForm(e: MouseEvent): void {
     e.preventDefault();
     this.validateForm.reset();
-    for (const key in this.validateForm.controls) {
+    for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsPristine();
       this.validateForm.controls[key].updateValueAndValidity();
     }

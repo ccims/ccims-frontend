@@ -3,7 +3,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
         <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input nz-input formControlName="userName" placeholder="async validate try to write JasonWood" />
+          <input nz-input formControlName="username" placeholder="async validate try to write JasonWood" />
           <ng-template #userErrorTpl let-control>
             <ng-container *ngIf="control.hasError('required')">
               Please enter a Username!
