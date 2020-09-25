@@ -30,7 +30,7 @@ export class ProjectListComponent implements OnInit {
       console.log('data is saved ');
       if (result){
         this.projects.push({name: result, id: '5'});
-        this.ps.create();
+        this.ps.create(result);
       }
 
 

@@ -1,5 +1,6 @@
 .login-form {
   max-width: 300px;
+  margin: auto;
 }
 
 .login-form-margin {
@@ -12,4 +13,39 @@
 
 .login-form-button {
   width: 100%;
+}
+.canvas-background {
+  height: 100%;
+  width: 100% ;
+  background-image: url(../../assets/cubes-3381438_1920.jpg);
+}
+
+.form-container {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 350px;
+  //margin-left: auto;
+  //margin-right: auto;
+  background-color: white;
+  height: auto;
+  -webkit-box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
+-moz-box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
+box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
+padding-bottom: 20px;
+}
+.logo-wrapper {
+  height: 100px;
+  width: 100%;
+}
+.logo {
+  background-image: url(../../assets/CCIMS.png);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  height: 80px;
+  margin: auto;
+}
+.headline {
+  height: 20px;
 }

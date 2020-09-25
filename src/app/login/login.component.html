@@ -1,3 +1,9 @@
+<div class="canvas-background">
+<div class="form-container">
+  <div class="logo-wrapper">
+  <div class="logo"></div>
+  <div class="headline">Login</div>
+  </div>
 <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter your Username!">
@@ -28,3 +34,5 @@
   <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
   Or <a routerLink='/register'> register now! </a>
 </form>
+</div>
+</div>
