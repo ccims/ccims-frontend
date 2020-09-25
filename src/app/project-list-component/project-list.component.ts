@@ -14,9 +14,6 @@ export class ProjectListComponent implements OnInit {
   projects: Pick<Project, 'id' | 'name'>[];
   constructor(private ps: ProjectStoreService, private dialog: MatDialog) { }
 
-  createProject() {
-    this.ps.create();
-  }
   ngOnInit(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
     // For Testing pupose only has to be deleted for production use
@@ -33,7 +30,7 @@ export class ProjectListComponent implements OnInit {
       console.log('data is saved ');
       if (result){
         this.projects.push({name: result, id: '5'});
-        // createProject(result);
+        this.ps.create();
       }
 
 

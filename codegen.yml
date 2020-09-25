@@ -1,8 +1,17 @@
 overwrite: true
-schema: "http://localhost:8080/api"
-documents: "src/**/*.graphql"
 generates:
   src/generated/graphql.ts:
+    schema: "http://localhost:8080/api"
+    documents:
+        - "src/**/*.graphql"
+        - "!src/**/*-public.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+  src/generated/public-graphql.ts:
+    schema: "http://localhost:8080/api/public"
+    documents: "src/**/*-public.graphql"
     plugins:
       - "typescript"
       - "typescript-operations"

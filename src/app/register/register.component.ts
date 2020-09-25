@@ -5,7 +5,8 @@ import { Apollo } from 'apollo-angular';
 import { Observable, Observer } from 'rxjs';
 import { environment } from '@environments/environment';
 import { InMemoryCache } from '@apollo/client/core';
-import { CreateUserGQL, CreateUserInput } from 'src/generated/graphql';
+import { RegisterUserGQL } from 'src/generated/graphql';
+import { RegisterUserInput } from 'src/generated/public-graphql';
 
 @Component({
   selector: 'app-register',
@@ -19,9 +20,9 @@ export class RegisterComponent {
   isLoading = false;
   graphqlClientName = environment.registerClientName;
 
-  constructor(private fb: FormBuilder, private apollo: Apollo, private createUserMutation: CreateUserGQL) {
+  constructor(private fb: FormBuilder, private apollo: Apollo, private registerUserMutation: RegisterUserGQL) {
     apollo.createNamed(this.graphqlClientName, {uri: environment.signUpUrl, cache: new InMemoryCache()});
-    this.createUserMutation.client = this.graphqlClientName;
+    this.registerUserMutation.client = this.graphqlClientName;
     this.validateForm = this.fb.group({
       userName: ['', [Validators.required], [this.userNameAsyncValidator]],
       email: ['', [Validators.email, Validators.required]],
@@ -35,14 +36,14 @@ export class RegisterComponent {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
-    const input: CreateUserInput = {
+    const input: RegisterUserInput = {
       username: value.username,
       displayName: value.username,
       password: value.password,
       email: value.email
     };
 
-    this.createUserMutation.mutate().subscribe(({ data }) => {
+    this.registerUserMutation.mutate().subscribe(({ data }) => {
       console.log('got data', data);
     }, (error) => {
       console.log('there was an error sending the query', error);

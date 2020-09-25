@@ -13,27 +13,27 @@ export type Scalars = {
   /**
    * A scalar type representing a colour in RGB colour space.
    * The scalar must be a string in CSS Colour Hex format:
-   * 
+   *
    * `#rrggbb` where `rr`, `gg`, `bb` are the hex values between _0_ and _ff_
-   * 
+   *
    * Example: `#ffff00` (would be a _beautiful_ yellow)
    */
   Color: any;
   /**
    * The `Date` scalar is a sting containing a date in a format compatible with _ISO-8601_
-   * 
+   *
    * Example: `2011-10 - 10T14: 48: 00``
    */
   Date: any;
   /**
    * The `JSON` scalar is a string in the a JSON format
-   * 
+   *
    * Example: `{"numbers": [1,2,3,4]}`
    */
   JSON: any;
   /**
    * A integer number representing the length of the time span in milliseconds
-   * 
+   *
    * Example: `60000` (equivalent to a time span of one minute)
    */
   TimeSpan: any;
@@ -89,13 +89,13 @@ export enum IssueTimelineItemType {
   UnlabelledEvent = 'UNLABELLED_EVENT',
   /**
    * This issue was pinned as important issue in the ccims.
-   * 
+   *
    * __This event won't be synced along all subscribed issue management systems__
    */
   PinnedEvent = 'PINNED_EVENT',
   /**
    * This issue was unpinned in the ccims.
-   * 
+   *
    * __This event won't be synced along all subscribed issue management systems__
    */
   UnpinnedEvent = 'UNPINNED_EVENT',
@@ -111,7 +111,7 @@ export enum IssueTimelineItemType {
   ClosedEvent = 'CLOSED_EVENT',
   /**
    * Happens if the issue has been reopened after being closed by anybody.
-   * 
+   *
    * _This event doesn't occur on the first opening of the issue_
    */
   ReopenedEvent = 'REOPENED_EVENT',
@@ -129,7 +129,7 @@ export enum IssueTimelineItemType {
   RemovedLocationEvent = 'REMOVED_LOCATION_EVENT',
   /**
    * Occurs if this issue was marked as duplicate of some other issue which is known to the ccims.
-   * 
+   *
    * (if the issue in unknown to the ccims at time of marking it as a duplicate; it's not guaranteed, that the mark will be synced)
    */
   MarkedAsDuplicateEvent = 'MARKED_AS_DUPLICATE_EVENT',
@@ -159,7 +159,7 @@ export enum Priority {
 export type Node = {
   /**
    * The ID of this node. Every node will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -295,7 +295,7 @@ export type IssueCommentFilter = {
 
 /**
  * Filters for Issues. All parameters given in this filter will be connected via _AND_
- * 
+ *
  * Not specific issues in issue management systems but the issue in the ccims
  */
 export type IssueFilter = {
@@ -373,7 +373,7 @@ export type IssueLocationFilter = {
 
 /**
  * Filters for certain timeline events. All parameters given in this filter will be connected via _AND_
- * 
+ *
  * __Please note:__ It's currently __not__ possible to filter for specific properties of an event. Might be added in future
  */
 export type IssueTimelineItemFilter = {
@@ -455,7 +455,7 @@ export type ComponentInterfacePage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -471,7 +471,7 @@ export type ComponentPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -487,7 +487,7 @@ export type IssueCommentPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -503,7 +503,7 @@ export type IssueLocationPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -519,7 +519,7 @@ export type IssuePage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -535,7 +535,7 @@ export type LabelPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -551,7 +551,7 @@ export type IssueTimelineItemPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -559,7 +559,7 @@ export type IssueTimelineItemPage = Page & {
 
 /**
  * A page of elements
- * 
+ *
  * Contains edges and nodes as well as some information and a node count
  */
 export type Page = {
@@ -567,7 +567,7 @@ export type Page = {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -595,7 +595,7 @@ export type UserPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -611,7 +611,7 @@ export type ReactionGroupPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -627,7 +627,7 @@ export type ProjectPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -640,7 +640,7 @@ export type Comment = {
   /**
    * The body text of the comment.
    * Markdown supported.
-   * 
+   *
    * Max. 65536 characters
    */
   body?: Maybe<Scalars['String']>;
@@ -656,7 +656,7 @@ export type Comment = {
   lastEditedAt?: Maybe<Scalars['Date']>;
   /**
    * `true` iff the user authenticated by the given JWT is permitted to edit this comment.
-   * 
+   *
    * This only refers to editing the core comment (title, body, etc.)
    */
   currentUserCanEdit: Scalars['Boolean'];
@@ -676,7 +676,7 @@ export type CommentReactionsArgs = {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type Component = Node & IssueLocation & {
@@ -684,7 +684,7 @@ export type Component = Node & IssueLocation & {
   id: Scalars['ID'];
   /**
    * The (non unique) display name of this component
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
@@ -692,7 +692,7 @@ export type Component = Node & IssueLocation & {
   owner?: Maybe<User>;
   /**
    * A textual description (of the fuction) of this component.
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
@@ -715,7 +715,7 @@ export type Component = Node & IssueLocation & {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentIssuesArgs = {
@@ -729,7 +729,7 @@ export type ComponentIssuesArgs = {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentIssuesOnLocationArgs = {
@@ -743,7 +743,7 @@ export type ComponentIssuesOnLocationArgs = {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentProjectsArgs = {
@@ -757,7 +757,7 @@ export type ComponentProjectsArgs = {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentInterfacesArgs = {
@@ -771,7 +771,7 @@ export type ComponentInterfacesArgs = {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentConsumedInterfacesArgs = {
@@ -785,7 +785,7 @@ export type ComponentConsumedInterfacesArgs = {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentLabelsArgs = {
@@ -798,7 +798,7 @@ export type ComponentLabelsArgs = {
 
 /**
  * An issue management system. This will be an __instance__ of one of the available IMS Types.
- * 
+ *
  * E.g. One GitHub Repository's issue page.
  */
 export type Ims = Node & {
@@ -816,13 +816,13 @@ export type ComponentInterface = Node & IssueLocation & {
   id: Scalars['ID'];
   /**
    * The name of the component interface
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * A textual description (of the fuction) of this component interface .
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
@@ -832,7 +832,7 @@ export type ComponentInterface = Node & IssueLocation & {
   issuesOnLocation?: Maybe<IssuePage>;
   /**
    * Components which consume the interface and match the filter.
-   * 
+   *
    * If no filter is given, all components will be returned
    */
   consumedBy?: Maybe<ComponentPage>;
@@ -864,14 +864,14 @@ export type Issue = Comment & Node & {
   id: Scalars['ID'];
   /**
    * The title to display for this issue.
-   * 
+   *
    * Not unique; Max. 256 characters
    */
   title: Scalars['String'];
   /**
    * The body text of the issue.
    * Markdown supported.
-   * 
+   *
    * Max. 65536 characters
    */
   body?: Maybe<Scalars['String']>;
@@ -893,13 +893,13 @@ export type Issue = Comment & Node & {
   isDuplicate: Scalars['Boolean'];
   /**
    * The ccims-issue-category the issue belongs to.
-   * 
+   *
    * This can be one of BUG,FEATURE_REQUEST or UNCLASSIFIED
    */
   category: IssueCategory;
   /**
    * `true` iff the user authenticated by the given JWT is permitted to edit this issue.
-   * 
+   *
    * This only refers to editing the core issue (title, body, etc.)
    */
   currentUserCanEdit: Scalars['Boolean'];
@@ -907,25 +907,25 @@ export type Issue = Comment & Node & {
   currentUserCanComment: Scalars['Boolean'];
   /**
    * A start date set for start of work on this issue.
-   * 
+   *
    * This is only for displaying and has no effect on the ccims but will be synce to other ims
    */
   startDate?: Maybe<Scalars['Date']>;
   /**
    * A due date set when work on the issue must be done.
-   * 
+   *
    * This is only for displaying and has no effect on the ccims but will be synce to other ims
    */
   dueDate?: Maybe<Scalars['Date']>;
   /**
    * The time estimated needed for work on this issue.
-   * 
+   *
    * This is only for displaying and has no effect on the ccims but will be synce to other ims
    */
   estimatedTime?: Maybe<Scalars['TimeSpan']>;
   /**
    * The time already spent on work on this issue.
-   * 
+   *
    * This is only for displaying and has no effect on the ccims but will be synce to other ims
    */
   spentTime?: Maybe<Scalars['TimeSpan']>;
@@ -1068,7 +1068,7 @@ export type IssueLocationsArgs = {
 
 /**
  * A location an issue can be assigned to
- * 
+ *
  * Currently this can be either a component or an interface
  */
 export type IssueLocation = {
@@ -1076,13 +1076,13 @@ export type IssueLocation = {
   id: Scalars['ID'];
   /**
    * The name of the location
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * A textual description (of the fuction) of this issue location.
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
@@ -1093,7 +1093,7 @@ export type IssueLocation = {
 
 /**
  * A location an issue can be assigned to
- * 
+ *
  * Currently this can be either a component or an interface
  */
 export type IssueLocationIssuesOnLocationArgs = {
@@ -1112,13 +1112,13 @@ export type IssueTimelineItem = {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1130,13 +1130,13 @@ export type Label = Node & {
   id: Scalars['ID'];
   /**
    * The name of the label to display.
-   * 
+   *
    *  Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * A text describing the labels' function
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
@@ -1174,7 +1174,7 @@ export type ReactionGroup = Node & {
   id: Scalars['ID'];
   /**
    * Users who reacted with this reaction.
-   * 
+   *
    * If there are only a few, all users will be returned. If too many users are part of this reaction group, only a few will be returned
    */
   users?: Maybe<Array<Maybe<User>>>;
@@ -1193,7 +1193,7 @@ export type Project = Node & {
   id: Scalars['ID'];
   /**
    * The human readable name of this project
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
@@ -1212,7 +1212,7 @@ export type Project = Node & {
   labels?: Maybe<LabelPage>;
   /**
    * A textual description of this project.
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
@@ -1326,13 +1326,13 @@ export type AddedToComponentEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1348,13 +1348,13 @@ export type AddedToLocationEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1370,13 +1370,13 @@ export type ClosedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1390,13 +1390,13 @@ export type AssignedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1412,13 +1412,13 @@ export type CategoryChangedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1436,13 +1436,13 @@ export type DueDateChangedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1476,13 +1476,13 @@ export type EstimatedTimeChangedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1500,13 +1500,13 @@ export type LabelledEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1523,7 +1523,7 @@ export type IssueComment = IssueTimelineItem & Comment & Node & {
   /**
    * The body text of the comment.
    * Markdown supported.
-   * 
+   *
    * Max. 65536 characters
    */
   body?: Maybe<Scalars['String']>;
@@ -1539,7 +1539,7 @@ export type IssueComment = IssueTimelineItem & Comment & Node & {
   lastEditedAt?: Maybe<Scalars['Date']>;
   /**
    * `true` iff the user authenticated by the given JWT is permitted to edit this comment.
-   * 
+   *
    * This only refers to editing the core comment (title, body, etc.)
    */
   currentUserCanEdit: Scalars['Boolean'];
@@ -1565,13 +1565,13 @@ export type MarkedAsDuplicateEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1587,13 +1587,13 @@ export type LinkEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1609,13 +1609,13 @@ export type PinnedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1623,7 +1623,7 @@ export type PinnedEvent = IssueTimelineItem & Node & {
 
 /**
  * An ReferencedByIssueEvent in the timeline of an issue with a date and a creator
- * 
+ *
  * This occurs if this issue is referenced by another known issue
  */
 export type ReferencedByIssueEvent = IssueTimelineItem & Node & {
@@ -1633,13 +1633,13 @@ export type ReferencedByIssueEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1657,13 +1657,13 @@ export type PriorityChangedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1681,13 +1681,13 @@ export type RemovedFromComponentEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1697,7 +1697,7 @@ export type RemovedFromComponentEvent = IssueTimelineItem & Node & {
 
 /**
  * An ReferencedByOtherEvent in the timeline of an issue with a date and a creator.
- * 
+ *
  * This occures if this issue is referenced outside of an issue (e.g. pull request etc.)
  */
 export type ReferencedByOtherEvent = IssueTimelineItem & Node & {
@@ -1707,13 +1707,13 @@ export type ReferencedByOtherEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1733,13 +1733,13 @@ export type RemovedFromLocationEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1755,13 +1755,13 @@ export type ReopenedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1775,13 +1775,13 @@ export type StartDateChangedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1799,13 +1799,13 @@ export type RenamedTitleEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1823,13 +1823,13 @@ export type UnassignedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1845,13 +1845,13 @@ export type UnlabelledEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1867,13 +1867,13 @@ export type WasLinkedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1889,13 +1889,13 @@ export type UnmarkedAsDuplicateEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1909,13 +1909,13 @@ export type WasUnlinkedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1931,13 +1931,13 @@ export type UnpinnedEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1951,13 +1951,13 @@ export type UnlinkEvent = IssueTimelineItem & Node & {
   issue: Issue;
   /**
    * The user responsible for the creation of the event (e.g. autor of a comment)
-   * 
+   *
    * It's possible there is no autor, for example if the action was performed automatically
    */
   createdBy?: Maybe<User>;
   /**
    * The date the event occured on/was created.
-   * 
+   *
    * This ISN'T updated if the event is be changed
    */
   createdAt: Scalars['Date'];
@@ -1977,7 +1977,7 @@ export type Query = {
   currentUser?: Maybe<User>;
   /**
    * Checks wether the given username is still available or already taken.
-   * 
+   *
    * `true` is returned if the username is available and __NOT__ take
    * `false, if it __IS__ already taken and can't be used for a new user
    */
@@ -2022,9 +2022,9 @@ export type Mutation = {
   addIssueComment?: Maybe<AddIssueCommentPayload>;
   /**
    * Deletes an issue comment.
-   * 
+   *
    * Comments don't get fully deleted but replaced by a
-   * 
+   *
    * `DeletedComment` (only contains creation/deletion date/user) which is for conversation completness
    */
   deleteIssueComment?: Maybe<DeleteIssueCommentPayload>;
@@ -2090,6 +2090,8 @@ export type Mutation = {
   createComponent?: Maybe<CreateComponentPayload>;
   /** Creates a new user in the system */
   createUser?: Maybe<CreateUserPayload>;
+  /** Registers/creates a new user in the ccims system */
+  registerUser?: Maybe<RegisterUserPayload>;
   /** Create a new label in the system */
   createLabel?: Maybe<CreateLabelPayload>;
 };
@@ -2306,6 +2308,12 @@ export type MutationCreateUserArgs = {
 
 
 /** Mutations to change the data within the ccims */
+export type MutationRegisterUserArgs = {
+  input: RegisterUserInput;
+};
+
+
+/** Mutations to change the data within the ccims */
 export type MutationCreateLabelArgs = {
   input: CreateLabelInput;
 };
@@ -2336,61 +2344,61 @@ export type CreateIssueInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The human readable title for the new issue.
-   * 
+   *
    * This can't be `null`. Max. 256 caracters.
    */
   title: Scalars['String'];
   /**
    * The body text for the issue as markdown.
-   * 
+   *
    * This can be `null` (will result in an empty body). Max. 65536 characters
    */
   body?: Maybe<Scalars['String']>;
   /**
    * The IDs of the components the issue is mirrored to.
-   * 
+   *
    * At least one valid component must be given.
    */
   componentIDs: Array<Scalars['ID']>;
   /**
    * The category to assign the issue to.
-   * 
+   *
    * If none is given, the issue wil have the category `UNCLASSIFIED`.
    */
   category?: Maybe<IssueCategory>;
   /**
    * A list of all label IDs to assign to the new issue.
-   * 
+   *
    * If `null`, none will be assigned.
    */
   labels?: Maybe<Array<Scalars['ID']>>;
   /**
    * A list of user IDs to added as assignees to the issue.
-   * 
+   *
    * If `null`, no users will be assigned
    */
   assignees?: Maybe<Array<Scalars['ID']>>;
   /**
    * A list of IDs of issue locations to add the issue to.
-   * 
+   *
    * If `null`, the issue will not be assigned to any locations
    */
   locations?: Maybe<Array<Scalars['ID']>>;
   /**
    * The start date to be set for the issue.
-   * 
+   *
    * If `null`, none will be set
    */
   startDate?: Maybe<Scalars['Date']>;
   /**
    * The due date to be set for the issue.
-   * 
+   *
    * If `null`, none will be set
    */
   dueDate?: Maybe<Scalars['Date']>;
   /**
    * The estimated time to be set for the issue.
-   * 
+   *
    * If `null`, none will be set
    */
   estimatedTime?: Maybe<Scalars['TimeSpan']>;
@@ -2402,7 +2410,7 @@ export type AddIssueCommentPayload = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The issue comment object that was created.
-   * 
+   *
    * __NOTE:__This is also the timeline event!
    */
   comment?: Maybe<IssueComment>;
@@ -2420,7 +2428,7 @@ export type AddIssueCommentInput = {
   issue: Scalars['ID'];
   /**
    * The body text of the comment to be added.
-   * 
+   *
    * Max. 65536 characters.
    */
   body: Scalars['String'];
@@ -2610,7 +2618,7 @@ export type RenameIssueTitleInput = {
   issue: Scalars['ID'];
   /**
    * The new title to set for the issue.
-   * 
+   *
    * Max. 256 characters
    */
   newTitle: Scalars['String'];
@@ -2906,7 +2914,7 @@ export type RemoveIssueFromComponentInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The ID of the issue to remove from the specified component
-   * 
+   *
    * (it will be deleted in the components IMS)
    */
   issue: Scalars['ID'];
@@ -3008,26 +3016,26 @@ export type CreateProjectInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The name of the project
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * The description of the project
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The list of components for the project to be initialized with.
-   * 
+   *
    * If `null`, the peoject will contain no components (However, they can be added later)
    */
   components?: Maybe<Array<Scalars['ID']>>;
   /**
    * The users which will initially be part of the project.
    * The owner will always be added.
-   * 
+   *
    * If `null`, only the owner will be added to the project
    */
   users?: Maybe<Array<Scalars['ID']>>;
@@ -3065,13 +3073,13 @@ export type UpdateProjectInput = {
   projectId: Scalars['ID'];
   /**
    * The name of the project
-   * 
+   *
    * Max. 256 characters
    */
   name?: Maybe<Scalars['String']>;
   /**
    * The description of the project
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
@@ -3133,7 +3141,7 @@ export type CreateComponentInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The (non unique) display name of this component
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
@@ -3141,7 +3149,7 @@ export type CreateComponentInput = {
   owner: Scalars['ID'];
   /**
    * A textual description (of the fuction) of this component.
-   * 
+   *
    * Max. 65536 characters. `null` equivalent to ""
    */
   description?: Maybe<Scalars['String']>;
@@ -3149,7 +3157,7 @@ export type CreateComponentInput = {
   imsType: ImsType;
   /**
    * The endpoint where to reach the IMS of this component instance.
-   * 
+   *
    * In the most cases this will be a URL in the form of
    * ```
    * https://example.com/api/[API_KEY]
@@ -3157,26 +3165,26 @@ export type CreateComponentInput = {
    * where strings in [] can be replaced by the IMS extension with values needed
    * (either dynamid, like the API key of a user or static, like values from the config).
    * See the documentation for the IMS extions for information which keys are expected.
-   * 
+   *
    * In rare cases depending on the IMS type this might be empty or not a URL
    */
   endpoint?: Maybe<Scalars['String']>;
   /**
    * Data needed for the connection to the IMS API.
-   * 
+   *
    * See the documentation for the IMS extions for information which keys are expected.
    * This must be a valid JSON-string
    */
   connectionData?: Maybe<Scalars['JSON']>;
   /**
    * If given, the component will be added to the projects with those IDs.
-   * 
+   *
    * Can be `null`
    */
   projects?: Maybe<Array<Scalars['ID']>>;
   /**
    * If given, the new component will consume the interfacs with the given IDs.
-   * 
+   *
    * Can be `null`
    */
   consumedInterfaces?: Maybe<Array<Scalars['ID']>>;
@@ -3196,13 +3204,13 @@ export type CreateUserInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The unique username used for login.
-   * 
+   *
    * Max. 100 characters.
    */
   username: Scalars['String'];
   /**
    * The name of the user to display in the GUI.
-   * 
+   *
    * Max. 200 characters.
    */
   displayName: Scalars['String'];
@@ -3210,7 +3218,37 @@ export type CreateUserInput = {
   password: Scalars['String'];
   /**
    * The mail address of the user.
-   * 
+   *
+   * Max. 320 characters. Must be a valid email address
+   */
+  email?: Maybe<Scalars['String']>;
+};
+
+/** The Payload/Response for the public registerUser mutation */
+export type RegisterUserPayload = {
+  /** The ID of the user created by this mutation */
+  userId?: Maybe<Scalars['ID']>;
+};
+
+/** The inputs for the registerUser mutation */
+export type RegisterUserInput = {
+  /**
+   * The unique username used for login.
+   *
+   * Max. 100 characters.
+   */
+  username: Scalars['String'];
+  /**
+   * The name of the user to display in the GUI.
+   *
+   * Max. 200 characters.
+   */
+  displayName: Scalars['String'];
+  /** The password for the new user in plain text */
+  password: Scalars['String'];
+  /**
+   * The mail address of the user.
+   *
    * Max. 320 characters. Must be a valid email address
    */
   email?: Maybe<Scalars['String']>;
@@ -3230,25 +3268,25 @@ export type CreateLabelInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The name of the label which to show in the GUI.
-   * 
+   *
    * Max. 256 characters.
    */
   name: Scalars['String'];
   /**
    * The description text for the label.
-   * 
+   *
    * Max. 65536 characters.
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The color of the label
-   * 
+   *
    * Must be a valid Color string
    */
   color: Scalars['Color'];
   /**
    * A list of components to which to add the label. At least one component is required
-   * 
+   *
    * This must be a valid component ids
    */
   components: Array<Scalars['ID']>;
@@ -3263,13 +3301,6 @@ export type CreateProjectMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CreateProjectMutation = { createProject?: Maybe<{ project?: Maybe<Pick<Project, 'id'>> }> };
-
-export type CreateUserMutationVariables = Exact<{
-  input: CreateUserInput;
-}>;
-
-
-export type CreateUserMutation = { createUser?: Maybe<Pick<CreateUserPayload, 'clientMutationID'>> };
 
 export const GetAllProjectsDocument = gql`
     query GetAllProjects {
@@ -3289,7 +3320,7 @@ export const GetAllProjectsDocument = gql`
   })
   export class GetAllProjectsGQL extends Apollo.Query<GetAllProjectsQuery, GetAllProjectsQueryVariables> {
     document = GetAllProjectsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -3309,25 +3340,7 @@ export const CreateProjectDocument = gql`
   })
   export class CreateProjectGQL extends Apollo.Mutation<CreateProjectMutation, CreateProjectMutationVariables> {
     document = CreateProjectDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CreateUserDocument = gql`
-    mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    clientMutationID
-  }
-}
-    `;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
-    document = CreateUserDocument;
-    
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
