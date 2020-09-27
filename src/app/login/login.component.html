@@ -31,7 +31,8 @@
     </div>
   </div>
   -->
-  <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+  <nz-alert *ngIf="invalidCredentials" class="invalid-credentials" nzType="error" nzMessage="Username & Password are invalid" nzShowIcon nzCloseable></nz-alert>
+  <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"  [disabled]="!validateForm.valid" [nzLoading]="isLoading">Log in</button>
   Or <a routerLink='/register'> register now! </a>
 </form>
 </div>

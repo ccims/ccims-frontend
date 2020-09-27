@@ -5,7 +5,8 @@ import { Apollo } from 'apollo-angular';
 import { Observable, Observer } from 'rxjs';
 import { environment } from '@environments/environment';
 import { InMemoryCache } from '@apollo/client/core';
-import { RegisterUserGQL,  RegisterUserInput } from 'src/generated/public-graphql';
+import { CheckUsernameGQL, RegisterUserGQL, RegisterUserInput } from 'src/generated/public-graphql';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,11 +18,13 @@ export class RegisterComponent {
 
   validateForm: FormGroup;
   isLoading = false;
-  graphqlClientName = environment.registerClientName;
+  publicClientName = environment.registerClientName;
 
-  constructor(private fb: FormBuilder, private apollo: Apollo, private registerUserMutation: RegisterUserGQL) {
-    apollo.createNamed(this.graphqlClientName, {uri: environment.signUpUrl, cache: new InMemoryCache()});
-    this.registerUserMutation.client = this.graphqlClientName;
+  constructor(private fb: FormBuilder, private apollo: Apollo, private router: Router,
+              private registerUserMutation: RegisterUserGQL, private userAvailablyQuery: CheckUsernameGQL) {
+    apollo.createNamed(this.publicClientName, { uri: environment.signUpUrl, cache: new InMemoryCache() });
+    this.registerUserMutation.client = this.publicClientName;
+    this.userAvailablyQuery.client = this.publicClientName;
     this.validateForm = this.fb.group({
       username: ['', [Validators.required], [this.userNameAsyncValidator]],
       email: ['', [Validators.email, Validators.required]],
@@ -30,7 +33,7 @@ export class RegisterComponent {
     });
   }
 
-  submitForm(value: { username: string; email: string; password: string; confirm: string}): void {
+  submitForm(value: { username: string; email: string; password: string; confirm: string }): void {
     for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
@@ -42,8 +45,8 @@ export class RegisterComponent {
       email: value.email
     };
 
-    this.registerUserMutation.mutate({input}).subscribe(({ data }) => {
-      console.log('got data', data);
+    this.registerUserMutation.mutate({ input }).subscribe(({ data }) => {
+      this.router.navigate(['login']);
     }, (error) => {
       console.log('there was an error sending the query', error);
     });
@@ -65,15 +68,17 @@ export class RegisterComponent {
 
   userNameAsyncValidator = (control: FormControl) =>
     new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value === 'JasonWood') {
+      this.userAvailablyQuery.fetch({ username: control.value }).subscribe(({ data }) => {
+        if (!data.checkUsername) {
           // you have to return `{error: true}` to mark it as an error event
           observer.next({ error: true, duplicated: true });
         } else {
           observer.next(null);
         }
         observer.complete();
-      }, 1000);
+      }, (error) => {
+        console.log('there was an error sending the query', error);
+      });
     })
 
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {

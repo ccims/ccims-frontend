@@ -8,7 +8,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
         <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-          <input nz-input formControlName="username" placeholder="async validate try to write JasonWood" />
+          <input nz-input formControlName="username" placeholder="" />
           <ng-template #userErrorTpl let-control>
             <ng-container *ngIf="control.hasError('required')">
               Please enter a Username!
@@ -22,7 +22,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="7" nzRequired>Email</nz-form-label>
         <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
-          <input nz-input formControlName="email" placeholder="Email" type="email" />
+          <input nz-input formControlName="email" placeholder="" type="email" />
           <ng-template #emailErrorTpl let-control>
             <ng-container *ngIf="control.hasError('email')">
               Please enter a valid Email!
@@ -42,7 +42,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
         <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
-          <input nz-input type="password" formControlName="confirm" placeholder="Confirm your Password" />
+          <input nz-input type="password" formControlName="confirm" placeholder="" />
           <ng-template #passwordErrorTpl let-control>
             <ng-container *ngIf="control.hasError('required')">
               Please enter your Password!

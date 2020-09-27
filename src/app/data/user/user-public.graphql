@@ -3,3 +3,7 @@ mutation RegisterUser($input: RegisterUserInput!){
 	  userId
 	}
 }
+
+query CheckUsername($username: String!) {
+    checkUsername(username: $username)
+}

@@ -80,6 +80,13 @@ export type RegisterUserMutationVariables = Exact<{
 
 export type RegisterUserMutation = { registerUser?: Maybe<Pick<RegisterUserPayload, 'userId'>> };
 
+export type CheckUsernameQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type CheckUsernameQuery = Pick<Query, 'checkUsername'>;
+
 export const RegisterUserDocument = gql`
     mutation RegisterUser($input: RegisterUserInput!) {
   registerUser(input: $input) {
@@ -93,6 +100,22 @@ export const RegisterUserDocument = gql`
   })
   export class RegisterUserGQL extends Apollo.Mutation<RegisterUserMutation, RegisterUserMutationVariables> {
     document = RegisterUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CheckUsernameDocument = gql`
+    query CheckUsername($username: String!) {
+  checkUsername(username: $username)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CheckUsernameGQL extends Apollo.Query<CheckUsernameQuery, CheckUsernameQueryVariables> {
+    document = CheckUsernameDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

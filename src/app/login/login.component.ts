@@ -12,29 +12,35 @@ import { AuthenticationService } from '../auth/authentication.service';
 export class LoginComponent implements OnInit {
   validateForm!: FormGroup;
   returnUrl: string;
+  isLoading = false;
+  invalidCredentials = false;
 
   submitForm(): void {
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });
-    this.authService.login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value).pipe(first())
-    .subscribe(
-      data => {
+    this.isLoading = true;
+    this.authService.login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value).pipe(
+      first(),
+      )
+      .subscribe(
+        data => {
+          this.isLoading = false;
           this.router.navigate([this.returnUrl]);
-      },
-      error => {
-          console.log(error);
-      });
+        },
+        error => {
+          this.isLoading = false;
+          this.invalidCredentials = true;
+        });
   }
   constructor(private route: ActivatedRoute, private router: Router,
-              private authService: AuthenticationService,  private fb: FormBuilder) { }
+    private authService: AuthenticationService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
       password: [null, [Validators.required]],
-      remember: [true]
     });
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
