@@ -9,6 +9,15 @@ query GetAllProjects($filter: ProjectFilter){
   }
 }
 
+query GetProject($id: ID!) {
+  node(id: $id) {
+    ...on Project {
+      id
+      name
+    }
+  }
+}
+
 
 mutation CreateProject($input: CreateProjectInput!){
   createProject(input: $input){
@@ -23,3 +32,5 @@ mutation DeleteProject($input: DeleteProjectInput!) {
     clientMutationID
   }
 }
+
+
