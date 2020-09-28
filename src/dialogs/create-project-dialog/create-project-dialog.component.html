@@ -1,12 +1,11 @@
 <h1 mat-dialog-title>Create Project</h1>
-<div class="error-div" *ngIf="this.saveFailed" [class.error-display]="this.saveFailed" color="warn"> There went something wrong</div>
-<div mat-dialog-content>
+  <div mat-dialog-content>
   <form >
   <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
     <input #name reqired matInput name="name" >
-    <mat-error *ngIf="this.saveFailed">bad</mat-error>
   </mat-form-field>
+  <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
 </form>
 </div>
 <div mat-dialog-actions>
