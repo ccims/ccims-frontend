@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } fro
 import { Apollo } from 'apollo-angular';
 import { Observable, Observer } from 'rxjs';
 import { environment } from '@environments/environment';
-import { InMemoryCache } from '@apollo/client/core';
 import { CheckUsernameGQL, RegisterUserGQL, RegisterUserInput } from 'src/generated/public-graphql';
 import { Router } from '@angular/router';
 
@@ -18,11 +17,10 @@ export class RegisterComponent {
 
   validateForm: FormGroup;
   isLoading = false;
-  publicClientName = environment.registerClientName;
+  publicClientName = environment.publicClientName;
 
   constructor(private fb: FormBuilder, private apollo: Apollo, private router: Router,
               private registerUserMutation: RegisterUserGQL, private userAvailablyQuery: CheckUsernameGQL) {
-    apollo.createNamed(this.publicClientName, { uri: environment.signUpUrl, cache: new InMemoryCache() });
     this.registerUserMutation.client = this.publicClientName;
     this.userAvailablyQuery.client = this.publicClientName;
     this.validateForm = this.fb.group({

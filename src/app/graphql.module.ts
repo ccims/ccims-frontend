@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { APOLLO_NAMED_OPTIONS, APOLLO_OPTIONS, NamedOptions } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 import { setContext } from '@apollo/link-context';
@@ -9,14 +9,50 @@ import { AuthenticationService } from './auth/authentication.service';
 import { environment } from '@environments/environment';
 
 
-export function provideApollo(httpLink: HttpLink, authService: AuthenticationService): ApolloClientOptions<any> {
+const basic = setContext((operation, context) => ({
+  headers: {
+    Accept: 'charset=utf-8'
+  }
+}));
 
-  const basic = setContext((operation, context) => ({
-    headers: {
-      Accept: 'charset=utf-8'
+const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+  if (graphQLErrors) {
+    for (const err of graphQLErrors) {
+      console.log(`[Graphql errors]: ${graphQLErrors}`);
+      switch (err.extensions.code) {
+        case 'UNAUTHENTICATED':
+          // error code is set to UNAUTHENTICATED
+          // when AuthenticationError thrown in resolver
+          /*
+          // modify the operation context with a new token
+          const oldHeaders = operation.getContext().headers;
+          operation.setContext({
+            headers: {
+              ...oldHeaders,
+              authorization: getNewToken(),
+            },
+          });
+          // retry the request, returning the new observable
+          return forward(operation);
+          */
+          this.authService.logout(); break;
+        default:
+          console.log(`[Graphql errors]: ${graphQLErrors}`);
+      }
+
     }
-  }));
+  }
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`);
+    // if you would also like to retry automatically on
+    // network errors, we recommend that you use
+    // apollo-link-retry
+  }
+}
+);
 
+
+export function provideDefaultApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   const token = localStorage.getItem('token');
 
   const auth = setContext((_, { headers }) => {
@@ -30,45 +66,23 @@ export function provideApollo(httpLink: HttpLink, authService: AuthenticationSer
     };
   });
 
-  const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
-    if (graphQLErrors) {
-      for (const err of graphQLErrors) {
-        switch (err.extensions.code) {
-          case 'UNAUTHENTICATED':
-            // error code is set to UNAUTHENTICATED
-            // when AuthenticationError thrown in resolver
-            /*
-            // modify the operation context with a new token
-            const oldHeaders = operation.getContext().headers;
-            operation.setContext({
-              headers: {
-                ...oldHeaders,
-                authorization: getNewToken(),
-              },
-            });
-            // retry the request, returning the new observable
-            return forward(operation);
-            */
-            authService.logout(); break;
-          default:
-            console.log(`[Graphql errors]: ${graphQLErrors}`);
-        }
 
-      }
-    }
-    if (networkError) {
-      console.log(`[Network error]: ${networkError}`);
-      // if you would also like to retry automatically on
-      // network errors, we recommend that you use
-      // apollo-link-retry
-    }
-  }
-  );
   const link = ApolloLink.from([basic, auth, httpLink.create({ uri: environment.apiUrl })]);
   const cache = new InMemoryCache();
   return {
     link,
     cache
+  };
+}
+
+export function providePublicApollo(httpLink: HttpLink, authService: AuthenticationService): NamedOptions {
+  const link = ApolloLink.from([basic, errorLink, httpLink.create({ uri: environment.signUpUrl })]);
+  const cache = new InMemoryCache();
+  return {
+    publicClient: {
+      link,
+      cache
+    }
   };
 }
 
@@ -79,9 +93,16 @@ export function provideApollo(httpLink: HttpLink, authService: AuthenticationSer
   providers: [
     {
       provide: APOLLO_OPTIONS,
-      useFactory: provideApollo,
+      useFactory: provideDefaultApollo,
       deps: [HttpLink],
     },
+    {
+      provide: APOLLO_NAMED_OPTIONS,
+      useFactory: providePublicApollo,
+      deps: [HttpLink],
+    }
   ],
 })
-export class GraphQLModule { }
+export class GraphQLModule {
+  constructor(authService: AuthenticationService) {}
+ }
