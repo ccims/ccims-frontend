@@ -20,7 +20,7 @@ export class RemoveDialogComponent implements OnInit {
   }
   onDeleteClick(): void {
     this.loading = true;
-    this.ps.delete(this.data.ID).subscribe(({ data }) => {
+    this.ps.delete(this.data.id).subscribe(({ data }) => {
       console.log('got data', data);
       this.loading = false;
       // this.reloadProjects();
@@ -33,4 +33,5 @@ export class RemoveDialogComponent implements OnInit {
 }
 export interface DialogData {
   name: string;
+  id: string;
 }

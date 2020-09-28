@@ -25,7 +25,7 @@ export class ProjectListComponent implements OnInit {
     event.preventDefault();
     event.stopImmediatePropagation();
     // open remove dialog
-    const RemoveDialogRef = this.dialog.open(RemoveDialogComponent, {data: {name: project.name}});
+    const RemoveDialogRef = this.dialog.open(RemoveDialogComponent, {data: {name: project.name, id:project.id}});
     RemoveDialogRef.afterClosed().subscribe(projectToDelete => {
       if (projectToDelete) {
         this.reloadProjects();
