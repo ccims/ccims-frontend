@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
@@ -32,6 +32,13 @@ export class ProjectListComponent implements OnInit {
     const createComponentDialogRef = this.dialog.open(CreateProjectDialogComponent);
     createComponentDialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.changeColour();
       this.ps.getAll().subscribe(projects => this.projects = projects);
     });
-}}
+
+}
+private changeColour(): void {
+  const b = document.querySelector('#buttonCreateProject') as HTMLElement;
+  b.blur();
+}
+}

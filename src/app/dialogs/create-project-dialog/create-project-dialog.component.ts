@@ -15,7 +15,6 @@ export class CreateProjectDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>, private ps: ProjectStoreService) { this.loading = false; }
   email = new FormControl('', [Validators.required]);
-
   getErrorMessage() {
     if (this.email.hasError('required')) {
       return 'You must enter a value';
