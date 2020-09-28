@@ -25,20 +25,13 @@ export class ProjectListComponent implements OnInit {
     event.preventDefault();
     event.stopImmediatePropagation();
     // open remove dialog
-    const RemoveDialogRef = this.dialog.open(RemoveDialogComponent, {data: {name: project.name, ID: project.id, pro: project}});
-    RemoveDialogRef.afterClosed().subscribe(projectInfo => {
-      if (projectInfo) {
+    const RemoveDialogRef = this.dialog.open(RemoveDialogComponent, {data: {name: project.name}});
+    RemoveDialogRef.afterClosed().subscribe(projectToDelete => {
+      if (projectToDelete) {
         this.reloadProjects();
       }
 
     }); // end Dialog handling
-    /*
-    this.ps.delete(project.id).subscribe(({ data }) => {
-      console.log('got data', data);
-      this.reloadProjects();
-    }, (error) => {
-      console.log('there was an error sending the query', error);
-    });*/
   }
 
   public reloadProjects(): void {

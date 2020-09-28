@@ -28,11 +28,9 @@ export class RemoveDialogComponent implements OnInit {
       console.log('there was an error sending the query', error);
       this.loading = false;
     });
-    this.dialogRef.close();
+    this.dialogRef.close(this.data.name);
   }
 }
 export interface DialogData {
   name: string;
-  ID: string;
-  pro: Project;
 }
