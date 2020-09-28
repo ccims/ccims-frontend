@@ -14,7 +14,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient, private apollo: Apollo) {
+  constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(this.fetchUserFromStorage());
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -55,7 +55,7 @@ return of(currentUser);
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     // reset the store after that
-    this.apollo.client.resetStore();
+    //this.apollo.client.resetStore();
     this.currentUserSubject.next(null);
   }
 }

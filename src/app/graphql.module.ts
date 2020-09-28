@@ -89,8 +89,8 @@ export function provideDefaultApollo(httpLink: HttpLink): ApolloClientOptions<an
   };
 }
 
-export function providePublicApollo(httpLink: HttpLink, toastr: ToastrService): NamedOptions {
-  const errorLink = createErrorLink(null, toastr);
+export function providePublicApollo(httpLink: HttpLink, authService: AuthenticationService, toastr: ToastrService): NamedOptions {
+  const errorLink = createErrorLink(authService, toastr);
   const link = ApolloLink.from([basic, errorLink, httpLink.create({ uri: environment.signUpUrl })]);
   const cache = new InMemoryCache();
   return {
@@ -117,7 +117,7 @@ export function providePublicApollo(httpLink: HttpLink, toastr: ToastrService): 
     {
       provide: APOLLO_NAMED_OPTIONS,
       useFactory: providePublicApollo,
-      deps: [HttpLink, ToastrService],
+      deps: [HttpLink,  AuthenticationService, ToastrService],
     }
   ],
 })
