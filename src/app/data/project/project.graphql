@@ -17,3 +17,9 @@ mutation CreateProject($input: CreateProjectInput!){
     }
   }
 }
+
+mutation DeleteProject($input: DeleteProjectInput!) {
+  deleteProject(input: $input){
+    clientMutationID
+  }
+}

@@ -23,7 +23,8 @@ export class ProjectListComponent implements OnInit {
   remove(event: Event, project: Project) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    console.log('Removing ' + project.name);
+    this.ps.delete(project.id).subscribe();
+    this.ps.getAll().subscribe(projects => this.projects = projects);
   }
 
   public openCreateProjectDialog(): void {

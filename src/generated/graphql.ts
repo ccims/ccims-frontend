@@ -3306,6 +3306,13 @@ export type CreateProjectMutationVariables = Exact<{
 
 export type CreateProjectMutation = { createProject?: Maybe<{ project?: Maybe<Pick<Project, 'id'>> }> };
 
+export type DeleteProjectMutationVariables = Exact<{
+  input: DeleteProjectInput;
+}>;
+
+
+export type DeleteProjectMutation = { deleteProject?: Maybe<Pick<DeleteProjectPayload, 'clientMutationID'>> };
+
 export const GetAllProjectsDocument = gql`
     query GetAllProjects($filter: ProjectFilter) {
   projects(filterBy: $filter) {
@@ -3344,6 +3351,24 @@ export const CreateProjectDocument = gql`
   })
   export class CreateProjectGQL extends Apollo.Mutation<CreateProjectMutation, CreateProjectMutationVariables> {
     document = CreateProjectDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteProjectDocument = gql`
+    mutation DeleteProject($input: DeleteProjectInput!) {
+  deleteProject(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteProjectGQL extends Apollo.Mutation<DeleteProjectMutation, DeleteProjectMutationVariables> {
+    document = DeleteProjectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
