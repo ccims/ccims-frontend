@@ -7,7 +7,14 @@ import { onError } from '@apollo/client/link/error';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from './auth/authentication.service';
 import { environment } from '@environments/environment';
+import { IndividualConfig, ToastrModule, ToastrService } from 'ngx-toastr';
 
+
+const networkErrorToast: Partial<IndividualConfig> = {
+  timeOut: 5000,
+  closeButton: true,
+  positionClass: 'toast-top-center'
+};
 
 const basic = setContext((operation, context) => ({
   headers: {
@@ -15,41 +22,48 @@ const basic = setContext((operation, context) => ({
   }
 }));
 
-const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
-  if (graphQLErrors) {
-    for (const err of graphQLErrors) {
-      console.log(`[Graphql errors]: ${graphQLErrors}`);
-      switch (err.extensions.code) {
-        case 'UNAUTHENTICATED':
-          // error code is set to UNAUTHENTICATED
-          // when AuthenticationError thrown in resolver
-          /*
-          // modify the operation context with a new token
-          const oldHeaders = operation.getContext().headers;
-          operation.setContext({
-            headers: {
-              ...oldHeaders,
-              authorization: getNewToken(),
-            },
-          });
-          // retry the request, returning the new observable
-          return forward(operation);
-          */
-          this.authService.logout(); break;
-        default:
-          console.log(`[Graphql errors]: ${graphQLErrors}`);
-      }
+export function createErrorLink(authService: AuthenticationService, toastr: ToastrService) {
+  const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+    if (graphQLErrors) {
+      for (const err of graphQLErrors) {
+        console.log(`[Graphql errors]: ${graphQLErrors}`);
+        switch (err.extensions.code) {
+          case 'UNAUTHENTICATED':
+            // error code is set to UNAUTHENTICATED
+            // when AuthenticationError thrown in resolver
+            /*
+            // modify the operation context with a new token
+            const oldHeaders = operation.getContext().headers;
+            operation.setContext({
+              headers: {
+                ...oldHeaders,
+                authorization: getNewToken(),
+              },
+            });
+            // retry the request, returning the new observable
+            return forward(operation);
+            */
+            authService.logout(); break;
+          default:
+            console.log(`[Graphql errors]: ${graphQLErrors}`);
+        }
 
+      }
+    }
+    if (networkError) {
+      console.log(`[Network error]: ${networkError}`);
+      toastr.error('Server/Connection error', '', networkErrorToast);
+      // if you would also like to retry automatically on
+      // network errors, we recommend that you use
+      // apollo-link-retry
     }
   }
-  if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
-    // if you would also like to retry automatically on
-    // network errors, we recommend that you use
-    // apollo-link-retry
-  }
+  );
+  return errorLink;
 }
-);
+
+
+
 
 
 export function provideDefaultApollo(httpLink: HttpLink): ApolloClientOptions<any> {
@@ -75,7 +89,8 @@ export function provideDefaultApollo(httpLink: HttpLink): ApolloClientOptions<an
   };
 }
 
-export function providePublicApollo(httpLink: HttpLink, authService: AuthenticationService): NamedOptions {
+export function providePublicApollo(httpLink: HttpLink, toastr: ToastrService): NamedOptions {
+  const errorLink = createErrorLink(null, toastr);
   const link = ApolloLink.from([basic, errorLink, httpLink.create({ uri: environment.signUpUrl })]);
   const cache = new InMemoryCache();
   return {
@@ -87,6 +102,9 @@ export function providePublicApollo(httpLink: HttpLink, authService: Authenticat
 }
 
 @NgModule({
+  imports: [
+    ToastrModule,
+  ],
   exports: [
     HttpClientModule
   ],
@@ -99,10 +117,9 @@ export function providePublicApollo(httpLink: HttpLink, authService: Authenticat
     {
       provide: APOLLO_NAMED_OPTIONS,
       useFactory: providePublicApollo,
-      deps: [HttpLink],
+      deps: [HttpLink, ToastrService],
     }
   ],
 })
 export class GraphQLModule {
-  constructor(authService: AuthenticationService) {}
- }
+}
