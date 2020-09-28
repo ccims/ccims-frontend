@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Remove {{data.name}}</h1>
+  <div mat-dialog-content>
+   <p>Do you realy want to remove</p>
+   <h3> {{data.name}}</h3>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [class.spinner]="loading" [disabled]="loading"  (click)="onDeleteClick()" [mat-dialog-close]="data.pro">Delete</button>
+</div>

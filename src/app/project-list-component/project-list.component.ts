@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject} from '@angular/core';
+import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
+import { RemoveDialogComponent } from 'src/app/dialogs/remove-dialog/remove-dialog.component';
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -23,12 +24,21 @@ export class ProjectListComponent implements OnInit {
   remove(event: Event, project: Project) {
     event.preventDefault();
     event.stopImmediatePropagation();
+    // open remove dialog
+    const RemoveDialogRef = this.dialog.open(RemoveDialogComponent, {data: {name: project.name, ID: project.id, pro: project}});
+    RemoveDialogRef.afterClosed().subscribe(projectInfo => {
+      if (projectInfo) {
+        this.reloadProjects();
+      }
+
+    }); // end Dialog handling
+    /*
     this.ps.delete(project.id).subscribe(({ data }) => {
       console.log('got data', data);
       this.reloadProjects();
     }, (error) => {
       console.log('there was an error sending the query', error);
-    });
+    });*/
   }
 
   public reloadProjects(): void {
