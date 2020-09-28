@@ -38,7 +38,7 @@ import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
 import { RegisterComponent } from './register/register.component';
-import { CreateProjectDialogComponent } from '../dialogs/create-project-dialog/create-project-dialog.component';
+import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 registerLocaleData(en);

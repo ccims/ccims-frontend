@@ -26,8 +26,9 @@ text-align: center;
 //animation-duration: .5s;
 opacity: .8;
 animation: fadeIn .7s;
-
-
+}
+.error-message {
+  margin-bottom: 24px;
 }
 @keyframes error-display {
   from { transform: translatey(-25px)}

@@ -29,7 +29,10 @@ export class CreateProjectDialogComponent implements OnInit {
     // console.log(this.name);
     this.dialogRef.close();
   }
+  afterAlertClose(): void {
+  this.saveFailed = false;
 
+}
   onOkClick(name: string): void{
     this.loading = true;
     // console.log(this.url)

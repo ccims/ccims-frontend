@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateProjectDialogComponent } from 'src/dialogs/create-project-dialog/create-project-dialog.component';
+import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
 @Component({
