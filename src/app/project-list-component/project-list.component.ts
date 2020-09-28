@@ -28,5 +28,6 @@ export class ProjectListComponent implements OnInit {
     const createComponentDialogRef = this.dialog.open(CreateProjectDialogComponent);
     createComponentDialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.ps.getAll().subscribe(projects => this.projects = projects);
     });
 }}

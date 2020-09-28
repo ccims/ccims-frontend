@@ -8,7 +8,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from './auth/authentication.service';
 import { environment } from '@environments/environment';
 import { IndividualConfig, ToastrModule, ToastrService } from 'ngx-toastr';
+import { DefaultOptions } from '@apollo/client/core/ApolloClient';
 
+const defaultOptions: DefaultOptions = {
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+  }
+};
 
 const networkErrorToast: Partial<IndividualConfig> = {
   timeOut: 5000,
@@ -85,7 +92,8 @@ export function provideDefaultApollo(httpLink: HttpLink): ApolloClientOptions<an
   const cache = new InMemoryCache();
   return {
     link,
-    cache
+    cache,
+    defaultOptions
   };
 }
 
@@ -96,7 +104,8 @@ export function providePublicApollo(httpLink: HttpLink, authService: Authenticat
   return {
     publicClient: {
       link,
-      cache
+      cache,
+      defaultOptions
     }
   };
 }
