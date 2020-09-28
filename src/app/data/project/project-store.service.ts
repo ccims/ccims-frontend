@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ApolloQueryResult } from '@apollo/client/core';
-import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import { CreateProjectGQL, CreateProjectInput, DeleteProjectGQL, DeleteProjectInput, GetAllProjectsGQL, Project, ProjectFilter } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
@@ -12,7 +10,7 @@ import { AuthenticationService } from '@app/auth/authentication.service';
 export class ProjectStoreService {
 
   constructor(private authService: AuthenticationService, private getAllQuery: GetAllProjectsGQL, private createProject: CreateProjectGQL,
-    private deleteProject: DeleteProjectGQL) {
+              private deleteProject: DeleteProjectGQL) {
   }
 
   create(name: string) {
@@ -30,16 +28,6 @@ export class ProjectStoreService {
     return this.deleteProject.mutate({input});
   }
 
-    /*
-    this.apollo.mutate({
-      mutation: this.CREATE
-    }).subscribe(({ data }) => {
-      console.log('got data', data);
-    }, (error) => {
-      console.log('there was an error sending the query', error);
-    });
-    */
-
   getAll(): Observable<Pick<Project, 'id' | 'name'>[]>{
     const filter: ProjectFilter = {
       owner: [this.authService.currentUserValue.id]
@@ -53,9 +41,5 @@ export class ProjectStoreService {
   getSingle(id: number): Project {
     return this.projects.find(project => project.id === id);
   }
-  delete(projectId: string) {
-
-  }
   */
-
 }
