@@ -20,9 +20,12 @@ export class ProjectListComponent implements OnInit {
     // this.projects=[{name:'erstes',id:'1'},{name:'ezweites Projekt',id:'2'},
     // {name:'drittes Projekt',id:'3'},{name:'viertes Projekt',id:'4'}];
   }
-  remove(project: Project) {
-    console.log('Removing ' + project);
+  remove(event: Event, project: Project) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    console.log('Removing ' + project.name);
   }
+
   public openCreateProjectDialog(): void {
 
     const createComponentDialogRef = this.dialog.open(CreateProjectDialogComponent);
