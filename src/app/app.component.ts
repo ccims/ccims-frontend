@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StateService } from './state.service';
 
 
 @Component({
@@ -9,6 +10,6 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'CCIMS';
 
-  constructor() { }
+  constructor(private state: StateService) { }
 
 }
