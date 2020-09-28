@@ -15,9 +15,10 @@
 <mat-nav-list class="mat-nav-list-padding-removed">
      <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
      <span matLine>{{ project.name }}</span>
-     <button mat-icon-button>
+     <!--<button mat-icon-button>
         <mat-icon>info</mat-icon>
      </button>
+    -->
      <button mat-icon-button (click)="remove($event, project)">
       <mat-icon>delete</mat-icon>
   </button>

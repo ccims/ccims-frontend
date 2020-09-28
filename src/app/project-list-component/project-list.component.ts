@@ -23,7 +23,15 @@ export class ProjectListComponent implements OnInit {
   remove(event: Event, project: Project) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    this.ps.delete(project.id).subscribe();
+    this.ps.delete(project.id).subscribe(({ data }) => {
+      console.log('got data', data);
+      this.reloadProjects();
+    }, (error) => {
+      console.log('there was an error sending the query', error);
+    });
+  }
+
+  public reloadProjects(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
   }
 
@@ -32,6 +40,6 @@ export class ProjectListComponent implements OnInit {
     const createComponentDialogRef = this.dialog.open(CreateProjectDialogComponent);
     createComponentDialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      this.ps.getAll().subscribe(projects => this.projects = projects);
+      this.reloadProjects();
     });
 }}

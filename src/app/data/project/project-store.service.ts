@@ -12,7 +12,7 @@ import { AuthenticationService } from '@app/auth/authentication.service';
 export class ProjectStoreService {
 
   constructor(private authService: AuthenticationService, private getAllQuery: GetAllProjectsGQL, private createProject: CreateProjectGQL,
-    private deleteProject: DeleteProjectGQL) {
+              private deleteProject: DeleteProjectGQL) {
   }
 
   create(name: string) {
@@ -52,9 +52,6 @@ export class ProjectStoreService {
   /*
   getSingle(id: number): Project {
     return this.projects.find(project => project.id === id);
-  }
-  delete(projectId: string) {
-
   }
   */
 
