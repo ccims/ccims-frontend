@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-//import { CreateComponentDialogComponent } from '../dialogs/create-component-dialog-demo/create-component-dialog.component';
+// import { CreateComponentDialogComponent } from '../dialogs/create-component-dialog-demo/create-component-dialog.component';
 import { Project, IssueType } from 'src/app/model/state';
-//import { ComponentPartial } from '../reducers/components.actions';
-//import { ApiService } from '../api/api.service';
+// import { ComponentPartial } from '../reducers/components.actions';
+// import { ApiService } from '../api/api.service';
 import { projA } from 'src/app/model/demo-state';
 import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
 
@@ -48,7 +48,7 @@ export class IssueGraphControlsComponent implements OnInit {
       console.log("Show create component dialog");
       const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent);
       createComponentDialogRef.afterClosed().subscribe(componentInformation => {
-      //console.log(componentInformation);
+      // console.log(componentInformation);
       // do something
       });
 

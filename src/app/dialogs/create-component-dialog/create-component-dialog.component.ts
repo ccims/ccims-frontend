@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { GraphComponent } from '../../model/state';
-//import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
+// import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 import { GraphStoreService } from '@app/graphs/graph-store.service';
 @Component({
@@ -18,7 +18,7 @@ export class CreateComponentDialogComponent implements OnInit {
   public saveFailed: boolean;
   validateForm!: FormGroup;
   private zeroPosition: Point = {x: 0, y: 0};
-  //private gs:GraphStoreService;
+  // private gs:GraphStoreService;
   constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>, private fb: FormBuilder,
               private gs: GraphStoreService) { this.loading = false; }
 
@@ -37,7 +37,7 @@ export class CreateComponentDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onOkClick(name: string, url: string, description:string): void{
+  onOkClick(name: string, url: string, description: string): void{
     // check for valid form
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
