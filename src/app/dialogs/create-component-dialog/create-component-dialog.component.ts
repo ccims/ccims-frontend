@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { GraphComponent } from '../../model/state';
-import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
+//import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import { GraphStoreService } from '@app/graphs/graph-store.service';
 @Component({
   selector: 'app-create-component-dialog',
   templateUrl: './create-component-dialog.component.html',
@@ -17,7 +18,9 @@ export class CreateComponentDialogComponent implements OnInit {
   public saveFailed: boolean;
   validateForm!: FormGroup;
   private zeroPosition: Point = {x: 0, y: 0};
-  constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>, private fb: FormBuilder) { this.loading = false; }
+  //private gs:GraphStoreService;
+  constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>, private fb: FormBuilder,
+              private gs: GraphStoreService) { this.loading = false; }
 
   validationName = new FormControl('', [Validators.required]);
   validationUrl = new FormControl('', [Validators.required]);
@@ -44,17 +47,16 @@ export class CreateComponentDialogComponent implements OnInit {
     let component: GraphComponent;
     // TODO: Anfrage Backend --> Componente Anlegen
     // TODO: ID entgegennehmen und der Komponente hinzufügen
-
+     // copied state
     component = {
-      id:'1000',
-      // copied state
+      id: '1000',
       name: this.name,
-    description: this.description,
-    imsId: null,
-    imsRepository: null,
-    owner: null,
-    interfaces: {},
-    issueCounts: {
+      description: this.description,
+      imsId: null,
+      imsRepository: null,
+      owner: null,
+      interfaces: {},
+      issueCounts: {
       UNCLASSIFIED: 0,
       BUG: 1,
       FEATURE_REQUEST: 2
@@ -62,10 +64,10 @@ export class CreateComponentDialogComponent implements OnInit {
     issues: [],
     position: this.zeroPosition,
     componentRelations: []
-      // copied state
+    }; // copied state
 
-    };
     // TODO: Update Graph State
+     // this.gs.addComponent(component);  // does not work
 
     this.loading = false;
     if (!this.saveFailed){
