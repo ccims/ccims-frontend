@@ -1,8 +1,8 @@
-<app-top-toolbar (menuClick)="logMenuToggle()" [showMenuButton]="isProjectSet$"></app-top-toolbar>
+<app-top-toolbar (menuClick)="logMenuToggle()" [showMenuButton]="isProjectSet$|async"></app-top-toolbar>
 <mat-sidenav-container class="sidenav-container">
   <!--if you set fixedInViewPort on the sidenav it will appear to the left of the mat-tooblar instead of under it-->
-  <mat-sidenav fixedInViewPort="true" class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false" *ngIf="isProjectSet$ && showDrawer">
+  <mat-sidenav class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false" *ngIf="(isProjectSet$|async) && showDrawer">
     <app-side-nav></app-side-nav>
   </mat-sidenav>
   <mat-sidenav-content>
