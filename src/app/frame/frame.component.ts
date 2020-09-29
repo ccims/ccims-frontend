@@ -29,6 +29,5 @@ export class FrameComponent implements OnInit {
   }
   logMenuToggle(): void {
     this.showDrawer = !this.showDrawer;
-    console.log("Menu toggl");
   }
 }
