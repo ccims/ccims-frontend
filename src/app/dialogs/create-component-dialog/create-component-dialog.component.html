@@ -12,11 +12,16 @@
     <input #url reqired matInput  [formControl]="validationUrl" >
     <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
   </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <input #description matInput >
+
+  </mat-form-field>
   <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
 </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [class.spinner]="loading" [disabled]="loading || validationName.invalid || validationUrl.invalid" (click)="onOkClick(name.value, url.value)">Create</button>
+  <button mat-button [class.spinner]="loading" [disabled]="loading || validationName.invalid || validationUrl.invalid" (click)="onOkClick(name.value, url.value, description.value)">Create</button>
 </div>
 </div>
