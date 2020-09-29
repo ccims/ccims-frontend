@@ -3299,6 +3299,13 @@ export type GetAllProjectsQueryVariables = Exact<{
 
 export type GetAllProjectsQuery = { projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id' | 'name'>> }>>> }> };
 
+export type GetProjectQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetProjectQuery = { node?: Maybe<Pick<Project, 'id' | 'name'>> };
+
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
 }>;
@@ -3331,6 +3338,27 @@ export const GetAllProjectsDocument = gql`
   })
   export class GetAllProjectsGQL extends Apollo.Query<GetAllProjectsQuery, GetAllProjectsQueryVariables> {
     document = GetAllProjectsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetProjectDocument = gql`
+    query GetProject($id: ID!) {
+  node(id: $id) {
+    ... on Project {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
+    document = GetProjectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
