@@ -10,6 +10,8 @@ import { StateService } from '@app/state.service';
   styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent {
+  readonly defaultMenuTitle = 'Menu';
+  public menuTitle = this.defaultMenuTitle;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -17,5 +19,10 @@ export class SideNavComponent {
     shareReplay()
   );
 
-constructor(private breakpointObserver: BreakpointObserver, public ss: StateService) {}
+constructor(private breakpointObserver: BreakpointObserver, public ss: StateService) {
+  ss.state$.subscribe(appState => {
+    this.menuTitle = (appState.project != null) ? appState.project.name : this.defaultMenuTitle;
+  });
+}
+
 }
