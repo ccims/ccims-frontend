@@ -1,7 +1,7 @@
-<h1 mat-dialog-title>Remove {{data.name}}</h1>
-  <div mat-dialog-content>
-   <p>Do you realy want to remove</p>
-   <h3> {{data.name}}</h3>
+<h1 mat-dialog-title>Are you sure?</h1>
+<nz-alert  nzType="warning" nzMessage="Do you want to delete the Project?" nzShowIcon></nz-alert>
+  <div mat-dialog-content style="margin-top: 20px;">
+   <h2> {{data.name}}</h2>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
