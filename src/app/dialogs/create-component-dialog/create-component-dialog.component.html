@@ -1,0 +1,27 @@
+<div class="dialog-wrapper">
+<h1 mat-dialog-title>Create Component</h1>
+  <div mat-dialog-content>
+  <form [formGroup]="validateForm">
+  <mat-form-field style="width: 100%;"appearance="outline">
+    <mat-label>Name</mat-label>
+    <input #name reqired matInput  [formControl]="validationName" >
+    <mat-error *ngIf="validationName.invalid">Name your Component</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Repository-URL</mat-label>
+    <input #url reqired matInput  [formControl]="validationUrl" >
+    <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
+  </mat-form-field>
+  <mat-form-field style="width: 100%;" appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea style="height: 66px;" #description matInput ></textarea>
+
+  </mat-form-field>
+  <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
+</form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [class.spinner]="loading" [disabled]="loading || validationName.invalid || validationUrl.invalid" (click)="onOkClick(name.value, url.value, description.value)">Create</button>
+</div>
+</div>
