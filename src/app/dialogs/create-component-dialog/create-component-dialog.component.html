@@ -12,9 +12,9 @@
     <input #url reqired matInput  [formControl]="validationUrl" >
     <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
   </mat-form-field>
-  <mat-form-field appearance="outline">
+  <mat-form-field style="width: 100%;" appearance="outline">
     <mat-label>Description</mat-label>
-    <input #description matInput >
+    <textarea style="height: 66px;" #description matInput ></textarea>
 
   </mat-form-field>
   <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
