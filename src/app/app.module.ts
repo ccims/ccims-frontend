@@ -44,6 +44,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { GlobalConfig, ToastrModule } from 'ngx-toastr';
 import { RemoveDialogComponent } from './dialogs/remove-dialog/remove-dialog.component';
+import { CreateComponentDialogComponent } from './dialogs/create-component-dialog/create-component-dialog.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -69,7 +70,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     FrameComponent,
     RegisterComponent,
     CreateProjectDialogComponent,
-    RemoveDialogComponent
+    RemoveDialogComponent,
+    CreateComponentDialogComponent
   ],
   imports: [
     BrowserModule,

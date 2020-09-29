@@ -40,8 +40,8 @@ export class ProjectListComponent implements OnInit {
 
   public openCreateProjectDialog(): void {
 
-    const createComponentDialogRef = this.dialog.open(CreateProjectDialogComponent);
-    createComponentDialogRef.afterClosed().subscribe(result => {
+    const createProjectDialogRef = this.dialog.open(CreateProjectDialogComponent);
+    createProjectDialogRef.afterClosed().subscribe(result => {
       console.log(result);
 
       this.changeColour();

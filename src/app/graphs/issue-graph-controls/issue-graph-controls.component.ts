@@ -5,6 +5,7 @@ import { Project, IssueType } from 'src/app/model/state';
 //import { ComponentPartial } from '../reducers/components.actions';
 //import { ApiService } from '../api/api.service';
 import { projA } from 'src/app/model/demo-state';
+import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
 
 
 @Component({
@@ -45,6 +46,12 @@ export class IssueGraphControlsComponent implements OnInit {
        });
        */
       console.log("Show create component dialog");
+      const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent);
+      createComponentDialogRef.afterClosed().subscribe(componentInformation => {
+      //console.log(componentInformation);
+      // do something
+      });
+
       return;
    }
 
