@@ -27,12 +27,15 @@ padding-bottom: 20px;
   height: auto;
   width: 100%;
 }
-.logo {
-  background-image: url(/assets/CCIMS.png);
-  background-size: contain;
-  background-repeat: no-repeat;
+.logo-container {
   height: 80px;
-  margin: auto;
+}
+.logo-image {
+  text-align: center;
+  height: 80px;
+  width: auto;
+  left: 50%;
+  //transform: translate(-50%);
 }
 .headline {
   height: auto;
