@@ -13,11 +13,28 @@ export class StateService {
   state$ = new ReplaySubject<AppState>(1);
 
   constructor(private router: Router, private ps: ProjectStoreService) {
+    this.syncStateWithUrl(router, ps);
+  }
+
+  /**
+   * Sets up two mutually exclusive (look at filter) subscriptions to track whether we are at a
+   * url referring to a project or not
+   * @param router
+   * @param ps
+   */
+  syncStateWithUrl(router: Router, ps: ProjectStoreService) {
     router.events.pipe(
       filter(event => (event instanceof NavigationEnd && this.isProjectURL(event.url))),
-      switchMap((event: NavigationEnd) => ps.get(this.router.parseUrl(event.url).root.children[PRIMARY_OUTLET].segments[1].path))
+      switchMap((event: NavigationEnd) => ps.get(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path))
     ).subscribe(project => {
       this.state.project = project;
+      this.state$.next(this.state);
+    });
+
+    router.events.pipe(
+      filter(event => (event instanceof NavigationEnd && !this.isProjectURL(event.url))),
+    ).subscribe(_ =>  {
+      this.state.project = null;
       this.state$.next(this.state);
     });
   }
