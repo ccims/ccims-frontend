@@ -11,6 +11,7 @@ import { StateService } from '@app/state.service';
 })
 export class FrameComponent implements OnInit {
   public isProjectSet$ = new BehaviorSubject<boolean>(false);
+  public showDrawer = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -25,5 +26,9 @@ export class FrameComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  logMenuToggle(): void {
+    this.showDrawer = !this.showDrawer;
+    console.log("Menu toggl");
   }
 }
