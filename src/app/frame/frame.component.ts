@@ -11,7 +11,7 @@ import { StateService } from '@app/state.service';
 })
 export class FrameComponent implements OnInit {
   public isProjectSet$ = new BehaviorSubject<boolean>(false);
-  public showDrawer = false;
+  public showDrawer = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
