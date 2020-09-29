@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <!--add *ngIf="isHandset$ | async" within the button tag if u want to show the menu toggle button on mobile only-->
-  <button mat-icon-button class="example-icon" aria-label="Toggle sidenav" (click)="this.handleClick()">
+  <button mat-icon-button class="example-icon" aria-label="Toggle sidenav" (click)="this.handleClick()" [hidden]="!showMenuButton">
     <mat-icon>menu</mat-icon>
   </button>
   <!--<span>CCIMS</span>-->

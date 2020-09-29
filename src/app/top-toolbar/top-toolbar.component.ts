@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -10,6 +10,9 @@ import { AuthenticationService } from '@app/auth/authentication.service';
   styleUrls: ['./top-toolbar.component.scss']
 })
 export class TopToolbarComponent {
+  @Input()
+  showMenuButton = false;
+
   @Output()
   public menuClick = new EventEmitter();
 
