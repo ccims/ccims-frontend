@@ -24,11 +24,15 @@ export class CreateComponentDialogComponent implements OnInit {
 
   validationName = new FormControl('', [Validators.required]);
   validationUrl = new FormControl('', [Validators.required]);
+  validationIMS = new FormControl('', [Validators.required]);
+  validationProvider = new FormControl('', [Validators.required]);
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
-      url:  [null, [Validators.required]]
+      url:  [null, [Validators.required]],
+      ims:  [null, [Validators.required]],
+      provider:  [null, [Validators.required]]
     });
   }
 
