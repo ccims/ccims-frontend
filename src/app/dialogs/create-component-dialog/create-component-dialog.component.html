@@ -2,26 +2,20 @@
 <h1 mat-dialog-title>Create Component</h1>
   <div mat-dialog-content>
   <form [formGroup]="validateForm">
-  <mat-form-field style="width: 100%;"appearance="outline">
+  <mat-form-field class="stretch" appearance="outline">
     <mat-label>Name</mat-label>
-    <input #name reqired matInput  [formControl]="validationName" >
+    <input #name required matInput  [formControl]="validationName" >
     <mat-error *ngIf="validationName.invalid">Name your Component</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field class="stretch" appearance="outline">
     <mat-label>Repository-URL</mat-label>
-    <input #url reqired matInput  [formControl]="validationUrl" >
+    <input #url required matInput  [formControl]="validationUrl" >
     <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>IMS-URL</mat-label>
-    <input #ims reqired matInput  [formControl]="validationIMS" >
-    <mat-error *ngIf="validationIMS.invalid">Enter a valid URL</mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Provider Type</mat-label>
+    <mat-label>Provider Type (IMS)</mat-label>
     <mat-select #provider [formControl]="validationProvider" required>
         <mat-option value="GitHub">GitHub</mat-option>
         <mat-option value="Gitlab">Gitlab</mat-option>
@@ -31,7 +25,13 @@
     <mat-error *ngIf="validationProvider.invalid">Select the Provider</mat-error>
 </mat-form-field>
 
-  <mat-form-field style="width: 100%;" appearance="outline">
+<mat-form-field class="stretch" appearance="outline">
+  <mat-label>IMS-URL</mat-label>
+  <input #ims required matInput  [formControl]="validationIMS" >
+  <mat-error *ngIf="validationIMS.invalid">Enter a valid URL</mat-error>
+</mat-form-field>
+
+  <mat-form-field class="stretch" appearance="outline">
     <mat-label>Description</mat-label>
     <textarea style="height: 66px;" #description matInput ></textarea>
   </mat-form-field>
@@ -39,8 +39,8 @@
   <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
 </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
+<div mat-dialog-actions style="justify-content: flex-end;">
+  <button  mat-button (click)="onNoClick()">Cancel</button>
   <button mat-button [class.spinner]="loading" [disabled]="loading || validationName.invalid || validationUrl.invalid ||validationIMS.invalid || validationProvider.invalid" (click)="onOkClick(name.value, url.value, description.value)">Create</button>
 </div>
 </div>
