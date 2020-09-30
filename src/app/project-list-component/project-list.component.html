@@ -19,10 +19,17 @@
         <mat-icon>info</mat-icon>
      </button>
     -->
-     <button mat-icon-button (click)="remove($event, project)">
+     <button nz-popconfirm
+     nzPopconfirmTitle='Are you sure delete this project: {{this.project.name}}?'
+     (nzOnConfirm)="remove($event, project)"
+     (nzOnCancel)="cancelConfirm()"
+     nzPopconfirmPlacement="topLeft"
+     nzOkText="Delete"
+     nzOkType="danger"
+     mat-icon-button (click)="this.nothing($event)">
       <mat-icon>delete</mat-icon>
   </button>
   <mat-divider></mat-divider>
-  </a>
+</a>
 </mat-nav-list>
 </div>

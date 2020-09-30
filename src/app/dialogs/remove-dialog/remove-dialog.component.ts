@@ -32,6 +32,7 @@ export class RemoveDialogComponent implements OnInit {
   }
 }
 export interface DialogData {
+  type: string;
   name: string;
   id: string;
 }
