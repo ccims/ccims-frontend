@@ -12,6 +12,9 @@ export class GraphApiService {
 
   constructor() { }
   addComponent(component: GraphComponent): Observable<GraphComponent[]> {
+    exampleGraph.push(component);
+    console.log(exampleGraph);
+
     return of(exampleGraph);
   }
 }

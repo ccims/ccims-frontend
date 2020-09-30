@@ -2,9 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { GraphComponent } from '../../model/state';
-// import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
+import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 import { GraphStoreService } from '@app/graphs/graph-store.service';
+import { COMPONENT_UUID_NAMESPACE } from '@app/model/namespace-constants';
+import * as Uuid from 'uuid/v5';
 @Component({
   selector: 'app-create-component-dialog',
   templateUrl: './create-component-dialog.component.html',
@@ -14,10 +16,13 @@ export class CreateComponentDialogComponent implements OnInit {
   @Input() name: string;
   @Input () url: string;
   @Input () description: string;
+  @Input () ims: string;
+  @Input () provider: string;
   public loading: boolean;
   public saveFailed: boolean;
   validateForm!: FormGroup;
   private zeroPosition: Point = {x: 0, y: 0};
+  private graph: IssueGraphComponent;
   // private gs:GraphStoreService;
   constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>, private fb: FormBuilder,
               private gs: GraphStoreService) { this.loading = false; }
@@ -41,7 +46,7 @@ export class CreateComponentDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onOkClick(name: string, url: string, description: string): void{
+  onOkClick(name: string, url: string, description: string, ims: string, provider: string): void{
     // check for valid form
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
@@ -53,11 +58,11 @@ export class CreateComponentDialogComponent implements OnInit {
     // TODO: ID entgegennehmen und der Komponente hinzufügen
      // copied state
     component = {
-      id: '1000',
-      name: this.name,
-      description: this.description,
+      id: Uuid(name, COMPONENT_UUID_NAMESPACE),
+      name: name,
+      description: description,
       imsId: null,
-      imsRepository: null,
+      imsRepository: ims,
       owner: null,
       interfaces: {},
       issueCounts: {
@@ -71,7 +76,8 @@ export class CreateComponentDialogComponent implements OnInit {
     }; // copied state
 
     // TODO: Update Graph State
-     // this.gs.addComponent(component);  // does not work
+      this.gs.addComponent(component);  // does not work
+      this.graph.updateGraph();
 
     this.loading = false;
     if (!this.saveFailed){
