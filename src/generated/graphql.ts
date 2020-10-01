@@ -3292,6 +3292,16 @@ export type CreateLabelInput = {
   components: Array<Scalars['ID']>;
 };
 
+export type CreateComponentMutationVariables = Exact<{
+  input: CreateComponentInput;
+}>;
+
+
+export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Maybe<(
+      Pick<Component, 'id' | 'name'>
+      & { ims?: Maybe<Pick<Ims, 'id'>>, projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id'>> }>>> }> }
+    )> }> };
+
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
 }>;
@@ -3320,6 +3330,37 @@ export type DeleteProjectMutationVariables = Exact<{
 
 export type DeleteProjectMutation = { deleteProject?: Maybe<Pick<DeleteProjectPayload, 'clientMutationID'>> };
 
+export const CreateComponentDocument = gql`
+    mutation CreateComponent($input: CreateComponentInput!) {
+  createComponent(input: $input) {
+    component {
+      id
+      name
+      ims {
+        id
+      }
+      projects {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateComponentGQL extends Apollo.Mutation<CreateComponentMutation, CreateComponentMutationVariables> {
+    document = CreateComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetAllProjectsDocument = gql`
     query GetAllProjects($filter: ProjectFilter) {
   projects(filterBy: $filter) {

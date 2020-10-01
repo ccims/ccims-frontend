@@ -17,12 +17,17 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'projects', pathMatch: 'full' },
       { path: 'projects', component: ProjectListComponent },
-      { path: 'projects/:id', component: ProjectOverviewComponent },
+      {
+        path: 'projects/:id',
+        children: [
+          { path: '', pathMatch: 'full', component: ProjectOverviewComponent},
+          { path: 'graph', component: IssueGraphControlsComponent },
+        ]
+      },
       { path: 'components', component: ComponentListComponent },
       { path: 'issue', component: IssueDetailComponent },
       // add github token in environment to make the component list work
       { path: 'components', component: ComponentListComponent },
-      { path: 'graph', component: IssueGraphControlsComponent },
     ],
   },
   // {path: 'home', component: HomeComponent},

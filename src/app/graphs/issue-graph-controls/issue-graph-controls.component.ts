@@ -6,6 +6,7 @@ import { Project, IssueType } from 'src/app/model/state';
 // import { ApiService } from '../api/api.service';
 import { projA } from 'src/app/model/demo-state';
 import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
+import { StateService } from '@app/state.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class IssueGraphControlsComponent implements OnInit {
 
    }
 
-   constructor(public dialog: MatDialog) { }
+   constructor(public dialog: MatDialog, private ss: StateService) { }
 
    ngOnInit() { }
 
@@ -46,7 +47,9 @@ export class IssueGraphControlsComponent implements OnInit {
        });
        */
       console.log("Show create component dialog");
-      const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent);
+      const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
+        data: {projectId: this.ss.state.project.id}
+      });
       createComponentDialogRef.afterClosed().subscribe(componentInformation => {
       // console.log(componentInformation);
       // do something
