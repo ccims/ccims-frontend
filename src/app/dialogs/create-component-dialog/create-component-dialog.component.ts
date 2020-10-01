@@ -13,11 +13,7 @@ import * as Uuid from 'uuid/v5';
   styleUrls: ['./create-component-dialog.component.scss']
 })
 export class CreateComponentDialogComponent implements OnInit {
-  @Input() name: string;
-  @Input () url: string;
-  @Input () description: string;
-  @Input () ims: string;
-  @Input () provider: string;
+
   public loading: boolean;
   public saveFailed: boolean;
   validateForm!: FormGroup;
@@ -77,7 +73,7 @@ export class CreateComponentDialogComponent implements OnInit {
 
     // TODO: Update Graph State
       this.gs.addComponent(component);  // does not work
-      this.graph.updateGraph();
+      // this.graph.updateGraph();
 
     this.loading = false;
     if (!this.saveFailed){
