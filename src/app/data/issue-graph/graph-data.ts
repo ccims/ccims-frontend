@@ -48,8 +48,9 @@ export class GraphDataFactory {
     };
   }
 
-  type
+  /*
   static graphInterfaceFromQueryInterface( ): GraphInterface {
 
   }
+  */
 }
