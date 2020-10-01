@@ -4,6 +4,7 @@ import { exampleGraph } from 'src/app/model/graph-state';
 import { BehaviorSubject } from 'rxjs';
 import { GetIssueGraphDataGQL } from 'src/generated/graphql';
 import { StateService } from '@app/state.service';
+import { GraphDataFactory } from './graph-data';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,9 @@ export class IssueGraphStoreService {
   }
 
   getIssueGraphData() {
-    this.getIssueGraphDataQuery.fetch({projectId: this.ss.state.project.id}).subscribe(result =>
-      console.log(result.data));
-  }
-
-  addComponent(component: GraphComponent) {
-
+    this.getIssueGraphDataQuery.fetch({projectId: this.ss.state.project.id}).subscribe(result => {
+      console.log(result.data);
+      GraphDataFactory.graphDataFromGQL(result.data);
+    });
   }
 }

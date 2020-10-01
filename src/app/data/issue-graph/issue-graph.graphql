@@ -7,6 +7,7 @@ query GetIssueGraphData($projectId: ID!) {
           interfaces {
             nodes {
               id
+              name
               bugs: issuesOnLocation(filterBy:{
                 category:BUG
               }) {
@@ -21,6 +22,9 @@ query GetIssueGraphData($projectId: ID!) {
                 category:UNCLASSIFIED
               }) {
                 totalCount
+              }
+              component {
+                id
               }
               consumedBy {
                 nodes {
