@@ -68,11 +68,9 @@ export interface GraphComponent {
   imsId: string;
   imsRepository;
   owner: string;
-  position: Point;
   interfaces: GraphComponentInterfaces;
   componentRelations: ComponentRelation[];
 }
-
 export type IssueCounts = {
   [key in IssueType]: number;
 };

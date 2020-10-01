@@ -2,20 +2,26 @@ import { Injectable } from '@angular/core';
 import { GraphComponent, IssuesState, IssueType, IssueRelationType } from 'src/app/model/state';
 import { exampleGraph } from 'src/app/model/graph-state';
 import { BehaviorSubject } from 'rxjs';
-import { GraphApiService } from './graph-api.service';
+import { GetIssueGraphDataGQL } from 'src/generated/graphql';
+import { StateService } from '@app/state.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GraphStoreService {
+export class IssueGraphStoreService {
 
   private state: GraphComponent[] = exampleGraph;
   state$ = new BehaviorSubject<GraphComponent[]>(this.state);
 
-  constructor(private graphApi: GraphApiService) {
+  constructor(private getIssueGraphDataQuery: GetIssueGraphDataGQL, private ss: StateService) {
+  }
+
+  getIssueGraphData() {
+    this.getIssueGraphDataQuery.fetch({projectId: this.ss.state.project.id}).subscribe(result =>
+      console.log(result.data));
   }
 
   addComponent(component: GraphComponent) {
-    this.graphApi.addComponent(component).subscribe(this.state$);
+
   }
 }

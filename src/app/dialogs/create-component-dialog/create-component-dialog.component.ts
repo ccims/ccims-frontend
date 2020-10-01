@@ -4,11 +4,11 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { GraphComponent } from '../../model/state';
 import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
-import { GraphStoreService } from '@app/graphs/graph-store.service';
 import { COMPONENT_UUID_NAMESPACE } from '@app/model/namespace-constants';
 import * as Uuid from 'uuid/v5';
 import { CreateComponentGQL, CreateComponentInput, ImsType } from 'src/generated/graphql';
 import { AuthenticationService } from '@app/auth/authentication.service';
+import { IssueGraphStoreService } from '@app/data/issue-graph/issue-graph-store.service';
 @Component({
   selector: 'app-create-component-dialog',
   templateUrl: './create-component-dialog.component.html',
@@ -26,8 +26,8 @@ export class CreateComponentDialogComponent implements OnInit {
   private graph: IssueGraphComponent;
   // private gs:GraphStoreService;
   constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>,  @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
-  private fb: FormBuilder,
-              private gs: GraphStoreService, private createComponentMutation: CreateComponentGQL,
+              private fb: FormBuilder,
+              private gs: IssueGraphStoreService, private createComponentMutation: CreateComponentGQL,
               private authService: AuthenticationService) {
                 this.loading = false;
               }
@@ -95,7 +95,7 @@ export class CreateComponentDialogComponent implements OnInit {
       this.saveFailed = true;
     });
     if (!this.saveFailed){
-      this.dialogRef.close(component);
+      this.dialogRef.close();
     }
   }
   afterAlertClose(): void {

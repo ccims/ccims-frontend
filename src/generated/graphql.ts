@@ -3302,6 +3302,25 @@ export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Ma
       & { ims?: Maybe<Pick<Ims, 'id'>>, projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id'>> }>>> }> }
     )> }> };
 
+export type GetIssueGraphDataQueryVariables = Exact<{
+  projectId: Scalars['ID'];
+}>;
+
+
+export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Component, 'id'>
+        & { interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+            Pick<ComponentInterface, 'id'>
+            & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+          )>>> }>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, forLinksBetweenLocations?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+            Pick<Issue, 'id' | 'category'>
+            & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+                Pick<Issue, 'id'>
+                & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }> }
+              )>>> }> }
+          )>>> }> }
+      )>>> }> }> };
+
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
 }>;
@@ -3356,6 +3375,79 @@ export const CreateComponentDocument = gql`
   })
   export class CreateComponentGQL extends Apollo.Mutation<CreateComponentMutation, CreateComponentMutationVariables> {
     document = CreateComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetIssueGraphDataDocument = gql`
+    query GetIssueGraphData($projectId: ID!) {
+  node(id: $projectId) {
+    ... on Project {
+      components {
+        nodes {
+          id
+          interfaces {
+            nodes {
+              id
+              bugs: issuesOnLocation(filterBy: {category: BUG}) {
+                totalCount
+              }
+              featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST}) {
+                totalCount
+              }
+              unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED}) {
+                totalCount
+              }
+              consumedBy {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+          bugs: issuesOnLocation(filterBy: {category: BUG}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED}) {
+            totalCount
+          }
+          forLinksBetweenLocations: issues(filterBy: {linksIssues: true}) {
+            nodes {
+              id
+              category
+              locations {
+                nodes {
+                  id
+                }
+              }
+              linksToIssues {
+                nodes {
+                  id
+                  locations {
+                    nodes {
+                      id
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetIssueGraphDataGQL extends Apollo.Query<GetIssueGraphDataQuery, GetIssueGraphDataQueryVariables> {
+    document = GetIssueGraphDataDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

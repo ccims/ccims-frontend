@@ -15,7 +15,7 @@ import { GraphComponent, GraphComponentInterface } from '../../model/state';
 //import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
 //import { MatBottomSheet } from '@angular/material/bottom-sheet';
 //import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
-import { GraphStoreService } from '../graph-store.service';
+import { IssueGraphStoreService } from '../../data/issue-graph/issue-graph-store.service';
 import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
 
 @Component({
@@ -52,7 +52,7 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
 
-  constructor(private dialog: MatDialog, private gs: GraphStoreService) {
+  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService) {
     //, private bottomSheet: MatBottomSheet) {}
   }
 
@@ -327,6 +327,7 @@ if (changes.project != null) {
     const zeroPosition: Point = { x: 0, y: 0 };
     const graph: GraphEditor = this.graph.nativeElement;
     //TODO: refactor into resetGraph method
+    this.gs.getIssueGraphData();
     this.graph.edgeList = [];
     this.graph.nodeList = [];
     graph.groupingManager.clearAllGroups();
