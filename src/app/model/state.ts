@@ -62,6 +62,7 @@ export interface ComponentRelation {
 export interface GraphComponent {
   id: string;
   name: string;
+  position: Point;
   description: string;
   issueCounts: IssueCounts;
   issues: string[];
