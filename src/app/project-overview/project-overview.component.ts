@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MockProjectStoreService } from '@app/data/project/mock-project-store.service';
+import { ProjectStoreService } from '@app/data/project/project-store.service';
 
 @Component({
   selector: 'app-project-overview',
@@ -8,12 +9,19 @@ import { MockProjectStoreService } from '@app/data/project/mock-project-store.se
   styleUrls: ['./project-overview.component.scss']
 })
 export class ProjectOverviewComponent implements OnInit {
-  project: Project;
-  constructor(private ps: MockProjectStoreService, private route: ActivatedRoute) { }
+  project: any;
+  public projectId: string;
+
+  constructor(private ps: MockProjectStoreService, private pss: ProjectStoreService, private route: ActivatedRoute) {
+
+
+
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.project = this.ps.getSingle(id);
+    this.projectId = this.route.snapshot.paramMap.get('id');
+    this.project = this.pss.get(this.projectId).subscribe(project => this.project = project);
   }
 
 }
