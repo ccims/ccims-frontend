@@ -44,6 +44,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { GlobalConfig, ToastrModule } from 'ngx-toastr';
 import { RemoveDialogComponent } from './dialogs/remove-dialog/remove-dialog.component';
 import { CreateComponentDialogComponent } from './dialogs/create-component-dialog/create-component-dialog.component';
+import { CreateInterfaceDialogComponent } from './dialogs/create-interface-dialog/create-interface-dialog.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -70,7 +71,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     RegisterComponent,
     CreateProjectDialogComponent,
     RemoveDialogComponent,
-    CreateComponentDialogComponent
+    CreateComponentDialogComponent,
+    CreateInterfaceDialogComponent
   ],
   imports: [
     BrowserModule,

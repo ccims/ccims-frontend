@@ -17,6 +17,8 @@ import { GraphComponent, GraphComponentInterface } from '../../model/state';
 //import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
 import { IssueGraphStoreService } from '../../data/issue-graph/issue-graph-store.service';
 import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
+import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
+import { StateService } from '@app/state.service';
 
 @Component({
   selector: 'app-issue-graph',
@@ -52,7 +54,8 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
 
-  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService) {
+
+  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService) {
     //, private bottomSheet: MatBottomSheet) {}
   }
 
@@ -846,6 +849,10 @@ if (changes.project != null) {
   }
 
   private addInterfaceToComponent(componentId) {
+    const createInterfaceDialogRef = this.dialog.open(CreateInterfaceDialogComponent, {
+      data: {projectId: this.ss.state.project.id, component: componentId}
+
+    });
     /*
         const createComponentDialog = this.dialog.open(CreateInterfaceDialogComponent);
 
