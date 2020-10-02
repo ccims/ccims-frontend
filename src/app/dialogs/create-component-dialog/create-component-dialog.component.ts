@@ -83,6 +83,7 @@ export class CreateComponentDialogComponent implements OnInit {
     const input: CreateComponentInput = {
       name,
       owner: this.authService.currentUserValue.id,
+      // use the dropdown given field
       imsType: ImsType.Github,
       projects: [this.data.projectId]
     };

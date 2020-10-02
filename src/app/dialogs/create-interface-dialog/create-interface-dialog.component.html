@@ -1,1 +1,28 @@
-<p>create-interface-dialog works!</p>
+<div class="dialog-wrapper">
+  <h1 mat-dialog-title>Create Component</h1>
+    <div mat-dialog-content>
+    <form [formGroup]="validateForm">
+    <mat-form-field class="stretch" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input #name required matInput  [formControl]="validationName" >
+      <mat-error *ngIf="validationName.invalid">Name your Interface</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="stretch" appearance="outline">
+      <mat-label>Interface-Typ</mat-label>
+      <input #type  matInput >
+    </mat-form-field>
+
+    <mat-form-field class="stretch" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea style="height: 66px;" #description matInput ></textarea>
+    </mat-form-field>
+
+    <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="this.afterAlertClose()"></nz-alert>
+  </form>
+  </div>
+  <div mat-dialog-actions style="justify-content: flex-end;">
+    <button  mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [class.spinner]="loading" [disabled]="loading || validationName.invalid " (click)="onOkClick(name.value, description.value, type.value)">Create</button>
+  </div>
+  </div>
