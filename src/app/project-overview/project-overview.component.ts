@@ -12,16 +12,13 @@ export class ProjectOverviewComponent implements OnInit {
   project: any;
   public projectId: string;
 
-  constructor(private ps: MockProjectStoreService, private pss: ProjectStoreService, private route: ActivatedRoute) {
-
-
-
+  constructor(private projectStoreService: ProjectStoreService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.project = this.pss.get(this.projectId).subscribe(project => this.project = project);
+    this.project = this.projectStoreService.get(this.projectId).subscribe(project => this.project = project);
   }
 
 }
