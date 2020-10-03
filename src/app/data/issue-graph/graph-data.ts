@@ -21,8 +21,23 @@ interface Folder {
   linkIssues: GraphIssue[];
 }
 
-type GraphFolder = [GraphLocation, IssueType];
+type GraphFolder = [LocationId, IssueCategory];
 type GraphLocation = GraphInterface | GraphComponent;
+
+function computeRelatedFolders(linkIssues: GraphIssue[]) {
+  let targetFolders: GraphFolder[];
+  const relatedFolders: Map<GraphFolder, GraphFolder[]> = new Map();
+  for (const issue of linkIssues) {
+    for (const linkedIssue of issue.linksIssues) {
+      targetFolders = linkedIssue.locations.map(locationId => [locationId, linkedIssue.category]);
+    }
+    const sourceFolders: GraphFolder[] = issue.locations.map(locationId => [locationId, issue.category]);
+    sourceFolders.forEach(folder =>
+      relatedFolders.set(folder,
+        (relatedFolders.get(folder) || []).concat(targetFolders)));
+  }
+
+}
 
 
 function issueCounts(bugCount: number, featureRequestCount: number, unclassifiedCount: number): Map<IssueCategory, number> {
