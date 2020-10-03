@@ -1,74 +1,64 @@
 query GetIssueGraphData($projectId: ID!) {
   node(id: $projectId) {
-    ...on Project {
+    ... on Project {
       components {
         nodes {
           id
-          interfaces {
+          bugs: issuesOnLocation(filterBy: { category: BUG }) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(
+            filterBy: { category: FEATURE_REQUEST }
+          ) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: { category: UNCLASSIFIED }) {
+            totalCount
+          }
+        }
+      }
+      interfaces {
+        nodes {
+          id
+          bugs: issuesOnLocation(filterBy: { category: BUG }) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(
+            filterBy: { category: FEATURE_REQUEST }
+          ) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: { category: UNCLASSIFIED }) {
+            totalCount
+          }
+          consumedBy {
             nodes {
               id
-              name
-              bugs: issuesOnLocation(filterBy:{
-                category:BUG
-              }) {
-                totalCount
-              }
-              featureRequests: issuesOnLocation(filterBy:{
-                category:FEATURE_REQUEST
-              }) {
-                totalCount
-              }
-              unclassified: issuesOnLocation(filterBy:{
-                category:UNCLASSIFIED
-              }) {
-                totalCount
-              }
-              component {
-                id
-              }
-              consumedBy {
-                nodes {
-                  id
-                }
-              }
             }
           }
-          bugs: issuesOnLocation(filterBy:{
-            category:BUG
-          }) {
-            totalCount
-          }
-          featureRequests: issuesOnLocation(filterBy:{
-            category:FEATURE_REQUEST
-          }) {
-            totalCount
-          }
-          unclassified: issuesOnLocation(filterBy:{
-            category:UNCLASSIFIED
-          }) {
-            totalCount
-          }
-
-          forLinksBetweenLocations: issues(filterBy:{
-            linksIssues:true
-            # here you can add all the other filters you want to
-          }) {
+        }
+      }
+      linkingIssues: issues(
+        filterBy: {
+          linksIssues: true
+          # here you can add all the other filters you want to
+        }
+      ) {
+        nodes {
+          id
+          category
+          locations {
             nodes {
-              id,
-              category,
+              id
+            }
+          }
+          linksToIssues {
+            nodes {
+              id
+              category
               locations {
                 nodes {
                   id
-                }
-              }
-              linksToIssues {
-                nodes {
-                  id
-                  locations {
-                    nodes {
-                      id
-                    }
-                  }
                 }
               }
             }

@@ -329,8 +329,12 @@ export type IssueFilter = {
   category?: Maybe<Array<IssueCategory>>;
   /** If given, filters for issues which do/don't link __to__ other issues */
   linksIssues?: Maybe<Scalars['Boolean']>;
+  /** If given, filters for issues which are/aren't linkt __by__ other issues */
+  isLinkedByIssues?: Maybe<Scalars['Boolean']>;
   /** The issue must link __to__ at least one of the issues with the given ids */
   linkedIssues?: Maybe<Array<Scalars['ID']>>;
+  /** The issue must be linked __by__ at least one of the issues with the given ids */
+  linkedByIssues?: Maybe<Array<Scalars['ID']>>;
   /** The issue (body text) must have all the reactions in one of the lists given. */
   reactions?: Maybe<Array<Array<Scalars['String']>>>;
   /** Any of the users with the given ids must be an assignee to the issue for it to match this filter */
@@ -1199,6 +1203,8 @@ export type Project = Node & {
   name: Scalars['String'];
   /** All compomponents which are a part of this project and match (if given) `filterBy` */
   components?: Maybe<ComponentPage>;
+  /** Requests component interfaces which are offered by any of this project's components */
+  interfaces?: Maybe<ComponentInterfacePage>;
   /** All users that participate in this project and (if given)match `filterBy` */
   users?: Maybe<UserPage>;
   /** The user who administrates "owns" the project */
@@ -1224,6 +1230,16 @@ export type ProjectComponentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<ComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A project is a one unit in which the participating components colaborate */
+export type ProjectInterfacesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentInterfaceFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -3309,15 +3325,15 @@ export type GetIssueGraphDataQueryVariables = Exact<{
 
 export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Component, 'id'>
-        & { interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-            Pick<ComponentInterface, 'id' | 'name'>
-            & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, component: Pick<Component, 'id'>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
-          )>>> }>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, forLinksBetweenLocations?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
+      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<ComponentInterface, 'id'>
+        & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+      )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Issue, 'id' | 'category'>
+        & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
             Pick<Issue, 'id' | 'category'>
-            & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-                Pick<Issue, 'id'>
-                & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }> }
-              )>>> }> }
+            & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }> }
           )>>> }> }
       )>>> }> }> };
 
@@ -3387,29 +3403,6 @@ export const GetIssueGraphDataDocument = gql`
       components {
         nodes {
           id
-          interfaces {
-            nodes {
-              id
-              name
-              bugs: issuesOnLocation(filterBy: {category: BUG}) {
-                totalCount
-              }
-              featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST}) {
-                totalCount
-              }
-              unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED}) {
-                totalCount
-              }
-              component {
-                id
-              }
-              consumedBy {
-                nodes {
-                  id
-                }
-              }
-            }
-          }
           bugs: issuesOnLocation(filterBy: {category: BUG}) {
             totalCount
           }
@@ -3419,23 +3412,43 @@ export const GetIssueGraphDataDocument = gql`
           unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED}) {
             totalCount
           }
-          forLinksBetweenLocations: issues(filterBy: {linksIssues: true}) {
+        }
+      }
+      interfaces {
+        nodes {
+          id
+          bugs: issuesOnLocation(filterBy: {category: BUG}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED}) {
+            totalCount
+          }
+          consumedBy {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+      linkingIssues: issues(filterBy: {linksIssues: true}) {
+        nodes {
+          id
+          category
+          locations {
+            nodes {
+              id
+            }
+          }
+          linksToIssues {
             nodes {
               id
               category
               locations {
                 nodes {
                   id
-                }
-              }
-              linksToIssues {
-                nodes {
-                  id
-                  locations {
-                    nodes {
-                      id
-                    }
-                  }
                 }
               }
             }

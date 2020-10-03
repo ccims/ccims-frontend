@@ -1,13 +1,12 @@
 import { IssueType } from '@app/model/state';
-import { Interface } from 'readline';
 import { Scalars, Component, Issue, IssueLocation, GetIssueGraphDataQuery, IssueCategory, ComponentInterface } from 'src/generated/graphql';
 
 
 export interface GraphData {
-  components: GraphComponent[];
-  interfaces: GraphInterface[];
+  components: Map<Scalars['ID'], GraphComponent>;
+  interfaces: Map<Scalars['ID'], GraphInterface>;
   linkIssues: Issue[];
-  issueLocations: Map<Issue, GraphIssueLocation[]>;
+  issueLocations: Map<Issue, GraphLocationId[]>;
   issueLinks: Map<Issue, Issue>;
 }
 
@@ -19,7 +18,8 @@ interface Folder{
 
 type NodeState = Folder[];
 
-type GraphIssueLocation = GraphInterface | GraphComponent;
+type GraphLocation = GraphInterface | GraphComponent;
+type GraphLocationId = Scalars['ID'];
 
 export interface  GraphInterface {
   name: string;
@@ -43,10 +43,13 @@ export class GraphDataFactory {
         consumedBy: intrface.consumedBy;
        offeredBy: intrface.component.id;
     }}));
+    return null;
+    /*
     return {
       components: [],
       interfaces: [], issueLinks: new Map(), issueLocations: new Map()
     };
+    */
   }
 
   /*
