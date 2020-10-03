@@ -331,8 +331,8 @@ if (changes.project != null) {
     const graph: GraphEditor = this.graph.nativeElement;
     //TODO: refactor into resetGraph method
     this.gs.getIssueGraphData();
-    this.graph.edgeList = [];
-    this.graph.nodeList = [];
+    graph.edgeList = [];
+    graph.nodeList = [];
     graph.groupingManager.clearAllGroups();
     const issueGroupParents: Node[] = [];
     this.nodePositions = this.loadNodePositions();
