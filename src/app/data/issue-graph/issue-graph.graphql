@@ -3,6 +3,7 @@ query GetIssueGraphData($projectId: ID!) {
     ... on Project {
       components {
         nodes {
+          name
           id
           bugs: issuesOnLocation(filterBy: { category: BUG }) {
             totalCount
@@ -20,6 +21,10 @@ query GetIssueGraphData($projectId: ID!) {
       interfaces {
         nodes {
           id
+          name
+          component {
+            id
+          }
           bugs: issuesOnLocation(filterBy: { category: BUG }) {
             totalCount
           }

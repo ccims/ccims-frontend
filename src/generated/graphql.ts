@@ -3324,11 +3324,11 @@ export type GetIssueGraphDataQueryVariables = Exact<{
 
 
 export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-        Pick<Component, 'id'>
+        Pick<Component, 'name' | 'id'>
         & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
       )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-        Pick<ComponentInterface, 'id'>
-        & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+        Pick<ComponentInterface, 'id' | 'name'>
+        & { component: Pick<Component, 'id'>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
       )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'category'>
         & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
@@ -3402,6 +3402,7 @@ export const GetIssueGraphDataDocument = gql`
     ... on Project {
       components {
         nodes {
+          name
           id
           bugs: issuesOnLocation(filterBy: {category: BUG}) {
             totalCount
@@ -3417,6 +3418,10 @@ export const GetIssueGraphDataDocument = gql`
       interfaces {
         nodes {
           id
+          name
+          component {
+            id
+          }
           bugs: issuesOnLocation(filterBy: {category: BUG}) {
             totalCount
           }
