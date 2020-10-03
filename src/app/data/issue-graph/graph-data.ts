@@ -6,7 +6,8 @@ import { Scalars, Component, Issue, IssueLocation, GetIssueGraphDataQuery, Issue
 export interface GraphData {
   components: GraphComponent[];
   interfaces: GraphInterface[];
-  issueLocations: Map<Issue, GraphIssueLocation>;
+  linkIssues: Issue[];
+  issueLocations: Map<Issue, GraphIssueLocation[]>;
   issueLinks: Map<Issue, Issue>;
 }
 
