@@ -12,31 +12,36 @@ export interface GraphData {
   linkIssues: GraphIssue[];
   issueLocations: Map<GraphIssue, LocationId[]>;
   issueLinks: Map<GraphIssue, GraphIssue>;
-  relatedFolders: Map<GraphFolder, GraphFolder[]>;
+  relatedFolders: Map<GraphFolderString, GraphFolder[]>;
 }
 
-interface Folder {
+class Folder {
   issueType: IssueType;
   totalIssueCount: number;
   linkIssues: GraphIssue[];
 }
 
 type GraphFolder = [LocationId, IssueCategory];
+type GraphFolderString = string;
+
+function folderStr(folder: GraphFolder): GraphFolderString {
+  return folder.join(',');
+}
 type GraphLocation = GraphInterface | GraphComponent;
 
-function computeRelatedFolders(linkIssues: GraphIssue[]) {
+function computeRelatedFolders(linkIssues: GraphIssue[]): Map<GraphFolderString, GraphFolder[]> {
   let targetFolders: GraphFolder[];
-  const relatedFolders: Map<GraphFolder, GraphFolder[]> = new Map();
+  const relatedFolders: Map<GraphFolderString, GraphFolder[]> = new Map();
   for (const issue of linkIssues) {
     for (const linkedIssue of issue.linksIssues) {
       targetFolders = linkedIssue.locations.map(locationId => [locationId, linkedIssue.category]);
     }
     const sourceFolders: GraphFolder[] = issue.locations.map(locationId => [locationId, issue.category]);
     sourceFolders.forEach(folder =>
-      relatedFolders.set(folder,
-        (relatedFolders.get(folder) || []).concat(targetFolders)));
+      relatedFolders.set(folderStr(folder),
+        (relatedFolders.get(folderStr(folder)) || []).concat(targetFolders)));
   }
-
+  return relatedFolders;
 }
 
 
