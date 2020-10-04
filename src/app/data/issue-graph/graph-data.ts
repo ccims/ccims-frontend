@@ -4,7 +4,7 @@ import {
   ComponentInterface, Issue, IssuePage, ComponentPage
 } from 'src/generated/graphql';
 
-import { DefaultDictionary } from 'typescript-collections';
+import { Dictionary, DefaultDictionary } from 'typescript-collections';
 
 type LocationId = Scalars['ID'];
 
@@ -12,8 +12,8 @@ export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
   linkIssues: GraphIssue[];
-  issueLocations: Map<GraphIssue, LocationId[]>;
-  issueLinks: Map<GraphIssue, GraphIssue>;
+  //issueLocations: Map<GraphIssue, LocationId[]>;
+  //issueLinks: Dictionary<GraphIssue, GraphIssue>;
   relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
 }
 
@@ -30,16 +30,17 @@ function computeRelatedFolders(linkIssues: GraphIssue[]): DefaultDictionary<Grap
   let targetFolders: GraphFolder[];
   const relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]> = new DefaultDictionary<GraphFolder, GraphFolder[]>(() => []);
   for (const issue of linkIssues) {
+    const sourceFolders: GraphFolder[] = issue.locations.map(locationId => [locationId, issue.category]);
     for (const linkedIssue of issue.linksIssues) {
       targetFolders = linkedIssue.locations.map(locationId => [locationId, linkedIssue.category]);
     }
-    const sourceFolders: GraphFolder[] = issue.locations.map(locationId => [locationId, issue.category]);
     sourceFolders.forEach(folder =>
       relatedFolders.setValue(folder,
         (relatedFolders.getValue(folder).concat(targetFolders))));
   }
   return relatedFolders;
 }
+
 
 
 function issueCounts(bugCount: number, featureRequestCount: number, unclassifiedCount: number): Map<IssueCategory, number> {
@@ -145,26 +146,15 @@ class GraphIssue {
 
 export class GraphDataFactory {
   static graphDataFromGQL(data: GetIssueGraphDataQuery): GraphData {
-    const components = data.node.components.nodes.map(gqlComponent => [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]);
+    //const components = data.node.components.nodes.map(gqlComponent => [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]);
     // const interfaces = data.node.interfaces.nodes.map(gqlInterface => GraphInterface.fromGQL(gqlInterface));
-    const componentMap = GraphComponent.mapFromGQL(data.node.components.nodes);
-    const interfaceMap = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
+    const components = GraphComponent.mapFromGQL(data.node.components.nodes);
+    const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
     const linkIssues = data.node.linkingIssues.nodes.map(gqlIssue => GraphIssue.fromGQL(gqlIssue));
-    /*
-    let interfaces = data.node.components.nodes.flatMap(component => component.interfaces.nodes.map(intrface => {
-      {id: intrface.id;
-        name: intrface.name;
-        consumedBy: intrface.consumedBy;
-       offeredBy: intrface.component.id;
-    }}));
-    */
-    return null;
-    /*
+    const relatedFolders = computeRelatedFolders(linkIssues);
     return {
-      components: [],
-      interfaces: [], issueLinks: new Map(), issueLocations: new Map()
+      components, interfaces, linkIssues, relatedFolders
     };
-    */
   }
 
   /*
