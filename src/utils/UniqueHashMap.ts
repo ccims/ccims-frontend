@@ -1,5 +1,5 @@
 
-class MyMap<Key extends IEquality<Key>, Value> {
+class UniqueHashMap<Key extends IEquality<Key>, Value> {
   constructor(entries?: Iterable<[Key, Value]>, private defaultValue?: Value) {
     if (entries) {
       for (const entry of entries) {
@@ -50,6 +50,10 @@ class MyMap<Key extends IEquality<Key>, Value> {
 }
 
 interface IEquality<T extends IEquality<T>> {
+  /**
+   * Implementors have to make sure that if o1.hashString() === o2.hashString(),
+   * o1.equals(o2) && o2.equals(o1)
+   */
   equals(other: this): boolean;
   hashString(): string;
 }
