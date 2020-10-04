@@ -2102,6 +2102,12 @@ export type Mutation = {
   addComponentToProject?: Maybe<AddComponentToProjectPayload>;
   /** Removes the specified component from the project if it is on the project */
   removeComponentFromProject?: Maybe<RemoveComponentFromProjectPayload>;
+  /** Creates a new componentInterface on the given component */
+  createComponentInterface?: Maybe<CreateComponentInterfacePayload>;
+  /** Delets the specified componentInterface */
+  deleteComponentInterface?: Maybe<DeleteComponentInterfacePayload>;
+  /** Updates the specified componentInterface */
+  updateComponentInterface?: Maybe<UpdateComponentInterfacePayload>;
   /** Creates a new component in the ccims and adds it to the given users */
   createComponent?: Maybe<CreateComponentPayload>;
   /** Creates a new user in the system */
@@ -2308,6 +2314,24 @@ export type MutationAddComponentToProjectArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationRemoveComponentFromProjectArgs = {
   input: RemoveComponentFromProjectInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationCreateComponentInterfaceArgs = {
+  input: CreateComponentInterfaceInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationDeleteComponentInterfaceArgs = {
+  input: DeleteComponentInterfaceInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateComponentInterfaceArgs = {
+  input: UpdateComponentInterfaceInput;
 };
 
 
@@ -3141,6 +3165,76 @@ export type RemoveComponentFromProjectInput = {
   componentId: Scalars['ID'];
 };
 
+/** The Payload/Response for the createComponentInterface mutation */
+export type CreateComponentInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The componentInterface created by this mutation */
+  componentInterface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the createComponentInterface mutation */
+export type CreateComponentInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /**
+   * The name of the componentInterface
+   * 
+   * Max. 256 characters
+   */
+  name: Scalars['String'];
+  /**
+   * The description of the componentInterface
+   * 
+   * Max. 65536 characters
+   */
+  description?: Maybe<Scalars['String']>;
+  /** The id of the component on which the created interface should be */
+  component: Scalars['ID'];
+};
+
+/** The Payload/Response for the deleteComponentInterface mutation */
+export type DeleteComponentInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteComponentInterface mutation */
+export type DeleteComponentInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the componentInterface to delete */
+  componentInterfaceId: Scalars['ID'];
+};
+
+/** The Payload/Response for the updateComponentInterface mutation */
+export type UpdateComponentInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The componentInterface updated by this mutation */
+  componentInterface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the updateComponentInterface mutation, updates only the provided fields */
+export type UpdateComponentInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the componentinterface to update */
+  componentinterfaceId: Scalars['ID'];
+  /**
+   * The name of the componentinterface
+   * 
+   * Max. 256 characters
+   */
+  name?: Maybe<Scalars['String']>;
+  /**
+   * The description of the componentinterface
+   * 
+   * Max. 65536 characters
+   */
+  description?: Maybe<Scalars['String']>;
+};
+
 /** The Payload/Response for the createComponent mutation */
 export type CreateComponentPayload = {
   /** The string provided by the client on sending the mutation */
@@ -3318,6 +3412,16 @@ export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Ma
       & { ims?: Maybe<Pick<Ims, 'id'>>, projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id'>> }>>> }> }
     )> }> };
 
+export type CreateComponentInterfaceMutationVariables = Exact<{
+  input: CreateComponentInterfaceInput;
+}>;
+
+
+export type CreateComponentInterfaceMutation = { createComponentInterface?: Maybe<{ componentInterface?: Maybe<(
+      Pick<ComponentInterface, 'id' | 'name'>
+      & { component: Pick<Component, 'id'> }
+    )> }> };
+
 export type GetIssueGraphDataQueryVariables = Exact<{
   projectId: Scalars['ID'];
 }>;
@@ -3391,6 +3495,30 @@ export const CreateComponentDocument = gql`
   })
   export class CreateComponentGQL extends Apollo.Mutation<CreateComponentMutation, CreateComponentMutationVariables> {
     document = CreateComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateComponentInterfaceDocument = gql`
+    mutation CreateComponentInterface($input: CreateComponentInterfaceInput!) {
+  createComponentInterface(input: $input) {
+    componentInterface {
+      id
+      name
+      component {
+        id
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateComponentInterfaceGQL extends Apollo.Mutation<CreateComponentInterfaceMutation, CreateComponentInterfaceMutationVariables> {
+    document = CreateComponentInterfaceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

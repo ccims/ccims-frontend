@@ -19,6 +19,7 @@ import { IssueGraphStoreService } from '../../data/issue-graph/issue-graph-store
 import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
 import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
 import { StateService } from '@app/state.service';
+import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
 
 @Component({
   selector: 'app-issue-graph',
@@ -849,13 +850,13 @@ if (changes.project != null) {
   }
 
   private addInterfaceToComponent(componentId) {
+    const data: CreateInterfaceData = {
+      componentId
+    };
+
     const createInterfaceDialogRef = this.dialog.open(CreateInterfaceDialogComponent, {
-      data: {projectId: this.ss.state.project.id, component: componentId}
-
-    });
-    /*
-        const createComponentDialog = this.dialog.open(CreateInterfaceDialogComponent);
-
+      data});
+/*
         createComponentDialog.afterClosed().subscribe((interfaceName: string) => {
             if (interfaceName != null && interfaceName !== '') {
                 this.api.addComponentInterface(componentId, interfaceName);

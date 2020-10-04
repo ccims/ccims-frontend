@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthenticationService } from '@app/auth/authentication.service';
 import { IssueGraphStoreService } from '@app/data/issue-graph/issue-graph-store.service';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import { InterfaceStoreService } from '../../data/interface/interface-store.service';
 
 @Component({
   selector: 'app-create-interface-dialog',
@@ -17,19 +18,19 @@ export class CreateInterfaceDialogComponent implements OnInit {
   public loading: boolean;
   public saveFailed: boolean;
   validateForm!: FormGroup;
-  private zeroPosition: Point = {x: 0, y: 0};
+  private zeroPosition: Point = { x: 0, y: 0 };
   // private graph: IssueGraphComponent;
 
-  constructor(public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>,  @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
-              private fb: FormBuilder,
-              private gs: IssueGraphStoreService,
-              // Wenn mutation erstellt wierder eikomentieren
-              // private createComponentMutation: CreateInterfaceGQL,
-              private authService: AuthenticationService) {
+  constructor(public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
+    private fb: FormBuilder,
+    private gs: IssueGraphStoreService,
+    // Wenn mutation erstellt wierder eikomentieren
+    // private createComponentMutation: CreateInterfaceGQL,
+    private authService: AuthenticationService, private interfaceStore: InterfaceStoreService) {
     this.loading = false;
   }
 
- validationName = new FormControl('', [Validators.required]);
+  validationName = new FormControl('', [Validators.required]);
 
 
   ngOnInit(): void {
@@ -40,7 +41,7 @@ export class CreateInterfaceDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  onOkClick(name: string, description: string, type: string): void{
+  onOkClick(name: string, description: string, type: string): void {
     // check for valid form
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
@@ -62,8 +63,17 @@ export class CreateInterfaceDialogComponent implements OnInit {
       this.loading = false;
       this.saveFailed = true;
     });
+
     */
-    if (!this.saveFailed){
+    this.interfaceStore.create(name, this.data.componentId, description).subscribe(({ data }) => {
+      console.log(data.createComponentInterface);
+      this.loading = false;
+    }, (error) => {
+      console.log('there was an error sending the query', error);
+      this.loading = false;
+      this.saveFailed = true;
+    });
+    if (!this.saveFailed) {
       this.dialogRef.close();
     }
   }
@@ -71,7 +81,6 @@ export class CreateInterfaceDialogComponent implements OnInit {
     this.saveFailed = false;
   }
 }
-interface CreateInterfaceData {
-  projectId: string;
-  component: string;
+export interface CreateInterfaceData {
+  componentId: string;
 }
