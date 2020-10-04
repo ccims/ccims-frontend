@@ -327,8 +327,8 @@ if (changes.project != null) {
     const zeroPosition: Point = { x: 0, y: 0 };
     const graph: GraphEditor = this.graph.nativeElement;
     //TODO: refactor into resetGraph method
-    this.graph.edgeList = [];
-    this.graph.nodeList = [];
+    graph.edgeList = [];
+    graph.nodeList = [];
     graph.groupingManager.clearAllGroups();
     const issueGroupParents: Node[] = [];
     this.nodePositions = this.loadNodePositions();
