@@ -4,6 +4,8 @@ import {
   ComponentInterface, Issue, IssuePage, ComponentPage
 } from 'src/generated/graphql';
 
+import { DefaultDictionary } from 'typescript-collections';
+
 type LocationId = Scalars['ID'];
 
 export interface GraphData {
@@ -12,7 +14,7 @@ export interface GraphData {
   linkIssues: GraphIssue[];
   issueLocations: Map<GraphIssue, LocationId[]>;
   issueLinks: Map<GraphIssue, GraphIssue>;
-  relatedFolders: Map<GraphFolder, GraphFolder[]>;
+  relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
 }
 
 interface Folder {
@@ -24,19 +26,19 @@ interface Folder {
 type GraphFolder = [LocationId, IssueCategory];
 type GraphLocation = GraphInterface | GraphComponent;
 
-function computeRelatedFolders(linkIssues: GraphIssue[]) {
+function computeRelatedFolders(linkIssues: GraphIssue[]): DefaultDictionary<GraphFolder, GraphFolder[]> {
   let targetFolders: GraphFolder[];
-  const relatedFolders: Map<GraphFolder, GraphFolder[]> = new Map();
+  const relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]> = new DefaultDictionary<GraphFolder, GraphFolder[]>(() => []);
   for (const issue of linkIssues) {
     for (const linkedIssue of issue.linksIssues) {
       targetFolders = linkedIssue.locations.map(locationId => [locationId, linkedIssue.category]);
     }
     const sourceFolders: GraphFolder[] = issue.locations.map(locationId => [locationId, issue.category]);
     sourceFolders.forEach(folder =>
-      relatedFolders.set(folder,
-        (relatedFolders.get(folder) || []).concat(targetFolders)));
+      relatedFolders.setValue(folder,
+        (relatedFolders.getValue(folder).concat(targetFolders))));
   }
-
+  return relatedFolders;
 }
 
 
