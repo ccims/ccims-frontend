@@ -13,7 +13,7 @@ export class InterfaceStoreService {
     const input: CreateComponentInterfaceInput  = {
       name,
       description,
-      component: offeringComponentId
+      component: "5d3d476dd0b1f004"
     };
 
     return this.createInterfaceMutation.mutate({input});

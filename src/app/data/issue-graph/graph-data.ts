@@ -152,6 +152,7 @@ export class GraphDataFactory {
     const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
     const linkIssues = data.node.linkingIssues.nodes.map(gqlIssue => GraphIssue.fromGQL(gqlIssue));
     const relatedFolders = computeRelatedFolders(linkIssues);
+    console.log(components, interfaces);
     return {
       components, interfaces, linkIssues, relatedFolders
     };

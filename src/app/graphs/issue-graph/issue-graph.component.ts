@@ -20,6 +20,7 @@ import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from
 import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
 import { StateService } from '@app/state.service';
 import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
+import { GraphData } from '../../data/issue-graph/graph-data';
 
 @Component({
   selector: 'app-issue-graph',
@@ -41,6 +42,8 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
 
   private graphState: GraphComponent[];
 
+  private graphData: GraphData;
+
   private graphInitialized = false;
 
   private saveNodePositionsSubject = new Subject<null>();
@@ -58,22 +61,24 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService) {
     //, private bottomSheet: MatBottomSheet) {}
+    this.gs.reloadIssueGraphData();
   }
 
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.project.id}`;
     this.initGraph();
-    this.gs.state$
+    this.gs.graphData$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((current) => {
-        this.graphState = current;
+      .subscribe((newGraphData) => {
+        this.graphData = newGraphData;
+        //this.graphState = current;
         this.updateGraph();
       });
 
     this.saveNodePositionsSubject
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(() => {
-        console.log("Setting: ", this.projectStorageKey)
+        console.log("Setting: ", this.projectStorageKey);
         if (this.nodePositions != null) {
           const newData = JSON.stringify(this.nodePositions);
           localStorage.setItem(this.projectStorageKey, newData);
@@ -331,7 +336,7 @@ if (changes.project != null) {
     const zeroPosition: Point = { x: 0, y: 0 };
     const graph: GraphEditor = this.graph.nativeElement;
     //TODO: refactor into resetGraph method
-    this.gs.getIssueGraphData();
+    //this.gs.getIssueGraphData();
     graph.edgeList = [];
     graph.nodeList = [];
     graph.groupingManager.clearAllGroups();
