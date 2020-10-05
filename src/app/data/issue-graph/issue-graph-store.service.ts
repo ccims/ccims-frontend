@@ -11,16 +11,19 @@ import { map, tap } from 'rxjs/operators';
 })
 export class IssueGraphStoreService {
 
-  graphData$ = new ReplaySubject<GraphData>(1);
+  public graphData: GraphData;
+  public graphData$ = new ReplaySubject<GraphData>(1);
 
   constructor(private getIssueGraphDataQuery: GetIssueGraphDataGQL, private ss: StateService) {
   }
 
   loadIssueGraphData(projectId: string) {
       this.getIssueGraphDataQuery.fetch({projectId}).pipe(
-        tap(result => console.log(result.data)),
-        map(result => GraphDataFactory.graphDataFromGQL(result.data))
-      ).subscribe(this.graphData$);
+        map(result => GraphDataFactory.graphDataFromGQL(result.data)),
+      ).subscribe(newGraphData => {
+        this.graphData = newGraphData;
+        this.graphData$.next(this.graphData);
+      });
     }
 
   mockedLoadIssueGraphData(): Observable<GraphData> {

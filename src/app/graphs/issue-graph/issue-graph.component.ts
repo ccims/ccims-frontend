@@ -27,7 +27,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './issue-graph.component.html',
   styleUrls: ['./issue-graph.component.css'],
 })
-export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
+export class IssueGraphComponent implements OnInit, OnDestroy {
   @ViewChild('graph', { static: true }) graphWrapper;
   @ViewChild('minimap', { static: true }) minimap;
 
@@ -72,14 +72,15 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     this.projectStorageKey = `CCIMS-Project_${this.project.id}`;
     this.graph = this.graphWrapper.nativeElement;
     this.initGraph();
-    this.gs.graphData$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((newGraphData) => {
-        this.graphData = newGraphData;
-        //this.graphState = current;
-        this.drawGraph();
-      });
+
     this.gs.loadIssueGraphData(this.projectId);
+    this.gs.graphData$
+    //.pipe(takeUntil(this.destroy$))
+    .subscribe((newGraphData) => {
+      this.graphData = newGraphData;
+      //this.graphState = current;
+      this.drawGraph();
+    });
     this.saveNodePositionsSubject
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(() => {
@@ -286,65 +287,6 @@ export class IssueGraphComponent implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    /*
-this.initGraph();
-
-if (changes.project != null) {
-  if (
-    changes.project.previousValue?.id !== changes.project.currentValue?.id
-  ) {
-    this.saveNodePositionsSubscription?.unsubscribe();
-    this.projectIsNew = true;
-
-    const graph: GraphEditor = this.graph.nativeElement;
-    graph.edgeList = [];
-    graph.nodeList = [];
-    graph.groupingManager.clearAllGroups();
-
-    graph.completeRender();
-    graph.zoomToBoundingBox();
-
-    this.loadProjectSettings(this.project?.id);
-
-    this.updateGraph(
-      this.projectIsNew
-    );
-    this.projectIsNew = this.currentComponents?.length === 0;
-
-            this.graphDataSubscription = this.store
-                .pipe(
-                    takeUntil(this.destroy$),
-                    select(selectIssueGraphData, {projectId: this.project?.id}),
-                    debounceTime(30), // to give time for rendering the graph
-                ).subscribe(issueGraphData => {
-                    this.currentComponents = issueGraphData.components;
-                    this.currentIssues = issueGraphData.issues;
-                    this.updateGraph(issueGraphData.components, issueGraphData.issues, this.projectIsNew);
-                    this.projectIsNew = issueGraphData.components?.length === 0; // prevent not fully loaded states resetting this flag
-                });
-  }
-} else {
-  // only if project has not also changed
-  if (changes.blacklistFilter != null) {
-    const previous = changes.blacklistFilter.previousValue;
-    if (
-      this.blacklistFilter[IssueType.BUG] != previous[IssueType.BUG] ||
-      this.blacklistFilter[IssueType.FEATURE_REQUEST] !=
-        previous[IssueType.FEATURE_REQUEST] ||
-      this.blacklistFilter[IssueType.UNCLASSIFIED] !=
-        previous[IssueType.UNCLASSIFIED]
-    ) {
-      console.log("Call update Graph");
-      this.updateGraph(
-        this.projectIsNew
-      );
-    }
-  }
-}
-                    */
-
-  }
 
   resetGraph() {
     this.graph.edgeList = [];
