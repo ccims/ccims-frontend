@@ -15,7 +15,7 @@ export class ProjectListComponent implements OnInit {
   pendingCreate = false;
   projectName?: string;
   projects: Pick<Project, 'id' | 'name'>[];
-  constructor(private ps: ProjectStoreService, private dialog: MatDialog,private nzMessageService: NzMessageService) { }
+  constructor(private ps: ProjectStoreService, private dialog: MatDialog, private nzMessageService: NzMessageService) { }
 
   ngOnInit(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
@@ -35,7 +35,7 @@ export class ProjectListComponent implements OnInit {
       console.log(result);
       this.changeColour();
       // this.ps.getAll().subscribe(projects => this.projects = projects);
-      this.reloadProjects();
+      if (result) {this.reloadProjects(); }
     });
 
 }

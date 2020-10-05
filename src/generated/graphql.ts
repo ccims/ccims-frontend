@@ -2110,6 +2110,10 @@ export type Mutation = {
   updateComponentInterface?: Maybe<UpdateComponentInterfacePayload>;
   /** Creates a new component in the ccims and adds it to the given users */
   createComponent?: Maybe<CreateComponentPayload>;
+  /** Adds the specified component to the project if it is not already on the project */
+  addConsumedInterface?: Maybe<AddConsumedInterfacePayload>;
+  /** Removes the specified component to the project if it is not already on the project */
+  removeConsumedInterface?: Maybe<RemoveConsumedInterfacePayload>;
   /** Creates a new user in the system */
   createUser?: Maybe<CreateUserPayload>;
   /** Registers/creates a new user in the ccims system */
@@ -2338,6 +2342,18 @@ export type MutationUpdateComponentInterfaceArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationCreateComponentArgs = {
   input: CreateComponentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationAddConsumedInterfaceArgs = {
+  input: AddConsumedInterfaceInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationRemoveConsumedInterfaceArgs = {
+  input: RemoveConsumedInterfaceInput;
 };
 
 
@@ -3300,6 +3316,46 @@ export type CreateComponentInput = {
   consumedInterfaces?: Maybe<Array<Scalars['ID']>>;
 };
 
+/** The Payload/Response for the addComponentToProject mutation */
+export type AddConsumedInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which consumes the interface */
+  component?: Maybe<Component>;
+  /** The componentInterface which is consumed by the component */
+  interface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the addConsumedInterface mutation */
+export type AddConsumedInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the component where to add the consumed interface */
+  componentId: Scalars['ID'];
+  /** The id of the componentInterface which is consumed by the component */
+  interfaceId: Scalars['ID'];
+};
+
+/** The Payload/Response for the removeComponentFromProject mutation */
+export type RemoveConsumedInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which consumed the interface */
+  component?: Maybe<Component>;
+  /** The componentInterface which was consumed by the component */
+  interface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the removeConsumedInterface mutation */
+export type RemoveConsumedInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the component where to remove the interface */
+  componentId: Scalars['ID'];
+  /** The id of the componentInterface which is consumed by the component */
+  interfaceId: Scalars['ID'];
+};
+
 /** The Payload/Response for the createUser mutation */
 export type CreateUserPayload = {
   /** The string provided by the client on sending the mutation */
@@ -3454,6 +3510,16 @@ export type GetProjectQueryVariables = Exact<{
 
 
 export type GetProjectQuery = { node?: Maybe<Pick<Project, 'id' | 'name'>> };
+
+export type GetFullProjectQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetFullProjectQuery = { node?: Maybe<(
+    Pick<Project, 'id' | 'name' | 'description'>
+    & { owner: Pick<User, 'id'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Component, 'id'>> }>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
+  )> };
 
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -3642,6 +3708,52 @@ export const GetProjectDocument = gql`
   })
   export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
     document = GetProjectDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetFullProjectDocument = gql`
+    query GetFullProject($id: ID!) {
+  node(id: $id) {
+    ... on Project {
+      id
+      name
+      description
+      owner {
+        id
+      }
+      components {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      users {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      issues {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetFullProjectGQL extends Apollo.Query<GetFullProjectQuery, GetFullProjectQueryVariables> {
+    document = GetFullProjectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

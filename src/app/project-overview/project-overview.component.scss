@@ -1,18 +1,22 @@
 
 .project-title-row {
-  width: 250px;
+  width: 100%;
   margin-bottom: 12px;
   align-items: center;
+  height: 85px;
 }
 .box {
-  display: inline-block;
+  float: left;
+  //display: inline-block;
   vertical-align: top;
   width: 85px;
-  height: 85px;
+  height: auto;
   margin-right: 5px;
 }
 .content {
-  display: inline-block;
+  //display: inline-block;
+  float: left;
+
 }
 .title, .sub-title {
   margin: 0;
@@ -30,3 +34,4 @@
 img {
   width:100%;
 }
+
