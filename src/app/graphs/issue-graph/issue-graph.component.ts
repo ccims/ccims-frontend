@@ -33,7 +33,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
   currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
 
-  @Input() project: Project;
+  @Input() projectId: string;
   @Input() blacklistFilter: {
     [IssueType.BUG]?: boolean;
     [IssueType.FEATURE_REQUEST]?: boolean;
@@ -44,7 +44,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
   private graphData: GraphData;
 
-  private projectId: string;
   private graphInitialized = false;
   private firstDraw = true;
   private graph: GraphEditor;
@@ -64,19 +63,18 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
   private projectStorageKey: string;
 
 
-  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService, private route: ActivatedRoute) {
-    this.projectId = this.route.snapshot.paramMap.get('id');
+  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService) {
     //, private bottomSheet: MatBottomSheet) {}
   }
 
   ngOnInit() {
-    this.projectStorageKey = `CCIMS-Project_${this.project.id}`;
+    this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
     this.graph = this.graphWrapper.nativeElement;
     this.initGraph();
     this.loadDraw();
   }
 
-  private loadDraw() {
+  public loadDraw() {
     this.gs.loadIssueGraphData(this.projectId).subscribe(newGraphData => {
       this.graphData = newGraphData;
       this.drawGraph();
@@ -762,8 +760,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       console.log('Open component info sheet');
     }
     if (node.type === 'interface') {
-      const graph: GraphEditor = this.graphWrapper.nativeElement;
-      const componentNode = graph.getNode(node.componentNodeId);
+      const componentNode = this.graph.getNode(node.componentNodeId);
       // TODO show a edit interface dialog (or similar)
       /*
             this.bottomSheet.open(GraphNodeInfoSheetComponent, {
@@ -800,8 +797,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       }
 
       if (rootNode.type === 'interface') {
-        const graph: GraphEditor = this.graphWrapper.nativeElement;
-        const componentNode = graph.getNode(node.componentNodeId);
+        const componentNode = this.graph.getNode(node.componentNodeId);
         /*
                 // TODO show a edit component dialog (or similar)
                 this.bottomSheet.open(GraphNodeInfoSheetComponent, {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 // import { CreateComponentDialogComponent } from '../dialogs/create-component-dialog-demo/create-component-dialog.component';
 import { Project, IssueType } from 'src/app/model/state';
@@ -7,6 +7,8 @@ import { Project, IssueType } from 'src/app/model/state';
 import { projA } from 'src/app/model/demo-state';
 import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
 import { StateService } from '@app/state.service';
+import { ActivatedRoute } from '@angular/router';
+import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
 
 
 @Component({
@@ -16,8 +18,8 @@ import { StateService } from '@app/state.service';
 })
 export class IssueGraphControlsComponent implements OnInit {
 
-   // @Input() project: Project;
-   project: Project = projA;
+  @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
+   projectId: string;
    featureRequests = true;
    bugReports = true;
    undecided = true;
@@ -29,8 +31,9 @@ export class IssueGraphControlsComponent implements OnInit {
 
    }
 
-   constructor(public dialog: MatDialog, private ss: StateService) { }
-
+   constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
+    this.projectId = this.route.snapshot.paramMap.get('id');
+   }
    ngOnInit() { }
 
    public openCreateComponentDialog(): void {
@@ -48,11 +51,12 @@ export class IssueGraphControlsComponent implements OnInit {
        */
       console.log("Show create component dialog");
       const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
-        data: {projectId: this.ss.state.project.id}
+        data: {projectId: this.projectId}
       });
       createComponentDialogRef.afterClosed().subscribe(componentInformation => {
       // console.log(componentInformation);
       // do something
+      this.issueGraph.loadDraw();
       });
 
       return;
