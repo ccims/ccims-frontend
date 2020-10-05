@@ -10,10 +10,10 @@ import { Subject } from 'rxjs';
 import { debounceTime, first, takeUntil } from 'rxjs/operators';
 import { Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project } from 'src/app/model/state';
 import { issues as mockIssues } from '../../model/graph-state';
-//import { ApiService } from 'src/app/api/api.service';
-//import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
-//import { MatBottomSheet } from '@angular/material/bottom-sheet';
-//import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
+// import { ApiService } from 'src/app/api/api.service';
+// import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
+// import { MatBottomSheet } from '@angular/material/bottom-sheet';
+// import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
 import { IssueGraphStoreService } from '../../data/issue-graph/issue-graph-store.service';
 import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
 import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
@@ -53,7 +53,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
   private saveNodePositionsSubject = new Subject<null>();
   private nodePositions: {
     [prop: string]: Point;
-  } = {}
+  } = {};
 
   private destroy$ = new Subject();
 
@@ -64,7 +64,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService) {
-    //, private bottomSheet: MatBottomSheet) {}
+    // , private bottomSheet: MatBottomSheet) {}
   }
 
   ngOnInit() {
@@ -100,7 +100,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.saveNodePositionsSubject
     .pipe(takeUntil(this.destroy$), debounceTime(300))
     .subscribe(() => {
-      console.log("Setting: ", this.projectStorageKey);
+      console.log('Setting: ', this.projectStorageKey);
       if (this.nodePositions != null) {
         const newData = JSON.stringify(this.nodePositions);
         localStorage.setItem(this.projectStorageKey, newData);
@@ -150,8 +150,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       target: Node
     ) => {
       const handles = {
-        sourceHandles: sourceHandles,
-        targetHandles: targetHandles,
+        sourceHandles,
+        targetHandles,
       };
       if (source?.allowedAnchors != null) {
         handles.sourceHandles = sourceHandles.filter((linkHandle) => {
@@ -356,8 +356,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
       Object.keys(graphComponent.interfaces).forEach((interfaceId) => {
 
-
-        this.updateIssuesForNode(this.graph, interfaceNode, intface.issues, mockIssues); // new interface type has no issues only issue counts
+        // new interface type has no issues only issue counts
+        this.updateIssuesForNode(this.graph, interfaceNode, intface.issues, mockIssues);
         issueGroupParents.push(interfaceNode);
       });
 
@@ -518,7 +518,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       gm.addNodeToGroup(issueGroupContainer.id, issueFolderId);
     }
     issueFolderNode.issues.add(issue.id);
-    //relatedIssues contains issues in all folders
+    // relatedIssues contains issues in all folders
     parentNode.relatedIssues.add(issue.id);
     issueFolderNode.issueCount =
       issueFolderNode.issues.size > 99 ? '99+' : issueFolderNode.issues.size;
@@ -627,8 +627,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         });
       });
 
-      edgesToDelete.forEach((edgeId) => {
-        const edge = graph.getEdge(edgeId);
+      edgesToDelete.forEach((id) => {
+        const edge = graph.getEdge(id);
         if (edge) {
           // FIXME after grapheditor update (just use the edgeId in removeEdge)
           graph.removeEdge(edge);
@@ -669,7 +669,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       });
     }
     return edge;
-  };
+  }
 
   private onDraggedEdgeTargetChanged = (
     edge: DraggedEdge,
@@ -692,7 +692,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       }
     }
     return edge;
-  };
+  }
 
   private onEdgeAdd = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -706,10 +706,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       const sourceNode = graph.getNode(edge.source);
       const targetNode = graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
-        //this.api.addComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
+        // this.api.addComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
     }
-  };
+  }
 
   private onEdgeDrop = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -722,7 +722,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     if (edge.type === 'interface') {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
-  };
+  }
 
   private onEdgeRemove = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -736,10 +736,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       const sourceNode = graph.getNode(edge.source);
       const targetNode = graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
-        //this.api.removeComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
+        // this.api.removeComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
     }
-  };
+  }
 
   private onNodeClick = (event: CustomEvent) => {
     event.preventDefault(); // prevent node selection
@@ -816,7 +816,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       return;
     }
     console.log('Clicked on another type of node:', node);
-  };
+  }
 
   private loadNodePositions() {
     const data = localStorage.getItem(this.projectStorageKey);

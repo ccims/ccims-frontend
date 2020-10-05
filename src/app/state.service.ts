@@ -19,8 +19,6 @@ export class StateService {
   /**
    * Sets up two mutually exclusive (look at filter) subscriptions to track whether we are at a
    * url referring to a project or not
-   * @param router
-   * @param ps
    */
   syncStateWithUrl(router: Router, ps: ProjectStoreService) {
     router.events.pipe(
