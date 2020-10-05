@@ -26,7 +26,7 @@ export class IssueGraphStoreService {
       });
     }
 
-  mockedLoadIssueGraphData(): Observable<GraphData> {
-    return of(GraphDataFactory.graphDataFromMock());
+  mockedLoadIssueGraphData() {
+    this.graphData$.next(GraphDataFactory.graphDataFromMock());
   }
 }
