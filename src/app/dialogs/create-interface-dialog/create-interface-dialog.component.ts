@@ -65,7 +65,7 @@ export class CreateInterfaceDialogComponent implements OnInit {
     });
 
     */
-    this.interfaceStore.create(name, this.data.componentId, description).subscribe(({ data }) => {
+    this.interfaceStore.create(name, this.data.offeredById, description).subscribe(({ data }) => {
       console.log(data.createComponentInterface);
       this.loading = false;
     }, (error) => {
@@ -82,5 +82,5 @@ export class CreateInterfaceDialogComponent implements OnInit {
   }
 }
 export interface CreateInterfaceData {
-  componentId: string;
+  offeredById: string;
 }

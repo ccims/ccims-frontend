@@ -11,10 +11,10 @@ type LocationId = Scalars['ID'];
 export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
-  linkIssues: GraphIssue[];
+  // linkIssues: GraphIssue[];
   //issueLocations: Map<GraphIssue, LocationId[]>;
   //issueLinks: Dictionary<GraphIssue, GraphIssue>;
-  relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
+  //relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
 }
 
 interface Folder {
@@ -59,7 +59,7 @@ type GQLInterface = Pick<ComponentInterface, 'id' | 'name'> & {
   component: Pick<Component, 'id'>;
 };
 
-class GraphInterface {
+export class GraphInterface {
   id: Scalars['ID'];
   name: string;
   offeredBy: Scalars['ID'];
@@ -91,7 +91,7 @@ type GQLGraphComponent = Pick<Component, 'name' | 'id'> & {
 };
 
 
-class GraphComponent {
+export class GraphComponent {
   name: string;
   id: Scalars['ID'];
   issues: Map<IssueCategory, number>;
@@ -154,8 +154,32 @@ export class GraphDataFactory {
     const relatedFolders = computeRelatedFolders(linkIssues);
     console.log(components, interfaces);
     return {
-      components, interfaces, linkIssues, relatedFolders
+      components, interfaces,// linkIssues, relatedFolders
     };
+  }
+
+  static graphDataFromMock(): GraphData {
+
+    const issueCount1: Map<IssueCategory, number> = issueCounts(1,2,3);
+    const issueCount2: Map<IssueCategory, number> = issueCounts(4,5,6);
+
+    const component: GraphComponent = {
+      id: "1",
+      name: "TestComponent",
+      issues: issueCount1
+    };
+    const interFace: GraphInterface = {
+      id: "2",
+      name: "TestInterface",
+      offeredBy: "1",
+      issues:issueCount2,
+      consumedBy:[]
+    };
+    const data: GraphData = {
+      components: new Map([[component.id, component]]),
+      interfaces: new Map([[interFace.id, interFace]])
+    };
+    return data;
   }
 
   /*
