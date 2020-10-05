@@ -7,7 +7,7 @@ import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, first, takeUntil } from 'rxjs/operators';
 import { Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project } from 'src/app/model/state';
 import { issues as mockIssues } from '../../model/graph-state';
 //import { ApiService } from 'src/app/api/api.service';
@@ -46,6 +46,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
   private projectId: string;
   private graphInitialized = false;
+  private firstDraw = true;
   private graph: GraphEditor;
 
   private issueGroupParents: Node[] = [];
@@ -311,7 +312,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       title: intrface.name,
       type: 'interface',
       offeredById: intrface.offeredBy,
-      data: intrface,
     };
     return interfaceNode;
   }
@@ -397,9 +397,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     //this.issuesById = issues;
     */
     this.graph.completeRender();
-    if (shouldZoom) {
+    if (this.firstDraw) {
       this.graph.zoomToBoundingBox();
     }
+    this.firstDraw = false;
   }
 
   private addIssueGroupContainer(graph: GraphEditor, node: Node) {
@@ -841,7 +842,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
     createInterfaceDialogRef.afterClosed().subscribe((interfaceId) => {
       this.nodePositions[interfaceId] = {
-        ...position
+        x: position.x,
+        y: position.y
       };
       this.saveNodePositionsSubject.next();
       this.loadDraw();
@@ -865,7 +867,6 @@ interface ComponentNode extends Node {
 interface InterfaceNode extends Node {
   title: string;
   offeredById: string;
-  data: GraphInterface;
 }
 
 interface Position {
