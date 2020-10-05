@@ -72,26 +72,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.projectStorageKey = `CCIMS-Project_${this.project.id}`;
     this.graph = this.graphWrapper.nativeElement;
     this.initGraph();
-
-    this.gs.loadIssueGraphData(this.projectId);
-    this.gs.graphData$
-    //.pipe(takeUntil(this.destroy$))
-    .subscribe((newGraphData) => {
-      this.graphData = newGraphData;
-      //this.graphState = current;
-      this.drawGraph();
-    });
-    this.saveNodePositionsSubject
-      .pipe(takeUntil(this.destroy$), debounceTime(300))
-      .subscribe(() => {
-        console.log("Setting: ", this.projectStorageKey);
-        if (this.nodePositions != null) {
-          const newData = JSON.stringify(this.nodePositions);
-          localStorage.setItem(this.projectStorageKey, newData);
-        }
-      });
+    this.loadDraw();
   }
 
+  private loadDraw() {
+    this.gs.loadIssueGraphData(this.projectId).subscribe(newGraphData => {
+      this.graphData = newGraphData;
+      this.drawGraph();
+    });
+  }
   /*
   private reloadDraw() {
     this.gs.loadIssueGraphData().subscribe(newGraphData => {
@@ -109,6 +98,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     if (this.graphInitialized) {
       return;
     }
+    this.saveNodePositionsSubject
+    .pipe(takeUntil(this.destroy$), debounceTime(300))
+    .subscribe(() => {
+      console.log("Setting: ", this.projectStorageKey);
+      if (this.nodePositions != null) {
+        const newData = JSON.stringify(this.nodePositions);
+        localStorage.setItem(this.projectStorageKey, newData);
+      }
+    });
     this.graphInitialized = true;
     const graph: GraphEditor = this.graphWrapper.nativeElement;
     const minimap: GraphEditor = this.minimap.nativeElement;
@@ -723,7 +721,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       return;
     }
     if (edge.type === 'interface') {
-      this.addInterfaceToComponent(event.detail.sourceNode.data.id);
+      this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
   };
 
@@ -831,8 +829,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     return JSON.parse(data);
   }
 
-  private addInterfaceToComponent(offeredById) {
+  private addInterfaceToComponent(offeredById: string, position: Position) {
     const data: CreateInterfaceData = {
+      position,
       offeredById
     };
 
@@ -840,7 +839,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       data
     });
 
-    createInterfaceDialogRef.afterClosed().subscribe(() => this.gs.loadIssueGraphData(this.projectId));
+    createInterfaceDialogRef.afterClosed().subscribe((interfaceId) => {
+      this.nodePositions[interfaceId] = {
+        ...position
+      };
+      this.saveNodePositionsSubject.next();
+      this.loadDraw();
+    });
     /*
             createComponentDialog.afterClosed().subscribe((interfaceName: string) => {
                 if (interfaceName != null && interfaceName !== '') {
@@ -861,4 +866,9 @@ interface InterfaceNode extends Node {
   title: string;
   offeredById: string;
   data: GraphInterface;
+}
+
+interface Position {
+  x: number;
+  y: number;
 }

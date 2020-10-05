@@ -68,19 +68,18 @@ export class CreateInterfaceDialogComponent implements OnInit {
     this.interfaceStore.create(name, this.data.offeredById, description).subscribe(({ data }) => {
       console.log(data.createComponentInterface);
       this.loading = false;
+      this.dialogRef.close(data.createComponentInterface.componentInterface.id);
     }, (error) => {
       console.log('there was an error sending the query', error);
       this.loading = false;
       this.saveFailed = true;
     });
-    if (!this.saveFailed) {
-      this.dialogRef.close();
-    }
   }
   afterAlertClose(): void {
     this.saveFailed = false;
   }
 }
 export interface CreateInterfaceData {
+  position: {x: number, y: number};
   offeredById: string;
 }
