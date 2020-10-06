@@ -20,6 +20,7 @@ import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-di
 import { StateService } from '@app/state.service';
 import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
 import { GraphComponent, GraphInterface, GraphData } from '../../data/issue-graph/graph-data';
+import { IssueCategory } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-issue-graph',
@@ -287,6 +288,30 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       this.currentVisibleArea = event.detail.currentViewWindow;
     });
   }
+  private addIssueGroupContainer(node: Node) {
+    const gm = this.graph.groupingManager;
+    gm.markAsTreeRoot(node.id);
+    gm.setGroupBehaviourOf(
+      node.id,
+      new IssueGroupContainerParentBehaviour()
+    );
+
+    const issueGroupContainerNode = {
+      id: `${node.id}__issue-group-container`,
+      type: 'issue-group-container',
+      dynamicTemplate: 'issue-group-container',
+      x: 0,
+      y: 0,
+      position: 'bottom',
+      issueGroupNodes: new Set<string>(),
+    };
+    this.graph.addNode(issueGroupContainerNode);
+    gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
+    gm.setGroupBehaviourOf(
+      issueGroupContainerNode.id,
+      new IssueGroupContainerBehaviour()
+    );
+  }
 
 
   resetGraph() {
@@ -318,6 +343,20 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     return interfaceNode;
   }
 
+  issueFolderId(node: Node, issueCategory: IssueCategory): string {
+    return `${node.id}__${issueCategory}`;
+  }
+
+  issueFolderNode(node: Node, issueCategory: IssueCategory): IssueFolderNode {
+    return {
+      id: this.issueFolderId(node, issueCategory),
+      type: issueCategory,
+      x: 0,
+      y: 0,
+      issues: new Set<string>(),
+      issueCount: 0,
+    };
+  }
   setupNode(node: ComponentNode | InterfaceNode) {
     this.graph.addNode(node);
     this.issueGroupParents.push(node);
@@ -346,12 +385,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
 
     /*
-    this.graphState.forEach((graphComponent) => {
-      //const componentNodeId = `component_${graphComponent.id}`;
-      //const position: Point = this.nodePositions?.[componentNodeId] ?? { x: 0, y: 0 };
 
-      this.graph.addNode(componentGraphNode);
-      this.addIssueGroupContainer(this.graph, componentGraphNode);
       this.updateIssuesForNode(this.graph, componentGraphNode, graphComponent.issues, mockIssues);
       //this.newUpdateIssuesForNode(graph, componentGraphNode, graphComponent.issueCounts);
       issueGroupParents.push(componentGraphNode);
@@ -403,33 +437,23 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.firstDraw = false;
   }
 
-  createIssueFolders(node: Node) {
+  addIssueFolders(node: ComponentNode | InterfaceNode) {
     this.addIssueGroupContainer(node);
+    this.addIssueFolderNodes(node);
   }
 
-  private addIssueGroupContainer(node: Node) {
-    const gm = this.graph.groupingManager;
-    gm.markAsTreeRoot(node.id);
-    gm.setGroupBehaviourOf(
-      node.id,
-      new IssueGroupContainerParentBehaviour()
-    );
+  private addIssueFolderNodes(node: ComponentNode | InterfaceNode) {
+    const issueGroupContainer = this.graph.getNode(`${node.id}__issue-group-container`);
+    Object.keys(IssueCategory).forEach((category: IssueCategory) => {
+      const issueFolderNode = this.issueFolderNode(node, category);
+      this.graph.addNode(issueFolderNode);
+      this.graph.groupingManager.addNodeToGroup(issueGroupContainer.id, issueFolderNode.id);
+    });
+  }
 
-    const issueGroupContainerNode = {
-      id: `${node.id}__issue-group-container`,
-      type: 'issue-group-container',
-      dynamicTemplate: 'issue-group-container',
-      x: 0,
-      y: 0,
-      position: 'bottom',
-      issueGroupNodes: new Set<string>(),
-    };
-    this.graph.addNode(issueGroupContainerNode);
-    gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
-    gm.setGroupBehaviourOf(
-      issueGroupContainerNode.id,
-      new IssueGroupContainerBehaviour()
-    );
+
+  issueGroupContainerId(node: Node): string {
+    return `${node.id}__issue-group-container`;
   }
 
 
@@ -853,6 +877,11 @@ interface ComponentNode extends Node {
 interface InterfaceNode extends Node {
   title: string;
   offeredById: string;
+}
+
+interface IssueFolderNode extends Node {
+    type: IssueCategory;
+    issueCount: number;
 }
 
 interface Position {
