@@ -158,7 +158,7 @@ export class GraphDataFactory {
     };
   }
 
-  static graphDataFromMock(): GraphData {
+  static graphDataMock(): GraphData {
 
     const issueCount1: Map<IssueCategory, number> = issueCounts(1,2,3);
     const issueCount2: Map<IssueCategory, number> = issueCounts(4,5,6);

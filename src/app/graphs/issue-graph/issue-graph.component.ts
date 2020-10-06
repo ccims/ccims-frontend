@@ -320,7 +320,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
   setupNode(node: ComponentNode | InterfaceNode) {
     this.graph.addNode(node);
-    this.addIssueGroupContainer(this.graph, node);
     this.issueGroupParents.push(node);
   }
 
@@ -335,6 +334,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
   }
 
   drawGraph(shouldZoom: boolean = true) {
+    //Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
     this.resetGraph();
     const componentNodes = Array.from(this.graphData.components.values()).map(component => this.componentNode(component));
     componentNodes.forEach(node => this.setupNode(node));
@@ -343,6 +343,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       this.setupNode(node);
       this.connectToComponentNode(node);
     });
+
 
     /*
     this.graphState.forEach((graphComponent) => {
@@ -402,10 +403,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.firstDraw = false;
   }
 
-  private addIssueGroupContainer(graph: GraphEditor, node: Node) {
-    const gm = graph.groupingManager;
+  createIssueFolders(node: Node) {
+    this.addIssueGroupContainer(node);
+  }
+
+  private addIssueGroupContainer(node: Node) {
+    const gm = this.graph.groupingManager;
     gm.markAsTreeRoot(node.id);
-    graph.groupingManager.setGroupBehaviourOf(
+    gm.setGroupBehaviourOf(
       node.id,
       new IssueGroupContainerParentBehaviour()
     );
@@ -419,7 +424,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       position: 'bottom',
       issueGroupNodes: new Set<string>(),
     };
-    graph.addNode(issueGroupContainerNode);
+    this.graph.addNode(issueGroupContainerNode);
     gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
     gm.setGroupBehaviourOf(
       issueGroupContainerNode.id,
@@ -427,23 +432,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     );
   }
 
-  private updateIssuesForNode(graph: GraphEditor, parentNode: Node, issueIds: string[], issues: IssuesState) {
-    this.issueToRelatedNode.set(parentNode.id.toString(), new Set(issueIds));
-    issueIds.forEach((issueId) => {
-      if (issues[issueId] == null) {
-        return;
-      }
-      const issue = issues[issueId];
-      if (this.blacklistFilter[issue.type] ?? false) {
-        return; // issue is filtered!
-      }
-      if (!this.issueToGraphNode.has(issueId)) {
-        this.issueToGraphNode.set(issueId, new Set<string>());
-      }
-      this.addIssueToNode(graph, parentNode, issues[issueId]);
-    }
-    );
-  }
+
 
   private updateIssueOfNode(graph: GraphEditor, parentNode: Node, issue: Issue) {
     let issueFolderId = `${parentNode.id}__undecided`;
@@ -490,7 +479,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.addIssueToNode(graph, parentNode, issue);
   }
 
-  private addIssueToNode(graph: GraphEditor, parentNode: Node, issue: Issue) {
+  private addIssueToNode(parentNode: Node, issue: Issue) {
     let issueFolderId = `${parentNode.id}__undecided`;
     let issueType = 'issue-undecided';
     if (issue.type === IssueType.BUG) {
@@ -501,11 +490,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       issueType = 'issue-feature';
     }
 
-    const gm = graph.groupingManager;
-    const issueGroupContainer = graph.getNode(
+    const gm = this.graph.groupingManager;
+    const issueGroupContainer = this.graph.getNode(
       `${parentNode.id}__issue-group-container`
     );
-    let issueFolderNode = graph.getNode(issueFolderId);
+    let issueFolderNode = this.graph.getNode(issueFolderId);
     if (issueFolderNode == null) {
       issueFolderNode = {
         id: issueFolderId,
@@ -515,7 +504,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         issues: new Set<string>(),
         issueCount: 0,
       };
-      graph.addNode(issueFolderNode);
+      this.graph.addNode(issueFolderNode);
       gm.addNodeToGroup(issueGroupContainer.id, issueFolderId);
     }
     issueFolderNode.issues.add(issue.id);
