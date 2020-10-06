@@ -17,10 +17,11 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentDetailsComponent } from '@app/component-details/component-details.component';
 
 
 @NgModule({
-    declarations: [IssueGraphComponent, IssueGraphControlsComponent, GraphContainerComponent],
+    declarations: [IssueGraphComponent, IssueGraphControlsComponent, GraphContainerComponent, ComponentDetailsComponent],
     imports: [
         CommonModule,
         MatToolbarModule,
@@ -33,7 +34,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         BrowserModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        FormsModule,
+        FormsModule
 
     ],
     exports: [

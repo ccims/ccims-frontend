@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { ComponentDetailsComponent } from '@app/component-details/component-details.component';
 
 @Component({
   selector: 'app-graph-container',

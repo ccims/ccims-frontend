@@ -45,6 +45,7 @@ import { GlobalConfig, ToastrModule } from 'ngx-toastr';
 import { RemoveDialogComponent } from './dialogs/remove-dialog/remove-dialog.component';
 import { CreateComponentDialogComponent } from './dialogs/create-component-dialog/create-component-dialog.component';
 import { CreateInterfaceDialogComponent } from './dialogs/create-interface-dialog/create-interface-dialog.component';
+// import { ComponentDetailsComponent } from './component-details/component-details.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -73,6 +74,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     RemoveDialogComponent,
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent
+   //  ComponentDetailsComponent
   ],
   imports: [
     BrowserModule,
