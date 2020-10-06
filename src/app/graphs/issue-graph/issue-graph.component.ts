@@ -398,9 +398,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     //this.issuesById = issues;
     */
     this.graph.completeRender();
-    if (shouldZoom) {
+    if (this.firstDraw) {
       this.graph.zoomToBoundingBox();
     }
+    this.firstDraw = false;
   }
 
   private addIssueGroupContainer(graph: GraphEditor, node: Node) {
