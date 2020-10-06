@@ -355,7 +355,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       x: 0,
       y: 0,
       issues: new Set<string>(),
-      issueCount: "0",
+      issueCount: '0'
     };
   }
   setupNode(node: ComponentNode | InterfaceNode) {
