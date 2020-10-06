@@ -38,7 +38,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "./node_modules/@primer"
+                "./node_modules/@primer",
+                "src/styles"
               ]
             },
             "scripts": []
