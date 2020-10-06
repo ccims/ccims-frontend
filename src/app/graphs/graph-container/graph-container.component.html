@@ -1,5 +1,5 @@
-<mat-drawer-container class="example-container" hasBackdrop="false">
-  <mat-drawer style="width: 100%;" #drawer mode="push" position="end">
+<mat-drawer-container style="height:100%"class="example-container" hasBackdrop="false">
+  <mat-drawer style="width: 100%;" #drawer mode="slide" position="end">
     <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
     <div *ngIf="drawerNode && drawerNode.type==='component'">{{this.drawerNode.title}}</div>
   </mat-drawer>
