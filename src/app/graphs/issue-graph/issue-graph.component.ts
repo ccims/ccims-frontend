@@ -311,6 +311,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       issueGroupContainerNode.id,
       new IssueGroupContainerBehaviour()
     );
+    this.issueGroupParents.push(node);
   }
 
 
@@ -354,12 +355,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       x: 0,
       y: 0,
       issues: new Set<string>(),
-      issueCount: 0,
+      issueCount: "0",
     };
   }
   setupNode(node: ComponentNode | InterfaceNode) {
     this.graph.addNode(node);
-    this.issueGroupParents.push(node);
   }
 
   connectToComponentNode(node: InterfaceNode) {
@@ -376,11 +376,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     //Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
     this.resetGraph();
     const componentNodes = Array.from(this.graphData.components.values()).map(component => this.componentNode(component));
-    componentNodes.forEach(node => this.setupNode(node));
+    componentNodes.forEach(node => {
+      this.setupNode(node);
+      this.addIssueFolders(node);
+    });
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(intrface => this.interfaceNode(intrface));
     interfaceNodes.forEach(node => {
       this.setupNode(node);
       this.connectToComponentNode(node);
+      this.addIssueFolders(node);
     });
 
 
@@ -500,7 +504,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.addIssueToNode(graph, parentNode, issue);
+    this.addIssueToNode(parentNode, issue);
   }
 
   private addIssueToNode(parentNode: Node, issue: Issue) {
@@ -881,7 +885,7 @@ interface InterfaceNode extends Node {
 
 interface IssueFolderNode extends Node {
     type: IssueCategory;
-    issueCount: number;
+    issueCount: string;
 }
 
 interface Position {
