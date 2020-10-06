@@ -362,7 +362,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.graph.addNode(node);
   }
 
-  connectToComponentNode(node: InterfaceNode) {
+  connectToOfferingComponent(node: InterfaceNode) {
     const edge = {
       source: node.offeredById,
       target: node.id,
@@ -383,7 +383,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(intrface => this.interfaceNode(intrface));
     interfaceNodes.forEach(node => {
       this.setupNode(node);
-      this.connectToComponentNode(node);
+      this.connectToOfferingComponent(node);
       this.addIssueFolders(node);
     });
 
@@ -401,7 +401,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         issueGroupParents.push(interfaceNode);
       });
 
-      //add edges from components to other components interfaces and to other components
+      //add edges from components to other components interfaces and to other coqmponents
       graphComponent.componentRelations.forEach((relation) => {
         let edge: Edge;
         if (relation.targetType === 'component') {
