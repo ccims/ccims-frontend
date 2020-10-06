@@ -329,8 +329,12 @@ export type IssueFilter = {
   category?: Maybe<Array<IssueCategory>>;
   /** If given, filters for issues which do/don't link __to__ other issues */
   linksIssues?: Maybe<Scalars['Boolean']>;
+  /** If given, filters for issues which are/aren't linkt __by__ other issues */
+  isLinkedByIssues?: Maybe<Scalars['Boolean']>;
   /** The issue must link __to__ at least one of the issues with the given ids */
   linkedIssues?: Maybe<Array<Scalars['ID']>>;
+  /** The issue must be linked __by__ at least one of the issues with the given ids */
+  linkedByIssues?: Maybe<Array<Scalars['ID']>>;
   /** The issue (body text) must have all the reactions in one of the lists given. */
   reactions?: Maybe<Array<Array<Scalars['String']>>>;
   /** Any of the users with the given ids must be an assignee to the issue for it to match this filter */
@@ -1199,6 +1203,8 @@ export type Project = Node & {
   name: Scalars['String'];
   /** All compomponents which are a part of this project and match (if given) `filterBy` */
   components?: Maybe<ComponentPage>;
+  /** Requests component interfaces which are offered by any of this project's components */
+  interfaces?: Maybe<ComponentInterfacePage>;
   /** All users that participate in this project and (if given)match `filterBy` */
   users?: Maybe<UserPage>;
   /** The user who administrates "owns" the project */
@@ -1224,6 +1230,16 @@ export type ProjectComponentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<ComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A project is a one unit in which the participating components colaborate */
+export type ProjectInterfacesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentInterfaceFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -2086,8 +2102,18 @@ export type Mutation = {
   addComponentToProject?: Maybe<AddComponentToProjectPayload>;
   /** Removes the specified component from the project if it is on the project */
   removeComponentFromProject?: Maybe<RemoveComponentFromProjectPayload>;
+  /** Creates a new componentInterface on the given component */
+  createComponentInterface?: Maybe<CreateComponentInterfacePayload>;
+  /** Delets the specified componentInterface */
+  deleteComponentInterface?: Maybe<DeleteComponentInterfacePayload>;
+  /** Updates the specified componentInterface */
+  updateComponentInterface?: Maybe<UpdateComponentInterfacePayload>;
   /** Creates a new component in the ccims and adds it to the given users */
   createComponent?: Maybe<CreateComponentPayload>;
+  /** Adds the specified component to the project if it is not already on the project */
+  addConsumedInterface?: Maybe<AddConsumedInterfacePayload>;
+  /** Removes the specified component to the project if it is not already on the project */
+  removeConsumedInterface?: Maybe<RemoveConsumedInterfacePayload>;
   /** Creates a new user in the system */
   createUser?: Maybe<CreateUserPayload>;
   /** Registers/creates a new user in the ccims system */
@@ -2296,8 +2322,38 @@ export type MutationRemoveComponentFromProjectArgs = {
 
 
 /** Mutations to change the data within the ccims */
+export type MutationCreateComponentInterfaceArgs = {
+  input: CreateComponentInterfaceInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationDeleteComponentInterfaceArgs = {
+  input: DeleteComponentInterfaceInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateComponentInterfaceArgs = {
+  input: UpdateComponentInterfaceInput;
+};
+
+
+/** Mutations to change the data within the ccims */
 export type MutationCreateComponentArgs = {
   input: CreateComponentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationAddConsumedInterfaceArgs = {
+  input: AddConsumedInterfaceInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationRemoveConsumedInterfaceArgs = {
+  input: RemoveConsumedInterfaceInput;
 };
 
 
@@ -3125,6 +3181,76 @@ export type RemoveComponentFromProjectInput = {
   componentId: Scalars['ID'];
 };
 
+/** The Payload/Response for the createComponentInterface mutation */
+export type CreateComponentInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The componentInterface created by this mutation */
+  componentInterface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the createComponentInterface mutation */
+export type CreateComponentInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /**
+   * The name of the componentInterface
+   * 
+   * Max. 256 characters
+   */
+  name: Scalars['String'];
+  /**
+   * The description of the componentInterface
+   * 
+   * Max. 65536 characters
+   */
+  description?: Maybe<Scalars['String']>;
+  /** The id of the component on which the created interface should be */
+  component: Scalars['ID'];
+};
+
+/** The Payload/Response for the deleteComponentInterface mutation */
+export type DeleteComponentInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteComponentInterface mutation */
+export type DeleteComponentInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the componentInterface to delete */
+  componentInterfaceId: Scalars['ID'];
+};
+
+/** The Payload/Response for the updateComponentInterface mutation */
+export type UpdateComponentInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The componentInterface updated by this mutation */
+  componentInterface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the updateComponentInterface mutation, updates only the provided fields */
+export type UpdateComponentInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the componentinterface to update */
+  componentinterfaceId: Scalars['ID'];
+  /**
+   * The name of the componentinterface
+   * 
+   * Max. 256 characters
+   */
+  name?: Maybe<Scalars['String']>;
+  /**
+   * The description of the componentinterface
+   * 
+   * Max. 65536 characters
+   */
+  description?: Maybe<Scalars['String']>;
+};
+
 /** The Payload/Response for the createComponent mutation */
 export type CreateComponentPayload = {
   /** The string provided by the client on sending the mutation */
@@ -3188,6 +3314,46 @@ export type CreateComponentInput = {
    * Can be `null`
    */
   consumedInterfaces?: Maybe<Array<Scalars['ID']>>;
+};
+
+/** The Payload/Response for the addComponentToProject mutation */
+export type AddConsumedInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which consumes the interface */
+  component?: Maybe<Component>;
+  /** The componentInterface which is consumed by the component */
+  interface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the addConsumedInterface mutation */
+export type AddConsumedInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the component where to add the consumed interface */
+  componentId: Scalars['ID'];
+  /** The id of the componentInterface which is consumed by the component */
+  interfaceId: Scalars['ID'];
+};
+
+/** The Payload/Response for the removeComponentFromProject mutation */
+export type RemoveConsumedInterfacePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which consumed the interface */
+  component?: Maybe<Component>;
+  /** The componentInterface which was consumed by the component */
+  interface?: Maybe<ComponentInterface>;
+};
+
+/** The inputs for the removeConsumedInterface mutation */
+export type RemoveConsumedInterfaceInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the component where to remove the interface */
+  componentId: Scalars['ID'];
+  /** The id of the componentInterface which is consumed by the component */
+  interfaceId: Scalars['ID'];
 };
 
 /** The Payload/Response for the createUser mutation */
@@ -3292,6 +3458,45 @@ export type CreateLabelInput = {
   components: Array<Scalars['ID']>;
 };
 
+export type CreateComponentMutationVariables = Exact<{
+  input: CreateComponentInput;
+}>;
+
+
+export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Maybe<(
+      Pick<Component, 'id' | 'name'>
+      & { ims?: Maybe<Pick<Ims, 'id'>>, projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id'>> }>>> }> }
+    )> }> };
+
+export type CreateComponentInterfaceMutationVariables = Exact<{
+  input: CreateComponentInterfaceInput;
+}>;
+
+
+export type CreateComponentInterfaceMutation = { createComponentInterface?: Maybe<{ componentInterface?: Maybe<(
+      Pick<ComponentInterface, 'id' | 'name'>
+      & { component: Pick<Component, 'id'> }
+    )> }> };
+
+export type GetIssueGraphDataQueryVariables = Exact<{
+  projectId: Scalars['ID'];
+}>;
+
+
+export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Component, 'name' | 'id'>
+        & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
+      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<ComponentInterface, 'id' | 'name'>
+        & { component: Pick<Component, 'id'>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+      )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Issue, 'id' | 'category'>
+        & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+            Pick<Issue, 'id' | 'category'>
+            & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }> }
+          )>>> }> }
+      )>>> }> }> };
+
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
 }>;
@@ -3305,6 +3510,16 @@ export type GetProjectQueryVariables = Exact<{
 
 
 export type GetProjectQuery = { node?: Maybe<Pick<Project, 'id' | 'name'>> };
+
+export type GetFullProjectQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetFullProjectQuery = { node?: Maybe<(
+    Pick<Project, 'id' | 'name' | 'description'>
+    & { owner: Pick<User, 'id'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Component, 'id'>> }>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
+  )> };
 
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
@@ -3320,6 +3535,140 @@ export type DeleteProjectMutationVariables = Exact<{
 
 export type DeleteProjectMutation = { deleteProject?: Maybe<Pick<DeleteProjectPayload, 'clientMutationID'>> };
 
+export const CreateComponentDocument = gql`
+    mutation CreateComponent($input: CreateComponentInput!) {
+  createComponent(input: $input) {
+    component {
+      id
+      name
+      ims {
+        id
+      }
+      projects {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateComponentGQL extends Apollo.Mutation<CreateComponentMutation, CreateComponentMutationVariables> {
+    document = CreateComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateComponentInterfaceDocument = gql`
+    mutation CreateComponentInterface($input: CreateComponentInterfaceInput!) {
+  createComponentInterface(input: $input) {
+    componentInterface {
+      id
+      name
+      component {
+        id
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateComponentInterfaceGQL extends Apollo.Mutation<CreateComponentInterfaceMutation, CreateComponentInterfaceMutationVariables> {
+    document = CreateComponentInterfaceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetIssueGraphDataDocument = gql`
+    query GetIssueGraphData($projectId: ID!) {
+  node(id: $projectId) {
+    ... on Project {
+      components {
+        nodes {
+          name
+          id
+          bugs: issuesOnLocation(filterBy: {category: BUG}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED}) {
+            totalCount
+          }
+        }
+      }
+      interfaces {
+        nodes {
+          id
+          name
+          component {
+            id
+          }
+          bugs: issuesOnLocation(filterBy: {category: BUG}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED}) {
+            totalCount
+          }
+          consumedBy {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+      linkingIssues: issues(filterBy: {linksIssues: true}) {
+        nodes {
+          id
+          category
+          locations {
+            nodes {
+              id
+            }
+          }
+          linksToIssues {
+            nodes {
+              id
+              category
+              locations {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetIssueGraphDataGQL extends Apollo.Query<GetIssueGraphDataQuery, GetIssueGraphDataQueryVariables> {
+    document = GetIssueGraphDataDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetAllProjectsDocument = gql`
     query GetAllProjects($filter: ProjectFilter) {
   projects(filterBy: $filter) {
@@ -3359,6 +3708,52 @@ export const GetProjectDocument = gql`
   })
   export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
     document = GetProjectDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetFullProjectDocument = gql`
+    query GetFullProject($id: ID!) {
+  node(id: $id) {
+    ... on Project {
+      id
+      name
+      description
+      owner {
+        id
+      }
+      components {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      users {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      issues {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetFullProjectGQL extends Apollo.Query<GetFullProjectQuery, GetFullProjectQueryVariables> {
+    document = GetFullProjectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

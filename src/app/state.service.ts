@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NavigationEnd, Router, PRIMARY_OUTLET } from '@angular/router';
+import { NavigationEnd, Router, PRIMARY_OUTLET, NavigationStart } from '@angular/router';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { Project } from 'src/generated/graphql';
@@ -19,20 +19,18 @@ export class StateService {
   /**
    * Sets up two mutually exclusive (look at filter) subscriptions to track whether we are at a
    * url referring to a project or not
-   * @param router
-   * @param ps
    */
   syncStateWithUrl(router: Router, ps: ProjectStoreService) {
     router.events.pipe(
-      filter(event => (event instanceof NavigationEnd && this.isProjectURL(event.url))),
-      switchMap((event: NavigationEnd) => ps.get(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path))
+      filter(event => (event instanceof NavigationStart && this.isProjectURL(event.url))),
+      switchMap((event: NavigationStart) => ps.get(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path))
     ).subscribe(project => {
       this.state.project = project;
       this.state$.next(this.state);
     });
 
     router.events.pipe(
-      filter(event => (event instanceof NavigationEnd && !this.isProjectURL(event.url))),
+      filter(event => (event instanceof NavigationStart && !this.isProjectURL(event.url))),
     ).subscribe(_ =>  {
       this.state.project = null;
       this.state$.next(this.state);

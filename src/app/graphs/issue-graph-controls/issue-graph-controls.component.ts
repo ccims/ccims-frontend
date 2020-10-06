@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 // import { CreateComponentDialogComponent } from '../dialogs/create-component-dialog-demo/create-component-dialog.component';
 import { Project, IssueType } from 'src/app/model/state';
@@ -6,6 +6,9 @@ import { Project, IssueType } from 'src/app/model/state';
 // import { ApiService } from '../api/api.service';
 import { projA } from 'src/app/model/demo-state';
 import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
+import { StateService } from '@app/state.service';
+import { ActivatedRoute } from '@angular/router';
+import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
 
 
 @Component({
@@ -15,8 +18,8 @@ import { CreateComponentDialogComponent } from '@app/dialogs/create-component-di
 })
 export class IssueGraphControlsComponent implements OnInit {
 
-   // @Input() project: Project;
-   project: Project = projA;
+  @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
+   projectId: string;
    featureRequests = true;
    bugReports = true;
    undecided = true;
@@ -25,11 +28,11 @@ export class IssueGraphControlsComponent implements OnInit {
        [IssueType.BUG]: false,
        [IssueType.FEATURE_REQUEST]: false,
        [IssueType.UNCLASSIFIED]: false,
+   };
 
+   constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
+    this.projectId = this.route.snapshot.paramMap.get('id');
    }
-
-   constructor(public dialog: MatDialog) { }
-
    ngOnInit() { }
 
    public openCreateComponentDialog(): void {
@@ -46,10 +49,13 @@ export class IssueGraphControlsComponent implements OnInit {
        });
        */
       console.log("Show create component dialog");
-      const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent);
+      const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
+        data: {projectId: this.projectId}
+      });
       createComponentDialogRef.afterClosed().subscribe(componentInformation => {
       // console.log(componentInformation);
       // do something
+      this.issueGraph.reload();
       });
 
       return;

@@ -18,6 +18,40 @@ query GetProject($id: ID!) {
   }
 }
 
+query GetFullProject($id: ID!) {
+  node(id: $id) {
+    ...on Project {
+      id
+      name
+      description
+      owner {
+        id
+      }
+      components {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      users {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      issues {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+
 
 mutation CreateProject($input: CreateProjectInput!){
   createProject(input: $input){

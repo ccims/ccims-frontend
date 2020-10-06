@@ -1,0 +1,18 @@
+mutation CreateComponent($input: CreateComponentInput!) {
+  createComponent(input: $input) {
+		component {
+		  id
+      name
+      ims {
+        id
+      }
+      projects {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+		}
+  }
+}

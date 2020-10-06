@@ -1,0 +1,11 @@
+mutation CreateComponentInterface($input: CreateComponentInterfaceInput!){
+  createComponentInterface(input: $input){
+    componentInterface {
+      id
+      name
+      component {
+        id
+      }
+    }
+  }
+}
