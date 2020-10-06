@@ -8,15 +8,15 @@ import { Injectable } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 
-/*
+
 @Injectable({
   providedIn: 'root',
-})*/
+})
 export class SliderContentComponent implements AfterContentChecked {
 
   @ContentChildren(SliderContentItemComponent)
   _items: QueryList<SliderContentItemComponent>;
-  selectedIndex = 1;
+  selectedIndex = 0;
 
   ngAfterContentChecked() {
     this._items.forEach((item: SliderContentItemComponent, index: number) => {

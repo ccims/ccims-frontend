@@ -9,7 +9,7 @@ import { CreateComponentDialogComponent } from '@app/dialogs/create-component-di
 import { StateService } from '@app/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
-import {SliderContentComponent} from '../../slider-content/slider-content.component';
+import { SliderContentComponent } from '@app/slider-content/slider-content.component';
 
 @Component({
   selector: 'app-issue-graph-controls',
@@ -29,9 +29,9 @@ export class IssueGraphControlsComponent implements OnInit {
        [IssueType.FEATURE_REQUEST]: false,
        [IssueType.UNCLASSIFIED]: false,
 
-   }
+   };
 
-   constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
+   constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute,private slider: SliderContentComponent) {
     this.projectId = this.route.snapshot.paramMap.get('id');
    }
    ngOnInit() { }
@@ -74,7 +74,7 @@ export class IssueGraphControlsComponent implements OnInit {
        return this.blacklistFilter;
    }
    public makeIt() {
-     //this.slider.selectedIndex =0;
+     this.slider.selectedIndex =1;
      //console.log(this.slider._items);
 
    }

@@ -12,10 +12,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import '@ustutt/grapheditor-webcomponent/lib/index';
 import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-controls.component';
-
+import { SliderContentComponent } from '../slider-content/slider-content.component';
+import { SliderContentItemComponent } from '../slider-content-item/slider-content-item.component';
 
 @NgModule({
-    declarations: [IssueGraphComponent, IssueGraphControlsComponent],
+    declarations: [IssueGraphComponent, IssueGraphControlsComponent,  SliderContentComponent,
+      SliderContentItemComponent],
     imports: [
         CommonModule,
         MatToolbarModule,
@@ -24,11 +26,13 @@ import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-
         MatIconModule,
         MatListModule,
         MatSlideToggleModule,
-        MatDialogModule
+        MatDialogModule,
+
     ],
     exports: [
         IssueGraphComponent,
-        IssueGraphControlsComponent
+        IssueGraphControlsComponent, SliderContentComponent,
+        SliderContentItemComponent
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA
