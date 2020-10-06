@@ -1,7 +1,10 @@
-<mat-drawer-container class="example-container" hasBackdrop="false">
-  <mat-drawer #drawer mode="side" position="end">I'm a drawer</mat-drawer>
-  <mat-drawer-content>
+<mat-drawer-container style="height:100%"class="example-container" hasBackdrop="false">
+  <mat-drawer style="width: 100%;" #drawer mode="side" position="end">
     <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
-    <app-issue-graph-controls></app-issue-graph-controls>
+    <div *ngIf="drawerNode && drawerNode.type==='component'">{{this.drawerNode.title}}</div>
+    <app-component-details *ngIf="drawerNode && drawerNode.type==='component'" [clickedNode]="drawerNode"></app-component-details>
+  </mat-drawer>
+  <mat-drawer-content>
+    <app-issue-graph-controls [drawer]=drawer></app-issue-graph-controls>
   </mat-drawer-content>
 </mat-drawer-container>

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
+import { ComponentDetailsComponent } from '@app/component-details/component-details.component';
 
 @Component({
   selector: 'app-graph-container',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./graph-container.component.scss']
 })
 export class GraphContainerComponent implements OnInit {
-
+  drawerNode: any;
+   @ViewChild(MatDrawer) drawer!: MatDrawer;
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  recieveNode(node: any){
+    this.drawerNode = node;
+    console.log(node);
+    this.drawer.toggle();
+  }
 }

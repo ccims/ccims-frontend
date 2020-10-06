@@ -9,6 +9,8 @@ import { CreateComponentDialogComponent } from '@app/dialogs/create-component-di
 import { StateService } from '@app/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
+import { MatDrawer } from '@angular/material/sidenav';
+import { LoginComponent } from '@app/login/login.component';
 
 
 @Component({
@@ -24,6 +26,9 @@ export class IssueGraphControlsComponent implements OnInit {
    bugReports = true;
    undecided = true;
 
+   @Input()drawer: MatDrawer;
+
+
    private blacklistFilter = {
        [IssueType.BUG]: false,
        [IssueType.FEATURE_REQUEST]: false,
@@ -33,7 +38,8 @@ export class IssueGraphControlsComponent implements OnInit {
    constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
    }
-   ngOnInit() { }
+   ngOnInit() {
+   }
 
    public openCreateComponentDialog(): void {
      /*
