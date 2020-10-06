@@ -1,6 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~ngx-toastr/toastr';
+@import 'styles/variables.scss';
+@include mat-core();
+
+@include angular-material-theme($theme);
+
+.list-item-active {
+  font-weight: bold;
+  background-color: mat-color($accent, 300) !important;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .canvas-background {

@@ -12,10 +12,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import '@ustutt/grapheditor-webcomponent/lib/index';
 import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-controls.component';
+import { GraphContainerComponent } from './graph-container/graph-container.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-    declarations: [IssueGraphComponent, IssueGraphControlsComponent],
+    declarations: [IssueGraphComponent, IssueGraphControlsComponent, GraphContainerComponent],
     imports: [
         CommonModule,
         MatToolbarModule,
@@ -24,7 +29,12 @@ import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-
         MatIconModule,
         MatListModule,
         MatSlideToggleModule,
-        MatDialogModule
+        MatDialogModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        FormsModule,
+
     ],
     exports: [
         IssueGraphComponent,
@@ -32,6 +42,9 @@ import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA
+    ],
+    providers: [
+      { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
     ]
 })
 export class GraphsModule { }
