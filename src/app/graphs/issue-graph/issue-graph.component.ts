@@ -6,7 +6,7 @@ import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
 import { Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project } from 'src/app/model/state';
 import { issues as mockIssues } from '../../model/graph-state';
@@ -55,7 +55,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     [prop: string]: Point;
   } = {};
 
-  private destroy$ = new Subject();
+  private destroy$ = new ReplaySubject(1);
 
   private issuesById: IssuesState = {};
   private issueToRelatedNode: Map<string, Set<string>> = new Map();
@@ -75,6 +75,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         this.graphData = newGraphData;
         this.drawGraph();
       })
+    ).pipe(
+      takeUntil(this.destroy$)
     ).subscribe();
   }
 
@@ -84,14 +86,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.initGraph();
   }
 
-  /*
-  private reloadDraw() {
-    this.gs.loadIssueGraphData().subscribe(newGraphData => {
-      this.graphData = newGraphData;
-      this.drawGraph();
-    });
-  }
-  */
   ngOnDestroy() {
     this.destroy$.next();
   }
@@ -461,49 +455,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
   }
 
 
-
-  private updateIssueOfNode(graph: GraphEditor, parentNode: Node, issue: Issue) {
-    let issueFolderId = `${parentNode.id}__undecided`;
-    let issueType = 'issue-undecided';
-    if (issue.type === IssueType.BUG) {
-      issueFolderId = `${parentNode.id}__bug`;
-      issueType = 'issue-bug';
-    } else if (issue.type === IssueType.FEATURE_REQUEST) {
-      issueFolderId = `${parentNode.id}__feature`;
-      issueType = 'issue-feature';
-    }
-
-    let foundIssue = false;
-
-    const gm = graph.groupingManager;
-    const issueGroupContainer = graph.getNode(
-      `${parentNode.id}__issue-group-container`
-    );
-    issueGroupContainer.issueGroupNodes.forEach((currentIssueFolderId) => {
-      const issueFolderNode = graph.getNode(currentIssueFolderId);
-      if (issueFolderNode?.issues?.has(issue.id)) {
-        if (issueFolderId === currentIssueFolderId) {
-          foundIssue = true;
-          return;
-        }
-
-        this.issueToGraphNode.get(issue.id).delete(currentIssueFolderId);
-        issueFolderNode.issues.delete(issue.id);
-        issueFolderNode.issueCount =
-          issueFolderNode.issues.size > 99
-            ? '99+'
-            : issueFolderNode.issues.size;
-        if (issueFolderNode.issues.size === 0) {
-          gm.removeNodeFromGroup(issueGroupContainer.id, currentIssueFolderId);
-          graph.removeNode(issueFolderNode);
-        }
-      }
-    });
-    if (foundIssue) {
-      return;
-    }
-  }
-
   private updateIssueRelations(
     graph: GraphEditor,
     parentNode: Node,
@@ -645,9 +596,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     if (edge.type === 'interface-connect') {
       event.preventDefault(); // cancel edge creation
       // and then update the graph via the api
-      const graph: GraphEditor = this.graphWrapper.nativeElement;
-      const sourceNode = graph.getNode(edge.source);
-      const targetNode = graph.getNode(edge.target);
+      const sourceNode = this.graph.getNode(edge.source);
+      const targetNode = this.graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
         // this.api.addComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
