@@ -6,8 +6,8 @@ import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
-import { Subject } from 'rxjs';
-import { debounceTime, first, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
 import { Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project } from 'src/app/model/state';
 import { issues as mockIssues } from '../../model/graph-state';
 // import { ApiService } from 'src/app/api/api.service';
@@ -20,7 +20,6 @@ import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-di
 import { StateService } from '@app/state.service';
 import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
 import { GraphComponent, GraphInterface, GraphData } from '../../data/issue-graph/graph-data';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-issue-graph',
@@ -62,24 +61,28 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
 
+  private filterObs: BehaviorSubject<string> = new BehaviorSubject('blah');
+
+  public reload() {
+    this.filterObs.next('blah');
+  }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService) {
     // , private bottomSheet: MatBottomSheet) {}
+    this.gs.graphDataForFilter(this.filterObs).pipe(
+      tap(newGraphData => {
+        this.graphData = newGraphData;
+        this.drawGraph();
+      })
+    ).subscribe();
   }
 
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
     this.graph = this.graphWrapper.nativeElement;
     this.initGraph();
-    this.loadDraw();
   }
 
-  public loadDraw() {
-    this.gs.loadIssueGraphData(this.projectId).subscribe(newGraphData => {
-      this.graphData = newGraphData;
-      this.drawGraph();
-    });
-  }
   /*
   private reloadDraw() {
     this.gs.loadIssueGraphData().subscribe(newGraphData => {
@@ -98,14 +101,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       return;
     }
     this.saveNodePositionsSubject
-    .pipe(takeUntil(this.destroy$), debounceTime(300))
-    .subscribe(() => {
-      console.log('Setting: ', this.projectStorageKey);
-      if (this.nodePositions != null) {
-        const newData = JSON.stringify(this.nodePositions);
-        localStorage.setItem(this.projectStorageKey, newData);
-      }
-    });
+      .pipe(takeUntil(this.destroy$), debounceTime(300))
+      .subscribe(() => {
+        console.log('Setting: ', this.projectStorageKey);
+        if (this.nodePositions != null) {
+          const newData = JSON.stringify(this.nodePositions);
+          localStorage.setItem(this.projectStorageKey, newData);
+        }
+      });
     this.graphInitialized = true;
     const graph: GraphEditor = this.graphWrapper.nativeElement;
     const minimap: GraphEditor = this.minimap.nativeElement;
@@ -395,10 +398,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     //this.issuesById = issues;
     */
     this.graph.completeRender();
-    if (this.firstDraw) {
+    if (shouldZoom) {
       this.graph.zoomToBoundingBox();
     }
-    this.firstDraw = false;
   }
 
   private addIssueGroupContainer(graph: GraphEditor, node: Node) {
@@ -842,7 +844,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         y: position.y
       };
       this.saveNodePositionsSubject.next();
-      this.loadDraw();
+      this.reload();
     });
     /*
             createComponentDialog.afterClosed().subscribe((interfaceName: string) => {

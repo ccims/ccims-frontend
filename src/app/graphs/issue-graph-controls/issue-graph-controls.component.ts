@@ -28,8 +28,7 @@ export class IssueGraphControlsComponent implements OnInit {
        [IssueType.BUG]: false,
        [IssueType.FEATURE_REQUEST]: false,
        [IssueType.UNCLASSIFIED]: false,
-
-   }
+   };
 
    constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
@@ -56,7 +55,7 @@ export class IssueGraphControlsComponent implements OnInit {
       createComponentDialogRef.afterClosed().subscribe(componentInformation => {
       // console.log(componentInformation);
       // do something
-      this.issueGraph.loadDraw();
+      this.issueGraph.reload();
       });
 
       return;
