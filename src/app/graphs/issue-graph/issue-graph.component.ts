@@ -499,45 +499,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         }
       }
     });
-
     if (foundIssue) {
       return;
-    }
-  }
-
-
-  private removeIssueFromNode(
-    graph: GraphEditor,
-    parentNode: Node,
-    issue: Issue
-  ) {
-    let issueFolderId = `${parentNode.id}__undecided`;
-    let issueType = 'issue-undecided';
-    if (issue.type === IssueType.BUG) {
-      issueFolderId = `${parentNode.id}__bug`;
-      issueType = 'issue-bug';
-    } else if (issue.type === IssueType.FEATURE_REQUEST) {
-      issueFolderId = `${parentNode.id}__feature`;
-      issueType = 'issue-feature';
-    }
-
-    parentNode.relatedIssues.delete(issue.id);
-
-    this.issueToGraphNode.get(issue.id).delete(issueFolderId);
-
-    const gm = graph.groupingManager;
-    const issueFolderNode = graph.getNode(issueFolderId);
-    if (issueFolderNode != null) {
-      issueFolderNode.issues.delete(issue.id);
-      issueFolderNode.issueCount =
-        issueFolderNode.issues.size > 99 ? '99+' : issueFolderNode.issues.size;
-      if (issueFolderNode.issues.size === 0) {
-        gm.removeNodeFromGroup(
-          `${parentNode.id}__issue-group-container`,
-          issueFolderId
-        );
-        graph.removeNode(issueFolderNode);
-      }
     }
   }
 

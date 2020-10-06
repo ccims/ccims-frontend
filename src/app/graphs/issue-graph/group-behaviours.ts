@@ -1,4 +1,4 @@
-import { GroupBehaviour } from "@ustutt/grapheditor-webcomponent/lib/grouping";
+import { GroupBehaviour } from '@ustutt/grapheditor-webcomponent/lib/grouping';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
@@ -94,7 +94,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
             yOffset = -startOffset * 35;
         }
 
-        //order of sortedChildIds decides order of rendering
+        // order of sortedChildIds decides order of rendering
         const sortedChildIds = Object.keys(IssueCategory)
             .map((category: IssueCategory) => `${parent}__${category}`)
             .filter(childId => children.has(childId));
