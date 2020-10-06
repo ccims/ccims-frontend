@@ -503,46 +503,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     if (foundIssue) {
       return;
     }
-
-    this.addIssueToNode(parentNode, issue);
   }
 
-  private addIssueToNode(parentNode: Node, issue: Issue) {
-    let issueFolderId = `${parentNode.id}__undecided`;
-    let issueType = 'issue-undecided';
-    if (issue.type === IssueType.BUG) {
-      issueFolderId = `${parentNode.id}__bug`;
-      issueType = 'issue-bug';
-    } else if (issue.type === IssueType.FEATURE_REQUEST) {
-      issueFolderId = `${parentNode.id}__feature`;
-      issueType = 'issue-feature';
-    }
-
-    const gm = this.graph.groupingManager;
-    const issueGroupContainer = this.graph.getNode(
-      `${parentNode.id}__issue-group-container`
-    );
-    let issueFolderNode = this.graph.getNode(issueFolderId);
-    if (issueFolderNode == null) {
-      issueFolderNode = {
-        id: issueFolderId,
-        type: issueType,
-        x: 0,
-        y: 0,
-        issues: new Set<string>(),
-        issueCount: 0,
-      };
-      this.graph.addNode(issueFolderNode);
-      gm.addNodeToGroup(issueGroupContainer.id, issueFolderId);
-    }
-    issueFolderNode.issues.add(issue.id);
-    // relatedIssues contains issues in all folders
-    parentNode.relatedIssues.add(issue.id);
-    issueFolderNode.issueCount =
-      issueFolderNode.issues.size > 99 ? '99+' : issueFolderNode.issues.size;
-
-    this.issueToGraphNode.get(issue.id).add(issueFolderId);
-  }
 
   private removeIssueFromNode(
     graph: GraphEditor,
