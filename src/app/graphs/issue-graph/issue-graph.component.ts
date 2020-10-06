@@ -100,6 +100,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     if (this.graphInitialized) {
       return;
     }
+    this.nodePositions = this.loadNodePositions();
     this.saveNodePositionsSubject
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(() => {
@@ -259,8 +260,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         minimap.removeNode(node);
       }
       // clear stored information
-      delete this.nodePositions[node.id];
-      this.saveNodePositionsSubject.next();
+      //delete this.nodePositions[node.id];
+      //this.saveNodePositionsSubject.next();
     });
 
     graph.addEventListener('edgeadd', (event: CustomEvent) => {
@@ -337,7 +338,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.resetGraph();
 
     const issueGroupParents: Node[] = [];
-    this.nodePositions = this.loadNodePositions();
     const componentNodes = Array.from(this.graphData.components.values()).map(component => this.componentNode(component));
     componentNodes.forEach(node => this.setupNode(node));
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(intrface => this.interfaceNode(intrface));
