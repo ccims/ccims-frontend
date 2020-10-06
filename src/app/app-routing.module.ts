@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
 import { AuthGuard } from './auth/auth.guard';
 import { RegisterComponent } from './register/register.component';
+import { GraphContainerComponent } from './graphs/graph-container/graph-container.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,7 @@ const routes: Routes = [
         path: 'projects/:id',
         children: [
           { path: '', pathMatch: 'full', component: ProjectOverviewComponent},
-          { path: 'graph', component: IssueGraphControlsComponent },
+          { path: 'graph', component: GraphContainerComponent },
         ]
       },
       { path: 'components', component: ComponentListComponent },
