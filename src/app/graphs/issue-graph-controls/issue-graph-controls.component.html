@@ -1,5 +1,7 @@
+<app-slider-content>
+  <app-slider-content-item>
 <div class="container">
-  <div>
+  <div (click)="this.makeIt()">
       <mat-slide-toggle matTooltip="Feature Requests" class="slide-toggle" [checked]="true" (change)="featureRequests = !featureRequests; updateBlacklistFilter()">
           <mat-icon class="feature-request-icon">emoji_objects</mat-icon>
       </mat-slide-toggle>
@@ -20,3 +22,6 @@
   </div>
   <app-issue-graph [projectId]="projectId" [blacklistFilter]="getBlacklistFilter()"></app-issue-graph>
 </div>
+</app-slider-content-item>
+<app-slider-content-item >Hier kommt der Detailsbereich hin</app-slider-content-item>
+</app-slider-content>

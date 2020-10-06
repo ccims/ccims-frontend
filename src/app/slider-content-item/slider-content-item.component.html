@@ -1,0 +1,9 @@
+<div class="slider-content-item-wrapper"
+  [@translateSlide]="_position"
+  (@translateSlide.start)="onTranslateSlideStart($event)"
+  (@translateSlide.done)="onTranslateSlideEnd($event)"
+  >
+  <div class="content-item-wrapper">
+    <ng-content *ngIf="_displayContent"></ng-content>
+  </div>
+</div>
