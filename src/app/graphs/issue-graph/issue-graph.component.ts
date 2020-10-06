@@ -20,6 +20,8 @@ import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-di
 import { StateService } from '@app/state.service';
 import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
 import { GraphComponent, GraphInterface, GraphData } from '../../data/issue-graph/graph-data';
+import { MatDrawer } from '@angular/material/sidenav';
+import { GraphContainerComponent } from '../graph-container/graph-container.component';
 
 @Component({
   selector: 'app-issue-graph',
@@ -31,8 +33,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
   @ViewChild('minimap', { static: true }) minimap;
 
   currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
-
+  @Input() drawer: MatDrawer;
   @Input() projectId: string;
+  @Input() containerComponent: GraphContainerComponent;
   @Input() blacklistFilter: {
     [IssueType.BUG]?: boolean;
     [IssueType.FEATURE_REQUEST]?: boolean;
@@ -67,7 +70,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.filterObs.next('blah');
   }
 
-  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService) {
+  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService, private cont: GraphContainerComponent) {
     // , private bottomSheet: MatBottomSheet) {}
     this.gs.graphDataForFilter(this.filterObs).pipe(
       tap(newGraphData => {
@@ -749,6 +752,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     const node = event.detail.node;
 
     if (node.type === 'component') {
+      //this.containerComponent.fill();
+      this.cont.recieveNode(node);
+      this.drawer.toggle();
+
       // TODO show a edit component dialog (or similar)
       /*
             this.bottomSheet.open(GraphNodeInfoSheetComponent, {
