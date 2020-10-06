@@ -752,9 +752,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     const node = event.detail.node;
 
     if (node.type === 'component') {
-      //this.containerComponent.fill();
       this.cont.recieveNode(node);
-      this.drawer.toggle();
+
 
       // TODO show a edit component dialog (or similar)
       /*

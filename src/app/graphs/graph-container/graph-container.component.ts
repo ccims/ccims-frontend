@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
@@ -8,7 +8,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 })
 export class GraphContainerComponent implements OnInit {
   drawerNode: any;
-  @Input() drawer: MatDrawer;
+   @ViewChild(MatDrawer) drawer!: MatDrawer;
   constructor() { }
 
   ngOnInit(): void {
@@ -16,5 +16,6 @@ export class GraphContainerComponent implements OnInit {
   recieveNode(node: any){
     this.drawerNode = node;
     console.log(node);
+    this.drawer.toggle();
   }
 }
