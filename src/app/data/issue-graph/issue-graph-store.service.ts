@@ -13,14 +13,11 @@ import { IssueGraphApiService } from './issue-graph-api.service';
 })
 export class IssueGraphStoreService {
 
-  public state$: BehaviorSubject<GraphData>;
 
-  constructor(private apiService: IssueGraphApiService, private ss: StateService,) {
-    this.state$ = new BehaviorSubject({components: new Map(), interfaces: new Map()});
+  constructor(private apiService: IssueGraphApiService, private ss: StateService, ) {
   }
 
   graphDataForFilter(filter$: BehaviorSubject<string>): Observable<GraphData>{
-    const state$: BehaviorSubject<GraphData> = new BehaviorSubject({components: new Map(), interfaces: new Map()});
     return combineLatest(this.ss.state$, filter$).pipe(
       filter(([appState, _]) => appState.project?.id != null),
       switchMap(([appState, filterString]) => this.apiService.loadIssueGraphData(appState.project.id)),

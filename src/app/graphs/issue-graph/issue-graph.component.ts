@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicNodeTemplate, DynamicTemplateContext } from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
 import { DraggedEdge, Edge, edgeId, Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
@@ -29,7 +29,7 @@ import { IssueCategory } from 'src/generated/graphql';
   templateUrl: './issue-graph.component.html',
   styleUrls: ['./issue-graph.component.css'],
 })
-export class IssueGraphComponent implements OnInit, OnDestroy {
+export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('graph', { static: true }) graphWrapper;
   @ViewChild('minimap', { static: true }) minimap;
 
@@ -73,20 +73,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService, private cont: GraphContainerComponent) {
     // , private bottomSheet: MatBottomSheet) {}
-    this.gs.graphDataForFilter(this.filterObs).pipe(
-      tap(newGraphData => {
-        this.graphData = newGraphData;
-        this.drawGraph();
-      })
-    ).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe();
+    //this.gs.graphDataForFilter(this.filterObs).pipe(
+
+  }
+
+  ngAfterViewInit(): void {
+    this.graph = this.graphWrapper.nativeElement;
+    this.initGraph();
   }
 
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
-    this.graph = this.graphWrapper.nativeElement;
-    this.initGraph();
   }
 
   ngOnDestroy() {
@@ -284,6 +281,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     graph.addEventListener('zoomchange', (event: CustomEvent) => {
       this.currentVisibleArea = event.detail.currentViewWindow;
     });
+    this.gs.mockedLoadIssueGraphData().pipe(
+      tap(newGraphData => {
+        this.graphData = newGraphData;
+        this.drawGraph();
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+
   }
   private addIssueGroupContainer(node: Node) {
     const gm = this.graph.groupingManager;
@@ -765,8 +770,8 @@ interface InterfaceNode extends Node {
 }
 
 interface IssueFolderNode extends Node {
-    type: IssueCategory;
-    issueCount: string;
+  type: IssueCategory;
+  issueCount: string;
 }
 
 interface Position {
