@@ -12,9 +12,9 @@ export class ComponentDetailsComponent implements OnInit {
   validateForm!: FormGroup;
   public loading: boolean;
   public saveFailed: boolean;
-  public editMode: boolean =false;
+  public editMode: boolean;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { this.editMode = false; }
 
   validationName = new FormControl('', [Validators.required]);
   validationUrl = new FormControl('', [Validators.required]);
@@ -47,12 +47,12 @@ export class ComponentDetailsComponent implements OnInit {
 
   }
   onCancelClick(){
-    this.editMode =!this.editMode;
+    this.setDefaultValues();
+    this.editMode = !this.editMode;
   }
   onSaveClick(): void{
-    this.editMode =!this.editMode;
-
-
+    this.editMode = !this.editMode;
+      // mutation for save component
     /*
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
@@ -64,7 +64,7 @@ export class ComponentDetailsComponent implements OnInit {
     // which fields are there
       //  which are editable
   // make view editable
-  // mutation for save component
+
 
 
 }
