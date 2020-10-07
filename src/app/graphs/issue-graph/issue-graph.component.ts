@@ -446,6 +446,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   addIssueFolders(node: ComponentNode | InterfaceNode) {
     this.addIssueGroupContainer(node);
     this.addIssueFolderNodes(node);
+    this.drawFolderRelations(node);
   }
 
   private addIssueFolderNodes(node: ComponentNode | InterfaceNode) {
@@ -462,6 +463,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     return `${node.id}__issue-group-container`;
   }
 
+  private drawFolderRelations(node: Node) {
+    const issueGroupContainer = this.graph.getNode(
+      `${node.id}__issue-group-container`
+    );
+    //@ts-ignore
+    const folderNodes: IssueFolderNode[] = Array.from(issueGroupContainer.issueGroupNodes).map((id: string) => this.graph.getNode(id));
+    for(const folderNode of folderNodes){
+      const test = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
+    }
+  }
 
   private updateIssueRelations(
     graph: GraphEditor,
