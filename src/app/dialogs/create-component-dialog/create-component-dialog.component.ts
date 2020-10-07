@@ -84,8 +84,7 @@ export class CreateComponentDialogComponent implements OnInit {
     const input: CreateComponentInput = {
       name,
       owner: this.authService.currentUserValue.id,
-      // use the dropdown given field
-      imsType: ImsType.Github,
+      imsType: this.checkImsType(provider),
       projects: [this.data.projectId]
     };
     this.createComponentMutation.mutate({input}).subscribe(({data}) => {
@@ -102,6 +101,26 @@ export class CreateComponentDialogComponent implements OnInit {
   }
   afterAlertClose(): void {
     this.saveFailed = false;
+  }
+  checkImsType(returnFromSelect: string): ImsType {
+
+    if (returnFromSelect.localeCompare(ImsType.Github) === 0) {
+      return ImsType.Github;
+    }
+    if (returnFromSelect.localeCompare(ImsType.Gitlab) === 0) {
+      return ImsType.Gitlab;
+    }
+    if (returnFromSelect.localeCompare(ImsType.Jira) === 0) {
+      return ImsType.Jira;
+    }
+    if (returnFromSelect.localeCompare(ImsType.Redmine) === 0) {
+      return ImsType.Redmine;
+    }
+    if (returnFromSelect.localeCompare(ImsType.Ccims) === 0) {
+      return ImsType.Ccims;
+    }
+
+
   }
 }
 export interface ComponentInformation {

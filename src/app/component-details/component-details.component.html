@@ -28,11 +28,11 @@
   <mat-form-field floatLabel="always" *ngIf="this.editMode" class="stretch" appearance="outline">
     <mat-label>Provider Type (IMS)</mat-label>
     <mat-select  #provider [formControl]="this.validationProvider" >
-        <mat-option value="GitHub">GitHub</mat-option>
-        <mat-option value="Gitlab">Gitlab</mat-option>
-        <mat-option value="Redmine">Redmine</mat-option>
-        <mat-option value="Jira">Jira</mat-option>
-        <mat-option value="CCIMS">CCIMS</mat-option>
+      <mat-option value="GITHUB">GitHub</mat-option>
+      <mat-option value="GITLAB">Gitlab</mat-option>
+      <mat-option value="REDMINE">Redmine</mat-option>
+      <mat-option value="JIRA">Jira</mat-option>
+      <mat-option value="CCIMS">CCIMS</mat-option>
     </mat-select>
     <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Select the Provider</mat-error>
 </mat-form-field>
