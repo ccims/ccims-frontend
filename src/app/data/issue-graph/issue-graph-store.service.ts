@@ -29,6 +29,6 @@ export class IssueGraphStoreService {
   }
 
   mockedLoadIssueGraphData(): Observable<GraphData> {
-    return of(GraphDataFactory.graphDataFromMock());
+    return of(GraphDataFactory.graphDataMock());
   }
 }

@@ -12,9 +12,9 @@ export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
   // linkIssues: GraphIssue[];
-  //issueLocations: Map<GraphIssue, LocationId[]>;
-  //issueLinks: Dictionary<GraphIssue, GraphIssue>;
-  //relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
+  // issueLocations: Map<GraphIssue, LocationId[]>;
+  // issueLinks: Dictionary<GraphIssue, GraphIssue>;
+  // relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
 }
 
 interface Folder {
@@ -146,7 +146,7 @@ class GraphIssue {
 
 export class GraphDataFactory {
   static graphDataFromGQL(data: GetIssueGraphDataQuery): GraphData {
-    //const components = data.node.components.nodes.map(gqlComponent => [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]);
+    // const components = data.node.components.nodes.map(gqlComponent => [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]);
     // const interfaces = data.node.interfaces.nodes.map(gqlInterface => GraphInterface.fromGQL(gqlInterface));
     const components = GraphComponent.mapFromGQL(data.node.components.nodes);
     const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
@@ -154,26 +154,26 @@ export class GraphDataFactory {
     const relatedFolders = computeRelatedFolders(linkIssues);
     console.log(components, interfaces);
     return {
-      components, interfaces,// linkIssues, relatedFolders
+      components, interfaces, // linkIssues, relatedFolders
     };
   }
 
-  static graphDataFromMock(): GraphData {
+  static graphDataMock(): GraphData {
 
-    const issueCount1: Map<IssueCategory, number> = issueCounts(1,2,3);
-    const issueCount2: Map<IssueCategory, number> = issueCounts(4,5,6);
+    const issueCount1: Map<IssueCategory, number> = issueCounts(1, 2, 3);
+    const issueCount2: Map<IssueCategory, number> = issueCounts(4, 5, 6);
 
     const component: GraphComponent = {
-      id: "1",
-      name: "TestComponent",
+      id: '1',
+      name: 'TestComponent',
       issues: issueCount1
     };
     const interFace: GraphInterface = {
-      id: "2",
-      name: "TestInterface",
-      offeredBy: "1",
-      issues:issueCount2,
-      consumedBy:[]
+      id: '2',
+      name: 'TestInterface',
+      offeredBy: '1',
+      issues: issueCount2,
+      consumedBy: []
     };
     const data: GraphData = {
       components: new Map([[component.id, component]]),

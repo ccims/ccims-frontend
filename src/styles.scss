@@ -6,10 +6,7 @@
 
 @include angular-material-theme($theme);
 
-.list-item-active {
-  font-weight: bold;
-  background-color: mat-color($accent, 300) !important;
-}
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

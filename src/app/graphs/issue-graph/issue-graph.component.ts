@@ -6,7 +6,7 @@ import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
 import { Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project } from 'src/app/model/state';
 import { issues as mockIssues } from '../../model/graph-state';
@@ -22,6 +22,7 @@ import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/creat
 import { GraphComponent, GraphInterface, GraphData } from '../../data/issue-graph/graph-data';
 import { MatDrawer } from '@angular/material/sidenav';
 import { GraphContainerComponent } from '../graph-container/graph-container.component';
+import { IssueCategory } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-issue-graph',
@@ -57,7 +58,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     [prop: string]: Point;
   } = {};
 
-  private destroy$ = new Subject();
+  private destroy$ = new ReplaySubject(1);
 
   private issuesById: IssuesState = {};
   private issueToRelatedNode: Map<string, Set<string>> = new Map();
@@ -77,6 +78,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         this.graphData = newGraphData;
         this.drawGraph();
       })
+    ).pipe(
+      takeUntil(this.destroy$)
     ).subscribe();
   }
 
@@ -86,14 +89,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.initGraph();
   }
 
-  /*
-  private reloadDraw() {
-    this.gs.loadIssueGraphData().subscribe(newGraphData => {
-      this.graphData = newGraphData;
-      this.drawGraph();
-    });
-  }
-  */
   ngOnDestroy() {
     this.destroy$.next();
   }
@@ -290,6 +285,31 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
       this.currentVisibleArea = event.detail.currentViewWindow;
     });
   }
+  private addIssueGroupContainer(node: Node) {
+    const gm = this.graph.groupingManager;
+    gm.markAsTreeRoot(node.id);
+    gm.setGroupBehaviourOf(
+      node.id,
+      new IssueGroupContainerParentBehaviour()
+    );
+
+    const issueGroupContainerNode = {
+      id: `${node.id}__issue-group-container`,
+      type: 'issue-group-container',
+      dynamicTemplate: 'issue-group-container',
+      x: 0,
+      y: 0,
+      position: 'bottom',
+      issueGroupNodes: new Set<string>(),
+    };
+    this.graph.addNode(issueGroupContainerNode);
+    gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
+    gm.setGroupBehaviourOf(
+      issueGroupContainerNode.id,
+      new IssueGroupContainerBehaviour()
+    );
+    this.issueGroupParents.push(node);
+  }
 
 
   resetGraph() {
@@ -321,13 +341,25 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     return interfaceNode;
   }
 
-  setupNode(node: ComponentNode | InterfaceNode) {
-    this.graph.addNode(node);
-    this.addIssueGroupContainer(this.graph, node);
-    this.issueGroupParents.push(node);
+  issueFolderId(node: Node, issueCategory: IssueCategory): string {
+    return `${node.id}__${issueCategory}`;
   }
 
-  connectToComponentNode(node: InterfaceNode) {
+  issueFolderNode(node: Node, issueCategory: IssueCategory): IssueFolderNode {
+    return {
+      id: this.issueFolderId(node, issueCategory),
+      type: issueCategory,
+      x: 0,
+      y: 0,
+      issues: new Set<string>(),
+      issueCount: '0'
+    };
+  }
+  setupNode(node: ComponentNode | InterfaceNode) {
+    this.graph.addNode(node);
+  }
+
+  connectToOfferingComponent(node: InterfaceNode) {
     const edge = {
       source: node.offeredById,
       target: node.id,
@@ -338,22 +370,23 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
   }
 
   drawGraph(shouldZoom: boolean = true) {
+    //Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
     this.resetGraph();
     const componentNodes = Array.from(this.graphData.components.values()).map(component => this.componentNode(component));
-    componentNodes.forEach(node => this.setupNode(node));
+    componentNodes.forEach(node => {
+      this.setupNode(node);
+      this.addIssueFolders(node);
+    });
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(intrface => this.interfaceNode(intrface));
     interfaceNodes.forEach(node => {
       this.setupNode(node);
-      this.connectToComponentNode(node);
+      this.connectToOfferingComponent(node);
+      this.addIssueFolders(node);
     });
 
-    /*
-    this.graphState.forEach((graphComponent) => {
-      //const componentNodeId = `component_${graphComponent.id}`;
-      //const position: Point = this.nodePositions?.[componentNodeId] ?? { x: 0, y: 0 };
 
-      this.graph.addNode(componentGraphNode);
-      this.addIssueGroupContainer(this.graph, componentGraphNode);
+    /*
+
       this.updateIssuesForNode(this.graph, componentGraphNode, graphComponent.issues, mockIssues);
       //this.newUpdateIssuesForNode(graph, componentGraphNode, graphComponent.issueCounts);
       issueGroupParents.push(componentGraphNode);
@@ -365,7 +398,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
         issueGroupParents.push(interfaceNode);
       });
 
-      //add edges from components to other components interfaces and to other components
+      //add edges from components to other components interfaces and to other coqmponents
       graphComponent.componentRelations.forEach((relation) => {
         let edge: Edge;
         if (relation.targetType === 'component') {
@@ -405,165 +438,25 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     this.firstDraw = false;
   }
 
-  private addIssueGroupContainer(graph: GraphEditor, node: Node) {
-    const gm = graph.groupingManager;
-    gm.markAsTreeRoot(node.id);
-    graph.groupingManager.setGroupBehaviourOf(
-      node.id,
-      new IssueGroupContainerParentBehaviour()
-    );
-
-    const issueGroupContainerNode = {
-      id: `${node.id}__issue-group-container`,
-      type: 'issue-group-container',
-      dynamicTemplate: 'issue-group-container',
-      x: 0,
-      y: 0,
-      position: 'bottom',
-      issueGroupNodes: new Set<string>(),
-    };
-    graph.addNode(issueGroupContainerNode);
-    gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
-    gm.setGroupBehaviourOf(
-      issueGroupContainerNode.id,
-      new IssueGroupContainerBehaviour()
-    );
+  addIssueFolders(node: ComponentNode | InterfaceNode) {
+    this.addIssueGroupContainer(node);
+    this.addIssueFolderNodes(node);
   }
 
-  private updateIssuesForNode(graph: GraphEditor, parentNode: Node, issueIds: string[], issues: IssuesState) {
-    this.issueToRelatedNode.set(parentNode.id.toString(), new Set(issueIds));
-    issueIds.forEach((issueId) => {
-      if (issues[issueId] == null) {
-        return;
-      }
-      const issue = issues[issueId];
-      if (this.blacklistFilter[issue.type] ?? false) {
-        return; // issue is filtered!
-      }
-      if (!this.issueToGraphNode.has(issueId)) {
-        this.issueToGraphNode.set(issueId, new Set<string>());
-      }
-      this.addIssueToNode(graph, parentNode, issues[issueId]);
-    }
-    );
-  }
-
-  private updateIssueOfNode(graph: GraphEditor, parentNode: Node, issue: Issue) {
-    let issueFolderId = `${parentNode.id}__undecided`;
-    let issueType = 'issue-undecided';
-    if (issue.type === IssueType.BUG) {
-      issueFolderId = `${parentNode.id}__bug`;
-      issueType = 'issue-bug';
-    } else if (issue.type === IssueType.FEATURE_REQUEST) {
-      issueFolderId = `${parentNode.id}__feature`;
-      issueType = 'issue-feature';
-    }
-
-    let foundIssue = false;
-
-    const gm = graph.groupingManager;
-    const issueGroupContainer = graph.getNode(
-      `${parentNode.id}__issue-group-container`
-    );
-    issueGroupContainer.issueGroupNodes.forEach((currentIssueFolderId) => {
-      const issueFolderNode = graph.getNode(currentIssueFolderId);
-      if (issueFolderNode?.issues?.has(issue.id)) {
-        if (issueFolderId === currentIssueFolderId) {
-          foundIssue = true;
-          return;
-        }
-
-        this.issueToGraphNode.get(issue.id).delete(currentIssueFolderId);
-        issueFolderNode.issues.delete(issue.id);
-        issueFolderNode.issueCount =
-          issueFolderNode.issues.size > 99
-            ? '99+'
-            : issueFolderNode.issues.size;
-        if (issueFolderNode.issues.size === 0) {
-          gm.removeNodeFromGroup(issueGroupContainer.id, currentIssueFolderId);
-          graph.removeNode(issueFolderNode);
-        }
-      }
+  private addIssueFolderNodes(node: ComponentNode | InterfaceNode) {
+    const issueGroupContainer = this.graph.getNode(`${node.id}__issue-group-container`);
+    Object.keys(IssueCategory).forEach((category: IssueCategory) => {
+      const issueFolderNode = this.issueFolderNode(node, category);
+      this.graph.addNode(issueFolderNode);
+      this.graph.groupingManager.addNodeToGroup(issueGroupContainer.id, issueFolderNode.id);
     });
-
-    if (foundIssue) {
-      return;
-    }
-
-    this.addIssueToNode(graph, parentNode, issue);
   }
 
-  private addIssueToNode(graph: GraphEditor, parentNode: Node, issue: Issue) {
-    let issueFolderId = `${parentNode.id}__undecided`;
-    let issueType = 'issue-undecided';
-    if (issue.type === IssueType.BUG) {
-      issueFolderId = `${parentNode.id}__bug`;
-      issueType = 'issue-bug';
-    } else if (issue.type === IssueType.FEATURE_REQUEST) {
-      issueFolderId = `${parentNode.id}__feature`;
-      issueType = 'issue-feature';
-    }
 
-    const gm = graph.groupingManager;
-    const issueGroupContainer = graph.getNode(
-      `${parentNode.id}__issue-group-container`
-    );
-    let issueFolderNode = graph.getNode(issueFolderId);
-    if (issueFolderNode == null) {
-      issueFolderNode = {
-        id: issueFolderId,
-        type: issueType,
-        x: 0,
-        y: 0,
-        issues: new Set<string>(),
-        issueCount: 0,
-      };
-      graph.addNode(issueFolderNode);
-      gm.addNodeToGroup(issueGroupContainer.id, issueFolderId);
-    }
-    issueFolderNode.issues.add(issue.id);
-    // relatedIssues contains issues in all folders
-    parentNode.relatedIssues.add(issue.id);
-    issueFolderNode.issueCount =
-      issueFolderNode.issues.size > 99 ? '99+' : issueFolderNode.issues.size;
-
-    this.issueToGraphNode.get(issue.id).add(issueFolderId);
+  issueGroupContainerId(node: Node): string {
+    return `${node.id}__issue-group-container`;
   }
 
-  private removeIssueFromNode(
-    graph: GraphEditor,
-    parentNode: Node,
-    issue: Issue
-  ) {
-    let issueFolderId = `${parentNode.id}__undecided`;
-    let issueType = 'issue-undecided';
-    if (issue.type === IssueType.BUG) {
-      issueFolderId = `${parentNode.id}__bug`;
-      issueType = 'issue-bug';
-    } else if (issue.type === IssueType.FEATURE_REQUEST) {
-      issueFolderId = `${parentNode.id}__feature`;
-      issueType = 'issue-feature';
-    }
-
-    parentNode.relatedIssues.delete(issue.id);
-
-    this.issueToGraphNode.get(issue.id).delete(issueFolderId);
-
-    const gm = graph.groupingManager;
-    const issueFolderNode = graph.getNode(issueFolderId);
-    if (issueFolderNode != null) {
-      issueFolderNode.issues.delete(issue.id);
-      issueFolderNode.issueCount =
-        issueFolderNode.issues.size > 99 ? '99+' : issueFolderNode.issues.size;
-      if (issueFolderNode.issues.size === 0) {
-        gm.removeNodeFromGroup(
-          `${parentNode.id}__issue-group-container`,
-          issueFolderId
-        );
-        graph.removeNode(issueFolderNode);
-      }
-    }
-  }
 
   private updateIssueRelations(
     graph: GraphEditor,
@@ -706,9 +599,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy {
     if (edge.type === 'interface-connect') {
       event.preventDefault(); // cancel edge creation
       // and then update the graph via the api
-      const graph: GraphEditor = this.graphWrapper.nativeElement;
-      const sourceNode = graph.getNode(edge.source);
-      const targetNode = graph.getNode(edge.target);
+      const sourceNode = this.graph.getNode(edge.source);
+      const targetNode = this.graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
         // this.api.addComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
@@ -870,6 +762,11 @@ interface ComponentNode extends Node {
 interface InterfaceNode extends Node {
   title: string;
   offeredById: string;
+}
+
+interface IssueFolderNode extends Node {
+    type: IssueCategory;
+    issueCount: string;
 }
 
 interface Position {

@@ -44,7 +44,7 @@
                 }
 
                 .text.title {
-                    font-size: 9pt;
+                    font-size: 12pt;
                     text-overflow: ellipsis;
                     word-break: break-all;
                 }
@@ -79,8 +79,16 @@
                 }
 
                 .node.component rect {
-                    fill: white;
+                    fill: #096dd9;
                     stroke: black;
+                    stroke-width: 3;
+                    opacity: 0.5
+                }
+                .component-name {
+                  font-size: 12pt;
+                  font-weight: 500;
+                  text-overflow: ellipsis;
+                  word-break: break-all;
                 }
 
                 .edge-group.issue-relation {
@@ -111,8 +119,8 @@
                     d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z">
                 </path>
                 <g id="component" data-template-type="node">
-                    <rect width="100" height="60" x="-50" y="-30" data-link-handles="edges"></rect>
-                    <text class="title text" data-content="title" data-click="title" x="-46" y="-13" width="92"></text>
+                    <rect width="100" height="60" rx="10" ry="10" x="-50" y="-30" data-link-handles="edges"></rect>
+                    <text class="component-name" data-content="title" data-click="title" x="0" y="0" dominant-baseline="middle" text-anchor="middle"></text>
                     <text class="text" data-content="description" x="-40" y="5" width="80" height="30"></text>
                     <title data-content="title"></title>
                 </g>
@@ -123,21 +131,22 @@
                     <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
                     <use href="#icon-folder" class="dropzone" stroke="black" fill="white" x="-19" y="-15"></use>
                 </g>
-                <g id="issue-undecided" data-template-type="node">
+                <g id="Unclassified" data-template-type="node">
+                    <!--first entry for link handle calculation only-->
                     <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
                     <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
                     <use href="#icon-undecided" fill="black" x="-12" y="-11"></use>
                     <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
                     <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
                 </g>
-                <g id="issue-feature" data-template-type="node">
+                <g id="FeatureRequest" data-template-type="node">
                     <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
                     <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
                     <use href="#icon-feature" fill="#005eff" x="-12" y="-11"></use>
                     <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
                     <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
                 </g>
-                <g id="issue-bug" data-template-type="node">
+                <g id="Bug" data-template-type="node">
                     <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
                     <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
                     <use href="#icon-bug" fill="red" x="-12" y="-11"></use>
@@ -171,11 +180,6 @@
                 .link-handle {
                     display: none;
                 }
-
-                .node.component rect {
-                    fill: white;
-                    stroke: black;
-                }
             </style>
             <defs class="templates">
                 <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>
@@ -200,17 +204,17 @@
                 <g id="bug" data-template-type="node">
                     <rect width="30" height="30" x="-15" y="-15" data-link-handles="edges"></rect>
                 </g>
-                <g id="issue-undecided" data-template-type="node">
+                <g id="Unclassified" data-template-type="node">
                     <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges">
                     </use>
                     <use href="#icon-undecided" fill="black" x="-12" y="-9"></use>
                 </g>
-                <g id="issue-feature" data-template-type="node">
+                <g id="FeatureRequest" data-template-type="node">
                     <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges">
                     </use>
                     <use href="#icon-feature" fill="#005eff" x="-12" y="-9"></use>
                 </g>
-                <g id="issue-bug" data-template-type="node">
+                <g id="Bug" data-template-type="node">
                     <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges">
                     </use>
                     <use href="#icon-bug" fill="red" x="-12" y="-9"></use>
