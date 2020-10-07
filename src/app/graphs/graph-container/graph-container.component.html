@@ -1,7 +1,8 @@
 <mat-drawer-container style="height:100%"class="example-container" hasBackdrop="false">
-  <mat-drawer style="width: 100%;" #drawer mode="side" position="end">
-    <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
-    <div *ngIf="drawerNode && drawerNode.type==='component'">{{this.drawerNode.title}}</div>
+  <mat-drawer style="width:100%;" #drawer mode="side" position="end">
+    <button style="float:right" mat-fab color="grey" (click)="this.drawer.toggle()">
+      <mat-icon>close</mat-icon>
+    </button>
     <app-component-details *ngIf="drawerNode && drawerNode.type==='component'" [clickedNode]="drawerNode"></app-component-details>
   </mat-drawer>
   <mat-drawer-content>
