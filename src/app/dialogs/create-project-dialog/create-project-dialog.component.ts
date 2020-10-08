@@ -49,7 +49,7 @@ export class CreateProjectDialogComponent implements OnInit {
     */
     this.ps.create(name).subscribe(({ data}) => {
       this.loading = false;
-      this.dialogRef.close(this.name);
+      this.dialogRef.close({createdProjectId: data.createProject.project.id});
       console.log('got data', data);
     }, (error) => {
       console.log('there was an error sending the query', error);

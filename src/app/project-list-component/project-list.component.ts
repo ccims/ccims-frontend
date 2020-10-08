@@ -35,7 +35,8 @@ export class ProjectListComponent implements OnInit {
       console.log(result);
       this.changeColour();
       // this.ps.getAll().subscribe(projects => this.projects = projects);
-      if (result) {this.reloadProjects(); }
+      if (result?.createdProjectId) {
+        this.reloadProjects(); }
     });
 
 }
