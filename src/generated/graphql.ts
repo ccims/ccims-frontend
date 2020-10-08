@@ -3468,6 +3468,16 @@ export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Ma
       & { ims?: Maybe<Pick<Ims, 'id'>>, projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id'>> }>>> }> }
     )> }> };
 
+export type GetComponentQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetComponentQuery = { node?: Maybe<(
+    Pick<Component, 'id' | 'name' | 'description'>
+    & { owner?: Maybe<Pick<User, 'displayName' | 'username' | 'id'>>, ims?: Maybe<Pick<Ims, 'imsType'>>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'isOpen' | 'category'>>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }>, consumedInterfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }> }
+  )> };
+
 export type CreateComponentInterfaceMutationVariables = Exact<{
   input: CreateComponentInterfaceInput;
 }>;
@@ -3561,6 +3571,53 @@ export const CreateComponentDocument = gql`
   })
   export class CreateComponentGQL extends Apollo.Mutation<CreateComponentMutation, CreateComponentMutationVariables> {
     document = CreateComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetComponentDocument = gql`
+    query GetComponent($id: ID!) {
+  node(id: $id) {
+    ... on Component {
+      id
+      name
+      owner {
+        displayName
+        username
+        id
+      }
+      description
+      ims {
+        imsType
+      }
+      issues {
+        nodes {
+          title
+          isOpen
+          category
+        }
+      }
+      interfaces {
+        nodes {
+          name
+        }
+      }
+      consumedInterfaces {
+        nodes {
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetComponentGQL extends Apollo.Query<GetComponentQuery, GetComponentQueryVariables> {
+    document = GetComponentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
