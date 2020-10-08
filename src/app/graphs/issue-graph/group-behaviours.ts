@@ -97,7 +97,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
 
         // order of sortedChildIds decides order of rendering
         const sortedChildIds = Object.keys(IssueCategory)
-            .map((category: IssueCategory) => `${parent}__${category}`)
+            .map(key => `${parent}__${IssueCategory[key]}`)
             .filter(childId => children.has(childId));
 
         // pre sorted list
