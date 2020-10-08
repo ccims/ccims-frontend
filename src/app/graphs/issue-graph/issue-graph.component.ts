@@ -23,6 +23,8 @@ import { GraphComponent, GraphInterface, GraphData } from '../../data/issue-grap
 import { MatDrawer } from '@angular/material/sidenav';
 import { GraphContainerComponent } from '../graph-container/graph-container.component';
 import { IssueCategory } from 'src/generated/graphql';
+import { Position, IssueNode, createIssueGroupContainerNode, createInterfaceNode,
+  createComponentNode, createIssueFolderNode, InterfaceNode, IssueGroupContainerNode } from './isse-graph-nodes';
 
 @Component({
   selector: 'app-issue-graph',
@@ -290,7 +292,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe();
 
   }
-  private addIssueGroupContainer(node: Node) {
+  private addIssueGroupContainer(node: IssueNode) {
     const gm = this.graph.groupingManager;
     gm.markAsTreeRoot(node.id);
     gm.setGroupBehaviourOf(
@@ -298,15 +300,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       new IssueGroupContainerParentBehaviour()
     );
 
-    const issueGroupContainerNode = {
-      id: `${node.id}__issue-group-container`,
-      type: 'issue-group-container',
-      dynamicTemplate: 'issue-group-container',
-      x: 0,
-      y: 0,
-      position: 'bottom',
-      issueGroupNodes: new Set<string>(),
-    };
+    const issueGroupContainerNode = createIssueGroupContainerNode(node);
+    node.issueGroupContainer = issueGroupContainerNode;
     this.graph.addNode(issueGroupContainerNode);
     gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
     gm.setGroupBehaviourOf(
@@ -324,45 +319,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.graph.groupingManager.clearAllGroups();
   }
 
-  componentNode(component: GraphComponent): ComponentNode {
-    const componentNode = {
-      ...(this.nodePositions[component.id] || this.zeroPosition),
-      id: component.id,
-      title: component.name,
-      type: 'component',
-      data: component,
-    };
-    return componentNode;
-  }
 
-  interfaceNode(intrface: GraphInterface): InterfaceNode {
-    const interfaceNode = {
-      ...(this.nodePositions[intrface.id] || this.zeroPosition),
-      id: intrface.id,
-      title: intrface.name,
-      type: 'interface',
-      offeredById: intrface.offeredBy,
-    };
-    return interfaceNode;
-  }
-
-  issueFolderId(node: Node, issueCategory: IssueCategory): string {
-    return `${node.id}__${issueCategory}`;
-  }
-
-  issueFolderNode(node: Node, issueCategory: IssueCategory): IssueFolderNode {
-    return {
-      id: this.issueFolderId(node, issueCategory),
-      type: issueCategory,
-      x: 0,
-      y: 0,
-      issues: new Set<string>(),
-      issueCount: '0'
-    };
-  }
-  setupNode(node: ComponentNode | InterfaceNode) {
-    this.graph.addNode(node);
-  }
 
   connectToOfferingComponent(node: InterfaceNode) {
     const edge = {
@@ -377,14 +334,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   drawGraph(shouldZoom: boolean = true) {
     //Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
     this.resetGraph();
-    const componentNodes = Array.from(this.graphData.components.values()).map(component => this.componentNode(component));
+    const componentNodes = Array.from(this.graphData.components.values()).map(component =>
+      createComponentNode(component, this.nodePositions[component.id]));
     componentNodes.forEach(node => {
-      this.setupNode(node);
+      this.graph.addNode(node);
       this.addIssueFolders(node);
     });
-    const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(intrface => this.interfaceNode(intrface));
+    const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
+      intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
     interfaceNodes.forEach(node => {
-      this.setupNode(node);
+      this.graph.addNode(node);
       this.connectToOfferingComponent(node);
       this.addIssueFolders(node);
     });
@@ -443,33 +402,26 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.firstDraw = false;
   }
 
-  addIssueFolders(node: ComponentNode | InterfaceNode) {
+
+
+  addIssueFolders(node: IssueNode) {
     this.addIssueGroupContainer(node);
     this.addIssueFolderNodes(node);
     this.drawFolderRelations(node);
   }
 
-  private addIssueFolderNodes(node: ComponentNode | InterfaceNode) {
-    const issueGroupContainer = this.graph.getNode(`${node.id}__issue-group-container`);
+  private addIssueFolderNodes(node: IssueNode) {
     Object.keys(IssueCategory).forEach((category: IssueCategory) => {
-      const issueFolderNode = this.issueFolderNode(node, category);
+      const issueFolderNode = createIssueFolderNode(node, category);
       this.graph.addNode(issueFolderNode);
-      this.graph.groupingManager.addNodeToGroup(issueGroupContainer.id, issueFolderNode.id);
+      this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
     });
   }
 
-
-  issueGroupContainerId(node: Node): string {
-    return `${node.id}__issue-group-container`;
-  }
-
-  private drawFolderRelations(node: Node) {
-    const issueGroupContainer = this.graph.getNode(
-      `${node.id}__issue-group-container`
-    );
+  private drawFolderRelations(node: IssueNode) {
     //@ts-ignore
-    const folderNodes: IssueFolderNode[] = Array.from(issueGroupContainer.issueGroupNodes).map((id: string) => this.graph.getNode(id));
-    for(const folderNode of folderNodes){
+    const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map((id: string) => this.graph.getNode(id));
+    for (const folderNode of folderNodes) {
       const test = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
     }
   }
@@ -770,22 +722,3 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 }
 
-interface ComponentNode extends Node {
-  title: string;
-  data: GraphComponent;
-}
-
-interface InterfaceNode extends Node {
-  title: string;
-  offeredById: string;
-}
-
-interface IssueFolderNode extends Node {
-  type: IssueCategory;
-  issueCount: string;
-}
-
-interface Position {
-  x: number;
-  y: number;
-}

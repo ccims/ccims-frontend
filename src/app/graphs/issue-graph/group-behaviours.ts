@@ -3,6 +3,7 @@ import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { IssueCategory } from 'src/generated/graphql';
+import { IssueGroupContainerNode } from './isse-graph-nodes';
 
 function distance(x, y, x2, y2) {
     return ((x - x2) ** 2) + ((y - y2) ** 2);
@@ -146,13 +147,13 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
         });
     }
 
-    afterNodeJoinedGroup(group: string, childGroup: string, groupNode: Node, childNode: Node, graphEditor: GraphEditor) {
+    afterNodeJoinedGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
         this.relativePositionChanged(group, groupNode, graphEditor);
-        groupNode.issueGroupNodes?.add(childGroup);
+        groupNode.issueGroupNodeIds.add(childGroup);
     }
 
-    afterNodeLeftGroup(group: string, childGroup: string, groupNode: Node, childNode: Node, graphEditor: GraphEditor) {
+    afterNodeLeftGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
         this.relativePositionChanged(group, groupNode, graphEditor);
-        groupNode.issueGroupNodes?.delete(childGroup);
+        groupNode.issueGroupNodeIds.delete(childGroup);
     }
 }
