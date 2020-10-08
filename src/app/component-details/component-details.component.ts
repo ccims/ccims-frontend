@@ -40,8 +40,8 @@ export class ComponentDetailsComponent implements OnInit {
     // Parse object from db
     this.validationName.setValue(this.clickedNode.title);
     this.validationProvider.setValue("GITHUB");
-    this.validationUrl.setValue("mock-repo-nice-to-see-something.de")
-    this.validationIMS.setValue("mock-ims-nice-to-see-something.de")
+    this.validationUrl.setValue("mock-repo-nice-to-see-something.de");
+    this.validationIMS.setValue("mock-ims-nice-to-see-something.de");
     // Todo others
   }
 
