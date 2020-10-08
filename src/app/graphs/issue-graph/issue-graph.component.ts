@@ -686,4 +686,3 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('Open Create Interface Dialog Component');
   }
 }
-
