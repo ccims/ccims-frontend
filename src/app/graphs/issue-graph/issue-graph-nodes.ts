@@ -1,11 +1,13 @@
 import { GraphComponent, GraphInterface } from '@app/data/issue-graph/graph-data';
 import { IssueCategory } from 'src/generated/graphql';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
+import { Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
 
 export {
-  IssueNode, ComponentNode, InterfaceNode, IssueGroupContainerNode,
-  createComponentNode, createInterfaceNode, createIssueGroupContainerNode, createIssueFolderNode,
-  Position
+  IssueNode, ComponentNode, InterfaceNode, IssueGroupContainerNode, RelationEdge,
+  createComponentNode, createInterfaceNode, createIssueGroupContainerNode, createIssueFolderNode, createRelationEdge,
+  Position,
+  getIssueFolderId
 };
 
 interface IssueNode extends Node {
@@ -72,6 +74,26 @@ function createIssueFolderNode(node: Node, issueCategory: IssueCategory): IssueF
     issueCount: '0'
   };
 }
+
+interface RelationEdge extends Edge {
+  sourceIssues: Set<string>;
+}
+
+function createRelationEdge(sourceId: string, targetId: string) {
+  return  {
+    id:`s${sourceId}t${targetId}rrelatedTo`,
+    source: sourceId,
+    target: targetId,
+    type: 'relatedTo',
+    markerEnd: {
+      template: 'arrow',
+      relativeRotation: 0,
+    },
+    dragHandles: [],
+    sourceIssues: new Set<string>(),
+  };
+}
+
 
 
 function getIssueFolderId(node: Node, issueCategory: IssueCategory): string {

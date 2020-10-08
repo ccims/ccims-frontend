@@ -24,7 +24,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { GraphContainerComponent } from '../graph-container/graph-container.component';
 import { IssueCategory } from 'src/generated/graphql';
 import { Position, IssueNode, createIssueGroupContainerNode, createInterfaceNode,
-  createComponentNode, createIssueFolderNode, InterfaceNode, IssueGroupContainerNode } from './isse-graph-nodes';
+  createComponentNode, createIssueFolderNode, InterfaceNode, IssueGroupContainerNode, createRelationEdge, getIssueFolderId } from './issue-graph-nodes';
 
 @Component({
   selector: 'app-issue-graph',
@@ -347,6 +347,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.connectToOfferingComponent(node);
       this.addIssueFolders(node);
     });
+    componentNodes.forEach(node => this.drawFolderRelations(node));
+    interfaceNodes.forEach(node => this.drawFolderRelations(node));
 
 
     /*
@@ -407,7 +409,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   addIssueFolders(node: IssueNode) {
     this.addIssueGroupContainer(node);
     this.addIssueFolderNodes(node);
-    this.drawFolderRelations(node);
   }
 
   private addIssueFolderNodes(node: IssueNode) {
@@ -419,10 +420,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private drawFolderRelations(node: IssueNode) {
+    const nodes = Array.from(this.graph.groupingManager.getChildrenOf(node.issueGroupContainer.id)).map(id => this.graph.getNode(id));
     //@ts-ignore
     const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map((id: string) => this.graph.getNode(id));
     for (const folderNode of folderNodes) {
-      const test = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
+      const relatedFolders = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
+      for (const relatedFolder of relatedFolders) {
+          const [issueNodeId, category] = relatedFolder;
+          const edge = createRelationEdge(folderNode.id, getIssueFolderId(this.graph.getNode(issueNodeId), category));
+          this.graph.addEdge(edge);
+      }
     }
   }
 

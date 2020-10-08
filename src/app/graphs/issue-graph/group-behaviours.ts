@@ -3,7 +3,7 @@ import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { IssueCategory } from 'src/generated/graphql';
-import { IssueGroupContainerNode } from './isse-graph-nodes';
+import { IssueGroupContainerNode } from './issue-graph-nodes';
 
 function distance(x, y, x2, y2) {
     return ((x - x2) ** 2) + ((y - y2) ** 2);
