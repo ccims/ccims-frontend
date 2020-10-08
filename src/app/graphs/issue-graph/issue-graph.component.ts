@@ -413,7 +413,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private addIssueFolderNodes(node: IssueNode) {
     Object.keys(IssueCategory).forEach(key => {
-      const issueFolderNode = createIssueFolderNode(node, IssueCategory[key]);
+      const issueCategory = IssueCategory[key];
+      const issueFolderNode = createIssueFolderNode(node, issueCategory);
       this.graph.addNode(issueFolderNode);
       this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
     });
@@ -427,7 +428,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const relatedFolders = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
       for (const relatedFolder of relatedFolders) {
           const [issueNodeId, category] = relatedFolder;
-          const edge = createRelationEdge(folderNode.id, getIssueFolderId(this.graph.getNode(issueNodeId), category));
+          const edge = createRelationEdge(folderNode.id, getIssueFolderId(issueNodeId, category));
           this.graph.addEdge(edge);
       }
     }

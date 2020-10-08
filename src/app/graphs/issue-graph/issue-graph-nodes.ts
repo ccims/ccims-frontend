@@ -11,6 +11,7 @@ export {
 };
 
 interface IssueNode extends Node {
+  id: string;
   title: string;
   issueGroupContainer?: IssueGroupContainerNode;
 }
@@ -25,7 +26,7 @@ function createComponentNode(component: GraphComponent, position: Position): Com
     id: component.id,
     title: component.name,
     type: 'component',
-    data: component,
+    data: component
   };
 }
 
@@ -64,9 +65,9 @@ interface IssueFolderNode extends Node {
   issueCount: string;
 }
 
-function createIssueFolderNode(node: Node, issueCategory: IssueCategory): IssueFolderNode {
+function createIssueFolderNode(node: IssueNode, issueCategory: IssueCategory): IssueFolderNode {
   return {
-    id: getIssueFolderId(node, issueCategory),
+    id: getIssueFolderId(node.id, issueCategory),
     type: issueCategory,
     x: 0,
     y: 0,
@@ -96,8 +97,8 @@ function createRelationEdge(sourceId: string, targetId: string) {
 
 
 
-function getIssueFolderId(node: Node, issueCategory: IssueCategory): string {
-  return `${node.id}__${issueCategory}`;
+function getIssueFolderId(id: string, issueCategory: IssueCategory): string {
+  return `${id}__${issueCategory}`;
 }
 
 interface Position {
