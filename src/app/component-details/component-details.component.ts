@@ -1,59 +1,41 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { storeKeyNameFromField } from '@apollo/client/utilities';
+import { ComponentStoreService } from '@app/data/component/component-store.service';
+// import { Component } from 'src/generated/graphql';
+
 
 @Component({
   selector: 'app-component-details',
   templateUrl: './component-details.component.html',
   styleUrls: ['./component-details.component.scss']
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class ComponentDetailsComponent implements OnInit {
   @Input()clickedNode: any;
-
-  validateForm!: FormGroup;
+ @Input()displayComponent: any;
   public loading: boolean;
   public saveFailed: boolean;
   public editMode: boolean;
-
-  constructor(private fb: FormBuilder) { this.editMode = false; }
-
+  public currentComponent: any;
   validationName = new FormControl('', [Validators.required]);
   validationUrl = new FormControl('', [Validators.required]);
   validationIMS = new FormControl('', [Validators.required]);
-  validationProvider = new FormControl('', [Validators.required]);
+  public validationProvider = new FormControl('', [Validators.required]);
+
+  constructor( private componentStoreService: ComponentStoreService) { this.editMode = false;
+
+     }
 
   ngOnInit(): void {
-    console.log(this.clickedNode);
-    this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
-      url:  [null, [Validators.required]],
-      ims:  [null, [Validators.required]],
-      provider:  [null, [Validators.required]]
-    });
-    this.setDefaultValues();
-    // clicked node id -->mutation db
-    // prefill all fields
-
-
-  }
-  setDefaultValues(): void {
-    this.getComponentData();
-    // Parse object from db
-    this.validationName.setValue(this.clickedNode.title);
-    this.validationProvider.setValue("GITHUB");
-    this.validationUrl.setValue("mock-repo-nice-to-see-something.de");
-    this.validationIMS.setValue("mock-ims-nice-to-see-something.de");
-    // Todo others
   }
 
-  getComponentData() {
-    // TODO Mutation to DB
-
-  }
   onCancelClick(){
-    this.setDefaultValues();
     this.editMode = !this.editMode;
   }
-  onSaveClick(): void{
+  public onSaveClick(): void{
     this.editMode = !this.editMode;
       // mutation for save component
     /*
@@ -62,12 +44,5 @@ export class ComponentDetailsComponent implements OnInit {
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });*/
   }
-  // mutation getComponent
-  // design fields / fill fields
-    // which fields are there
-      //  which are editable
-  // make view editable
-
-
 
 }
