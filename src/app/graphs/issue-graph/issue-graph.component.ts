@@ -23,8 +23,11 @@ import { GraphComponent, GraphInterface, GraphData } from '../../data/issue-grap
 import { MatDrawer } from '@angular/material/sidenav';
 import { GraphContainerComponent } from '../graph-container/graph-container.component';
 import { IssueCategory } from 'src/generated/graphql';
-import { Position, IssueNode, createIssueGroupContainerNode, createInterfaceNode,
-  createComponentNode, createIssueFolderNode, InterfaceNode, IssueGroupContainerNode, createRelationEdge, getIssueFolderId } from './issue-graph-nodes';
+import {
+  Position, IssueNode, createIssueGroupContainerNode, createInterfaceNode,
+  createComponentNode, createIssueFolderNode, InterfaceNode, IssueGroupContainerNode, createRelationEdge, getIssueFolderId, ComponentNode,
+  crea, createConsumptionEdge, createInterfaceProvisionEdge
+} from './issue-graph-nodes';
 
 @Component({
   selector: 'app-issue-graph',
@@ -322,94 +325,93 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   connectToOfferingComponent(node: InterfaceNode) {
-    const edge = {
-      source: node.offeredById,
-      target: node.id,
-      type: 'interface',
-      dragHandles: [],
-    };
-    this.graph.addEdge(edge);
+    this.graph.addEdge(createInterfaceProvisionEdge(node.offeredById, node.id));
   }
 
-  drawGraph(shouldZoom: boolean = true) {
-    //Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
-    this.resetGraph();
-    const componentNodes = Array.from(this.graphData.components.values()).map(component =>
-      createComponentNode(component, this.nodePositions[component.id]));
-    componentNodes.forEach(node => {
-      this.graph.addNode(node);
-      this.addIssueFolders(node);
-    });
-    const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
-      intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
-    interfaceNodes.forEach(node => {
-      this.graph.addNode(node);
-      this.connectToOfferingComponent(node);
-      this.addIssueFolders(node);
-    });
-    componentNodes.forEach(node => this.drawFolderRelations(node));
-    interfaceNodes.forEach(node => this.drawFolderRelations(node));
-
-
-    /*
-
-      this.updateIssuesForNode(this.graph, componentGraphNode, graphComponent.issues, mockIssues);
-      //this.newUpdateIssuesForNode(graph, componentGraphNode, graphComponent.issueCounts);
-      issueGroupParents.push(componentGraphNode);
-
-      Object.keys(graphComponent.interfaces).forEach((interfaceId) => {
-
-        // new interface type has no issues only issue counts
-        this.updateIssuesForNode(this.graph, interfaceNode, intface.issues, mockIssues);
-        issueGroupParents.push(interfaceNode);
-      });
-
-      //add edges from components to other components interfaces and to other coqmponents
-      graphComponent.componentRelations.forEach((relation) => {
-        let edge: Edge;
-        if (relation.targetType === 'component') {
-          edge = {
-            source: componentNodeId,
-            target: `component_${relation.targetId}`,
-            type: 'component-connect',
-            markerEnd: {
-              template: 'arrow',
-              relativeRotation: 0,
-            },
-          };
-        } else if (relation.targetType === 'interface') {
-          edge = {
-            source: componentNodeId,
-            target: `interface_${relation.targetId}`,
-            type: 'interface-connect',
-            markerEnd: {
-              template: 'interface-connector',
-              relativeRotation: 0,
-            },
-          };
-        }
-        this.graph.addEdge(edge);
-      });
-    });
-
-
-    issueGroupParents.forEach((node) => this.updateIssueRelations(this.graph, node, mockIssues));
-
-    //this.issuesById = issues;
-    */
-    this.graph.completeRender();
-    if (this.firstDraw) {
-      this.graph.zoomToBoundingBox();
+  connectConsumingComponents(interfaceNode: InterfaceNode) {
+    for (const consumerId of this.graphData.interfaces.get(interfaceNode.id).consumedBy) {
+      this.graph.addEdge(createConsumptionEdge(consumerId, interfaceNode.id));
     }
-    this.firstDraw = false;
   }
 
+    drawGraph(shouldZoom: boolean = true) {
+      //Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
+      this.resetGraph();
+      const componentNodes = Array.from(this.graphData.components.values()).map(component =>
+        createComponentNode(component, this.nodePositions[component.id]));
+
+      const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
+        intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
+      const issueNodes = (componentNodes as IssueNode[]).concat(interfaceNodes as IssueNode[]);
+      issueNodes.forEach(node => {
+        this.graph.addNode(node);
+        this.addIssueFolders(node);
+        this.drawFolderRelations(node);
+      });
+      interfaceNodes.forEach(interfaceNode => {
+        this.connectToOfferingComponent(interfaceNode);
+        this.connectConsumingComponents(interfaceNode);
+      });
+
+      /*
+
+        this.updateIssuesForNode(this.graph, componentGraphNode, graphComponent.issues, mockIssues);
+        //this.newUpdateIssuesForNode(graph, componentGraphNode, graphComponent.issueCounts);
+        issueGroupParents.push(componentGraphNode);
+
+        Object.keys(graphComponent.interfaces).forEach((interfaceId) => {
+
+          // new interface type has no issues only issue counts
+          this.updateIssuesForNode(this.graph, interfaceNode, intface.issues, mockIssues);
+          issueGroupParents.push(interfaceNode);
+        });
+
+        //add edges from components to other components interfaces and to other coqmponents
+        graphComponent.componentRelations.forEach((relation) => {
+          let edge: Edge;
+          if (relation.targetType === 'component') {
+            edge = {
+              source: componentNodeId,
+              target: `component_${relation.targetId}`,
+              type: 'component-connect',
+              markerEnd: {
+                template: 'arrow',
+                relativeRotation: 0,
+              },
+            };
+          } else if (relation.targetType === 'interface') {
+            edge = {
+              source: componentNodeId,
+              target: `interface_${relation.targetId}`,
+              type: 'interface-connect',
+              markerEnd: {
+                template: 'interface-connector',
+                relativeRotation: 0,
+              },
+            };
+          }
+          this.graph.addEdge(edge);
+        });
+      });
 
 
-  addIssueFolders(node: IssueNode) {
-    this.addIssueGroupContainer(node);
-    this.addIssueFolderNodes(node);
-  }
+      issueGroupParents.forEach((node) => this.updateIssueRelations(this.graph, node, mockIssues));
+
+      //this.issuesById = issues;
+      */
+      this.graph.completeRender();
+      if (this.firstDraw) {
+        this.graph.zoomToBoundingBox();
+      }
+      this.firstDraw = false;
+    }
+
+
+
+    addIssueFolders(node: IssueNode) {
+      this.addIssueGroupContainer(node);
+      this.addIssueFolderNodes(node);
+    }
 
   private addIssueFolderNodes(node: IssueNode) {
     Object.keys(IssueCategory).forEach(key => {
@@ -427,9 +429,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     for (const folderNode of folderNodes) {
       const relatedFolders = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
       for (const relatedFolder of relatedFolders) {
-          const [issueNodeId, category] = relatedFolder;
-          const edge = createRelationEdge(folderNode.id, getIssueFolderId(issueNodeId, category));
-          this.graph.addEdge(edge);
+        const [issueNodeId, category] = relatedFolder;
+        const edge = createRelationEdge(folderNode.id, getIssueFolderId(issueNodeId, category));
+        this.graph.addEdge(edge);
       }
     }
   }

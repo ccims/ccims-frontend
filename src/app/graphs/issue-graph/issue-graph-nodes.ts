@@ -5,7 +5,8 @@ import { Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
 
 export {
   IssueNode, ComponentNode, InterfaceNode, IssueGroupContainerNode, RelationEdge,
-  createComponentNode, createInterfaceNode, createIssueGroupContainerNode, createIssueFolderNode, createRelationEdge,
+  createComponentNode, createInterfaceNode, createIssueGroupContainerNode, createIssueFolderNode,
+  createRelationEdge, createConsumptionEdge, createInterfaceProvisionEdge,
   Position,
   getIssueFolderId
 };
@@ -85,7 +86,7 @@ function createRelationEdge(sourceId: string, targetId: string) {
     id:`s${sourceId}t${targetId}rrelatedTo`,
     source: sourceId,
     target: targetId,
-    type: 'relatedTo',
+    type: folderEdgeTypes.RelatedTo,
     markerEnd: {
       template: 'arrow',
       relativeRotation: 0,
@@ -95,7 +96,26 @@ function createRelationEdge(sourceId: string, targetId: string) {
   };
 }
 
+function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
+  return {
+    source: componentId,
+    target: interfaceId,
+    type: 'interface-connect',
+    markerEnd: {
+      template: 'interface-connector',
+      relativeRotation: 0,
+    },
+  }
+}
 
+function createInterfaceProvisionEdge(componentId: string, interfaceId: string): Edge {
+  return {
+    source: componentId,
+    target: interfaceId,
+    type: 'interface',
+    dragHandles: [],
+  };
+}
 
 function getIssueFolderId(id: string, issueCategory: IssueCategory): string {
   return `${id}__${issueCategory}`;
@@ -107,7 +127,8 @@ interface Position {
 }
 const zeroPosition = {x: 0, y: 0};
 
-class NodeFactory {
-
+enum folderEdgeTypes {
+  RelatedTo = 'relatedTo',
+  Depends = 'dependency',
+  Duplicates = 'duplicate'
 }
-

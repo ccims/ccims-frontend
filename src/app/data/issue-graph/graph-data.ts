@@ -171,12 +171,18 @@ export class GraphDataFactory {
       issues: issueCount1
     };
 
+    const component2: GraphComponent = {
+      id: '5',
+      name: 'Component 2',
+      issues: issueCount1
+    };
+
     const interFace: GraphInterface = {
       id: '2',
       name: 'TestInterface',
       offeredBy: component.id,
       issues: issueCount2,
-      consumedBy: []
+      consumedBy: ['5']
     };
 
     const linkedIssue: GraphIssue = {
@@ -194,7 +200,7 @@ export class GraphDataFactory {
 
 
     const data: GraphData = {
-      components: new Map([[component.id, component]]),
+      components: new Map([[component.id, component], [component2.id, component2]]),
       interfaces: new Map([[interFace.id, interFace]]),
       linkIssues: [linkingIssue],
       relatedFolders: computeRelatedFolders([linkingIssue])
