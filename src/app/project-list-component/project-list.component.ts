@@ -3,9 +3,7 @@ import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialo
 import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
-import { RemoveDialogComponent } from 'src/app/dialogs/remove-dialog/remove-dialog.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzThSelectionComponent } from 'ng-zorro-antd';
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
