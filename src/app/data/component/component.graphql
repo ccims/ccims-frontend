@@ -39,3 +39,44 @@ mutation RemoveConsumedInterface($input: RemoveConsumedInterfaceInput!) {
   }
 }
 
+query GetComponent($id: ID!) {
+  node(id: $id) {
+    ...on Component {
+      id
+      name
+      owner{
+        displayName
+        username
+        id
+      }
+      description
+      ims{
+        imsType
+      }
+      issues
+      {
+        nodes{
+          title
+          isOpen
+          category
+        }
+      }
+      interfaces{
+        nodes{
+          name
+        }
+      }
+      consumedInterfaces{
+         nodes{
+          name
+        }
+      }
+      }
+    }
+  }
+
+  mutation DeleteComponent($input: DeleteComponentInput!) {
+  deleteComponent(input: $input){
+    clientMutationID
+  }
+}

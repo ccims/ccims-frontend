@@ -10,17 +10,18 @@
 
   <mat-form-field class="stretch" appearance="outline">
     <mat-label>Repository-URL</mat-label>
-    <input #url required matInput  [formControl]="validationUrl" >
+    <input readonly="false" #url required matInput  [formControl]="validationUrl" >
     <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field  appearance="outline">
     <mat-label>Provider Type (IMS)</mat-label>
-    <mat-select #provider [formControl]="validationProvider" required>
-        <mat-option value="GitHub">GitHub</mat-option>
-        <mat-option value="Gitlab">Gitlab</mat-option>
-        <mat-option value="Redmine">Redmine</mat-option>
-        <mat-option value="Jira">Jira</mat-option>
+    <mat-select  #provider [formControl]="validationProvider" required>
+        <mat-option value="GITHUB">GitHub</mat-option>
+        <mat-option value="GITLAB">Gitlab</mat-option>
+        <mat-option value="REDMINE">Redmine</mat-option>
+        <mat-option value="JIRA">Jira</mat-option>
+        <mat-option value="CCIMS">CCIMS</mat-option>
     </mat-select>
     <mat-error *ngIf="validationProvider.invalid">Select the Provider</mat-error>
 </mat-form-field>
