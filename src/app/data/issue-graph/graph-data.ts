@@ -181,7 +181,7 @@ export class GraphDataFactory {
       id: '6',
       name: 'Component 3',
       issues: new Map()
-    }
+    };
 
     const interFace: GraphInterface = {
       id: '2',
