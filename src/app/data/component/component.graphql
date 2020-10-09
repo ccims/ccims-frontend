@@ -27,3 +27,15 @@ mutation AddConsumedInterface($input: AddConsumedInterfaceInput!) {
     }
   }
 }
+
+mutation RemoveConsumedInterface($input: RemoveConsumedInterfaceInput!) {
+  removeConsumedInterface(input: $input) {
+    component {
+      id
+    }
+    interface {
+      id
+    }
+  }
+}
+

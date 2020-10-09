@@ -15,12 +15,12 @@ import { state } from '@angular/animations';
 export class IssueGraphStateService {
 
 
-  constructor(private apiService: IssueGraphApiService, private ss: StateService, ) {
+  constructor(private apiService: IssueGraphApiService, private ss: StateService,) {
   }
   state$: Observable<GraphData>;
   reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
-  graphDataForFilter(filter$: BehaviorSubject<string>): Observable<GraphData>{
+  graphDataForFilter(filter$: BehaviorSubject<string>): Observable<GraphData> {
     this.state$ = combineLatest(this.ss.state$, filter$, this.reload$).pipe(
       filter(([appState, _]) => appState.project?.id != null),
       switchMap(([appState, filterString]) => this.apiService.loadIssueGraphData(appState.project.id)),
@@ -35,7 +35,12 @@ export class IssueGraphStateService {
 
   addConsumedInterface(componentId: string, interfaceId: string) {
     this.apiService.addConsumedInterface(componentId, interfaceId).
-    subscribe(result => this.reload$.next());
+      subscribe(result => this.reload$.next());
+  }
+
+  removeConsumedInterface(componentId: string, interfaceId: string) {
+    this.apiService.removeConsumedInterface(componentId, interfaceId).
+      subscribe(result => this.reload$.next());
   }
 
 }

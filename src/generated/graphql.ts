@@ -3558,6 +3558,13 @@ export type AddConsumedInterfaceMutationVariables = Exact<{
 
 export type AddConsumedInterfaceMutation = { addConsumedInterface?: Maybe<{ component?: Maybe<Pick<Component, 'id'>>, interface?: Maybe<Pick<ComponentInterface, 'id'>> }> };
 
+export type RemoveConsumedInterfaceMutationVariables = Exact<{
+  input: RemoveConsumedInterfaceInput;
+}>;
+
+
+export type RemoveConsumedInterfaceMutation = { removeConsumedInterface?: Maybe<{ component?: Maybe<Pick<Component, 'id'>>, interface?: Maybe<Pick<ComponentInterface, 'id'>> }> };
+
 export type CreateComponentInterfaceMutationVariables = Exact<{
   input: CreateComponentInterfaceInput;
 }>;
@@ -3674,6 +3681,29 @@ export const AddConsumedInterfaceDocument = gql`
   })
   export class AddConsumedInterfaceGQL extends Apollo.Mutation<AddConsumedInterfaceMutation, AddConsumedInterfaceMutationVariables> {
     document = AddConsumedInterfaceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveConsumedInterfaceDocument = gql`
+    mutation RemoveConsumedInterface($input: RemoveConsumedInterfaceInput!) {
+  removeConsumedInterface(input: $input) {
+    component {
+      id
+    }
+    interface {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveConsumedInterfaceGQL extends Apollo.Mutation<RemoveConsumedInterfaceMutation, RemoveConsumedInterfaceMutationVariables> {
+    document = RemoveConsumedInterfaceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
