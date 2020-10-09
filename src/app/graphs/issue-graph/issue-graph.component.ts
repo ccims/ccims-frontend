@@ -14,7 +14,7 @@ import { issues as mockIssues } from '../../model/graph-state';
 // import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
 // import { MatBottomSheet } from '@angular/material/bottom-sheet';
 // import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
-import { IssueGraphStoreService } from '../../data/issue-graph/issue-graph-store.service';
+import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
 import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
 import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
 import { StateService } from '@app/state.service';
@@ -76,7 +76,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filterObs.next('blah');
   }
 
-  constructor(private dialog: MatDialog, private gs: IssueGraphStoreService, private ss: StateService, private cont: GraphContainerComponent) {
+  constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService, private cont: GraphContainerComponent) {
     // , private bottomSheet: MatBottomSheet) {}
     //this.gs.graphDataForFilter(this.filterObs).pipe(
 
@@ -535,6 +535,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const sourceNode = this.graph.getNode(edge.source);
       const targetNode = this.graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
+        console.log("Add comp to interface");
+        this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString());
         // this.api.addComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
     }

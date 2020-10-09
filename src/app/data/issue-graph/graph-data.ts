@@ -154,7 +154,7 @@ export class GraphDataFactory {
     const relatedFolders = computeRelatedFolders(linkIssues);
     console.log(components, interfaces);
     return {
-      components, interfaces, relatedFolders,linkIssues
+      components, interfaces, relatedFolders, linkIssues
     };
   }
 
@@ -176,6 +176,12 @@ export class GraphDataFactory {
       name: 'Component 2',
       issues: issueCount1
     };
+
+    const component3: GraphComponent = {
+      id: '6',
+      name: 'Component 3',
+      issues: new Map()
+    }
 
     const interFace: GraphInterface = {
       id: '2',
@@ -200,7 +206,9 @@ export class GraphDataFactory {
 
 
     const data: GraphData = {
-      components: new Map([[component.id, component], [component2.id, component2]]),
+      components: new Map([[component.id, component],
+      [component2.id, component2],
+      [component3.id, component3]]),
       interfaces: new Map([[interFace.id, interFace]]),
       linkIssues: [linkingIssue],
       relatedFolders: computeRelatedFolders([linkingIssue])
