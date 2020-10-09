@@ -85,7 +85,9 @@ export class CreateComponentDialogComponent implements OnInit {
       name,
       owner: this.authService.currentUserValue.id,
       imsType: this.checkImsType(provider),
-      projects: [this.data.projectId]
+      projects: [this.data.projectId],
+      description: description,
+      endpoint: ims
     };
     this.createComponentMutation.mutate({input}).subscribe(({data}) => {
       console.log(data.createComponent.component);

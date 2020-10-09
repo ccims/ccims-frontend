@@ -21,4 +21,13 @@ export class ComponentStoreService {
       map(({ data}) => data.node)
     );
   }
+
+  deleteComponent(id: string) {
+    /*
+    const input: DeleteComponentInput = {
+      projectId: id
+    };
+    return this.deleteProject.mutate({input});
+    */
+  }
 }

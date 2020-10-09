@@ -5,6 +5,7 @@
 <button *ngIf="!this.editMode" mat-fab color="primary" (click)="this.onSaveClick()"><mat-icon>edit</mat-icon></button>
   <button *ngIf="this.editMode" mat-fab color="primary" (click)="this.onSaveClick()"><mat-icon>save</mat-icon></button>
   <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onSaveClick()"><mat-icon>cancel</mat-icon></button>
+  <button class="delete-button" mat-fab color="danger" (click)="this.onDeleteClick()"><mat-icon>delete</mat-icon></button>
 
 <form  class="form-custom">
   <mat-form-field floatLabel="always" class="stretch" appearance="outline">
@@ -39,7 +40,7 @@
 
 <mat-form-field floatLabel="always" class="stretch" appearance="outline">
   <mat-label>IMS-URL</mat-label>
-  <input name="ims"  [readonly]="!this.editMode" [ngModel]="this.displayComponent.ims" matInput  [formControl]="this.validationIMS" >
+  <input name="ims"  [readonly]="!this.editMode" [ngModel]="this.displayComponent.endpoint" matInput  [formControl]="this.validationIMS" >
   <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL</mat-error>
 </mat-form-field>
 

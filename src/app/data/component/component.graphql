@@ -51,3 +51,9 @@ query GetComponent($id: ID!) {
       }
     }
   }
+
+  mutation DeleteComponent($input: DeleteComponentInput!) {
+  DeleteComponent(input: $input){
+    clientMutationID
+  }
+}

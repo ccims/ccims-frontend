@@ -1,7 +1,9 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { storeKeyNameFromField } from '@apollo/client/utilities';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
+import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
 // import { Component } from 'src/generated/graphql';
 
 
@@ -25,7 +27,7 @@ export class ComponentDetailsComponent implements OnInit {
   validationIMS = new FormControl('', [Validators.required]);
   public validationProvider = new FormControl('', [Validators.required]);
 
-  constructor( private componentStoreService: ComponentStoreService) { this.editMode = false;
+  constructor( private componentStoreService: ComponentStoreService,private dialog: MatDialog) { this.editMode = false;
 
      }
 
@@ -35,8 +37,17 @@ export class ComponentDetailsComponent implements OnInit {
   onCancelClick(){
     this.editMode = !this.editMode;
   }
+  onDeleteClick(){
+    // Confirm Dialog anzeigen
+    // Onconfirm
+    const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,{data:{type:"Component", name:this.displayComponent.name, id: this.displayComponent.id}});
+
+      // Delete Mutation auslösen
+
+  }
   public onSaveClick(): void{
     this.editMode = !this.editMode;
+      // Confirm Dialog ??
       // mutation for save component
     /*
     Object.keys(this.validateForm.controls).forEach(controlKey => {
