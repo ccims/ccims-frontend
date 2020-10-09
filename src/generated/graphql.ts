@@ -2110,6 +2110,10 @@ export type Mutation = {
   updateComponentInterface?: Maybe<UpdateComponentInterfacePayload>;
   /** Creates a new component in the ccims and adds it to the given users */
   createComponent?: Maybe<CreateComponentPayload>;
+  /** Delets the specified component */
+  deleteComponent?: Maybe<DeleteComponentPayload>;
+  /** Updates a component in the ccims and adds it to the given users */
+  updateComponent?: Maybe<UpdateComponentPayload>;
   /** Adds the specified component to the project if it is not already on the project */
   addConsumedInterface?: Maybe<AddConsumedInterfacePayload>;
   /** Removes the specified component to the project if it is not already on the project */
@@ -2342,6 +2346,18 @@ export type MutationUpdateComponentInterfaceArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationCreateComponentArgs = {
   input: CreateComponentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationDeleteComponentArgs = {
+  input: DeleteComponentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateComponentArgs = {
+  input: UpdateComponentInput;
 };
 
 
@@ -3316,6 +3332,73 @@ export type CreateComponentInput = {
   consumedInterfaces?: Maybe<Array<Scalars['ID']>>;
 };
 
+/** The Payload/Response for the deleteComponent mutation */
+export type DeleteComponentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteComponent mutation */
+export type DeleteComponentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the component to delete */
+  componentId: Scalars['ID'];
+};
+
+/** The Payload/Response for the updateComponent mutation */
+export type UpdateComponentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component updated by this mutation */
+  component?: Maybe<Component>;
+  /** The IMS of the component updated by this mutation */
+  ims?: Maybe<Ims>;
+};
+
+/** The inputs for the updateComponent mutation */
+export type UpdateComponentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the component to update */
+  componentId: Scalars['ID'];
+  /**
+   * The (non unique) display name of this component
+   * 
+   * Max. 256 characters
+   */
+  name?: Maybe<Scalars['String']>;
+  /**
+   * A textual description (of the fuction) of this component.
+   * 
+   * Max. 65536 characters. `null` equivalent to ""
+   */
+  description?: Maybe<Scalars['String']>;
+  /** The type/system the IMS of this component is an instance of */
+  imsType?: Maybe<ImsType>;
+  /**
+   * The endpoint where to reach the IMS of this component instance.
+   * 
+   * In the most cases this will be a URL in the form of
+   * ```
+   * https://example.com/api/[API_KEY]
+   * ```
+   * where strings in [] can be replaced by the IMS extension with values needed
+   * (either dynamid, like the API key of a user or static, like values from the config).
+   * See the documentation for the IMS extions for information which keys are expected.
+   * 
+   * In rare cases depending on the IMS type this might be empty or not a URL
+   */
+  endpoint?: Maybe<Scalars['String']>;
+  /**
+   * Data needed for the connection to the IMS API.
+   * 
+   * See the documentation for the IMS extions for information which keys are expected.
+   * This must be a valid JSON-string
+   */
+  connectionData?: Maybe<Scalars['JSON']>;
+};
+
 /** The Payload/Response for the addComponentToProject mutation */
 export type AddConsumedInterfacePayload = {
   /** The string provided by the client on sending the mutation */
@@ -3468,6 +3551,20 @@ export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Ma
       & { ims?: Maybe<Pick<Ims, 'id'>>, projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id'>> }>>> }> }
     )> }> };
 
+export type AddConsumedInterfaceMutationVariables = Exact<{
+  input: AddConsumedInterfaceInput;
+}>;
+
+
+export type AddConsumedInterfaceMutation = { addConsumedInterface?: Maybe<{ component?: Maybe<Pick<Component, 'id'>>, interface?: Maybe<Pick<ComponentInterface, 'id'>> }> };
+
+export type RemoveConsumedInterfaceMutationVariables = Exact<{
+  input: RemoveConsumedInterfaceInput;
+}>;
+
+
+export type RemoveConsumedInterfaceMutation = { removeConsumedInterface?: Maybe<{ component?: Maybe<Pick<Component, 'id'>>, interface?: Maybe<Pick<ComponentInterface, 'id'>> }> };
+
 export type CreateComponentInterfaceMutationVariables = Exact<{
   input: CreateComponentInterfaceInput;
 }>;
@@ -3561,6 +3658,52 @@ export const CreateComponentDocument = gql`
   })
   export class CreateComponentGQL extends Apollo.Mutation<CreateComponentMutation, CreateComponentMutationVariables> {
     document = CreateComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddConsumedInterfaceDocument = gql`
+    mutation AddConsumedInterface($input: AddConsumedInterfaceInput!) {
+  addConsumedInterface(input: $input) {
+    component {
+      id
+    }
+    interface {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddConsumedInterfaceGQL extends Apollo.Mutation<AddConsumedInterfaceMutation, AddConsumedInterfaceMutationVariables> {
+    document = AddConsumedInterfaceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveConsumedInterfaceDocument = gql`
+    mutation RemoveConsumedInterface($input: RemoveConsumedInterfaceInput!) {
+  removeConsumedInterface(input: $input) {
+    component {
+      id
+    }
+    interface {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveConsumedInterfaceGQL extends Apollo.Mutation<RemoveConsumedInterfaceMutation, RemoveConsumedInterfaceMutationVariables> {
+    document = RemoveConsumedInterfaceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

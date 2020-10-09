@@ -8,7 +8,7 @@ import { COMPONENT_UUID_NAMESPACE } from '@app/model/namespace-constants';
 import * as Uuid from 'uuid/v5';
 import { CreateComponentGQL, CreateComponentInput, ImsType } from 'src/generated/graphql';
 import { AuthenticationService } from '@app/auth/authentication.service';
-import { IssueGraphStoreService } from '@app/data/issue-graph/issue-graph-store.service';
+import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.service';
 @Component({
   selector: 'app-create-component-dialog',
   templateUrl: './create-component-dialog.component.html',
@@ -27,7 +27,7 @@ export class CreateComponentDialogComponent implements OnInit {
   // private gs:GraphStoreService;
   constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>,  @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
               private fb: FormBuilder,
-              private gs: IssueGraphStoreService, private createComponentMutation: CreateComponentGQL,
+              private gs: IssueGraphStateService, private createComponentMutation: CreateComponentGQL,
               private authService: AuthenticationService) {
                 this.loading = false;
               }

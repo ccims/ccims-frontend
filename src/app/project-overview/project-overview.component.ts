@@ -18,9 +18,7 @@ export class ProjectOverviewComponent implements OnInit {
 
   constructor(private projectStoreService: ProjectStoreService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.project = this.projectStoreService.getFullProject(this.projectId).subscribe(project => {this.project = project;
-    });
-
+    this.project = this.projectStoreService.getFullProject(this.projectId).subscribe(project => {this.project = project;});
   }
 
   ngOnInit(): void {

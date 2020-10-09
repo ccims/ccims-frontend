@@ -11,10 +11,10 @@ type LocationId = Scalars['ID'];
 export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
-  // linkIssues: GraphIssue[];
+  relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
+  linkIssues: GraphIssue[];
   // issueLocations: Map<GraphIssue, LocationId[]>;
   // issueLinks: Dictionary<GraphIssue, GraphIssue>;
-  // relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
 }
 
 interface Folder {
@@ -154,7 +154,7 @@ export class GraphDataFactory {
     const relatedFolders = computeRelatedFolders(linkIssues);
     console.log(components, interfaces);
     return {
-      components, interfaces, // linkIssues, relatedFolders
+      components, interfaces, relatedFolders, linkIssues
     };
   }
 
@@ -163,21 +163,55 @@ export class GraphDataFactory {
     const issueCount1: Map<IssueCategory, number> = issueCounts(1, 2, 3);
     const issueCount2: Map<IssueCategory, number> = issueCounts(4, 5, 6);
 
+
+
     const component: GraphComponent = {
       id: '1',
       name: 'TestComponent',
       issues: issueCount1
     };
+
+    const component2: GraphComponent = {
+      id: '5',
+      name: 'Component 2',
+      issues: issueCount1
+    };
+
+    const component3: GraphComponent = {
+      id: '6',
+      name: 'Component 3',
+      issues: new Map()
+    }
+
     const interFace: GraphInterface = {
       id: '2',
       name: 'TestInterface',
-      offeredBy: '1',
+      offeredBy: component.id,
       issues: issueCount2,
-      consumedBy: []
+      consumedBy: ['5']
     };
+
+    const linkedIssue: GraphIssue = {
+      id: '3',
+      category: IssueCategory.FeatureRequest,
+      locations: [interFace.id]
+    };
+
+    const linkingIssue: GraphIssue = {
+      id: '4',
+      category: IssueCategory.Bug,
+      locations: [component.id],
+      linksIssues: [linkedIssue]
+    };
+
+
     const data: GraphData = {
-      components: new Map([[component.id, component]]),
-      interfaces: new Map([[interFace.id, interFace]])
+      components: new Map([[component.id, component],
+      [component2.id, component2],
+      [component3.id, component3]]),
+      interfaces: new Map([[interFace.id, interFace]]),
+      linkIssues: [linkingIssue],
+      relatedFolders: computeRelatedFolders([linkingIssue])
     };
     return data;
   }

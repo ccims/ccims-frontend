@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthenticationService } from '@app/auth/authentication.service';
-import { IssueGraphStoreService } from '@app/data/issue-graph/issue-graph-store.service';
+import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.service';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
 import { InterfaceStoreService } from '../../data/interface/interface-store.service';
 
@@ -23,7 +23,7 @@ export class CreateInterfaceDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
     private fb: FormBuilder,
-    private gs: IssueGraphStoreService,
+    private gs: IssueGraphStateService,
     // Wenn mutation erstellt wierder eikomentieren
     // private createComponentMutation: CreateInterfaceGQL,
     private authService: AuthenticationService, private interfaceStore: InterfaceStoreService) {
