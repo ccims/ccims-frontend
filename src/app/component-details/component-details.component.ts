@@ -55,5 +55,9 @@ export class ComponentDetailsComponent implements OnInit {
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });*/
   }
+  public onAddClick(): void {
+    const createIssueDialogRef = this.dialog.open(RemoveDialogComponent,{data:{user:"Component", name:this.displayComponent.name, id: this.displayComponent.id}});
+
+  }
 
 }

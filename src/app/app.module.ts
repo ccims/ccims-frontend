@@ -46,6 +46,7 @@ import { RemoveDialogComponent } from './dialogs/remove-dialog/remove-dialog.com
 import { CreateComponentDialogComponent } from './dialogs/create-component-dialog/create-component-dialog.component';
 import { CreateInterfaceDialogComponent } from './dialogs/create-interface-dialog/create-interface-dialog.component';
 import { ComponentDetailsComponent } from './component-details/component-details.component';
+import { CreateIssueDialogComponent } from './dialogs/create-issue-dialog/create-issue-dialog.component';
 // import { ComponentDetailsComponent } from './component-details/component-details.component';
 
 registerLocaleData(en);
@@ -75,6 +76,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     RemoveDialogComponent,
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
+    CreateIssueDialogComponent,
     //ComponentDetailsComponent
   ],
   imports: [

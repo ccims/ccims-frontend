@@ -5,12 +5,12 @@
     </div>
     <div *ngIf="project$ | async as project">
       <div class="content">
-        <p class="title">{{project.name}}</p>
-        <div class="sub-title">Owner: {{project.owner.id}}</div>
-        <div class="sub-sub-title">Project ID: {{project.id}}</div>
+        <p class="title">{{this.project.name}}</p>
+        <div class="sub-title">Owner: {{this.project.owner.id}}</div>
+        <div class="sub-sub-title">Project ID: {{this.project.id}}</div>
       </div>
       <div class="d-flex text-sm-left">
-        <p>{{project.description}}</p>
+        <p>{{this.project.description}}</p>
       </div>
     </div>
   </div>
