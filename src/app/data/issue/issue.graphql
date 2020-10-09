@@ -1,5 +1,5 @@
 mutation CreateIssue($input: CreateIssueInput!) {
-  createissue(input: {
+  createIssue(input: {
     title: "Bug in API"
     body: "# Problem\n- Some __Bug__"
     componentIDs: ["COMPONENT_ID"]
