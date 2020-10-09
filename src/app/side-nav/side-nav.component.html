@@ -1,10 +1,10 @@
 <mat-toolbar>{{menuTitle}}</mat-toolbar>
 <mat-nav-list>
-  <mat-list-item routerLink="/projects/1" routerLinkActive="list-item-active">
+  <mat-list-item routerLink="/projects/5d43185b8a6df002" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon >info</mat-icon>
     <a href="#">Overview</a>
   </mat-list-item>
-  <mat-list-item  [routerLink]="['/projects', (ss.state$ | async).project.id, 'graph']" routerLinkActive="list-item-active">
+  <mat-list-item  [routerLink]="['/projects/5d43185b8a6df002', 'graph']" routerLinkActive="list-item-active"  [routerLinkActiveOptions]="{exact: true}">
     <mat-icon>account_tree</mat-icon>
     <a>Graph</a>
   </mat-list-item>
