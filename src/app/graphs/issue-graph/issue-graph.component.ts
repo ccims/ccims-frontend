@@ -70,10 +70,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
 
-  private filterObs: BehaviorSubject<string> = new BehaviorSubject('blah');
+  private filter$: BehaviorSubject<string> = new BehaviorSubject('blah');
 
   public reload() {
-    this.filterObs.next('blah');
+    this.filter$.next('blah');
   }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService, private cont: GraphContainerComponent) {
@@ -286,7 +286,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     graph.addEventListener('zoomchange', (event: CustomEvent) => {
       this.currentVisibleArea = event.detail.currentViewWindow;
     });
-    this.gs.mockedLoadIssueGraphData().pipe(
+    this.gs.graphDataForFilter(this.filter$).pipe(
       tap(newGraphData => {
         this.graphData = newGraphData;
         this.drawGraph();

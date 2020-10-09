@@ -18,7 +18,7 @@ export class IssueGraphStateService {
   constructor(private apiService: IssueGraphApiService, private ss: StateService, ) {
   }
   state$: Observable<GraphData>;
-  reload$: Subject<void> = new Subject<void>();
+  reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
   graphDataForFilter(filter$: BehaviorSubject<string>): Observable<GraphData>{
     this.state$ = combineLatest(this.ss.state$, filter$, this.reload$).pipe(
