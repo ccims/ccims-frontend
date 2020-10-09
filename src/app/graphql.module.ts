@@ -58,8 +58,8 @@ export function createErrorLink(authService: AuthenticationService, toastr: Toas
       }
     }
     if (networkError) {
-      //@ts-ignore
-      if(networkError.status === 401) {
+      // @ts-ignore
+      if (networkError.status === 401) {
         toastr.error('You are not authenticated', '', networkErrorToast);
         authService.logout();
       } else {

@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject} from '@angular/core';
-import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, Inject, OnDestroy} from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
@@ -9,11 +9,15 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
-export class ProjectListComponent implements OnInit {
+export class ProjectListComponent implements OnInit, OnDestroy {
   pendingCreate = false;
   projectName?: string;
   projects: Pick<Project, 'id' | 'name'>[];
   constructor(private ps: ProjectStoreService, private dialog: MatDialog, private nzMessageService: NzMessageService) { }
+
+  ngOnDestroy(): void {
+    this.dialog.closeAll();
+  }
 
   ngOnInit(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
@@ -43,7 +47,7 @@ private changeColour(): void {
   b.blur();
 }
 public nothing(e: Event): void {
-//console.log(e);
+// console.log(e);
 e.preventDefault();
 e.stopPropagation();
 }
