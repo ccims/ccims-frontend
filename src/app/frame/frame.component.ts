@@ -9,7 +9,7 @@ import { StateService } from '@app/state.service';
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss']
 })
-export class FrameComponent implements OnInit {
+export class FrameComponent {
   public isProjectSet$ = new BehaviorSubject<boolean>(false);
   public showDrawer = true;
 
@@ -21,12 +21,10 @@ export class FrameComponent implements OnInit {
 
   constructor(private breakpointObserver: BreakpointObserver, public ss: StateService) {
     ss.state$.pipe(
-      map(state =>(state.project != null))
+      map(state => (state.project != null))
     ).subscribe(this.isProjectSet$);
   }
 
-  ngOnInit(): void {
-  }
   logMenuToggle(): void {
     this.showDrawer = !this.showDrawer;
   }
