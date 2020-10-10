@@ -13,7 +13,6 @@ import { MatInputModule } from '@angular/material/input';
 
 import '@ustutt/grapheditor-webcomponent/lib/index';
 import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-controls.component';
-import { GraphContainerComponent } from '../graphs/graph-container/graph-container.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,7 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-    declarations: [IssueGraphComponent, IssueGraphControlsComponent, GraphContainerComponent, ComponentDetailsComponent],
+    declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent],
     imports: [
         CommonModule,
         MatToolbarModule,
