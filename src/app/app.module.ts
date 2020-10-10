@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
@@ -93,6 +94,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatTabsModule,
     MatSlideToggleModule,
     GraphQLModule,
     HttpClientModule,

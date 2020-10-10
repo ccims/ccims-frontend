@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import '@ustutt/grapheditor-webcomponent/lib/index';
 import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-controls.component';
@@ -48,7 +49,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSlideToggleModule,
         MatFormFieldModule,
         MatInputModule,
-        MatSelectModule
+        MatSelectModule,
+    MatTabsModule
     ],
     exports: [
         IssueGraphComponent,
