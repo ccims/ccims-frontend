@@ -33,8 +33,7 @@ export class ComponentDetailsComponent implements OnInit {
     this.editMode = false;
     const componentId = this.route.snapshot.paramMap.get('componentId');
 
-    this.displayComponent = this.componentStoreService.getFullComponent(componentId).pipe(
-      tap(data => console.log("Constructor:", data)));
+    this.componentStoreService.getFullComponent(componentId).subscribe(data => console.log(data));
   }
 
   ngOnInit(): void {

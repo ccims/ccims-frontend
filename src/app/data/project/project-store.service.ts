@@ -10,7 +10,7 @@ import { AuthenticationService } from '@app/auth/authentication.service';
 export class ProjectStoreService {
 
   constructor(private authService: AuthenticationService, private getAllQuery: GetAllProjectsGQL,
-     private getQuery: GetProjectGQL, private getFullQuery: GetFullProjectGQL,
+     private getQuery: GetProjectGQL, private fullProjectQuery: GetFullProjectGQL,
               private createProject: CreateProjectGQL, private deleteProject: DeleteProjectGQL) {}
 
   create(name: string) {
@@ -34,13 +34,9 @@ export class ProjectStoreService {
     );
   }
 
-  getFullProject(id: string): Observable<Pick<Project, 'id' | 'name' | 'description'>
-  & { owner: Pick<User, 'id'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Component, 'id'>> }>>> }>,
-   users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>,
-    issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
->{
-    return this.getFullQuery.fetch({id}).pipe(
-      map(({ data}) => data.node)
+  getFullProject(id: string): Observable<GetFullProjectQuery>{
+    return this.fullProjectQuery.fetch({id}).pipe(
+      map(({data}) => data)
     );
   }
 
