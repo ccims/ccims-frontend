@@ -1,4 +1,4 @@
-<div *ngIf="(component$ | async).node as component">
+<div *ngIf="(component$ | async)?.node as component">
   <mat-tab-group>
     <mat-tab label="Component details">
       <div class="component-title">
