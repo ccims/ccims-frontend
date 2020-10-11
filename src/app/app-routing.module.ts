@@ -14,7 +14,7 @@ import { ComponentDetailsComponent } from './component-details/component-details
 
 const routes: Routes = [
   {
-    path: '', component: FrameComponent, canActivate: [AuthGuard],
+    path: '', canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'projects', pathMatch: 'full' },
       { path: 'projects', component: ProjectListComponent },
