@@ -14,7 +14,7 @@ import { ComponentDetailsComponent } from './component-details/component-details
 
 const routes: Routes = [
   {
-    path: '', canActivate: [AuthGuard],
+    path: '', component: FrameComponent, canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'projects', pathMatch: 'full' },
       { path: 'projects', component: ProjectListComponent },
@@ -23,7 +23,7 @@ const routes: Routes = [
         children: [
           { path: '', pathMatch: 'full', component: ProjectOverviewComponent},
           { path: 'graph', component: IssueGraphControlsComponent},
-          { path: 'components/:componentId', pathMatch: 'full', component: ComponentDetailsComponent}
+          { path: 'components/:componentId', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' }}
         ]
       },
       { path: 'components', component: ComponentListComponent },

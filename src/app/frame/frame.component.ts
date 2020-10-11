@@ -5,12 +5,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { StateService } from '@app/state.service';
 import { RouterOutlet } from '@angular/router';
 import { fader } from '@app/route-animations';
+import { slider } from '../route-animations';
 
 @Component({
   selector: 'app-frame',
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss'],
-  animations: [fader]
+  animations: [slider]
 })
 export class FrameComponent {
   public isProjectSet$ = new BehaviorSubject<boolean>(false);
