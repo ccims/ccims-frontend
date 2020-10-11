@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // import { Component } from 'src/generated/graphql';
 import { ActivatedRoute } from '@angular/router';
+import { GetComponentQuery } from '../../generated/graphql';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
   providedIn: 'root'
 })
 export class ComponentDetailsComponent implements OnInit {
-  displayComponent: Observable<any>;
+  public component$: Observable<GetComponentQuery>;
   public loading: boolean;
   public saveFailed: boolean;
   public editMode: boolean;
@@ -33,7 +34,7 @@ export class ComponentDetailsComponent implements OnInit {
     this.editMode = false;
     const componentId = this.route.snapshot.paramMap.get('componentId');
 
-    this.componentStoreService.getFullComponent(componentId).subscribe(data => console.log(data));
+    this.component$ = this.componentStoreService.getFullComponent(componentId);
   }
 
   ngOnInit(): void {
@@ -62,7 +63,6 @@ export class ComponentDetailsComponent implements OnInit {
   }
   public onAddClick(): void {
     //const createIssueDialogRef = this.dialog.open(RemoveDialogComponent, { data: { user: "Component", name: this.displayComponent.name, id: this.displayComponent.id } });
-
   }
 
 }

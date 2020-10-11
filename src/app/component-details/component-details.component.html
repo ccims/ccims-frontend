@@ -1,8 +1,8 @@
-
+<div *ngIf="component$ | async as component">
 <div class="component-title">
   <h1 >Component-Details</h1>
-<!--<h2>{{this.clickedNode.title}}</h2>-->
-</div><!--
+  <h2>{{component.node.name}}</h2>
+</div>
 <button *ngIf="!this.editMode" mat-fab color="primary" (click)="this.onSaveClick()"><mat-icon>edit</mat-icon></button>
   <button *ngIf="this.editMode" mat-fab color="primary" (click)="this.onSaveClick()"><mat-icon>save</mat-icon></button>
   <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onSaveClick()"><mat-icon>cancel</mat-icon></button>
@@ -11,7 +11,7 @@
 <form  class="form-custom">
   <mat-form-field floatLabel="always" class="stretch" appearance="outline">
     <mat-label>Name</mat-label>
-    <input [readonly]="!this.editMode" name="name" [ngModel]="this.displayComponent.name" matInput [formControl]="this.validationName">
+    <input [readonly]="!this.editMode" name="name" [ngModel]="this.component.node.name" matInput [formControl]="this.validationName">
     <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your Component</mat-error>
   </mat-form-field>
 
@@ -41,15 +41,15 @@
 
 <mat-form-field floatLabel="always" class="stretch" appearance="outline">
   <mat-label>IMS-URL</mat-label>
-  <input name="ims"  [readonly]="!this.editMode" [ngModel]="this.displayComponent.endpoint" matInput  [formControl]="this.validationIMS" >
+  <input name="ims"  [readonly]="!this.editMode" [ngModel]="component.node.endpoint" matInput  [formControl]="this.validationIMS" >
   <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL</mat-error>
 </mat-form-field>
 
   <mat-form-field floatLabel="always"  class="pagefill" appearance="outline">
     <mat-label>Description</mat-label>
-    <textarea [readonly]="!this.editMode" [ngModel]="this.displayComponent.description" class="description-field" name="description"  matInput  ></textarea>
+    <textarea [readonly]="!this.editMode" [ngModel]="component.node.description" class="description-field" name="description"  matInput  ></textarea>
   </mat-form-field>
 
   </form>
   <button  mat-fab color="warn" (click)="this.onAddClick()"><mat-icon>add</mat-icon></button>
--->
+</div>
