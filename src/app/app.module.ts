@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
@@ -46,6 +47,7 @@ import { RemoveDialogComponent } from './dialogs/remove-dialog/remove-dialog.com
 import { CreateComponentDialogComponent } from './dialogs/create-component-dialog/create-component-dialog.component';
 import { CreateInterfaceDialogComponent } from './dialogs/create-interface-dialog/create-interface-dialog.component';
 import { ComponentDetailsComponent } from './component-details/component-details.component';
+import { CreateIssueDialogComponent } from './dialogs/create-issue-dialog/create-issue-dialog.component';
 // import { ComponentDetailsComponent } from './component-details/component-details.component';
 
 registerLocaleData(en);
@@ -75,6 +77,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     RemoveDialogComponent,
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
+    CreateIssueDialogComponent,
     //ComponentDetailsComponent
   ],
   imports: [
@@ -91,6 +94,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatTabsModule,
     MatSlideToggleModule,
     GraphQLModule,
     HttpClientModule,

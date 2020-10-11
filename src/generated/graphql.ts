@@ -3611,6 +3611,13 @@ export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes
           )>>> }> }
       )>>> }> }> };
 
+export type CreateIssueMutationVariables = Exact<{
+  input: CreateIssueInput;
+}>;
+
+
+export type CreateIssueMutation = { createIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id' | 'title'>> }> };
+
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
 }>;
@@ -3889,6 +3896,27 @@ export const GetIssueGraphDataDocument = gql`
   })
   export class GetIssueGraphDataGQL extends Apollo.Query<GetIssueGraphDataQuery, GetIssueGraphDataQueryVariables> {
     document = GetIssueGraphDataDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateIssueDocument = gql`
+    mutation CreateIssue($input: CreateIssueInput!) {
+  createIssue(input: $input) {
+    issue {
+      id
+      title
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateIssueGQL extends Apollo.Mutation<CreateIssueMutation, CreateIssueMutationVariables> {
+    document = CreateIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

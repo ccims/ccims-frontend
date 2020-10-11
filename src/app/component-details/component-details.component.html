@@ -1,52 +1,78 @@
-<div class="component-title">
-  <h1 >Component-Details</h1>
-<h2>{{this.clickedNode.title}}</h2>
+<div *ngIf="(component$ | async)?.node as component">
+  <mat-tab-group>
+    <mat-tab label="Component details">
+      <div class="component-title">
+        <h1>Component-Details</h1>
+        <h2>{{component.name}}</h2>
+      </div>
+      <button *ngIf="!this.editMode" mat-fab color="primary" (click)="this.onSaveClick()">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button *ngIf="this.editMode" mat-fab color="primary" (click)="this.onSaveClick()">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onSaveClick()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <button class="delete-button" mat-fab color="danger" (click)="this.onDeleteClick()">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <form class="form-custom">
+        <mat-form-field floatLabel="always" class="stretch" appearance="outline">
+          <mat-label>Name</mat-label>
+          <input [readonly]="!this.editMode" name="name" [ngModel]="component.name" matInput
+            [formControl]="this.validationName">
+          <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your Component</mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always" class="stretch" appearance="outline">
+          <mat-label>Repository-URL</mat-label>
+          <input [readonly]="!this.editMode" name="url" matInput [formControl]="this.validationUrl">
+          <mat-error *ngIf="this.validationUrl.invalid && this.editMode">Enter a valid URL</mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always" *ngIf="!this.editMode" class="stretch" appearance="outline">
+          <mat-label>Provider Type</mat-label>
+          <input [readonly]="!this.editMode" name="provider2" matInput [formControl]="this.validationProvider">
+          <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Enter a valid URL</mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always" *ngIf="this.editMode" class="stretch" appearance="outline">
+          <mat-label>Provider Type (IMS)</mat-label>
+          <mat-select name="provider" [formControl]="this.validationProvider">
+            <mat-option value="GITHUB">GitHub</mat-option>
+            <mat-option value="GITLAB">Gitlab</mat-option>
+            <mat-option value="REDMINE">Redmine</mat-option>
+            <mat-option value="JIRA">Jira</mat-option>
+            <mat-option value="CCIMS">CCIMS</mat-option>
+          </mat-select>
+          <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Select the Provider</mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always" class="stretch" appearance="outline">
+          <mat-label>IMS-URL</mat-label>
+          <input name="ims" [readonly]="!this.editMode" [ngModel]="component.endpoint" matInput
+            [formControl]="this.validationIMS">
+          <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL</mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always" class="pagefill" appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea [readonly]="!this.editMode" [ngModel]="component.description" class="description-field"
+            name="description" matInput></textarea>
+        </mat-form-field>
+
+      </form>
+    </mat-tab>
+    <mat-tab label="Component Issues">
+      <div class="component-title">
+        <h1>Component-Issues</h1>
+        <h2>{{component.name}}</h2>
+        <button mat-fab color="warn" (click)="this.onAddClick()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
-<button *ngIf="!this.editMode" mat-fab color="primary" (click)="this.onSaveClick()"><mat-icon>edit</mat-icon></button>
-  <button *ngIf="this.editMode" mat-fab color="primary" (click)="this.onSaveClick()"><mat-icon>save</mat-icon></button>
-  <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onSaveClick()"><mat-icon>cancel</mat-icon></button>
-  <button class="delete-button" mat-fab color="danger" (click)="this.onDeleteClick()"><mat-icon>delete</mat-icon></button>
-
-<form  class="form-custom">
-  <mat-form-field floatLabel="always" class="stretch" appearance="outline">
-    <mat-label>Name</mat-label>
-    <input [readonly]="!this.editMode" name="name" [ngModel]="this.displayComponent.name" matInput [formControl]="this.validationName">
-    <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your Component</mat-error>
-  </mat-form-field>
-
-  <mat-form-field floatLabel="always" class="stretch" appearance="outline">
-    <mat-label>Repository-URL</mat-label>
-    <input [readonly]="!this.editMode" name="url"  matInput [formControl]="this.validationUrl" >
-    <mat-error *ngIf="this.validationUrl.invalid && this.editMode">Enter a valid URL</mat-error>
-  </mat-form-field>
-
-  <mat-form-field floatLabel="always" *ngIf="!this.editMode" class="stretch" appearance="outline">
-    <mat-label>Provider Type</mat-label>
-    <input [readonly]="!this.editMode" name="provider2"  matInput  [formControl]="this.validationProvider" >
-    <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Enter a valid URL</mat-error>
-  </mat-form-field>
-
-  <mat-form-field floatLabel="always" *ngIf="this.editMode" class="stretch" appearance="outline">
-    <mat-label>Provider Type (IMS)</mat-label>
-    <mat-select  name="provider"  [formControl]="this.validationProvider" >
-      <mat-option value="GITHUB">GitHub</mat-option>
-      <mat-option value="GITLAB">Gitlab</mat-option>
-      <mat-option value="REDMINE">Redmine</mat-option>
-      <mat-option value="JIRA">Jira</mat-option>
-      <mat-option value="CCIMS">CCIMS</mat-option>
-    </mat-select>
-    <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Select the Provider</mat-error>
-</mat-form-field>
-
-<mat-form-field floatLabel="always" class="stretch" appearance="outline">
-  <mat-label>IMS-URL</mat-label>
-  <input name="ims"  [readonly]="!this.editMode" [ngModel]="this.displayComponent.endpoint" matInput  [formControl]="this.validationIMS" >
-  <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL</mat-error>
-</mat-form-field>
-
-  <mat-form-field floatLabel="always"  class="pagefill" appearance="outline">
-    <mat-label>Description</mat-label>
-    <textarea [readonly]="!this.editMode" [ngModel]="this.displayComponent.description" class="description-field" name="description"  matInput  ></textarea>
-  </mat-form-field>
-
-  </form>

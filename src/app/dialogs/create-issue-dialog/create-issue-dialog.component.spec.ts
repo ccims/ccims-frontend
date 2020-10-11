@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GraphContainerComponent } from './graph-container.component';
+import { CreateIssueDialogComponent } from './create-issue-dialog.component';
 
-describe('GraphContainerComponent', () => {
-  let component: GraphContainerComponent;
-  let fixture: ComponentFixture<GraphContainerComponent>;
+describe('CreateIssueDialogComponent', () => {
+  let component: CreateIssueDialogComponent;
+  let fixture: ComponentFixture<CreateIssueDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GraphContainerComponent ]
+      declarations: [ CreateIssueDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GraphContainerComponent);
+    fixture = TestBed.createComponent(CreateIssueDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
