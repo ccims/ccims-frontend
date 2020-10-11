@@ -57,8 +57,9 @@
   <mat-tab label="Component Issues"> <div class="component-title">
     <h1 >Component-Issues</h1>
   <h2>{{this.clickedNode.title}}</h2>
+  <button  mat-fab color="warn" (click)="this.onAddClick()"><mat-icon>add</mat-icon></button>
   </div>
  </mat-tab>
 </mat-tab-group>
 
-  <button  mat-fab color="warn" (click)="this.onAddClick()"><mat-icon>add</mat-icon></button>
+
