@@ -74,7 +74,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
-    private router: Router, private activatedRoute: ActivatedRoute) {
+              private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngAfterViewInit(): void {
@@ -255,8 +255,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         minimap.removeNode(node);
       }
       // clear stored information
-      //delete this.nodePositions[node.id];
-      //this.saveNodePositionsSubject.next();
+      // delete this.nodePositions[node.id];
+      // this.saveNodePositionsSubject.next();
     });
 
     graph.addEventListener('edgeadd', (event: CustomEvent) => {
@@ -330,13 +330,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
     drawGraph(shouldZoom: boolean = true) {
-      //Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
+      // Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
       this.resetGraph();
       const componentNodes = Array.from(this.graphData.components.values()).map(component =>
         createComponentNode(component, this.nodePositions[component.id]));
       const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
         intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
-      //issueNodes contains BOTH componentNodes and interfaceNodes
+      // issueNodes contains BOTH componentNodes and interfaceNodes
       const issueNodes = (componentNodes as IssueNode[]).concat(interfaceNodes as IssueNode[]);
       issueNodes.forEach(node => {
         this.graph.addNode(node);
@@ -374,7 +374,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private drawFolderRelations(node: IssueNode) {
     const nodes = Array.from(this.graph.groupingManager.getChildrenOf(node.issueGroupContainer.id)).map(id => this.graph.getNode(id));
-    //@ts-ignore
+    // @ts-ignore
     const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
       (id: string) => this.graph.getNode(id));
     for (const folderNode of folderNodes) {
@@ -531,7 +531,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const sourceNode = this.graph.getNode(edge.source);
       const targetNode = this.graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
-        console.log("Add comp to interface");
+        console.log('Add comp to interface');
         this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString());
       }
     }

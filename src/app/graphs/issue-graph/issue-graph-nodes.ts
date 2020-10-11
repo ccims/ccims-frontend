@@ -83,7 +83,7 @@ interface RelationEdge extends Edge {
 
 function createRelationEdge(sourceId: string, targetId: string, edgeType = folderEdgeTypes.RelatedTo) {
   return  {
-    id:`s${sourceId}t${targetId}r${edgeType}`,
+    id: `s${sourceId}t${targetId}r${edgeType}`,
     source: sourceId,
     target: targetId,
     type: folderEdgeTypes.RelatedTo,
@@ -105,7 +105,7 @@ function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
       template: 'interface-connector',
       relativeRotation: 0,
     },
-  }
+  };
 }
 
 function createInterfaceProvisionEdge(componentId: string, interfaceId: string): Edge {
