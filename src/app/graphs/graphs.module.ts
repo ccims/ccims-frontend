@@ -23,21 +23,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-    declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent],
-    imports: [
-        CommonModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        MatSlideToggleModule,
-        MatDialogModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatToolbarModule,
+  declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatSlideToggleModule,
+    MatDialogModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
@@ -46,20 +46,20 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     MatFormFieldModule,
     MatSlideToggleModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
     MatTabsModule
-    ],
-    exports: [
-        IssueGraphComponent,
-        IssueGraphControlsComponent
-    ],
-    schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
-    ],
-    providers: [
-      { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
-    ]
+  ],
+  exports: [
+    IssueGraphComponent,
+    IssueGraphControlsComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  ]
 })
 export class GraphsModule { }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { fader } from './route-animations';
 import { StateService } from './state.service';
 
 

@@ -3,11 +3,14 @@ import { map, shareReplay } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { StateService } from '@app/state.service';
+import { RouterOutlet } from '@angular/router';
+import { fader } from '@app/route-animations';
 
 @Component({
   selector: 'app-frame',
   templateUrl: './frame.component.html',
-  styleUrls: ['./frame.component.scss']
+  styleUrls: ['./frame.component.scss'],
+  animations: [fader]
 })
 export class FrameComponent {
   public isProjectSet$ = new BehaviorSubject<boolean>(false);
@@ -27,5 +30,8 @@ export class FrameComponent {
 
   logMenuToggle(): void {
     this.showDrawer = !this.showDrawer;
+  }
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 }
