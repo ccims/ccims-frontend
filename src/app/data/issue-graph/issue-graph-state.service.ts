@@ -15,7 +15,7 @@ import { state } from '@angular/animations';
 export class IssueGraphStateService {
 
 
-  constructor(private apiService: IssueGraphApiService, private ss: StateService,) {
+  constructor(private apiService: IssueGraphApiService, private ss: StateService, ) {
   }
   state$: Observable<GraphData>;
   reload$: BehaviorSubject<void> = new BehaviorSubject(null);

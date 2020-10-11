@@ -11,6 +11,7 @@ type LocationId = Scalars['ID'];
 export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
+  graphLocations: Map<string, GraphLocation>;
   relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
   linkIssues: GraphIssue[];
   // issueLocations: Map<GraphIssue, LocationId[]>;
@@ -150,11 +151,12 @@ export class GraphDataFactory {
     // const interfaces = data.node.interfaces.nodes.map(gqlInterface => GraphInterface.fromGQL(gqlInterface));
     const components = GraphComponent.mapFromGQL(data.node.components.nodes);
     const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
+    const graphLocations: Map<string, GraphLocation> = new Map([...components, ...interfaces]);
     const linkIssues = data.node.linkingIssues.nodes.map(gqlIssue => GraphIssue.fromGQL(gqlIssue));
     const relatedFolders = computeRelatedFolders(linkIssues);
     console.log(components, interfaces);
     return {
-      components, interfaces, relatedFolders, linkIssues
+      components, interfaces, graphLocations, relatedFolders, linkIssues
     };
   }
 
@@ -204,12 +206,12 @@ export class GraphDataFactory {
       linksIssues: [linkedIssue]
     };
 
-
     const data: GraphData = {
       components: new Map([[component.id, component],
       [component2.id, component2],
       [component3.id, component3]]),
       interfaces: new Map([[interFace.id, interFace]]),
+      graphLocations: new Map(),
       linkIssues: [linkingIssue],
       relatedFolders: computeRelatedFolders([linkingIssue])
     };

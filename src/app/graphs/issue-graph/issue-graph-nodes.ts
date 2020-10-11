@@ -66,14 +66,14 @@ interface IssueFolderNode extends Node {
   issueCount: string;
 }
 
-function createIssueFolderNode(node: IssueNode, issueCategory: IssueCategory): IssueFolderNode {
+function createIssueFolderNode(node: IssueNode, issueCategory: IssueCategory, issueCount: string): IssueFolderNode {
   return {
     id: getIssueFolderId(node.id, issueCategory),
     type: issueCategory,
     x: 0,
     y: 0,
     issues: new Set<string>(),
-    issueCount: '0'
+    issueCount
   };
 }
 
