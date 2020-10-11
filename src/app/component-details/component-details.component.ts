@@ -34,7 +34,7 @@ export class ComponentDetailsComponent implements OnInit {
     const componentId = this.route.snapshot.paramMap.get('componentId');
 
     this.displayComponent = this.componentStoreService.getFullComponent(componentId).pipe(
-      tap(data => console.log(data)));
+      tap(data => console.log("Constructor:", data)));
   }
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class ComponentDetailsComponent implements OnInit {
   onDeleteClick() {
     // Confirm Dialog anzeigen
     // Onconfirm
-    const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, { data: { type: "Component", name: this.displayComponent.name, id: this.displayComponent.id } });
+    // const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, { data: { type: "Component", name: this.displayComponent.name, id: this.displayComponent.id } });
 
     // Delete Mutation auslösen
 
@@ -62,7 +62,7 @@ export class ComponentDetailsComponent implements OnInit {
     });*/
   }
   public onAddClick(): void {
-    const createIssueDialogRef = this.dialog.open(RemoveDialogComponent, { data: { user: "Component", name: this.displayComponent.name, id: this.displayComponent.id } });
+    //const createIssueDialogRef = this.dialog.open(RemoveDialogComponent, { data: { user: "Component", name: this.displayComponent.name, id: this.displayComponent.id } });
 
   }
 

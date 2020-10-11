@@ -575,7 +575,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const node = event.detail.node;
 
     if (node.type === 'component') {
-      this.router.navigate(['../projects/', node.id], {relativeTo: this.activatedRoute.parent});
+      this.router.navigate(['./components/', node.id], {relativeTo: this.activatedRoute.parent});
       console.log('Open component info sheet');
     }
     if (node.type === 'interface') {
