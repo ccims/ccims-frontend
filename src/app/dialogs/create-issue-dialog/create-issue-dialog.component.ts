@@ -2,6 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { IssueStoreService } from '@app/data/issue/issue-store.service';
+import { CreateIssueInput, CreateIssuePayload, Issue, IssueCategory } from '../../../generated/graphql';
 @Component({
   selector: 'app-create-issue-dialog',
   templateUrl: './create-issue-dialog.component.html',
@@ -34,23 +35,23 @@ export class CreateIssueDialogComponent implements OnInit {
   this.saveFailed = false;
 
 }
-onOkClick(title: string, body: string, category: string): void{
+onOkClick(title: string, body: string, category: IssueCategory): void{
   Object.keys(this.validateForm.controls).forEach(controlKey => {
     this.validateForm.controls[controlKey].markAsDirty();
     this.validateForm.controls[controlKey].updateValueAndValidity();
   });
   this.loading = true;
-  const issue = {
-    title: title,
+  const issueInput: CreateIssueInput = {
+      title,
       componentIDs: [this.data.id],
-      body: body,
-      category: category
-  }
-  console.log(issue);
+      body,
+      category
+  };
+  console.log(issueInput);
 
   this.loading = false;
 
-  this.issueStoreService.create(issue).subscribe(({ data}) => {
+  this.issueStoreService.create(issueInput).subscribe(({ data}) => {
     this.loading = false;
     this.dialogRef.close();
     console.log('got data', data);

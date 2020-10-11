@@ -22,6 +22,8 @@ import { GetComponentQuery } from '../../generated/graphql';
 })
 export class ComponentDetailsComponent implements OnInit {
   public component$: Observable<GetComponentQuery>;
+  private component: GetComponentQuery;
+  private componentId: string;
   public loading: boolean;
   public saveFailed: boolean;
   public editMode: boolean;
@@ -33,9 +35,12 @@ export class ComponentDetailsComponent implements OnInit {
 
   constructor(private componentStoreService: ComponentStoreService, private dialog: MatDialog, private route: ActivatedRoute) {
     this.editMode = false;
-    const componentId = this.route.snapshot.paramMap.get('componentId');
+    this.componentId = this.route.snapshot.paramMap.get('componentId');
 
-    this.component$ = this.componentStoreService.getFullComponent(componentId);
+    this.component$ = this.componentStoreService.getFullComponent(this.componentId);
+    this.component$.subscribe(component => {
+      this.component = component;
+    });
   }
 
   ngOnInit(): void {
@@ -47,7 +52,8 @@ export class ComponentDetailsComponent implements OnInit {
   onDeleteClick() {
     // Confirm Dialog anzeigen
     // Onconfirm
-    // const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, { data: { type: "Component", name: this.displayComponent.name, id: this.displayComponent.id } });
+    const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
+      { data: { type: 'Component', name: this.component.node.name, id: this.componentId } });
 
     // Delete Mutation auslösen
 
@@ -63,7 +69,8 @@ export class ComponentDetailsComponent implements OnInit {
     });*/
   }
   public onAddClick(): void {
-    //const createIssueDialogRef = this.dialog.open(RemoveDialogComponent, { data: { user: "Component", name: this.displayComponent.name, id: this.displayComponent.id } });
+    const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
+      { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
   }
 
 }

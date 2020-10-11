@@ -7,24 +7,9 @@ import { CreateIssueGQL, CreateIssueInput, Issue, IssueCategory } from 'src/gene
 export class IssueStoreService {
 
   constructor(private createIssue: CreateIssueGQL) { }
-  create(issue: any) {
-    const input: CreateIssueInput = {
-      title: issue.title,
-      componentIDs: issue.components,
-      body: issue.body,
-      category: this.getCategory(issue)
-    };
-    return this.createIssue.mutate({input});
+
+  create(issueInput: CreateIssueInput) {
+    return this.createIssue.mutate({input: issueInput});
   }
-  private getCategory(issue: any): IssueCategory {
-    if (issue.category == 'bug') {
-      return IssueCategory.Bug;
-    }
-    if (issue.category == 'feature') {
-      return IssueCategory.FeatureRequest;
-    }
-    if (issue.category == 'undefined') {
-      return IssueCategory.Unclassified;
-    }
-  }
+
 }
