@@ -12,3 +12,7 @@ box-shadow: 2px 0px 48px -21px rgba(0,0,0,0.75);
 .sidenav .mat-toolbar {
   background: inherit;
 }
+
+mat-sidenav-content {
+  overflow: visible;
+}
