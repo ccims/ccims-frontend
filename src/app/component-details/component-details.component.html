@@ -34,7 +34,7 @@
 
         <mat-form-field floatLabel="always" *ngIf="!this.editMode" class="stretch" appearance="outline">
           <mat-label>Provider Type</mat-label>
-          <input [readonly]="!this.editMode" name="provider2" matInput [formControl]="this.validationProvider">
+          <input [ngModel]="component.ims.imsType" [readonly]="!this.editMode" name="provider2" matInput [formControl]="this.validationProvider">
           <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Enter a valid URL</mat-error>
         </mat-form-field>
 

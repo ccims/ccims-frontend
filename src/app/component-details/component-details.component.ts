@@ -8,7 +8,7 @@ import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // import { Component } from 'src/generated/graphql';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GetComponentQuery } from '../../generated/graphql';
 
 
@@ -33,7 +33,8 @@ export class ComponentDetailsComponent implements OnInit {
   validationIMS = new FormControl('', [Validators.required]);
   public validationProvider = new FormControl('', [Validators.required]);
 
-  constructor(private componentStoreService: ComponentStoreService, private dialog: MatDialog, private route: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute,
+              private componentStoreService: ComponentStoreService, private dialog: MatDialog, private route: ActivatedRoute) {
     this.editMode = false;
     this.componentId = this.route.snapshot.paramMap.get('componentId');
 
@@ -44,17 +45,25 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.activatedRoute.url);
+
   }
 
   onCancelClick() {
     this.editMode = !this.editMode;
+
+
   }
   onDeleteClick() {
     // Confirm Dialog anzeigen
     // Onconfirm
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
       { data: { type: 'Component', name: this.component.node.name, id: this.componentId } });
-
+    confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
+        if (deleteData){
+          this.router.navigate(['../../graph/'], {relativeTo: this.activatedRoute});
+        }
+        });
     // Delete Mutation auslösen
 
   }
