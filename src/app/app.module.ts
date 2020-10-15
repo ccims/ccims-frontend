@@ -48,6 +48,7 @@ import { CreateComponentDialogComponent } from './dialogs/create-component-dialo
 import { CreateInterfaceDialogComponent } from './dialogs/create-interface-dialog/create-interface-dialog.component';
 import { ComponentDetailsComponent } from './component-details/component-details.component';
 import { CreateIssueDialogComponent } from './dialogs/create-issue-dialog/create-issue-dialog.component';
+import { IssueListComponent } from './issue-list/issue-list.component';
 // import { ComponentDetailsComponent } from './component-details/component-details.component';
 
 registerLocaleData(en);
@@ -78,6 +79,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
     CreateIssueDialogComponent,
+    IssueListComponent,
   ],
   imports: [
     BrowserModule,
