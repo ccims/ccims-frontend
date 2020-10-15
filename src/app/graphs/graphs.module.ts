@@ -11,7 +11,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { MatTableModule } from '@angular/material/table';
 import '@ustutt/grapheditor-webcomponent/lib/index';
 import { IssueGraphControlsComponent } from './issue-graph-controls/issue-graph-controls.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
@@ -21,9 +21,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentDetailsComponent } from '../component-details/component-details.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-
+import { IssueListComponent } from '@app/issue-list/issue-list.component';
+import {CdkTableModule} from '@angular/cdk/table';
+import {CdkTreeModule} from '@angular/cdk/tree';
 @NgModule({
-  declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent],
+  declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent,
+    IssueListComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -49,9 +52,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule,
   ],
   exports: [
+    CdkTableModule,
+    CdkTreeModule,
     IssueGraphComponent,
     IssueGraphControlsComponent
   ],

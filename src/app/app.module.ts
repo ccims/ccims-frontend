@@ -79,7 +79,6 @@ const toasterConfig: Partial<GlobalConfig> = {
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
     CreateIssueDialogComponent,
-    IssueListComponent,
   ],
   imports: [
     BrowserModule,

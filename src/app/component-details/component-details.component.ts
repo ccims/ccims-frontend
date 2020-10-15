@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 // import { Component } from 'src/generated/graphql';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GetComponentQuery, UpdateComponentInput } from '../../generated/graphql';
-
+import {IssueListComponent} from '../issue-list/issue-list.component';
 
 @Component({
   selector: 'app-component-details',
@@ -46,7 +46,6 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.activatedRoute.url);
 
   }
 
@@ -93,6 +92,8 @@ export class ComponentDetailsComponent implements OnInit {
     });*/
   }
   public onAddClick(): void {
+    console.log(this.component.node.issues);
+
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
       { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
   }

@@ -3572,7 +3572,10 @@ export type GetComponentQueryVariables = Exact<{
 
 export type GetComponentQuery = { node?: Maybe<(
     Pick<Component, 'id' | 'name' | 'description'>
-    & { owner?: Maybe<Pick<User, 'displayName' | 'username' | 'id'>>, ims?: Maybe<Pick<Ims, 'imsType'>>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'isOpen' | 'category'>>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }>, consumedInterfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }> }
+    & { owner?: Maybe<Pick<User, 'displayName' | 'username' | 'id'>>, ims?: Maybe<Pick<Ims, 'imsType'>>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'>
+        & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }>, consumedInterfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }> }
   )> };
 
 export type DeleteComponentMutationVariables = Exact<{
@@ -3757,9 +3760,25 @@ export const GetComponentDocument = gql`
       }
       issues {
         nodes {
+          id
           title
           isOpen
           category
+          createdBy {
+            id
+            displayName
+          }
+          labels {
+            nodes {
+              name
+            }
+          }
+          assignees {
+            nodes {
+              id
+              displayName
+            }
+          }
         }
       }
       interfaces {

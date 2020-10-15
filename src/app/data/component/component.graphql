@@ -56,9 +56,25 @@ query GetComponent($id: ID!) {
       issues
       {
         nodes{
+          id
           title
           isOpen
           category
+          createdBy{
+            id
+            displayName
+          }
+          labels{
+            nodes{
+              name
+            }
+          }
+          assignees{
+            nodes{
+              id
+              displayName
+            }
+          }
         }
       }
       interfaces{

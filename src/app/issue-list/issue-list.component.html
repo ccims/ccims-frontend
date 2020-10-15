@@ -1,1 +1,39 @@
+<div *ngIf="(component$ | async)?.node as component">
+  <div class="mat-elevation-z8">
+    <table mat-table style="width:100%; min-width: 50%;" [dataSource]="component.issues.nodes">
 
+      <!-- Title Column -->
+      <ng-container matColumnDef="title" >
+        <th mat-header-cell *matHeaderCellDef> Title. </th>
+        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+
+      <!-- author Column -->
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef> Author </th>
+        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.createdBy.displayName}} </td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="assignees">
+        <th mat-header-cell *matHeaderCellDef> Assignees </th>
+        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.assignees.nodes}} </td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="labels">
+        <th mat-header-cell *matHeaderCellDef> Labels </th>
+        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.labels.nodes}} </td>
+      </ng-container>
+
+      <!-- category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Category </th>
+        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.category}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay" (click)="this.clickedOnRow(rowData)"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[1, 3, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
