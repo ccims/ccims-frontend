@@ -5,13 +5,13 @@
         <h1>Component-Details</h1>
         <h2>{{component.name}}</h2>
       </div>
-      <button *ngIf="!this.editMode" mat-fab color="primary" (click)="this.onSaveClick()">
+      <button *ngIf="!this.editMode" mat-fab color="primary" (click)="this.onEditClick()">
         <mat-icon>edit</mat-icon>
       </button>
       <button *ngIf="this.editMode" mat-fab color="primary" (click)="this.onSaveClick()">
         <mat-icon>save</mat-icon>
       </button>
-      <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onSaveClick()">
+      <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onCancelClick()">
         <mat-icon>cancel</mat-icon>
       </button>
       <button class="delete-button" mat-fab color="danger" (click)="this.onDeleteClick()">
@@ -59,7 +59,7 @@
 
         <mat-form-field floatLabel="always" class="pagefill" appearance="outline">
           <mat-label>Description</mat-label>
-          <textarea [readonly]="!this.editMode" [ngModel]="component.description" class="description-field"
+          <textarea [readonly]="!this.editMode" [ngModel]="component.description" [formControl]="this.validationDescription" class="description-field"
             name="description" matInput></textarea>
         </mat-form-field>
 

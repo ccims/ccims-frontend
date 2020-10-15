@@ -80,3 +80,7 @@ query GetComponent($id: ID!) {
     clientMutationID
   }
 }
+mutation UpdateComponent($input: UpdateComponentInput!) {
+  updateComponent(input: $input){
+    clientMutationID
+  }}

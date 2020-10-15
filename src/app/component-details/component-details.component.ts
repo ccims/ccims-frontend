@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // import { Component } from 'src/generated/graphql';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GetComponentQuery } from '../../generated/graphql';
+import { GetComponentQuery, UpdateComponentInput } from '../../generated/graphql';
 
 
 @Component({
@@ -31,6 +31,7 @@ export class ComponentDetailsComponent implements OnInit {
   validationName = new FormControl('', [Validators.required]);
   validationUrl = new FormControl('', [Validators.required]);
   validationIMS = new FormControl('', [Validators.required]);
+  validationDescription = new FormControl('');
   public validationProvider = new FormControl('', [Validators.required]);
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
@@ -50,6 +51,14 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   onCancelClick() {
+    this.resetValues();
+    this.editMode = !this.editMode;
+
+
+  }
+  onEditClick() {
+    console.log(this.component.node.id);
+
     this.editMode = !this.editMode;
 
 
@@ -68,6 +77,12 @@ export class ComponentDetailsComponent implements OnInit {
 
   }
   public onSaveClick(): void {
+    this.component.node.name = this.validationName.value;
+    this.component.node.ims.imsType = this.validationProvider.value;
+    this.component.node.description = this.validationDescription.value;
+    // this.component.node.ims. = this.validationIMS.value; //endpoint muss noch angepasst werden
+    // this.component.node.Url = this.validationUrl.value;  // url muss noch angepasst werden
+    this.updateComponent();
     this.editMode = !this.editMode;
     // Confirm Dialog ??
     // mutation for save component
@@ -81,5 +96,28 @@ export class ComponentDetailsComponent implements OnInit {
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
       { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
   }
+  private resetValues() {
+    this.validationName.setValue(this.component.node.name);
+    this.validationIMS.setValue("");
+    this.validationProvider.setValue(this.component.node.ims.imsType);
+    this.validationUrl.setValue("");
+    this.validationDescription.setValue(this.component.node.description);
+  }
+  private updateComponent(): void{
+    const MutationinputData: UpdateComponentInput = {
+      componentId : this.component.node.id,
+      name : this.component.node.name,
+      imsType : this.component.node.ims.imsType,
+      description : this.component.node.description
+    };
+    this.loading = true;
+    this.componentStoreService.updateComponent(MutationinputData).subscribe(({ data }) => {
+      this.loading = false;
 
+    }, (error) => {
+      console.log('there was an error sending the query', error);
+      this.loading = false;
+
+    });
+  }
 }

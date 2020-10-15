@@ -3582,6 +3582,13 @@ export type DeleteComponentMutationVariables = Exact<{
 
 export type DeleteComponentMutation = { deleteComponent?: Maybe<Pick<DeleteComponentPayload, 'clientMutationID'>> };
 
+export type UpdateComponentMutationVariables = Exact<{
+  input: UpdateComponentInput;
+}>;
+
+
+export type UpdateComponentMutation = { updateComponent?: Maybe<Pick<UpdateComponentPayload, 'clientMutationID'>> };
+
 export type CreateComponentInterfaceMutationVariables = Exact<{
   input: CreateComponentInterfaceInput;
 }>;
@@ -3793,6 +3800,24 @@ export const DeleteComponentDocument = gql`
   })
   export class DeleteComponentGQL extends Apollo.Mutation<DeleteComponentMutation, DeleteComponentMutationVariables> {
     document = DeleteComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateComponentDocument = gql`
+    mutation UpdateComponent($input: UpdateComponentInput!) {
+  updateComponent(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateComponentGQL extends Apollo.Mutation<UpdateComponentMutation, UpdateComponentMutationVariables> {
+    document = UpdateComponentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
