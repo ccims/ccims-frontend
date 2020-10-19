@@ -45,7 +45,8 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
       title,
       componentIDs: [this.data.id],
       body,
-      category
+      category,
+      assignees: ['0']
   };
   console.log(issueInput);
 

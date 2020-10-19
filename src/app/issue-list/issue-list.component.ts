@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AfterViewInit } from '@angular/core';
+import { MatSort, MatSortable } from '@angular/material/sort';
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
@@ -15,29 +16,57 @@ export class IssueListComponent implements OnInit {
   public component$: Observable<GetComponentQuery>;
   private component: GetComponentQuery;
   private componentId: string;
-  loading = true;
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
+  searchIssuesDataArray: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   constructor(private route: ActivatedRoute, private componentStoreService: ComponentStoreService) {
     this.componentId = this.route.snapshot.paramMap.get('componentId');
     this.component$ = this.componentStoreService.getFullComponent(this.componentId);
     this.component$.subscribe(component => {
       this.component = component;
+      this.prepareIssueArray();
       this.dataSource = new MatTableDataSource<any>(component.node.issues.nodes);
+      this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
+      this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(this.paginator);
-      this.loading = false;
     });
   }
 
   ngOnInit(): void {
   }
-
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
   clickedOnRow(row: any) {
     console.log(row);
+    this.dataSource.sort = this.sort;
+    console.log(this.dataSource);
 
+    // route to issue details
+  }
+  private prepareIssueArray(){
+    this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
+    for (const issue of this.searchIssuesDataArray){
+      let additionalSearchString = '';
+      issue.assigneesString = '';
+      // add all assignees
+      for (const assignee of issue.assignees.nodes){
+        additionalSearchString += ' ' + assignee.displayName;
+        issue.assigneesString += ' ' + assignee.displayName;
+      }
+      // add all labels
+      for (const label of issue.labels.nodes){
+        additionalSearchString += ' ' + label;
+      }
+      // add author
+      additionalSearchString += ' ' + issue.createdBy.displayName;
+      issue.search = additionalSearchString;
+    }
   }
 
 }

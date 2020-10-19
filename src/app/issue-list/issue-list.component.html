@@ -1,34 +1,38 @@
-<div *ngIf="(component$ | async)?.node as component">
-  <div  class="mat-elevation-z8">
+  <div  class="mat-elevation-z8" matSort matSortActive="category" >
+    <mat-form-field appearance="outline">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event.target.value)" >
+    </mat-form-field>
+    <div *ngIf="(component$ | async)?.node as component">
     <table mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource">
 
       <!-- Title Column -->
       <ng-container matColumnDef="title" >
-        <th mat-header-cell *matHeaderCellDef> Title. </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Title. </th>
         <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.title}} </td>
       </ng-container>
 
       <!-- author Column -->
       <ng-container matColumnDef="author">
-        <th mat-header-cell *matHeaderCellDef> Author </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
         <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.createdBy.displayName}} </td>
       </ng-container>
 
       <!-- Title Column -->
       <ng-container matColumnDef="assignees">
-        <th mat-header-cell *matHeaderCellDef> Assignees </th>
-        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.assignees.nodes}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Assignees </th>
+        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.assigneesString}} </td>
       </ng-container>
 
       <!-- Title Column -->
       <ng-container matColumnDef="labels">
-        <th mat-header-cell *matHeaderCellDef> Labels </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Labels </th>
         <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.labels.nodes}} </td>
       </ng-container>
 
       <!-- category Column -->
       <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef> Category </th>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Category </th>
         <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.category}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
@@ -36,6 +40,7 @@
     </table>
 
   </div>
+  <mat-paginator #paginator [pageSizeOptions]="[10, 20, 100]" showFirstLastButtons></mat-paginator>
 </div>
-<mat-paginator #paginator [pageSizeOptions]="[1, 3, 20]" showFirstLastButtons></mat-paginator>
+
 

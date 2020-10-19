@@ -93,7 +93,6 @@ export class ComponentDetailsComponent implements OnInit {
   }
   public onAddClick(): void {
     console.log(this.component.node.issues);
-
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
       { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
   }
