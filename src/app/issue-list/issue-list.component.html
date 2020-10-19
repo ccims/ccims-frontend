@@ -1,6 +1,6 @@
 <div *ngIf="(component$ | async)?.node as component">
-  <div class="mat-elevation-z8">
-    <table mat-table style="width:100%; min-width: 50%;" [dataSource]="component.issues.nodes">
+  <div  class="mat-elevation-z8">
+    <table mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource">
 
       <!-- Title Column -->
       <ng-container matColumnDef="title" >
@@ -34,6 +34,8 @@
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay" (click)="this.clickedOnRow(rowData)"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[1, 3, 20]" showFirstLastButtons></mat-paginator>
+
   </div>
 </div>
+<mat-paginator #paginator [pageSizeOptions]="[1, 3, 20]" showFirstLastButtons></mat-paginator>
+
