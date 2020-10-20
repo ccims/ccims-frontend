@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { GetFullProjectQuery, CreateProjectGQL, CreateProjectInput, DeleteProjectGQL, DeleteProjectInput, GetAllProjectsGQL, GetProjectGQL, Project, ProjectFilter, GetFullProjectGQL, User, Maybe, Issue, Component } from 'src/generated/graphql';
+import { GetFullProjectQuery, CreateProjectGQL, CreateProjectInput, DeleteProjectGQL, DeleteProjectInput, GetAllProjectsGQL, GetProjectGQL, Project, ProjectFilter, GetFullProjectGQL, User, Maybe, Issue, Component, GetProjectQuery } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/auth/authentication.service';
 
@@ -34,13 +34,9 @@ export class ProjectStoreService {
     );
   }
 
-  getFullProject(id: string): Observable<Pick<Project, 'id' | 'name' | 'description'>
-  & { owner: Pick<User, 'id'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Component, 'id'>> }>>> }>,
-   users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>,
-    issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
->{
+  getFullProject(id: string): Observable<GetFullProjectQuery>{
     return this.getFullQuery.fetch({id}).pipe(
-      map(({ data}) => data.node)
+      map(({ data}) => data)
     );
   }
 

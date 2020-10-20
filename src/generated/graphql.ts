@@ -3649,7 +3649,7 @@ export type GetFullProjectQueryVariables = Exact<{
 
 export type GetFullProjectQuery = { node?: Maybe<(
     Pick<Project, 'id' | 'name' | 'description'>
-    & { owner: Pick<User, 'id'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Component, 'id'>> }>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
+    & { owner: Pick<User, 'id' | 'displayName'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Component, 'id'>> }>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
   )> };
 
 export type CreateProjectMutationVariables = Exact<{
@@ -4019,6 +4019,7 @@ export const GetFullProjectDocument = gql`
       description
       owner {
         id
+        displayName
       }
       components {
         edges {

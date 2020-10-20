@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MockProjectStoreService } from '@app/data/project/mock-project-store.service';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
 import { Interface } from 'readline';
-import { Project, User } from 'src/generated/graphql';
+import { GetFullProjectQuery, GetProjectQuery, Project, User } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 
 
@@ -15,12 +15,18 @@ import { Observable } from 'rxjs';
 export class ProjectOverviewComponent {
 
   public projectId: string;
-  public project$: Observable<Pick<Project, "id" | "name" | "description"> & {
-    owner: Pick<User, "id">
-  }>;
+  public project$: Observable<GetFullProjectQuery>;
+  public project: GetFullProjectQuery;
 
-  constructor(private projectStoreService: ProjectStoreService, private route: ActivatedRoute) {
+  constructor(private projectStore: ProjectStoreService, private route: ActivatedRoute) {
     this.projectId = route.snapshot.paramMap.get('id');
-    this.project$ = projectStoreService.getFullProject(this.projectId);
+    this.project$ = this.projectStore.getFullProject(this.projectId);
+    this.project$.subscribe(project => {
+      this.project = project;
+      console.log(project);
+    });
+
+
+
   }
 }

@@ -1,7 +1,6 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { storeKeyNameFromField } from '@apollo/client/utilities';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
 import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
 import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';

@@ -1,17 +1,19 @@
-<div class="border p-3">
+<div *ngIf="(project$ | async)?.node as project">
+<div class="border p-3" >
   <div class="project-title-row d-flex">
     <div class="box">
       <img src="https://github.com/github.png" />
     </div>
-    <div *ngIf="project$ | async as project">
+    <div >
       <div class="content">
-        <p class="title">{{this.project.name}}</p>
-        <div class="sub-title">Owner: {{this.project.owner.id}}</div>
-        <div class="sub-sub-title">Project ID: {{this.project.id}}</div>
+        <p class="title">{{project.name}}</p>
+        <div class="sub-title">Owner: {{project.owner.displayName}}</div>
+        <div class="sub-sub-title">Project ID: {{project.id}}</div>
       </div>
       <div class="d-flex text-sm-left">
-        <p>{{this.project.description}}</p>
+        <p>{{project.description}}</p>
       </div>
     </div>
   </div>
+</div>
 </div>
