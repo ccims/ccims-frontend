@@ -1,9 +1,16 @@
-<h1 mat-dialog-title>Delete</h1>
-<nz-alert  nzType="warning" nzMessage='Do you want to delete the {{this.data.type}}' nzShowIcon></nz-alert>
-  <div mat-dialog-content style="margin-top: 20px;">
-   <h2> {{data.name}}</h2>
+<div mat-dialog-title >
+    <h1 >Delete {{data.type}}?</h1>
+</div>
+  <div mat-dialog-content>
+    <div style="float: left;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80px" height="80px" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      </div>
+    <div class="centered-div">
+    <!--<h3>Are you sure you want to delete this {{data.type}}</h3>-->
+    <h1 style="margin-bottom: 0px;">{{data.name}}</h1>
+  </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [class.spinner]="loading" [disabled]="loading"  (click)="onDeleteClick()" [mat-dialog-close]="this.data.id">Delete</button>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="warn" [class.spinner]="loading" [disabled]="loading"  (click)="onDeleteClick()" [mat-dialog-close]="this.data.id">Delete</button>
 </div>
