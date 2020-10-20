@@ -10,6 +10,7 @@ import { CreateProjectInput } from 'src/generated/graphql';
 })
 export class CreateProjectDialogComponent implements OnInit {
   @Input() name: string;
+  @Input() description: string;
   public loading: boolean;
   public saveFailed: boolean;
   validateForm!: FormGroup;
@@ -30,7 +31,7 @@ export class CreateProjectDialogComponent implements OnInit {
   this.saveFailed = false;
 
 }
-  onOkClick(name: string): void{
+  onOkClick(name: string, description: string): void{
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
       this.validateForm.controls[controlKey].updateValueAndValidity();
@@ -47,7 +48,7 @@ export class CreateProjectDialogComponent implements OnInit {
       }
     }, 2000);
     */
-    this.ps.create(name).subscribe(({ data}) => {
+    this.ps.create(name, description).subscribe(({ data}) => {
       this.loading = false;
       this.dialogRef.close({createdProjectId: data.createProject.project.id});
       console.log('got data', data);

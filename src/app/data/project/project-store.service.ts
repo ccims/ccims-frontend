@@ -13,10 +13,13 @@ export class ProjectStoreService {
      private getQuery: GetProjectGQL, private getFullQuery: GetFullProjectGQL,
               private createProject: CreateProjectGQL, private deleteProject: DeleteProjectGQL) {}
 
-  create(name: string) {
+  create(name: string, description: string) {
+    console.log(description);
+
     const input: CreateProjectInput = {
       name,
-      owner: this.authService.currentUserValue.id
+      owner: this.authService.currentUserValue.id,
+      description
     };
     return this.createProject.mutate({input});
   }

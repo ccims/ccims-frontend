@@ -38,3 +38,7 @@ animation: fadeIn .7s;
   0% {opacity:0;}
   100% {opacity:.8;}
 }
+.stretch {
+  min-width: 400px;
+  width: 100%;
+}
