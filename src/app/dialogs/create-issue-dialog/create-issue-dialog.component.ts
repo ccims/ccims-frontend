@@ -25,7 +25,7 @@ export class CreateIssueDialogComponent implements OnInit {
       title: [null, [Validators.required]],
       body: [null, [Validators.required]]
     });
-
+    this.validationCategory.setValue('UNCLASSIFIED');
   }
   onNoClick(): void {
     // console.log(this.name);

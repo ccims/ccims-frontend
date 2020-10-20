@@ -91,11 +91,6 @@ export class ComponentDetailsComponent implements OnInit {
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });*/
   }
-  public onAddClick(): void {
-    console.log(this.component.node.issues);
-    const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
-      { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
-  }
   private resetValues() {
     this.validationName.setValue(this.component.node.name);
     this.validationIMS.setValue("");

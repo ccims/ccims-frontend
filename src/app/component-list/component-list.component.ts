@@ -15,7 +15,6 @@ export class ComponentListComponent implements OnInit {
 
   constructor(private componentService: ComponentService) { }
 
-  // Get all courses
   ngOnInit() {
     //@ts-ignore
     this.componentService.getAllComponents().subscribe(({ data, loading }) => {

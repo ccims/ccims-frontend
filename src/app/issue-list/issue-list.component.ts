@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AfterViewInit } from '@angular/core';
 import { MatSort, MatSortable } from '@angular/material/sort';
+import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
@@ -22,7 +24,7 @@ export class IssueListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private route: ActivatedRoute, private componentStoreService: ComponentStoreService) {
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private componentStoreService: ComponentStoreService) {
     this.componentId = this.route.snapshot.paramMap.get('componentId');
     this.component$ = this.componentStoreService.getFullComponent(this.componentId);
     this.component$.subscribe(component => {
@@ -67,6 +69,10 @@ export class IssueListComponent implements OnInit {
       additionalSearchString += ' ' + issue.createdBy.displayName;
       issue.search = additionalSearchString;
     }
+  }
+  onAddClick() {
+    const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
+      { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
   }
 
 }
