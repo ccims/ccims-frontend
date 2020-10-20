@@ -54,8 +54,7 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
 
   this.issueStoreService.create(issueInput).subscribe(({ data}) => {
     this.loading = false;
-    this.dialogRef.close();
-    console.log('got data', data);
+    this.dialogRef.close(data);
   }, (error) => {
     console.log('there was an error sending the query', error);
     this.loading = false;

@@ -75,6 +75,7 @@ query GetComponent($id: ID!) {
               displayName
             }
           }
+          body
         }
       }
       interfaces{

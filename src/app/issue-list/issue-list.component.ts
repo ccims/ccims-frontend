@@ -46,7 +46,7 @@ export class IssueListComponent implements OnInit {
   }
   clickedOnRow(row: any) {
     console.log(row);
-    this.dataSource.sort = this.sort;
+    alert(row.body)
     console.log(this.dataSource);
 
     // route to issue details
@@ -73,6 +73,23 @@ export class IssueListComponent implements OnInit {
   onAddClick() {
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
       { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
+    createIssueDialogRef.afterClosed().subscribe(issueData => {
+        if (issueData){
+          this.updateTable();
+        }
+        });
   }
+  private updateTable(): void {
+    this.component$ = this.componentStoreService.getFullComponent(this.componentId);
+    this.component$.subscribe(component => {
+      this.component = component;
+      this.prepareIssueArray();
+      this.dataSource = new MatTableDataSource<any>(component.node.issues.nodes);
+      this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
 
 }
