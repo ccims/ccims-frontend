@@ -148,9 +148,15 @@ class GraphIssue {
 
 export class GraphDataFactory {
 
+  /**
+   * Removes the counts for issue categories which are filtered. This is a workaround
+   * needed because the backend doesn't allow us to only ask for the counts we are interested in.
+   * @param graphData the data with the unnecessary counts
+   * @param activeCategories the categories corresponding to the activated toggles of the graph component
+   */
   static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
-    for(const location of graphData.graphLocations.values()) {
-      location.issues = new Map([...location.issues].filter(([category, count]) =>  activeCategories.includes(category)));
+    for (const location of graphData.graphLocations.values()) {
+      location.issues = new Map([...location.issues].filter(([category, count]) => activeCategories.includes(category)));
       console.log(location.issues);
     }
     return graphData;

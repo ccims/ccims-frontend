@@ -69,7 +69,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
-    private router: Router, private activatedRoute: ActivatedRoute) {
+              private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngAfterViewInit(): void {
@@ -381,7 +381,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       for (const relatedFolder of relatedFolders) {
         const [issueNodeId, category] = relatedFolder;
         const edge = createRelationEdge(folderNode.id, getIssueFolderId(issueNodeId, category));
-        //TODO do not add self edged
+        // TODO do not add self edged
         this.graph.addEdge(edge);
       }
     }

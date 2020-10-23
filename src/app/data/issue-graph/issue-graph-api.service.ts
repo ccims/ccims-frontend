@@ -20,7 +20,6 @@ export class IssueGraphApiService {
         activeCategories.push(key as IssueCategory);
       }
     }
-
     console.log(activeCategories);
     return this.getIssueGraphDataQuery.fetch({ projectId, activeCategories }).pipe(
       map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
