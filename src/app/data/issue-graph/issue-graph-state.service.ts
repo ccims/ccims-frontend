@@ -24,7 +24,7 @@ export class IssueGraphStateService {
   graphDataForFilter(filter$: BehaviorSubject<FilterState>): Observable<GraphData> {
     this.state$ = combineLatest(this.ss.state$, filter$, this.reload$).pipe(
       filter(([appState, _]) => appState.project?.id != null),
-      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id)),
+      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id, filterState)),
       shareReplay(1)
     );
     return this.state$;
