@@ -69,7 +69,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
-              private router: Router, private activatedRoute: ActivatedRoute) {
+    private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngAfterViewInit(): void {
@@ -325,46 +325,49 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-    drawGraph(shouldZoom: boolean = true) {
-      // Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
-      this.resetGraph();
-      const componentNodes = Array.from(this.graphData.components.values()).map(component =>
-        createComponentNode(component, this.nodePositions[component.id]));
-      const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
-        intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
-      // issueNodes contains BOTH componentNodes and interfaceNodes
-      const issueNodes = (componentNodes as IssueNode[]).concat(interfaceNodes as IssueNode[]);
-      issueNodes.forEach(node => {
-        this.graph.addNode(node);
-        this.addIssueFolders(node);
-        this.drawFolderRelations(node);
-      });
-      interfaceNodes.forEach(interfaceNode => {
-        this.connectToOfferingComponent(interfaceNode);
-        this.connectConsumingComponents(interfaceNode);
-      });
+  drawGraph(shouldZoom: boolean = true) {
+    // Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
+    this.resetGraph();
+    const componentNodes = Array.from(this.graphData.components.values()).map(component =>
+      createComponentNode(component, this.nodePositions[component.id]));
+    const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
+      intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
+    // issueNodes contains BOTH componentNodes and interfaceNodes
+    const issueNodes = (componentNodes as IssueNode[]).concat(interfaceNodes as IssueNode[]);
+    issueNodes.forEach(node => {
+      this.graph.addNode(node);
+      this.addIssueFolders(node);
+      this.drawFolderRelations(node);
+    });
+    interfaceNodes.forEach(interfaceNode => {
+      this.connectToOfferingComponent(interfaceNode);
+      this.connectConsumingComponents(interfaceNode);
+    });
 
-      this.graph.completeRender();
-      if (this.firstDraw) {
-        this.graph.zoomToBoundingBox();
-      }
-      this.firstDraw = false;
+    this.graph.completeRender();
+    if (this.firstDraw) {
+      this.graph.zoomToBoundingBox();
     }
+    this.firstDraw = false;
+  }
 
 
 
-    addIssueFolders(node: IssueNode) {
-      this.addIssueGroupContainer(node);
-      this.addIssueFolderNodes(node);
-    }
+  addIssueFolders(node: IssueNode) {
+    this.addIssueGroupContainer(node);
+    this.addIssueFolderNodes(node);
+  }
 
   private addIssueFolderNodes(node: IssueNode) {
     const issueCounts = this.graphData.graphLocations.get(node.id).issues;
+    const filterState =this.filter$.getValue();
     Object.keys(IssueCategory).forEach(key => {
       const issueCategory = IssueCategory[key];
-      const issueFolderNode = createIssueFolderNode(node, issueCategory, issueCounts.get(issueCategory).toString());
-      this.graph.addNode(issueFolderNode);
-      this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
+      if(filterState[issueCategory]) {
+        const issueFolderNode = createIssueFolderNode(node, issueCategory, issueCounts.get(issueCategory).toString());
+        this.graph.addNode(issueFolderNode);
+        this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
+      }
     });
   }
 
@@ -569,7 +572,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const node = event.detail.node;
 
     if (node.type === 'component') {
-      this.router.navigate(['./components/', node.id], {relativeTo: this.activatedRoute.parent});
+      this.router.navigate(['./components/', node.id], { relativeTo: this.activatedRoute.parent });
       console.log('Open component info sheet');
     }
     if (node.type === 'interface') {

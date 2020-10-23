@@ -11,7 +11,7 @@ import { FilterState } from '@app/graphs/shared';
 export class IssueGraphApiService {
 
   constructor(private getIssueGraphDataQuery: GetIssueGraphDataGQL, private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
-    private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL) { }
+              private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL) { }
 
   loadIssueGraphData(projectId: string, filterState: FilterState): Observable<GraphData> {
     const activeCategories: IssueCategory[] = [];
