@@ -360,7 +360,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private addIssueFolderNodes(node: IssueNode) {
     const issueCounts = this.graphData.graphLocations.get(node.id).issues;
-    const filterState =this.filter$.getValue();
+    const filterState = this.filter$.getValue();
     Object.keys(IssueCategory).forEach(key => {
       const issueCategory = IssueCategory[key];
       if(filterState[issueCategory]) {
@@ -381,6 +381,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       for (const relatedFolder of relatedFolders) {
         const [issueNodeId, category] = relatedFolder;
         const edge = createRelationEdge(folderNode.id, getIssueFolderId(issueNodeId, category));
+        //TODO do not add self edges
         this.graph.addEdge(edge);
       }
     }

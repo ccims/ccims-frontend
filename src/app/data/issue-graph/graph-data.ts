@@ -11,6 +11,7 @@ type LocationId = Scalars['ID'];
 export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
+  // graphLocations contains both components and interfaces
   graphLocations: Map<string, GraphLocation>;
   relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
   linkIssues: GraphIssue[];
@@ -146,6 +147,15 @@ class GraphIssue {
 
 
 export class GraphDataFactory {
+
+  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
+    for(const location of graphData.graphLocations.values()) {
+      location.issues = new Map([...location.issues].filter(([category, count]) =>  activeCategories.includes(category)));
+      console.log(location.issues);
+    }
+    return graphData;
+  }
+
   static graphDataFromGQL(data: GetIssueGraphDataQuery): GraphData {
     // const components = data.node.components.nodes.map(gqlComponent => [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]);
     // const interfaces = data.node.interfaces.nodes.map(gqlInterface => GraphInterface.fromGQL(gqlInterface));

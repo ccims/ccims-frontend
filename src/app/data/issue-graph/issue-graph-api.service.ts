@@ -23,8 +23,8 @@ export class IssueGraphApiService {
 
     console.log(activeCategories);
     return this.getIssueGraphDataQuery.fetch({ projectId, activeCategories }).pipe(
-      map(result => GraphDataFactory.graphDataFromGQL(result.data)),
-    );
+      map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
+    ));
   }
 
   addConsumedInterface(componentId: string, interfaceId: string) {
