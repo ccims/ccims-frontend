@@ -27,6 +27,7 @@ import {
   createConsumptionEdge, createInterfaceProvisionEdge
 } from './issue-graph-nodes';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FilterState, initialFilter } from '../shared';
 
 @Component({
   selector: 'app-issue-graph',
@@ -39,12 +40,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
   @Input() projectId: string;
-  @Input() blacklistFilter: {
-    [IssueType.BUG]?: boolean;
-    [IssueType.FEATURE_REQUEST]?: boolean;
-    [IssueType.UNCLASSIFIED]?: boolean;
-  } = {};
 
+  public filter$ = new BehaviorSubject<FilterState>(initialFilter);
   readonly zeroPosition = { x: 0, y: 0 };
 
   private graphData: GraphData;
@@ -67,10 +64,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
 
-  private filter$: BehaviorSubject<string> = new BehaviorSubject('blah');
-
   public reload() {
-    this.filter$.next('blah');
+    this.filter$.next(initialFilter);
   }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
@@ -84,6 +79,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
+    this.filter$.subscribe(filterState => console.log(filterState));
   }
 
   ngOnDestroy() {

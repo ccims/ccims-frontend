@@ -9,69 +9,57 @@ import { CreateComponentDialogComponent } from '@app/dialogs/create-component-di
 import { StateService } from '@app/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
-
+import { IssueCategory } from 'src/generated/graphql';
+import { Subject } from 'rxjs';
+import { FilterState } from '../shared';
 
 @Component({
   selector: 'app-issue-graph-controls',
   templateUrl: './issue-graph-controls.component.html',
   styleUrls: ['./issue-graph-controls.component.scss']
 })
-export class IssueGraphControlsComponent implements OnInit {
+export class IssueGraphControlsComponent {
 
   @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
-   projectId: string;
-   featureRequests = true;
-   bugReports = true;
-   undecided = true;
+  projectId: string;
+  featureRequests = true;
+  bugReports = true;
+  undecided = true;
 
-   private blacklistFilter = {
-       [IssueType.BUG]: false,
-       [IssueType.FEATURE_REQUEST]: false,
-       [IssueType.UNCLASSIFIED]: false,
-   };
-
-   constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
-   }
-   ngOnInit() {
-   }
+  }
 
-   public openCreateComponentDialog(): void {
-     /*
-       const createComponentDialog = this.dialog.open(CreateComponentDialogComponent);
+  public openCreateComponentDialog(): void {
+    /*
+      const createComponentDialog = this.dialog.open(CreateComponentDialogComponent);
 
-       createComponentDialog.afterClosed().subscribe((componentInformation: {ownerUsername: string, component: ComponentPartial}) => {
-           // TODO add component to project, update graph and backend
-           if (componentInformation) {
-               console.log(componentInformation)
-               //this.api.addComponent(this.project.id, componentInformation.ownerUsername, componentInformation.component);
-               //console.log(`Dialog result: ${componentInformation.generalInformation.componentName}`);
-           }
-       });
-       */
-      console.log("Show create component dialog");
-      const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
-        data: {projectId: this.projectId}
+      createComponentDialog.afterClosed().subscribe((componentInformation: {ownerUsername: string, component: ComponentPartial}) => {
+          // TODO add component to project, update graph and backend
+          if (componentInformation) {
+              console.log(componentInformation)
+              //this.api.addComponent(this.project.id, componentInformation.ownerUsername, componentInformation.component);
+              //console.log(`Dialog result: ${componentInformation.generalInformation.componentName}`);
+          }
       });
-      createComponentDialogRef.afterClosed().subscribe(componentInformation => {
+      */
+    const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
+      data: { projectId: this.projectId }
+    });
+    createComponentDialogRef.afterClosed().subscribe(componentInformation => {
       // console.log(componentInformation);
       // do something
       this.issueGraph.reload();
+    });
+  }
+
+  public updateBlacklistFilter() {
+    this.issueGraph.filter$.next(
+      {
+        [IssueType.BUG]: this.bugReports,
+        [IssueType.FEATURE_REQUEST]: this.featureRequests,
+        [IssueType.UNCLASSIFIED]: this.undecided,
       });
+  }
 
-      return;
-   }
-
-   public updateBlacklistFilter() { // For change detection performance
-       this.blacklistFilter = { // only create a new object if needed (change detection compares object ids)
-           [IssueType.BUG]: !this.bugReports, // invert for blacklist
-           [IssueType.FEATURE_REQUEST]: !this.featureRequests,
-           [IssueType.UNCLASSIFIED]: !this.undecided,
-       };
-   }
-
-   public getBlacklistFilter() {
-       return this.blacklistFilter;
-   }
 }
-

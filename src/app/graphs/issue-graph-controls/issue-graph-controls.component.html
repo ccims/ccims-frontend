@@ -9,14 +9,11 @@
       <mat-slide-toggle matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true" (change)="undecided = !undecided; updateBlacklistFilter()">
           <b class="unclassified-issue-icon">?</b>
       </mat-slide-toggle>
-      <mat-slide-toggle matTooltip="Notifications" class="slide-toggle">
-          <mat-icon class="notification-icon">notifications</mat-icon>
-      </mat-slide-toggle>
       <span class="spacer"></span>
       <button mat-icon-button matTooltip="Create new Component" class="create-component-button"
           (click)="this.openCreateComponentDialog()">
           <mat-icon>extension</mat-icon>
       </button>
   </div>
-  <app-issue-graph [projectId]="projectId" [blacklistFilter]="getBlacklistFilter()"></app-issue-graph>
+  <app-issue-graph [projectId]="projectId"></app-issue-graph>
 </div>
