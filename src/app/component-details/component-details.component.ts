@@ -45,23 +45,26 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.validationIMS.setValue("http://beispiel.ims.test");
+
+    this.validationUrl.setValue("http://beispiel.repo.test");
 
   }
 
-  onCancelClick() {
+  public onCancelClick() {
     this.resetValues();
     this.editMode = !this.editMode;
 
 
   }
-  onEditClick() {
+  public onEditClick() {
     console.log(this.component.node.id);
 
     this.editMode = !this.editMode;
 
 
   }
-  onDeleteClick() {
+  public onDeleteClick() {
     // Confirm Dialog anzeigen
     // Onconfirm
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
@@ -92,9 +95,9 @@ export class ComponentDetailsComponent implements OnInit {
   }
   private resetValues() {
     this.validationName.setValue(this.component.node.name);
-    this.validationIMS.setValue("");
+    this.validationIMS.setValue("http://beispiel.ims.test");
     this.validationProvider.setValue(this.component.node.ims.imsType);
-    this.validationUrl.setValue("");
+    this.validationUrl.setValue("http://beispiel.repo.test");
     this.validationDescription.setValue(this.component.node.description);
   }
   private updateComponent(): void{

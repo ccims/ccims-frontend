@@ -21,10 +21,20 @@
         <mat-option value="BUG">Bug</mat-option>
         <mat-option value="FEATURE_REQUEST">Feature Request</mat-option>
     </mat-select>
-
 </mat-form-field>
+
+<ng-select  [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedLabels" placeholder="Select Labels">
+  <ng-option *ngFor="let label of this.labels" [value]="label.id" >{{label.name}}</ng-option>
+</ng-select>
+
+<ng-select class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedAssignees" placeholder="Select Assignees">
+  <ng-option *ngFor="let assignee of this.assignees" [value]="assignee.id" >{{assignee.name}}</ng-option>
+</ng-select>
+
   <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
 </form>
+
+
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>

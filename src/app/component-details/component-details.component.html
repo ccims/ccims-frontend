@@ -52,7 +52,7 @@
 
         <mat-form-field floatLabel="always" class="stretch" appearance="outline">
           <mat-label>IMS-URL</mat-label>
-          <input name="ims" [readonly]="!this.editMode" [ngModel]="component.endpoint" matInput
+          <input name="ims" [readonly]="!this.editMode"  matInput
             [formControl]="this.validationIMS">
           <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL</mat-error>
         </mat-form-field>

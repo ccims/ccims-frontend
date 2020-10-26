@@ -20,12 +20,20 @@ export class CreateIssueDialogComponent implements OnInit {
   validationBody = new FormControl('', [Validators.required]);
   validationCategory = new FormControl('', [Validators.required]);
 
+  // mock for the labels and assignees
+  selectedLabels = [];
+  labels = [{id: '1', name: 'rotes Label'}, {id: '2', name: 'gelbes Label'}, {id: '3', name: 'pinkes Label'}];
+  selectedAssignees = [];
+  assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
+  // mock for the labels and assignees
+
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       title: [null, [Validators.required]],
       body: [null, [Validators.required]]
     });
     this.validationCategory.setValue('UNCLASSIFIED');
+
   }
   onNoClick(): void {
     // console.log(this.name);
