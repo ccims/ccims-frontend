@@ -7,7 +7,7 @@
       <input matInput (keyup)="applyFilter($event.target.value)" >
     </mat-form-field>
 
-    <div *ngIf="(component$ | async)?.node as component">
+    <div class="table-container" *ngIf="(component$ | async)?.node as component">
     <table mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource">
 
       <!-- Title Column -->

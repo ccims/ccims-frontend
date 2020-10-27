@@ -11,3 +11,7 @@ cursor: pointer;
   margin-top: 8px;
   float: left;
 }
+.table-container {
+  max-height: 500px;
+  overflow: auto;
+}
