@@ -8,6 +8,7 @@ import { map, switchMap, tap, filter, shareReplay } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { IssueGraphApiService } from './issue-graph-api.service';
 import { state } from '@angular/animations';
+import { FilterState } from '@app/graphs/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,10 @@ export class IssueGraphStateService {
   state$: Observable<GraphData>;
   reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
-  graphDataForFilter(filter$: BehaviorSubject<string>): Observable<GraphData> {
+  graphDataForFilter(filter$: BehaviorSubject<FilterState>): Observable<GraphData> {
     this.state$ = combineLatest(this.ss.state$, filter$, this.reload$).pipe(
       filter(([appState, _]) => appState.project?.id != null),
-      switchMap(([appState, filterString]) => this.apiService.loadIssueGraphData(appState.project.id)),
+      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id, filterState)),
       shareReplay(1)
     );
     return this.state$;

@@ -1,4 +1,4 @@
-query GetIssueGraphData($projectId: ID!) {
+query GetIssueGraphData($projectId: ID!, $activeCategories: [IssueCategory!]) {
   node(id: $projectId) {
     ... on Project {
       components {
@@ -45,7 +45,8 @@ query GetIssueGraphData($projectId: ID!) {
       }
       linkingIssues: issues(
         filterBy: {
-          linksIssues: true
+          linksIssues: true,
+          category: $activeCategories
           # here you can add all the other filters you want to
         }
       ) {

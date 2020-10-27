@@ -3604,6 +3604,7 @@ export type CreateComponentInterfaceMutation = { createComponentInterface?: Mayb
 
 export type GetIssueGraphDataQueryVariables = Exact<{
   projectId: Scalars['ID'];
+  activeCategories?: Maybe<Array<IssueCategory>>;
 }>;
 
 
@@ -3868,7 +3869,7 @@ export const CreateComponentInterfaceDocument = gql`
     }
   }
 export const GetIssueGraphDataDocument = gql`
-    query GetIssueGraphData($projectId: ID!) {
+    query GetIssueGraphData($projectId: ID!, $activeCategories: [IssueCategory!]) {
   node(id: $projectId) {
     ... on Project {
       components {
@@ -3909,7 +3910,7 @@ export const GetIssueGraphDataDocument = gql`
           }
         }
       }
-      linkingIssues: issues(filterBy: {linksIssues: true}) {
+      linkingIssues: issues(filterBy: {linksIssues: true, category: $activeCategories}) {
         nodes {
           id
           category
