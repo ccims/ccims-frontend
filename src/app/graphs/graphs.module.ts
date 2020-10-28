@@ -26,12 +26,14 @@ import { IssueListComponent } from '@app/issue-list/issue-list.component';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import { MatSortModule } from '@angular/material/sort';
+import { LabelSearchComponent } from './label-search/label-search.component';
 // import { NgSelectModule } from '@ng-select/ng-select';
 // import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
 @NgModule({
   declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent,
-    IssueListComponent],
+    IssueListComponent,
+    LabelSearchComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
