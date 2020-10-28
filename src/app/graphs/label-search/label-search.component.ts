@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Label } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-label-search',
@@ -19,8 +21,8 @@ export class LabelSearchComponent implements OnInit {
       this.loadPeople();
   }
 
-  trackByFn(item: Person) {
-      return item.id;
+  trackByFn(label: SearchLabel) {
+      return label.id;
   }
 
   private loadPeople() {
@@ -38,3 +40,5 @@ export class LabelSearchComponent implements OnInit {
   }
 
 }
+
+type SearchLabel = Pick<Label, "id" | "name" | "color" | "description">;
