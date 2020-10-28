@@ -1,0 +1,14 @@
+query GetLabels($projectId: ID!) {
+  node(id: $projectId) {
+    ...on Project {
+      labels {
+        nodes {
+          id
+          name
+          color
+          description
+        }
+      }
+  }
+}
+}

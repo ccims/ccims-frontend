@@ -3629,6 +3629,13 @@ export type CreateIssueMutationVariables = Exact<{
 
 export type CreateIssueMutation = { createIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id' | 'title'>> }> };
 
+export type GetLabelsQueryVariables = Exact<{
+  projectId: Scalars['ID'];
+}>;
+
+
+export type GetLabelsQuery = { node?: Maybe<{ labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color' | 'description'>>>> }> }> };
+
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
 }>;
@@ -3963,6 +3970,33 @@ export const CreateIssueDocument = gql`
   })
   export class CreateIssueGQL extends Apollo.Mutation<CreateIssueMutation, CreateIssueMutationVariables> {
     document = CreateIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetLabelsDocument = gql`
+    query GetLabels($projectId: ID!) {
+  node(id: $projectId) {
+    ... on Project {
+      labels {
+        nodes {
+          id
+          name
+          color
+          description
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetLabelsGQL extends Apollo.Query<GetLabelsQuery, GetLabelsQueryVariables> {
+    document = GetLabelsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
