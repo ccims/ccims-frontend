@@ -21,10 +21,10 @@ export class IssueGraphStateService {
   state$: Observable<GraphData>;
   reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
-  graphDataForFilter(filter$: BehaviorSubject<FilterState>): Observable<GraphData> {
+  graphDataForFilter(filter$: BehaviorSubject<FilterState>, reload$: BehaviorSubject<void>): Observable<GraphData> {
     this.state$ = combineLatest(this.ss.state$, filter$, this.reload$).pipe(
-      filter(([appState, _]) => appState.project?.id != null),
-      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id, filterState)),
+      filter(([appState, filterState, reload]) => appState.project?.id != null),
+      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id, filterState.selectedCategories)),
       shareReplay(1)
     );
     return this.state$;

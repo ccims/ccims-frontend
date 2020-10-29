@@ -27,7 +27,6 @@ import {
   createConsumptionEdge, createInterfaceProvisionEdge
 } from './issue-graph-nodes';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SelectedCategories, initialCategories } from '../shared';
 
 @Component({
   selector: 'app-issue-graph',
@@ -43,7 +42,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   readonly zeroPosition = { x: 0, y: 0 };
 
-  private graphData: GraphData;
+  public graphData: GraphData;
 
   private graphInitialized = false;
   private firstDraw = true;
@@ -64,7 +63,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private projectStorageKey: string;
 
   public reload() {
-    this.filter$.next(initialCategories);
+    //this.filter$.next(initialCategories);
   }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
@@ -78,7 +77,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
-    this.filter$.subscribe(filterState => console.log(filterState));
+    //this.filter$.subscribe(filterState => console.log(filterState));
   }
 
   ngOnDestroy() {
@@ -276,13 +275,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     graph.addEventListener('zoomchange', (event: CustomEvent) => {
       this.currentVisibleArea = event.detail.currentViewWindow;
     });
-    this.gs.graphDataForFilter(this.filter$).pipe(
-      tap(newGraphData => {
-        this.graphData = newGraphData;
-        this.drawGraph();
-      }),
-      takeUntil(this.destroy$)
-    ).subscribe();
+
 
   }
   private addIssueGroupContainer(node: IssueNode) {
@@ -359,7 +352,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private addIssueFolderNodes(node: IssueNode) {
     const issueCounts = this.graphData.graphLocations.get(node.id).issues;
-    const filterState = this.filter$.getValue();
+    //const filterState = this.filter$.getValue();
     Object.keys(IssueCategory).forEach(key => {
       const issueCategory = IssueCategory[key];
       if (issueCounts.has(issueCategory)) {

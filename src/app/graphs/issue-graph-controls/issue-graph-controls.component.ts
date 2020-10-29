@@ -16,6 +16,7 @@ import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state
 import { LabelSearchComponent } from '../label-search/label-search.component';
 import { map } from 'rxjs/operators';
 import { FilterState } from '@app/graphs/shared';
+import { GroupBehaviour } from '@ustutt/grapheditor-webcomponent/lib/grouping';
 
 @Component({
   selector: 'app-issue-graph-controls',
@@ -35,7 +36,7 @@ export class IssueGraphControlsComponent implements AfterViewInit {
     this.getSelectedCategories()
   );
 
-  filter$: Observable<FilterState>;
+  filter$: BehaviorSubject<FilterState> = new BehaviorSubject(null);
 
   private getSelectedCategories(): SelectedCategories {
     return {
@@ -45,14 +46,20 @@ export class IssueGraphControlsComponent implements AfterViewInit {
     };
   }
   constructor(public dialog: MatDialog, private ss: StateService, private gs: IssueGraphStateService,
-    private route: ActivatedRoute) {
+              private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
   }
 
 
   ngAfterViewInit(): void {
-    this.filter$ = combineLatest([this.selectedCategories$, this.labelSearch.selectedLabels$]).pipe(
+    combineLatest([this.selectedCategories$, this.labelSearch.selectedLabels$]).pipe(
       map(([selectedCategories, selectedLabels]) => ({ selectedCategories, selectedLabels}))
+    ).subscribe(filterState => this.filter$.next(filterState));
+    this.gs.graphDataForFilter(this.filter$).subscribe(
+      graphData => {
+        this.issueGraph.graphData = graphData;
+        this.issueGraph.drawGraph();
+      }
     );
   }
 
