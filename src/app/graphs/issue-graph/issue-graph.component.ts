@@ -8,8 +8,6 @@ import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
-import { Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project } from 'src/app/model/state';
-import { issues as mockIssues } from '../../model/graph-state';
 import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
 import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
 import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
@@ -56,8 +54,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
-  private issuesById: IssuesState = {};
-  private issueToRelatedNode: Map<string, Set<string>> = new Map();
+  // private issuesById: IssuesState = {};
+  // private issueToRelatedNode: Map<string, Set<string>> = new Map();
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
 
@@ -374,6 +372,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /*
   private updateIssueRelations(
     graph: GraphEditor,
     parentNode: Node,
@@ -449,6 +448,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     });
   }
+  */
 
   private onCreateEdge = (edge: DraggedEdge) => {
     const graph: GraphEditor = this.graphWrapper.nativeElement;
