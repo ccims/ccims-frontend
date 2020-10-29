@@ -10,16 +10,12 @@ import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
 import { Component as ProjectComponent, Issue, IssueRelationType, IssuesState, IssueType, Project } from 'src/app/model/state';
 import { issues as mockIssues } from '../../model/graph-state';
-// import { ApiService } from 'src/app/api/api.service';
-// import { CreateInterfaceDialogComponent } from 'src/app/dialogs/create-interface-dialog-demo/create-interface-dialog.component';
-// import { MatBottomSheet } from '@angular/material/bottom-sheet';
-// import { GraphNodeInfoSheetComponent } from 'src/app/dialogs/graph-node-info-sheet-demo/graph-node-info-sheet.component';
 import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
 import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
 import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
 import { StateService } from '@app/state.service';
 import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
-import { GraphComponent, GraphInterface, GraphData } from '../../data/issue-graph/graph-data';
+import { GraphData } from '../../data/issue-graph/graph-data';
 import { IssueCategory } from 'src/generated/graphql';
 import {
   Position, IssueNode, createIssueGroupContainerNode, createInterfaceNode,
@@ -76,7 +72,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
-    //this.filter$.subscribe(filterState => console.log(filterState));
+    // this.filter$.subscribe(filterState => console.log(filterState));
   }
 
   ngOnDestroy() {
@@ -351,7 +347,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private addIssueFolderNodes(node: IssueNode) {
     const issueCounts = this.graphData.graphLocations.get(node.id).issues;
-    //const filterState = this.filter$.getValue();
+    // const filterState = this.filter$.getValue();
     Object.keys(IssueCategory).forEach(key => {
       const issueCategory = IssueCategory[key];
       if (issueCounts.has(issueCategory)) {
