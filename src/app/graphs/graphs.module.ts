@@ -27,6 +27,8 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import { MatSortModule } from '@angular/material/sort';
 import { LabelSearchComponent } from './label-search/label-search.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 // import { NgSelectModule } from '@ng-select/ng-select';
 // import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
@@ -63,8 +65,8 @@ import { LabelSearchComponent } from './label-search/label-search.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    // NgSelectModule,
-    // NgOptionHighlightModule
+    NgSelectModule,
+    NgOptionHighlightModule
   ],
   exports: [
     CdkTableModule,

@@ -6,6 +6,22 @@
 .container app-issue-graph {
   flex-grow: 1;
 }
+
+.controls {
+  display: flex;
+  flex-direction: row;
+}
+
+.controls app-label-search {
+  display: inline-block;
+    height: 24px;
+    flex-grow: 1;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
 .slide-toggle {
   margin-left: 20px;
   margin-top: 10px;
@@ -31,9 +47,7 @@
 .create-component-button {
   margin-left: 20px;
   font-size: larger;
-  position: absolute;
   right: 10px;
-  top: 2px;
 }
 
 .spacer {

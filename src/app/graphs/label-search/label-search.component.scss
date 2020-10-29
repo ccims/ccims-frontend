@@ -1,0 +1,12 @@
+.ng-select.auto-grow {
+  display: flex;
+
+  .ng-select-container {
+    min-width: 100px;
+    width: auto;
+  }
+
+  .ng-dropdown-panel {
+    width: auto;
+  }
+}

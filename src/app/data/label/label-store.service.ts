@@ -11,7 +11,7 @@ export class LabelStoreService {
 
   constructor(private getLabelsGQL: GetLabelsGQL, private ss: StateService) { }
 
-  private getAll(projectId: string): Observable<Pick<Label, "id" | "name" | "color" | "description">[]> {
+  private getAll(projectId: string): Observable<Pick<Label, 'id' | 'name' | 'color' | 'description'>[]> {
     return this.getLabelsGQL.fetch({ projectId }).pipe(
       map(({ data }) => data.node.labels.nodes)
     );
