@@ -3572,7 +3572,7 @@ export type GetComponentQueryVariables = Exact<{
 
 export type GetComponentQuery = { node?: Maybe<(
     Pick<Component, 'id' | 'name' | 'description'>
-    & { owner?: Maybe<Pick<User, 'displayName' | 'username' | 'id'>>, ims?: Maybe<Pick<Ims, 'imsType'>>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+    & { owner?: Maybe<Pick<User, 'displayName' | 'username' | 'id'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id'>>>> }>, ims?: Maybe<Pick<Ims, 'imsType'>>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'title' | 'isOpen' | 'category' | 'body'>
         & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
       )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }>, consumedInterfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }> }
@@ -3635,6 +3635,13 @@ export type GetLabelsQueryVariables = Exact<{
 
 
 export type GetLabelsQuery = { node?: Maybe<{ labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color' | 'description'>>>> }> }> };
+
+export type CreateLabelMutationVariables = Exact<{
+  input: CreateLabelInput;
+}>;
+
+
+export type CreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<Pick<Label, 'id' | 'name'>> }> };
 
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
@@ -3763,6 +3770,12 @@ export const GetComponentDocument = gql`
         id
       }
       description
+      labels {
+        nodes {
+          name
+          id
+        }
+      }
       ims {
         imsType
       }
@@ -3997,6 +4010,27 @@ export const GetLabelsDocument = gql`
   })
   export class GetLabelsGQL extends Apollo.Query<GetLabelsQuery, GetLabelsQueryVariables> {
     document = GetLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CreateLabelDocument = gql`
+    mutation CreateLabel($input: CreateLabelInput!) {
+  createLabel(input: $input) {
+    label {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateLabelGQL extends Apollo.Mutation<CreateLabelMutation, CreateLabelMutationVariables> {
+    document = CreateLabelDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

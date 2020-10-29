@@ -2,7 +2,7 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~ngx-toastr/toastr';
 @import 'styles/variables.scss';
-@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@ng-select/ng-select/themes/material.theme.css";
 @include mat-core();
 
 @include angular-material-theme($theme);

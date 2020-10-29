@@ -50,6 +50,13 @@ query GetComponent($id: ID!) {
         id
       }
       description
+      labels{
+        nodes{
+          name
+          id
+        }
+
+      }
       ims{
         imsType
       }

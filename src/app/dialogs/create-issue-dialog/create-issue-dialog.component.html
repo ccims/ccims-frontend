@@ -23,11 +23,11 @@
     </mat-select>
 </mat-form-field>
 
-<ng-select  [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedLabels" placeholder="Select Labels">
+<ng-select  [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedLabels" [ngModelOptions]="{standalone: true}" placeholder="Select Labels">
   <ng-option *ngFor="let label of this.labels" [value]="label.id" >{{label.name}}</ng-option>
 </ng-select>
 
-<ng-select class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedAssignees" placeholder="Select Assignees">
+<ng-select class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedAssignees" [ngModelOptions]="{standalone: true}" placeholder="Select Assignees">
   <ng-option *ngFor="let assignee of this.assignees" [value]="assignee.id" >{{assignee.name}}</ng-option>
 </ng-select>
 
