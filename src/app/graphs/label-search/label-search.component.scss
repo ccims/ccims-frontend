@@ -1,3 +1,7 @@
 .ng-select.label-select ::ng-deep .ng-select-container {
   min-height: 0px;
 }
+
+.ng-select.label-select ::ng-deep .ng-value-container {
+  border-top: 7px solid transparent;
+}

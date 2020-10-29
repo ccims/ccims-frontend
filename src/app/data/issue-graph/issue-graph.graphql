@@ -44,10 +44,95 @@ query GetIssueGraphData($projectId: ID!, $activeCategories: [IssueCategory!]) {
         }
       }
       linkingIssues: issues(
+        filterBy: { linksIssues: true, category: $activeCategories }
+      ) {
+        nodes {
+          id
+          category
+          locations {
+            nodes {
+              id
+            }
+          }
+          linksToIssues {
+            nodes {
+              id
+              category
+              locations {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetIssueGraphDataForLabels(
+  $projectId: ID!
+  $activeCategories: [IssueCategory!]
+  $selectedLabels: [ID!]
+) {
+  node(id: $projectId) {
+    ... on Project {
+      components {
+        nodes {
+          name
+          id
+          bugs: issuesOnLocation(
+            filterBy: { category: BUG, labels: $selectedLabels }
+          ) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(
+            filterBy: { category: FEATURE_REQUEST, labels: $selectedLabels }
+          ) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(
+            filterBy: { category: UNCLASSIFIED, labels: $selectedLabels }
+          ) {
+            totalCount
+          }
+        }
+      }
+      interfaces {
+        nodes {
+          id
+          name
+          component {
+            id
+          }
+          bugs: issuesOnLocation(
+            filterBy: { category: BUG, labels: $selectedLabels }
+          ) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(
+            filterBy: { category: FEATURE_REQUEST, labels: $selectedLabels }
+          ) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(
+            filterBy: { category: UNCLASSIFIED, labels: $selectedLabels }
+          ) {
+            totalCount
+          }
+          consumedBy {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+      linkingIssues: issues(
         filterBy: {
-          linksIssues: true,
+          linksIssues: true
           category: $activeCategories
-          # here you can add all the other filters you want to
+          labels: $selectedLabels
         }
       ) {
         nodes {

@@ -3622,6 +3622,27 @@ export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes
           )>>> }> }
       )>>> }> }> };
 
+export type GetIssueGraphDataForLabelsQueryVariables = Exact<{
+  projectId: Scalars['ID'];
+  activeCategories?: Maybe<Array<IssueCategory>>;
+  selectedLabels?: Maybe<Array<Scalars['ID']>>;
+}>;
+
+
+export type GetIssueGraphDataForLabelsQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Component, 'name' | 'id'>
+        & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
+      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<ComponentInterface, 'id' | 'name'>
+        & { component: Pick<Component, 'id'>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+      )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Issue, 'id' | 'category'>
+        & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+            Pick<Issue, 'id' | 'category'>
+            & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }> }
+          )>>> }> }
+      )>>> }> }> };
+
 export type CreateIssueMutationVariables = Exact<{
   input: CreateIssueInput;
 }>;
@@ -3962,6 +3983,85 @@ export const GetIssueGraphDataDocument = gql`
   })
   export class GetIssueGraphDataGQL extends Apollo.Query<GetIssueGraphDataQuery, GetIssueGraphDataQueryVariables> {
     document = GetIssueGraphDataDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetIssueGraphDataForLabelsDocument = gql`
+    query GetIssueGraphDataForLabels($projectId: ID!, $activeCategories: [IssueCategory!], $selectedLabels: [ID!]) {
+  node(id: $projectId) {
+    ... on Project {
+      components {
+        nodes {
+          name
+          id
+          bugs: issuesOnLocation(filterBy: {category: BUG, labels: $selectedLabels}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, labels: $selectedLabels}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED, labels: $selectedLabels}) {
+            totalCount
+          }
+        }
+      }
+      interfaces {
+        nodes {
+          id
+          name
+          component {
+            id
+          }
+          bugs: issuesOnLocation(filterBy: {category: BUG, labels: $selectedLabels}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, labels: $selectedLabels}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED, labels: $selectedLabels}) {
+            totalCount
+          }
+          consumedBy {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+      linkingIssues: issues(filterBy: {linksIssues: true, category: $activeCategories, labels: $selectedLabels}) {
+        nodes {
+          id
+          category
+          locations {
+            nodes {
+              id
+            }
+          }
+          linksToIssues {
+            nodes {
+              id
+              category
+              locations {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetIssueGraphDataForLabelsGQL extends Apollo.Query<GetIssueGraphDataForLabelsQuery, GetIssueGraphDataForLabelsQueryVariables> {
+    document = GetIssueGraphDataForLabelsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

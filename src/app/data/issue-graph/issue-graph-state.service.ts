@@ -12,17 +12,16 @@ import { FilterState } from '@app/graphs/shared';
 })
 export class IssueGraphStateService {
 
-
+  state$: Observable<GraphData>;
   constructor(private apiService: IssueGraphApiService, private ss: StateService, ) {
   }
-  state$: Observable<GraphData>;
-  reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
   graphDataForFilter(filter$: BehaviorSubject<FilterState>, reload$: BehaviorSubject<void>): Observable<GraphData> {
-    // reload$ appears to be unused. Not true. Whenever a new value arrives from it, loadIssueGraphData is executed
+    // Whenever a new value arrives from reload$, loadIssueGraphData is executed
     this.state$ = combineLatest([this.ss.state$, filter$, reload$]).pipe(
       filter(([appState, _]) => appState.project?.id != null),
-      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id, filterState.selectedCategories)),
+      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id,
+        filterState.selectedCategories, filterState.selectedLabels)),
       shareReplay(1)
     );
     return this.state$;
@@ -39,5 +38,4 @@ export class IssueGraphStateService {
   removeConsumedInterface(componentId: string, interfaceId: string) {
     this.apiService.removeConsumedInterface(componentId, interfaceId);
   }
-
 }
