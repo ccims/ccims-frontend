@@ -157,7 +157,7 @@ export class GraphDataFactory {
   static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
     for (const location of graphData.graphLocations.values()) {
       location.issues = new Map([...location.issues].filter(([category, count]) => activeCategories.includes(category)));
-      console.log(location.issues);
+      //console.log(location.issues);
     }
     return graphData;
   }

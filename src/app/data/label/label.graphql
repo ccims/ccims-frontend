@@ -6,7 +6,6 @@ query GetLabels($projectId: ID!) {
           id
           name
           color
-          description
         }
       }
     }

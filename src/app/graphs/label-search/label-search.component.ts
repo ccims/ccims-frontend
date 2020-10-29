@@ -4,6 +4,8 @@ import { concat, of, Subject, Observable } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Label } from 'src/generated/graphql';
 import { MockLabelStoreService } from '../../data/label/mock-label-store.service';
+import { FilterLabel, LabelStoreService } from '../../data/label/label-store.service';
+import { StateService } from '../../state.service';
 
 
 @Component({
@@ -12,36 +14,34 @@ import { MockLabelStoreService } from '../../data/label/mock-label-store.service
   styleUrls: ['./label-search.component.scss']
 })
 export class LabelSearchComponent implements OnInit {
-  people$: Observable<Person[]>;
-  peopleLoading = false;
-  peopleInput$ = new Subject<string>();
-  selectedPersons: Person[] = <any>[{ name: 'Karyn Wright' }, { name: 'Other' }];
+  labels$: Observable<FilterLabel[]>;
+  labelsLoading = false;
+  labelsInput$ = new Subject<string>();
+  selectedLabels: FilterLabel[] = [];
 
-  constructor(private dataService: MockLabelStoreService) {
+  constructor(private labelStore: LabelStoreService, private ss: StateService) {
   }
 
   ngOnInit() {
-      this.loadPeople();
+      this.loadLabels();
   }
 
-  trackByFn(item: Person) {
+  trackByFn(item: FilterLabel) {
       return item.id;
   }
 
-  private loadPeople() {
-      this.people$ = concat(
+  private loadLabels() {
+      this.labels$ = concat(
           of([]), // default items
-          this.peopleInput$.pipe(
+          this.labelsInput$.pipe(
               distinctUntilChanged(),
-              tap(() => this.peopleLoading = true),
-              switchMap(term => this.dataService.getPeople(term).pipe(
+              tap(() => this.labelsLoading = true),
+              switchMap(term => this.labelStore.getMatchingLabels(this.ss.state.project.id, term).pipe(
                   catchError(() => of([])), // empty list on error
-                  tap(() => this.peopleLoading = false)
+                  tap(() => this.labelsLoading = false)
               ))
           )
       );
   }
 
 }
-
-type SearchLabel = Pick<Label, 'id' | 'name' | 'color' | 'description'>;

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CreateLabelGQL, CreateLabelInput, GetLabelsGQL, Label } from '../../../generated/graphql';
-import { StateService } from '../../state.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,14 +10,27 @@ export class LabelStoreService {
 
   constructor(private getLabelsGQL: GetLabelsGQL, private CreateLabelMutation: CreateLabelGQL) { }
 
-  private getAll(projectId: string): Observable<Pick<Label, 'id' | 'name' | 'color' | 'description'>[]> {
+
+  getMatchingLabels(projectId: string, term: string = null): Observable<FilterLabel[]> {
+    this.getAllFilter(projectId).pipe(tap(items => console.log("labels: ", items)));
+    if (!term) {
+      return this.getAllFilter(projectId);
+    }
+    return this.getAllFilter(projectId).pipe(
+      map(items => items.filter(x => x.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) > -1))
+    );
+  }
+
+  private getAllFilter(projectId: string): Observable<FilterLabel[]> {
     return this.getLabelsGQL.fetch({ projectId }).pipe(
       map(({ data }) => data.node.labels.nodes)
     );
   }
 
-  public createLabel(input: CreateLabelInput){
-    console.log('MUTAAAAAAAAATION');
-    return this.CreateLabelMutation.mutate({input});
+
+  public createLabel(input: CreateLabelInput) {
+    return this.CreateLabelMutation.mutate({ input });
   }
 }
+
+export type FilterLabel = Pick<Label, 'id' | 'name' | 'color'>;

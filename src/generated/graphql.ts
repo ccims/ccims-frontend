@@ -3634,7 +3634,7 @@ export type GetLabelsQueryVariables = Exact<{
 }>;
 
 
-export type GetLabelsQuery = { node?: Maybe<{ labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color' | 'description'>>>> }> }> };
+export type GetLabelsQuery = { node?: Maybe<{ labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }> }> };
 
 export type CreateLabelMutationVariables = Exact<{
   input: CreateLabelInput;
@@ -3997,7 +3997,6 @@ export const GetLabelsDocument = gql`
           id
           name
           color
-          description
         }
       }
     }
