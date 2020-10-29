@@ -9,6 +9,17 @@ query GetLabels($projectId: ID!) {
           description
         }
       }
+    }
   }
 }
+
+mutation CreateLabel($input: CreateLabelInput!){
+  createLabel(input: $input){
+    label{
+      id
+      name
+    }
+  }
 }
+
+

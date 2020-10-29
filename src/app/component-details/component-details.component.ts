@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateLabelInput, GetComponentQuery, UpdateComponentInput } from '../../generated/graphql';
 import {IssueListComponent} from '../issue-list/issue-list.component';
-import { LabelStoreService } from '@app/data/labels/label-store-service';
+import { LabelStoreService } from '@app/data/label/label-store.service';
 
 @Component({
   selector: 'app-component-details',
@@ -35,7 +35,8 @@ export class ComponentDetailsComponent implements OnInit {
   public validationProvider = new FormControl('', [Validators.required]);
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
-              private componentStoreService: ComponentStoreService, private dialog: MatDialog, private route: ActivatedRoute, private LabelStore: LabelStoreService) {
+              private componentStoreService: ComponentStoreService, private dialog: MatDialog,
+              private route: ActivatedRoute, private labelStore: LabelStoreService) {
     this.editMode = false;
     this.componentId = this.route.snapshot.paramMap.get('componentId');
 
@@ -139,7 +140,7 @@ export class ComponentDetailsComponent implements OnInit {
         color: label.color,
         components: [this.componentId]
       };
-      this.LabelStore.CreateLabel(input).subscribe(({ data}) => {
+      this.labelStore.createLabel(input).subscribe(({ data}) => {
         this.loading = false;
       }, (error) => {
         console.log('there was an error sending the query', error);
