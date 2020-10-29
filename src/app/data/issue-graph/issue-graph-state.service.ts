@@ -22,8 +22,9 @@ export class IssueGraphStateService {
   reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
   graphDataForFilter(filter$: BehaviorSubject<FilterState>, reload$: BehaviorSubject<void>): Observable<GraphData> {
-    this.state$ = combineLatest(this.ss.state$, filter$, reload$).pipe(
-      filter(([appState, filterState, reload]) => appState.project?.id != null),
+    // reload$ appears to be unused. Not true. Whenever a new value arrives from it, loadIssueGraphData is executed
+    this.state$ = combineLatest([this.ss.state$, filter$, reload$]).pipe(
+      filter(([appState, _]) => appState.project?.id != null),
       switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id, filterState.selectedCategories)),
       shareReplay(1)
     );
@@ -35,13 +36,11 @@ export class IssueGraphStateService {
   }
 
   addConsumedInterface(componentId: string, interfaceId: string) {
-    this.apiService.addConsumedInterface(componentId, interfaceId).
-      subscribe(result => this.reload$.next());
+    this.apiService.addConsumedInterface(componentId, interfaceId);
   }
 
   removeConsumedInterface(componentId: string, interfaceId: string) {
-    this.apiService.removeConsumedInterface(componentId, interfaceId).
-      subscribe(result => this.reload$.next());
+    this.apiService.removeConsumedInterface(componentId, interfaceId);
   }
 
 }

@@ -22,11 +22,11 @@ export class CreateInterfaceDialogComponent implements OnInit {
   // private graph: IssueGraphComponent;
 
   constructor(public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
-    private fb: FormBuilder,
-    private gs: IssueGraphStateService,
+              private fb: FormBuilder,
+              private gs: IssueGraphStateService,
     // Wenn mutation erstellt wierder eikomentieren
     // private createComponentMutation: CreateInterfaceGQL,
-    private authService: AuthenticationService, private interfaceStore: InterfaceStoreService) {
+              private authService: AuthenticationService, private interfaceStore: InterfaceStoreService) {
     this.loading = false;
   }
 
