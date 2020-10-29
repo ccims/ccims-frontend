@@ -9,7 +9,7 @@
       <mat-slide-toggle matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true" (change)="undecided = !undecided; updateBlacklistFilter()">
           <b class="unclassified-issue-icon">?</b>
       </mat-slide-toggle>
-      <app-label-search></app-label-search>
+      <app-label-search #labelSearch></app-label-search>
       <button mat-icon-button matTooltip="Create new Component" class="create-component-button"
           (click)="this.openCreateComponentDialog()">
           <mat-icon>extension</mat-icon>

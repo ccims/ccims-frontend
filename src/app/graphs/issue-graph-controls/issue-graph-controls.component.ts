@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 // import { CreateComponentDialogComponent } from '../dialogs/create-component-dialog-demo/create-component-dialog.component';
 import { Project, IssueType } from 'src/app/model/state';
@@ -10,25 +10,53 @@ import { StateService } from '@app/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
 import { IssueCategory } from 'src/generated/graphql';
-import { Subject } from 'rxjs';
-import { FilterState } from '../shared';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { SelectedCategories } from '../shared';
+import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
+import { LabelSearchComponent } from '../label-search/label-search.component';
+import { map } from 'rxjs/operators';
+import { FilterState } from '@app/graphs/shared';
 
 @Component({
   selector: 'app-issue-graph-controls',
   templateUrl: './issue-graph-controls.component.html',
   styleUrls: ['./issue-graph-controls.component.scss']
 })
-export class IssueGraphControlsComponent {
+export class IssueGraphControlsComponent implements AfterViewInit {
 
   @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
+  @ViewChild(LabelSearchComponent) labelSearch: LabelSearchComponent;
   projectId: string;
   featureRequests = true;
   bugReports = true;
   undecided = true;
 
-  constructor(public dialog: MatDialog, private ss: StateService, private route: ActivatedRoute) {
+  public selectedCategories$ = new BehaviorSubject<SelectedCategories>(
+    this.getSelectedCategories()
+  );
+
+  filter$: Observable<FilterState>;
+
+  private getSelectedCategories(): SelectedCategories {
+    return {
+      [IssueType.BUG]: this.bugReports,
+      [IssueType.FEATURE_REQUEST]: this.featureRequests,
+      [IssueType.UNCLASSIFIED]: this.undecided,
+    };
+  }
+  constructor(public dialog: MatDialog, private ss: StateService, private gs: IssueGraphStateService,
+    private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
   }
+
+
+  ngAfterViewInit(): void {
+    this.filter$ = combineLatest([this.selectedCategories$, this.labelSearch.selectedLabels$]).pipe(
+      map(([selectedCategories, selectedLabels]) => ({ selectedCategories, selectedLabels}))
+    );
+  }
+
+
 
   public openCreateComponentDialog(): void {
     /*
@@ -54,12 +82,8 @@ export class IssueGraphControlsComponent {
   }
 
   public updateBlacklistFilter() {
-    this.issueGraph.filter$.next(
-      {
-        [IssueType.BUG]: this.bugReports,
-        [IssueType.FEATURE_REQUEST]: this.featureRequests,
-        [IssueType.UNCLASSIFIED]: this.undecided,
-      });
+    this.selectedCategories$.next(
+      this.getSelectedCategories());
   }
 
 }

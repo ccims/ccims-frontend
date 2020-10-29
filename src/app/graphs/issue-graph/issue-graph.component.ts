@@ -27,7 +27,7 @@ import {
   createConsumptionEdge, createInterfaceProvisionEdge
 } from './issue-graph-nodes';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FilterState, initialFilter } from '../shared';
+import { SelectedCategories, initialCategories } from '../shared';
 
 @Component({
   selector: 'app-issue-graph',
@@ -41,7 +41,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
   @Input() projectId: string;
 
-  public filter$ = new BehaviorSubject<FilterState>(initialFilter);
   readonly zeroPosition = { x: 0, y: 0 };
 
   private graphData: GraphData;
@@ -65,7 +64,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private projectStorageKey: string;
 
   public reload() {
-    this.filter$.next(initialFilter);
+    this.filter$.next(initialCategories);
   }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,

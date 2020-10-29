@@ -1,13 +1,13 @@
 import { IssueCategory } from 'src/generated/graphql';
+import { FilterLabel } from '../data/label/label-store.service';
 
 type EnumDictionary<T extends string | symbol | number, U> = {
   [K in T]: U;
 };
 
-export type FilterState = EnumDictionary<IssueCategory, boolean>;
+export type SelectedCategories = EnumDictionary<IssueCategory, boolean>;
 
-export const initialFilter: FilterState = {
-  [IssueCategory.Bug]: true,
-  [IssueCategory.FeatureRequest]: true,
-  [IssueCategory.Unclassified]: true
-};
+export interface FilterState {
+  selectedCategories: SelectedCategories;
+  selectedLabels: FilterLabel[];
+}
