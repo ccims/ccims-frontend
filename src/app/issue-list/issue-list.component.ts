@@ -48,7 +48,7 @@ export class IssueListComponent implements OnInit {
   }
   clickedOnRow(row: any) {
     console.log(row);
-    alert(row.body)
+    alert(row.body);
     console.log(this.dataSource);
 
     // route to issue details
@@ -58,7 +58,7 @@ export class IssueListComponent implements OnInit {
     for (const issue of this.searchIssuesDataArray){
       let additionalSearchString = '';
       issue.assigneesString = '';
-      issue.labelsString ='';
+      issue.labelsString = '';
       // add all assignees
       for (const assignee of issue.assignees.nodes){
         additionalSearchString += ' ' + assignee.displayName;
@@ -67,7 +67,7 @@ export class IssueListComponent implements OnInit {
       // add all labels
       for (const label of issue.labels.nodes){
         additionalSearchString += ' ' + label.name;
-        issue.labelsString+= ' ' + label.name
+        issue.labelsString += ' ' + label.name;
       }
       // add author
       additionalSearchString += ' ' + issue.createdBy.displayName;
