@@ -34,6 +34,8 @@ export class IssueListComponent implements OnInit {
       this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      console.log(this.component);
+
     });
   }
 
@@ -56,6 +58,7 @@ export class IssueListComponent implements OnInit {
     for (const issue of this.searchIssuesDataArray){
       let additionalSearchString = '';
       issue.assigneesString = '';
+      issue.labelsString ='';
       // add all assignees
       for (const assignee of issue.assignees.nodes){
         additionalSearchString += ' ' + assignee.displayName;
@@ -63,7 +66,8 @@ export class IssueListComponent implements OnInit {
       }
       // add all labels
       for (const label of issue.labels.nodes){
-        additionalSearchString += ' ' + label;
+        additionalSearchString += ' ' + label.name;
+        issue.labelsString+= ' ' + label.name
       }
       // add author
       additionalSearchString += ' ' + issue.createdBy.displayName;
@@ -72,7 +76,7 @@ export class IssueListComponent implements OnInit {
   }
   onAddClick() {
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
-      { data: { user: 'Component', name: this.component.node.name, id: this.componentId } });
+      { data: { user: 'Component', name: this.component.node.name, id: this.componentId, component: this.component } });
     createIssueDialogRef.afterClosed().subscribe(issueData => {
         if (issueData){
           this.updateTable();

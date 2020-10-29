@@ -8,8 +8,9 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // import { Component } from 'src/generated/graphql';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GetComponentQuery, UpdateComponentInput } from '../../generated/graphql';
+import { CreateLabelInput, GetComponentQuery, UpdateComponentInput } from '../../generated/graphql';
 import {IssueListComponent} from '../issue-list/issue-list.component';
+import { LabelStoreService } from '@app/data/labels/label-store-service';
 
 @Component({
   selector: 'app-component-details',
@@ -34,7 +35,7 @@ export class ComponentDetailsComponent implements OnInit {
   public validationProvider = new FormControl('', [Validators.required]);
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
-              private componentStoreService: ComponentStoreService, private dialog: MatDialog, private route: ActivatedRoute) {
+              private componentStoreService: ComponentStoreService, private dialog: MatDialog, private route: ActivatedRoute, private LabelStore: LabelStoreService) {
     this.editMode = false;
     this.componentId = this.route.snapshot.paramMap.get('componentId');
 
@@ -45,9 +46,9 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.validationIMS.setValue("http://beispiel.ims.test");
+    this.validationIMS.setValue('http://beispiel.ims.test');
 
-    this.validationUrl.setValue("http://beispiel.repo.test");
+    this.validationUrl.setValue('http://beispiel.repo.test');
 
   }
 
@@ -95,9 +96,9 @@ export class ComponentDetailsComponent implements OnInit {
   }
   private resetValues() {
     this.validationName.setValue(this.component.node.name);
-    this.validationIMS.setValue("http://beispiel.ims.test");
+    this.validationIMS.setValue('http://beispiel.ims.test');
     this.validationProvider.setValue(this.component.node.ims.imsType);
-    this.validationUrl.setValue("http://beispiel.repo.test");
+    this.validationUrl.setValue('http://beispiel.repo.test');
     this.validationDescription.setValue(this.component.node.description);
   }
   private updateComponent(): void{
@@ -116,5 +117,38 @@ export class ComponentDetailsComponent implements OnInit {
       this.loading = false;
 
     });
+  }
+  public onCreateLabelClick(name?: string, color?: string) {
+    // mock for labels
+    const label1 = {
+      name: 'label1',
+      color: '#ffff00',
+    };
+    const label2 = {
+      name: 'label2',
+      color: '#80685E',
+    };
+    const label3 = {
+      name: 'label3',
+      color: '#FF692C',
+    };
+    const labelList = [label1, label2, label3];
+    for (const label of labelList){
+      const input: CreateLabelInput = {
+        name: label.name,
+        color: label.color,
+        components: [this.componentId]
+      };
+      this.LabelStore.CreateLabel(input).subscribe(({ data}) => {
+        this.loading = false;
+      }, (error) => {
+        console.log('there was an error sending the query', error);
+        this.loading = false;
+        this.saveFailed = true;
+      });
+    }
+
+
+
   }
 }

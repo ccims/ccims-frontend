@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { IssueStoreService } from '@app/data/issue/issue-store.service';
-import { CreateIssueInput, CreateIssuePayload, Issue, IssueCategory } from '../../../generated/graphql';
+import { CreateIssueInput, CreateIssuePayload, Issue, IssueCategory, Component as comp, GetComponentQuery} from '../../../generated/graphql';
 @Component({
   selector: 'app-create-issue-dialog',
   templateUrl: './create-issue-dialog.component.html',
@@ -15,14 +15,16 @@ export class CreateIssueDialogComponent implements OnInit {
   public saveFailed: boolean;
   validateForm!: FormGroup;
   constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>, private issueStoreService: IssueStoreService,
-              private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: DialogData) { this.loading = false; }
+              private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: DialogData) { this.loading = false; console.log(this.data.component.node.labels.nodes);
+               }
   validationTitle = new FormControl('', [Validators.required]);
   validationBody = new FormControl('', [Validators.required]);
   validationCategory = new FormControl('', [Validators.required]);
 
   // mock for the labels and assignees
   selectedLabels = [];
-  labels = [{id: '1', name: 'rotes Label'}, {id: '2', name: 'gelbes Label'}, {id: '3', name: 'pinkes Label'}];
+  //labels = [{id: '1', name: 'rotes Label'}, {id: '2', name: 'gelbes Label'}, {id: '3', name: 'pinkes Label'}];
+  labels = this.data.component.node.labels.nodes;
   selectedAssignees = [];
   assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
   // mock for the labels and assignees
@@ -49,14 +51,17 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
     this.validateForm.controls[controlKey].updateValueAndValidity();
   });
   this.loading = true;
+
   const issueInput: CreateIssueInput = {
       title,
       componentIDs: [this.data.id],
       body,
       category,
-      assignees: ['0']
+      assignees: ['0'],
+      labels: this.selectedLabels
+
   };
-  console.log(issueInput);
+
 
   this.loading = false;
 
@@ -76,4 +81,5 @@ export interface DialogData {
   name: string;
   id: string;
   category: string;
+  component: GetComponentQuery;
 }

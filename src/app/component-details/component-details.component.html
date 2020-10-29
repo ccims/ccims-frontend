@@ -62,8 +62,10 @@
           <textarea [readonly]="!this.editMode" [ngModel]="component.description" [formControl]="this.validationDescription" class="description-field"
             name="description" matInput></textarea>
         </mat-form-field>
-
       </form>
+      <p *ngIf="!component.labels.nodes.length" >Labels: keine Labels gefunden</p>
+      <p *ngFor="let label of component.labels.nodes">{{label.name}}</p>
+      <button (click)="this.onCreateLabelClick()">create Label</button>
     </mat-tab>
     <mat-tab label="Component Issues">
       <div class="component-title">
