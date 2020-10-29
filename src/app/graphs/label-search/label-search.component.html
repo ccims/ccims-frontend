@@ -9,5 +9,6 @@
            typeToSearchText="Please enter a label name"
            [typeahead]="labelsInput$"
            [(ngModel)]="selectedLabels"
-           ngDefaultControl>
+           ngDefaultControl
+           (change)="emitSelectedLabels()">
 </ng-select>

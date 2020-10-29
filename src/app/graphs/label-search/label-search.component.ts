@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Person } from '@app/data/label/mock-label-store.service';
-import { concat, of, Subject, Observable } from 'rxjs';
+import { concat, of, Subject, Observable, BehaviorSubject } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Label } from 'src/generated/graphql';
 import { MockLabelStoreService } from '../../data/label/mock-label-store.service';
@@ -14,6 +14,8 @@ import { StateService } from '../../state.service';
   styleUrls: ['./label-search.component.scss']
 })
 export class LabelSearchComponent implements OnInit {
+  public selectedLabels$ = new BehaviorSubject<FilterLabel[]>([]);
+
   labels$: Observable<FilterLabel[]>;
   labelsLoading = false;
   labelsInput$ = new Subject<string>();
@@ -28,6 +30,10 @@ export class LabelSearchComponent implements OnInit {
 
   trackByFn(item: FilterLabel) {
       return item.id;
+  }
+
+  emitSelectedLabels() {
+    this.selectedLabels$.next(this.selectedLabels);
   }
 
   private loadLabels() {
