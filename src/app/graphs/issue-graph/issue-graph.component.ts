@@ -27,6 +27,7 @@ import {
   createConsumptionEdge, createInterfaceProvisionEdge
 } from './issue-graph-nodes';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
 
 @Component({
   selector: 'app-issue-graph',
@@ -57,14 +58,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$ = new ReplaySubject(1);
 
+  public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
+
   private issuesById: IssuesState = {};
   private issueToRelatedNode: Map<string, Set<string>> = new Map();
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
-
-  public reload() {
-    //this.filter$.next(initialCategories);
-  }
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
               private router: Router, private activatedRoute: ActivatedRoute) {
@@ -525,6 +524,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       if (sourceNode != null && targetNode != null) {
         console.log('Add comp to interface');
         this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString());
+        this.reload$.next(null);
       }
     }
   }
@@ -555,6 +555,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const targetNode = graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString());
+        this.reload$.next(null);
         // this.api.removeComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
     }
@@ -651,7 +652,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         y: position.y
       };
       this.saveNodePositionsSubject.next();
-      this.reload();
+      this.reload$.next(null);
     });
     /*
             createComponentDialog.afterClosed().subscribe((interfaceName: string) => {
@@ -661,5 +662,28 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             });
           */
     console.log('Open Create Interface Dialog Component');
+  }
+
+  public openCreateComponentDialog(): void {
+    /*
+      const createComponentDialog = this.dialog.open(CreateComponentDialogComponent);
+
+      createComponentDialog.afterClosed().subscribe((componentInformation: {ownerUsername: string, component: ComponentPartial}) => {
+          // TODO add component to project, update graph and backend
+          if (componentInformation) {
+              console.log(componentInformation)
+              //this.api.addComponent(this.project.id, componentInformation.ownerUsername, componentInformation.component);
+              //console.log(`Dialog result: ${componentInformation.generalInformation.componentName}`);
+          }
+      });
+      */
+    const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
+      data: { projectId: this.projectId }
+    });
+    createComponentDialogRef.afterClosed().subscribe(componentInformation => {
+      // console.log(componentInformation);
+      // do something
+      this.reload$.next(null);
+    });
   }
 }

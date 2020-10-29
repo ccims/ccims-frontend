@@ -55,7 +55,7 @@ export class IssueGraphControlsComponent implements AfterViewInit {
     combineLatest([this.selectedCategories$, this.labelSearch.selectedLabels$]).pipe(
       map(([selectedCategories, selectedLabels]) => ({ selectedCategories, selectedLabels}))
     ).subscribe(filterState => this.filter$.next(filterState));
-    this.gs.graphDataForFilter(this.filter$).subscribe(
+    this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$).subscribe(
       graphData => {
         this.issueGraph.graphData = graphData;
         this.issueGraph.drawGraph();
@@ -65,28 +65,7 @@ export class IssueGraphControlsComponent implements AfterViewInit {
 
 
 
-  public openCreateComponentDialog(): void {
-    /*
-      const createComponentDialog = this.dialog.open(CreateComponentDialogComponent);
 
-      createComponentDialog.afterClosed().subscribe((componentInformation: {ownerUsername: string, component: ComponentPartial}) => {
-          // TODO add component to project, update graph and backend
-          if (componentInformation) {
-              console.log(componentInformation)
-              //this.api.addComponent(this.project.id, componentInformation.ownerUsername, componentInformation.component);
-              //console.log(`Dialog result: ${componentInformation.generalInformation.componentName}`);
-          }
-      });
-      */
-    const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
-      data: { projectId: this.projectId }
-    });
-    createComponentDialogRef.afterClosed().subscribe(componentInformation => {
-      // console.log(componentInformation);
-      // do something
-      this.issueGraph.reload();
-    });
-  }
 
   public updateBlacklistFilter() {
     this.selectedCategories$.next(
