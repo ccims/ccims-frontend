@@ -1,11 +1,8 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { GraphComponent } from '../../model/state';
 import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
 import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
-import { COMPONENT_UUID_NAMESPACE } from '@app/model/namespace-constants';
-import * as Uuid from 'uuid/v5';
 import { CreateComponentGQL, CreateComponentInput, ImsType } from 'src/generated/graphql';
 import { AuthenticationService } from '@app/auth/authentication.service';
 import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.service';

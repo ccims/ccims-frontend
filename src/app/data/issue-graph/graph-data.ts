@@ -1,4 +1,3 @@
-import { IssueType } from '@app/model/state';
 import {
   Scalars, Component, IssueLocation, GetIssueGraphDataQuery, IssueCategory,
   ComponentInterface, Issue, IssuePage, ComponentPage
@@ -20,7 +19,7 @@ export interface GraphData {
 }
 
 interface Folder {
-  issueType: IssueType;
+  issueType: IssueCategory;
   totalIssueCount: number;
   linkIssues: GraphIssue[];
 }

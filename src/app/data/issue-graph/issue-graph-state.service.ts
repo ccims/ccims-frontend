@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { exampleGraph } from 'src/app/model/graph-state';
 import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
-import { GetIssueGraphDataGQL, IssueCategory } from 'src/generated/graphql';
 import { StateService } from '@app/state.service';
 import { GraphData, GraphDataFactory } from './graph-data';
 import { map, switchMap, tap, filter, shareReplay } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { IssueGraphApiService } from './issue-graph-api.service';
-import { state } from '@angular/animations';
 import { FilterState } from '@app/graphs/shared';
 
 @Injectable({
