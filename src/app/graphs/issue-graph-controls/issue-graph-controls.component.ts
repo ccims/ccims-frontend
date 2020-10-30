@@ -27,8 +27,7 @@ export class IssueGraphControlsComponent implements AfterViewInit {
 
   filter$: BehaviorSubject<FilterState>;
 
-  constructor(public dialog: MatDialog, private ss: StateService, private gs: IssueGraphStateService,
-              private route: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
     this.filter$ = new BehaviorSubject({selectedCategories: this.getSelectedCategories(), selectedLabels: []});
   }
