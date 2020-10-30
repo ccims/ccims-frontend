@@ -45,3 +45,30 @@ animation: fadeIn .7s;
 .adding-margin{
   margin-top: 20px;
 }
+.new-label-container {
+  height: auto;
+  width: 100%;
+  background-color: #f6f8fa;
+  border-radius: 5px;
+  border-color: #bbbdbe;
+  border-style: solid;
+  padding: 10px;
+  border-width: 1px;
+}
+.new-label-button {
+  float: left;
+  margin-top: 12px;
+  margin-left: 5px;
+}
+.ng-select-label {
+  float: left;
+  width: 70%;
+}
+.label-wrapper {
+  height: 70px;
+  width: 100%;
+}
+.color-input {
+  width: 30px;
+  height: 70px;
+}

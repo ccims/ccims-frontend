@@ -3662,7 +3662,7 @@ export type CreateLabelMutationVariables = Exact<{
 }>;
 
 
-export type CreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<Pick<Label, 'id' | 'name'>> }> };
+export type CreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<Pick<Label, 'id' | 'name' | 'color' | 'description'>> }> };
 
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
@@ -4120,6 +4120,8 @@ export const CreateLabelDocument = gql`
     label {
       id
       name
+      color
+      description
     }
   }
 }

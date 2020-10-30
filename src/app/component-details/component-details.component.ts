@@ -119,37 +119,4 @@ export class ComponentDetailsComponent implements OnInit {
 
     });
   }
-  public onCreateLabelClick(name?: string, color?: string) {
-    // mock for labels
-    const label1 = {
-      name: 'label1',
-      color: '#ffff00',
-    };
-    const label2 = {
-      name: 'label2',
-      color: '#80685E',
-    };
-    const label3 = {
-      name: 'label3',
-      color: '#FF692C',
-    };
-    const labelList = [label1, label2, label3];
-    for (const label of labelList){
-      const input: CreateLabelInput = {
-        name: label.name,
-        color: label.color,
-        components: [this.componentId]
-      };
-      this.labelStore.createLabel(input).subscribe(({ data}) => {
-        this.loading = false;
-      }, (error) => {
-        console.log('there was an error sending the query', error);
-        this.loading = false;
-        this.saveFailed = true;
-      });
-    }
-
-
-
-  }
 }
