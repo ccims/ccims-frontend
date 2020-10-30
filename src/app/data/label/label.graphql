@@ -17,6 +17,8 @@ mutation CreateLabel($input: CreateLabelInput!){
     label{
       id
       name
+      color
+      description
     }
   }
 }

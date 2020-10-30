@@ -52,6 +52,7 @@ import { IssueListComponent } from './issue-list/issue-list.component';
 // import { ComponentDetailsComponent } from './component-details/component-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { ColorPickerModule } from 'ngx-color-picker';
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -106,7 +107,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     NgZorroAntdModule,
     NgSelectModule,
     CommonModule,
-    NgOptionHighlightModule
+    NgOptionHighlightModule,
+    ColorPickerModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
