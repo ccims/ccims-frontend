@@ -1,12 +1,12 @@
 <div class="container">
   <div class="controls">
-      <mat-slide-toggle matTooltip="Feature Requests" class="slide-toggle" [checked]="true" (change)="featureRequests = !featureRequests; updateBlacklistFilter()">
+      <mat-slide-toggle [(ngModel)]="featureRequests" matTooltip="Feature Requests" class="slide-toggle" [checked]="true" (change)="updateSelectedCategories()">
           <mat-icon class="feature-request-icon">emoji_objects</mat-icon>
       </mat-slide-toggle>
-      <mat-slide-toggle matTooltip="Bug Reports" class="slide-toggle" [checked]="true" (change)="bugReports = !bugReports; updateBlacklistFilter()">
+      <mat-slide-toggle [(ngModel)]="bug" matTooltip="Bug Reports" class="slide-toggle" [checked]="true" (change)="updateSelectedCategories()">
           <mat-icon class="bug-report-icon">bug_report</mat-icon>
       </mat-slide-toggle>
-      <mat-slide-toggle matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true" (change)="undecided = !undecided; updateBlacklistFilter()">
+      <mat-slide-toggle [(ngModel)]="unclassified" matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true" (change)="updateSelectedCategories()">
           <b class="unclassified-issue-icon">?</b>
       </mat-slide-toggle>
       <app-label-search #labelSearch></app-label-search>

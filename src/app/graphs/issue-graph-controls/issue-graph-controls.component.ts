@@ -17,36 +17,42 @@ import { FilterState } from '@app/graphs/shared';
   styleUrls: ['./issue-graph-controls.component.scss']
 })
 export class IssueGraphControlsComponent implements AfterViewInit {
-
   @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
   @ViewChild(LabelSearchComponent) labelSearch: LabelSearchComponent;
   projectId: string;
+
   featureRequests = true;
-  bugReports = true;
-  undecided = true;
+  bug = true;
+  unclassified = true;
+
+  filter$: BehaviorSubject<FilterState>;
+
+  constructor(public dialog: MatDialog, private ss: StateService, private gs: IssueGraphStateService,
+              private route: ActivatedRoute) {
+    this.projectId = this.route.snapshot.paramMap.get('id');
+    this.filter$ = new BehaviorSubject({selectedCategories: this.getSelectedCategories(), selectedLabels: []});
+  }
 
   public selectedCategories$ = new BehaviorSubject<SelectedCategories>(
     this.getSelectedCategories()
   );
 
-  filter$: BehaviorSubject<FilterState> = new BehaviorSubject(null);
+  public updateSelectedCategories() {
+    this.selectedCategories$.next(
+      this.getSelectedCategories());
+  }
 
   private getSelectedCategories(): SelectedCategories {
     return {
-      [IssueCategory.Bug]: this.bugReports,
+      [IssueCategory.Bug]: this.bug,
       [IssueCategory.FeatureRequest]: this.featureRequests,
-      [IssueCategory.Unclassified]: this.undecided,
+      [IssueCategory.Unclassified]: this.unclassified,
     };
   }
-  constructor(public dialog: MatDialog, private ss: StateService, private gs: IssueGraphStateService,
-              private route: ActivatedRoute) {
-    this.projectId = this.route.snapshot.paramMap.get('id');
-  }
-
 
   ngAfterViewInit(): void {
     combineLatest([this.selectedCategories$, this.labelSearch.selectedLabels$]).pipe(
-      map(([selectedCategories, selectedLabels]) => ({ selectedCategories, selectedLabels}))
+      map(([selectedCategories, selectedLabels]) => ({ selectedCategories, selectedLabels }))
     ).subscribe(filterState => this.filter$.next(filterState));
     this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$).subscribe(
       graphData => {
@@ -55,14 +61,4 @@ export class IssueGraphControlsComponent implements AfterViewInit {
       }
     );
   }
-
-
-
-
-
-  public updateBlacklistFilter() {
-    this.selectedCategories$.next(
-      this.getSelectedCategories());
-  }
-
 }
