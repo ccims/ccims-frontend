@@ -67,7 +67,7 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
   };
 
 
-  this.loading = false;
+  this.loading = true;
 
   this.issueStoreService.create(issueInput).subscribe(({ data}) => {
     this.loading = false;
@@ -101,6 +101,7 @@ const input: CreateLabelInput = {
   components: [this.data.component.node.id],
   description
 };
+this.loading = true;
 this.labelStore.createLabel(input).subscribe(({ data}) => {
   this.loading = false;
   // save returned label to labels
