@@ -18,7 +18,7 @@ export class CreateIssueDialogComponent implements OnInit {
   public newLabelOpen = false;
   constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>, private issueStoreService: IssueStoreService,
               private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private labelStore: LabelStoreService) { this.loading = false;}
+              private labelStore: LabelStoreService) { this.loading = false; }
   validationTitle = new FormControl('', [Validators.required]);
   validationBody = new FormControl('', [Validators.required]);
   validationCategory = new FormControl('', [Validators.required]);
