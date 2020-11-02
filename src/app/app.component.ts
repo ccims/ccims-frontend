@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { fader } from './route-animations';
-import { StateService } from './state.service';
-
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +10,12 @@ import { StateService } from './state.service';
 export class AppComponent {
   title = 'CCIMS';
 
-  constructor(private state: StateService) { }
+  constructor(private matIconRegistry: MatIconRegistry,
+              private domSanitizer: DomSanitizer) {
+    this.matIconRegistry.addSvgIcon(
+      'relation-edge',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/relation-edge.svg')
+    );
+  }
 
 }

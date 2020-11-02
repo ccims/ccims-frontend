@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject} from '@angular/core';
-import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
@@ -19,8 +19,8 @@ export class ProjectListComponent implements OnInit {
     this.ps.getAll().subscribe(projects => this.projects = projects);
   }
   remove(event: Event, project: Project) {
-  this.ps.delete(project.id).subscribe(data => this.reloadProjects());
-  this.nzMessageService.info(project.name + ' deleted');
+    this.ps.delete(project.id).subscribe(data => this.reloadProjects());
+    this.nzMessageService.info(project.name + ' deleted');
   }
 
   public reloadProjects(): void {
@@ -34,21 +34,21 @@ export class ProjectListComponent implements OnInit {
       this.changeColour();
       // this.ps.getAll().subscribe(projects => this.projects = projects);
       if (result?.createdProjectId) {
-        this.reloadProjects(); }
+        this.reloadProjects();
+      }
     });
 
-}
-private changeColour(): void {
-  const b = document.querySelector('#buttonCreateProject') as HTMLElement;
-  b.blur();
-}
-public nothing(e: Event): void {
-//console.log(e);
-e.preventDefault();
-e.stopPropagation();
-}
-public cancelConfirm(): void {
-  this.nzMessageService.info('Canceled');
-}
+  }
+  private changeColour(): void {
+    const b = document.querySelector('#buttonCreateProject') as HTMLElement;
+    b.blur();
+  }
+  public nothing(e: Event): void {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  public cancelConfirm(): void {
+    this.nzMessageService.info('Canceled');
+  }
 }
 

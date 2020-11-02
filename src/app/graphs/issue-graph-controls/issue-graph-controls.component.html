@@ -9,7 +9,9 @@
       <mat-slide-toggle [(ngModel)]="unclassified" matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true" (change)="updateSelectedCategories()">
           <b class="unclassified-issue-icon">?</b>
       </mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="showRelations" matTooltp="Issue Relations" class="slide-toggle" [checked]="true" (change)="setRelationVisibility()"></mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showRelations" matTooltp="Issue Relations" class="slide-toggle" [checked]="true" (change)="setRelationVisibility()">
+        <mat-icon class="relation-edge-icon" svgIcon="relation-edge"></mat-icon>
+      </mat-slide-toggle>
       <app-label-search #labelSearch></app-label-search>
       <button mat-icon-button matTooltip="Create new Component" class="create-component-button"
           (click)="this.issueGraph.openCreateComponentDialog()">

@@ -40,10 +40,8 @@
                 }
 
                 .text {
-                    fill: black;
-                    font-size: 6pt;
                     text-overflow: ellipsis;
-                    word-break: break-word
+                    word-break: break-word;
                 }
 
                 .text.title {
@@ -88,10 +86,9 @@
                     opacity: 0.5
                 }
                 .component-name {
-                  font-size: 12pt;
+                  font-size: 8pt;
                   font-weight: 500;
-                  text-overflow: ellipsis;
-                  word-break: break-all;
+                  word-break: break-word;
                 }
 
                 .edge-group.issue-relation {
@@ -127,7 +124,7 @@
                 </path>
                 <g id="component" data-template-type="node">
                     <rect width="100" height="60" rx="10" ry="10" x="-50" y="-30" data-link-handles="edges" ></rect>
-                    <text class="component-name" data-content="title" data-click="title"  dominant-baseline="middle" text-anchor="middle" text-length="100"></text>
+                    <text class="component-name text" data-content="title" data-click="title"  dominant-baseline="middle" text-anchor="middle" data-width="90" data-height="38" text-overflow="hidden"></text>
                     <!--<text class="text" data-content="description" x="-40" y="5" width="80" height="30"></text>-->
                     <title data-content="title"></title>
                 </g>
