@@ -2,10 +2,6 @@ span[matLine] {
   padding-left: 16px;
 }
 
-.mat-nav-list {
-max-width: 100%;
-
-}
 .nz-input-group{
 max-width: 100%;
 }
@@ -26,13 +22,15 @@ margin-right: auto;
   margin: auto;
 }
 
+
+
 .mat-nav-list-padding-removed{
   padding-top: 0px;
 }
 .floating-button{
 float: right;
 }
-.list-headder{
+.list-header{
 max-width: 50%;
 margin-left: auto;
 margin-right: auto;
@@ -44,6 +42,13 @@ margin-bottom: 5px;
   float: left;
   margin-bottom: 0px;
 }
-.graph-button {
-  float: left;
+
+.links-actions {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .mat-list-text {
+  flex: 1;
 }

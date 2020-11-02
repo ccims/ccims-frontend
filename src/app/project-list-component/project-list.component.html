@@ -1,35 +1,35 @@
-<div class="mat-toolbar-single-row"><h1 class="centered-headline">My Projects</h1>
+<div class="mat-toolbar-single-row">
+  <h1 class="centered-headline">My Projects</h1>
 </div>
-<div class="list-headder">
+<div class="list-header">
   <h2 class="list-h2"> Project-List</h2>
-  <button mat-raised-button color="accent" id="buttonCreateProject"(click)="openCreateProjectDialog()"class="floating-button">Create Project</button>
+  <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()"
+    class="floating-button">Create Project</button>
 </div>
 <div class="listWrapper">
-<nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-  <input type="text" [(ngModel)]="projectName" nz-input placeholder="input search text" />
-</nz-input-group>
-<ng-template #suffixIconButton>
-  <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch><i nz-icon nzType="search"></i></button>
-</ng-template>
+  <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+    <input type="text" [(ngModel)]="projectName" nz-input placeholder="input search text" />
+  </nz-input-group>
+  <ng-template #suffixIconButton>
+    <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch><i nz-icon nzType="search"></i></button>
+  </ng-template>
 
-<mat-nav-list class="mat-nav-list-padding-removed">
-     <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
-     <span matLine>{{ project.name }}</span>
-     <a [routerLink]="['/projects', project.id,'graph']" class="graph-button" mat-icon-button (click)="this.nothing($event)">
-      <img src="../../assets/nodes.jpg" alt="Jump to graph view" style="width:24px;height:24px;">
-     </a>
+  <mat-nav-list class="mat-nav-list-padding-removed">
+    <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
+      <span matLine>{{ project.name }}</span>
 
-     <button nz-popconfirm
-     nzPopconfirmTitle='Are you sure delete this project: {{this.project.name}}?'
-     (nzOnConfirm)="remove($event, project)"
-     (nzOnCancel)="cancelConfirm()"s
-     nzPopconfirmPlacement="topLeft"
-     nzOkText="Delete"
-     nzOkType="danger"
-     mat-icon-button (click)="this.nothing($event)">
-      <mat-icon>delete</mat-icon>
-  </button>
-  <mat-divider></mat-divider>
-</a>
-</mat-nav-list>
+      <div class="links-actions">
+        <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)">
+          <mat-icon>account_tree</mat-icon>
+        </a>
+
+        <button nz-popconfirm nzPopconfirmTitle='Are you sure delete this project: {{this.project.name}}?'
+          (nzOnConfirm)="remove($event, project)" (nzOnCancel)="cancelConfirm()" s nzPopconfirmPlacement="topLeft"
+          nzOkText="Delete" nzOkType="danger" mat-icon-button (click)="this.nothing($event)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+    </a>
+  </mat-nav-list>
 </div>
