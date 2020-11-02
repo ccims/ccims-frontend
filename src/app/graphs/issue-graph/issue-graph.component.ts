@@ -349,9 +349,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     Object.keys(IssueCategory).forEach(key => {
       const issueCategory = IssueCategory[key];
       if (issueCounts.has(issueCategory)) {
-        const issueFolderNode = createIssueFolderNode(node, issueCategory, issueCounts.get(issueCategory).toString());
-        this.graph.addNode(issueFolderNode);
-        this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
+        const count = issueCounts.get(issueCategory);
+        if (count > 0) {
+          const issueFolderNode = createIssueFolderNode(node, issueCategory, count.toString());
+          this.graph.addNode(issueFolderNode);
+          this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
+        }
       }
     });
   }
