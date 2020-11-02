@@ -366,7 +366,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       for (const relatedFolder of relatedFolders) {
         const [issueNodeId, category] = relatedFolder;
         const edge = createRelationEdge(folderNode.id, getIssueFolderId(issueNodeId, category));
-        // TODO do not add self edged
+        // TODO do not add self edge
         this.graph.addEdge(edge);
       }
     }
@@ -658,6 +658,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             });
           */
     console.log('Open Create Interface Dialog Component');
+  }
+
+  setRelationVisibility(showRelations: boolean) {
+    // console.log('Setting relation visibility to: ', showRelations);
+    this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
   }
 
   public openCreateComponentDialog(): void {

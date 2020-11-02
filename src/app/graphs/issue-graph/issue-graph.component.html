@@ -10,6 +10,9 @@
         </style>
         <svg slot="graph">
             <style>
+                :root {
+                    --show-relations: initial;
+                }
                 .ghost {
                     opacity: 0.5;
                 }
@@ -105,6 +108,10 @@
 
                 .edge-group.issue-relation .marker {
                     fill: gray;
+                }
+
+                .related-to {
+                  display: var(--show-relations);
                 }
             </style>
             <defs class="templates">

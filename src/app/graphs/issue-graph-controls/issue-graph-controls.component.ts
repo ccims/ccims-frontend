@@ -25,6 +25,7 @@ export class IssueGraphControlsComponent implements AfterViewInit {
   bug = true;
   unclassified = true;
 
+  showRelations = true;
   filter$: BehaviorSubject<FilterState>;
 
   constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
@@ -59,5 +60,9 @@ export class IssueGraphControlsComponent implements AfterViewInit {
         this.issueGraph.drawGraph();
       }
     );
+  }
+
+  setRelationVisibility(): void {
+    this.issueGraph.setRelationVisibility(this.showRelations);
   }
 }
