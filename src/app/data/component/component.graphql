@@ -54,6 +54,7 @@ query GetComponent($id: ID!) {
         nodes{
           name
           id
+          color
         }
 
       }
@@ -74,6 +75,8 @@ query GetComponent($id: ID!) {
           labels{
             nodes{
               name
+              id
+              color
             }
           }
           assignees{

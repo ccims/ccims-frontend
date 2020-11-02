@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
 import { GetComponentQuery, Issue } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
@@ -24,7 +24,8 @@ export class IssueListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private dialog: MatDialog, private route: ActivatedRoute, private componentStoreService: ComponentStoreService) {
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private componentStoreService: ComponentStoreService,
+              private router: Router) {
     this.componentId = this.route.snapshot.paramMap.get('componentId');
     this.component$ = this.componentStoreService.getFullComponent(this.componentId);
     this.component$.subscribe(component => {
@@ -47,11 +48,9 @@ export class IssueListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
   clickedOnRow(row: any) {
-    console.log(row);
-    alert(row.body);
-    console.log(this.dataSource);
-
     // route to issue details
+
+    this.router.navigate(['issue',row.id], {relativeTo: this.route});
   }
   private prepareIssueArray(){
     this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
@@ -94,6 +93,49 @@ export class IssueListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
+  lightOrDark(color) {
+    // Variables for red, green, blue values
+    let r, g, b, hsp;
+
+    // Check the format of the color, HEX or RGB?
+    if (color.match(/^rgb/)) {
+
+        // If RGB --> store the red, green, blue values in separate variables
+        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+
+        r = color[1];
+        g = color[2];
+        b = color[3];
+    }
+    else {
+
+        // If hex --> Convert it to RGB: http://gist.github.com/983661
+        color = +('0x' + color.slice(1).replace(
+        color.length < 5 && /./g, '$&$&'));
+
+        r = color >> 16;
+        g = color >> 8 & 255;
+        b = color & 255;
+    }
+
+    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+    hsp = Math.sqrt(
+    0.299 * (r * r) +
+    0.587 * (g * g) +
+    0.114 * (b * b)
+    );
+
+    // Using the HSP value, determine whether the color is light or dark
+    if (hsp > 127.5) {
+
+        return 'black';
+    }
+    else {
+
+        return 'white';
+    }
+  }
+
 
 
 }

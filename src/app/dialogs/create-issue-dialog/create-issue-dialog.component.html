@@ -52,12 +52,13 @@
       matInput
       [style.background]="color"
       autocomplete="off"
-      [(colorPicker)]="color"
+      [(colorPicker)]="this.color"
       [cpPosition]="'bottom'"/>
   </mat-form-field>
 </div>
-  <button mat-raised-button (click)="this.onConfirmCreateLabelCklick(labelName.value, labelDescription.value)">Create</button>
+  <button mat-raised-button [class.spinner]="loading" [disabled]="loading || validationLabelName.invalid" (click)="this.onConfirmCreateLabelCklick(labelName.value, labelDescription.value)">Create</button>
 <button mat-button (click)="this.onLabelCancelClick()" >Cancel</button>
+<div *ngIf="this.saveFailed" class="error-label-create">Label was not created</div>
 </div>
 
 
