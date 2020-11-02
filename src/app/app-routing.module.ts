@@ -23,7 +23,12 @@ const routes: Routes = [
         children: [
           { path: '', pathMatch: 'full', component: ProjectOverviewComponent},
           { path: 'graph', component: IssueGraphControlsComponent},
-          { path: 'components/:componentId', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' }}
+          { path: 'components/:componentId',
+            children: [
+              {path: '', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' }},
+              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
+            ]}
+
         ]
       },
       { path: 'components', component: ComponentListComponent },

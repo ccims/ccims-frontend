@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
 import { GetComponentQuery, Issue } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
@@ -24,7 +24,8 @@ export class IssueListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private dialog: MatDialog, private route: ActivatedRoute, private componentStoreService: ComponentStoreService) {
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private componentStoreService: ComponentStoreService,
+              private router: Router) {
     this.componentId = this.route.snapshot.paramMap.get('componentId');
     this.component$ = this.componentStoreService.getFullComponent(this.componentId);
     this.component$.subscribe(component => {
@@ -47,11 +48,9 @@ export class IssueListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
   clickedOnRow(row: any) {
-    console.log(row);
-    alert(row.body);
-    console.log(this.dataSource);
-
     // route to issue details
+
+    this.router.navigate(['issue',row.id], {relativeTo: this.route});
   }
   private prepareIssueArray(){
     this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
@@ -96,7 +95,7 @@ export class IssueListComponent implements OnInit {
   }
   lightOrDark(color) {
     // Variables for red, green, blue values
-    var r, g, b, hsp;
+    let r, g, b, hsp;
 
     // Check the format of the color, HEX or RGB?
     if (color.match(/^rgb/)) {
@@ -111,7 +110,7 @@ export class IssueListComponent implements OnInit {
     else {
 
         // If hex --> Convert it to RGB: http://gist.github.com/983661
-        color = +("0x" + color.slice(1).replace(
+        color = +('0x' + color.slice(1).replace(
         color.length < 5 && /./g, '$&$&'));
 
         r = color >> 16;
@@ -127,7 +126,7 @@ export class IssueListComponent implements OnInit {
     );
 
     // Using the HSP value, determine whether the color is light or dark
-    if (hsp>127.5) {
+    if (hsp > 127.5) {
 
         return 'black';
     }

@@ -15,14 +15,14 @@
 <mat-nav-list class="mat-nav-list-padding-removed">
      <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
      <span matLine>{{ project.name }}</span>
-     <!--<button mat-icon-button>
-        <mat-icon>info</mat-icon>
-     </button>
-    -->
+     <a [routerLink]="['/projects', project.id,'graph']" class="graph-button" mat-icon-button (click)="this.nothing($event)">
+      <img src="../../assets/nodes.jpg" alt="Jump to graph view" style="width:24px;height:24px;">
+     </a>
+
      <button nz-popconfirm
      nzPopconfirmTitle='Are you sure delete this project: {{this.project.name}}?'
      (nzOnConfirm)="remove($event, project)"
-     (nzOnCancel)="cancelConfirm()"
+     (nzOnCancel)="cancelConfirm()"s
      nzPopconfirmPlacement="topLeft"
      nzOkText="Delete"
      nzOkType="danger"
