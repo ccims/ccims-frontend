@@ -20,7 +20,7 @@
 
       <div class="links-actions">
         <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)">
-          <mat-icon>account_tree</mat-icon>
+          <mat-icon class="graph-icon">account_tree</mat-icon>
         </a>
 
         <button nz-popconfirm nzPopconfirmTitle='Are you sure delete this project: {{this.project.name}}?'

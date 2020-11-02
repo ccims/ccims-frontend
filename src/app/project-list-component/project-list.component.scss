@@ -1,3 +1,6 @@
+@import '~@angular/material/theming';
+@import 'variables';
+
 span[matLine] {
   padding-left: 16px;
 }
@@ -51,4 +54,8 @@ margin-bottom: 5px;
 
 :host ::ng-deep .mat-list-text {
   flex: 1;
+}
+
+.graph-icon {
+  color: $icon-gray;
 }
