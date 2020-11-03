@@ -30,7 +30,7 @@ export class CreateIssueDialogComponent implements OnInit {
   validationLabelColor = new FormControl('', [Validators.required]);
   color = '#ff00ff';
   issuesLoaded = false;
-  selectedIssues: any;
+  selectedIssues: any = [];
   linkableProjectIssues: any = [];
 
   // mock for the labels and assignees
@@ -148,6 +148,19 @@ private prepareLinkableIssues() {
         this.linkableProjectIssues.push(tempIssue);
       });
     });
+    // All Interfaces
+    const projectInterfaces = project.node.interfaces.nodes;
+    projectInterfaces.forEach(projectInterface => {
+      const currentInterfaceName = projectInterface.name;
+      const currentComponentIssueArray = projectInterface.issuesOnLocation.nodes;
+      currentComponentIssueArray.forEach(issue => {
+        const tempIssue = {id: issue.id,
+                          title: issue.title,
+                          component: 'Interface: ' + currentInterfaceName};
+        this.linkableProjectIssues.push(tempIssue);
+      });
+    });
+
     this.issuesLoaded = true;
   });
 }

@@ -42,6 +42,18 @@ query GetFullProject($id: ID!) {
           }
         }
       }
+      interfaces {
+        nodes{
+          name
+          id
+          issuesOnLocation{
+            nodes{
+              id
+              title
+            }
+          }
+        }
+      }
       users {
         edges {
           node {
