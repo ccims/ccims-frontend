@@ -3695,7 +3695,10 @@ export type GetFullProjectQuery = { node?: Maybe<(
     & { owner: Pick<User, 'id' | 'displayName'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<(
           Pick<Component, 'id' | 'name'>
           & { issues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }> }
-        )> }>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
+        )> }>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<ComponentInterface, 'name' | 'id'>
+        & { issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }> }
+      )>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
   )> };
 
 export type CreateProjectMutationVariables = Exact<{
@@ -4235,6 +4238,18 @@ export const GetFullProjectDocument = gql`
                 id
                 title
               }
+            }
+          }
+        }
+      }
+      interfaces {
+        nodes {
+          name
+          id
+          issuesOnLocation {
+            nodes {
+              id
+              title
             }
           }
         }
