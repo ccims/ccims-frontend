@@ -2,7 +2,8 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { IssueStoreService } from '@app/data/issue/issue-store.service';
-import { CreateIssueInput, CreateIssuePayload, Issue, IssueCategory, Component as comp, GetComponentQuery, CreateLabelInput, LinkIssueInput} from '../../../generated/graphql';
+import { CreateIssueInput, CreateIssuePayload, Issue, IssueCategory, Component as comp,
+  GetComponentQuery, CreateLabelInput, LinkIssueInput} from '../../../generated/graphql';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
 @Component({
@@ -34,7 +35,6 @@ export class CreateIssueDialogComponent implements OnInit {
 
   // mock for the labels and assignees
   selectedLabels = [];
-  // labels = [{id: '1', name: 'rotes Label'}, {id: '2', name: 'gelbes Label'}, {id: '3', name: 'pinkes Label'}];
   labels = this.data.component.node.labels.nodes;
   selectedAssignees = [];
   assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
@@ -79,8 +79,8 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
 
     this.selectedIssues.forEach(issueId => {
       const issueInput: LinkIssueInput = {
-        issue:data.createIssue.issue.id,
-        issueToLink:issueId
+        issue: data.createIssue.issue.id,
+        issueToLink: issueId
       };
       this.issueStoreService.link(issueInput).subscribe(({ data}) => {
 
