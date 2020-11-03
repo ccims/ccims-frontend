@@ -66,6 +66,21 @@
   <ng-option *ngFor="let assignee of this.assignees" [value]="assignee.id" >{{assignee.name}}</ng-option>
 </ng-select>
 
+<ng-select *ngIf="issuesLoaded" class="adding-margin"
+            [dropdownPosition]="'top'"
+            [multiple]="true"
+            [(ngModel)]="this.selectedIssues"
+            [ngModelOptions]="{standalone: true}"
+            placeholder="Select Issues to link"
+            groupBy="component"
+            [items]="linkableProjectIssues"
+            bindLabel="title"
+            bindValue="id">
+  <ng-template ng-optgroup-tmp let-item="item">
+    {{item.component || 'Unnamed group'}}
+</ng-template>
+</ng-select>
+
   <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
 </form>
 

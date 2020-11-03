@@ -6,3 +6,10 @@ mutation CreateIssue($input: CreateIssueInput!) {
     }
   }
 }
+mutation LinkIssue($input: LinkIssueInput!) {
+  linkIssue(input: $input){
+    issue{
+      id
+  }
+}
+}

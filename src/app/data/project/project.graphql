@@ -32,6 +32,13 @@ query GetFullProject($id: ID!) {
         edges {
           node {
             id
+            name
+            issues{
+              nodes{
+                  id
+                  title
+              }
+            }
           }
         }
       }

@@ -2,8 +2,9 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { IssueStoreService } from '@app/data/issue/issue-store.service';
-import { CreateIssueInput, CreateIssuePayload, Issue, IssueCategory, Component as comp, GetComponentQuery, CreateLabelInput} from '../../../generated/graphql';
+import { CreateIssueInput, CreateIssuePayload, Issue, IssueCategory, Component as comp, GetComponentQuery, CreateLabelInput, LinkIssueInput} from '../../../generated/graphql';
 import { LabelStoreService } from '@app/data/label/label-store.service';
+import { ProjectStoreService } from '@app/data/project/project-store.service';
 @Component({
   selector: 'app-create-issue-dialog',
   templateUrl: './create-issue-dialog.component.html',
@@ -18,13 +19,18 @@ export class CreateIssueDialogComponent implements OnInit {
   public newLabelOpen = false;
   constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>, private issueStoreService: IssueStoreService,
               private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private labelStore: LabelStoreService) { this.loading = false; }
+              private labelStore: LabelStoreService, private projectStore: ProjectStoreService) { this.loading = false;
+                                                                                                  this.prepareLinkableIssues();
+               }
   validationTitle = new FormControl('', [Validators.required]);
   validationBody = new FormControl('', [Validators.required]);
   validationCategory = new FormControl('', [Validators.required]);
   validationLabelName = new FormControl('', [Validators.required]);
   validationLabelColor = new FormControl('', [Validators.required]);
   color = '#ff00ff';
+  issuesLoaded = false;
+  selectedIssues: any;
+  linkableProjectIssues: any = [];
 
   // mock for the labels and assignees
   selectedLabels = [];
@@ -70,6 +76,20 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
   this.loading = true;
 
   this.issueStoreService.create(issueInput).subscribe(({ data}) => {
+
+    this.selectedIssues.forEach(issueId => {
+      const issueInput: LinkIssueInput = {
+        issue:data.createIssue.issue.id,
+        issueToLink:issueId
+      };
+      this.issueStoreService.link(issueInput).subscribe(({ data}) => {
+
+      }, (error) => {
+        console.log('there was an error sending the query', error);
+        this.loading = false;
+        this.saveFailed = true;
+      });
+    });
     this.loading = false;
     this.dialogRef.close(data);
   }, (error) => {
@@ -115,6 +135,22 @@ this.labelStore.createLabel(input).subscribe(({ data}) => {
 
 
 }
+private prepareLinkableIssues() {
+  this. projectStore.getFullProject(this.data.projectId).subscribe(project => {
+    const projectComponents = project.node.components.edges;
+    projectComponents.forEach(component => {
+      const currentComponentName = component.node.name;
+      const currentComponentIssueArray = component.node.issues.nodes;
+      currentComponentIssueArray.forEach(issue => {
+        const tempIssue = {id: issue.id,
+                          title: issue.title,
+                          component: currentComponentName};
+        this.linkableProjectIssues.push(tempIssue);
+      });
+    });
+    this.issuesLoaded = true;
+  });
+}
 }
 export interface DialogData {
   user: string;
@@ -122,4 +158,5 @@ export interface DialogData {
   id: string;
   category: string;
   component: GetComponentQuery;
+  projectId: string;
 }

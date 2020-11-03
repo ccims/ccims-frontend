@@ -3650,6 +3650,13 @@ export type CreateIssueMutationVariables = Exact<{
 
 export type CreateIssueMutation = { createIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id' | 'title'>> }> };
 
+export type LinkIssueMutationVariables = Exact<{
+  input: LinkIssueInput;
+}>;
+
+
+export type LinkIssueMutation = { linkIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id'>> }> };
+
 export type GetLabelsQueryVariables = Exact<{
   projectId: Scalars['ID'];
 }>;
@@ -3685,7 +3692,10 @@ export type GetFullProjectQueryVariables = Exact<{
 
 export type GetFullProjectQuery = { node?: Maybe<(
     Pick<Project, 'id' | 'name' | 'description'>
-    & { owner: Pick<User, 'id' | 'displayName'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Component, 'id'>> }>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
+    & { owner: Pick<User, 'id' | 'displayName'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<(
+          Pick<Component, 'id' | 'name'>
+          & { issues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }> }
+        )> }>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
   )> };
 
 export type CreateProjectMutationVariables = Exact<{
@@ -4091,6 +4101,26 @@ export const CreateIssueDocument = gql`
       super(apollo);
     }
   }
+export const LinkIssueDocument = gql`
+    mutation LinkIssue($input: LinkIssueInput!) {
+  linkIssue(input: $input) {
+    issue {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LinkIssueGQL extends Apollo.Mutation<LinkIssueMutation, LinkIssueMutationVariables> {
+    document = LinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetLabelsDocument = gql`
     query GetLabels($projectId: ID!) {
   node(id: $projectId) {
@@ -4199,6 +4229,13 @@ export const GetFullProjectDocument = gql`
         edges {
           node {
             id
+            name
+            issues {
+              nodes {
+                id
+                title
+              }
+            }
           }
         }
       }

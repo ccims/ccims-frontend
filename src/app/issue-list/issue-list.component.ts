@@ -50,7 +50,7 @@ export class IssueListComponent implements OnInit {
   clickedOnRow(row: any) {
     // route to issue details
 
-    this.router.navigate(['issue',row.id], {relativeTo: this.route});
+    this.router.navigate(['issue', row.id], {relativeTo: this.route});
   }
   private prepareIssueArray(){
     this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
@@ -75,7 +75,8 @@ export class IssueListComponent implements OnInit {
   }
   onAddClick() {
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
-      { data: { user: 'Component', name: this.component.node.name, id: this.componentId, component: this.component } });
+      { data: { user: 'Component', name: this.component.node.name, id: this.componentId,
+      component: this.component , projectId: this.getProjectId()} });
     createIssueDialogRef.afterClosed().subscribe(issueData => {
         if (issueData){
           this.updateTable();
@@ -92,6 +93,9 @@ export class IssueListComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
+  }
+  private getProjectId(): string {
+    return this.route.snapshot.paramMap.get("id")
   }
   lightOrDark(color) {
     // Variables for red, green, blue values
