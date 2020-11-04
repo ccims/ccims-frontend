@@ -53,6 +53,7 @@ import { IssueListComponent } from './issue-list/issue-list.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { InterfaceDetailsComponent } from './interface-details/interface-details.component';
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -80,7 +81,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     RemoveDialogComponent,
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
-    CreateIssueDialogComponent,
+    CreateIssueDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -29,13 +29,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { LabelSearchComponent } from './label-search/label-search.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { InterfaceDetailsComponent } from '@app/interface-details/interface-details.component';
 // import { NgSelectModule } from '@ng-select/ng-select';
 // import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
 @NgModule({
   declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent,
     IssueListComponent,
-    LabelSearchComponent],
+    LabelSearchComponent,
+    InterfaceDetailsComponent,],
   imports: [
     CommonModule,
     MatToolbarModule,

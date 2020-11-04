@@ -10,6 +10,7 @@ import { FrameComponent } from './frame/frame.component';
 import { AuthGuard } from './auth/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { ComponentDetailsComponent } from './component-details/component-details.component';
+import { InterfaceDetailsComponent } from './interface-details/interface-details.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,11 @@ const routes: Routes = [
           { path: 'components/:componentId',
             children: [
               {path: '', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' }},
+              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
+            ]},
+          { path: 'interfaces/:interfaceId',
+            children: [
+              {path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' }},
               {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
             ]}
 

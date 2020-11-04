@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { GetComponentQuery, Issue } from 'src/generated/graphql';
+import { GetComponentQuery, GetInterfaceQuery, Issue } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,15 +9,19 @@ import { AfterViewInit } from '@angular/core';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
   styleUrls: ['./issue-list.component.scss']
 })
 export class IssueListComponent implements OnInit {
-  public component$: Observable<GetComponentQuery>;
-  private component: GetComponentQuery;
-  private componentId: string;
+  @Input() parentCaller: string;
+  public component$?: Observable<GetComponentQuery>;
+  private component?: GetComponentQuery;
+  private componentId?: string;
+  private interface?: GetInterfaceQuery;
+  public interface$?: Observable<GetInterfaceQuery>;
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
   searchIssuesDataArray: any;
@@ -25,10 +29,15 @@ export class IssueListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private dialog: MatDialog, private route: ActivatedRoute, private componentStoreService: ComponentStoreService,
-              private router: Router) {
-    this.componentId = this.route.snapshot.paramMap.get('componentId');
-    this.component$ = this.componentStoreService.getFullComponent(this.componentId);
-    this.component$.subscribe(component => {
+              private router: Router, private interfaceStoreService: InterfaceStoreService) {
+
+  }
+
+  ngOnInit(): void {
+    if (this.parentCaller.match('component')){
+      this.componentId = this.route.snapshot.paramMap.get('componentId');
+      this.component$ = this.componentStoreService.getFullComponent(this.componentId);
+      this.component$.subscribe(component => {
       this.component = component;
       this.prepareIssueArray();
       this.dataSource = new MatTableDataSource<any>(component.node.issues.nodes);
@@ -36,11 +45,23 @@ export class IssueListComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       console.log(this.component);
-
     });
-  }
+    }else{
+      console.log("else");
+      this.componentId = this.route.snapshot.paramMap.get('interfaceId');
 
-  ngOnInit(): void {
+      this.interface$ = this.interfaceStoreService.getInterface(this.componentId);
+      this.interface$.subscribe(componentInterface => {
+        this.interface = componentInterface;
+        this.prepareIssueArray();
+        this.dataSource = new MatTableDataSource<any>(componentInterface.node.issuesOnLocation.nodes);
+        this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        console.log(this.component);
+      });
+    }
+
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -53,7 +74,11 @@ export class IssueListComponent implements OnInit {
     this.router.navigate(['issue', row.id], {relativeTo: this.route});
   }
   private prepareIssueArray(){
-    this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
+    if (this.parentCaller.match('component')){
+      this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
+    }else{
+      this.searchIssuesDataArray = Object.assign([], this.interface.node.issuesOnLocation.nodes);
+    }
     for (const issue of this.searchIssuesDataArray){
       let additionalSearchString = '';
       issue.assigneesString = '';
@@ -95,7 +120,7 @@ export class IssueListComponent implements OnInit {
     });
   }
   private getProjectId(): string {
-    return this.route.snapshot.paramMap.get("id")
+    return this.route.snapshot.paramMap.get('id');
   }
   lightOrDark(color) {
     // Variables for red, green, blue values

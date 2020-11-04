@@ -9,3 +9,38 @@ mutation CreateComponentInterface($input: CreateComponentInterfaceInput!){
     }
   }
 }
+query GetInterface($id: ID!) {
+  node(id: $id) {
+    ...on ComponentInterface {
+      id
+      name
+      description
+      issuesOnLocation{
+        nodes{
+          id
+          title
+          isOpen
+          category
+          createdBy{
+            id
+            displayName
+          }
+          labels{
+            nodes{
+              name
+              id
+              color
+            }
+          }
+          assignees{
+            nodes{
+              id
+              displayName
+            }
+          }
+          body
+        }
+      }
+      }
+    }
+  }

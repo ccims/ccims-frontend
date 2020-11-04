@@ -3602,6 +3602,19 @@ export type CreateComponentInterfaceMutation = { createComponentInterface?: Mayb
       & { component: Pick<Component, 'id'> }
     )> }> };
 
+export type GetInterfaceQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetInterfaceQuery = { node?: Maybe<(
+    Pick<ComponentInterface, 'id' | 'name' | 'description'>
+    & { issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Issue, 'id' | 'title' | 'isOpen' | 'category' | 'body'>
+        & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+      )>>> }> }
+  )> };
+
 export type GetIssueGraphDataQueryVariables = Exact<{
   projectId: Scalars['ID'];
   activeCategories?: Maybe<Array<IssueCategory>>;
@@ -3920,6 +3933,54 @@ export const CreateComponentInterfaceDocument = gql`
   })
   export class CreateComponentInterfaceGQL extends Apollo.Mutation<CreateComponentInterfaceMutation, CreateComponentInterfaceMutationVariables> {
     document = CreateComponentInterfaceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetInterfaceDocument = gql`
+    query GetInterface($id: ID!) {
+  node(id: $id) {
+    ... on ComponentInterface {
+      id
+      name
+      description
+      issuesOnLocation {
+        nodes {
+          id
+          title
+          isOpen
+          category
+          createdBy {
+            id
+            displayName
+          }
+          labels {
+            nodes {
+              name
+              id
+              color
+            }
+          }
+          assignees {
+            nodes {
+              id
+              displayName
+            }
+          }
+          body
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetInterfaceGQL extends Apollo.Query<GetInterfaceQuery, GetInterfaceQueryVariables> {
+    document = GetInterfaceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

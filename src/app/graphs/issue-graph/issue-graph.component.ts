@@ -569,7 +569,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log('Open component info sheet');
     }
     if (node.type === 'interface') {
-      const componentNode = this.graph.getNode(node.componentNodeId);
+      // const componentNode = this.graph.getNode(node.);
+      this.router.navigate(['./interfaces/', node.id], { relativeTo: this.activatedRoute.parent });
       // TODO show a edit interface dialog (or similar)
       /*
             this.bottomSheet.open(GraphNodeInfoSheetComponent, {
