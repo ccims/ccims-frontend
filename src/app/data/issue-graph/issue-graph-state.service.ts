@@ -32,10 +32,10 @@ export class IssueGraphStateService {
   }
 
   addConsumedInterface(componentId: string, interfaceId: string) {
-    this.apiService.addConsumedInterface(componentId, interfaceId);
+    return this.apiService.addConsumedInterface(componentId, interfaceId);
   }
 
   removeConsumedInterface(componentId: string, interfaceId: string) {
-    this.apiService.removeConsumedInterface(componentId, interfaceId);
+    return this.apiService.removeConsumedInterface(componentId, interfaceId);
   }
 }

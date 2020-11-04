@@ -522,8 +522,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const targetNode = this.graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
         console.log('Add comp to interface');
-        this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString());
-        this.reload$.next(null);
+        this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(
+          () => this.reload$.next(null)
+        );
       }
     }
   }
@@ -553,8 +554,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const sourceNode = graph.getNode(edge.source);
       const targetNode = graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
-        this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString());
-        this.reload$.next(null);
+        this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(
+          () => this.reload$.next(null)
+        );
         // this.api.removeComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
     }
