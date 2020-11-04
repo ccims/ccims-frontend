@@ -72,26 +72,14 @@ export class IssueListComponent implements OnInit {
       params => {
                  if (params.filter){
                     this.queryParamFilter = params.filter;
-
                     returnedFilter = params.filter;
                   }else{
-
                     returnedFilter = '';
                     }
     });
     return returnedFilter;
   }
-  private getQueryParam(): boolean{
-    this.activatedRoute.queryParams.subscribe(
-      params => {console.log('queryParams', params);
-                 this.queryParamFilter = params.filter;
-                 if (this.queryParamFilter !== ''){return true;
-      }else{
-        return false;
-      }
-    });
-    return false;
-  }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches

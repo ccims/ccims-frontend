@@ -567,6 +567,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (node.type === 'component') {
       this.router.navigate(['./component/', node.id], { relativeTo: this.activatedRoute.parent });
       console.log('Open component info sheet');
+      return;
     }
     if (node.type === 'interface') {
       // const componentNode = this.graph.getNode(node.);
@@ -585,6 +586,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
             */
       console.log('Open Interface Info Sheet');
+      return;
     }
     if (node.type.startsWith('issue-')) {
       const graph: GraphEditor = this.graphWrapper.nativeElement;
@@ -629,18 +631,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const graph: GraphEditor = this.graphWrapper.nativeElement;
     const rootId = graph.groupingManager.getTreeRootOf(node.id);
     const rootNode = graph.getNode(rootId);
-    console.log(rootNode);
-
     if (node.issueCount < 2 && node.issueCount > 0){
-        return;
-
+      this.router.navigate(['./', rootNode.type, rootId ],
+      { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
       }else{
         this.router.navigate(['./', rootNode.type, rootId ],
          { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
       }
-
+    return;
     }
-
     console.log('Clicked on another type of node:', node);
    }
 

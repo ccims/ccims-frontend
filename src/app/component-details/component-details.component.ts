@@ -52,7 +52,7 @@ export class ComponentDetailsComponent implements OnInit {
 
     this.validationUrl.setValue('http://beispiel.repo.test');
     this.activatedRoute.queryParams.subscribe(
-      params => {console.log('queryParams', params);
+      params => {
                  this.queryParamSelected = params.selected;
 
     });
@@ -65,7 +65,6 @@ export class ComponentDetailsComponent implements OnInit {
 
   }
   public onEditClick() {
-    console.log(this.component.node.id);
 
     this.editMode = !this.editMode;
 

@@ -47,7 +47,7 @@ export class InterfaceDetailsComponent implements OnInit {
 
   ngOnInit(): void {
       this.activatedRoute.queryParams.subscribe(
-        params => {console.log('queryParams', params);
+        params => {
                    this.queryParamSelected = params.selected;
 
       });
