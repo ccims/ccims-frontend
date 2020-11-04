@@ -24,12 +24,12 @@ const routes: Routes = [
         children: [
           { path: '', pathMatch: 'full', component: ProjectOverviewComponent},
           { path: 'graph', component: IssueGraphControlsComponent},
-          { path: 'components/:componentId',
+          { path: 'component/:componentId',
             children: [
               {path: '', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' }},
               {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
             ]},
-          { path: 'interfaces/:interfaceId',
+          { path: 'interface/:interfaceId',
             children: [
               {path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' }},
               {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}

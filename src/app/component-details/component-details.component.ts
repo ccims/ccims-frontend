@@ -21,6 +21,7 @@ import { LabelStoreService } from '@app/data/label/label-store.service';
   providedIn: 'root'
 })
 export class ComponentDetailsComponent implements OnInit {
+  public queryParamSelected: string;
   public component$: Observable<GetComponentQuery>;
   private component: GetComponentQuery;
   private componentId: string;
@@ -50,7 +51,11 @@ export class ComponentDetailsComponent implements OnInit {
     this.validationIMS.setValue('http://beispiel.ims.test');
 
     this.validationUrl.setValue('http://beispiel.repo.test');
+    this.activatedRoute.queryParams.subscribe(
+      params => {
+                 this.queryParamSelected = params.selected;
 
+    });
   }
 
   public onCancelClick() {
@@ -60,7 +65,6 @@ export class ComponentDetailsComponent implements OnInit {
 
   }
   public onEditClick() {
-    console.log(this.component.node.id);
 
     this.editMode = !this.editMode;
 

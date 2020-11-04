@@ -29,6 +29,10 @@ import { CreateComponentDialogComponent } from '@app/dialogs/create-component-di
   styleUrls: ['./issue-graph.component.css'],
 })
 export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
+              private router: Router, private activatedRoute: ActivatedRoute) {
+  }
   @ViewChild('graph', { static: true }) graphWrapper;
   @ViewChild('minimap', { static: true }) minimap;
 
@@ -58,10 +62,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // private issueToRelatedNode: Map<string, Set<string>> = new Map();
   private issueToGraphNode: Map<string, Set<string>> = new Map();
   private projectStorageKey: string;
-
-  constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
-              private router: Router, private activatedRoute: ActivatedRoute) {
-  }
 
   ngAfterViewInit(): void {
     this.graph = this.graphWrapper.nativeElement;
@@ -567,12 +567,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const node = event.detail.node;
 
     if (node.type === 'component') {
-      this.router.navigate(['./components/', node.id], { relativeTo: this.activatedRoute.parent });
+      this.router.navigate(['./component/', node.id], { relativeTo: this.activatedRoute.parent });
       console.log('Open component info sheet');
+      return;
     }
     if (node.type === 'interface') {
       // const componentNode = this.graph.getNode(node.);
-      this.router.navigate(['./interfaces/', node.id], { relativeTo: this.activatedRoute.parent });
+      this.router.navigate(['./interface/', node.id], { relativeTo: this.activatedRoute.parent });
       // TODO show a edit interface dialog (or similar)
       /*
             this.bottomSheet.open(GraphNodeInfoSheetComponent, {
@@ -587,6 +588,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
             */
       console.log('Open Interface Info Sheet');
+      return;
     }
     if (node.type.startsWith('issue-')) {
       const graph: GraphEditor = this.graphWrapper.nativeElement;
@@ -625,10 +627,23 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('Show interface bottom sheet');
         return;
       }
-      return;
+
+    }
+    if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST'){
+    const graph: GraphEditor = this.graphWrapper.nativeElement;
+    const rootId = graph.groupingManager.getTreeRootOf(node.id);
+    const rootNode = graph.getNode(rootId);
+    if (node.issueCount < 2 && node.issueCount > 0){
+      this.router.navigate(['./', rootNode.type, rootId ],
+      { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
+      }else{
+        this.router.navigate(['./', rootNode.type, rootId ],
+         { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
+      }
+    return;
     }
     console.log('Clicked on another type of node:', node);
-  }
+   }
 
   private loadNodePositions() {
     const data = localStorage.getItem(this.projectStorageKey);
@@ -666,7 +681,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('Open Create Interface Dialog Component');
   }
 
-  setRelationVisibility(showRelations: boolean) {
+setRelationVisibility(showRelations: boolean) {
     // console.log('Setting relation visibility to: ', showRelations);
     this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
   }
