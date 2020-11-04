@@ -47,7 +47,6 @@ export class IssueListComponent implements OnInit {
       console.log(this.component);
     });
     }else{
-      console.log("else");
       this.componentId = this.route.snapshot.paramMap.get('interfaceId');
 
       this.interface$ = this.interfaceStoreService.getInterface(this.componentId);
@@ -58,7 +57,6 @@ export class IssueListComponent implements OnInit {
         this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        console.log(this.component);
       });
     }
 

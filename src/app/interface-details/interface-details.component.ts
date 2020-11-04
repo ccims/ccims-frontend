@@ -56,7 +56,7 @@ export class InterfaceDetailsComponent implements OnInit {
   }
   public onEditClick() {
 
-    this.editMode = !this.editMode;
+    // this.editMode = !this.editMode;
 
 
   }
