@@ -17,6 +17,7 @@ import { InterfaceStoreService } from '@app/data/interface/interface-store.servi
 })
 export class IssueListComponent implements OnInit {
   @Input() parentCaller: string;
+  public queryParamFilter = '';
   public component$?: Observable<GetComponentQuery>;
   private component?: GetComponentQuery;
   private componentId?: string;
@@ -28,7 +29,8 @@ export class IssueListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private dialog: MatDialog, private route: ActivatedRoute, private componentStoreService: ComponentStoreService,
+  constructor(private activatedRoute: ActivatedRoute, private dialog: MatDialog, private route: ActivatedRoute,
+              private componentStoreService: ComponentStoreService,
               private router: Router, private interfaceStoreService: InterfaceStoreService) {
 
   }
@@ -44,7 +46,8 @@ export class IssueListComponent implements OnInit {
       this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(this.component);
+      this.dataSource.filter = this.getQueryParamFilter();
+
     });
     }else{
       this.componentId = this.route.snapshot.paramMap.get('interfaceId');
@@ -57,9 +60,37 @@ export class IssueListComponent implements OnInit {
         this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.dataSource.filter = this.getQueryParamFilter();
       });
     }
 
+
+  }
+  private getQueryParamFilter(): string{
+    let returnedFilter = ''
+    this.activatedRoute.queryParams.subscribe(
+      params => {
+                 if (params.filter){
+                    this.queryParamFilter = params.filter;
+
+                    returnedFilter = params.filter;
+                  }else{
+
+                    returnedFilter = '';
+                    }
+    });
+    return returnedFilter;
+  }
+  private getQueryParam(): boolean{
+    this.activatedRoute.queryParams.subscribe(
+      params => {console.log('queryParams', params);
+                 this.queryParamFilter = params.filter;
+                 if (this.queryParamFilter !== ''){return true;
+      }else{
+        return false;
+      }
+    });
+    return false;
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

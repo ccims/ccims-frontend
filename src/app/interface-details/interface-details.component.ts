@@ -19,6 +19,7 @@ import { InterfaceStoreService } from '@app/data/interface/interface-store.servi
   styleUrls: ['./interface-details.component.scss']
 })
 export class InterfaceDetailsComponent implements OnInit {
+  public queryParamSelected;
   public interface$: Observable<GetComponentQuery>;
   private interface: GetComponentQuery;
   private interfaceId: string;
@@ -45,7 +46,12 @@ export class InterfaceDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      this.activatedRoute.queryParams.subscribe(
+        params => {console.log('queryParams', params);
+                   this.queryParamSelected = params.selected;
 
+      });
+    //
   }
 
   public onCancelClick() {

@@ -1,6 +1,6 @@
 
 <div *ngIf="(interface$ | async)?.node as interface">
-  <mat-tab-group>
+  <mat-tab-group [selectedIndex]="this.queryParamSelected">
     <mat-tab label="Interface details">
       <div class="component-title">
         <h1>{{interface.name}}</h1>
