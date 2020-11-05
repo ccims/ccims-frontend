@@ -1,13 +1,13 @@
-  <div  class="mat-elevation-z8" matSort matSortActive="category" >
+  <div   matSort matSortActive="category" >
     <button *ngIf="this.parentCaller.match('component')"  class="button-add" mat-fab color="warn" (click)="this.onAddClick()">
       <mat-icon>add</mat-icon>
     </button>
     <mat-form-field appearance="outline">
       <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event.target.value)" >
+      <input [formControl]="this.validationFilter" matInput (keyup)="applyFilter($event.target.value)" >
     </mat-form-field>
 
-    <div class="table-container" *ngIf="(component$ | async)?.node || (interface$ | async)?.node as component">
+    <div class="table-container mat-elevation-z8" *ngIf="(component$ | async)?.node || (interface$ | async)?.node as component">
     <table mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource">
 
       <!-- Title Column -->

@@ -10,6 +10,7 @@ import { MatSort, MatSortable } from '@angular/material/sort';
 import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
@@ -26,6 +27,7 @@ export class IssueListComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
   searchIssuesDataArray: any;
+  validationFilter = new FormControl('');
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,6 +49,7 @@ export class IssueListComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filter = this.getQueryParamFilter();
+      this.validationFilter.setValue(this.getQueryParamFilter());
 
     });
     }else{
@@ -61,6 +64,7 @@ export class IssueListComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.dataSource.filter = this.getQueryParamFilter();
+        this.validationFilter.setValue(this.getQueryParamFilter());
       });
     }
 
