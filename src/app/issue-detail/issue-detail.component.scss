@@ -5,6 +5,10 @@
   display: flex;
   text-align: center;
 }
+.issue-header {
+  margin-top: 15px;
+  margin-left: 5px;
+}
 
 #issue-heading {
   display: inline;
@@ -26,4 +30,8 @@
   &::before {
     z-index: -1;
   }
+  visibility: hidden;
+}
+.issue-body-box {
+  margin-top: 15px;
 }

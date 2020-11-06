@@ -3670,6 +3670,16 @@ export type LinkIssueMutationVariables = Exact<{
 
 export type LinkIssueMutation = { linkIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id'>> }> };
 
+export type GetIssueQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetIssueQuery = { node?: Maybe<(
+    Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered'>
+    & { createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+  )> };
+
 export type GetLabelsQueryVariables = Exact<{
   projectId: Scalars['ID'];
 }>;
@@ -4180,6 +4190,47 @@ export const LinkIssueDocument = gql`
   })
   export class LinkIssueGQL extends Apollo.Mutation<LinkIssueMutation, LinkIssueMutationVariables> {
     document = LinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetIssueDocument = gql`
+    query GetIssue($id: ID!) {
+  node(id: $id) {
+    ... on Issue {
+      id
+      title
+      body
+      bodyRendered
+      createdBy {
+        id
+        displayName
+        username
+      }
+      labels {
+        nodes {
+          name
+          id
+          color
+        }
+      }
+      assignees {
+        nodes {
+          id
+          displayName
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetIssueGQL extends Apollo.Query<GetIssueQuery, GetIssueQueryVariables> {
+    document = GetIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -13,3 +13,31 @@ mutation LinkIssue($input: LinkIssueInput!) {
   }
 }
 }
+query GetIssue($id: ID!) {
+  node(id: $id) {
+    ...on Issue {
+      id
+      title
+      body
+      bodyRendered
+      createdBy{
+        id
+        displayName
+        username
+      }
+      labels{
+            nodes{
+              name
+              id
+              color
+            }
+          }
+          assignees{
+            nodes{
+              id
+              displayName
+            }
+          }
+    }
+  }
+}

@@ -1,8 +1,7 @@
-<div class="container-xl">
+<div class="container-xl" *ngIf="(issue$ | async)?.node as issue" >
   <section>
-    <div id="issue-header">
-      <h1 id="issue-heading">Improve undefined behaviour warnings</h1>
-      <h2>#1</h2>
+    <div id="issue-header" class="issue-header">
+      <h1 id="issue-heading">{{issue.title}}</h1>
       <div id="issue-action">
         <button mat-flat-button>Edit</button>
         <button mat-flat-button color="accent">New Issue</button>
@@ -11,26 +10,27 @@
     </div>
     <div id="issue-state">
       <span class="label label-success">Open</span>
-      <a class="author text-bold link-gray">Mack Miller </a>opened this issue
+      <a class="author text-bold link-gray">{{issue.createdBy.username}} </a>&nbsp;opened this issue
       <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>· 1 comment
+      <mat-divider></mat-divider>
     </div>
   </section>
   <section>
-    <div class="Box Box--condensed">
+    <div class="Box Box--condensed issue-body-box">
       <div class="Box-header d-flex flex-items-center">
         <h3 class="Box-title overflow-hidden flex-auto">
-          Box title
+          <i><b>{{issue.createdBy.displayName}}</b></i>&nbsp;commented some time ago
         </h3>
         <button class="btn btn-primary btn-sm">
           Button
         </button>
       </div>
       <div class="Box-body">
-        Box body
+        {{issue.body}}
       </div>
     </div>
 
-    <div class="TimelineItem">
+    <div class="TimelineItem" >
       <div class="TimelineItem-badge">
         <!-- octicon("flame") -->
         <svg class="octicon octicon-flame" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
