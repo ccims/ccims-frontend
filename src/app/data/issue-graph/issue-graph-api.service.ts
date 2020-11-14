@@ -42,7 +42,5 @@ export class IssueGraphApiService {
   removeConsumedInterface(componentId: string, interfaceId: string) {
     return this.removeConsumedInterfaceMutation.mutate({ input: { componentId, interfaceId } });
   }
-
-
-
 }
+

@@ -4,7 +4,7 @@ import { concat, of, Subject, Observable, BehaviorSubject } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Label } from 'src/generated/graphql';
 import { MockLabelStoreService } from '../../data/label/mock-label-store.service';
-import { FilterLabel, LabelStoreService } from '../../data/label/label-store.service';
+import { FilterLabel, isFilterLabel, LabelStoreService } from '../../data/label/label-store.service';
 import { StateService } from '../../state.service';
 
 
@@ -14,12 +14,12 @@ import { StateService } from '../../state.service';
   styleUrls: ['./label-search.component.scss']
 })
 export class LabelSearchComponent implements OnInit {
-  public selectedLabels$ = new BehaviorSubject<FilterLabel[]>([]);
+  public filterSelection$ = new BehaviorSubject<FilterSelection>({labels: [], texts: []});
 
   labels$: Observable<FilterLabel[]>;
   labelsLoading = false;
   labelsInput$ = new Subject<string>();
-  selectedLabels: FilterLabel[] = [];
+  selectedLabels: FilterElement[] = [];
 
   constructor(private labelStore: LabelStoreService, private ss: StateService) {
   }
@@ -33,7 +33,10 @@ export class LabelSearchComponent implements OnInit {
   }
 
   emitSelectedLabels() {
-    this.selectedLabels$.next(this.selectedLabels);
+    const selection: FilterSelection = {texts: [], labels: []};
+    selection.texts = this.selectedLabels.filter(label => !isFilterLabel(label));
+    selection.labels = this.selectedLabels.filter(label => isFilterLabel(label)) as FilterLabel[];
+    this.filterSelection$.next(selection);
   }
 
   private loadLabels() {
@@ -51,3 +54,15 @@ export class LabelSearchComponent implements OnInit {
   }
 
 }
+
+interface FilterText {
+  name: string;
+}
+
+type FilterElement = FilterText | FilterLabel;
+
+export interface FilterSelection {
+  texts: FilterText[];
+  labels: FilterLabel[];
+}
+

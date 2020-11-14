@@ -34,3 +34,6 @@ export class LabelStoreService {
 }
 
 export type FilterLabel = Pick<Label, 'id' | 'name' | 'color'>;
+export function isFilterLabel(label: any) {
+  return 'id' in label && 'name' in label && 'color' in label;
+}

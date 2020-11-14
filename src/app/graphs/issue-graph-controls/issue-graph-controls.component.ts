@@ -30,7 +30,11 @@ export class IssueGraphControlsComponent implements AfterViewInit {
 
   constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.filter$ = new BehaviorSubject({selectedCategories: this.getSelectedCategories(), selectedLabels: []});
+    this.filter$ = new BehaviorSubject({
+      selectedCategories: this.getSelectedCategories(), selectedFilter: {
+        labels: [], texts: []
+      }
+    });
   }
 
   public selectedCategories$ = new BehaviorSubject<SelectedCategories>(
@@ -51,8 +55,8 @@ export class IssueGraphControlsComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    combineLatest([this.selectedCategories$, this.labelSearch.selectedLabels$]).pipe(
-      map(([selectedCategories, selectedLabels]) => ({ selectedCategories, selectedLabels }))
+    combineLatest([this.selectedCategories$, this.labelSearch.filterSelection$]).pipe(
+      map(([selectedCategories, filterSelection]) => ({ selectedCategories, selectedFilter: filterSelection }))
     ).subscribe(filterState => this.filter$.next(filterState));
     this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$).subscribe(
       graphData => {

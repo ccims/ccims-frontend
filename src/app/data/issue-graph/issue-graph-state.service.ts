@@ -21,7 +21,7 @@ export class IssueGraphStateService {
     this.state$ = combineLatest([this.ss.state$, filter$, reload$]).pipe(
       filter(([appState, _]) => appState.project?.id != null),
       switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.id,
-        filterState.selectedCategories, filterState.selectedLabels)),
+        filterState.selectedCategories, filterState.selectedFilter.labels)),
       shareReplay(1)
     );
     return this.state$;
