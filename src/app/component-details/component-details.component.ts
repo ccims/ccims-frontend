@@ -77,7 +77,8 @@ export class ComponentDetailsComponent implements OnInit {
       { data: { type: 'Component', name: this.component.node.name, id: this.componentId } });
     confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
         if (deleteData){
-          this.router.navigate(['../../graph/'], {relativeTo: this.activatedRoute});
+          this.router.navigate(['../../../../graph'], {relativeTo: this.activatedRoute});
+
         }
         });
     // Delete Mutation auslösen
