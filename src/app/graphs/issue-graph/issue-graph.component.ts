@@ -22,6 +22,8 @@ import {
 } from './issue-graph-nodes';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
+import { ComponentStoreService } from '@app/data/component/component-store.service';
+import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 
 @Component({
   selector: 'app-issue-graph',
@@ -31,7 +33,8 @@ import { CreateComponentDialogComponent } from '@app/dialogs/create-component-di
 export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
-              private router: Router, private activatedRoute: ActivatedRoute) {
+              private router: Router, private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
+              private interfaceStoreService: InterfaceStoreService) {
   }
   @ViewChild('graph', { static: true }) graphWrapper;
   @ViewChild('minimap', { static: true }) minimap;
@@ -634,8 +637,22 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const rootId = graph.groupingManager.getTreeRootOf(node.id);
     const rootNode = graph.getNode(rootId);
     if (node.issueCount < 2 && node.issueCount > 0){
-      this.router.navigate(['./', rootNode.type, rootId ],
-      { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
+      if(rootNode.type ==='component'){
+        // get component query
+        this.componentStoreService.getFullComponent(rootId).subscribe(component => {
+          const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type)
+          this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId ],
+          { relativeTo: this.activatedRoute.parent});
+
+        });
+      }else{
+        this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
+          const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type)
+          this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId ],
+          { relativeTo: this.activatedRoute.parent });
+
+        });
+        }
       }else{
         this.router.navigate(['./', rootNode.type, rootId ],
          { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
@@ -707,5 +724,12 @@ setRelationVisibility(showRelations: boolean) {
       // do something
       this.reload$.next(null);
     });
+  }
+  private extractIssueId(issueList, category: string): string{
+    for (const issue of issueList){
+      if (issue.category === category) {
+        return issue.id;
+      }
+    }
   }
 }
