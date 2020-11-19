@@ -20,10 +20,38 @@ query GetIssue($id: ID!) {
       title
       body
       bodyRendered
+      linkedByIssues{
+        nodes{
+          id
+          title
+        }
+      }
+      linksToIssues{
+        nodes{
+          title
+          id
+        }
+      }
       createdBy{
         id
         displayName
         username
+      }
+      issueComments{
+        nodes{
+          id
+          issue{
+            id
+          }
+          body
+          bodyRendered
+          createdBy{
+            id
+            username
+            displayName
+          }
+          createdAt
+        }
       }
       labels{
             nodes{
@@ -40,4 +68,19 @@ query GetIssue($id: ID!) {
           }
     }
   }
+}
+
+mutation CommentIssue($input: AddIssueCommentInput!) {
+  addIssueComment(input: $input){
+       comment {
+      id
+      body
+      createdBy{
+        id
+        username
+        displayName
+      }
+      createdAt
+    }
+}
 }

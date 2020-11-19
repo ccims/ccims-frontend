@@ -3677,8 +3677,21 @@ export type GetIssueQueryVariables = Exact<{
 
 export type GetIssueQuery = { node?: Maybe<(
     Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered'>
-    & { createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+    & { linkedByIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'id'>>>> }>, createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, issueComments?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<IssueComment, 'id' | 'body' | 'bodyRendered' | 'createdAt'>
+        & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
+      )>>> }>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
   )> };
+
+export type CommentIssueMutationVariables = Exact<{
+  input: AddIssueCommentInput;
+}>;
+
+
+export type CommentIssueMutation = { addIssueComment?: Maybe<{ comment?: Maybe<(
+      Pick<IssueComment, 'id' | 'body' | 'createdAt'>
+      & { createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
+    )> }> };
 
 export type GetLabelsQueryVariables = Exact<{
   projectId: Scalars['ID'];
@@ -4203,10 +4216,38 @@ export const GetIssueDocument = gql`
       title
       body
       bodyRendered
+      linkedByIssues {
+        nodes {
+          id
+          title
+        }
+      }
+      linksToIssues {
+        nodes {
+          title
+          id
+        }
+      }
       createdBy {
         id
         displayName
         username
+      }
+      issueComments {
+        nodes {
+          id
+          issue {
+            id
+          }
+          body
+          bodyRendered
+          createdBy {
+            id
+            username
+            displayName
+          }
+          createdAt
+        }
       }
       labels {
         nodes {
@@ -4231,6 +4272,33 @@ export const GetIssueDocument = gql`
   })
   export class GetIssueGQL extends Apollo.Query<GetIssueQuery, GetIssueQueryVariables> {
     document = GetIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CommentIssueDocument = gql`
+    mutation CommentIssue($input: AddIssueCommentInput!) {
+  addIssueComment(input: $input) {
+    comment {
+      id
+      body
+      createdBy {
+        id
+        username
+        displayName
+      }
+      createdAt
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentIssueGQL extends Apollo.Mutation<CommentIssueMutation, CommentIssueMutationVariables> {
+    document = CommentIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

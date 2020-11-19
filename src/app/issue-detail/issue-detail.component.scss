@@ -30,7 +30,7 @@
   &::before {
     z-index: -1;
   }
-  visibility: hidden;
+  visibility: visible;
 }
 .issue-body-box {
   margin-top: 15px;
@@ -47,4 +47,46 @@
 .container-xl {
   margin-left: 10%;
   margin-right: 10%;
+}
+
+.issue-side-bar {
+  float: left;
+  width: 27%;
+  margin-left: 3%;
+  height: 300px;
+
+  margin-top: 15px;
+}
+.issue-side-bar-row {
+  margin-bottom: 15px;
+}
+mat-divider{
+  margin-top: 8px;
+}
+.clear:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.issue-content {
+  float:left;
+  width: 70%;
+}
+.comment-text-area {
+  width: 100%;
+  height:auto;
+  min-height: 200px;
+}
+.new-comment-box {
+  position: relative;
+  margin-bottom: 5px;
+}
+.comment-buttons {
+float: right;
+margin-top: 5px;
+margin-bottom: 3px;
+}
+.comment-buttons2 {
+  position: absolute;
+  right: 0px;
 }

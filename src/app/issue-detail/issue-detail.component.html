@@ -1,39 +1,116 @@
-<div class="container-xl" *ngIf="(issue$ | async)?.node as issue" >
-  <section>
-    <div id="issue-header" class="issue-header">
-      <h1 id="issue-heading">{{issue.title}}</h1>
-      <div id="issue-action">
-        <button mat-flat-button>Edit</button>
-        <button mat-flat-button color="accent">New Issue</button>
+<div class="container-xl" *ngIf="(issue$ | async)?.node as issue">
+  <div>
+    <section class="clear">
+      <div id="issue-header" class="issue-header">
+        <h1 id="issue-heading">{{issue.title}}</h1>
+        <div id="issue-action">
+          <button mat-flat-button>Edit</button>
+          <button mat-flat-button color="accent">New Issue</button>
+        </div>
+
+      </div>
+      <div id="issue-state">
+        <span class="customLabel ">&nbsp;Open&nbsp;</span>
+        <a class="author text-bold link-gray">&nbsp;{{issue.createdBy.username}} </a>&nbsp;opened this issue
+        <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>· 1 comment
+
+      </div>
+      <mat-divider style="margin-top:20px;"></mat-divider>
+    </section>
+
+    <section class="clear">
+      <div class="issue-content" >
+      <div class="Box Box--condensed issue-body-box">
+        <div class="Box-header d-flex flex-items-center">
+          <h3 class="Box-title overflow-hidden flex-auto">
+            <i><b>{{issue.createdBy.displayName}}</b></i>&nbsp;commented some time ago
+          </h3>
+        </div>
+        <div class="Box-body">
+          {{issue.body}}
+        </div>
       </div>
 
-    </div>
-    <div id="issue-state">
-      <span class="customLabel ">&nbsp;Open&nbsp;</span>
-      <a class="author text-bold link-gray">&nbsp;{{issue.createdBy.username}} </a>&nbsp;opened this issue
-      <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>· 1 comment
 
-    </div>
-    <mat-divider style="margin-top:20px;"></mat-divider>
-  </section>
-  <section>
-    <div class="Box Box--condensed issue-body-box">
-      <div class="Box-header d-flex flex-items-center">
-        <h3 class="Box-title overflow-hidden flex-auto">
-          <i><b>{{issue.createdBy.displayName}}</b></i>&nbsp;commented some time ago
-        </h3>
-        <button class="btn btn-primary btn-sm">
-          Button
-        </button>
+
+      <div *ngFor="let comment of issue.issueComments.nodes" class="TimelineItem issue-comment">
+        <div class="Box Box--condensed">
+          <div class="Box-header d-flex flex-items-center">
+            <h3 class="Box-title overflow-hidden flex-auto">
+              <i><b>{{comment.createdBy.displayName}}</b></i> commented on {{comment.createdAt}}
+            </h3>
+          </div>
+          <div class="Box-body">
+            {{comment.body}}
+          </div>
+        </div>
       </div>
-      <div class="Box-body">
-        {{issue.body}}
+      <mat-divider></mat-divider>
+      <div class="Box Box--condensed issue-body-box">
+        <div class="Box-header d-flex flex-items-center">
+          <h3 class="Box-title overflow-hidden flex-auto">
+            Comment this issue as <b>{{issue.createdBy.displayName}}</b>
+          </h3>
+        </div>
+        <div class="Box-body new-comment-box clear" >
+          <textarea class="comment-text-area" matInput #comment></textarea>
+          <div class="comment-buttons">
+          <button mat-raised-button color="warn" >Close Issue</button>
+          <button mat-raised-button color="primary" (click)="this.commentIssue(comment.value)">Comment</button>
+        </div>
+        </div>
       </div>
     </div>
 
+      <div class="issue-side-bar">
+        <div class="issue-side-bar-row">
+          <mat-label><b>Labels</b></mat-label> <br>
+          <div class="clear" style="width: 100%;">
+            <div style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
+              *ngFor="let label of issue.labels.nodes"
+              [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
+              <span>{{label.name}} </span>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+        </div>
+
+        <div class="issue-side-bar-row">
+          <mat-label><b>Assignees</b></mat-label>
+          <button mat-icon-button aria-label="Edit">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <br>
+          <span *ngFor="let assignee of issue.assignees.nodes">{{assignee.displayName}},&nbsp;</span>
+          <mat-divider></mat-divider>
+        </div>
+
+        <div class="issue-side-bar-row">
+          <mat-label><b>Linked By Issues</b></mat-label> <br>
+          <span *ngFor="let linkedIssue of issue.linkedByIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+          <mat-divider></mat-divider>
+        </div>
+
+        <div class="issue-side-bar-row">
+          <mat-label><b>Links to Issues</b></mat-label> <br>
+          <span *ngFor="let linkedIssue of issue.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+          <mat-divider></mat-divider>
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+  <div>
+
+</div>
+    <!--
     <div class="TimelineItem" >
       <div class="TimelineItem-badge">
-        <!-- octicon("flame") -->
+
         <svg class="octicon octicon-flame" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
           <path fill-rule="evenodd"
             d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z">
@@ -77,4 +154,4 @@
         </div>
       </div>
     </div>
-  </section>
+    -->
