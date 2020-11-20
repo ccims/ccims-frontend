@@ -64,7 +64,11 @@
 
       <div class="issue-side-bar">
         <div class="issue-side-bar-row">
-          <mat-label><b>Labels</b></mat-label> <br>
+          <mat-label><b>Labels</b></mat-label>
+          <button mat-icon-button aria-label="Edit">
+            <mat-icon>settings</mat-icon>
+          </button>
+           <br>
           <div class="clear" style="width: 100%;">
             <div style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
               *ngFor="let label of issue.labels.nodes"
@@ -87,13 +91,19 @@
         </div>
 
         <div class="issue-side-bar-row">
-          <mat-label><b>Linked By Issues</b></mat-label> <br>
+          <mat-label><b>Linked By Issues</b></mat-label>
+
+          <br>
           <span *ngFor="let linkedIssue of issue.linkedByIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
           <mat-divider></mat-divider>
         </div>
 
         <div class="issue-side-bar-row">
-          <mat-label><b>Links to Issues</b></mat-label> <br>
+          <mat-label><b>Links to Issues</b></mat-label>
+          <button mat-icon-button aria-label="Edit">
+            <mat-icon>settings</mat-icon>
+          </button>
+           <br>
           <span *ngFor="let linkedIssue of issue.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
           <mat-divider></mat-divider>
         </div>
