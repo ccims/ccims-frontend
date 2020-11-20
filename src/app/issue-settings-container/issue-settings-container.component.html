@@ -1,0 +1,29 @@
+<div class="outer-container settings" name="settings">
+  <div class="inner-container settings"name="settings">
+    <div class="settings" *ngIf="this.selection=='labels'">
+      <p class="settings" name="settings"><b>Edit Labels</b></p>
+      <mat-divider name="settings"></mat-divider>
+
+      <ng-select class="ng-select-label settings" [dropdownPosition]="'bottom'" [multiple]="true" [(ngModel)]="this.selectedLabels"
+        [ngModelOptions]="{standalone: true}" placeholder="Select Labels">
+          <ng-option class="settings" *ngFor="let label of this.labels" [value]="label.id" [ngStyle]="{'color':this.lightOrDark(label.color)}" >
+        <!--<div class="settings" [ngStyle]="{'background-color': label.color,'width':'25px',
+          'float':'left','height':'25px','margin-right':'5px','margin-top':'10px'}"></div>
+        <span [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">{{label.name}}</span>
+        <div style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
+              [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
+              <span >{{label.name}} </span>
+            </div>
+            -->
+            <span style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
+            [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}" >{{label.name}} </span>
+
+    </ng-option>
+
+</ng-select>
+    </div>
+    <div class="settings" *ngIf="this.selection=='assignees'">Assingees aufgerufen</div>
+    <div class="settings" *ngIf="this.selection=='link'">Linking aufgerufen</div>
+  </div>
+
+</div>

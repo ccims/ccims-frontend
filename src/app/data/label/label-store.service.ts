@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
-import { CreateLabelGQL, CreateLabelInput, GetLabelsGQL, Label } from '../../../generated/graphql';
+import { AddLabelToIssueGQL, AddLabelToIssueInput, CreateLabelGQL, CreateLabelInput, GetLabelsGQL, Label, RemoveLabelFromIssueGQL, RemoveLabelFromIssueInput } from '../../../generated/graphql';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class LabelStoreService {
 
-  constructor(private getLabelsGQL: GetLabelsGQL, private CreateLabelMutation: CreateLabelGQL) { }
+  constructor(private getLabelsGQL: GetLabelsGQL, private CreateLabelMutation: CreateLabelGQL,
+    private addLabelToIssueMutation: AddLabelToIssueGQL, private removeLabelFromIssueMutation: RemoveLabelFromIssueGQL) { }
 
 
   getMatchingLabels(projectId: string, term: string = null): Observable<FilterLabel[]> {
@@ -72,6 +73,12 @@ export class LabelStoreService {
 
         return 'white';
     }
+  }
+  public addLabel(input: AddLabelToIssueInput){
+    return this.addLabelToIssueMutation.mutate({ input });
+  }
+  public removeLabel(input: RemoveLabelFromIssueInput){
+    return this.removeLabelFromIssueMutation.mutate({ input });
   }
 }
 

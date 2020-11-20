@@ -23,4 +23,19 @@ mutation CreateLabel($input: CreateLabelInput!){
   }
 }
 
+mutation AddLabelToIssue($input: AddLabelToIssueInput!){
+  addLabelToIssue(input: $input){
+     label{
+      id
+    }
+  }
+}
+
+mutation RemoveLabelFromIssue($input: RemoveLabelFromIssueInput!){
+  removeLabelFromIssue(input: $input){
+     issue{
+       title
+     }
+  }
+}
 

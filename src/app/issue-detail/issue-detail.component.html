@@ -1,8 +1,10 @@
-<div class="container-xl" *ngIf="(issue$ | async)?.node as issue">
+<div class="container-xl"  #issueContainer *ngIf="(issue$ | async) as issue">
+  <app-issue-settings-container *ngIf="this.editIssue" [selectedLabels]="this.labelList" [currentIssue]="issue" (messageEvent)="this.receiveMessage($event)" [selection]="this.attributeToEdit" [ngStyle]="{'left':this.mouseX,'top':this.mouseY,'z-index':'100'}"></app-issue-settings-container>
+
   <div>
     <section class="clear">
       <div id="issue-header" class="issue-header">
-        <h1 id="issue-heading">{{issue.title}}</h1>
+        <h1 id="issue-heading">{{issue.node.title}}</h1>
         <div id="issue-action">
           <button mat-flat-button>Edit</button>
           <button mat-flat-button color="accent">New Issue</button>
@@ -11,7 +13,7 @@
       </div>
       <div id="issue-state">
         <span class="customLabel ">&nbsp;Open&nbsp;</span>
-        <a class="author text-bold link-gray">&nbsp;{{issue.createdBy.username}} </a>&nbsp;opened this issue
+        <a class="author text-bold link-gray">&nbsp;{{issue.node.createdBy.username}} </a>&nbsp;opened this issue
         <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>· 1 comment
 
       </div>
@@ -23,17 +25,17 @@
       <div class="Box Box--condensed issue-body-box">
         <div class="Box-header d-flex flex-items-center">
           <h3 class="Box-title overflow-hidden flex-auto">
-            <i><b>{{issue.createdBy.displayName}}</b></i>&nbsp;commented some time ago
+            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented some time ago
           </h3>
         </div>
         <div class="Box-body">
-          {{issue.body}}
+          {{issue.node.body}}
         </div>
       </div>
 
 
 
-      <div *ngFor="let comment of issue.issueComments.nodes" class="TimelineItem issue-comment">
+      <div *ngFor="let comment of issue.node.issueComments.nodes" class="TimelineItem issue-comment">
         <div class="Box Box--condensed">
           <div class="Box-header d-flex flex-items-center">
             <h3 class="Box-title overflow-hidden flex-auto">
@@ -49,7 +51,7 @@
       <div class="Box Box--condensed issue-body-box">
         <div class="Box-header d-flex flex-items-center">
           <h3 class="Box-title overflow-hidden flex-auto">
-            Comment this issue as <b>{{issue.createdBy.displayName}}</b>
+            Comment this issue as <b>{{issue.node.createdBy.displayName}}</b>
           </h3>
         </div>
         <div class="Box-body new-comment-box clear" >
@@ -65,13 +67,13 @@
       <div class="issue-side-bar">
         <div class="issue-side-bar-row">
           <mat-label><b>Labels</b></mat-label>
-          <button mat-icon-button aria-label="Edit">
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'labels')">
             <mat-icon>settings</mat-icon>
           </button>
            <br>
           <div class="clear" style="width: 100%;">
             <div style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
-              *ngFor="let label of issue.labels.nodes"
+              *ngFor="let label of issue.node.labels.nodes"
               [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
               <span>{{label.name}} </span>
             </div>
@@ -82,11 +84,11 @@
 
         <div class="issue-side-bar-row">
           <mat-label><b>Assignees</b></mat-label>
-          <button mat-icon-button aria-label="Edit">
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'assignees')">
             <mat-icon>settings</mat-icon>
           </button>
           <br>
-          <span *ngFor="let assignee of issue.assignees.nodes">{{assignee.displayName}},&nbsp;</span>
+          <span *ngFor="let assignee of issue.node.assignees.nodes">{{assignee.displayName}},&nbsp;</span>
           <mat-divider></mat-divider>
         </div>
 
@@ -94,17 +96,17 @@
           <mat-label><b>Linked By Issues</b></mat-label>
 
           <br>
-          <span *ngFor="let linkedIssue of issue.linkedByIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+          <span *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
           <mat-divider></mat-divider>
         </div>
 
         <div class="issue-side-bar-row">
           <mat-label><b>Links to Issues</b></mat-label>
-          <button mat-icon-button aria-label="Edit">
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'link')">
             <mat-icon>settings</mat-icon>
           </button>
            <br>
-          <span *ngFor="let linkedIssue of issue.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+          <span *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
           <mat-divider></mat-divider>
         </div>
 
@@ -117,6 +119,7 @@
   <div>
 
 </div>
+
     <!--
     <div class="TimelineItem" >
       <div class="TimelineItem-badge">

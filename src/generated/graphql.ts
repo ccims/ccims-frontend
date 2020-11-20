@@ -3707,6 +3707,20 @@ export type CreateLabelMutationVariables = Exact<{
 
 export type CreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<Pick<Label, 'id' | 'name' | 'color' | 'description'>> }> };
 
+export type AddLabelToIssueMutationVariables = Exact<{
+  input: AddLabelToIssueInput;
+}>;
+
+
+export type AddLabelToIssueMutation = { addLabelToIssue?: Maybe<{ label?: Maybe<Pick<Label, 'id'>> }> };
+
+export type RemoveLabelFromIssueMutationVariables = Exact<{
+  input: RemoveLabelFromIssueInput;
+}>;
+
+
+export type RemoveLabelFromIssueMutation = { removeLabelFromIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'title'>> }> };
+
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
 }>;
@@ -4348,6 +4362,46 @@ export const CreateLabelDocument = gql`
   })
   export class CreateLabelGQL extends Apollo.Mutation<CreateLabelMutation, CreateLabelMutationVariables> {
     document = CreateLabelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddLabelToIssueDocument = gql`
+    mutation AddLabelToIssue($input: AddLabelToIssueInput!) {
+  addLabelToIssue(input: $input) {
+    label {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddLabelToIssueGQL extends Apollo.Mutation<AddLabelToIssueMutation, AddLabelToIssueMutationVariables> {
+    document = AddLabelToIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveLabelFromIssueDocument = gql`
+    mutation RemoveLabelFromIssue($input: RemoveLabelFromIssueInput!) {
+  removeLabelFromIssue(input: $input) {
+    issue {
+      title
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveLabelFromIssueGQL extends Apollo.Mutation<RemoveLabelFromIssueMutation, RemoveLabelFromIssueMutationVariables> {
+    document = RemoveLabelFromIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
