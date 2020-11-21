@@ -3670,6 +3670,13 @@ export type LinkIssueMutationVariables = Exact<{
 
 export type LinkIssueMutation = { linkIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id'>> }> };
 
+export type UnlinkIssueMutationVariables = Exact<{
+  input: UnlinkIssueInput;
+}>;
+
+
+export type UnlinkIssueMutation = { unlinkIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id'>> }> };
+
 export type GetIssueQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -4217,6 +4224,26 @@ export const LinkIssueDocument = gql`
   })
   export class LinkIssueGQL extends Apollo.Mutation<LinkIssueMutation, LinkIssueMutationVariables> {
     document = LinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UnlinkIssueDocument = gql`
+    mutation UnlinkIssue($input: UnlinkIssueInput!) {
+  unlinkIssue(input: $input) {
+    issue {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnlinkIssueGQL extends Apollo.Mutation<UnlinkIssueMutation, UnlinkIssueMutationVariables> {
+    document = UnlinkIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

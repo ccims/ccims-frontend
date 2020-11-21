@@ -13,6 +13,14 @@ mutation LinkIssue($input: LinkIssueInput!) {
   }
 }
 }
+
+mutation UnlinkIssue($input: UnlinkIssueInput!) {
+  unlinkIssue(input: $input){
+    issue{
+      id
+  }
+}
+}
 query GetIssue($id: ID!) {
   node(id: $id) {
     ...on Issue {

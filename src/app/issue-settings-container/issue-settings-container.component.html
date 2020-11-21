@@ -23,7 +23,26 @@
 </ng-select>
     </div>
     <div class="settings" *ngIf="this.selection=='assignees'">Assingees aufgerufen</div>
-    <div class="settings" *ngIf="this.selection=='link'">Linking aufgerufen</div>
+    <div class="settings" *ngIf="this.selection=='link'">
+      <p class="settings" name="settings"><b>Edit Labels</b></p>
+      <mat-divider name="settings"></mat-divider>
+
+      <ng-select *ngIf="issuesLoaded" class="adding-margin"
+            [dropdownPosition]="'top'"
+            [multiple]="true"
+            [(ngModel)]="this.selectedIssues"
+            [ngModelOptions]="{standalone: true}"
+            placeholder="Select Issues to link"
+            groupBy="component"
+            [items]="linkableProjectIssues"
+            bindLabel="title"
+            bindValue="id">
+  <ng-template ng-optgroup-tmp let-item="item">
+    {{item.component || 'Unnamed group'}}
+</ng-template>
+</ng-select>
+
+    </div>
   </div>
 
 </div>
