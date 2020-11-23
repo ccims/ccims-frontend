@@ -55,11 +55,11 @@ export class LabelSearchComponent implements OnInit {
 
 }
 
-interface FilterText {
+export interface FilterText {
   name: string;
 }
 
-type FilterElement = FilterText | FilterLabel;
+export type FilterElement = FilterText | FilterLabel;
 
 export interface FilterSelection {
   texts: FilterText[];

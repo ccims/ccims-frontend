@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { SelectedCategories } from '@app/graphs/shared';
 import { FilterLabel } from '../label/label-store.service';
 import { GetIssueGraphDataForLabelsGQL } from '../../../generated/graphql';
+import { FilterText } from '@app/graphs/label-search/label-search.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class IssueGraphApiService {
               private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
               private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL) { }
 
-  loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[]): Observable<GraphData> {
+  loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[], texts: FilterText[]): Observable<GraphData> {
+    console.log('Texts you are searching for ', texts);
     const activeCategories: IssueCategory[] = [];
     for (const key of Object.values(IssueCategory)) {
       if (categories[key]) {

@@ -13,7 +13,7 @@ export class LabelStoreService {
 
 
   getMatchingLabels(projectId: string, term: string = null): Observable<FilterLabel[]> {
-    this.getAllFilter(projectId).pipe(tap(items => console.log("labels: ", items)));
+    this.getAllFilter(projectId).pipe(tap(items => console.log('labels: ', items)));
     if (!term) {
       return this.getAllFilter(projectId);
     }
