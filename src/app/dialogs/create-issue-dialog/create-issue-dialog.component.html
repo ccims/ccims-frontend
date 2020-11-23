@@ -27,7 +27,11 @@
 
 <ng-select class="ng-select-label" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedLabels"
 [ngModelOptions]="{standalone: true}" placeholder="Select Labels">
-  <ng-option *ngFor="let label of this.labels" [value]="label.id" >{{label.name}}</ng-option>
+  <ng-option *ngFor="let label of this.labels" [value]="label.id">
+   <div [ngStyle]="{'background-color': label.color,'width':'25px',
+   'float':'left','height':'25px','margin-right':'5px','margin-top':'10px'}"></div>
+   {{label.name}}
+    </ng-option>
 </ng-select>
 
 <button mat-raised-button color="accent" class="new-label-button" (click)="this.onNewLabelClick()">New Label</button>

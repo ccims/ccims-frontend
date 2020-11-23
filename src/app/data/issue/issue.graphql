@@ -13,6 +13,14 @@ mutation LinkIssue($input: LinkIssueInput!) {
   }
 }
 }
+
+mutation UnlinkIssue($input: UnlinkIssueInput!) {
+  unlinkIssue(input: $input){
+    issue{
+      id
+  }
+}
+}
 query GetIssue($id: ID!) {
   node(id: $id) {
     ...on Issue {
@@ -20,10 +28,38 @@ query GetIssue($id: ID!) {
       title
       body
       bodyRendered
+      linkedByIssues{
+        nodes{
+          id
+          title
+        }
+      }
+      linksToIssues{
+        nodes{
+          title
+          id
+        }
+      }
       createdBy{
         id
         displayName
         username
+      }
+      issueComments{
+        nodes{
+          id
+          issue{
+            id
+          }
+          body
+          bodyRendered
+          createdBy{
+            id
+            username
+            displayName
+          }
+          createdAt
+        }
       }
       labels{
             nodes{
@@ -40,4 +76,19 @@ query GetIssue($id: ID!) {
           }
     }
   }
+}
+
+mutation CommentIssue($input: AddIssueCommentInput!) {
+  addIssueComment(input: $input){
+       comment {
+      id
+      body
+      createdBy{
+        id
+        username
+        displayName
+      }
+      createdAt
+    }
+}
 }

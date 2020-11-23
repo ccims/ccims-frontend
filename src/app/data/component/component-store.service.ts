@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/auth/authentication.service';
-import { Component, ComponentInterface, DeleteComponentGQL, DeleteComponentInput, GetComponentGQL, GetComponentQuery, Ims, Issue, Maybe, UpdateComponentGQL, UpdateComponentInput, User } from 'src/generated/graphql';
+import { Component, ComponentInterface, DeleteComponentGQL, DeleteComponentInput, GetComponentGQL,
+  GetComponentQuery, Ims, Issue, Maybe, UpdateComponentGQL, UpdateComponentInput, User } from 'src/generated/graphql';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -9,7 +10,8 @@ import { map } from 'rxjs/operators';
 })
 export class ComponentStoreService {
 
-  constructor(private updateComponentMutation: UpdateComponentGQL, private deleteComponentMutation: DeleteComponentGQL, private authService: AuthenticationService, private getFullComponentQuery: GetComponentGQL) { }
+  constructor(private updateComponentMutation: UpdateComponentGQL, private deleteComponentMutation: DeleteComponentGQL,
+              private authService: AuthenticationService, private getFullComponentQuery: GetComponentGQL) { }
 
   getFullComponent(id: string): Observable<GetComponentQuery> {
     return this.getFullComponentQuery.fetch({ id }).pipe(

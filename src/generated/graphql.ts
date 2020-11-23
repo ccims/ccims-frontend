@@ -3670,6 +3670,13 @@ export type LinkIssueMutationVariables = Exact<{
 
 export type LinkIssueMutation = { linkIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id'>> }> };
 
+export type UnlinkIssueMutationVariables = Exact<{
+  input: UnlinkIssueInput;
+}>;
+
+
+export type UnlinkIssueMutation = { unlinkIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'id'>> }> };
+
 export type GetIssueQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -3677,8 +3684,21 @@ export type GetIssueQueryVariables = Exact<{
 
 export type GetIssueQuery = { node?: Maybe<(
     Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered'>
-    & { createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+    & { linkedByIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'id'>>>> }>, createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, issueComments?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<IssueComment, 'id' | 'body' | 'bodyRendered' | 'createdAt'>
+        & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
+      )>>> }>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
   )> };
+
+export type CommentIssueMutationVariables = Exact<{
+  input: AddIssueCommentInput;
+}>;
+
+
+export type CommentIssueMutation = { addIssueComment?: Maybe<{ comment?: Maybe<(
+      Pick<IssueComment, 'id' | 'body' | 'createdAt'>
+      & { createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
+    )> }> };
 
 export type GetLabelsQueryVariables = Exact<{
   projectId: Scalars['ID'];
@@ -3693,6 +3713,20 @@ export type CreateLabelMutationVariables = Exact<{
 
 
 export type CreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<Pick<Label, 'id' | 'name' | 'color' | 'description'>> }> };
+
+export type AddLabelToIssueMutationVariables = Exact<{
+  input: AddLabelToIssueInput;
+}>;
+
+
+export type AddLabelToIssueMutation = { addLabelToIssue?: Maybe<{ label?: Maybe<Pick<Label, 'id'>> }> };
+
+export type RemoveLabelFromIssueMutationVariables = Exact<{
+  input: RemoveLabelFromIssueInput;
+}>;
+
+
+export type RemoveLabelFromIssueMutation = { removeLabelFromIssue?: Maybe<{ issue?: Maybe<Pick<Issue, 'title'>> }> };
 
 export type GetAllProjectsQueryVariables = Exact<{
   filter?: Maybe<ProjectFilter>;
@@ -4195,6 +4229,26 @@ export const LinkIssueDocument = gql`
       super(apollo);
     }
   }
+export const UnlinkIssueDocument = gql`
+    mutation UnlinkIssue($input: UnlinkIssueInput!) {
+  unlinkIssue(input: $input) {
+    issue {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnlinkIssueGQL extends Apollo.Mutation<UnlinkIssueMutation, UnlinkIssueMutationVariables> {
+    document = UnlinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetIssueDocument = gql`
     query GetIssue($id: ID!) {
   node(id: $id) {
@@ -4203,10 +4257,38 @@ export const GetIssueDocument = gql`
       title
       body
       bodyRendered
+      linkedByIssues {
+        nodes {
+          id
+          title
+        }
+      }
+      linksToIssues {
+        nodes {
+          title
+          id
+        }
+      }
       createdBy {
         id
         displayName
         username
+      }
+      issueComments {
+        nodes {
+          id
+          issue {
+            id
+          }
+          body
+          bodyRendered
+          createdBy {
+            id
+            username
+            displayName
+          }
+          createdAt
+        }
       }
       labels {
         nodes {
@@ -4231,6 +4313,33 @@ export const GetIssueDocument = gql`
   })
   export class GetIssueGQL extends Apollo.Query<GetIssueQuery, GetIssueQueryVariables> {
     document = GetIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CommentIssueDocument = gql`
+    mutation CommentIssue($input: AddIssueCommentInput!) {
+  addIssueComment(input: $input) {
+    comment {
+      id
+      body
+      createdBy {
+        id
+        username
+        displayName
+      }
+      createdAt
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentIssueGQL extends Apollo.Mutation<CommentIssueMutation, CommentIssueMutationVariables> {
+    document = CommentIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -4280,6 +4389,46 @@ export const CreateLabelDocument = gql`
   })
   export class CreateLabelGQL extends Apollo.Mutation<CreateLabelMutation, CreateLabelMutationVariables> {
     document = CreateLabelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddLabelToIssueDocument = gql`
+    mutation AddLabelToIssue($input: AddLabelToIssueInput!) {
+  addLabelToIssue(input: $input) {
+    label {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddLabelToIssueGQL extends Apollo.Mutation<AddLabelToIssueMutation, AddLabelToIssueMutationVariables> {
+    document = AddLabelToIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveLabelFromIssueDocument = gql`
+    mutation RemoveLabelFromIssue($input: RemoveLabelFromIssueInput!) {
+  removeLabelFromIssue(input: $input) {
+    issue {
+      title
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveLabelFromIssueGQL extends Apollo.Mutation<RemoveLabelFromIssueMutation, RemoveLabelFromIssueMutationVariables> {
+    document = RemoveLabelFromIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
