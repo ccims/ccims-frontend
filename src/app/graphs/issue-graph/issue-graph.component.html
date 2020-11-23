@@ -97,14 +97,31 @@
 
                 /* issue relation edge styling (use '.related-to', '.duplicate' and '.dependency' to style the individual types)*/
                 .edge-group.issue-relation .edge {
-                    stroke: gray;
+                    stroke: grey;
                     stroke-dasharray: 3 5;
                     stroke-width: 3px;
                     stroke-linecap: round;
                 }
 
-                .edge-group.issue-relation .marker {
-                    fill: gray;
+                .edge-group.issue-relation.highlight-outgoing .edge {
+                  stroke: purple;
+                }
+
+                .edge-group.issue-relation.highlight-incoming .edge {
+                  stroke: #008b8b;
+                }
+
+
+                .edge-group.issue-relation .marker{
+                    fill: grey;
+                }
+
+                .edge-group.issue-relation.highlight-outgoing .marker{
+                  fill: purple;
+                }
+
+                .edge-group.issue-relation.highlight-incoming .marker{
+                  fill: #008b8b;
                 }
 
                 .related-to {
