@@ -58,12 +58,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   } = {};
 
   private destroy$ = new ReplaySubject(1);
-
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
   // private issuesById: IssuesState = {};
   // private issueToRelatedNode: Map<string, Set<string>> = new Map();
-  private issueToGraphNode: Map<string, Set<string>> = new Map();
+  //private issueToGraphNode: Map<string, Set<string>> = new Map();
+
   private projectStorageKey: string;
 
   ngAfterViewInit(): void {
@@ -293,15 +293,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.issueGroupParents.push(node);
   }
 
-
   resetGraph() {
     this.graph.edgeList = [];
     this.graph.nodeList = [];
     this.issueGroupParents = [];
     this.graph.groupingManager.clearAllGroups();
   }
-
-
 
   connectToOfferingComponent(node: InterfaceNode) {
     this.graph.addEdge(createInterfaceProvisionEdge(node.offeredById, node.id));
@@ -363,7 +360,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private drawFolderRelations(node: IssueNode) {
-    const nodes = Array.from(this.graph.groupingManager.getChildrenOf(node.issueGroupContainer.id)).map(id => this.graph.getNode(id));
+    //const nodes = Array.from(this.graph.groupingManager.getChildrenOf(node.issueGroupContainer.id)).map(id => this.graph.getNode(id));
     // @ts-ignore
     const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
       (id: string) => this.graph.getNode(id));
@@ -372,7 +369,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       for (const relatedFolder of relatedFolders) {
         const [issueNodeId, category] = relatedFolder;
         const edge = createRelationEdge(folderNode.id, getIssueFolderId(issueNodeId, category));
-        // TODO do not add self edge
         this.graph.addEdge(edge);
       }
     }
