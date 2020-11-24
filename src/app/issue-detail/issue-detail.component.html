@@ -4,15 +4,19 @@
   <div>
     <section class="clear">
       <div id="issue-header" class="issue-header">
-        <h1 id="issue-heading">{{issue.node.title}}</h1>
+        <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]= "issue.node.title">
+        <h1 #title *ngIf="!this.editTitle" id="issue-heading">{{issue.node.title}}</h1>
         <div id="issue-action">
-          <button mat-flat-button>Edit</button>
-          <button mat-flat-button color="accent">New Issue</button>
+          <button mat-flat-button *ngIf="!this.editTitle" (click)="this.editIssueTitle()">Edit</button>
+          <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle()" >Cancel</button>
+          <button mat-flat-button *ngIf="!this.editTitle" color="accent">New Issue</button>
+          <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle(true)" color="accent">Save</button>
         </div>
 
       </div>
       <div id="issue-state">
-        <span class="customLabel ">&nbsp;Open&nbsp;</span>
+        <span *ngIf="issue.node.isOpen" class="customLabelOpen ">&nbsp;Open&nbsp;</span>
+        <span *ngIf="!issue.node.isOpen" class="customLabelClosed ">&nbsp;Closed&nbsp;</span>
         <a class="author text-bold link-gray">&nbsp;{{issue.node.createdBy.username}} </a>&nbsp;opened this issue
         <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>· 1 comment
 
@@ -57,7 +61,8 @@
         <div class="Box-body clear" >
           <textarea class="comment-text-area" matInput #comment></textarea>
           <div class="comment-buttons">
-          <button mat-raised-button color="warn" >Close Issue</button>
+          <button *ngIf="issue.node.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()" >Close Issue</button>
+          <button *ngIf="!issue.node.isOpen" mat-raised-button color="warn" (click)="this.reopenIssue()" >Reopen Issue</button>
           <button mat-raised-button color="primary" (click)="this.commentIssue(comment.value)">Comment</button>
         </div>
         </div>
@@ -107,6 +112,15 @@
           </button>
            <br>
           <span *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+          <mat-divider></mat-divider>
+        </div>
+
+        <div class="issue-side-bar-row">
+          <mat-label><b>Interfaces, Artefacts & NFR</b></mat-label>
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'nfr')">
+            <mat-icon>settings</mat-icon>
+          </button>
+           <br>
           <mat-divider></mat-divider>
         </div>
 

@@ -26,13 +26,20 @@ const routes: Routes = [
           { path: 'graph', component: IssueGraphControlsComponent},
           { path: 'component/:componentId',
             children: [
+              { path: 'interface/:interfaceId',
+            children: [
+              {path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' }},
+              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent},
+              {path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
+            ]},
               {path: '', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' }},
               {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
             ]},
           { path: 'interface/:interfaceId',
             children: [
               {path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' }},
-              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
+              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent},
+              {path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
             ]}
 
         ]

@@ -637,23 +637,32 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const rootId = graph.groupingManager.getTreeRootOf(node.id);
     const rootNode = graph.getNode(rootId);
     if (node.issueCount < 2 && node.issueCount > 0){
-      if(rootNode.type ==='component'){
+      if (rootNode.type === 'component'){
         // get component query
         this.componentStoreService.getFullComponent(rootId).subscribe(component => {
-          const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type)
+          const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
           this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId ],
           { relativeTo: this.activatedRoute.parent});
 
         });
       }else{
         this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
-          const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type)
-          this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId ],
+          const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
+          const componentId = componentInterface.node.component.id;
+          this.router.navigate(['./', rootNode.type, rootId, 'component', componentId, 'issue', currentIssueId ],
           { relativeTo: this.activatedRoute.parent });
 
         });
         }
       }else{
+        if (rootNode.type === 'interface'){
+          this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
+            const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
+            const componentId = componentInterface.node.component.id;
+            this.router.navigate(['./', 'component', componentId, rootNode.type, rootId ],
+         { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
+        });
+        }
         this.router.navigate(['./', rootNode.type, rootId ],
          { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
       }

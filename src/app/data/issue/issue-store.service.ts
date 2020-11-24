@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AddIssueCommentInput, CommentIssueGQL, CreateIssueGQL, CreateIssueInput, GetIssueGQL, GetIssueQuery, Issue, IssueCategory, LinkIssueGQL, LinkIssueInput, UnlinkIssueGQL, UnlinkIssueInput} from 'src/generated/graphql';
+import { AddIssueCommentInput, CloseIssueGQL, CommentIssueGQL, CreateIssueGQL, CreateIssueInput, GetIssueGQL,
+  GetIssueQuery, Issue, IssueCategory, LinkIssueGQL, LinkIssueInput, UnlinkIssueGQL, CloseIssueInput, UnlinkIssueInput, ReopenIssueGQL, ReopenIssueInput, RenameIssueTitleInput, RenameIssueTitleGQL, AddIssueToLocationInput, RemoveIssueFromLocationInput, AddIssueToLocationGQL, RemoveIssueFromLocationGQL} from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +10,10 @@ import { Observable } from 'rxjs';
 export class IssueStoreService {
 
   constructor(private createIssue: CreateIssueGQL, private linkIssue: LinkIssueGQL, private getFullIssueQuery: GetIssueGQL,
-              private commentIssueMutation: CommentIssueGQL, private unlinkIssueMutation: UnlinkIssueGQL) { }
+              private commentIssueMutation: CommentIssueGQL, private unlinkIssueMutation: UnlinkIssueGQL,
+              private closeIssueMutation: CloseIssueGQL, private reopenIssueMutation: ReopenIssueGQL,
+              private renameIssueMutation: RenameIssueTitleGQL, private addIssueToLocationMutation: AddIssueToLocationGQL,
+              private removeIssueFromLocationMutation: RemoveIssueFromLocationGQL) { }
 
   create(issueInput: CreateIssueInput) {
     return this.createIssue.mutate({input: issueInput});
@@ -28,6 +32,21 @@ export class IssueStoreService {
   }
   commentIssue(commentIssueInput: AddIssueCommentInput) {
     return this.commentIssueMutation.mutate({input: commentIssueInput});
+  }
+  close(closeInput: CloseIssueInput){
+    return this.closeIssueMutation.mutate({input: closeInput});
+  }
+  reopen(reopenInput: ReopenIssueInput){
+    return this.reopenIssueMutation.mutate({input: reopenInput});
+  }
+  rename(renameInput: RenameIssueTitleInput){
+    return this.renameIssueMutation.mutate({input: renameInput});
+  }
+  addToLocation(addLocationInput: AddIssueToLocationInput){
+    return this.addIssueToLocationMutation.mutate({input: addLocationInput});
+  }
+  removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput){
+    return this.removeIssueFromLocationMutation.mutate({input: removeLocationInput});
   }
 
 }
