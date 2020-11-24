@@ -62,7 +62,7 @@ export class IssueDetailComponent implements OnInit {
     if (rect.style.visibility === 'hidden'){
          x = e.clientX;
       }else{
-        x = e.clientX - rect.offsetWidth - 80;
+        x = e.clientX - rect.offsetWidth - 200;
       }
     y = e.clientY - rect2.offsetHeight;
     this.mouseX = x.toString() + 'px';
