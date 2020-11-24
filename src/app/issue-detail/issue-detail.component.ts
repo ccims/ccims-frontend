@@ -66,8 +66,6 @@ export class IssueDetailComponent implements OnInit {
     this.mouseX = x.toString() + 'px';
     this.mouseY = y.toString() + 'px';
     this.attributeToEdit = attributeToEdit;
-    console.log(attributeToEdit);
-
     this.editIssue = true;
   }
   public receiveMessage($event){
