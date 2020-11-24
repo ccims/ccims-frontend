@@ -54,7 +54,11 @@ query GetIssueGraphData($projectId: ID!, $activeCategories: [IssueCategory!]) {
               id
             }
           }
-          linksToIssues {
+          linksToIssues(
+            filterBy: {
+              category: $activeCategories
+            }
+          ) {
             nodes {
               id
               category
@@ -143,7 +147,12 @@ query GetIssueGraphDataForLabels(
               id
             }
           }
-          linksToIssues {
+          linksToIssues(
+            filterBy: {
+              category: $activeCategories
+              labels: $selectedLabels
+            }
+          ) {
             nodes {
               id
               category

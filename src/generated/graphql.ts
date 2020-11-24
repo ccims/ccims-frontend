@@ -2036,6 +2036,8 @@ export type Mutation = {
   createIssue?: Maybe<CreateIssuePayload>;
   /** Creates a new comment on an existing issue */
   addIssueComment?: Maybe<AddIssueCommentPayload>;
+  /** Creates a new comment on an existing issue */
+  updateComment?: Maybe<UpdateCommentPayload>;
   /**
    * Deletes an issue comment.
    * 
@@ -2142,6 +2144,12 @@ export type MutationCreateIssueArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueCommentArgs = {
   input: AddIssueCommentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateCommentArgs = {
+  input: UpdateCommentInput;
 };
 
 
@@ -2500,6 +2508,28 @@ export type AddIssueCommentInput = {
   issue: Scalars['ID'];
   /**
    * The body text of the comment to be added.
+   * 
+   * Max. 65536 characters.
+   */
+  body: Scalars['String'];
+};
+
+/** The Payload/Response for the updateComment mutation */
+export type UpdateCommentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The comment object that was updated. */
+  comment?: Maybe<Comment>;
+};
+
+/** The inputs for the updateComment */
+export type UpdateCommentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the comment to update */
+  comment: Scalars['ID'];
+  /**
+   * The body text of the comment to be updated.
    * 
    * Max. 65536 characters.
    */
@@ -4081,7 +4111,7 @@ export const GetIssueGraphDataDocument = gql`
               id
             }
           }
-          linksToIssues {
+          linksToIssues(filterBy: {category: $activeCategories}) {
             nodes {
               id
               category
@@ -4160,7 +4190,7 @@ export const GetIssueGraphDataForLabelsDocument = gql`
               id
             }
           }
-          linksToIssues {
+          linksToIssues(filterBy: {category: $activeCategories, labels: $selectedLabels}) {
             nodes {
               id
               category
