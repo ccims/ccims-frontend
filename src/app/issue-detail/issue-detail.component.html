@@ -48,13 +48,13 @@
         </div>
       </div>
       <mat-divider></mat-divider>
-      <div class="Box Box--condensed issue-body-box">
+      <div class="Box Box--condensed issue-body-box comment-box-container">
         <div class="Box-header d-flex flex-items-center">
           <h3 class="Box-title overflow-hidden flex-auto">
             Comment this issue as <b>{{issue.node.createdBy.displayName}}</b>
           </h3>
         </div>
-        <div class="Box-body new-comment-box clear" >
+        <div class="Box-body clear" >
           <textarea class="comment-text-area" matInput #comment></textarea>
           <div class="comment-buttons">
           <button mat-raised-button color="warn" >Close Issue</button>
