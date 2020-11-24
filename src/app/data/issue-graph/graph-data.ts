@@ -28,12 +28,13 @@ type GraphFolder = [LocationId, IssueCategory];
 type GraphLocation = GraphInterface | GraphComponent;
 
 function computeRelatedFolders(linkIssues: GraphIssue[]): DefaultDictionary<GraphFolder, GraphFolder[]> {
-  let targetFolders: GraphFolder[] = [];
+  let targetFolders: GraphFolder[];
   const relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]> = new DefaultDictionary<GraphFolder, GraphFolder[]>(() => []);
   for (const issue of linkIssues) {
     const sourceFolders: GraphFolder[] = issue.locations.map(locationId => [locationId, issue.category]);
+    targetFolders = [];
     for (const linkedIssue of issue.linksIssues) {
-      //@ts-ignore
+      // @ts-ignore
       targetFolders = targetFolders.concat(linkedIssue.locations.map(locationId => [locationId, linkedIssue.category]));
     }
     sourceFolders.forEach(folder =>
