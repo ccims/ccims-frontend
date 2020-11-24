@@ -15,6 +15,9 @@ query GetInterface($id: ID!) {
       id
       name
       description
+      component{
+        id
+      }
       issuesOnLocation{
         nodes{
           id

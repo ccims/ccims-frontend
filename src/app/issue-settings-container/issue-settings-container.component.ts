@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { AddLabelToIssueInput, GetComponentQuery, GetIssueQuery, GetProjectQuery, Label, LinkIssueInput, RemoveLabelFromIssueInput, UnlinkIssueInput } from 'src/generated/graphql';
+import { AddIssueToLocationInput, AddLabelToIssueInput, GetComponentQuery, GetIssueQuery, GetProjectQuery, Label, LinkIssueInput, RemoveIssueFromLocationInput, RemoveLabelFromIssueInput, UnlinkIssueInput } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { element } from 'protractor';
@@ -23,6 +23,8 @@ export class IssueSettingsContainerComponent implements OnInit {
   public issueComponent$: Observable<GetComponentQuery>;
   issuesLoaded = false;
   selectedIssues: any = [];
+  selectableComponentInterfaces = [];
+  selectedInterfaces;
   linkableProjectIssues: any = [];
   constructor(private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
               private labelStoreService: LabelStoreService, private projectStoreService: ProjectStoreService,
@@ -35,8 +37,11 @@ export class IssueSettingsContainerComponent implements OnInit {
     this.issueComponent$.subscribe(component => {
       this.issueComponent = component;
       this.labels = component.node.labels.nodes;
+      component.node.interfaces.nodes.forEach(location => this.selectableComponentInterfaces.push(location));
+      this.selectedInterfaces = this.filterInterfacesFromLocations(component);
     });
     this.prepareLinkableIssues();
+
 
   }
   @HostListener('document:click', ['$event'])
@@ -67,7 +72,19 @@ export class IssueSettingsContainerComponent implements OnInit {
 
     if (this.selection === 'assignees') {
       // assignees speichern
+      this.messageEvent.emit(false);
+    }
+    if (this.selection === 'nfr') {
+      // nfr speichern
+      const remove = this.getLocationsToRemove();
+      const add = this.getLocationsToAdd();
+      if (remove.length < 1 && add.length < 1){this.messageEvent.emit(false);
+      }else{
+        console.log(add, remove);
 
+        this.removeIssueFromLocations(remove);
+        this.addIssuesToLocations(add); }
+      // this.messageEvent.emit(false);
     }
     if (this.selection === 'link') {
       // linked Issues speichern
@@ -221,11 +238,79 @@ export class IssueSettingsContainerComponent implements OnInit {
           this.linkableProjectIssues.push(tempIssue);
         });
       });
-      this.currentIssue.node.linksToIssues.nodes.forEach(linkedIssue=>{
+      this.currentIssue.node.linksToIssues.nodes.forEach(linkedIssue => {
         this.selectedIssues.push(linkedIssue.id);
-      })
+      });
 
       this.issuesLoaded = true;
+    });
+  }
+  private filterInterfacesFromLocations(componentLocation: GetComponentQuery){
+    const interfaceList = [];
+    this.currentIssue.node.locations.nodes.forEach(location => {
+      if (location.id !== componentLocation.node.id){
+        console.log('pushed');
+
+        interfaceList.push(location.id);
+      }
+    });
+    return interfaceList;
+  }
+  getLocationsToRemove(){
+    const remove: Array<string> = [];
+    this.filterInterfacesFromLocations(this.issueComponent).forEach(locationId => {
+
+      if (!this.selectedInterfaces.includes(locationId)) {
+        remove.push(locationId);
+      }
+    });
+    return remove;
+
+  }
+  private getLocationsToAdd(){
+    const add: Array<string> = [];
+    this.selectedInterfaces.forEach(selInterface => {
+      let found = false;
+      this.currentIssue.node.locations.nodes.forEach(location => {
+        if (location.id === selInterface) {
+          found = true;
+        }
+
+      });
+      if (!found) {
+        add.push(selInterface);
+      }
+    });
+    return add;
+  }
+  private removeIssueFromLocations(locationsToRemove: Array<string>){
+    locationsToRemove.forEach(location => {
+      const input: RemoveIssueFromLocationInput = {
+        issue: this.currentIssue.node.id,
+         location
+      };
+      this.issueStoreService.removeFromLocation(input).subscribe(data => {
+        console.log(data);
+        this.messageEvent.emit(true);
+
+      }, (error) => {
+        console.log('there was an error sending the query', error); });
+
+    });
+  }
+  private addIssuesToLocations(locationsToAdd: Array<string>){
+    locationsToAdd.forEach(location => {
+      const input: AddIssueToLocationInput = {
+        issue: this.currentIssue.node.id,
+         location
+      };
+      this.issueStoreService.addToLocation(input).subscribe(data => {
+        console.log(data);
+        this.messageEvent.emit(true);
+
+      }, (error) => {
+        console.log('there was an error sending the query', error); });
+
     });
   }
 }

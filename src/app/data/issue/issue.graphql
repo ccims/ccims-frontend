@@ -28,6 +28,13 @@ query GetIssue($id: ID!) {
       title
       body
       bodyRendered
+      isOpen
+      locations{
+        nodes{
+          id
+          name
+        }
+      }
       linkedByIssues{
         nodes{
           id
@@ -90,5 +97,30 @@ mutation CommentIssue($input: AddIssueCommentInput!) {
       }
       createdAt
     }
+}
+}
+mutation CloseIssue($input: CloseIssueInput!) {
+  closeIssue(input: $input){
+      clientMutationID
+}
+}
+mutation ReopenIssue($input: ReopenIssueInput!) {
+  reopenIssue(input: $input){
+      clientMutationID
+}
+}
+mutation RenameIssueTitle($input: RenameIssueTitleInput!) {
+  renameIssueTitle(input: $input){
+      clientMutationID
+}
+}
+mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
+  removeIssueFromLocation(input: $input){
+      clientMutationID
+}
+}
+mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
+  addIssueToLocation(input: $input){
+      clientMutationID
 }
 }

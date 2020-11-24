@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IssueStoreService } from '@app/data/issue/issue-store.service';
-import { GetIssueQuery, AddIssueCommentInput, Issue} from 'src/generated/graphql';
+import { GetIssueQuery, AddIssueCommentInput, Issue, CloseIssueInput, ReopenIssueInput, RenameIssueTitleInput} from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { IssueListComponent } from '@app/issue-list/issue-list.component';
 import { LabelStoreService } from '@app/data/label/label-store.service';
@@ -13,6 +13,7 @@ import { LabelStoreService } from '@app/data/label/label-store.service';
 })
 export class IssueDetailComponent implements OnInit {
   @ViewChild('issueContainer') issueContainer: ElementRef;
+  @ViewChild('titleInput') inputTitle: ElementRef;
   public issueId: string;
   public issue: GetIssueQuery;
   public issue$: Observable<GetIssueQuery>;
@@ -21,7 +22,8 @@ export class IssueDetailComponent implements OnInit {
   public mouseX = '00px';
   public mouseY = '00px';
   public attributeToEdit = 'start';
-  public labelList =[];
+  public labelList = [];
+  public editTitle = false;
   constructor(private labelStoreService: LabelStoreService, private activatedRoute: ActivatedRoute,
               private issueStoreService: IssueStoreService) { }
 
@@ -29,7 +31,7 @@ export class IssueDetailComponent implements OnInit {
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
     this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
     this.issue$.subscribe(issue => {
-      issue.node.labels.nodes.forEach(element=>this.labelList.push(element.id));
+      issue.node.labels.nodes.forEach(element => this.labelList.push(element.id));
       this.issue = issue;
 
       console.log(issue);
@@ -60,7 +62,7 @@ export class IssueDetailComponent implements OnInit {
     if (rect.style.visibility === 'hidden'){
          x = e.clientX;
       }else{
-        x = e.clientX - rect.offsetWidth;
+        x = e.clientX - rect.offsetWidth - 200;
       }
     y = e.clientY - rect2.offsetHeight;
     this.mouseX = x.toString() + 'px';
@@ -83,6 +85,50 @@ export class IssueDetailComponent implements OnInit {
   }
   public closeSettings(){
     if (this.editIssue){this.editIssue = false; }
+
+  }
+
+  public closeIssue(){
+    const closeIssueInput: CloseIssueInput = {
+      issue: this.issueId
+    };
+    this.issueStoreService.close(closeIssueInput).subscribe(data => {
+      console.log(data);
+      this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+      this.issue$.subscribe(issue => {
+      this.issue = issue;
+    });
+    });
+  }
+  public reopenIssue(){
+    const reopenIssueInput: ReopenIssueInput = {
+      issue: this.issueId
+    };
+    this.issueStoreService.reopen(reopenIssueInput).subscribe(data => {
+      console.log(data);
+      this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+      this.issue$.subscribe(issue => {
+      this.issue = issue;
+    });
+    });
+  }
+  public editIssueTitle(save?: boolean){
+
+      if (save){
+        const nameIssueInput: RenameIssueTitleInput = {
+          issue: this.issueId,
+          newTitle: this.inputTitle.nativeElement.value
+        };
+        this.issueStoreService.rename(nameIssueInput).subscribe(data => {
+          console.log(data);
+          this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+          this.issue$.subscribe(issue => {
+          this.issue = issue;
+        });
+        });
+      }
+      this.editTitle = !this.editTitle;
+
 
   }
 

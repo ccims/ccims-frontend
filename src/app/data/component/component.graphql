@@ -91,6 +91,7 @@ query GetComponent($id: ID!) {
       interfaces{
         nodes{
           name
+          id
         }
       }
       consumedInterfaces{

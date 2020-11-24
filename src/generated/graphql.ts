@@ -3605,7 +3605,7 @@ export type GetComponentQuery = { node?: Maybe<(
     & { owner?: Maybe<Pick<User, 'displayName' | 'username' | 'id'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, ims?: Maybe<Pick<Ims, 'imsType'>>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'title' | 'isOpen' | 'category' | 'body'>
         & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
-      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }>, consumedInterfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }> }
+      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name' | 'id'>>>> }>, consumedInterfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }> }
   )> };
 
 export type DeleteComponentMutationVariables = Exact<{
@@ -3639,7 +3639,7 @@ export type GetInterfaceQueryVariables = Exact<{
 
 export type GetInterfaceQuery = { node?: Maybe<(
     Pick<ComponentInterface, 'id' | 'name' | 'description'>
-    & { issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+    & { component: Pick<Component, 'id'>, issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'title' | 'isOpen' | 'category' | 'body'>
         & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
       )>>> }> }
@@ -3713,8 +3713,8 @@ export type GetIssueQueryVariables = Exact<{
 
 
 export type GetIssueQuery = { node?: Maybe<(
-    Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered'>
-    & { linkedByIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'id'>>>> }>, createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, issueComments?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+    Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered' | 'isOpen'>
+    & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>>> }>, linkedByIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'id'>>>> }>, createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, issueComments?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<IssueComment, 'id' | 'body' | 'bodyRendered' | 'createdAt'>
         & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
       )>>> }>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
@@ -3729,6 +3729,41 @@ export type CommentIssueMutation = { addIssueComment?: Maybe<{ comment?: Maybe<(
       Pick<IssueComment, 'id' | 'body' | 'createdAt'>
       & { createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
     )> }> };
+
+export type CloseIssueMutationVariables = Exact<{
+  input: CloseIssueInput;
+}>;
+
+
+export type CloseIssueMutation = { closeIssue?: Maybe<Pick<CloseIssuePayload, 'clientMutationID'>> };
+
+export type ReopenIssueMutationVariables = Exact<{
+  input: ReopenIssueInput;
+}>;
+
+
+export type ReopenIssueMutation = { reopenIssue?: Maybe<Pick<ReopenIssuePayload, 'clientMutationID'>> };
+
+export type RenameIssueTitleMutationVariables = Exact<{
+  input: RenameIssueTitleInput;
+}>;
+
+
+export type RenameIssueTitleMutation = { renameIssueTitle?: Maybe<Pick<RenameIssueTitlePayload, 'clientMutationID'>> };
+
+export type RemoveIssueFromLocationMutationVariables = Exact<{
+  input: RemoveIssueFromLocationInput;
+}>;
+
+
+export type RemoveIssueFromLocationMutation = { removeIssueFromLocation?: Maybe<Pick<RemoveIssueFromLocationPayload, 'clientMutationID'>> };
+
+export type AddIssueToLocationMutationVariables = Exact<{
+  input: AddIssueToLocationInput;
+}>;
+
+
+export type AddIssueToLocationMutation = { addIssueToLocation?: Maybe<Pick<AddIssueToLocationPayload, 'clientMutationID'>> };
 
 export type GetLabelsQueryVariables = Exact<{
   projectId: Scalars['ID'];
@@ -3930,6 +3965,7 @@ export const GetComponentDocument = gql`
       interfaces {
         nodes {
           name
+          id
         }
       }
       consumedInterfaces {
@@ -4019,6 +4055,9 @@ export const GetInterfaceDocument = gql`
       id
       name
       description
+      component {
+        id
+      }
       issuesOnLocation {
         nodes {
           id
@@ -4287,6 +4326,13 @@ export const GetIssueDocument = gql`
       title
       body
       bodyRendered
+      isOpen
+      locations {
+        nodes {
+          id
+          name
+        }
+      }
       linkedByIssues {
         nodes {
           id
@@ -4370,6 +4416,96 @@ export const CommentIssueDocument = gql`
   })
   export class CommentIssueGQL extends Apollo.Mutation<CommentIssueMutation, CommentIssueMutationVariables> {
     document = CommentIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CloseIssueDocument = gql`
+    mutation CloseIssue($input: CloseIssueInput!) {
+  closeIssue(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CloseIssueGQL extends Apollo.Mutation<CloseIssueMutation, CloseIssueMutationVariables> {
+    document = CloseIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ReopenIssueDocument = gql`
+    mutation ReopenIssue($input: ReopenIssueInput!) {
+  reopenIssue(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReopenIssueGQL extends Apollo.Mutation<ReopenIssueMutation, ReopenIssueMutationVariables> {
+    document = ReopenIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RenameIssueTitleDocument = gql`
+    mutation RenameIssueTitle($input: RenameIssueTitleInput!) {
+  renameIssueTitle(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RenameIssueTitleGQL extends Apollo.Mutation<RenameIssueTitleMutation, RenameIssueTitleMutationVariables> {
+    document = RenameIssueTitleDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveIssueFromLocationDocument = gql`
+    mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
+  removeIssueFromLocation(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveIssueFromLocationGQL extends Apollo.Mutation<RemoveIssueFromLocationMutation, RemoveIssueFromLocationMutationVariables> {
+    document = RemoveIssueFromLocationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddIssueToLocationDocument = gql`
+    mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
+  addIssueToLocation(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddIssueToLocationGQL extends Apollo.Mutation<AddIssueToLocationMutation, AddIssueToLocationMutationVariables> {
+    document = AddIssueToLocationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

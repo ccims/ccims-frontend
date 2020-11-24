@@ -70,6 +70,10 @@
   <ng-option *ngFor="let assignee of this.assignees" [value]="assignee.id" >{{assignee.name}}</ng-option>
 </ng-select>
 
+<ng-select class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedInterfaces" [ngModelOptions]="{standalone: true}" placeholder="Interfaces providing the issue">
+  <ng-option *ngFor="let componentInterface of this.selectableComponentInterfaces" [value]="componentInterface.id" >{{componentInterface.name}}</ng-option>
+</ng-select>
+
 <ng-select *ngIf="issuesLoaded" class="adding-margin"
             [dropdownPosition]="'top'"
             [multiple]="true"
@@ -84,6 +88,16 @@
     {{item.component || 'Unnamed group'}}
 </ng-template>
 </ng-select>
+
+<mat-form-field class="stretch body" appearance="outline">
+  <mat-label>Artefacts</mat-label>
+  <textarea style="height: 30px;" #artefects matInput ></textarea>
+</mat-form-field>
+
+<mat-form-field class="stretch body" appearance="outline">
+  <mat-label>Non-functional-requirements</mat-label>
+  <textarea style="height: 30px;" #nfr matInput ></textarea>
+</mat-form-field>
 
   <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
 </form>

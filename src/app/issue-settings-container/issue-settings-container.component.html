@@ -28,7 +28,7 @@
       <mat-divider name="settings"></mat-divider>
 
       <ng-select *ngIf="issuesLoaded" class="adding-margin"
-            [dropdownPosition]="'top'"
+            [dropdownPosition]="'bottom'"
             [multiple]="true"
             [(ngModel)]="this.selectedIssues"
             [ngModelOptions]="{standalone: true}"
@@ -37,11 +37,29 @@
             [items]="linkableProjectIssues"
             bindLabel="title"
             bindValue="id">
-  <ng-template ng-optgroup-tmp let-item="item">
-    {{item.component || 'Unnamed group'}}
-</ng-template>
-</ng-select>
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{item.component || 'Unnamed group'}}
+        </ng-template>
+      </ng-select>
 
+    </div>
+    <div class="settings" *ngIf="this.selection=='nfr'">
+      <p class="settings" name="settings"><b>Edit Interfaces, Artefacts & NFR</b></p>
+      <mat-divider name="settings"></mat-divider>
+
+      <ng-select *ngIf="this.selectedInterfaces" class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedInterfaces" [ngModelOptions]="{standalone: true}" placeholder="Interfaces providing the issue">
+        <ng-option *ngFor="let componentInterface of this.selectableComponentInterfaces" [value]="componentInterface.id" >{{componentInterface.name}}</ng-option>
+      </ng-select>
+
+      <mat-form-field class="stretch" appearance="outline">
+        <mat-label>Artefacts</mat-label>
+        <textarea style="height: 30px;" #artefects matInput ></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="stretch" appearance="outline">
+        <mat-label>Non-functional-requirements</mat-label>
+        <textarea style="height: 30px;" #nfr matInput ></textarea>
+      </mat-form-field>
     </div>
   </div>
 

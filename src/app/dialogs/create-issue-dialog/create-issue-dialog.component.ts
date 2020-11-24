@@ -36,6 +36,8 @@ export class CreateIssueDialogComponent implements OnInit {
   // mock for the labels and assignees
   selectedLabels = [];
   labels = this.data.component.node.labels.nodes;
+  selectableComponentInterfaces = this.data.component.node.interfaces.nodes;
+  selectedInterfaces = [];
   selectedAssignees = [];
   assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
   // mock for the labels and assignees
@@ -68,7 +70,8 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
       body,
       category,
       assignees: ['0'],
-      labels: this.selectedLabels
+      labels: this.selectedLabels,
+      locations: this.selectedInterfaces
 
   };
 
