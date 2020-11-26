@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { GetComponentQuery, GetInterfaceQuery, Issue } from 'src/generated/graphql';
+import { GetComponentQuery, GetFullProjectGQL, GetFullProjectQuery, GetInterfaceQuery, Issue } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 import { FormControl } from '@angular/forms';
 import { LabelStoreService } from '@app/data/label/label-store.service';
+import { ProjectStoreService } from '@app/data/project/project-store.service';
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
@@ -25,6 +26,8 @@ export class IssueListComponent implements OnInit {
   private componentId?: string;
   private interface?: GetInterfaceQuery;
   public interface$?: Observable<GetInterfaceQuery>;
+  public project$?: Observable<GetFullProjectQuery>;
+  public project?: GetFullProjectQuery;
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
   searchIssuesDataArray: any;
@@ -34,7 +37,8 @@ export class IssueListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   constructor(private labelStoreService: LabelStoreService, private activatedRoute: ActivatedRoute, private dialog: MatDialog, private route: ActivatedRoute,
               private componentStoreService: ComponentStoreService,
-              private router: Router, private interfaceStoreService: InterfaceStoreService) {
+              private router: Router, private interfaceStoreService: InterfaceStoreService,
+              private projectStoreService: ProjectStoreService) {
 
   }
 
@@ -53,7 +57,22 @@ export class IssueListComponent implements OnInit {
       this.validationFilter.setValue(this.getQueryParamFilter());
 
     });
-    }else{
+    }else if (this.parentCaller.match('project')){
+      console.log('project');
+      this.project$ = this.projectStoreService.getFullProject(this.route.snapshot.paramMap.get('id'));
+      this.project$.subscribe(project => {
+        this.project = project;
+        this.prepareIssueArray();
+        this.dataSource = new MatTableDataSource<any>(this.addIssuesPerComponent());
+        this.sort.sort(({ id: 'category', start: 'asc'}) as MatSortable);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.filter = this.getQueryParamFilter();
+        this.validationFilter.setValue(this.getQueryParamFilter());
+
+      });
+    }
+    else{
       this.componentId = this.route.snapshot.paramMap.get('interfaceId');
 
       this.interface$ = this.interfaceStoreService.getInterface(this.componentId);
@@ -72,7 +91,7 @@ export class IssueListComponent implements OnInit {
 
   }
   private getQueryParamFilter(): string{
-    let returnedFilter = ''
+    let returnedFilter = '';
     this.activatedRoute.queryParams.subscribe(
       params => {
                  if (params.filter){
@@ -93,12 +112,18 @@ export class IssueListComponent implements OnInit {
   clickedOnRow(row: any) {
     // route to issue details
 
-    this.router.navigate(['issue', row.id], {relativeTo: this.route});
+    // this.router.navigate(['issue', row.id], {relativeTo: this.route});
+     this.router.navigate(['component', row.parentComponent, 'issue', row.id], {relativeTo: this.route});
+    console.log(row);
+
   }
   private prepareIssueArray(){
     if (this.parentCaller.match('component')){
       this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
-    }else{
+    }else if (this.parentCaller.match('project')){
+      this.searchIssuesDataArray = Object.assign([], this.addIssuesPerComponent());
+      }
+    else{
       this.searchIssuesDataArray = Object.assign([], this.interface.node.issuesOnLocation.nodes);
     }
     for (const issue of this.searchIssuesDataArray){
@@ -147,7 +172,21 @@ export class IssueListComponent implements OnInit {
   public lightOrDark(color){
     return this.labelStoreService.lightOrDark(color);
   }
+  private addIssuesPerComponent(){
+    const returnedList = [];
+    this.project.node.components.edges.forEach(component => {
+      component.node.issues.nodes.forEach(issue => {
+        const currentIssue: any = Object.assign({}, issue);
+        currentIssue.parentComponent = component.node.id;
+        returnedList.push(Object.assign({}, currentIssue));
+      });
+
+    });
+
+    return returnedList;
+  }
 
 
 
 }
+

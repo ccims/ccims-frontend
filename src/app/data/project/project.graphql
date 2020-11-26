@@ -33,12 +33,31 @@ query GetFullProject($id: ID!) {
           node {
             id
             name
-            issues{
+           issues {
+        nodes {
+            id
+            title
+            createdBy{
+              id
+              displayName
+            }
+            labels{
               nodes{
-                  id
-                  title
+              id
+              name
+              color
               }
             }
+            assignees{
+              nodes{
+                id
+                displayName
+              }
+            }
+            category
+
+        }
+      }
           }
         }
       }
@@ -62,10 +81,28 @@ query GetFullProject($id: ID!) {
         }
       }
       issues {
-        edges {
-          node {
+        nodes {
             id
-          }
+            title
+            createdBy{
+              id
+              displayName
+            }
+            labels{
+              nodes{
+              id
+              name
+              color
+              }
+            }
+            assignees{
+              nodes{
+                id
+                displayName
+              }
+            }
+            category
+
         }
       }
     }

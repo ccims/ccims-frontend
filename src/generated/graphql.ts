@@ -2036,8 +2036,6 @@ export type Mutation = {
   createIssue?: Maybe<CreateIssuePayload>;
   /** Creates a new comment on an existing issue */
   addIssueComment?: Maybe<AddIssueCommentPayload>;
-  /** Creates a new comment on an existing issue */
-  updateComment?: Maybe<UpdateCommentPayload>;
   /**
    * Deletes an issue comment.
    * 
@@ -2144,12 +2142,6 @@ export type MutationCreateIssueArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueCommentArgs = {
   input: AddIssueCommentInput;
-};
-
-
-/** Mutations to change the data within the ccims */
-export type MutationUpdateCommentArgs = {
-  input: UpdateCommentInput;
 };
 
 
@@ -2508,28 +2500,6 @@ export type AddIssueCommentInput = {
   issue: Scalars['ID'];
   /**
    * The body text of the comment to be added.
-   * 
-   * Max. 65536 characters.
-   */
-  body: Scalars['String'];
-};
-
-/** The Payload/Response for the updateComment mutation */
-export type UpdateCommentPayload = {
-  /** The string provided by the client on sending the mutation */
-  clientMutationID?: Maybe<Scalars['String']>;
-  /** The comment object that was updated. */
-  comment?: Maybe<Comment>;
-};
-
-/** The inputs for the updateComment */
-export type UpdateCommentInput = {
-  /** An arbitraty string to return together with the mutation result */
-  clientMutationID?: Maybe<Scalars['String']>;
-  /** The ID of the comment to update */
-  comment: Scalars['ID'];
-  /**
-   * The body text of the comment to be updated.
    * 
    * Max. 65536 characters.
    */
@@ -3816,11 +3786,17 @@ export type GetFullProjectQuery = { node?: Maybe<(
     Pick<Project, 'id' | 'name' | 'description'>
     & { owner: Pick<User, 'id' | 'displayName'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<(
           Pick<Component, 'id' | 'name'>
-          & { issues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }> }
+          & { issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+              Pick<Issue, 'id' | 'title' | 'category'>
+              & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+            )>>> }> }
         )> }>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<ComponentInterface, 'name' | 'id'>
         & { issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }> }
-      )>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Issue, 'id'>> }>>> }> }
+      )>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Issue, 'id' | 'title' | 'category'>
+        & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+      )>>> }> }
   )> };
 
 export type CreateProjectMutationVariables = Exact<{
@@ -4664,6 +4640,24 @@ export const GetFullProjectDocument = gql`
               nodes {
                 id
                 title
+                createdBy {
+                  id
+                  displayName
+                }
+                labels {
+                  nodes {
+                    id
+                    name
+                    color
+                  }
+                }
+                assignees {
+                  nodes {
+                    id
+                    displayName
+                  }
+                }
+                category
               }
             }
           }
@@ -4689,10 +4683,27 @@ export const GetFullProjectDocument = gql`
         }
       }
       issues {
-        edges {
-          node {
+        nodes {
+          id
+          title
+          createdBy {
             id
+            displayName
           }
+          labels {
+            nodes {
+              id
+              name
+              color
+            }
+          }
+          assignees {
+            nodes {
+              id
+              displayName
+            }
+          }
+          category
         }
       }
     }

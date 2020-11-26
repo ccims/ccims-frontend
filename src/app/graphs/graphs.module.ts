@@ -30,6 +30,7 @@ import { LabelSearchComponent } from './label-search/label-search.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { InterfaceDetailsComponent } from '@app/interface-details/interface-details.component';
+import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue-list.component';
 // import { NgSelectModule } from '@ng-select/ng-select';
 // import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
@@ -37,7 +38,8 @@ import { InterfaceDetailsComponent } from '@app/interface-details/interface-deta
   declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent,
     IssueListComponent,
     LabelSearchComponent,
-    InterfaceDetailsComponent,],
+    InterfaceDetailsComponent,
+    ProjectIssueListComponent],
   imports: [
     CommonModule,
     MatToolbarModule,

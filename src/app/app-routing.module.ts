@@ -11,6 +11,8 @@ import { AuthGuard } from './auth/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { ComponentDetailsComponent } from './component-details/component-details.component';
 import { InterfaceDetailsComponent } from './interface-details/interface-details.component';
+import { IssueListComponent } from './issue-list/issue-list.component';
+import { ProjectIssueListComponent } from './project-issue-list/project-issue-list.component';
 
 
 const routes: Routes = [
@@ -24,6 +26,10 @@ const routes: Routes = [
         children: [
           { path: '', pathMatch: 'full', component: ProjectOverviewComponent},
           { path: 'graph', component: IssueGraphControlsComponent},
+          { path: 'issues',
+          children: [{ path: '', pathMatch: 'full', component: ProjectIssueListComponent},
+                     { path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent},
+                    ]},
           { path: 'component/:componentId',
             children: [
               { path: 'interface/:interfaceId',
