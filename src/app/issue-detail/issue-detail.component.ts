@@ -76,6 +76,8 @@ export class IssueDetailComponent implements OnInit {
       this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
       this.issue$.subscribe(issue => {
       this.issue = issue;
+      this.labelList = [];
+      issue.node.labels.nodes.forEach(element => this.labelList.push(element.id));
     });
     }
     if ($event === false && this.editIssue){

@@ -28,7 +28,7 @@ export class CreateIssueDialogComponent implements OnInit {
   validationCategory = new FormControl('', [Validators.required]);
   validationLabelName = new FormControl('', [Validators.required]);
   validationLabelColor = new FormControl('', [Validators.required]);
-  color = '#ff00ff';
+  color = '#d31111';
   issuesLoaded = false;
   selectedIssues: any = [];
   linkableProjectIssues: any = [];
@@ -128,7 +128,7 @@ this.loading = true;
 this.labelStore.createLabel(input).subscribe(({ data}) => {
   this.loading = false;
   // save returned label to labels
-  this.labels.push({name: data.createLabel.label.name, id: data.createLabel.label.id});
+  this.labels.push({name: data.createLabel.label.name, id: data.createLabel.label.id, color: this.color});
   this.onLabelCancelClick();
 }, (error) => {
   console.log('there was an error sending the query', error);
