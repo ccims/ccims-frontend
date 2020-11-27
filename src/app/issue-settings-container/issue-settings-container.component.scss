@@ -2,7 +2,8 @@
   border-style: solid;
   border-color: lightgray;
   border-width: 0.5px;
-  height: 400px;
+  min-height: 400px;
+  height: auto;
   width: 350px;
   background-color: white;
   -webkit-box-shadow: 0px 0px 17px -8px rgba(0,0,0,0.75);
@@ -21,4 +22,21 @@ box-shadow: 0px 0px 17px -8px rgba(0,0,0,0.75);
 }
 .stretch{
   width: 100%;
+}
+.new-label-container {
+  height: auto;
+  width: 100%;
+  background-color: #f6f8fa;
+  border-radius: 5px;
+  border-color: #bbbdbe;
+  border-style: solid;
+  padding: 10px;
+  border-width: 1px;
+}
+.short-text-field {
+width: 70%;
+}
+.color-field {
+  width: 25%;
+  margin-left: 4px;
 }

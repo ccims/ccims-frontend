@@ -21,6 +21,35 @@
     </ng-option>
 
 </ng-select>
+<div class="new-label-container">
+  <h3>Create New Label</h3>
+  <div>
+  <mat-form-field class="label-title short-text-field" appearance="outline">
+    <mat-label>Label Name</mat-label>
+    <input #labelName reqired matInput  [formControl]="validationLabelName" >
+    <mat-error *ngIf="validationLabelName.invalid">Type in a Name</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="color-field" floatLabel="always" appearance="outline" >
+    <mat-label>Color</mat-label>
+    <input
+      matInput
+      [style.background]="color"
+      autocomplete="off"
+      [(colorPicker)]="this.color"
+      [cpPosition]="'bottom'"/>
+  </mat-form-field>
+
+  <mat-form-field class="label-title" appearance="outline">
+    <mat-label>Description</mat-label>
+    <input #labelDescription matInput  >
+  </mat-form-field>
+
+</div>
+  <button mat-raised-button [class.spinner]="loading" [disabled]="loading || validationLabelName.invalid" (click)="this.onConfirmCreateLabelCklick(labelName.value, labelDescription.value)">Create</button>
+<button mat-button (click)="this.onLabelCancelClick()" >Cancel</button>
+<div *ngIf="this.saveFailed" class="error-label-create">Label was not created</div>
+</div>
     </div>
     <div class="settings" *ngIf="this.selection=='assignees'">Assingees aufgerufen</div>
     <div class="settings" *ngIf="this.selection=='link'">

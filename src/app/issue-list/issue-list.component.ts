@@ -111,7 +111,9 @@ export class IssueListComponent implements OnInit {
   }
   clickedOnRow(row: any) {
     // route to issue details
-
+    if (this.parentCaller.match('component') || this.parentCaller.match('interface')){
+      this.router.navigate(['issue', row.id], {relativeTo: this.route});
+    }
     // this.router.navigate(['issue', row.id], {relativeTo: this.route});
      this.router.navigate(['component', row.parentComponent, 'issue', row.id], {relativeTo: this.route});
     console.log(row);

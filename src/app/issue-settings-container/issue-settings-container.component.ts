@@ -1,12 +1,13 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { AddIssueToLocationInput, AddLabelToIssueInput, GetComponentQuery, GetIssueQuery, GetProjectQuery, Label, LinkIssueInput, RemoveIssueFromLocationInput, RemoveLabelFromIssueInput, UnlinkIssueInput } from 'src/generated/graphql';
+import { AddIssueToLocationInput, AddLabelToIssueInput, CreateLabelInput, GetComponentQuery, GetIssueQuery, GetProjectQuery, Label, LinkIssueInput, RemoveIssueFromLocationInput, RemoveLabelFromIssueInput, UnlinkIssueInput } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { element } from 'protractor';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
 import { IssueStoreService } from '@app/data/issue/issue-store.service';
+import { FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-issue-settings-container',
   templateUrl: './issue-settings-container.component.html',
@@ -26,9 +27,14 @@ export class IssueSettingsContainerComponent implements OnInit {
   selectableComponentInterfaces = [];
   selectedInterfaces;
   linkableProjectIssues: any = [];
+  validationLabelName = new FormControl('', [Validators.required]);
+  validationLabelColor = new FormControl('', [Validators.required]);
+  color: string = '#50d63a';
+  loading: boolean;
+  saveFailed = false;
   constructor(private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
               private labelStoreService: LabelStoreService, private projectStoreService: ProjectStoreService,
-              private issueStoreService: IssueStoreService) { }
+              private issueStoreService: IssueStoreService, private labelStore: LabelStoreService) { }
 
   ngOnInit(): void {
 
@@ -313,4 +319,29 @@ export class IssueSettingsContainerComponent implements OnInit {
 
     });
   }
+  onLabelCancelClick() {
+    this.validationLabelName.setValue('');
+  }
+  onConfirmCreateLabelCklick(name: string, description?: string) {
+    // mutation new Label
+    const input: CreateLabelInput = {
+      name,
+      color: this.color,
+      components: [this.activatedRoute.snapshot.paramMap.get('componentId')],
+      description
+    };
+    this.loading = true;
+    this.labelStore.createLabel(input).subscribe(({ data}) => {
+      this.loading = false;
+      // save returned label to labels
+      this.labels.push({name: data.createLabel.label.name, id: data.createLabel.label.id});
+      this.onLabelCancelClick();
+    }, (error) => {
+      console.log('there was an error sending the query', error);
+      this.loading = false;
+      this.saveFailed = true;
+    });
+
+
+    }
 }
