@@ -62,8 +62,6 @@
             name="description" matInput></textarea>
         </mat-form-field>
       </form>
-      <p *ngIf="!component.labels.nodes.length" >Labels: keine Labels gefunden</p>
-      <p *ngFor="let label of component.labels.nodes">{{label.name}}</p>
     </mat-tab>
     <mat-tab label="Component Issues">
       <div class="component-title">

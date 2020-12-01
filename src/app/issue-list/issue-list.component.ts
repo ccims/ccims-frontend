@@ -111,10 +111,12 @@ export class IssueListComponent implements OnInit {
   }
   clickedOnRow(row: any) {
     // route to issue details
-    if (this.parentCaller.match('component') || this.parentCaller.match('interface')){
-      console.log("match")
+    if (this.parentCaller.match('component')){
       this.router.navigate(['issue', row.id], {relativeTo: this.route});
-    }else{this.router.navigate(['component', row.parentComponent, 'issue', row.id], {relativeTo: this.route});}
+    }else if(this.parentCaller.match('interface')){
+      this.router.navigate(['component', this.interface.node.component.id, 'issue', row.id], {relativeTo: this.route }); }
+
+    else{this.router.navigate(['component', row.parentComponent, 'issue', row.id], {relativeTo: this.route});}
     // this.router.navigate(['issue', row.id], {relativeTo: this.route});
 
     console.log(row);

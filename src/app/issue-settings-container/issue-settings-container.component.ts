@@ -22,6 +22,7 @@ export class IssueSettingsContainerComponent implements OnInit {
   public labels: Label[];
   public issueComponent: GetComponentQuery;
   public issueComponent$: Observable<GetComponentQuery>;
+  queryParamdisplayInterfaces;
   issuesLoaded = false;
   selectedIssues: any = [];
   selectableComponentInterfaces = [];
@@ -29,7 +30,7 @@ export class IssueSettingsContainerComponent implements OnInit {
   linkableProjectIssues: any = [];
   validationLabelName = new FormControl('', [Validators.required]);
   validationLabelColor = new FormControl('', [Validators.required]);
-  color: string = '#d31111';
+  color = '#d31111';
   loading: boolean;
   saveFailed = false;
   constructor(private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
@@ -37,7 +38,6 @@ export class IssueSettingsContainerComponent implements OnInit {
               private issueStoreService: IssueStoreService, private labelStore: LabelStoreService) { }
 
   ngOnInit(): void {
-
 
     this.issueComponent$ = this.componentStoreService.getFullComponent(this.activatedRoute.snapshot.paramMap.get('componentId'));
     this.issueComponent$.subscribe(component => {
