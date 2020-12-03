@@ -56,6 +56,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { InterfaceDetailsComponent } from './interface-details/interface-details.component';
 import { IssueSettingsContainerComponent } from './issue-settings-container/issue-settings-container.component';
 import { ProjectIssueListComponent } from './project-issue-list/project-issue-list.component';
+import { ProjectMembersComponent } from './project-members/project-members.component';
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -84,7 +85,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
     CreateIssueDialogComponent,
-    IssueSettingsContainerComponent
+    IssueSettingsContainerComponent,
   ],
   imports: [
     BrowserModule,

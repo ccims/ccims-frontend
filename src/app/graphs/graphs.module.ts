@@ -31,6 +31,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { InterfaceDetailsComponent } from '@app/interface-details/interface-details.component';
 import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue-list.component';
+import { ProjectMembersComponent } from '@app/project-members/project-members.component';
+import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-dialog/add-project-member-dialog.component';
 // import { NgSelectModule } from '@ng-select/ng-select';
 // import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
@@ -39,7 +41,9 @@ import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue
     IssueListComponent,
     LabelSearchComponent,
     InterfaceDetailsComponent,
-    ProjectIssueListComponent],
+    ProjectIssueListComponent,
+    ProjectMembersComponent,
+    AddProjectMemberDialogComponent],
   imports: [
     CommonModule,
     MatToolbarModule,

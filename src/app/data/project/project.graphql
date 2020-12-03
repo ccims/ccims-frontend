@@ -74,10 +74,11 @@ query GetFullProject($id: ID!) {
         }
       }
       users {
-        edges {
-          node {
+        nodes {
             id
-          }
+            displayName
+            username
+            email
         }
       }
       issues {

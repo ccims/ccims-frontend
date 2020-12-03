@@ -3793,7 +3793,7 @@ export type GetFullProjectQuery = { node?: Maybe<(
         )> }>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<ComponentInterface, 'name' | 'id'>
         & { issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }> }
-      )>>> }>, users?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<User, 'id'>> }>>> }>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+      )>>> }>, users?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName' | 'username' | 'email'>>>> }>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'title' | 'category'>
         & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
       )>>> }> }
@@ -4676,10 +4676,11 @@ export const GetFullProjectDocument = gql`
         }
       }
       users {
-        edges {
-          node {
-            id
-          }
+        nodes {
+          id
+          displayName
+          username
+          email
         }
       }
       issues {

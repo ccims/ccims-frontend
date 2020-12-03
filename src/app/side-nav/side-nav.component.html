@@ -12,7 +12,7 @@
     <mat-icon>bug_report</mat-icon>
     <a>Issues</a>
   </mat-list-item>
-  <mat-list-item>
+  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.id, 'members']" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon>group</mat-icon>
     <a>Members</a>
   </mat-list-item>
