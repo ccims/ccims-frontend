@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AddConsumedInterfaceGQL, GetIssueGraphDataGQL, IssueCategory, RemoveConsumedInterfaceGQL,
-  GetIssueGraphDataForLabelsGQL, GetIssueGraphDataForLabelsAndTextGQL } from 'src/generated/graphql';
+import {
+  AddConsumedInterfaceGQL, GetIssueGraphDataGQL, IssueCategory,
+  RemoveConsumedInterfaceGQL, GetIssueGraphDataForSearchGQL
+} from 'src/generated/graphql';
 import { GraphData, GraphDataFactory } from './graph-data';
 import { Observable } from 'rxjs';
 import { SelectedCategories } from '@app/graphs/shared';
@@ -12,10 +14,10 @@ import { FilterLabel } from '../label/label-store.service';
 })
 export class IssueGraphApiService {
 
-  constructor(private getIssueGraphDataQuery: GetIssueGraphDataGQL, private getIssueGraphDataForLabelsQuery: GetIssueGraphDataForLabelsGQL,
-              private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
-              private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
-              private getIssueGraphDataSearchQuery: GetIssueGraphDataForLabelsAndTextGQL) { }
+  constructor(private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
+    private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
+    private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
+    private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) { }
 
   loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[], texts: string[]): Observable<GraphData> {
     const activeCategories: IssueCategory[] = [];
@@ -25,23 +27,23 @@ export class IssueGraphApiService {
       }
     }
     if (labels.length === 0 && texts.length === 0) {
-      return this.getIssueGraphDataQuery.fetch({ projectId, activeCategories }).pipe(
+      return this.getFullIssueGraphDataQuery.fetch({ projectId, activeCategories }).pipe(
         map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-      ));
+        ));
     } else {
       const selectedLabels: string[] = labels.map(label => label.id);
       const issueRegex = this.textsToRegex(texts);
-      return this.getIssueGraphDataSearchQuery.fetch({ projectId, activeCategories, selectedLabels, issueRegex}).pipe(
+      return this.getSearchIssueGraphDataQuery.fetch({ projectId, activeCategories, selectedLabels, issueRegex }).pipe(
         map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-      ));
+        ));
     }
   }
 
   textsToRegex(texts: string[]): string {
-    const regex = texts.map(text => '(' + text + ')').join('|')
-    if (regex.length === 0) {
+    if (texts.length === 0) {
       return undefined;
-    };
+    }
+    return texts.map(text => '(' + text + ')').join('|');
   }
 
   addConsumedInterface(componentId: string, interfaceId: string) {

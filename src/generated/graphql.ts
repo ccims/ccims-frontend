@@ -3687,28 +3687,7 @@ export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes
           )>>> }> }
       )>>> }> }> };
 
-export type GetIssueGraphDataForLabelsQueryVariables = Exact<{
-  projectId: Scalars['ID'];
-  activeCategories?: Maybe<Array<IssueCategory>>;
-  selectedLabels?: Maybe<Array<Scalars['ID']>>;
-}>;
-
-
-export type GetIssueGraphDataForLabelsQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-        Pick<Component, 'name' | 'id'>
-        & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
-      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-        Pick<ComponentInterface, 'id' | 'name'>
-        & { component: Pick<Component, 'id'>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
-      )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-        Pick<Issue, 'id' | 'category'>
-        & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
-            Pick<Issue, 'id' | 'category'>
-            & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }> }
-          )>>> }> }
-      )>>> }> }> };
-
-export type GetIssueGraphDataForLabelsAndTextQueryVariables = Exact<{
+export type GetIssueGraphDataForSearchQueryVariables = Exact<{
   projectId: Scalars['ID'];
   activeCategories?: Maybe<Array<IssueCategory>>;
   selectedLabels?: Maybe<Array<Scalars['ID']>>;
@@ -3716,7 +3695,7 @@ export type GetIssueGraphDataForLabelsAndTextQueryVariables = Exact<{
 }>;
 
 
-export type GetIssueGraphDataForLabelsAndTextQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+export type GetIssueGraphDataForSearchQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Component, 'name' | 'id'>
         & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
       )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
@@ -4228,87 +4207,8 @@ export const GetIssueGraphDataDocument = gql`
       super(apollo);
     }
   }
-export const GetIssueGraphDataForLabelsDocument = gql`
-    query GetIssueGraphDataForLabels($projectId: ID!, $activeCategories: [IssueCategory!], $selectedLabels: [ID!]) {
-  node(id: $projectId) {
-    ... on Project {
-      components {
-        nodes {
-          name
-          id
-          bugs: issuesOnLocation(filterBy: {category: BUG, labels: $selectedLabels}) {
-            totalCount
-          }
-          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, labels: $selectedLabels}) {
-            totalCount
-          }
-          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED, labels: $selectedLabels}) {
-            totalCount
-          }
-        }
-      }
-      interfaces {
-        nodes {
-          id
-          name
-          component {
-            id
-          }
-          bugs: issuesOnLocation(filterBy: {category: BUG, labels: $selectedLabels}) {
-            totalCount
-          }
-          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, labels: $selectedLabels}) {
-            totalCount
-          }
-          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED, labels: $selectedLabels}) {
-            totalCount
-          }
-          consumedBy {
-            nodes {
-              id
-            }
-          }
-        }
-      }
-      linkingIssues: issues(filterBy: {linksIssues: true, category: $activeCategories, labels: $selectedLabels}) {
-        nodes {
-          id
-          category
-          locations {
-            nodes {
-              id
-            }
-          }
-          linksToIssues(filterBy: {category: $activeCategories, labels: $selectedLabels}) {
-            nodes {
-              id
-              category
-              locations {
-                nodes {
-                  id
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetIssueGraphDataForLabelsGQL extends Apollo.Query<GetIssueGraphDataForLabelsQuery, GetIssueGraphDataForLabelsQueryVariables> {
-    document = GetIssueGraphDataForLabelsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetIssueGraphDataForLabelsAndTextDocument = gql`
-    query GetIssueGraphDataForLabelsAndText($projectId: ID!, $activeCategories: [IssueCategory!], $selectedLabels: [ID!], $issueRegex: String) {
+export const GetIssueGraphDataForSearchDocument = gql`
+    query GetIssueGraphDataForSearch($projectId: ID!, $activeCategories: [IssueCategory!], $selectedLabels: [ID!], $issueRegex: String) {
   node(id: $projectId) {
     ... on Project {
       components {
@@ -4333,10 +4233,10 @@ export const GetIssueGraphDataForLabelsAndTextDocument = gql`
           component {
             id
           }
-          bugs: issuesOnLocation(filterBy: {category: BUG, labels: $selectedLabels}) {
+          bugs: issuesOnLocation(filterBy: {category: BUG, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
             totalCount
           }
-          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, labels: $selectedLabels}) {
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
             totalCount
           }
           unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
@@ -4379,8 +4279,8 @@ export const GetIssueGraphDataForLabelsAndTextDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class GetIssueGraphDataForLabelsAndTextGQL extends Apollo.Query<GetIssueGraphDataForLabelsAndTextQuery, GetIssueGraphDataForLabelsAndTextQueryVariables> {
-    document = GetIssueGraphDataForLabelsAndTextDocument;
+  export class GetIssueGraphDataForSearchGQL extends Apollo.Query<GetIssueGraphDataForSearchQuery, GetIssueGraphDataForSearchQueryVariables> {
+    document = GetIssueGraphDataForSearchDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
