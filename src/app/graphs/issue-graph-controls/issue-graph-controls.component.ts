@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { StateService } from '@app/state.service';
 import { ActivatedRoute } from '@angular/router';
 import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
 import { IssueCategory } from 'src/generated/graphql';
@@ -27,7 +26,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
 
   showRelations = true;
   filter$: BehaviorSubject<FilterState>;
-  private destroy$ = new ReplaySubject(1);
+  private destroy$ = new ReplaySubject<void>(1);
 
   constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
@@ -61,7 +60,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
       map(([selectedCategories, filterSelection]) => ({ selectedCategories, selectedFilter: filterSelection }))
     ).subscribe(filterState => this.filter$.next(filterState));
 
-    this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$).pipe(
+    this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$, this.destroy$).pipe(
       takeUntil(this.destroy$)
     ).subscribe(
       graphData => {
