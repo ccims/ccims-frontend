@@ -32,34 +32,29 @@ const basic = setContext((operation, context) => ({
 export function createErrorLink(authService: AuthenticationService, toastr: ToastrService) {
   const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
-      for (const err of graphQLErrors) {
-        console.log(`[Graphql errors]: ${graphQLErrors}`);
-        switch (err.extensions.code) {
-          case 'UNAUTHENTICATED':
-            // error code is set to UNAUTHENTICATED
-            // when AuthenticationError thrown in resolver
-            /*
-            // modify the operation context with a new token
-            const oldHeaders = operation.getContext().headers;
-            operation.setContext({
-              headers: {
-                ...oldHeaders,
-                authorization: getNewToken(),
-              },
-            });
-            // retry the request, returning the new observable
-            return forward(operation);
-            */
-            authService.logout(); break;
-          default:
-            console.log(`[Graphql errors]: ${graphQLErrors}`);
-        }
-
-      }
+      console.log(`[Graphql errors]: ${graphQLErrors}`);
     }
     if (networkError) {
       console.log(`[Network error]: ${networkError}`);
       toastr.error('Server/Connection error', '', networkErrorToast);
+      //@ts-ignore
+      if (networkError.status === 401) {
+        // error code is set to UNAUTHENTICATED
+        // when AuthenticationError thrown in resolver
+        /*
+        // modify the operation context with a new token
+        const oldHeaders = operation.getContext().headers;
+        operation.setContext({
+          headers: {
+            ...oldHeaders,
+            authorization: getNewToken(),
+          },
+        });
+        // retry the request, returning the new observable
+        return forward(operation);
+        */
+        authService.logout();
+      }
       // if you would also like to retry automatically on
       // network errors, we recommend that you use
       // apollo-link-retry
@@ -73,7 +68,8 @@ export function createErrorLink(authService: AuthenticationService, toastr: Toas
 
 
 
-export function provideDefaultApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+export function provideDefaultApollo(httpLink: HttpLink, authService: AuthenticationService,
+  toastr: ToastrService): ApolloClientOptions<any> {
   const token = localStorage.getItem('token');
 
   const auth = setContext((_, { headers }) => {
@@ -86,9 +82,8 @@ export function provideDefaultApollo(httpLink: HttpLink): ApolloClientOptions<an
       }
     };
   });
-
-
-  const link = ApolloLink.from([basic, auth, httpLink.create({ uri: environment.apiUrl })]);
+  const errorLink = createErrorLink(authService, toastr);
+  const link = ApolloLink.from([basic, errorLink, auth, httpLink.create({ uri: environment.apiUrl })]);
   const cache = new InMemoryCache();
   return {
     link,
@@ -121,12 +116,12 @@ export function providePublicApollo(httpLink: HttpLink, authService: Authenticat
     {
       provide: APOLLO_OPTIONS,
       useFactory: provideDefaultApollo,
-      deps: [HttpLink],
+      deps: [HttpLink, AuthenticationService, ToastrService],
     },
     {
       provide: APOLLO_NAMED_OPTIONS,
       useFactory: providePublicApollo,
-      deps: [HttpLink,  AuthenticationService, ToastrService],
+      deps: [HttpLink, AuthenticationService, ToastrService],
     }
   ],
 })

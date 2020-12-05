@@ -55,6 +55,7 @@ return of(currentUser);
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.router.navigate(['login']);
     // reset the store after that
     // this.apollo.client.resetStore();

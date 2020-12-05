@@ -15,9 +15,9 @@ import { FilterLabel } from '../label/label-store.service';
 export class IssueGraphApiService {
 
   constructor(private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
-    private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
-    private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
-    private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) { }
+              private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
+              private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
+              private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) { }
 
   loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[], texts: string[]): Observable<GraphData> {
     const activeCategories: IssueCategory[] = [];
