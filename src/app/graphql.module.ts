@@ -37,7 +37,7 @@ export function createErrorLink(authService: AuthenticationService, toastr: Toas
     if (networkError) {
       console.log(`[Network error]: ${networkError}`);
       toastr.error('Server/Connection error', '', networkErrorToast);
-      //@ts-ignore
+      // @ts-ignore
       if (networkError.status === 401) {
         // error code is set to UNAUTHENTICATED
         // when AuthenticationError thrown in resolver
@@ -69,7 +69,7 @@ export function createErrorLink(authService: AuthenticationService, toastr: Toas
 
 
 export function provideDefaultApollo(httpLink: HttpLink, authService: AuthenticationService,
-  toastr: ToastrService): ApolloClientOptions<any> {
+                                     toastr: ToastrService): ApolloClientOptions<any> {
   const token = localStorage.getItem('token');
 
   const auth = setContext((_, { headers }) => {
