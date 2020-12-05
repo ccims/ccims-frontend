@@ -47,7 +47,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   public graphData: GraphData;
 
   private graphInitialized = false;
-  private firstDraw = true;
+  private zoomOnRedraw = true;
   private graph: GraphEditor;
 
   private issueGroupParents: Node[] = [];
@@ -59,8 +59,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$ = new ReplaySubject(1);
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
-
-  private componentWasCreated = false;
 
   // private issuesById: IssuesState = {};
   // private issueToRelatedNode: Map<string, Set<string>> = new Map();
@@ -332,9 +330,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.graph.completeRender();
-    if (this.firstDraw || this.componentWasCreated) {
-      this.componentWasCreated = false;
-      this.firstDraw = false;
+    if (this.zoomOnRedraw) {
+      this.zoomOnRedraw = false;
       this.graph.zoomToBoundingBox();
     }
   }
@@ -729,7 +726,7 @@ setRelationVisibility(showRelations: boolean) {
     });
     createComponentDialogRef.afterClosed().subscribe(componentInformation => {
       // console.log(componentInformation);
-      this.componentWasCreated = true;
+      this.zoomOnRedraw = true;
       this.reload$.next(null);
     });
   }

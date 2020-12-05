@@ -34,7 +34,7 @@ export class LabelSearchComponent implements OnInit {
 
   emitSelectedLabels() {
     const selection: FilterSelection = {texts: [], labels: []};
-    selection.texts = this.selectedLabels.filter(label => !isFilterLabel(label));
+    selection.texts = this.selectedLabels.filter(item => !isFilterLabel(item)).map(item => item.name);
     selection.labels = this.selectedLabels.filter(label => isFilterLabel(label)) as FilterLabel[];
     this.filterSelection$.next(selection);
   }
@@ -55,8 +55,11 @@ export class LabelSearchComponent implements OnInit {
 
 }
 
+interface TextFragment {
+  name: string;
+}
 
-type FilterElement = string | FilterLabel;
+type FilterElement = TextFragment | FilterLabel;
 
 export interface FilterSelection {
   texts: string[];
