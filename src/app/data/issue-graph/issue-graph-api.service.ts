@@ -16,7 +16,7 @@ export class IssueGraphApiService {
               private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
               private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL) { }
 
-  loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[]): Observable<GraphData> {
+  loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[], texts: string[]): Observable<GraphData> {
     const activeCategories: IssueCategory[] = [];
     for (const key of Object.values(IssueCategory)) {
       if (categories[key]) {

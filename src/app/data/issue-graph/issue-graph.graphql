@@ -54,11 +54,7 @@ query GetIssueGraphData($projectId: ID!, $activeCategories: [IssueCategory!]) {
               id
             }
           }
-          linksToIssues(
-            filterBy: {
-              category: $activeCategories
-            }
-          ) {
+          linksToIssues(filterBy: { category: $activeCategories }) {
             nodes {
               id
               category
@@ -148,9 +144,121 @@ query GetIssueGraphDataForLabels(
             }
           }
           linksToIssues(
+            filterBy: { category: $activeCategories, labels: $selectedLabels }
+          ) {
+            nodes {
+              id
+              category
+              locations {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetIssueGraphDataForLabelsAndText(
+  $projectId: ID!
+  $activeCategories: [IssueCategory!]
+  $selectedLabels: [ID!]
+  $issueRegex: String
+) {
+  node(id: $projectId) {
+    ... on Project {
+      components {
+        nodes {
+          name
+          id
+          bugs: issuesOnLocation(
+            filterBy: {
+              category: BUG
+              fullSearch: { text: $issueRegex, labels: $selectedLabels }
+            }
+          ) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(
+            filterBy: {
+              category: FEATURE_REQUEST
+              fullSearch: { text: $issueRegex, labels: $selectedLabels }
+            }
+          ) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(
+            filterBy: {
+              category: UNCLASSIFIED
+              fullSearch: { text: $issueRegex, labels: $selectedLabels }
+            }
+          ) {
+            totalCount
+          }
+        }
+      }
+      interfaces {
+        nodes {
+          id
+          name
+          component {
+            id
+          }
+          bugs: issuesOnLocation(
+            filterBy: {
+              category: BUG
+              fullSearch: { text: $issueRegex, labels: $selectedLabels }
+            }
+          ) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(
+            filterBy: {
+              category: FEATURE_REQUEST
+              fullSearch: { text: $issueRegex, labels: $selectedLabels }
+            }
+          ) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(
+            filterBy: {
+              category: UNCLASSIFIED
+              fullSearch: {
+                text: $issueRegex
+                fullSearch: { text: $issueRegex, labels: $selectedLabels }
+              }
+            }
+          ) {
+            totalCount
+          }
+          consumedBy {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+      linkingIssues: issues(
+        filterBy: {
+          category: $activeCategories
+          fullSearch: { text: $issueRegex, labels: $selectedLabels }
+        }
+      ) {
+        nodes {
+          id
+          category
+          locations {
+            nodes {
+              id
+            }
+          }
+          linksToIssues(
             filterBy: {
               category: $activeCategories
-              labels: $selectedLabels
+              fullSearch: { text: $issueRegex, labels: $selectedLabels }
             }
           ) {
             nodes {

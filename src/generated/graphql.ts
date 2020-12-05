@@ -247,8 +247,8 @@ export type UserEdge = {
 
 /** Filters for component matching the given properties */
 export type ComponentFilter = {
-  /** The name of the component must match any of the given strings */
-  name?: Maybe<Array<Scalars['String']>>;
+  /** The name of the component must match the given RegEx */
+  name?: Maybe<Scalars['String']>;
   /** The owner of the component must have any of the given ids */
   owner?: Maybe<Array<Scalars['ID']>>;
   /** The components description must match the given __RegEx__ */
@@ -305,6 +305,8 @@ export type IssueFilter = {
   components?: Maybe<Array<Scalars['ID']>>;
   /** The body text of this issue must match this given __RegEx__ */
   body?: Maybe<Scalars['String']>;
+  /** The issue must match the full search */
+  fullSearch?: Maybe<FullSearch>;
   /** The id of the user creating the issue must be any of the given ones */
   createdBy?: Maybe<Array<Scalars['ID']>>;
   /** The id of the user last editing the issue must match any of the ones in the list */
@@ -367,10 +369,18 @@ export type IssueFilter = {
   spentTimeLowerThan?: Maybe<Scalars['TimeSpan']>;
 };
 
+/** Filters for issues which have at least one of the specified labels or of which the title or body matches the specified text regex */
+export type FullSearch = {
+  /** A Regex which the title or body of the issue needs to match */
+  text?: Maybe<Scalars['String']>;
+  /** The issue must have at least one label with one of the given ids */
+  labels?: Maybe<Array<Scalars['ID']>>;
+};
+
 /** Filters for Issues locations (components and interfaces). All parameters given in this filter will be connected via _AND_ */
 export type IssueLocationFilter = {
-  /** The name of the location must match one of the gien strings */
-  name?: Maybe<Array<Scalars['String']>>;
+  /** The name of the location must match the given RegEx */
+  name?: Maybe<Scalars['String']>;
   /** The issue locations description must match the given __RegEx__ */
   description?: Maybe<Scalars['String']>;
 };
@@ -393,8 +403,8 @@ export type IssueTimelineItemFilter = {
 
 /** A Filter data input for labels.  All parameters given in this filter will be connected via _AND_ */
 export type LabelFilter = {
-  /** A lists of names. The label needs to match any one or more of these. */
-  name?: Maybe<Array<Scalars['String']>>;
+  /** The name of the label must match the given RegEx */
+  name?: Maybe<Scalars['String']>;
   /** The __RegEx__ the description of the label needs to match */
   description?: Maybe<Scalars['String']>;
   /** Filters for the creator user of the label. The id of the user must match any of the given ids */
@@ -968,6 +978,8 @@ export type Issue = Comment & Node & {
   timeline?: Maybe<IssueTimelineItemPage>;
   /** All issue locations this issue is assigned to, matching (if given) `filterBy` */
   locations?: Maybe<IssueLocationPage>;
+  /** All components this issue is on */
+  components?: Maybe<ComponentPage>;
 };
 
 
@@ -1066,6 +1078,16 @@ export type IssueLocationsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<IssueLocationFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A cross component issue within ccims which links multiple issues from single ims */
+export type IssueComponentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -2036,6 +2058,8 @@ export type Mutation = {
   createIssue?: Maybe<CreateIssuePayload>;
   /** Creates a new comment on an existing issue */
   addIssueComment?: Maybe<AddIssueCommentPayload>;
+  /** Creates a new comment on an existing issue */
+  updateComment?: Maybe<UpdateCommentPayload>;
   /**
    * Deletes an issue comment.
    * 
@@ -2142,6 +2166,12 @@ export type MutationCreateIssueArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueCommentArgs = {
   input: AddIssueCommentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateCommentArgs = {
+  input: UpdateCommentInput;
 };
 
 
@@ -2500,6 +2530,28 @@ export type AddIssueCommentInput = {
   issue: Scalars['ID'];
   /**
    * The body text of the comment to be added.
+   * 
+   * Max. 65536 characters.
+   */
+  body: Scalars['String'];
+};
+
+/** The Payload/Response for the updateComment mutation */
+export type UpdateCommentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The comment object that was updated. */
+  comment?: Maybe<Comment>;
+};
+
+/** The inputs for the updateComment */
+export type UpdateCommentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the comment to update */
+  comment: Scalars['ID'];
+  /**
+   * The body text of the comment to be updated.
    * 
    * Max. 65536 characters.
    */
@@ -3656,6 +3708,28 @@ export type GetIssueGraphDataForLabelsQuery = { node?: Maybe<{ components?: Mayb
           )>>> }> }
       )>>> }> }> };
 
+export type GetIssueGraphDataForLabelsAndTextQueryVariables = Exact<{
+  projectId: Scalars['ID'];
+  activeCategories?: Maybe<Array<IssueCategory>>;
+  selectedLabels?: Maybe<Array<Scalars['ID']>>;
+  issueRegex?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetIssueGraphDataForLabelsAndTextQuery = { node?: Maybe<{ components?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Component, 'name' | 'id'>
+        & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
+      )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<ComponentInterface, 'id' | 'name'>
+        & { component: Pick<Component, 'id'>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+      )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<Issue, 'id' | 'category'>
+        & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+            Pick<Issue, 'id' | 'category'>
+            & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }> }
+          )>>> }> }
+      )>>> }> }> };
+
 export type CreateIssueMutationVariables = Exact<{
   input: CreateIssueInput;
 }>;
@@ -4228,6 +4302,85 @@ export const GetIssueGraphDataForLabelsDocument = gql`
   })
   export class GetIssueGraphDataForLabelsGQL extends Apollo.Query<GetIssueGraphDataForLabelsQuery, GetIssueGraphDataForLabelsQueryVariables> {
     document = GetIssueGraphDataForLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetIssueGraphDataForLabelsAndTextDocument = gql`
+    query GetIssueGraphDataForLabelsAndText($projectId: ID!, $activeCategories: [IssueCategory!], $selectedLabels: [ID!], $issueRegex: String) {
+  node(id: $projectId) {
+    ... on Project {
+      components {
+        nodes {
+          name
+          id
+          bugs: issuesOnLocation(filterBy: {category: BUG, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
+            totalCount
+          }
+        }
+      }
+      interfaces {
+        nodes {
+          id
+          name
+          component {
+            id
+          }
+          bugs: issuesOnLocation(filterBy: {category: BUG, labels: $selectedLabels}) {
+            totalCount
+          }
+          featureRequests: issuesOnLocation(filterBy: {category: FEATURE_REQUEST, labels: $selectedLabels}) {
+            totalCount
+          }
+          unclassified: issuesOnLocation(filterBy: {category: UNCLASSIFIED, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
+            totalCount
+          }
+          consumedBy {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+      linkingIssues: issues(filterBy: {category: $activeCategories, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
+        nodes {
+          id
+          category
+          locations {
+            nodes {
+              id
+            }
+          }
+          linksToIssues(filterBy: {category: $activeCategories, fullSearch: {text: $issueRegex, labels: $selectedLabels}}) {
+            nodes {
+              id
+              category
+              locations {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetIssueGraphDataForLabelsAndTextGQL extends Apollo.Query<GetIssueGraphDataForLabelsAndTextQuery, GetIssueGraphDataForLabelsAndTextQueryVariables> {
+    document = GetIssueGraphDataForLabelsAndTextDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
