@@ -111,6 +111,14 @@
                   stroke: #008b8b;
                 }
 
+                .related-to {
+                  display: var(--show-relations);
+                }
+
+                .related-to.edge-group.issue-relation.highlight-incoming,
+                .related-to.edge-group.issue-relation.highlight-outgoing {
+                  display: initial;
+                }
 
                 .edge-group.issue-relation .marker{
                     fill: grey;
@@ -122,10 +130,6 @@
 
                 .edge-group.issue-relation.highlight-incoming .marker{
                   fill: #008b8b;
-                }
-
-                .related-to {
-                  display: var(--show-relations);
                 }
             </style>
             <defs class="templates">
