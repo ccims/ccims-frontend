@@ -62,7 +62,8 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     ).subscribe(filterState => this.filter$.next(filterState));
 
     this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$).pipe(
-      takeUntil(this.destroy$)).subscribe(
+      takeUntil(this.destroy$)
+    ).subscribe(
       graphData => {
         this.issueGraph.graphData = graphData;
         this.issueGraph.drawGraph();
