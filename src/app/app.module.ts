@@ -42,6 +42,7 @@ import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dia
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { GlobalConfig, ToastrModule } from 'ngx-toastr';
 import { RemoveDialogComponent } from './dialogs/remove-dialog/remove-dialog.component';
 import { CreateComponentDialogComponent } from './dialogs/create-component-dialog/create-component-dialog.component';
@@ -113,7 +114,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     NgSelectModule,
     CommonModule,
     NgOptionHighlightModule,
-    ColorPickerModule
+    ColorPickerModule,
+    MatExpansionModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
