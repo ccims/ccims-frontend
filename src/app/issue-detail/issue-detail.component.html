@@ -134,7 +134,7 @@
             <mat-icon>settings</mat-icon>
           </button>
            <br>
-          <span *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+          <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</p>
           <mat-divider></mat-divider>
         </div>
 
