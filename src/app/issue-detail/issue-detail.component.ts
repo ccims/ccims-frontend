@@ -26,7 +26,7 @@ export class IssueDetailComponent implements OnInit {
   public labelList = [];
   public editTitle = false;
   public projectComponents;
-  constructor(private labelStoreService: LabelStoreService, private activatedRoute: ActivatedRoute,
+  constructor(private labelStoreService: LabelStoreService, public activatedRoute: ActivatedRoute,
               private issueStoreService: IssueStoreService, private projectStoreService: ProjectStoreService) { }
 
   ngOnInit(): void {
@@ -65,6 +65,26 @@ export class IssueDetailComponent implements OnInit {
       console.log(compName);
 
       return compName;
+    }else{return null;}
+
+  }
+  public getComponentId(id: string): string{
+    let found = false;
+    let compId = '';
+    this.projectComponents.forEach(comp => {
+      if(found){return;}
+      comp.node.issues.nodes.forEach(element => {
+        if (element.id === id){
+          compId = comp.node.id;
+          found = true;
+          return;
+        }
+      });
+    });
+    if(found){
+
+
+      return compId;
     }else{return null;}
 
   }
