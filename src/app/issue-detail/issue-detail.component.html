@@ -34,6 +34,29 @@
         </div>
         <div class="Box-body">
           {{issue.node.body}}
+
+          <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 " class="linked-issues-container">
+            <mat-divider></mat-divider>
+            <h3>Linked Issues</h3>
+            <mat-accordion>
+
+              <mat-expansion-panel *ngFor="let currentIssue of issue.node.linksToIssues.nodes">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{currentIssue.componentName}}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{currentIssue.title}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div style="width: 100%; height: 100%; text-align: left; border-top: 1px; border-top-style: dashed;">
+                  <p>{{currentIssue.body}}</p>
+                </div>
+
+              </mat-expansion-panel>
+
+            </mat-accordion>
+          </div>
         </div>
       </div>
 
