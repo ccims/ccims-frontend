@@ -115,3 +115,25 @@ margin-bottom: 15px;
   width: 100%;
   max-width: 80%;
 }
+.linked-issues-container{
+  width: 100%;
+  text-align: center;
+}
+h3 {
+  margin-bottom: 8px;
+  margin-top: 15px;
+}
+.linked-issue-p {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.centered-headline {
+  text-align: center;
+}
+.LinkedIssuesItem {
+  &::before {
+    z-index: -1;
+  }
+  visibility: visible;
+  margin-left: 2%;
+}

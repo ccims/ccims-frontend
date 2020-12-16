@@ -37,6 +37,36 @@
         </div>
       </div>
 
+      <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 " class="TimelineItem  issue-comment">
+        <div class="Box Box--condensed">
+          <div class="Box-header d-flex flex-items-center">
+            <h3 class="Box-title overflow-hidden flex-auto">
+              <b>Linked Issues</b>
+            </h3>
+          </div>
+          <div class="Box-body">
+            <div  class="linked-issues-container">
+              <mat-accordion>
+                <mat-expansion-panel *ngFor="let currentIssue of issue.node.linksToIssues.nodes">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{currentIssue.componentName}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{currentIssue.title}}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div style="width: 100%; height: 100%; text-align: left; border-top: 1px; border-top-style: dashed;">
+                    <p>{{currentIssue.body}}</p>
+                  </div>
+
+                </mat-expansion-panel>
+
+              </mat-accordion>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
       <div *ngFor="let comment of issue.node.issueComments.nodes" class="TimelineItem issue-comment">
@@ -111,7 +141,9 @@
             <mat-icon>settings</mat-icon>
           </button>
            <br>
-          <span *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+          <p class="linked-issue-p"  *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">
+          <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
+          'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}},&nbsp;</a></p>
           <mat-divider></mat-divider>
         </div>
 

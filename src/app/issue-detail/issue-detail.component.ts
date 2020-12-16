@@ -5,6 +5,7 @@ import { GetIssueQuery, AddIssueCommentInput, Issue, CloseIssueInput, ReopenIssu
 import { Observable } from 'rxjs';
 import { IssueListComponent } from '@app/issue-list/issue-list.component';
 import { LabelStoreService } from '@app/data/label/label-store.service';
+import { ProjectStoreService } from '@app/data/project/project-store.service';
 
 @Component({
   selector: 'app-issue-detail',
@@ -24,18 +25,68 @@ export class IssueDetailComponent implements OnInit {
   public attributeToEdit = 'start';
   public labelList = [];
   public editTitle = false;
-  constructor(private labelStoreService: LabelStoreService, private activatedRoute: ActivatedRoute,
-              private issueStoreService: IssueStoreService) { }
+  public projectComponents;
+  constructor(private labelStoreService: LabelStoreService, public activatedRoute: ActivatedRoute,
+              private issueStoreService: IssueStoreService, private projectStoreService: ProjectStoreService) { }
 
   ngOnInit(): void {
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
     this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
     this.issue$.subscribe(issue => {
       issue.node.labels.nodes.forEach(element => this.labelList.push(element.id));
-      this.issue = issue;
+
+      this.projectStoreService.getFullProject(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(project=>{
+        this.projectComponents = project.node.components.edges;
+        let extended: ExtendedIssue;
+        issue.node.linksToIssues.nodes.forEach(linkedIssue=> {
+          extended = linkedIssue;
+          extended.componentName = this.getComponentName(extended.id);
+        });
+        this.issue = issue;
+      });
 
       console.log(issue);
     });
+  }
+  public getComponentName(id: string): string{
+    let found = false;
+    let compName = '';
+    this.projectComponents.forEach(comp => {
+      if(found){return;}
+      comp.node.issues.nodes.forEach(element => {
+        if (element.id === id){
+          compName = comp.node.name;
+          found = true;
+          return;
+        }
+      });
+    });
+    if(found){
+      console.log(compName);
+
+      return compName;
+    }else{return null;}
+
+  }
+  public getComponentId(id: string): string{
+    let found = false;
+    let compId = '';
+    this.projectComponents.forEach(comp => {
+      if(found){return;}
+      comp.node.issues.nodes.forEach(element => {
+        if (element.id === id){
+          compId = comp.node.id;
+          found = true;
+          return;
+        }
+      });
+    });
+    if(found){
+
+
+      return compId;
+    }else{return null;}
+
   }
   public lightOrDark(color){
     return this.labelStoreService.lightOrDark(color);
@@ -134,4 +185,8 @@ export class IssueDetailComponent implements OnInit {
 
   }
 
+
+}
+export interface ExtendedIssue extends Pick<Issue, "id" | "title">{
+    componentName?: string;
 }

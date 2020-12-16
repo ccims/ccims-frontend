@@ -45,6 +45,7 @@ query GetIssue($id: ID!) {
         nodes{
           title
           id
+          body
         }
       }
       createdBy{
