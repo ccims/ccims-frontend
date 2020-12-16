@@ -78,7 +78,7 @@ export function provideDefaultApollo(httpLink: HttpLink, authService: Authentica
     return {
       headers: {
         ...headers,
-        Authorization: token ? `Bearer ${token}` : ''
+        Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : ''
       }
     };
   });
