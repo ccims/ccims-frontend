@@ -27,21 +27,35 @@ interface Folder {
 type GraphFolder = [LocationId, IssueCategory];
 type GraphLocation = GraphInterface | GraphComponent;
 
-function computeRelatedFolders(linkIssues: GraphIssue[]): DefaultDictionary<GraphFolder, GraphFolder[]> {
+function computeRelatedFolders(linkIssues: GraphIssue[], interfaces: Map<LocationId, GraphInterface>):
+  DefaultDictionary<GraphFolder, GraphFolder[]> {
   let targetFolders: GraphFolder[];
   const relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]> = new DefaultDictionary<GraphFolder, GraphFolder[]>(() => []);
   for (const issue of linkIssues) {
-    const sourceFolders: GraphFolder[] = issue.locations.map(locationId => [locationId, issue.category]);
+    const sourceLocationIds = removeOfferingComponents(issue.locations, interfaces);
+    const sourceFolders: GraphFolder[] = sourceLocationIds.map(locationId => [locationId, issue.category]);
     targetFolders = [];
     for (const linkedIssue of issue.linksIssues) {
+      const targetLocationIds = removeOfferingComponents(linkedIssue.locations, interfaces);
       // @ts-ignore
-      targetFolders = targetFolders.concat(linkedIssue.locations.map(locationId => [locationId, linkedIssue.category]));
+      targetFolders = targetFolders.concat(targetLocationIds.map(locationId => [locationId, linkedIssue.category]));
     }
     sourceFolders.forEach(folder =>
       relatedFolders.setValue(folder,
         (relatedFolders.getValue(folder).concat(targetFolders))));
   }
   return relatedFolders;
+}
+
+/**
+ * Remove from locationIds ids of components that offer an interface whoose id is also in locationIds
+ */
+function removeOfferingComponents(locationIds: string[], interfaces: Map<LocationId, GraphInterface>) {
+  const interfaceOfferingComponents: Set<string> = new Set(locationIds.filter(locationId => interfaces.has(locationId)).
+    map(interfaceId =>
+      interfaces.get(interfaceId).offeredBy
+    ));
+  return locationIds.filter(id => !interfaceOfferingComponents.has(id));
 }
 
 
@@ -170,7 +184,7 @@ export class GraphDataFactory {
     const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
     const graphLocations: Map<string, GraphLocation> = new Map([...components, ...interfaces]);
     const linkIssues = data.node.linkingIssues.nodes.map(gqlIssue => GraphIssue.fromGQL(gqlIssue));
-    const relatedFolders = computeRelatedFolders(linkIssues);
+    const relatedFolders = computeRelatedFolders(linkIssues, interfaces);
     // console.log(components, interfaces);
     return {
       components, interfaces, graphLocations, relatedFolders, linkIssues
@@ -210,6 +224,7 @@ export class GraphDataFactory {
       consumedBy: ['5']
     };
 
+    /*
     const linkedIssue: GraphIssue = {
       id: '3',
       category: IssueCategory.FeatureRequest,
@@ -223,6 +238,7 @@ export class GraphDataFactory {
       linksIssues: [linkedIssue]
     };
 
+
     const data: GraphData = {
       components: new Map([[component.id, component],
       [component2.id, component2],
@@ -233,6 +249,8 @@ export class GraphDataFactory {
       relatedFolders: computeRelatedFolders([linkingIssue])
     };
     return data;
+    */
+    return null;
   }
 
   /*
