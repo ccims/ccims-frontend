@@ -4,6 +4,7 @@ import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dia
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { demoProject } from '@app/evaluation/demo-project';
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -13,10 +14,11 @@ export class ProjectListComponent implements OnInit {
   pendingCreate = false;
   projectName?: string;
   projects: Pick<Project, 'id' | 'name'>[];
-  constructor(private ps: ProjectStoreService, private dialog: MatDialog, private nzMessageService: NzMessageService) { }
+  constructor(private projectMockService: demoProject, private ps: ProjectStoreService, private dialog: MatDialog, private nzMessageService: NzMessageService) { }
 
   ngOnInit(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
+
   }
   remove(event: Event, project: Project) {
     this.ps.delete(project.id).subscribe(data => this.reloadProjects());
@@ -49,6 +51,11 @@ export class ProjectListComponent implements OnInit {
   }
   public cancelConfirm(): void {
     this.nzMessageService.info('Canceled');
+  }
+  public createDemoProject(){
+    this.projectMockService.createDemoProject();
+
+
   }
 }
 
