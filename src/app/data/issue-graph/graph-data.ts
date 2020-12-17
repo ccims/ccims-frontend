@@ -59,7 +59,6 @@ function removeOfferingComponents(locationIds: string[], interfaces: Map<Locatio
 }
 
 
-
 function issueCounts(bugCount: number, featureRequestCount: number, unclassifiedCount: number): Map<IssueCategory, number> {
   return new Map([
     [IssueCategory.Bug, bugCount],
