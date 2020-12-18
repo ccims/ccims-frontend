@@ -31,8 +31,9 @@ createDemoProject(){
   let projectCount= 0;
 
 
-  this.projectStore.getAll().subscribe(projects => projectCount = projects.length+1);
-  this.projectStore.create("Demoprojekt"+this.getprojectCount(), this.beschreibung).subscribe(({ data}) => {
+  this.projectStore.getAll().subscribe(projects => {projectCount = projects.length +1;
+
+  this.projectStore.create("Demoprojekt "+projectCount, this.beschreibung).subscribe(({ data}) => {
     projectId = data.createProject.project.id;
     // create shipping service
     let input:CreateComponentInput ={
@@ -129,6 +130,7 @@ this.issueStore.create(element).subscribe(issue=> {this.store["ss"].issues.push(
   }, (error) => {
     console.log('there was an error sending the query', error);
   });
+}); // end of get projects
   // location.reload();
 }
 private linkIssue(obj){
@@ -198,6 +200,9 @@ setTimeout(() =>
 
 },
 2000);
+}
+private createEmptyProject(){
+
 }
 
 }
