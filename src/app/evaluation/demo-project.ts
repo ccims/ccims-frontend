@@ -16,6 +16,7 @@ import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.
 
 export class demoProject {
 beschreibung:string = "Lorem Ipsum";
+store = {};
 userId:string;
   constructor(private updateComponentMutation: UpdateComponentGQL, private projectStore: ProjectStoreService,
               private authService: AuthenticationService, private getFullComponentQuery: GetComponentGQL,
@@ -27,31 +28,32 @@ userId:string;
 createDemoProject(){
   let projectId = "";
   let projectCount= 0;
-  let store = {};
+
   let issueOnInterfaceId = "";
   this.projectStore.getAll().subscribe(projects => projectCount = projects.length+1);
   this.projectStore.create("Demoprojekt"+this.getprojectCount(), this.beschreibung).subscribe(({ data}) => {
     projectId = data.createProject.project.id;
     // create shipping service
     let input:CreateComponentInput ={
-      name:"shipping-service",
+      name:"Shipping Service",
       owner:this.userId,
       imsType:ImsType.Ccims,
       description:this.beschreibung,
       projects:[projectId]
     }
-    this.createComponentMutation.mutate({input}).subscribe(({data})=>{store["ss"]={id:data.createComponent.component.id,
+    this.createComponentMutation.mutate({input}).subscribe(({data})=>{this.store["ss"]={id:data.createComponent.component.id,
                                                                                     issues:[],
                                                                                     labels:{}};
     // TODO create labels BUG FEATURE
-      this.labelStore.createLabel({name:"Bug",color:"#d31111",components:[data.createComponent.component.id]}).subscribe(label=>store["ss"].labels.bug={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
-      this.labelStore.createLabel({name:"Feature",color:"#113bd3",components:[data.createComponent.component.id]}).subscribe(label=>store["ss"].labels.feature={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
+      this.labelStore.createLabel({name:"Bug",color:"#d31111",components:[data.createComponent.component.id]}).subscribe(label=>this.store["ss"].labels.bug={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
+      this.labelStore.createLabel({name:"Asian Expansion",color:"#11d0d3",components:[data.createComponent.component.id]}).subscribe(label=>this.store["ss"].labels.asienExpansion={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
+      this.labelStore.createLabel({name:"Feature",color:"#113bd3",components:[data.createComponent.component.id]}).subscribe(label=>this.store["ss"].labels.feature={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
 
 
 
     // create interface
     this.interfaceStore.create("shipping-order-interface",data.createComponent.component.id,"LoremIpsum").subscribe(Cinterface=>{
-      store["ss"].interface=Cinterface.data.createComponentInterface.componentInterface.id;
+      this.store["ss"].interface=Cinterface.data.createComponentInterface.componentInterface.id;
       // create issues for shipping service
     let SSIssueInputList:Array<CreateIssueInput> = [{
       title:"Issue 1 ist ein Bug",
@@ -60,25 +62,25 @@ createDemoProject(){
       category:IssueCategory.Bug,
       assignees: ['0'],
       locations:[Cinterface.data.createComponentInterface.componentInterface.id],
-      labels:store["ss"].labels.bug.id
+      labels:this.store["ss"].labels.bug.id
       },{
         title:"Issue 2 ist ein Bug",
         componentIDs: [data.createComponent.component.id],
         body:"Lorem Ipsum",
         category:IssueCategory.Bug,
         assignees: ['0'],
-        labels:store["ss"].labels.bug.id
+        labels:this.store["ss"].labels.bug.id
     },{
       title:"Ship to Korea",
       componentIDs: [data.createComponent.component.id],
       body:"Lorem Ipsum",
       category:IssueCategory.FeatureRequest,
       assignees: ['0'],
-      labels:store["ss"].labels.feature.id
+      labels:this.store["ss"].labels.feature.id
     }];
   SSIssueInputList.forEach(element => {
 
-    this.issueStore.create(element).subscribe(issue=> {store["ss"].issues.push({id:issue.data.createIssue.issue.id,
+    this.issueStore.create(element).subscribe(issue=> {this.store["ss"].issues.push({id:issue.data.createIssue.issue.id,
       name:issue.data.createIssue.issue.title});
       if (element.title.match("Issue 1 ist ein Bug")){
         issueOnInterfaceId = issue.data.createIssue.issue.id;
@@ -90,49 +92,23 @@ createDemoProject(){
 
     // create order service
      input={
-      name:"order-service",
+      name:"Order Service",
       owner:this.userId,
       imsType:ImsType.Ccims,
       description:this.beschreibung,
       projects:[projectId]
     }
-    this.createComponentMutation.mutate({input}).subscribe(({data})=>{store["os"]={id:data.createComponent.component.id,
+    this.createComponentMutation.mutate({input}).subscribe(({data})=>{this.store["os"]={id:data.createComponent.component.id,
                                                                                     issues:[],
                                                                                     labels:{}};
     // TODO create labels BUG FEATURE
-      this.labelStore.createLabel({name:"Bug",color:"#d31111",components:[data.createComponent.component.id]}).subscribe(label=>store["os"].labels.bug={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
-      this.labelStore.createLabel({name:"Feature",color:"#113bd3",components:[data.createComponent.component.id]}).subscribe(label=>store["os"].labels.feature={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
+      this.labelStore.createLabel({name:"Bug",color:"#d31111",components:[data.createComponent.component.id]}).subscribe(label=>this.store["os"].labels.bug={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
+      this.labelStore.createLabel({name:"Asian Expansion",color:"#11d0d3",components:[data.createComponent.component.id]}).subscribe(label=>this.store["os"].labels.asienExpansion={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
+      this.labelStore.createLabel({name:"Feature",color:"#113bd3",components:[data.createComponent.component.id]}).subscribe(label=>this.store["os"].labels.feature={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
     // create interface consumuption
-    this.gs.addConsumedInterface(data.createComponent.component.id,store["ss"].interface).subscribe();
+    this.gs.addConsumedInterface(data.createComponent.component.id,this.store["ss"].interface).subscribe();
     // create issues for order service
-    let OSIssueInputList:Array<CreateIssueInput> = [{
-      title:"Issue 1 ist ein Bug",
-      componentIDs: [data.createComponent.component.id],
-      body:"Lorem Ipsum",
-      category:IssueCategory.Bug,
-      assignees: ['0'],
-      //labels:store["os"].labels.bug.id
-      },{
-        title:"Issue 2 ist ein FeatureRequest",
-        componentIDs: [data.createComponent.component.id],
-        body:"Lorem Ipsum",
-        category:IssueCategory.Bug,
-        assignees: ['0'],
-        //labels:store["os"].labels.feature.id
-    },{
-      title:"Accept order from Korea",
-      componentIDs: [data.createComponent.component.id],
-      body:"Lorem Ipsum",
-      category:IssueCategory.FeatureRequest,
-      assignees: ['0'],
-      //labels:store["os"].labels.feature.id
-    }];
-
-  OSIssueInputList.forEach(element => {
-    this.issueStore.create(element).subscribe(issue=> store["os"].issues.push({id:issue.data.createIssue.issue.id,
-      name:issue.data.createIssue.issue.title}))
-  }); // end foreach
-
+    this.createIssuesOs(data.createComponent.component.id);
 
     })// end subscribe of createComponent order-service
   }) // end subscribe of createComponent Shipping-service
@@ -141,7 +117,7 @@ createDemoProject(){
 {
     this.linkIssue(issueOnInterfaceId);
 },
-3000);
+100);
   }, (error) => {
     console.log('there was an error sending the query', error);
   });
@@ -150,13 +126,48 @@ createDemoProject(){
 private linkIssue(obj){
 // link issue to issue obj
 // refresh page
-location.reload();
+//location.reload();
 }
 private getprojectCount(){
   let count=10;
   this.projectStore.getAll().subscribe(projects => {count= projects.length+1;
   return count})
   return count;
+}
+private createIssuesOs(componentId){
+  setTimeout(() =>
+  {
+    console.log("timeout");
+
+  },
+  3000);
+  let OSIssueInputList:Array<CreateIssueInput> = [{
+    title:"Orders from non EU countries are processed slowly",
+    componentIDs: [componentId],
+    body:"Lorem Ipsum",
+    category:IssueCategory.Bug,
+    assignees: ['0'],
+    labels:this.store["os"].labels.bug.id
+    },{
+      title:"Issue 2 ist ein FeatureRequest",
+      componentIDs: [componentId],
+      body:"Lorem Ipsum",
+      category:IssueCategory.FeatureRequest,
+      assignees: ['0'],
+      //labels:this.store["os"].labels.feature.id
+  },{
+    title:"Accept order from Korea",
+    componentIDs: [componentId],
+    body:"Lorem Ipsum",
+    category:IssueCategory.FeatureRequest,
+    assignees: ['0'],
+    //labels:this.store["os"].labels.feature.id
+  }];
+
+OSIssueInputList.forEach(element => {
+  this.issueStore.create(element).subscribe(issue=> this.store["os"].issues.push({id:issue.data.createIssue.issue.id,
+    name:issue.data.createIssue.issue.title}))
+}); // end foreach
 }
 
 }
