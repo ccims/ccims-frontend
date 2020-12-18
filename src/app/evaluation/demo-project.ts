@@ -69,7 +69,7 @@ createDemoProject(){
         assignees: ['0'],
         labels:store["ss"].labels.bug.id
     },{
-      title:"Issue 3 ist ein FeatureRequest",
+      title:"Ship to Korea",
       componentIDs: [data.createComponent.component.id],
       body:"Lorem Ipsum",
       category:IssueCategory.FeatureRequest,
@@ -120,7 +120,7 @@ createDemoProject(){
         assignees: ['0'],
         //labels:store["os"].labels.feature.id
     },{
-      title:"Issue 3 ist ein FeatureRequest",
+      title:"Accept order from Korea",
       componentIDs: [data.createComponent.component.id],
       body:"Lorem Ipsum",
       category:IssueCategory.FeatureRequest,
