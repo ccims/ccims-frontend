@@ -14,6 +14,7 @@ export class ProjectListComponent implements OnInit {
   pendingCreate = false;
   projectName?: string;
   projects: Pick<Project, 'id' | 'name'>[];
+  loading:boolean;
   constructor(private projectMockService: demoProject, private ps: ProjectStoreService, private dialog: MatDialog, private nzMessageService: NzMessageService) { }
 
   ngOnInit(): void {
@@ -53,6 +54,7 @@ export class ProjectListComponent implements OnInit {
     this.nzMessageService.info('Canceled');
   }
   public createDemoProject(){
+    this.loading=true;
     this.projectMockService.createDemoProject();
 
 

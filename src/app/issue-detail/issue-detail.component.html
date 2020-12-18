@@ -131,7 +131,10 @@
           <mat-label><b>Linked By Issues</b></mat-label>
 
           <br>
-          <span *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes">{{linkedIssue.title}},&nbsp;</span>
+
+          <p class="linked-issue-p"  *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes">
+            <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
+            'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}},&nbsp;</a></p>
           <mat-divider></mat-divider>
         </div>
 

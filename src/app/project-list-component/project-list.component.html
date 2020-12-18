@@ -33,5 +33,5 @@
     </a>
   </mat-nav-list>
   <button mat-raised-button color="accent" id="buttonCreateDemoProject" (click)="createDemoProject()"
-    class="floating-button">Create Demo Project</button>
+    class="floating-button" [class.spinner]="loading" [disabled]="loading">Create Demo Project</button>
 </div>
