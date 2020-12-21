@@ -65,9 +65,9 @@ let SSIssueInputList:Array<CreateIssueInput> = [{
   category:IssueCategory.Bug,
   assignees: ['0'],
   locations:[Cinterface.data.createComponentInterface.componentInterface.id],
-  labels:this.store['ss'].labels.bug.id
+  labels:[this.store['ss'].labels.bug.id]
   },{
-    title:'Issue 2 ist ein Bug',
+    title:'This issue describes a Bug',
     componentIDs: [data.createComponent.component.id],
     body:'Lorem Ipsum',
     category:IssueCategory.Bug,
@@ -79,7 +79,7 @@ let SSIssueInputList:Array<CreateIssueInput> = [{
   body:'Lorem Ipsum',
   category:IssueCategory.FeatureRequest,
   assignees: ['0'],
-  labels:this.store['ss'].labels.asienExpansion.id
+  labels:[this.store['ss'].labels.feature.id,this.store['ss'].labels.asienExpansion.id]
 }];
 SSIssueInputList.forEach(element => {
 
@@ -171,14 +171,14 @@ private createIssuesOs(componentId){
     body:'Lorem Ipsum',
     category:IssueCategory.Bug,
     assignees: ['0'],
-    labels:this.store['os'].labels.asienExpansion.id
+    labels:[this.store['os'].labels.bug.id]
     },{
     title:'Accept order from Korea',
     componentIDs: [componentId],
     body:'Lorem Ipsum',
     category:IssueCategory.FeatureRequest,
     assignees: ['0'],
-    labels:this.store['os'].labels.feature.id
+    labels:[this.store['os'].labels.feature.id,this.store['os'].labels.asienExpansion.id]
   }];
 
 OSIssueInputList.forEach(element => {
