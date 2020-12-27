@@ -36,8 +36,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
               private router: Router, private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
               private interfaceStoreService: InterfaceStoreService) {
   }
-  @ViewChild('graph', { static: true }) graphWrapper;
-  @ViewChild('minimap', { static: true }) minimap;
+  @ViewChild('graph', { static: true }) graphWrapper: { nativeElement: GraphEditor; };
+  @ViewChild('minimap', { static: true }) minimap: { nativeElement: GraphEditor; };
 
   currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
   @Input() projectId: string;
@@ -288,6 +288,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.issueGroupParents.push(node);
   }
 
+  /**
+   * Resets graph state. Called at start of draw(). Enables logic in draw()
+   * to assume a 'blank sheet' state avoiding complex updating logic.
+   */
   resetGraph() {
     this.graph.edgeList = [];
     this.graph.nodeList = [];
@@ -299,12 +303,22 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.graph.addEdge(createInterfaceProvisionEdge(node.offeredById, node.id));
   }
 
+  /**
+   * Add an edge from each connected component to the interface.
+   * @param interfaceNode interfaceNode visualized by lollipop notation
+   */
   connectConsumingComponents(interfaceNode: InterfaceNode) {
     for (const consumerId of this.graphData.interfaces.get(interfaceNode.id).consumedBy) {
       this.graph.addEdge(createConsumptionEdge(consumerId, interfaceNode.id));
     }
   }
 
+  /**
+   * Responsible for drawing the graph based on this.graphData.
+   * Takes care of drawing interface and components, and their connections.
+   * Additionally draws issue folders attached to each component and the dashed edges
+   * between them based on this.graphData.relatedFolders
+   */
   drawGraph() {
     // Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
     this.resetGraph();
