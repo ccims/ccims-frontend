@@ -36,8 +36,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
               private router: Router, private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
               private interfaceStoreService: InterfaceStoreService) {
   }
-  @ViewChild('graph', { static: true }) graphWrapper;
-  @ViewChild('minimap', { static: true }) minimap;
+  @ViewChild('graph', { static: true }) graphWrapper: { nativeElement: GraphEditor; };
+  @ViewChild('minimap', { static: true }) minimap: { nativeElement: GraphEditor; };
 
   currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
   @Input() projectId: string;
@@ -60,10 +60,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new ReplaySubject(1);
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
-  // private issuesById: IssuesState = {};
-  // private issueToRelatedNode: Map<string, Set<string>> = new Map();
-  //private issueToGraphNode: Map<string, Set<string>> = new Map();
-
   private projectStorageKey: string;
 
   ngAfterViewInit(): void {
@@ -73,13 +69,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
-    // this.filter$.subscribe(filterState => console.log(filterState));
   }
 
   ngOnDestroy() {
     this.destroy$.next();
   }
-
 
   initGraph() {
     if (this.graphInitialized) {
@@ -274,6 +268,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   }
+
   private addIssueGroupContainer(node: IssueNode) {
     const gm = this.graph.groupingManager;
     gm.markAsTreeRoot(node.id);
@@ -293,6 +288,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.issueGroupParents.push(node);
   }
 
+  /**
+   * Resets graph state. Called at start of draw(). Enables logic in draw()
+   * to assume a 'blank sheet' state avoiding complex updating logic.
+   */
   resetGraph() {
     this.graph.edgeList = [];
     this.graph.nodeList = [];
@@ -304,13 +303,23 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.graph.addEdge(createInterfaceProvisionEdge(node.offeredById, node.id));
   }
 
+  /**
+   * Add an edge from each connected component to the interface.
+   * @param interfaceNode interfaceNode visualized by lollipop notation
+   */
   connectConsumingComponents(interfaceNode: InterfaceNode) {
     for (const consumerId of this.graphData.interfaces.get(interfaceNode.id).consumedBy) {
       this.graph.addEdge(createConsumptionEdge(consumerId, interfaceNode.id));
     }
   }
 
-  drawGraph(shouldZoom: boolean = true) {
+  /**
+   * Responsible for drawing the graph based on this.graphData.
+   * Takes care of drawing interface and components, and their connections.
+   * Additionally draws issue folders attached to each component and the dashed edges
+   * between them based on this.graphData.relatedFolders
+   */
+  drawGraph() {
     // Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
     this.resetGraph();
     const componentNodes = Array.from(this.graphData.components.values()).map(component =>
@@ -328,7 +337,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.connectToOfferingComponent(interfaceNode);
       this.connectConsumingComponents(interfaceNode);
     });
-
     this.graph.completeRender();
     if (this.zoomOnRedraw) {
       this.zoomOnRedraw = false;
@@ -336,16 +344,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-
-
-  addIssueFolders(node: IssueNode) {
+  private addIssueFolders(node: IssueNode) {
     this.addIssueGroupContainer(node);
     this.addIssueFolderNodes(node);
   }
 
   private addIssueFolderNodes(node: IssueNode) {
     const issueCounts = this.graphData.graphLocations.get(node.id).issues;
-    // const filterState = this.filter$.getValue();
     Object.keys(IssueCategory).forEach(key => {
       const issueCategory = IssueCategory[key];
       if (issueCounts.has(issueCategory)) {
@@ -360,7 +365,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private drawFolderRelations(node: IssueNode) {
-    //const nodes = Array.from(this.graph.groupingManager.getChildrenOf(node.issueGroupContainer.id)).map(id => this.graph.getNode(id));
     // @ts-ignore
     const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
       (id: string) => this.graph.getNode(id));
@@ -373,84 +377,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
-
-  /*
-  private updateIssueRelations(
-    graph: GraphEditor,
-    parentNode: Node,
-    issues: IssuesState
-  ) {
-    const issueGroupContainer = graph.getNode(
-      `${parentNode.id}__issue-group-container`
-    );
-    if (issueGroupContainer.issueGroupNodes.size === 0) {
-      return;
-    }
-
-    issueGroupContainer.issueGroupNodes.forEach((issueFolderId) => {
-      const issueFolderNode = graph.getNode(issueFolderId);
-      const edgesToDelete = new Set<string>();
-      graph.getEdgesBySource(issueFolderId).forEach((edge) => {
-        edgesToDelete.add(edgeId(edge));
-        // TODO reset sets
-        edge.sourceIssues?.clear();
-      });
-
-      issueFolderNode.issues.forEach((issueId) => {
-        const issue = issues[issueId];
-
-        if (issue == null) {
-          return; // should not happen but just to be safe
-        }
-
-        issue.relatedIssues.forEach((rel) => {
-          this.issueToGraphNode
-            .get(rel.relatedIssueId)
-            .forEach((targetNodeId) => {
-              let edgeType = 'relatedTo';
-              if (rel.relationType === IssueRelationType.DEPENDS) {
-                edgeType = 'dependency';
-              }
-              if (rel.relationType === IssueRelationType.DUPLICATES) {
-                edgeType = 'duplicate';
-              }
-
-              const relationEdgeId = `s${issueFolderId}t${targetNodeId}r${edgeType}`;
-              edgesToDelete.delete(relationEdgeId);
-
-              let relationEdge = graph.getEdge(relationEdgeId);
-
-              if (relationEdge == null) {
-                relationEdge = {
-                  id: relationEdgeId,
-                  source: issueFolderId,
-                  target: targetNodeId,
-                  type: edgeType,
-                  markerEnd: {
-                    template: 'arrow',
-                    relativeRotation: 0,
-                  },
-                  dragHandles: [],
-                  sourceIssues: new Set<string>(),
-                };
-                graph.addEdge(relationEdge);
-              }
-
-              relationEdge.sourceIssues.add(issueId);
-            });
-        });
-      });
-
-      edgesToDelete.forEach((id) => {
-        const edge = graph.getEdge(id);
-        if (edge) {
-          // FIXME after grapheditor update (just use the edgeId in removeEdge)
-          graph.removeEdge(edge);
-        }
-      });
-    });
-  }
-  */
 
   private onCreateEdge = (edge: DraggedEdge) => {
     const graph: GraphEditor = this.graphWrapper.nativeElement;
@@ -556,7 +482,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(
           () => this.reload$.next(null)
         );
-        // this.api.removeComponentToInterfaceRelation(sourceNode.data.id, targetNode.data.id);
       }
     }
   }
@@ -571,101 +496,57 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     if (node.type === 'interface') {
-      // const componentNode = this.graph.getNode(node.);
       this.router.navigate(['./interface/', node.id], { relativeTo: this.activatedRoute.parent });
-      // TODO show a edit interface dialog (or similar)
-      /*
-            this.bottomSheet.open(GraphNodeInfoSheetComponent, {
-                data: {
-                    projectId: this.project.id,
-                    // TODO add as info when interfaces can have issues in the backend
-                    // component: componentNode.data,
-                    interface: node.data,
-                    issues: [...node.relatedIssues],
-                }
-            });
-            return;
-            */
-      console.log('Open Interface Info Sheet');
       return;
     }
     if (node.type.startsWith('issue-')) {
       const graph: GraphEditor = this.graphWrapper.nativeElement;
       const rootId = graph.groupingManager.getTreeRootOf(node.id);
       const rootNode = graph.getNode(rootId);
-
-      if (rootNode.type === 'component') {
-        // TODO show a edit component dialog (or similar)
-        /*
-                this.bottomSheet.open(GraphNodeInfoSheetComponent, {
-                    data: {
-                        projectId: this.project.id,
-                        component: rootNode.data,
-                        issues: [...node.issues],
-                    }
-                });
-                return;
-                */
-        console.log('Show component bottom sheet');
-      }
-
       if (rootNode.type === 'interface') {
         const componentNode = this.graph.getNode(node.componentNodeId);
-        /*
-                // TODO show a edit component dialog (or similar)
-                this.bottomSheet.open(GraphNodeInfoSheetComponent, {
-                    data: {
-                        projectId: this.project.id,
-                        // TODO add as info when interfaces can have issues in the backend
-                        // component: componentNode.data,
-                        interface: rootNode.data,
-                        issues: [...node.issues],
-                    }
-                });
-                */
-        console.log('Show interface bottom sheet');
         return;
       }
 
     }
-    if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST'){
-    const graph: GraphEditor = this.graphWrapper.nativeElement;
-    const rootId = graph.groupingManager.getTreeRootOf(node.id);
-    const rootNode = graph.getNode(rootId);
-    if (node.issueCount < 2 && node.issueCount > 0){
-      if (rootNode.type === 'component'){
-        // get component query
-        this.componentStoreService.getFullComponent(rootId).subscribe(component => {
-          const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
-          this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId ],
-          { relativeTo: this.activatedRoute.parent});
+    if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
+      const graph: GraphEditor = this.graphWrapper.nativeElement;
+      const rootId = graph.groupingManager.getTreeRootOf(node.id);
+      const rootNode = graph.getNode(rootId);
+      if (node.issueCount < 2 && node.issueCount > 0) {
+        if (rootNode.type === 'component') {
+          // get component query
+          this.componentStoreService.getFullComponent(rootId).subscribe(component => {
+            const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
+            this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId],
+              { relativeTo: this.activatedRoute.parent });
 
-        });
-      }else{
-        this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
-          const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
-          const componentId = componentInterface.node.component.id;
-          this.router.navigate(['./', rootNode.type, rootId, 'component', componentId, 'issue', currentIssueId ],
-          { relativeTo: this.activatedRoute.parent });
-
-        });
-        }
-      }else{
-        if (rootNode.type === 'interface'){
+          });
+        } else {
           this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
             const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
             const componentId = componentInterface.node.component.id;
-            this.router.navigate(['./', 'component', componentId, rootNode.type, rootId ],
-         { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
-        });
+            this.router.navigate(['./', rootNode.type, rootId, 'component', componentId, 'issue', currentIssueId],
+              { relativeTo: this.activatedRoute.parent });
+
+          });
         }
-        this.router.navigate(['./', rootNode.type, rootId ],
-         { relativeTo: this.activatedRoute.parent,  queryParams: { selected: '1' , filter: node.type} });
+      } else {
+        if (rootNode.type === 'interface') {
+          this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
+            const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
+            const componentId = componentInterface.node.component.id;
+            this.router.navigate(['./', 'component', componentId, rootNode.type, rootId],
+              { relativeTo: this.activatedRoute.parent, queryParams: { selected: '1', filter: node.type } });
+          });
+        }
+        this.router.navigate(['./', rootNode.type, rootId],
+          { relativeTo: this.activatedRoute.parent, queryParams: { selected: '1', filter: node.type } });
       }
-    return;
+      return;
     }
     console.log('Clicked on another type of node:', node);
-   }
+  }
 
   private loadNodePositions() {
     const data = localStorage.getItem(this.projectStorageKey);
@@ -693,45 +574,24 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.saveNodePositionsSubject.next();
       this.reload$.next(null);
     });
-    /*
-            createComponentDialog.afterClosed().subscribe((interfaceName: string) => {
-                if (interfaceName != null && interfaceName !== '') {
-                    this.api.addComponentInterface(componentId, interfaceName);
-                }
-            });
-          */
-    console.log('Open Create Interface Dialog Component');
   }
 
-setRelationVisibility(showRelations: boolean) {
-    // console.log('Setting relation visibility to: ', showRelations);
+  setRelationVisibility(showRelations: boolean) {
     this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
   }
 
   public openCreateComponentDialog(): void {
-    /*
-      const createComponentDialog = this.dialog.open(CreateComponentDialogComponent);
-
-      createComponentDialog.afterClosed().subscribe((componentInformation: {ownerUsername: string, component: ComponentPartial}) => {
-          // TODO add component to project, update graph and backend
-          if (componentInformation) {
-              console.log(componentInformation)
-              //this.api.addComponent(this.project.id, componentInformation.ownerUsername, componentInformation.component);
-              //console.log(`Dialog result: ${componentInformation.generalInformation.componentName}`);
-          }
-      });
-      */
     const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
       data: { projectId: this.projectId }
     });
     createComponentDialogRef.afterClosed().subscribe(componentInformation => {
-      // console.log(componentInformation);
       this.zoomOnRedraw = true;
       this.reload$.next(null);
     });
   }
-  private extractIssueId(issueList, category: string): string{
-    for (const issue of issueList){
+
+  private extractIssueId(issueList, category: string): string {
+    for (const issue of issueList) {
       if (issue.category === category) {
         return issue.id;
       }
