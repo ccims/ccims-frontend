@@ -25,6 +25,7 @@ export class IssueDetailComponent implements OnInit {
   public attributeToEdit = 'start';
   public labelList = [];
   public editTitle = false;
+  public editBody = false;
   public projectComponents;
   constructor(private labelStoreService: LabelStoreService, public activatedRoute: ActivatedRoute,
               private issueStoreService: IssueStoreService, private projectStoreService: ProjectStoreService) { }
@@ -164,6 +165,11 @@ export class IssueDetailComponent implements OnInit {
       this.issue = issue;
     });
     });
+  }
+  public EditIssueBody(body:string){
+    // TODO DB-action
+    console.log(body);
+
   }
   public editIssueTitle(save?: boolean){
 

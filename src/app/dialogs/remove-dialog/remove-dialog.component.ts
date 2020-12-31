@@ -4,6 +4,7 @@ import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentDetailsComponent } from '@app/component-details/component-details.component';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
+import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
 import { Project } from 'src/generated/graphql';
 @Component({
@@ -14,6 +15,7 @@ import { Project } from 'src/generated/graphql';
 export class RemoveDialogComponent implements OnInit {
   public loading: boolean;
   constructor( private componentStore: ComponentStoreService, public dialogRef: MatDialogRef<RemoveDialogComponent>,
+    private is: InterfaceStoreService,
                @Inject(MAT_DIALOG_DATA) public data: DialogData) {this.loading = false; }
 
   ngOnInit(): void {
@@ -34,17 +36,17 @@ export class RemoveDialogComponent implements OnInit {
       this.loading = false;
     });
   }
-    if (this.data.type == 'Project') {
-      /*
+    if (this.data.type == 'interface') {
+
           this.loading = true;
-          this.ps.delete(this.data.id).subscribe(({ data }) => {
+          this.is.delete(this.data.id).subscribe(({ data }) => {
             console.log('got data', data);
             this.loading = false;
             // this.reloadProjects();
           }, (error) => {
             console.log('there was an error sending the query', error);
             this.loading = false;
-          });*/
+          });
     }
 
     this.dialogRef.close(this.data.name);

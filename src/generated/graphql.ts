@@ -2070,11 +2070,11 @@ export type Mutation = {
   deleteIssueComment?: Maybe<DeleteIssueCommentPayload>;
   /** Links an issue to another one, creating a relation */
   linkIssue?: Maybe<LinkIssuePayload>;
-  /** Unlink an issue from another and remove their relation */
+  /** Unlinks an issue from another one, removing a relation */
   unlinkIssue?: Maybe<UnlinkIssuePayload>;
   /** Adds a label to an issue */
   addLabelToIssue?: Maybe<AddLabelToIssuePayload>;
-  /** Remove a label that is currently on the issue */
+  /** Remove a label from an issue */
   removeLabelFromIssue?: Maybe<RemoveLabelFromIssuePayload>;
   /** Pins an issue to a component (including in the IMS of the component) */
   pinIssue?: Maybe<PinIssuePayload>;
@@ -2090,7 +2090,7 @@ export type Mutation = {
   removeAssignee?: Maybe<RemoveAssigneePayload>;
   /** Closes an open issue */
   closeIssue?: Maybe<CloseIssuePayload>;
-  /** Reopen an issue after it has been closed */
+  /** Reopen an open issue */
   reopenIssue?: Maybe<ReopenIssuePayload>;
   /** Changes the priority of an issue */
   changeIssuePriority?: Maybe<ChangeIssuePriorityPayload>;
@@ -2102,7 +2102,7 @@ export type Mutation = {
   changeIssueEstimatedTime?: Maybe<ChangeIssueEstimatedTimePayload>;
   /** Adds an issue to a location (location or interface) */
   addIssueToLocation?: Maybe<AddIssueToLocationPayload>;
-  /** Removes an issue from an issue location it was assigned to */
+  /** Removes an issue from a location (location or interface) */
   removeIssueFromLocation?: Maybe<RemoveIssueFromLocationPayload>;
   /** Adds an issue to a component (including creating the issue on the ims of the component) */
   addIssueToComponent?: Maybe<AddIssueToComponentPayload>;
@@ -2189,7 +2189,7 @@ export type MutationLinkIssueArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationUnlinkIssueArgs = {
-  input?: Maybe<UnlinkIssueInput>;
+  input: UnlinkIssueInput;
 };
 
 
@@ -2201,7 +2201,7 @@ export type MutationAddLabelToIssueArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveLabelFromIssueArgs = {
-  input?: Maybe<RemoveLabelFromIssueInput>;
+  input: RemoveLabelFromIssueInput;
 };
 
 
@@ -2249,7 +2249,7 @@ export type MutationCloseIssueArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationReopenIssueArgs = {
-  input?: Maybe<ReopenIssueInput>;
+  input: ReopenIssueInput;
 };
 
 
@@ -2285,7 +2285,7 @@ export type MutationAddIssueToLocationArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveIssueFromLocationArgs = {
-  input?: Maybe<RemoveIssueFromLocationInput>;
+  input: RemoveIssueFromLocationInput;
 };
 
 
@@ -3654,6 +3654,20 @@ export type CreateComponentInterfaceMutation = { createComponentInterface?: Mayb
       & { component: Pick<Component, 'id'> }
     )> }> };
 
+export type UpdateComponentInterfaceMutationVariables = Exact<{
+  input: UpdateComponentInterfaceInput;
+}>;
+
+
+export type UpdateComponentInterfaceMutation = { updateComponentInterface?: Maybe<{ componentInterface?: Maybe<Pick<ComponentInterface, 'id' | 'name'>> }> };
+
+export type DeleteComponentInterfaceMutationVariables = Exact<{
+  input: DeleteComponentInterfaceInput;
+}>;
+
+
+export type DeleteComponentInterfaceMutation = { deleteComponentInterface?: Maybe<Pick<DeleteComponentInterfacePayload, 'clientMutationID'>> };
+
 export type GetInterfaceQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -4072,6 +4086,45 @@ export const CreateComponentInterfaceDocument = gql`
   })
   export class CreateComponentInterfaceGQL extends Apollo.Mutation<CreateComponentInterfaceMutation, CreateComponentInterfaceMutationVariables> {
     document = CreateComponentInterfaceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateComponentInterfaceDocument = gql`
+    mutation UpdateComponentInterface($input: UpdateComponentInterfaceInput!) {
+  updateComponentInterface(input: $input) {
+    componentInterface {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateComponentInterfaceGQL extends Apollo.Mutation<UpdateComponentInterfaceMutation, UpdateComponentInterfaceMutationVariables> {
+    document = UpdateComponentInterfaceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteComponentInterfaceDocument = gql`
+    mutation DeleteComponentInterface($input: DeleteComponentInterfaceInput!) {
+  deleteComponentInterface(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteComponentInterfaceGQL extends Apollo.Mutation<DeleteComponentInterfaceMutation, DeleteComponentInterfaceMutationVariables> {
+    document = DeleteComponentInterfaceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

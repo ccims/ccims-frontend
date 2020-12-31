@@ -9,6 +9,19 @@ mutation CreateComponentInterface($input: CreateComponentInterfaceInput!){
     }
   }
 }
+mutation UpdateComponentInterface($input: UpdateComponentInterfaceInput!){
+  updateComponentInterface(input: $input){
+    componentInterface {
+      id
+      name
+    }
+  }
+}
+mutation DeleteComponentInterface($input: DeleteComponentInterfaceInput!){
+  deleteComponentInterface(input: $input){
+    clientMutationID
+  }
+}
 query GetInterface($id: ID!) {
   node(id: $id) {
     ...on ComponentInterface {

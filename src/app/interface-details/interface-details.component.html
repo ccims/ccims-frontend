@@ -28,7 +28,7 @@
 
         <mat-form-field floatLabel="always"  class="stretch" appearance="outline">
           <mat-label>Interface Type</mat-label>
-          <input [ngModel]="interface.name" [readonly]="!this.editMode" name="interfaceType" matInput [formControl]="this.validationType">
+          <input  readonly matInput [formControl]="this.validationType">
           <mat-error *ngIf="this.validationType.invalid && this.editMode">Enter a valid URL</mat-error>
         </mat-form-field>
 

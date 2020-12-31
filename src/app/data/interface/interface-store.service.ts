@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../../auth/authentication.service';
-import { CreateComponentInterfaceGQL, CreateComponentInterfaceInput, GetInterfaceGQL, GetInterfaceQuery } from '../../../generated/graphql';
+import { CreateComponentInterfaceGQL, CreateComponentInterfaceInput, DeleteComponentInterfaceGQL, DeleteComponentInterfaceInput, GetInterfaceGQL, GetInterfaceQuery, UpdateComponentInterfaceGQL, UpdateComponentInterfaceInput } from '../../../generated/graphql';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export class InterfaceStoreService {
 
   constructor(private authService: AuthenticationService, private createInterfaceMutation: CreateComponentInterfaceGQL,
+    private updateInterfaceMutation: UpdateComponentInterfaceGQL, private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
               private getInterfaceQuery: GetInterfaceGQL) { }
 
   public create(name: string, offeringComponentId: string, description?: string) {
@@ -27,4 +28,16 @@ export class InterfaceStoreService {
     );
 
   }
+  public update(input:UpdateComponentInterfaceInput) {
+
+
+    return this.updateInterfaceMutation.mutate({input});
+  }
+  public delete(id :string) {
+    const input:DeleteComponentInterfaceInput={
+      componentInterfaceId: id
+    }
+    return this.deleteInterfaceMutation.mutate({input});
+  }
+
 }

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // import { Component } from 'src/generated/graphql';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateLabelInput, GetComponentQuery, UpdateComponentInput } from '../../generated/graphql';
+import { CreateLabelInput, GetComponentQuery, UpdateComponentInput, UpdateComponentInterfaceInput } from '../../generated/graphql';
 import {IssueListComponent} from '../issue-list/issue-list.component';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
@@ -29,7 +29,7 @@ export class InterfaceDetailsComponent implements OnInit {
   public currentInterface: any;
   validationName = new FormControl('', [Validators.required]);
   validationDescription = new FormControl('');
-  public validationType = new FormControl('', [Validators.required]);
+  public validationType = new FormControl('');
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
               private interfaceStoreService: InterfaceStoreService, private dialog: MatDialog,
@@ -62,69 +62,55 @@ export class InterfaceDetailsComponent implements OnInit {
   }
   public onEditClick() {
 
-    // this.editMode = !this.editMode;
+     this.editMode = !this.editMode;
 
 
   }
 
   public onDeleteClick() {
-    /*
+
     // Confirm Dialog anzeigen
     // Onconfirm
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
-      { data: { type: 'Component', name: this.component.node.name, id: this.componentId } });
+      { data: { type: 'interface', name: this.interface.node.name, id: this.interfaceId } });
     confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
         if (deleteData){
-          this.router.navigate(['../../graph/'], {relativeTo: this.activatedRoute});
+          this.router.navigate(['projects',this.route.snapshot.paramMap.get('id'),'graph']);
         }
         });
     // Delete Mutation auslösen
-    */
+
   }
   public onSaveClick(): void {
-    /*
-    this.component.node.name = this.validationName.value;
-    this.component.node.ims.imsType = this.validationProvider.value;
-    this.component.node.description = this.validationDescription.value;
-    // this.component.node.ims. = this.validationIMS.value; //endpoint muss noch angepasst werden
-    // this.component.node.Url = this.validationUrl.value;  // url muss noch angepasst werden
-    this.updateComponent();
-    this.editMode = !this.editMode;
-    // Confirm Dialog ??
-    // mutation for save component
-    /*
-    Object.keys(this.validateForm.controls).forEach(controlKey => {
-      this.validateForm.controls[controlKey].markAsDirty();
-      this.validateForm.controls[controlKey].updateValueAndValidity();
-    });
-    */
+
+    this.interface.node.name = this.validationName.value;
+    this.interface.node.description = this.validationDescription.value;
+    this.updateInterface();
   }
 
   private resetValues() {
     this.validationName.setValue(this.interface.node.name);
-
-    // this.validationType.setValue(this.interface.node.ims.imsType);
-    // this.validationDescription.setValue(this.component.node.description);
+     this.validationDescription.setValue(this.interface.node.description);
   }
 
   private updateInterface(): void{
-    /*
-    const MutationinputData: UpdateComponentInput = {
-      componentId : this.component.node.id,
-      name : this.component.node.name,
-      imsType : this.component.node.ims.imsType,
-      description : this.component.node.description
+
+    const MutationinputData: UpdateComponentInterfaceInput = {
+      componentinterfaceId: this.interfaceId,
+      name : this.interface.node.name,
+      description : this.interface.node.description
     };
     this.loading = true;
-    this.componentStoreService.updateComponent(MutationinputData).subscribe(({ data }) => {
+    this.interfaceStoreService.update(MutationinputData).subscribe(({ data }) => {
+      this.editMode = !this.editMode;
       this.loading = false;
-
+      console.log(data);
     }, (error) => {
       console.log('there was an error sending the query', error);
       this.loading = false;
 
     });
-    */
+
   }
 
 

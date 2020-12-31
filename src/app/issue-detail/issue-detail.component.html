@@ -7,9 +7,8 @@
         <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]= "issue.node.title">
         <h1 #title *ngIf="!this.editTitle" id="issue-heading">{{issue.node.title}}</h1>
         <div id="issue-action">
-          <button mat-flat-button *ngIf="!this.editTitle" (click)="this.editIssueTitle()">Edit</button>
+          <button mat-flat-button *ngIf="!this.editTitle" color="primary" (click)="this.editIssueTitle()">Edit</button>
           <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle()" >Cancel</button>
-          <button mat-flat-button *ngIf="!this.editTitle" color="accent">New Issue</button>
           <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle(true)" color="accent">Save</button>
         </div>
 
@@ -26,15 +25,26 @@
 
     <section class="clear">
       <div class="issue-content" >
-      <div class="Box Box--condensed issue-body-box">
+      <div class="Box Box--condensed issue-body-box" >
         <div class="Box-header d-flex flex-items-center">
           <h3 class="Box-title overflow-hidden flex-auto">
             <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented some time ago
           </h3>
+          <button mat-flat-button  (click)="this.editBody=!this.editBody" >Edit</button>
         </div>
-        <div class="Box-body">
+        <div *ngIf="!this.editBody" class="Box-body">
           {{issue.node.body}}
         </div>
+        <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
+          <textarea class="comment-text-area" matInput #bodyEdit>{{issue.node.body}}</textarea>
+          <div class="edit-body-buttons">
+            <button mat-raised-button  (click)="this.editBody=!this.editBody">Cancel</button>
+          <button mat-raised-button color="primary" (click)="this.EditIssueBody(bodyEdit.value)">Save</button>
+        </div>
+        </div>
+
+
+
       </div>
 
       <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 " class="TimelineItem  issue-comment">

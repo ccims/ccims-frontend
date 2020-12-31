@@ -3,13 +3,13 @@
   <form [formGroup]="validateForm">
   <mat-form-field class="stretch" appearance="outline">
     <mat-label>Title</mat-label>
-    <input #title reqired matInput  [formControl]="validationTitle" >
+    <input #title reqired matInput  [formControl]="validationTitle" required>
     <mat-error *ngIf="validationTitle.invalid">Type in a title</mat-error>
   </mat-form-field>
 
   <mat-form-field class="stretch body" appearance="outline">
     <mat-label>Body</mat-label>
-    <textarea style="height: 66px;" #body matInput [formControl]="validationBody"></textarea>
+    <textarea style="height: 66px;" #body matInput [formControl]="validationBody" required></textarea>
     <!--<input #body reqired matInput  [formControl]="validationBody" >-->
     <mat-error *ngIf="validationBody.invalid">Body is required</mat-error>
   </mat-form-field>
