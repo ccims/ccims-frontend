@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
-import { AddLabelToIssueGQL, AddLabelToIssueInput, CreateLabelGQL, CreateLabelInput, GetLabelsGQL, Label, RemoveLabelFromIssueGQL, RemoveLabelFromIssueInput } from '../../../generated/graphql';
+import { AddLabelToIssueGQL, AddLabelToIssueInput, CreateLabelGQL, CreateLabelInput, GetLabelsGQL,
+  Label, RemoveLabelFromIssueGQL, RemoveLabelFromIssueInput } from '../../../generated/graphql';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,11 +10,11 @@ import { Observable } from 'rxjs';
 export class LabelStoreService {
 
   constructor(private getLabelsGQL: GetLabelsGQL, private CreateLabelMutation: CreateLabelGQL,
-    private addLabelToIssueMutation: AddLabelToIssueGQL, private removeLabelFromIssueMutation: RemoveLabelFromIssueGQL) { }
+              private addLabelToIssueMutation: AddLabelToIssueGQL, private removeLabelFromIssueMutation: RemoveLabelFromIssueGQL) { }
 
 
   getMatchingLabels(projectId: string, term: string = null): Observable<FilterLabel[]> {
-    this.getAllFilter(projectId).pipe(tap(items => console.log("labels: ", items)));
+    this.getAllFilter(projectId).pipe(tap(items => console.log('labels: ', items)));
     if (!term) {
       return this.getAllFilter(projectId);
     }
@@ -66,11 +67,9 @@ export class LabelStoreService {
 
     // Using the HSP value, determine whether the color is light or dark
     if (hsp > 127.5) {
-
         return 'black';
     }
     else {
-
         return 'white';
     }
   }

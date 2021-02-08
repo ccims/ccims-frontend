@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import {
-  AddConsumedInterfaceGQL, GetIssueGraphDataGQL, IssueCategory,
-  RemoveConsumedInterfaceGQL, GetIssueGraphDataForSearchGQL
-} from 'src/generated/graphql';
+import { AddConsumedInterfaceGQL, GetIssueGraphDataGQL, IssueCategory, RemoveConsumedInterfaceGQL, GetIssueGraphDataForSearchGQL } from 'src/generated/graphql';
 import { GraphData, GraphDataFactory } from './graph-data';
 import { Observable } from 'rxjs';
 import { SelectedCategories } from '@app/graphs/shared';
@@ -19,6 +16,13 @@ export class IssueGraphApiService {
               private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
               private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) { }
 
+  /**
+   * Queries backend for data needed to render graph when given parameters restricting what information is requested.
+   * @param projectId
+   * @param categories describes which issue categories (e.g. BUG) are of interest
+   * @param labels a list of issue labels the user has entered into the query bar
+   * @param texts a list of text fragments the user has entered into the query bar
+   */
   loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[], texts: string[]): Observable<GraphData> {
     const activeCategories: IssueCategory[] = [];
     for (const key of Object.values(IssueCategory)) {
@@ -39,6 +43,12 @@ export class IssueGraphApiService {
     }
   }
 
+  /**
+   *
+   * @param texts strings to be put into a regular expression denoting a language containing their union
+   * @example
+   * textsToRegex(["newest issues", "test"]) == "(newest issues | test)""
+   */
   textsToRegex(texts: string[]): string {
     if (texts.length === 0) {
       return undefined;
@@ -46,10 +56,21 @@ export class IssueGraphApiService {
     return texts.map(text => '(' + text + ')').join('|');
   }
 
+
+  /**
+   * Make the interface with interfaceId a consumed interface of the component with id componentId
+   * @param componentId
+   * @param interfaceId
+   */
   addConsumedInterface(componentId: string, interfaceId: string) {
     return this.addConsumedInterfaceMutation.mutate({ input: { componentId, interfaceId } });
   }
 
+  /**
+   * Remove the interface with interfaceId from consumed interfaces of the component with id componentId
+   * @param componentId
+   * @param interfaceId
+   */
   removeConsumedInterface(componentId: string, interfaceId: string) {
     return this.removeConsumedInterfaceMutation.mutate({ input: { componentId, interfaceId } });
   }
