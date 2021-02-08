@@ -12,11 +12,32 @@ export interface GraphData {
   linkIssues: GraphIssue[];
 }
 
-interface Folder {
-  issueType: IssueCategory;
-  totalIssueCount: number;
-  linkIssues: GraphIssue[];
+export class GraphDataFactory {
+  /**
+   * Removes the counts for issue categories which are filtered. This is a workaround
+   * needed because the backend doesn't allow us to only ask for the counts we are interested in.
+   * @param graphData the data with the unnecessary counts
+   * @param activeCategories the categories corresponding to the activated toggles of the graph component
+   */
+  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
+    for (const location of graphData.graphLocations.values()) {
+      location.issues = new Map([...location.issues].filter(([category, count]) => activeCategories.includes(category)));
+    }
+    return graphData;
+  }
+
+  static graphDataFromGQL(data: GetIssueGraphDataQuery): GraphData {
+    const components = GraphComponent.mapFromGQL(data.node.components.nodes);
+    const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
+    const graphLocations: Map<string, GraphLocation> = new Map([...components, ...interfaces]);
+    const linkIssues = data.node.linkingIssues.nodes.map(gqlIssue => GraphIssue.fromGQL(gqlIssue));
+    const relatedFolders = computeRelatedFolders(linkIssues, interfaces);
+    return {
+      components, interfaces, graphLocations, relatedFolders, linkIssues
+    };
+  }
 }
+
 
 type GraphFolder = [LocationId, IssueCategory];
 type GraphLocation = GraphInterface | GraphComponent;
@@ -153,102 +174,3 @@ class GraphIssue {
 
 }
 
-
-export class GraphDataFactory {
-
-  /**
-   * Removes the counts for issue categories which are filtered. This is a workaround
-   * needed because the backend doesn't allow us to only ask for the counts we are interested in.
-   * @param graphData the data with the unnecessary counts
-   * @param activeCategories the categories corresponding to the activated toggles of the graph component
-   */
-  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
-    for (const location of graphData.graphLocations.values()) {
-      location.issues = new Map([...location.issues].filter(([category, count]) => activeCategories.includes(category)));
-      // console.log(location.issues);
-    }
-    return graphData;
-  }
-
-  static graphDataFromGQL(data: GetIssueGraphDataQuery): GraphData {
-    // const components = data.node.components.nodes.map(gqlComponent => [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]);
-    // const interfaces = data.node.interfaces.nodes.map(gqlInterface => GraphInterface.fromGQL(gqlInterface));
-    const components = GraphComponent.mapFromGQL(data.node.components.nodes);
-    const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
-    const graphLocations: Map<string, GraphLocation> = new Map([...components, ...interfaces]);
-    const linkIssues = data.node.linkingIssues.nodes.map(gqlIssue => GraphIssue.fromGQL(gqlIssue));
-    const relatedFolders = computeRelatedFolders(linkIssues, interfaces);
-    // console.log(components, interfaces);
-    return {
-      components, interfaces, graphLocations, relatedFolders, linkIssues
-    };
-  }
-
-  static graphDataMock(): GraphData {
-
-    const issueCount1: Map<IssueCategory, number> = issueCounts(1, 2, 3);
-    const issueCount2: Map<IssueCategory, number> = issueCounts(4, 5, 6);
-
-
-
-    const component: GraphComponent = {
-      id: '1',
-      name: 'TestComponent',
-      issues: issueCount1
-    };
-
-    const component2: GraphComponent = {
-      id: '5',
-      name: 'Component 2',
-      issues: issueCount1
-    };
-
-    const component3: GraphComponent = {
-      id: '6',
-      name: 'Component 3',
-      issues: new Map()
-    };
-
-    const interFace: GraphInterface = {
-      id: '2',
-      name: 'TestInterface',
-      offeredBy: component.id,
-      issues: issueCount2,
-      consumedBy: ['5']
-    };
-
-    /*
-    const linkedIssue: GraphIssue = {
-      id: '3',
-      category: IssueCategory.FeatureRequest,
-      locations: [interFace.id]
-    };
-
-    const linkingIssue: GraphIssue = {
-      id: '4',
-      category: IssueCategory.Bug,
-      locations: [component.id],
-      linksIssues: [linkedIssue]
-    };
-
-
-    const data: GraphData = {
-      components: new Map([[component.id, component],
-      [component2.id, component2],
-      [component3.id, component3]]),
-      interfaces: new Map([[interFace.id, interFace]]),
-      graphLocations: new Map(),
-      linkIssues: [linkingIssue],
-      relatedFolders: computeRelatedFolders([linkingIssue])
-    };
-    return data;
-    */
-    return null;
-  }
-
-  /*
-  static graphInterfaceFromQueryInterface( ): GraphInterface {
-
-  }
-  */
-}

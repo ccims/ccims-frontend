@@ -29,10 +29,6 @@ export class IssueGraphStateService {
     return this.state$;
   }
 
-  mockedLoadIssueGraphData(): Observable<GraphData> {
-    return of(GraphDataFactory.graphDataMock());
-  }
-
   addConsumedInterface(componentId: string, interfaceId: string) {
     return this.apiService.addConsumedInterface(componentId, interfaceId);
   }
