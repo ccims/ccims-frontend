@@ -18,7 +18,6 @@ import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentListComponent } from './component-list/component-list.component';
 import { IssueDetailComponent } from './issue-detail/issue-detail.component';
 import { GraphsModule } from './graphs/graphs.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -70,7 +69,6 @@ const toasterConfig: Partial<GlobalConfig> = {
     ProjectOverviewComponent,
     TopToolbarComponent,
     SideNavComponent,
-    ComponentListComponent,
     IssueDetailComponent,
     LoginComponent,
     FrameComponent,
