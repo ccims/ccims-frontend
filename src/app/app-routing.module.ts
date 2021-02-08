@@ -47,13 +47,11 @@ const routes: Routes = [
               {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent},
               {path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
             ]}
-
         ]
       },
       { path: 'issue', component: IssueDetailComponent },
     ],
   },
-  // {path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   // otherwise redirect to home
