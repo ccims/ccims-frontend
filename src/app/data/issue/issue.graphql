@@ -6,6 +6,7 @@ mutation CreateIssue($input: CreateIssueInput!) {
     }
   }
 }
+
 mutation LinkIssue($input: LinkIssueInput!) {
   linkIssue(input: $input){
     issue{
@@ -21,6 +22,7 @@ mutation UnlinkIssue($input: UnlinkIssueInput!) {
   }
 }
 }
+
 query GetIssue($id: ID!) {
   node(id: $id) {
     ...on Issue {
@@ -100,26 +102,31 @@ mutation CommentIssue($input: AddIssueCommentInput!) {
     }
 }
 }
+
 mutation CloseIssue($input: CloseIssueInput!) {
   closeIssue(input: $input){
       clientMutationID
 }
 }
+
 mutation ReopenIssue($input: ReopenIssueInput!) {
   reopenIssue(input: $input){
       clientMutationID
 }
 }
+
 mutation RenameIssueTitle($input: RenameIssueTitleInput!) {
   renameIssueTitle(input: $input){
       clientMutationID
 }
 }
+
 mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
   removeIssueFromLocation(input: $input){
       clientMutationID
 }
 }
+
 mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
   addIssueToLocation(input: $input){
       clientMutationID

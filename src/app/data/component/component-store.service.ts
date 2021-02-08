@@ -34,5 +34,4 @@ export class ComponentStoreService {
   updateComponent(input: UpdateComponentInput) {
     return this.updateComponentMutation.mutate({input});
   }
-
 }

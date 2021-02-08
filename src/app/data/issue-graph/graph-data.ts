@@ -1,9 +1,5 @@
-import {
-  Scalars, Component, IssueLocation, GetIssueGraphDataQuery, IssueCategory,
-  ComponentInterface, Issue, IssuePage, ComponentPage
-} from 'src/generated/graphql';
-
-import { Dictionary, DefaultDictionary } from 'typescript-collections';
+import { Scalars, Component, GetIssueGraphDataQuery, IssueCategory, ComponentInterface, Issue, IssuePage} from 'src/generated/graphql';
+import { DefaultDictionary } from 'typescript-collections';
 
 type LocationId = Scalars['ID'];
 
@@ -14,8 +10,6 @@ export interface GraphData {
   graphLocations: Map<string, GraphLocation>;
   relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
   linkIssues: GraphIssue[];
-  // issueLocations: Map<GraphIssue, LocationId[]>;
-  // issueLinks: Dictionary<GraphIssue, GraphIssue>;
 }
 
 interface Folder {

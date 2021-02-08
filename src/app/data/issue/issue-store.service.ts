@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AddIssueCommentInput, CloseIssueGQL, CommentIssueGQL, CreateIssueGQL, CreateIssueInput, GetIssueGQL,
-  GetIssueQuery, Issue, IssueCategory, LinkIssueGQL, LinkIssueInput, UnlinkIssueGQL, CloseIssueInput, UnlinkIssueInput, ReopenIssueGQL, ReopenIssueInput, RenameIssueTitleInput, RenameIssueTitleGQL, AddIssueToLocationInput, RemoveIssueFromLocationInput, AddIssueToLocationGQL, RemoveIssueFromLocationGQL} from 'src/generated/graphql';
+  GetIssueQuery, LinkIssueGQL, LinkIssueInput, UnlinkIssueGQL, CloseIssueInput, UnlinkIssueInput, ReopenIssueGQL,
+  ReopenIssueInput, RenameIssueTitleInput, RenameIssueTitleGQL, AddIssueToLocationInput, RemoveIssueFromLocationInput,
+  AddIssueToLocationGQL, RemoveIssueFromLocationGQL} from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -22,31 +24,38 @@ export class IssueStoreService {
   link(linkIssueInput: LinkIssueInput){
     return this.linkIssue.mutate({input: linkIssueInput});
   }
+
   unlink(unlinkIssueInput: UnlinkIssueInput){
     return this.unlinkIssueMutation.mutate({input: unlinkIssueInput});
   }
+
   getFullIssue(id: string): Observable<GetIssueQuery>{
     return this.getFullIssueQuery.fetch({ id }).pipe(
       map(({ data }) => data)
     );
   }
+
   commentIssue(commentIssueInput: AddIssueCommentInput) {
     return this.commentIssueMutation.mutate({input: commentIssueInput});
   }
+
   close(closeInput: CloseIssueInput){
     return this.closeIssueMutation.mutate({input: closeInput});
   }
+
   reopen(reopenInput: ReopenIssueInput){
     return this.reopenIssueMutation.mutate({input: reopenInput});
   }
+
   rename(renameInput: RenameIssueTitleInput){
     return this.renameIssueMutation.mutate({input: renameInput});
   }
+
   addToLocation(addLocationInput: AddIssueToLocationInput){
     return this.addIssueToLocationMutation.mutate({input: addLocationInput});
   }
+
   removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput){
     return this.removeIssueFromLocationMutation.mutate({input: removeLocationInput});
   }
-
 }
