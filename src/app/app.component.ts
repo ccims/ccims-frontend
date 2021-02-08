@@ -8,10 +8,11 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'CCIMS';
+  title = 'Gropius';
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer) {
+    // add the svg icon used for the edge slide toggle above the graph
     this.matIconRegistry.addSvgIcon(
       'relation-edge',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/relation-edge.svg')

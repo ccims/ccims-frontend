@@ -12,7 +12,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
-
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
 import { TopToolbarComponent } from './top-toolbar/top-toolbar.component';
@@ -21,18 +20,13 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentListComponent } from './component-list/component-list.component';
 import { IssueDetailComponent } from './issue-detail/issue-detail.component';
-
 import { GraphsModule } from './graphs/graphs.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
-
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { IconDefinition } from '@ant-design/icons-angular';
-
-
 import { CommonModule, registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { LoginComponent } from './login/login.component';
@@ -50,7 +44,6 @@ import { CreateInterfaceDialogComponent } from './dialogs/create-interface-dialo
 import { ComponentDetailsComponent } from './component-details/component-details.component';
 import { CreateIssueDialogComponent } from './dialogs/create-issue-dialog/create-issue-dialog.component';
 import { IssueListComponent } from './issue-list/issue-list.component';
-// import { ComponentDetailsComponent } from './component-details/component-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -64,6 +57,7 @@ const antDesignIcons = AllIcons as {
 };
 const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
 
+// configuration for toasts, the toastrservice is configured in graphql.module.ts
 const toasterConfig: Partial<GlobalConfig> = {
   maxOpened: 1,
   autoDismiss: true

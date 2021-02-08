@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PRIMARY_OUTLET } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ProjectListComponent } from './project-list-component/project-list.component';
 import { ProjectOverviewComponent } from './project-overview/project-overview.component';
 import { ComponentListComponent } from './component-list/component-list.component';
@@ -11,7 +11,6 @@ import { AuthGuard } from './auth/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { ComponentDetailsComponent } from './component-details/component-details.component';
 import { InterfaceDetailsComponent } from './interface-details/interface-details.component';
-import { IssueListComponent } from './issue-list/issue-list.component';
 import { ProjectIssueListComponent } from './project-issue-list/project-issue-list.component';
 import { ProjectMembersComponent } from './project-members/project-members.component';
 
