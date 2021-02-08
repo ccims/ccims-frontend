@@ -1,11 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MockProjectStoreService } from '@app/data/project/mock-project-store.service';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
-import { Interface } from 'readline';
-import { GetFullProjectQuery, GetProjectQuery, Project, User } from 'src/generated/graphql';
+import { GetFullProjectQuery } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
-
 
 @Component({
   selector: 'app-project-overview',
@@ -25,8 +22,5 @@ export class ProjectOverviewComponent {
       this.project = project;
       console.log(project);
     });
-
-
-
   }
 }

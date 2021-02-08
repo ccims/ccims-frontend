@@ -1,9 +1,11 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { Component } from '@angular/core';
 import { StateService } from '@app/state.service';
 
+/**
+ * This component displays and manages the sidemenu showing
+ * the name of the current project at the top. Beneath it
+ * navigation points e.g. 'Graph' are displayed.
+ */
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
@@ -13,16 +15,10 @@ export class SideNavComponent {
   readonly defaultMenuTitle = 'Menu';
   public menuTitle = this.defaultMenuTitle;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-  .pipe(
-    map(result => result.matches),
-    shareReplay()
-  );
-
-constructor(private breakpointObserver: BreakpointObserver, public ss: StateService) {
-  ss.state$.subscribe(appState => {
-    this.menuTitle = (appState.project != null) ? appState.project.name : this.defaultMenuTitle;
-  });
-}
+  constructor(public ss: StateService) {
+    ss.state$.subscribe(appState => {
+      this.menuTitle = (appState.project != null) ? appState.project.name : this.defaultMenuTitle;
+    });
+  }
 
 }
