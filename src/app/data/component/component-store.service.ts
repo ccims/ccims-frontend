@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthenticationService } from '@app/auth/authentication.service';
-import { Component, ComponentInterface, DeleteComponentGQL, DeleteComponentInput, GetComponentGQL,
-  GetComponentQuery, Ims, Issue, Maybe, UpdateComponentGQL, UpdateComponentInput, User } from 'src/generated/graphql';
+import { DeleteComponentGQL, DeleteComponentInput, GetComponentGQL,
+  GetComponentQuery, UpdateComponentGQL, UpdateComponentInput } from 'src/generated/graphql';
 import { map } from 'rxjs/operators';
 
+/**
+ * Provides updating, deleting and retrieving components from the backend.
+ * Objects like updateComponentMutation are injected and were created by a codegenerator based on
+ * the mutation UpdateComponent in the component.graphql file in this folder. The same hold for the
+ * other mutation and query objects.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class ComponentStoreService {
 
   constructor(private updateComponentMutation: UpdateComponentGQL, private deleteComponentMutation: DeleteComponentGQL,
-              private authService: AuthenticationService, private getFullComponentQuery: GetComponentGQL) { }
+              private getFullComponentQuery: GetComponentGQL) { }
 
   getFullComponent(id: string): Observable<GetComponentQuery> {
     return this.getFullComponentQuery.fetch({ id }).pipe(
@@ -20,15 +25,14 @@ export class ComponentStoreService {
   }
 
   deleteComponent(id: string) {
-
     const input: DeleteComponentInput = {
       componentId: id
     };
     return this.deleteComponentMutation.mutate({input});
-
   }
+
   updateComponent(input: UpdateComponentInput) {
     return this.updateComponentMutation.mutate({input});
-
   }
+
 }
