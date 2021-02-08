@@ -4,7 +4,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { StateService } from '@app/state.service';
 import { RouterOutlet } from '@angular/router';
-import { fader } from '@app/route-animations';
 import { slider } from '../route-animations';
 
 @Component({
