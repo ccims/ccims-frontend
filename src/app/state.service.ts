@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router, PRIMARY_OUTLET } from '@angular/router';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from './data/project/project-store.service';
 
+/**
+ * This service exposes an observable of the name and id of the current project.
+ * It determines the current project by listening for url changes and parsing the url.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +24,9 @@ export class StateService {
    * Sets up two mutually exclusive (look at filter) subscriptions to track whether we are at a
    * url referring to a project or not. If we are at a project we retrieve information about it
    * from the backend and make it available in the state observable
+   *
+   * @param router allows to listen for routing events
+   * @param ps
    */
   syncStateWithUrl(router: Router, ps: ProjectStoreService) {
     router.events.pipe(
@@ -29,20 +36,22 @@ export class StateService {
       this.state.project = project;
       this.state$.next(this.state);
     });
-
+    // set project to null if new url is not specific to a project
     router.events.pipe(
       filter(event => (event instanceof NavigationEnd && !this.isProjectURL(event.url))),
-    ).subscribe(_ =>  {
+    ).subscribe(_ => {
       this.state.project = null;
       this.state$.next(this.state);
     });
   }
 
-  /*
-  If you change the routing you might have to change this function too.
-  This function must return true iff url is a route pertaining to a project.
-  That is if it has the form 'projects/:id' + further stuff.
-  */
+  /**
+   * Caution:
+   * If you change the routing you might have to change this function too.
+   * That is if it has the form 'projects/:id' + further stuff.
+   * @param url
+   * @returns true iff url is a route pertaining to a project
+   */
   private isProjectURL(url: string): boolean {
     const tree = this.router.parseUrl(url);
     const primary = tree.root.children[PRIMARY_OUTLET];

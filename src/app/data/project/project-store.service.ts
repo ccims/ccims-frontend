@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { GetFullProjectQuery, CreateProjectGQL, CreateProjectInput, DeleteProjectGQL, DeleteProjectInput, GetAllProjectsGQL, GetProjectGQL, Project, ProjectFilter, GetFullProjectGQL, User, Maybe, Issue, Component, GetProjectQuery } from 'src/generated/graphql';
+import { GetFullProjectQuery, CreateProjectGQL, CreateProjectInput, DeleteProjectGQL,
+  DeleteProjectInput, GetAllProjectsGQL, GetProjectGQL, Project, ProjectFilter, GetFullProjectGQL } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/auth/authentication.service';
 
@@ -10,12 +11,11 @@ import { AuthenticationService } from '@app/auth/authentication.service';
 export class ProjectStoreService {
 
   constructor(private authService: AuthenticationService, private getAllQuery: GetAllProjectsGQL,
-     private getQuery: GetProjectGQL, private getFullQuery: GetFullProjectGQL,
+              private getQuery: GetProjectGQL, private getFullQuery: GetFullProjectGQL,
               private createProject: CreateProjectGQL, private deleteProject: DeleteProjectGQL) {}
 
   create(name: string, description: string) {
     console.log(description);
-
     const input: CreateProjectInput = {
       name,
       owner: this.authService.currentUserValue.id,
@@ -51,10 +51,4 @@ export class ProjectStoreService {
       map(({ data}) => data.projects.edges.map(edge => edge.node))
     );
   }
-
-  /*
-  getSingle(id: number): Project {
-    return this.projects.find(project => project.id === id);
-  }
-  */
 }
