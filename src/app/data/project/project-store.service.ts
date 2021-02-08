@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { GetFullProjectQuery, CreateProjectGQL, CreateProjectInput, DeleteProjectGQL,
-  DeleteProjectInput, GetAllProjectsGQL, GetProjectGQL, Project, ProjectFilter, GetFullProjectGQL } from 'src/generated/graphql';
+import {
+  GetFullProjectQuery, CreateProjectGQL, CreateProjectInput, DeleteProjectGQL,
+  DeleteProjectInput, GetAllProjectsGQL, GetProjectGQL, Project, ProjectFilter, GetFullProjectGQL
+} from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/auth/authentication.service';
 
@@ -12,43 +14,42 @@ export class ProjectStoreService {
 
   constructor(private authService: AuthenticationService, private getAllQuery: GetAllProjectsGQL,
               private getQuery: GetProjectGQL, private getFullQuery: GetFullProjectGQL,
-              private createProject: CreateProjectGQL, private deleteProject: DeleteProjectGQL) {}
+              private createProject: CreateProjectGQL, private deleteProject: DeleteProjectGQL) { }
 
   create(name: string, description: string) {
-    console.log(description);
     const input: CreateProjectInput = {
       name,
       owner: this.authService.currentUserValue.id,
       description
     };
-    return this.createProject.mutate({input});
+    return this.createProject.mutate({ input });
   }
 
   delete(id: string) {
     const input: DeleteProjectInput = {
       projectId: id
     };
-    return this.deleteProject.mutate({input});
+    return this.deleteProject.mutate({ input });
   }
 
-  get(id: string): Observable<Pick<Project, 'id' | 'name'>>{
-    return this.getQuery.fetch({id}).pipe(
-      map(({ data}) => data.node)
+  get(id: string): Observable<Pick<Project, 'id' | 'name'>> {
+    return this.getQuery.fetch({ id }).pipe(
+      map(({ data }) => data.node)
     );
   }
 
-  getFullProject(id: string): Observable<GetFullProjectQuery>{
-    return this.getFullQuery.fetch({id}).pipe(
-      map(({ data}) => data)
+  getFullProject(id: string): Observable<GetFullProjectQuery> {
+    return this.getFullQuery.fetch({ id }).pipe(
+      map(({ data }) => data)
     );
   }
 
-  getAll(): Observable<Pick<Project, 'id' | 'name'>[]>{
+  getAll(): Observable<Pick<Project, 'id' | 'name'>[]> {
     const filter: ProjectFilter = {
       owner: [this.authService.currentUserValue.id]
     };
-    return this.getAllQuery.fetch({filter}).pipe(
-      map(({ data}) => data.projects.edges.map(edge => edge.node))
+    return this.getAllQuery.fetch({ filter }).pipe(
+      map(({ data }) => data.projects.edges.map(edge => edge.node))
     );
   }
 }
