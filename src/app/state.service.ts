@@ -18,7 +18,8 @@ export class StateService {
 
   /**
    * Sets up two mutually exclusive (look at filter) subscriptions to track whether we are at a
-   * url referring to a project or not
+   * url referring to a project or not. If we are at a project we retrieve information about it
+   * from the backend and make it available in the state observable
    */
   syncStateWithUrl(router: Router, ps: ProjectStoreService) {
     router.events.pipe(
