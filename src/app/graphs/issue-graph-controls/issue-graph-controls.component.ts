@@ -74,6 +74,9 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     this.issueGraph.setRelationVisibility(this.showRelations);
   }
 
+  /**
+   * Cancel subscriptions by emitting a value on this.destroy$
+   */
   ngOnDestroy() {
     this.destroy$.next();
   }

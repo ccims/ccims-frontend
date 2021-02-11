@@ -13,8 +13,14 @@ export class LabelStoreService {
               private addLabelToIssueMutation: AddLabelToIssueGQL, private removeLabelFromIssueMutation: RemoveLabelFromIssueGQL) { }
 
 
+  /**
+   * Retrieve labels matching term.
+   * @param projectId id of current project
+   * @param term coming from search bar above graph
+   * @returns observable emitting objects standing for labels that exist on backend
+   * whoose name contains term
+   */
   getMatchingLabels(projectId: string, term: string = null): Observable<FilterLabel[]> {
-    this.getAllFilter(projectId).pipe(tap(items => console.log('labels: ', items)));
     if (!term) {
       return this.getAllFilter(projectId);
     }
@@ -23,16 +29,20 @@ export class LabelStoreService {
     );
   }
 
+  /**
+   * Retrieve all labels from backend
+   * @param projectId id of current project
+   */
   private getAllFilter(projectId: string): Observable<FilterLabel[]> {
     return this.getLabelsGQL.fetch({ projectId }).pipe(
       map(({ data }) => data.node.labels.nodes)
     );
   }
 
-
   public createLabel(input: CreateLabelInput) {
     return this.CreateLabelMutation.mutate({ input });
   }
+
   public lightOrDark(color) {
     // Variables for red, green, blue values
     let r, g, b, hsp;

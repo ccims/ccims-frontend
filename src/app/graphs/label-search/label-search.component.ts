@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Person } from '@app/data/label/mock-label-store.service';
 import { concat, of, Subject, Observable, BehaviorSubject } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { Label } from 'src/generated/graphql';
-import { MockLabelStoreService } from '../../data/label/mock-label-store.service';
 import { FilterLabel, isFilterLabel, LabelStoreService } from '../../data/label/label-store.service';
 import { StateService } from '../../state.service';
 
-
+/**
+ * This component is responsible for the display of the search bar above the graph.
+ * It allows for filtering issues by multiple labels and text fragments.
+ */
 @Component({
   selector: 'app-label-search',
   templateUrl: './label-search.component.html',
@@ -32,13 +32,20 @@ export class LabelSearchComponent implements OnInit {
       return item.id;
   }
 
+  /**
+   * Emit value representing label and text fragments in the search bar via this.filterSelection$
+   */
   emitSelectedLabels() {
     const selection: FilterSelection = {texts: [], labels: []};
+    // find out which elements in search bar correspond to an existing label on the backend and which to a text fragment
     selection.texts = this.selectedLabels.filter(item => !isFilterLabel(item)).map(item => item.name);
     selection.labels = this.selectedLabels.filter(label => isFilterLabel(label)) as FilterLabel[];
     this.filterSelection$.next(selection);
   }
 
+  /**
+   * Load all labels from backend that match the currently typed in ng-select element
+   */
   private loadLabels() {
       this.labels$ = concat(
           of([]), // default items
@@ -55,11 +62,15 @@ export class LabelSearchComponent implements OnInit {
 
 }
 
+
+/**
+ * The bar can contain elements standing for labels and elements for text fragments.
+ */
+type FilterElement = TextFragment | FilterLabel;
+
 interface TextFragment {
   name: string;
 }
-
-type FilterElement = TextFragment | FilterLabel;
 
 export interface FilterSelection {
   texts: string[];
