@@ -21,18 +21,6 @@
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
-  <!--
-  <div nz-row class="login-form-margin">
-    <div nz-col [nzSpan]="12">
-      <label nz-checkbox formControlName="remember">
-        <span>Remember me</span>
-      </label>
-    </div>
-    <div nz-col [nzSpan]="12">
-      <a class="login-form-forgot">Forgot password</a>
-    </div>
-  </div>
-  -->
   <nz-alert *ngIf="invalidCredentials" class="invalid-credentials" nzType="error" nzMessage="Username & Password are invalid" nzShowIcon nzCloseable></nz-alert>
   <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"  [disabled]="!validateForm.valid" [nzLoading]="isLoading">Log in</button>
   <span id="register-link">Or <a  routerLink='/register'>register!</a></span>

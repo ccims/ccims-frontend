@@ -4,6 +4,10 @@ import { ProjectStoreService } from '@app/data/project/project-store.service';
 import { GetFullProjectQuery } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 
+/**
+ * This component offers a view showing the project name,
+ * owner, id and description.
+ */
 @Component({
   selector: 'app-project-overview',
   templateUrl: './project-overview.component.html',

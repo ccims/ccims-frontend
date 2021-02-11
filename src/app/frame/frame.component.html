@@ -1,4 +1,4 @@
-<app-top-toolbar (menuClick)="logMenuToggle()" [showMenuButton]="isProjectSet$|async"></app-top-toolbar>
+<app-top-toolbar (menuClick)="toggleMenu()" [showMenuButton]="isProjectSet$|async"></app-top-toolbar>
 <mat-sidenav-container class="sidenav-container" >
   <!--if you set fixedInViewPort on the sidenav it will appear to the left of the mat-tooblar instead of under it-->
   <mat-sidenav id="sidenav" class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"

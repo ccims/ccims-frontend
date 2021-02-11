@@ -10,6 +10,13 @@ import { environment } from '@environments/environment';
 import { IndividualConfig, ToastrModule, ToastrService } from 'ngx-toastr';
 import { DefaultOptions } from '@apollo/client/core/ApolloClient';
 
+/**
+ * This modules purpose is to provide define functions returning configurations
+ * for the automatic creation of ApolloClients for graphql communication with the backend.
+ * The key functions are providePublicApollo and provideDefaultApollo. The apollo instance
+ * constructed from providePublicApollo is only used for registering.
+ */
+
 const defaultOptions: DefaultOptions = {
   query: {
     fetchPolicy: 'no-cache',
@@ -17,6 +24,9 @@ const defaultOptions: DefaultOptions = {
   }
 };
 
+/**
+ * Congiuration for network error toast on register page.
+ */
 const networkErrorToast: Partial<IndividualConfig> = {
   timeOut: 5000,
   closeButton: true,
@@ -29,7 +39,8 @@ const basic = setContext((operation, context) => ({
   }
 }));
 
-export function createErrorLink(authService: AuthenticationService, toastr: ToastrService) {
+
+export function createErrorLink(authService: AuthenticationService, toastr: ToastrService): ApolloLink {
   const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       console.log(`[Graphql errors]: ${graphQLErrors}`);
@@ -39,39 +50,23 @@ export function createErrorLink(authService: AuthenticationService, toastr: Toas
       toastr.error('Server/Connection error', '', networkErrorToast);
       // @ts-ignore
       if (networkError.status === 401) {
-        // error code is set to UNAUTHENTICATED
-        // when AuthenticationError thrown in resolver
-        /*
-        // modify the operation context with a new token
-        const oldHeaders = operation.getContext().headers;
-        operation.setContext({
-          headers: {
-            ...oldHeaders,
-            authorization: getNewToken(),
-          },
-        });
-        // retry the request, returning the new observable
-        return forward(operation);
-        */
         authService.logout();
       }
-      // if you would also like to retry automatically on
-      // network errors, we recommend that you use
-      // apollo-link-retry
     }
   }
   );
   return errorLink;
 }
 
-
-
-
-
+/**
+ * Create Apollo instance where credentials from local storage are attached to requests
+ * @param httpLink
+ * @param authService
+ * @param toastr
+ */
 export function provideDefaultApollo(httpLink: HttpLink, authService: AuthenticationService,
                                      toastr: ToastrService): ApolloClientOptions<any> {
   const token = localStorage.getItem('token');
-
   const auth = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
     // return the headers to the context so httpLink can read them
@@ -85,13 +80,16 @@ export function provideDefaultApollo(httpLink: HttpLink, authService: Authentica
   const errorLink = createErrorLink(authService, toastr);
   const link = ApolloLink.from([basic, errorLink, auth, httpLink.create({ uri: environment.apiUrl })]);
   const cache = new InMemoryCache();
-  return {
-    link,
-    cache,
-    defaultOptions
-  };
+  return { link, cache, defaultOptions };
 }
 
+/**
+ * Creates Apollo Client used for user registration with public endpoint. In contrast to
+ * provideDefaultApollo no token is attached to reqeusts.
+ * @param httpLink
+ * @param authService
+ * @param toastr
+ */
 export function providePublicApollo(httpLink: HttpLink, authService: AuthenticationService, toastr: ToastrService): NamedOptions {
   const errorLink = createErrorLink(authService, toastr);
   const link = ApolloLink.from([basic, errorLink, httpLink.create({ uri: environment.signUpUrl })]);
@@ -125,5 +123,4 @@ export function providePublicApollo(httpLink: HttpLink, authService: Authenticat
     }
   ],
 })
-export class GraphQLModule {
-}
+export class GraphQLModule {}

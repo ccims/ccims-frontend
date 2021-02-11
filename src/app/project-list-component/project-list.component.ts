@@ -14,8 +14,10 @@ export class ProjectListComponent implements OnInit {
   pendingCreate = false;
   projectName?: string;
   projects: Pick<Project, 'id' | 'name'>[];
-  loading:boolean;
-  constructor(private projectMockService: demoProject, private ps: ProjectStoreService, private dialog: MatDialog, private nzMessageService: NzMessageService) { }
+  loading: boolean;
+
+  constructor(private projectMockService: demoProject, private ps: ProjectStoreService, private dialog: MatDialog,
+              private nzMessageService: NzMessageService) { }
 
   ngOnInit(): void {
     this.ps.getAll().subscribe(projects => this.projects = projects);
@@ -46,18 +48,19 @@ export class ProjectListComponent implements OnInit {
     const b = document.querySelector('#buttonCreateProject') as HTMLElement;
     b.blur();
   }
+
   public nothing(e: Event): void {
     e.preventDefault();
     e.stopPropagation();
   }
+
   public cancelConfirm(): void {
     this.nzMessageService.info('Canceled');
   }
-  public createDemoProject(){
-    this.loading=true;
+
+  public createDemoProject() {
+    this.loading = true;
     this.projectMockService.createDemoProject();
-
-
   }
 }
 

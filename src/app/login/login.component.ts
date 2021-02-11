@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../auth/authentication.service';
 
+/**
+ * This component is responsible for the login screen. It gather username and password
+ * and tries to login the user via the AuthenticationService.
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,6 +19,11 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   invalidCredentials = false;
 
+  /**
+   * Gather username and password from form and try login via AuthenticationService.
+   * If successfull redirect to root url or to the redirectUrl the user originally wanted to access.
+   * If login fails, set this.invalidCredentials so that gui shows error.
+   */
   submitForm(): void {
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
