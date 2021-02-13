@@ -51,11 +51,18 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     this.getSelectedCategories()
   );
 
+  /**
+   * Emit newly selected categories via this.selectedCategories$
+   */
   public updateSelectedCategories() {
     this.selectedCategories$.next(
       this.getSelectedCategories());
   }
 
+  /**
+   * Gathers booleans indicating whether the toggle switches
+   * coressponding to values in IssueCategory are turned on or off
+   */
   private getSelectedCategories(): SelectedCategories {
     return {
       [IssueCategory.Bug]: this.bug,

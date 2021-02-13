@@ -9,6 +9,11 @@ function distance(x, y, x2, y2) {
     return ((x - x2) ** 2) + ((y - y2) ** 2);
 }
 
+/**
+ * See the graph_structure_documentation.png in the src/app/graphs folder for how
+ * the two GroupBehaviour implementations interplay with the graph.
+ */
+
 export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
     moveChildrenAlongGoup = true;
     childNodePositions = new Map();

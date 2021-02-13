@@ -10,6 +10,8 @@
         </style>
         <svg slot="graph">
             <style>
+              <!--The show-relations variable is used to show/hide dashed issue relation edges
+              It is toggled by the IssueGraphComponent when the user changes the dashed edges switch-->
                 :root {
                     --show-relations: initial;
                 }
@@ -103,6 +105,7 @@
                     stroke-linecap: round;
                 }
 
+                <!--coloring of issue relation edges when issue folder is hovered-->
                 .edge-group.issue-relation.highlight-outgoing .edge {
                   stroke: purple;
                 }

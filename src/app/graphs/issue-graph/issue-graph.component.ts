@@ -25,6 +25,15 @@ import { CreateComponentDialogComponent } from '@app/dialogs/create-component-di
 import { ComponentStoreService } from '@app/data/component/component-store.service';
 import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 
+/**
+ * This component creates nodes and edges in the embedded MICO GraphEditor
+ * (html tag: <network-graph>) to reflect the data for the current project.
+ * This data consists of interfaces, components, issues and their relations and
+ * is stored in this.graphData. The key method for this is drawGraph().
+ * It is also responsible for registering event listeners with the GraphEditor
+ * t
+ *
+ */
 @Component({
   selector: 'app-issue-graph',
   templateUrl: './issue-graph.component.html',
@@ -299,13 +308,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.graph.groupingManager.clearAllGroups();
   }
 
+  /**
+   * Create and add edge between node representing component to node representing the interface itself
+   * @param node represents interface in graph
+   */
   connectToOfferingComponent(node: InterfaceNode) {
     this.graph.addEdge(createInterfaceProvisionEdge(node.offeredById, node.id));
   }
 
   /**
    * Add an edge from each connected component to the interface.
-   * @param interfaceNode interfaceNode visualized by lollipop notation
+   * @param interfaceNode visualized by lollipop notation
    */
   connectConsumingComponents(interfaceNode: InterfaceNode) {
     for (const consumerId of this.graphData.interfaces.get(interfaceNode.id).consumedBy) {
