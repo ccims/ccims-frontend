@@ -1,8 +1,13 @@
-import { Scalars, Component, GetIssueGraphDataQuery, IssueCategory, ComponentInterface, Issue, IssuePage} from 'src/generated/graphql';
+import { Scalars, Component, GetIssueGraphDataQuery, IssueCategory, ComponentInterface, Issue, IssuePage } from 'src/generated/graphql';
 import { DefaultDictionary } from 'typescript-collections';
 
-type LocationId = Scalars['ID'];
 
+type LocationId = Scalars['ID'];
+type GraphFolder = [LocationId, IssueCategory];
+type GraphLocation = GraphInterface | GraphComponent;
+/**
+ * Describes data needed by IssueGraphComponent to draw the graph.
+ */
 export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
@@ -15,7 +20,7 @@ export interface GraphData {
 export class GraphDataFactory {
   /**
    * Removes the counts for issue categories which are filtered. This is a workaround
-   * needed because the backend doesn't allow us to only ask for the counts we are interested in.
+   * needed because the backend doesn't allow us to only ask for the counts of non-filtered categories.
    * @param graphData the data with the unnecessary counts
    * @param activeCategories the categories corresponding to the activated toggles of the graph component
    */
@@ -26,6 +31,10 @@ export class GraphDataFactory {
     return graphData;
   }
 
+  /**
+   * Converts the data required for the graph from the format the backend delivers into a
+   * GraphData object as needed by the IssueGraphComponent for rendering.
+   */
   static graphDataFromGQL(data: GetIssueGraphDataQuery): GraphData {
     const components = GraphComponent.mapFromGQL(data.node.components.nodes);
     const interfaces = GraphInterface.mapFromGQL(data.node.interfaces.nodes);
@@ -38,42 +47,28 @@ export class GraphDataFactory {
   }
 }
 
-
-type GraphFolder = [LocationId, IssueCategory];
-type GraphLocation = GraphInterface | GraphComponent;
-
-function computeRelatedFolders(linkIssues: GraphIssue[], interfaces: Map<LocationId, GraphInterface>):
-  DefaultDictionary<GraphFolder, GraphFolder[]> {
-  let targetFolders: GraphFolder[];
-  const relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]> = new DefaultDictionary<GraphFolder, GraphFolder[]>(() => []);
-  for (const issue of linkIssues) {
-    const sourceLocationIds = removeOfferingComponents(issue.locations, interfaces);
-    const sourceFolders: GraphFolder[] = sourceLocationIds.map(locationId => [locationId, issue.category]);
-    targetFolders = [];
-    for (const linkedIssue of issue.linksIssues) {
-      const targetLocationIds = removeOfferingComponents(linkedIssue.locations, interfaces);
-      // @ts-ignore
-      targetFolders = targetFolders.concat(targetLocationIds.map(locationId => [locationId, linkedIssue.category]));
-    }
-    sourceFolders.forEach(folder =>
-      relatedFolders.setValue(folder,
-        (relatedFolders.getValue(folder).concat(targetFolders))));
-  }
-  return relatedFolders;
-}
-
 /**
- * Remove from locationIds ids of components that offer an interface whoose id is also in locationIds
+ * @param locationIds ids of components and interfaces
+ * @param interfaces mapping from
+ * @returns locationIds with ids of components offering interfaces whoose id is alo in locationIds removed
  */
 function removeOfferingComponents(locationIds: string[], interfaces: Map<LocationId, GraphInterface>) {
+  // compute components that offer an interface whoose id is in locationIds
   const interfaceOfferingComponents: Set<string> = new Set(locationIds.filter(locationId => interfaces.has(locationId)).
     map(interfaceId =>
       interfaces.get(interfaceId).offeredBy
     ));
+  // return location ids with the components offering an interface with id in locationIds removed
   return locationIds.filter(id => !interfaceOfferingComponents.has(id));
 }
 
-
+/**
+ * Issues counts
+ * @param bugCount number of bugs
+ * @param featureRequestCount number of feature requests
+ * @param unclassifiedCount number of unclassified issues
+ * @returns counts mapping IssueCategory values to the count specified by arguments
+ */
 function issueCounts(bugCount: number, featureRequestCount: number, unclassifiedCount: number): Map<IssueCategory, number> {
   return new Map([
     [IssueCategory.Bug, bugCount],
@@ -82,6 +77,7 @@ function issueCounts(bugCount: number, featureRequestCount: number, unclassified
   ]);
 }
 
+// backend data format for interface
 type GQLInterface = Pick<ComponentInterface, 'id' | 'name'> & {
   bugs?: Pick<IssuePage, 'totalCount'>;
   featureRequests?: Pick<IssuePage, 'totalCount'>;
@@ -90,6 +86,7 @@ type GQLInterface = Pick<ComponentInterface, 'id' | 'name'> & {
   component: Pick<Component, 'id'>;
 };
 
+// desired frontend data format for interface
 export class GraphInterface {
   id: Scalars['ID'];
   name: string;
@@ -114,19 +111,23 @@ export class GraphInterface {
   }
 }
 
-
+// backend data format for component
 type GQLGraphComponent = Pick<Component, 'name' | 'id'> & {
   bugs?: Pick<IssuePage, 'totalCount'>;
   featureRequests?: Pick<IssuePage, 'totalCount'>;
   unclassified?: Pick<IssuePage, 'totalCount'>;
 };
 
-
+// desired frontend data format for component
 export class GraphComponent {
   name: string;
   id: Scalars['ID'];
   issues: Map<IssueCategory, number>;
 
+  /**
+   * Convert backend representation of graph component to frontend representation.
+   * @param gqlGraphComponent backend representation of component
+   */
   static fromGQL(gqlGraphComponent: GQLGraphComponent): GraphComponent {
     const issues = issueCounts(gqlGraphComponent.bugs.totalCount,
       gqlGraphComponent.featureRequests.totalCount,
@@ -143,6 +144,7 @@ export class GraphComponent {
   }
 }
 
+// backend data fromat for issue
 type GQLIssue = Pick<Issue, 'id' | 'category'> & {
   locations?: {
     nodes?: (Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>)[];
@@ -152,12 +154,17 @@ type GQLIssue = Pick<Issue, 'id' | 'category'> & {
   };
 };
 
+// desired frontend data format for issue
 class GraphIssue {
   id: Scalars['ID'];
   category: IssueCategory;
   locations: LocationId[];
   linksIssues?: GraphIssue[];
 
+  /**
+   * Convert issue from backend to frontend format ignoring links between issues
+   * @param gqlPartialIssue backend representation of issue
+   */
   static fromGQLNoLinks(gqlPartialIssue: Pick<GQLIssue, 'id' | 'category' | 'locations'>) {
     return {
       id: gqlPartialIssue.id,
@@ -166,11 +173,40 @@ class GraphIssue {
     };
   }
 
+  /**
+   * Convert issue from backend to frontend format ignoring links between issues
+   * @param gqlIssue backend representation of Issues
+   */
   static fromGQL(gqlIssue: GQLIssue): GraphIssue {
     const issue: GraphIssue = this.fromGQLNoLinks(gqlIssue);
     issue.linksIssues = gqlIssue.linksToIssues.nodes.map(gqlPartialIssue => this.fromGQLNoLinks(gqlPartialIssue));
     return issue;
   }
-
 }
 
+/**
+ * The graph displays edges between issue folders that contain issues which link
+ * to each other. This function computes this information. Drawing is handled in
+ * IssueGraphComponent.
+ * @param linkIssues contains only issues that link to other issues
+ * @param interfaces mapping from ids of locations to interfaces attached to locations
+ */
+function computeRelatedFolders(linkIssues: GraphIssue[], interfaces: Map<LocationId, GraphInterface>):
+DefaultDictionary<GraphFolder, GraphFolder[]> {
+  let targetFolders: GraphFolder[];
+  const relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]> = new DefaultDictionary<GraphFolder, GraphFolder[]>(() => []);
+  for (const issue of linkIssues) {
+    const sourceLocationIds = removeOfferingComponents(issue.locations, interfaces);
+    const sourceFolders: GraphFolder[] = sourceLocationIds.map(locationId => [locationId, issue.category]);
+    targetFolders = [];
+    for (const linkedIssue of issue.linksIssues) {
+      const targetLocationIds = removeOfferingComponents(linkedIssue.locations, interfaces);
+      // @ts-ignore
+      targetFolders = targetFolders.concat(targetLocationIds.map(locationId => [locationId, linkedIssue.category]));
+    }
+    sourceFolders.forEach(folder =>
+      relatedFolders.setValue(folder,
+        (relatedFolders.getValue(folder).concat(targetFolders))));
+  }
+  return relatedFolders;
+}

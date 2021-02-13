@@ -6,6 +6,12 @@ import { Observable } from 'rxjs';
 import { SelectedCategories } from '@app/graphs/shared';
 import { FilterLabel } from '../label/label-store.service';
 
+/**
+ * Responsible for retrieval and conversion of data needed for graph rendering from backend.
+ *
+ * @export
+ * @class IssueGraphApiService
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +24,9 @@ export class IssueGraphApiService {
 
   /**
    * Queries backend for data needed to render graph when given parameters restricting what information is requested.
+   * This method handels the construction of the parameters to the graphql query,
+   * and makes the query. To carry out the conversion from backend to frontend format,
+   * it invokes GraphDataFactory.graphDataFromGQL
    * @param projectId
    * @param categories describes which issue categories (e.g. BUG) are of interest
    * @param labels a list of issue labels the user has entered into the query bar
@@ -44,8 +53,8 @@ export class IssueGraphApiService {
   }
 
   /**
-   *
-   * @param texts strings to be put into a regular expression denoting a language containing their union
+   * Creates a regular expression denoting a language of the union of the strings in texts
+   * @param texts
    * @example
    * textsToRegex(["newest issues", "test"]) == "(newest issues | test)""
    */
@@ -55,7 +64,6 @@ export class IssueGraphApiService {
     }
     return texts.map(text => '(' + text + ')').join('|');
   }
-
 
   /**
    * Make the interface with interfaceId a consumed interface of the component with id componentId
