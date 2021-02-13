@@ -1,7 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IssueGraphComponent } from './issue-graph/issue-graph.component';
-
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -33,9 +32,13 @@ import { InterfaceDetailsComponent } from '@app/interface-details/interface-deta
 import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue-list.component';
 import { ProjectMembersComponent } from '@app/project-members/project-members.component';
 import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-dialog/add-project-member-dialog.component';
-// import { NgSelectModule } from '@ng-select/ng-select';
-// import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 
+/**
+ * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
+ * and imported into the main app.
+ * @export
+ * @class GraphsModule
+ */
 @NgModule({
   declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent,
     IssueListComponent,
