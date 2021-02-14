@@ -11,6 +11,15 @@ export {
   getIssueFolderId
 };
 
+/**
+ * This file includes type definitions and creation functions (think constructors)
+ * for nodes and edges that are added to the graph editor in order to visualize the project.
+ * Since the data that is stored with these differs based on what they represent (e.g.
+ * interface vs component node) we give each their own type. We do this by extending
+ * the Node class or the Edge class of the grapheditor. These classes are instantiated
+ * via calls to the contained create* functions within the drawGraph method of the IssueGraphComponent.
+ */
+
 interface IssueNode extends Node {
   id: string;
   title: string;
@@ -22,7 +31,7 @@ interface ComponentNode extends IssueNode {
 }
 
 function createComponentNode(component: GraphComponent, position: Position): ComponentNode {
-  return  {
+  return {
     ...(position || zeroPosition),
     id: component.id,
     title: component.name,
@@ -34,6 +43,7 @@ function createComponentNode(component: GraphComponent, position: Position): Com
 interface InterfaceNode extends IssueNode {
   offeredById: string;
 }
+
 function createInterfaceNode(intrface: GraphInterface, position: Position): InterfaceNode {
   return {
     ...(position || zeroPosition),
@@ -49,16 +59,15 @@ interface IssueGroupContainerNode extends Node {
   issueGroupNodeIds: Set<string>;
 }
 function createIssueGroupContainerNode(node: IssueNode): IssueGroupContainerNode {
-return {
-  id: `${node.id}__issue-group-container`,
-  type: 'issue-group-container',
-  dynamicTemplate: 'issue-group-container',
-  x: 0,
-  y: 0,
-  position: 'bottom',
-  issueGroupNodeIds: new Set<string>(),
-};
-
+  return {
+    id: `${node.id}__issue-group-container`,
+    type: 'issue-group-container',
+    dynamicTemplate: 'issue-group-container',
+    x: 0,
+    y: 0,
+    position: 'bottom',
+    issueGroupNodeIds: new Set<string>(),
+  };
 }
 
 interface IssueFolderNode extends Node {
@@ -82,7 +91,7 @@ interface RelationEdge extends Edge {
 }
 
 function createRelationEdge(sourceId: string, targetId: string, edgeType = folderEdgeTypes.RelatedTo): RelationEdge {
-  return  {
+  return {
     id: `s${sourceId}t${targetId}r${edgeType}`,
     source: sourceId,
     target: targetId,
@@ -93,7 +102,7 @@ function createRelationEdge(sourceId: string, targetId: string, edgeType = folde
     },
     dragHandles: [],
     sourceIssues: new Set<string>()
-    };
+  };
 }
 
 function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
@@ -125,7 +134,7 @@ interface Position {
   x: number;
   y: number;
 }
-const zeroPosition = {x: 0, y: 0};
+const zeroPosition = { x: 0, y: 0 };
 
 enum folderEdgeTypes {
   RelatedTo = 'relatedTo',
