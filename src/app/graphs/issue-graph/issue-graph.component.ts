@@ -51,9 +51,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   readonly zeroPosition = { x: 0, y: 0 };
 
+  // contains all data about the projects interfaces, components, issues and their relations
+  // that is needed in order to create nodes and edges in the grapheditor to visualize the project
   public graphData: GraphData;
 
   private graphInitialized = false;
+  // used in the drawGraph method true on first draw and after component creation, effects a zoom to bounding box
   private zoomOnRedraw = true;
   private graph: GraphEditor;
 
@@ -66,6 +69,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   } = {};
 
   private destroy$ = new ReplaySubject(1);
+
+  // see the IssueGraphControlsComponents ngAfterViewInit for how it is used
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
   // local storage key for positions of graph elements
@@ -73,7 +78,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   /**
-   * Get reference to MICO grapheditor instance and initialize
+   * Get reference to MICO grapheditor instance and initialize it
    */
   ngAfterViewInit(): void {
     this.graph = this.graphWrapper.nativeElement;
@@ -87,15 +92,26 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
   }
 
+  /**
+   * Cancel all subscriptions on component destruction.
+   */
   ngOnDestroy() {
     this.destroy$.next();
   }
 
+  /**
+   * Initializes graph. It sets up a subscription on observable for
+   * node positions. It registers class setters with the graph editor
+   * that apply css classes based on the edge and node types. It sets
+   * up the link handle calculation. Additionally it registers
+   * various callback function as event listeners on the graph.
+   */
   initGraph() {
     if (this.graphInitialized) {
       return;
     }
     this.nodePositions = this.loadNodePositions();
+    // subscribe to subject emitting node positions
     this.saveNodePositionsSubject
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(() => {
@@ -116,6 +132,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     graph.setNodeClass = nodeClassSetter;
     minimap.setNodeClass = nodeClassSetter;
+    /* the edgeClassSetter is called on all pairs of edges and all class names
+     the graph knows about. If it returns true the class name is applied to the edge.
+     E.g. edges of type 'relatedTo' will have the class 'related-to' applied to them according to
+    second if statement in the setter.*/
     const edgeClassSetter = (
       className: string,
       edge: Edge,
@@ -254,9 +274,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       if (event.detail.node.type !== 'issue-group-container') {
         minimap.removeNode(node);
       }
-      // clear stored information
-      // delete this.nodePositions[node.id];
-      // this.saveNodePositionsSubject.next();
     });
 
     graph.addEventListener('edgeadd', (event: CustomEvent) => {

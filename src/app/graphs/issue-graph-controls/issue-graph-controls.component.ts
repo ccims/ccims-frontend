@@ -82,8 +82,9 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     ).subscribe(filterState => this.filter$.next(filterState));
 
     // gets an obervable from GraphStateService that emits the matching graph state
-    // after this component emits values on this.filter$. Whenever new graph state
-    // arrives we pass it to the graph and issue a redraw on it
+    // after this component emits values on this.filter$ or the IssueGraphComponent
+    // signals the need for a reload via this.issueGraph.reload$. Whenever new graph state
+    // arrives we pass it to the graph and issue a redraw on it.
     this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$, this.destroy$).pipe(
       takeUntil(this.destroy$)
     ).subscribe(

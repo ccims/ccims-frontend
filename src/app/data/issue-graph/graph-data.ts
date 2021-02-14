@@ -11,7 +11,7 @@ type GraphLocation = GraphInterface | GraphComponent;
 export interface GraphData {
   components: Map<LocationId, GraphComponent>;
   interfaces: Map<LocationId, GraphInterface>;
-  // graphLocations contains both components and interfaces
+  // graphLocations is the union of all components and interfaces
   graphLocations: Map<string, GraphLocation>;
   relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]>;
   linkIssues: GraphIssue[];
