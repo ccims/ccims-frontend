@@ -72,11 +72,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private projectStorageKey: string;
 
 
+  /**
+   * Get reference to MICO grapheditor instance and initialize
+   */
   ngAfterViewInit(): void {
     this.graph = this.graphWrapper.nativeElement;
     this.initGraph();
   }
 
+  /**
+   * Setup local storage key for graph element positions
+   */
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
   }
@@ -279,10 +285,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Creates the node groups necessary for the display of issue folders
-   * attached to node. Note that node represents a component or interface
+   * attached to node. Node represents a component or interface
    * node. Node itself gets an issue group of IssueGroupContainerParentBehaviour.
    * We add an issueGroupContainerNode with IssueGroupContainerBehaviour to it.
-   * @param node
+   * This corresponds to the 4 'Grouping Manager' object on the upper two levels in the graph_structure_documentation.png.
+   * @param node represents a node which can have issue folders attached. Currently components or
+   * interfaces.
    */
   private addIssueGroupContainer(node: IssueNode) {
     const gm = this.graph.groupingManager;
@@ -369,17 +377,34 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
+  /**
+   * Adds the issue folders with counts for each IssueCategory (currently 3)
+   * to the component or interface represented by node. The first methods call
+   * sets up invisible nodes in the graph to make the folders display properly.
+   * The second method takes care of actually adding the visible folders with
+   * the correct counts.
+   * @param node represents interface or component
+   */
   private addIssueFolders(node: IssueNode) {
     this.addIssueGroupContainer(node);
     this.addIssueFolderNodes(node);
   }
 
+  /**
+   * This method presumes that node has the 4 'Grouping Manager Objects'
+   * depicted on the the upper levels in the graph_structure_documentation.png.
+   * correctly setup.
+   * @param node represents interface or component
+   */
   private addIssueFolderNodes(node: IssueNode) {
+    // get mapping from IssueCategory to number for the component or interface represented by node
     const issueCounts = this.graphData.graphLocations.get(node.id).issues;
+    // iterate over issue categories and create a node if there is at least one issue of it
     Object.keys(IssueCategory).forEach(key => {
       const issueCategory = IssueCategory[key];
       if (issueCounts.has(issueCategory)) {
         const count = issueCounts.get(issueCategory);
+        // only show folders for issue categories with at least one issue
         if (count > 0) {
           const issueFolderNode = createIssueFolderNode(node, issueCategory, count.toString());
           this.graph.addNode(issueFolderNode);
@@ -625,6 +650,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Sets --show-relations css variable to initial or none. It is the value
+   * of the display attribute of the edges. If we set it to none the edges disappear.
+   * @param showRelations boolean derived from the setting of the switch slider for relation edges
+   * above the graph
+   */
   setRelationVisibility(showRelations: boolean) {
     this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
   }
