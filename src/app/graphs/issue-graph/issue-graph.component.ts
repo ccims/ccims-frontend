@@ -57,6 +57,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private zoomOnRedraw = true;
   private graph: GraphEditor;
 
+  // contains nodes representing interfaces and components which utilize node groups for display of issue folders
   private issueGroupParents: Node[] = [];
 
   private saveNodePositionsSubject = new Subject<null>();
@@ -276,6 +277,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Creates the node groups necessary for the display of issue folders
+   * attached to node. Note that node represents a component or interface
+   * node. Node itself gets an issue group of IssueGroupContainerParentBehaviour.
+   * We add an issueGroupContainerNode with IssueGroupContainerBehaviour to it.
+   * @param node
+   */
   private addIssueGroupContainer(node: IssueNode) {
     const gm = this.graph.groupingManager;
     gm.markAsTreeRoot(node.id);
@@ -283,7 +291,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       node.id,
       new IssueGroupContainerParentBehaviour()
     );
-
+    // the issueGroupContainerNode has no visual representation but contains the visible issue folders
     const issueGroupContainerNode = createIssueGroupContainerNode(node);
     node.issueGroupContainer = issueGroupContainerNode;
     this.graph.addNode(issueGroupContainerNode);
@@ -326,8 +334,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Responsible for drawing the graph based on this.graphData.
-   * Takes care of drawing interfaces and components, and their connections.
-   * Additionally draws issue folders attached to each component and the dashed edges
+   * Takes care of adding interfaces and components, and their connections.
+   * Additionally adds issue folders attached to each component and the dashed edges
    * between them based on this.graphData.relatedFolders
    */
   drawGraph() {
@@ -359,6 +367,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.graph.zoomToBoundingBox();
     }
   }
+
 
   private addIssueFolders(node: IssueNode) {
     this.addIssueGroupContainer(node);
