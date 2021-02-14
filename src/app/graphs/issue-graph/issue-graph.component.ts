@@ -28,11 +28,9 @@ import { InterfaceStoreService } from '@app/data/interface/interface-store.servi
 /**
  * This component creates nodes and edges in the embedded MICO GraphEditor
  * (html tag: <network-graph>) to reflect the data for the current project.
- * This data consists of interfaces, components, issues and their relations and
- * is stored in this.graphData. The key method for this is drawGraph().
- * It is also responsible for registering event listeners with the GraphEditor
- * t
- *
+ * This data consists of the project's interfaces, components, issues and their relations and
+ * is stored in this.graphData. The key method for this purpose is drawGraph().
+ * This component is also responsible for registering event listeners with the GraphEditor.
  */
 @Component({
   selector: 'app-issue-graph',
