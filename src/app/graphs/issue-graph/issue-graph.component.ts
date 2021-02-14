@@ -67,7 +67,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new ReplaySubject(1);
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
 
+  // local storage key for positions of graph elements
   private projectStorageKey: string;
+
 
   ngAfterViewInit(): void {
     this.graph = this.graphWrapper.nativeElement;
@@ -272,8 +274,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     graph.addEventListener('zoomchange', (event: CustomEvent) => {
       this.currentVisibleArea = event.detail.currentViewWindow;
     });
-
-
   }
 
   private addIssueGroupContainer(node: IssueNode) {
@@ -326,29 +326,34 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Responsible for drawing the graph based on this.graphData.
-   * Takes care of drawing interface and components, and their connections.
+   * Takes care of drawing interfaces and components, and their connections.
    * Additionally draws issue folders attached to each component and the dashed edges
    * between them based on this.graphData.relatedFolders
    */
   drawGraph() {
-    // Upto next comment: Graph Reset & Drawing nodes again & Connecting interfaces to the offering component
+    // reset graph and remove all elements, gives us clean slate
     this.resetGraph();
+    // create nodes corresponding to the components and interfaces of the project
     const componentNodes = Array.from(this.graphData.components.values()).map(component =>
       createComponentNode(component, this.nodePositions[component.id]));
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
       intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
     // issueNodes contains BOTH componentNodes and interfaceNodes
     const issueNodes = (componentNodes as IssueNode[]).concat(interfaceNodes as IssueNode[]);
+    // For components AND interfaces: add the edges, issue folders and relations between folders
     issueNodes.forEach(node => {
       this.graph.addNode(node);
       this.addIssueFolders(node);
       this.drawFolderRelations(node);
     });
+    // ONLY for interfaces: create edges connecting interface to offering component and consuming components to interface
     interfaceNodes.forEach(interfaceNode => {
       this.connectToOfferingComponent(interfaceNode);
       this.connectConsumingComponents(interfaceNode);
     });
+    // render all changes
     this.graph.completeRender();
+    // zoomOnRedraw is set on first render & when user created a new component
     if (this.zoomOnRedraw) {
       this.zoomOnRedraw = false;
       this.graph.zoomToBoundingBox();
@@ -375,6 +380,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Draws folder relations originating from the issue folder represented by node.
+   * @param node representing an issue folder for issues of a certain type
+   */
   private drawFolderRelations(node: IssueNode) {
     // @ts-ignore
     const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
@@ -392,7 +401,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private onCreateEdge = (edge: DraggedEdge) => {
     const graph: GraphEditor = this.graphWrapper.nativeElement;
     const createdFromExisting = edge.createdFrom != null;
-
     if (createdFromExisting) {
       // only allow delete or dropping at the same node
       const original = graph.getEdge(edge.createdFrom);
@@ -400,13 +408,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       edge.validTargets.add(original.target.toString());
       return edge;
     }
-
     const sourceNode = graph.getNode(edge.source);
     if (sourceNode.type === 'component') {
       // update edge properties
       edge.type = 'interface';
       edge.dragHandles = []; // no drag handles
-
       // update valid targets
       edge.validTargets.clear();
       // allow only interfaces as targets
@@ -572,6 +578,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('Clicked on another type of node:', node);
   }
 
+  /**
+   * load positions of graph elements from local storage
+   */
   private loadNodePositions() {
     const data = localStorage.getItem(this.projectStorageKey);
     if (data == null) {
@@ -580,6 +589,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     return JSON.parse(data);
   }
 
+  /**
+   * Opens interface creation dialog. If the user actually creates the interface it
+   * is added to component (offeredById) at posititon.
+   * @param offeredById id of the comonent offering the would be interface
+   * @param position of the interface of the would be interface. Its the position
+   * where the user dropped the edge he dragged from the component.
+   */
   private addInterfaceToComponent(offeredById: string, position: Position) {
     const data: CreateInterfaceData = {
       position,
@@ -604,6 +620,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
   }
 
+
+  /**
+   * Opens create component dialog and triggers reload of data after the dialog is closed.
+   */
   public openCreateComponentDialog(): void {
     const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
       data: { projectId: this.projectId }
@@ -614,6 +634,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * @param issueList contains ids of issues
+   * @param category category of issue e.g. bug
+   * @returns id of first issue of category in issue list
+   */
   private extractIssueId(issueList, category: string): string {
     for (const issue of issueList) {
       if (issue.category === category) {
