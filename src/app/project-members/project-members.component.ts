@@ -9,6 +9,12 @@ import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { AddProjectMemberDialogComponent } from '@app/dialogs/add-project-member-dialog/add-project-member-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+/**
+ * This component is an example for the manage members view
+ * All users are displayed in a paginated list. The list can be filtered.
+ * The members are hardcoded
+ * If the backend offers an interface to get all users the mockUsers list schould be replaced
+ */
 @Component({
   selector: 'app-project-members',
   templateUrl: './project-members.component.html',
@@ -41,30 +47,28 @@ export class ProjectMembersComponent implements OnInit {
     this.project$ = this.projectStore.getFullProject(this.projectId);
     this.project$.subscribe(project => {
       this.project = project;
-      // MOCK
+      // MOCK DATA for table
       project.node.users.nodes.forEach(u => this.mockUsers.push(u));
       this.dataSource = new MatTableDataSource<any>(this.mockUsers);
-      // MOCK
-      // this.dataSource = new MatTableDataSource<any>(project.node.users.nodes);
+      // MOCK DATA for table
       this.sort.sort(({ id: 'Name', start: 'asc'}) as MatSortable);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
   }
 
+  // This method adds a user to the project members list without processing a task in the back-end
   onAddClick(){
     const addMemberDialogRef = this.dialog.open(AddProjectMemberDialogComponent,
       { data: { addableMembers: this.addableUsers, projectId: this.projectId} });
     addMemberDialogRef.afterClosed().subscribe(data => {
         if (data){
-          // this.updateTable();
           for (const user of data.usersToAdd){
             this.addableUsers.forEach(addableUser => {
               if (addableUser.id == user){
                 this.mockUsers.push(addableUser);
               }
             });
-
           }
           this.dataSource = new MatTableDataSource<any>(this.mockUsers);
           console.log(this.mockUsers);
@@ -73,16 +77,19 @@ export class ProjectMembersComponent implements OnInit {
         });
 
   }
+  // on every key pressed in the filter-field this method is triggered and reduces the shown users in the list (table)
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
   clickedOnRow(rowData){
-
+    // there schould be the code when a user is selected
+    // TODO jump to the user information page
   }
 
 }
+// defines the structure of a user
 export interface userMock{
   id: string;
   displayName?: string;

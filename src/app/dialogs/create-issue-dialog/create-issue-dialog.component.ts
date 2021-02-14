@@ -11,6 +11,10 @@ import { ProjectStoreService } from '@app/data/project/project-store.service';
   templateUrl: './create-issue-dialog.component.html',
   styleUrls: ['./create-issue-dialog.component.scss']
 })
+/**
+ * This component opens a dialog for the issue creation
+ *
+ */
 export class CreateIssueDialogComponent implements OnInit {
   @Input() title: string;
   @Input() body: string;
@@ -23,24 +27,25 @@ export class CreateIssueDialogComponent implements OnInit {
               private labelStore: LabelStoreService, private projectStore: ProjectStoreService) { this.loading = false;
                                                                                                   this.prepareLinkableIssues();
                }
+
+  // create form controls for the form fields
   validationTitle = new FormControl('', [Validators.required]);
   validationBody = new FormControl('', [Validators.required]);
   validationCategory = new FormControl('', [Validators.required]);
   validationLabelName = new FormControl('', [Validators.required]);
   validationLabelColor = new FormControl('', [Validators.required]);
-  color = '#d31111';
+  color = '#d31111'; // default color for the label color picker
   issuesLoaded = false;
   selectedIssues: any = [];
   linkableProjectIssues: any = [];
 
-  // mock for the labels and assignees
   selectedLabels = [];
   labels = this.data.component.node.labels.nodes;
   selectableComponentInterfaces = this.data.component.node.interfaces.nodes;
   selectedInterfaces = [];
   selectedAssignees = [];
   assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
-  // mock for the labels and assignees
+
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -64,6 +69,7 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
   });
   this.loading = true;
 
+  // set properties for create issue mutation
   const issueInput: CreateIssueInput = {
       title,
       componentIDs: [this.data.id],
@@ -78,13 +84,16 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
 
   this.loading = true;
 
+  // create issue mutation
   this.issueStoreService.create(issueInput).subscribe(({ data}) => {
 
+    // link the created issue to all selected issues
     this.selectedIssues.forEach(issueId => {
       const issueInput: LinkIssueInput = {
         issue: data.createIssue.issue.id,
         issueToLink: issueId
       };
+
       this.issueStoreService.link(issueInput).subscribe(({ data}) => {
 
       }, (error) => {
@@ -102,7 +111,7 @@ onOkClick(title: string, body: string, category: IssueCategory): void{
   });
 
 }
-
+// unfolds the create new label area
 onNewLabelClick(): void {
   if (this.newLabelOpen){
     this.onLabelCancelClick();
@@ -111,13 +120,14 @@ onNewLabelClick(): void {
   }
 
 }
+// hides the create new label area
 onLabelCancelClick(): void {
   this.newLabelOpen = !this.newLabelOpen;
   this.validationLabelName.setValue('');
 
 }
 onConfirmCreateLabelCklick(name: string, description?: string) {
-// mutation new Label
+// mutation for create new Label
 const input: CreateLabelInput = {
   name,
   color: this.color,
@@ -138,6 +148,12 @@ this.labelStore.createLabel(input).subscribe(({ data}) => {
 
 
 }
+
+/**
+ * this method changes the format of the issues and interfaces
+ * the component name is added to the issue and interface information so that the linkable issues and interfaces
+ * can be displayed in a list, ordered by the corresponding component name
+ */
 private prepareLinkableIssues() {
   this. projectStore.getFullProject(this.data.projectId).subscribe(project => {
     const projectComponents = project.node.components.edges;
@@ -168,6 +184,8 @@ private prepareLinkableIssues() {
   });
 }
 }
+
+// interface that defines what data is injected to the dialog
 export interface DialogData {
   user: string;
   name: string;

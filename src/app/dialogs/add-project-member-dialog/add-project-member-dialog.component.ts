@@ -1,7 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+/**
+ * This component provides a view to add a member to a project
+ * The view is just mocked, so no interaction with the backend or database is provided yet
+ */
 @Component({
   selector: 'app-add-project-member-dialog',
   templateUrl: './add-project-member-dialog.component.html',

@@ -5,6 +5,10 @@ import { Project } from 'src/generated/graphql';
 import { ProjectStoreService } from '../data/project/project-store.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { demoProject } from '@app/evaluation/demo-project';
+/**
+ * This component is the landing page for the user after loggin in to the system
+ * It shows a list of all projects the user can access
+ */
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
@@ -20,11 +24,13 @@ export class ProjectListComponent implements OnInit {
               private nzMessageService: NzMessageService) { }
 
   ngOnInit(): void {
+    // get all projects from the database
     this.ps.getAll().subscribe(projects => this.projects = projects);
 
   }
   remove(event: Event, project: Project) {
     this.ps.delete(project.id).subscribe(data => this.reloadProjects());
+    // show confirm dialog for project delete
     this.nzMessageService.info(project.name + ' deleted');
   }
 
@@ -37,18 +43,20 @@ export class ProjectListComponent implements OnInit {
     createProjectDialogRef.afterClosed().subscribe(result => {
       console.log(result);
       this.changeColour();
-      // this.ps.getAll().subscribe(projects => this.projects = projects);
       if (result?.createdProjectId) {
         this.reloadProjects();
       }
     });
 
   }
+  // remove the focus from the create project button after the project is created
   private changeColour(): void {
     const b = document.querySelector('#buttonCreateProject') as HTMLElement;
     b.blur();
   }
-
+  // if the shortcut icon to the graph view of a project is clicked the list view fires a event that a row was clicked
+  // and the user jumps to the project overview. This method prevents the default event and enable the shortcut button
+  // to perform its action
   public nothing(e: Event): void {
     e.preventDefault();
     e.stopPropagation();

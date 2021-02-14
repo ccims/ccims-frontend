@@ -6,13 +6,15 @@ import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/cre
 import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-// import { Component } from 'src/generated/graphql';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateLabelInput, GetComponentQuery, UpdateComponentInput, UpdateComponentInterfaceInput } from '../../generated/graphql';
 import {IssueListComponent} from '../issue-list/issue-list.component';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
-
+/**
+ * This component provides the interface details
+ *
+ */
 @Component({
   selector: 'app-interface-details',
   templateUrl: './interface-details.component.html',
@@ -44,7 +46,9 @@ export class InterfaceDetailsComponent implements OnInit {
     });
 
   }
-
+  // check if there are query params set in the url
+  // query param selected: if selected = 0 the interface details tab shows up
+  // query param selected: if selected = 1 the interface issues list tab shows up
   ngOnInit(): void {
       this.activatedRoute.queryParams.subscribe(
         params => {
@@ -69,16 +73,16 @@ export class InterfaceDetailsComponent implements OnInit {
 
   public onDeleteClick() {
 
-    // Confirm Dialog anzeigen
+    // show Confirm Dialog
     // Onconfirm
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
       { data: { type: 'interface', name: this.interface.node.name, id: this.interfaceId } });
     confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
+        // dialog returns if the deleting was successfull
         if (deleteData){
           this.router.navigate(['projects',this.route.snapshot.paramMap.get('id'),'graph']);
         }
         });
-    // Delete Mutation auslösen
 
   }
   public onSaveClick(): void {

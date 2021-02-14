@@ -503,15 +503,18 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     event.preventDefault(); // prevent node selection
     const node = event.detail.node;
 
+    // if the clicked node in the graph is a component, the router will route to the component details view
     if (node.type === 'component') {
       this.router.navigate(['./component/', node.id], { relativeTo: this.activatedRoute.parent });
       console.log('Open component info sheet');
       return;
     }
+    // if the clicked node in the graph is a interface, the router will route to the interface details view
     if (node.type === 'interface') {
       this.router.navigate(['./interface/', node.id], { relativeTo: this.activatedRoute.parent });
       return;
     }
+
     if (node.type.startsWith('issue-')) {
       const graph: GraphEditor = this.graphWrapper.nativeElement;
       const rootId = graph.groupingManager.getTreeRootOf(node.id);
@@ -522,13 +525,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     }
+    // if the clicked node in the graph is a issue folder, the issue count for the folder has to be determined
     if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
       const graph: GraphEditor = this.graphWrapper.nativeElement;
       const rootId = graph.groupingManager.getTreeRootOf(node.id);
       const rootNode = graph.getNode(rootId);
+
+      // if there is only one issue inside the clicked folder the graph leads the user direktly to the issue details view
       if (node.issueCount < 2 && node.issueCount > 0) {
+        // if the clicked folder is on a component the url for the issu ends like .../component/COMPONENTID/issue/ISSUEID
         if (rootNode.type === 'component') {
-          // get component query
           this.componentStoreService.getFullComponent(rootId).subscribe(component => {
             const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
             this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId],
@@ -536,6 +542,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
           });
         } else {
+          // if the clicked folder is on a interface the url for the issu ends like .../interface/INTERFACEID/component/COMPONENTID/issue/ISSUEID
           this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
             const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
             const componentId = componentInterface.node.component.id;
@@ -544,12 +551,18 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
           });
         }
+        // if the issue count for the clicked folder is more than one
       } else {
+        // if the clicked folder is on a interface, router opens interface details and jumps to the issues tab
+        // if the clicked folder is on a component, router opens component details and jumps to the issues tab
+        // a filter for the issue type is set
+        // only issues of the selected issue type are displayed in the issue list
         if (rootNode.type === 'interface') {
           this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
             const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
             const componentId = componentInterface.node.component.id;
             this.router.navigate(['./', 'component', componentId, rootNode.type, rootId],
+              // the selected param defines the tab of the details view 0 means component details. 1 means component issues
               { relativeTo: this.activatedRoute.parent, queryParams: { selected: '1', filter: node.type } });
           });
         }

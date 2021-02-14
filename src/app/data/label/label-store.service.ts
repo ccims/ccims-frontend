@@ -42,7 +42,11 @@ export class LabelStoreService {
   public createLabel(input: CreateLabelInput) {
     return this.CreateLabelMutation.mutate({ input });
   }
-
+  /**
+   * Determine whether the background color is light or dark
+   * @param color giben background color of a label
+   * @returns white for a dark background color and black if the background color is light
+   */
   public lightOrDark(color) {
     // Variables for red, green, blue values
     let r, g, b, hsp;

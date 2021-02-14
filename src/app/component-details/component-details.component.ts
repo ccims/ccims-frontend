@@ -71,7 +71,7 @@ export class ComponentDetailsComponent implements OnInit {
 
   }
   public onDeleteClick() {
-    // Confirm Dialog anzeigen
+    // show Confirm Dialog
     // Onconfirm
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
       { data: { type: 'Component', name: this.component.node.name, id: this.componentId } });
@@ -81,30 +81,20 @@ export class ComponentDetailsComponent implements OnInit {
 
         }
         });
-    // Delete Mutation auslösen
 
   }
   public onSaveClick(): void {
     this.component.node.name = this.validationName.value;
     this.component.node.ims.imsType = this.validationProvider.value;
     this.component.node.description = this.validationDescription.value;
-    // this.component.node.ims. = this.validationIMS.value; //endpoint muss noch angepasst werden
-    // this.component.node.Url = this.validationUrl.value;  // url muss noch angepasst werden
     this.updateComponent();
     this.editMode = !this.editMode;
-    // Confirm Dialog ??
-    // mutation for save component
-    /*
-    Object.keys(this.validateForm.controls).forEach(controlKey => {
-      this.validateForm.controls[controlKey].markAsDirty();
-      this.validateForm.controls[controlKey].updateValueAndValidity();
-    });*/
   }
   private resetValues() {
     this.validationName.setValue(this.component.node.name);
-    this.validationIMS.setValue('http://beispiel.ims.test');
+    this.validationIMS.setValue('http://example.ims.com');
     this.validationProvider.setValue(this.component.node.ims.imsType);
-    this.validationUrl.setValue('http://beispiel.repo.test');
+    this.validationUrl.setValue('http://example.repo.com');
     this.validationDescription.setValue(this.component.node.description);
   }
   private updateComponent(): void{

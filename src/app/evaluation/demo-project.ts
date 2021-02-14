@@ -9,7 +9,12 @@ import { IssueStoreService } from '@app/data/issue/issue-store.service';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.service';
-
+/**
+ * This service sets up a sample project with two components and a few issues
+ * The two components are connected via an interface
+ * One isssue is linked from one component across the interface to an issue of the other component
+ * It can be used for quick testing, without the need to set up a project with
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -30,9 +35,10 @@ createDemoProject(){
   let projectId = '';
   let projectCount= 0;
 
-
+  // get all projects to define the name of the newly created project
   this.projectStore.getAll().subscribe(projects => {projectCount = projects.length +1;
 
+  // create project mutation
   this.projectStore.create('Demo Project '+projectCount, this.beschreibung).subscribe(({ data}) => {
     projectId = data.createProject.project.id;
     // create shipping service
@@ -43,18 +49,19 @@ createDemoProject(){
       description:this.beschreibung,
       projects:[projectId]
     }
+    // CreateComponentMutation for the shipping service
     this.createComponentMutation.mutate({input}).subscribe(({data})=>{this.store['ss']={id:data.createComponent.component.id,
                                                                                     issues:[],
                                                                                     labels:{}};
-    // TODO create labels BUG FEATURE
+    // create default labels to label the issues
       this.labelStore.createLabel({name:'Bug',color:'#d31111',components:[data.createComponent.component.id]}).subscribe(label=>this.store['ss'].labels.bug={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
       this.labelStore.createLabel({name:'Asian Expansion',color:'#11d0d3',components:[data.createComponent.component.id]}).subscribe(label=>this.store['ss'].labels.asienExpansion={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
       this.labelStore.createLabel({name:'Feature',color:'#113bd3',components:[data.createComponent.component.id]}).subscribe(label=>this.store['ss'].labels.feature={id:label.data.createLabel.label.id,name:label.data.createLabel.label.name})
 
-
+// because of async communication with the backend a timeout is used to ensure correct timin behavior
       setTimeout(() =>
     {
-// create interface
+// create the shipping service interface
 this.interfaceStore.create('Shipment Status Interface',data.createComponent.component.id,'LoremIpsum').subscribe(Cinterface=>{
   this.store['ss'].interface=Cinterface.data.createComponentInterface.componentInterface.id;
   // create issues for shipping service
@@ -81,6 +88,7 @@ let SSIssueInputList:Array<CreateIssueInput> = [{
   assignees: ['0'],
   labels:[this.store['ss'].labels.feature.id,this.store['ss'].labels.asienExpansion.id]
 }];
+// for each issue for the shipping service execute the CreateIssueMutation
 SSIssueInputList.forEach(element => {
 
 this.issueStore.create(element).subscribe(issue=> {this.store['ss'].issues.push({id:issue.data.createIssue.issue.id,
@@ -97,7 +105,7 @@ this.issueStore.create(element).subscribe(issue=> {this.store['ss'].issues.push(
 
 
 
-    // create order service
+    // create order service in the same way the shipping service was created above
      input={
       name:'Order Service',
       owner:this.userId,
@@ -131,12 +139,12 @@ this.issueStore.create(element).subscribe(issue=> {this.store['ss'].issues.push(
     console.log('there was an error sending the query', error);
   });
 }); // end of get projects
-  // location.reload();
 }
+
 private linkIssue(obj){
 // link issue to issue obj
 this.store['os'].issues.forEach(element => {
-  if (element.name.match('Orders from non EU countries are processed slowly')){
+  if (element.name.match('Ordering from non EU countries is not available')){
     console.log('foud');
 
     const issueInput: LinkIssueInput = {
@@ -154,8 +162,6 @@ this.store['os'].issues.forEach(element => {
     });
   }
 });
-// refresh page
-//location.reload();
 }
 private getprojectCount(){
   let count=10;
@@ -166,9 +172,9 @@ private getprojectCount(){
 private createIssuesOs(componentId){
 
   let OSIssueInputList:Array<CreateIssueInput> = [{
-    title:'Orders from non EU countries are processed slowly',
+    title:'Ordering from non EU countries is not available',
     componentIDs: [componentId],
-    body:'Lorem Ipsum',
+    body:'Issue Body with Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
     category:IssueCategory.Bug,
     assignees: ['0'],
     labels:[this.store['os'].labels.bug.id]
@@ -179,6 +185,13 @@ private createIssuesOs(componentId){
     category:IssueCategory.FeatureRequest,
     assignees: ['0'],
     labels:[this.store['os'].labels.feature.id,this.store['os'].labels.asienExpansion.id]
+  },{
+    title:'This is an unclassified Issue',
+    componentIDs: [componentId],
+    body:'Lorem Ipsum',
+    category:IssueCategory.Unclassified,
+    assignees: ['0'],
+    labels:[this.store['os'].labels.asienExpansion.id]
   }];
 
 OSIssueInputList.forEach(element => {
@@ -194,9 +207,5 @@ setTimeout(() =>
 },
 2000);
 }
-private createEmptyProject(){
-
-}
-
 }
 

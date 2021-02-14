@@ -6,7 +6,13 @@ import {
 } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/auth/authentication.service';
-
+/**
+ * This service provides get, create and delete operations for projects
+ * With the get-method only the id and name of one project, specified by the id, will be fetched
+ * The getFulProject method fetches all the information of a project the database provides
+ * The getAll method fetches the name and id for all projects. This is used to reduce
+ * transfered data while showing the projects list
+ */
 @Injectable({
   providedIn: 'root'
 })

@@ -21,14 +21,13 @@ export class CreateComponentDialogComponent implements OnInit {
   validateForm!: FormGroup;
   private zeroPosition: Point = {x: 0, y: 0};
   private graph: IssueGraphComponent;
-  // private gs:GraphStoreService;
   constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>,  @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
               private fb: FormBuilder,
               private gs: IssueGraphStateService, private createComponentMutation: CreateComponentGQL,
               private authService: AuthenticationService) {
                 this.loading = false;
               }
-
+  // define validations
   validationName = new FormControl('', [Validators.required]);
   validationUrl = new FormControl('', [Validators.required]);
   validationIMS = new FormControl('', [Validators.required]);
@@ -43,12 +42,11 @@ export class CreateComponentDialogComponent implements OnInit {
     });
 
   }
-
+  // close dialog on cancel
   onNoClick(): void {
-    // console.log(this.name);
     this.dialogRef.close();
   }
-
+  // callback method for component creation
   onOkClick(name: string, url: string, description: string, ims: string, provider: string): void{
     // check for valid form
     Object.keys(this.validateForm.controls).forEach(controlKey => {
@@ -56,28 +54,8 @@ export class CreateComponentDialogComponent implements OnInit {
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });
     this.loading = true;
-    // TODO: Anfrage Backend --> Componente Anlegen
-    // TODO: ID entgegennehmen und der Komponente hinzufügen
-     // copied state
-     /*
-    component = {
-      id: Uuid(name, COMPONENT_UUID_NAMESPACE),
-      name: name,
-      description: description,
-      imsId: null,
-      imsRepository: ims,
-      owner: null,
-      interfaces: {},
-      issueCounts: {
-      UNCLASSIFIED: 0,
-      BUG: 1,
-      FEATURE_REQUEST: 2
-    },
-    issues: [],
-    position: this.zeroPosition,
-    componentRelations: []
-    }; // copied state
-    */
+
+    // define the input for the database mutation - required fields are specified by the graphQL schema
     const input: CreateComponentInput = {
       name,
       owner: this.authService.currentUserValue.id,
@@ -89,6 +67,7 @@ export class CreateComponentDialogComponent implements OnInit {
     this.createComponentMutation.mutate({input}).subscribe(({data}) => {
       console.log(data.createComponent.component);
       this.loading = false;
+      // error handling
     }, (error) => {
       console.log('there was an error sending the query', error);
       this.loading = false;

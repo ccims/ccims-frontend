@@ -13,6 +13,10 @@ import { InterfaceStoreService } from '@app/data/interface/interface-store.servi
 import { FormControl } from '@angular/forms';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
+/**
+ * This component displays a sortable and filterable list of issues in a table view
+ *
+ */
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
@@ -43,6 +47,8 @@ export class IssueListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // if the IssueListComponent is called from a component, only the issues they belong to the component
+    // are displayed
     if (this.parentCaller.match('component')){
       this.componentId = this.route.snapshot.paramMap.get('componentId');
       this.component$ = this.componentStoreService.getFullComponent(this.componentId);
@@ -57,8 +63,9 @@ export class IssueListComponent implements OnInit {
       this.validationFilter.setValue(this.getQueryParamFilter());
 
     });
+    // if the IssueListComponent is called from the issues page of the Project
+    // all issues blonging to the project are displayed
     }else if (this.parentCaller.match('project')){
-      console.log('project');
       this.project$ = this.projectStoreService.getFullProject(this.route.snapshot.paramMap.get('id'));
       this.project$.subscribe(project => {
         this.project = project;
@@ -72,9 +79,10 @@ export class IssueListComponent implements OnInit {
 
       });
     }
+    // if the IssueListComponent is called from a interface, only the issues that are provided by the interface
+    // are displayed
     else{
       this.componentId = this.route.snapshot.paramMap.get('interfaceId');
-
       this.interface$ = this.interfaceStoreService.getInterface(this.componentId);
       this.interface$.subscribe(componentInterface => {
         this.interface = componentInterface;
@@ -90,6 +98,8 @@ export class IssueListComponent implements OnInit {
 
 
   }
+  // if the query param filter is set, the list shows only issues, that belong to the given keyword
+  // if no filter is set, all issues are displayed
   private getQueryParamFilter(): string{
     let returnedFilter = '';
     this.activatedRoute.queryParams.subscribe(
@@ -111,17 +121,25 @@ export class IssueListComponent implements OnInit {
   }
   clickedOnRow(row: any) {
     // route to issue details
+    // the url depends on the view, in which the issue list is embedded
+    // parentCaller defindes the embedding view
     if (this.parentCaller.match('component')){
       this.router.navigate(['issue', row.id], {relativeTo: this.route});
     }else if(this.parentCaller.match('interface')){
       this.router.navigate(['component', this.interface.node.component.id, 'issue', row.id], {relativeTo: this.route }); }
 
     else{this.router.navigate(['component', row.parentComponent, 'issue', row.id], {relativeTo: this.route});}
-    // this.router.navigate(['issue', row.id], {relativeTo: this.route});
 
     console.log(row);
 
   }
+
+  /**
+   * Prepares the issue array for the filter function
+   * for each issue a search string is defined
+   * the search string contains assignees, labels, and the author
+   * the filter funcion can search inside the string for keywords matching the given search string
+   */
   private prepareIssueArray(){
     if (this.parentCaller.match('component')){
       this.searchIssuesDataArray = Object.assign([], this.component.node.issues.nodes);
@@ -150,16 +168,21 @@ export class IssueListComponent implements OnInit {
       issue.search = additionalSearchString;
     }
   }
+
+  // opens a create issue dialog
   onAddClick() {
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
       { data: { user: 'Component', name: this.component.node.name, id: this.componentId,
       component: this.component , projectId: this.getProjectId()} });
     createIssueDialogRef.afterClosed().subscribe(issueData => {
         if (issueData){
+          // after dialog is closed and a new issue is created, the table needs to be updated to show the new issue
           this.updateTable();
         }
         });
   }
+
+  // updates the issue table after a new issue was created
   private updateTable(): void {
     this.component$ = this.componentStoreService.getFullComponent(this.componentId);
     this.component$.subscribe(component => {
@@ -174,9 +197,16 @@ export class IssueListComponent implements OnInit {
   private getProjectId(): string {
     return this.route.snapshot.paramMap.get('id');
   }
+
+  /**
+   * determines the needed text color for a label
+   * @param color background color of the label
+   * @returns black or white depending on the param color
+   */
   public lightOrDark(color){
     return this.labelStoreService.lightOrDark(color);
   }
+  // add the corresponding component for each issue to the data just for this view
   private addIssuesPerComponent(){
     const returnedList = [];
     this.project.node.components.edges.forEach(component => {

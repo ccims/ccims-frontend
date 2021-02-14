@@ -2,7 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
-
+/**
+ * This component provides a dialog for the project creation
+ * The user can set a name and description
+ *
+ */
 @Component({
   selector: 'app-create-project-dialog',
   templateUrl: './create-project-dialog.component.html',
@@ -31,6 +35,7 @@ export class CreateProjectDialogComponent implements OnInit {
   this.saveFailed = false;
 
 }
+  // after the user clicked on the create button the project crefation mutation is fired
   onOkClick(name: string, description: string): void{
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
@@ -40,7 +45,6 @@ export class CreateProjectDialogComponent implements OnInit {
     this.ps.create(name, description).subscribe(({ data}) => {
       this.loading = false;
       this.dialogRef.close({createdProjectId: data.createProject.project.id});
-      console.log('got data', data);
     }, (error) => {
       console.log('there was an error sending the query', error);
       this.loading = false;

@@ -19,13 +19,10 @@ export class CreateInterfaceDialogComponent implements OnInit {
   public saveFailed: boolean;
   validateForm!: FormGroup;
   private zeroPosition: Point = { x: 0, y: 0 };
-  // private graph: IssueGraphComponent;
 
   constructor(public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
               private fb: FormBuilder,
               private gs: IssueGraphStateService,
-    // Wenn mutation erstellt wierder eikomentieren
-    // private createComponentMutation: CreateInterfaceGQL,
               private authService: AuthenticationService, private interfaceStore: InterfaceStoreService) {
     this.loading = false;
   }
@@ -48,26 +45,12 @@ export class CreateInterfaceDialogComponent implements OnInit {
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });
     this.loading = true;
-    /*
-    const input: CreateInterfaceInput = {
-      name,
-      owner: this.authService.currentUserValue.id,
-      componentId: this.data.component,
-      projects: [this.data.projectId]
-    };
-    this.createInterfaceMutation.mutate({input}).subscribe(({data}) => {
-      console.log(data.createComponent.component);
-      this.loading = false;
-    }, (error) => {
-      console.log('there was an error sending the query', error);
-      this.loading = false;
-      this.saveFailed = true;
-    });
 
-    */
+    // db mutation to create an interface
     this.interfaceStore.create(name, this.data.offeredById, description).subscribe(({ data }) => {
-      console.log(data.createComponentInterface);
       this.loading = false;
+
+      // close dialog and return the interface id of the created dialog
       this.dialogRef.close(data.createComponentInterface.componentInterface.id);
     }, (error) => {
       console.log('there was an error sending the query', error);

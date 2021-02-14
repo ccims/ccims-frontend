@@ -7,6 +7,10 @@ import { ComponentStoreService } from '@app/data/component/component-store.servi
 import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
 import { Project } from 'src/generated/graphql';
+/**
+ * This component is a dialog that pops up when the user deletes a component or an interface
+ * The user can confirm that he is sure to delete the interface / compoent or abort the deletation
+ */
 @Component({
   selector: 'app-remove-dialog',
   templateUrl: './remove-dialog.component.html',
@@ -24,6 +28,7 @@ export class RemoveDialogComponent implements OnInit {
     this.dialogRef.close();
   }
   onDeleteClick(): void {
+    // if the user wants to delete a component the deleteComponent mutation is executed defined by the ComponentStoreService
     if (this.data.type == 'Component') {
     this.loading = true;
     console.log('gelöscht');
@@ -36,6 +41,7 @@ export class RemoveDialogComponent implements OnInit {
       this.loading = false;
     });
   }
+  // if the user wants to delete an interface the deleteInterface mutation is executed defined by the InterfaceStoreService
     if (this.data.type == 'interface') {
 
           this.loading = true;
