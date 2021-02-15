@@ -17,3 +17,8 @@ We use a codegenerator (https://graphql-code-generator.com/) to create typescrip
 containing queries and mutations. One class per query/mutation. We then use dependency injection to inject objects of theses classes 
 into e.g. services via dependency injection. These objects make it easy to parameterize the mutations and queries and
 invoke them in typescript code.
+
+## Mocked Members Page
+Every project offers a mocked 'Members' page. It shows a list of users in the project and
+offers a dialog to add users. However this area is purely a mock, changes are not persisted
+and there are no other users who really have access to your project.
