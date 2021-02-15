@@ -31,10 +31,10 @@ of the primary components of the app.
 
 | Aspect | Code |
 | --- | --- |
-| App Layout | FrameComponent |
+| App Layout | [FrameComponent](src/app/frame/frame.component.ts) |
 | Graph | [GraphsModule](src/app/graphs/graphs.module.ts) |
-| Project context | StateService
-| Account management and auth with backend | LoginComponent, RegisterComponent, AuthenticationService, AuthGuard |
-| Apollo GraphQL Setup | GraphQLModule |
-| Helper objects for queries/muations, result of code generator | [generated](src/app/generated)
+| Project context | [StateService](src/app/state.service.ts)
+| Account management and auth with backend | [LoginComponent](src/app/login/login.component.ts), RegisterComponent(src/app/login/register.component.ts), [AuthenticationService](src/app/auth/authentication.service.ts), [AuthGuard](src/app/auth/auth.guard.ts) in |
+| Apollo GraphQL Setup | GraphQLModule(src/app/graphql.module.ts) |
+| Helper objects for queries/muations, result of code generator | [generated](src/generated)
 
