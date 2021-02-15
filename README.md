@@ -6,6 +6,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Codegeneration from .graphql files
+The app uses GraphQL instead of REST to communicate with the backend. The graphql files are in the
+[data folder](src/app/data) and subdivided by entities they pertain to e.g. [label](src/app/data/label/label.graphql) <br />
 When you change .graphql files you have to rerun the code generator. It will update the files in
 src/generated to match the changes in the .graphql files.  
 :warning: The backend has to be running with debugNoLogin set to true to make the backend schema
@@ -22,3 +24,17 @@ invoke them in typescript code.
 Every project offers a mocked 'Members' page. It shows a list of users in the project and
 offers a dialog to add users. However this area is purely a mock, changes are not persisted
 and there are no other users who really have access to your project.
+
+## Project structure
+Have a look at the [routing module](src/app/app-routing.module.ts) to get a nice overview
+of the primary components of the app.
+
+| Aspect | Code |
+| --- | --- |
+| App Layout | FrameComponent |
+| Graph | [GraphsModule](src/app/graphs/graphs.module.ts) |
+| Project context | StateService
+| Account management and auth with backend | LoginComponent, RegisterComponent, AuthenticationService, AuthGuard |
+| Apollo GraphQL Setup | GraphQLModule |
+| Helper objects for queries/muations, result of code generator | [generated](src/app/generated)
+
