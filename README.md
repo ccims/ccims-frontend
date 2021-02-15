@@ -11,7 +11,7 @@ of the primary components of the app.
 | Aspect | Code |
 | --- | --- |
 | App Layout | [FrameComponent](src/app/frame/frame.component.ts) |
-| Graph | [GraphsModule](src/app/graphs/graphs.module.ts) |
+| Graph | [GraphsModule](src/app/graphs/graphs.module.ts), look at the *declarations* |
 | Project Context | [StateService](src/app/state.service.ts)
 | Account Management and Auth with Backend | [LoginComponent](src/app/login/login.component.ts), [RegisterComponent](src/app/login/register.component.ts), [AuthenticationService](src/app/auth/authentication.service.ts), [AuthGuard](src/app/auth/auth.guard.ts) |
 | Apollo GraphQL Client Setup | [GraphQLModule](src/app/graphql.module.ts) |
