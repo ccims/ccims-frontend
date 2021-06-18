@@ -1,6 +1,7 @@
-
 @keyframes spinner {
-  to {transform: rotate(360deg);}
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .spinner:before {
@@ -18,62 +19,49 @@
   border-top-color: #000000;
   animation: spinner .8s linear infinite;
 }
+
 .error-div {
-background-color: #FF692C;
-border-radius: 2px;
-height: 25px;
-text-align: center;
-//animation-name: error-display;
-//animation-duration: .5s;
-opacity: .8;
-animation: fadeIn .7s;
+  background-color: #FF692C;
+  border-radius: 2px;
+  height: 25px;
+  text-align: center;
+  //animation-name: error-display;
+  //animation-duration: .5s;
+  opacity: .8;
+  animation: fadeIn .7s;
 }
+
 .error-message {
   margin-bottom: 24px;
 }
+
 @keyframes error-display {
-  from { transform: translatey(-25px)}
-  to   { transform: translateX(0px) }
+  from {
+    transform: translatey(-25px)
+  }
+  to {
+    transform: translateX(0px)
+  }
 }
+
 @keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:.8;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: .8;
+  }
 }
+
 .stretch {
   width: 100%;
 }
-.adding-margin{
+
+.adding-margin {
   margin-top: 20px;
 }
-.new-label-container {
-  height: auto;
-  width: 100%;
-  background-color: #f6f8fa;
-  border-radius: 5px;
-  border-color: #bbbdbe;
-  border-style: solid;
-  padding: 10px;
-  border-width: 1px;
-}
-.new-label-button {
-  float: left;
-  margin-top: 12px;
-  margin-left: 5px;
-}
-.ng-select-label {
-  float: left;
-  width: 70%;
-}
-.label-wrapper {
-  height: 70px;
-  width: 100%;
-}
+
 .color-input {
   width: 30px;
   height: 70px;
-}
-.error-label-create {
-  background-color: rgb(204, 58, 58);
-  color: white;
-  margin-top: 5px;
 }

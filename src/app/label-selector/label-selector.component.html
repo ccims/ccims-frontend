@@ -1,0 +1,49 @@
+<div class="label-wrapper">
+  <ng-select #labelSelector class="ng-select-label" [dropdownPosition]="'bottom'" [multiple]="true"
+             [(ngModel)]="this.selectedLabels"
+             [ngModelOptions]="{standalone: true}" placeholder="Select Labels">
+    <ng-option *ngFor="let label of this.componentLabels" [value]="label.id">
+      <span style="display: inline-block">
+        <span class="issue-label"
+              [ngStyle]="{'background-color': label.color, 'color': this.labelStore.lightOrDark(label.color)}">
+          {{label.name}}
+        </span>
+      </span>
+    </ng-option>
+  </ng-select>
+
+  <button [hidden]="this.newLabelOpen" mat-raised-button color="accent" class="new-label-button"
+          (click)="this.onNewLabelClick()">New Label
+  </button>
+</div>
+
+<div [hidden]="!this.newLabelOpen" class="new-label-container">
+  <div>
+    <mat-form-field class="label-title" appearance="outline">
+      <mat-label>Label Name</mat-label>
+      <input #labelName required matInput [formControl]="validationLabelName">
+      <mat-error *ngIf="validationLabelName.invalid">Invalid name</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="label-title" appearance="outline">
+      <mat-label>Description</mat-label>
+      <input #labelDescription matInput>
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="outline">
+      <mat-label>Color</mat-label>
+      <input
+        matInput
+        [style.background]="color"
+        autocomplete="off"
+        [(colorPicker)]="this.color"
+        [cpAlphaChannel]="'disabled'"
+        [cpPosition]="'bottom'"/>
+    </mat-form-field>
+  </div>
+  <button mat-raised-button [class.spinner]="loading" [disabled]="loading || validationLabelName.invalid"
+          (click)="this.onConfirmCreateLabelClick(labelName.value, labelDescription.value)">Create
+  </button>
+  <button mat-button (click)="this.onLabelCancelClick()">Cancel</button>
+  <div *ngIf="this.saveFailed" class="error-label-create">Label was not created</div>
+</div>

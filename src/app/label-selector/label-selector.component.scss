@@ -1,0 +1,35 @@
+@import 'src/styles/issue-label';
+
+.new-label-container {
+  height: auto;
+  width: 100%;
+  background-color: #f6f8fa;
+  border-radius: 5px;
+  border-color: #bbbdbe;
+  border-style: solid;
+  padding: 10px;
+  border-width: 1px;
+}
+
+.new-label-button {
+  height: fit-content;
+  flex: 0 0 fit-content;
+  margin-top: 12px;
+  margin-left: 5px;
+}
+
+.ng-select-label {
+  flex: 1 1;
+}
+
+.label-wrapper {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+}
+
+.error-label-create {
+  background-color: rgb(204, 58, 58);
+  color: white;
+  margin-top: 5px;
+}
