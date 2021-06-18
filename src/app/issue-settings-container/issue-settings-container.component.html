@@ -1,95 +1,50 @@
 <div class="outer-container settings" name="settings">
-  <div class="inner-container settings"name="settings">
-    <div class="settings" *ngIf="this.selection=='labels'">
-      <p class="settings" name="settings"><b>Edit Labels</b></p>
-      <mat-divider name="settings"></mat-divider>
+  <div class="settings" *ngIf="this.selection=='labels' && this.issueComponent">
+    <app-label-selector-component #labelSelector [componentId]="this.issueComponent.node.id"
+                                  [selectedLabels]="this.selectedLabels">
+    </app-label-selector-component>
+  </div>
+  <div class="settings" *ngIf="this.selection=='assignees'">Assingees aufgerufen</div>
+  <div class="settings" *ngIf="this.selection=='link'">
+    <p class="settings" name="settings"><b>Link issues</b></p>
+    <mat-divider name="settings"></mat-divider>
 
-      <ng-select class="ng-select-label settings" [dropdownPosition]="'bottom'" [multiple]="true" [(ngModel)]="this.selectedLabels"
-        [ngModelOptions]="{standalone: true}" placeholder="Select Labels">
-          <ng-option class="settings" *ngFor="let label of this.labels" [value]="label.id" [ngStyle]="{'color':this.lightOrDark(label.color)}" >
-        <!--<div class="settings" [ngStyle]="{'background-color': label.color,'width':'25px',
-          'float':'left','height':'25px','margin-right':'5px','margin-top':'10px'}"></div>
-        <span [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">{{label.name}}</span>
-        <div style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
-              [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
-              <span >{{label.name}} </span>
-            </div>
-            -->
-            <span style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
-            [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}" >{{label.name}} </span>
+    <ng-select *ngIf="issuesLoaded" class="adding-margin"
+               [dropdownPosition]="'bottom'"
+               [multiple]="true"
+               [(ngModel)]="this.selectedIssues"
+               [ngModelOptions]="{standalone: true}"
+               placeholder="Select Issues to link"
+               groupBy="component"
+               [items]="linkableProjectIssues"
+               bindLabel="title"
+               bindValue="id">
+      <ng-template ng-optgroup-tmp let-item="item">
+        {{item.component || 'Unnamed group'}}
+      </ng-template>
+    </ng-select>
 
-    </ng-option>
+  </div>
+  <div class="settings" *ngIf="this.selection=='nfr'">
+    <p class="settings" name="settings"><b>Edit Interfaces, Artefacts & NFR</b></p>
+    <mat-divider name="settings"></mat-divider>
 
-</ng-select>
-<div class="new-label-container">
-  <h3>Create New Label</h3>
-  <div>
-  <mat-form-field class="label-title short-text-field" appearance="outline">
-    <mat-label>Label Name</mat-label>
-    <input #labelName reqired matInput  [formControl]="validationLabelName" >
-    <mat-error *ngIf="validationLabelName.invalid">Type in a Name</mat-error>
-  </mat-form-field>
+    <ng-select *ngIf="this.selectedInterfaces" class="adding-margin" [dropdownPosition]="'top'" [multiple]="true"
+               [(ngModel)]="this.selectedInterfaces" [ngModelOptions]="{standalone: true}"
+               placeholder="Interfaces providing the issue">
+      <ng-option *ngFor="let componentInterface of this.selectableComponentInterfaces"
+                 [value]="componentInterface.id">{{componentInterface.name}}</ng-option>
+    </ng-select>
 
-  <mat-form-field class="color-field" floatLabel="always" appearance="outline" >
-    <mat-label>Color</mat-label>
-    <input
-      matInput
-      [style.background]="color"
-      autocomplete="off"
-      [(colorPicker)]="this.color"
-      [cpPosition]="'bottom'"/>
-  </mat-form-field>
+    <mat-form-field class="stretch" appearance="outline">
+      <mat-label>Artefacts</mat-label>
+      <textarea style="height: 30px;" #artefects matInput></textarea>
+    </mat-form-field>
 
-  <mat-form-field class="label-title" appearance="outline">
-    <mat-label>Description</mat-label>
-    <input #labelDescription matInput  >
-  </mat-form-field>
-
-</div>
-  <button mat-raised-button [class.spinner]="loading" [disabled]="loading || validationLabelName.invalid" (click)="this.onConfirmCreateLabelCklick(labelName.value, labelDescription.value)">Create</button>
-<button mat-button (click)="this.onLabelCancelClick()" >Cancel</button>
-<div *ngIf="this.saveFailed" class="error-label-create">Label was not created</div>
-</div>
-    </div>
-    <div class="settings" *ngIf="this.selection=='assignees'">Assingees aufgerufen</div>
-    <div class="settings" *ngIf="this.selection=='link'">
-      <p class="settings" name="settings"><b>Link issues</b></p>
-      <mat-divider name="settings"></mat-divider>
-
-      <ng-select *ngIf="issuesLoaded" class="adding-margin"
-            [dropdownPosition]="'bottom'"
-            [multiple]="true"
-            [(ngModel)]="this.selectedIssues"
-            [ngModelOptions]="{standalone: true}"
-            placeholder="Select Issues to link"
-            groupBy="component"
-            [items]="linkableProjectIssues"
-            bindLabel="title"
-            bindValue="id">
-        <ng-template ng-optgroup-tmp let-item="item">
-          {{item.component || 'Unnamed group'}}
-        </ng-template>
-      </ng-select>
-
-    </div>
-    <div class="settings" *ngIf="this.selection=='nfr'">
-      <p class="settings" name="settings"><b>Edit Interfaces, Artefacts & NFR</b></p>
-      <mat-divider name="settings"></mat-divider>
-
-      <ng-select *ngIf="this.selectedInterfaces" class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedInterfaces" [ngModelOptions]="{standalone: true}" placeholder="Interfaces providing the issue">
-        <ng-option *ngFor="let componentInterface of this.selectableComponentInterfaces" [value]="componentInterface.id" >{{componentInterface.name}}</ng-option>
-      </ng-select>
-
-      <mat-form-field class="stretch" appearance="outline">
-        <mat-label>Artefacts</mat-label>
-        <textarea style="height: 30px;" #artefects matInput ></textarea>
-      </mat-form-field>
-
-      <mat-form-field class="stretch" appearance="outline">
-        <mat-label>Non-functional-requirements</mat-label>
-        <textarea style="height: 30px;" #nfr matInput ></textarea>
-      </mat-form-field>
-    </div>
+    <mat-form-field class="stretch" appearance="outline">
+      <mat-label>Non-functional-requirements</mat-label>
+      <textarea style="height: 30px;" #nfr matInput></textarea>
+    </mat-form-field>
   </div>
 
 </div>
