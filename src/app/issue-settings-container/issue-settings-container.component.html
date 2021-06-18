@@ -1,5 +1,7 @@
 <div class="outer-container settings" name="settings">
   <div class="settings" *ngIf="this.selection=='labels' && this.issueComponent">
+    <p><b>Edit Interfaces, Artefacts & NFR</b></p>
+    <mat-divider name="settings"></mat-divider>
     <app-label-selector-component #labelSelector [componentId]="this.issueComponent.node.id"
                                   [selectedLabels]="this.selectedLabels">
     </app-label-selector-component>
