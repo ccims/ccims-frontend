@@ -69,7 +69,7 @@ export class IssueSettingsContainerComponent implements OnInit {
    * Fires an event that tells the parent page that the user clicked beside the IssueSettingsContainer
    * @param $event click event
    */
-  @HostListener('document:click', ['$event'])
+  @HostListener('document:mousedown', ['$event'])
   clickout($event) {
     let close = true;
     $event.path.forEach(element => {
