@@ -17,6 +17,13 @@ import {IssueStoreService} from '@app/data/issue/issue-store.service';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
 
+export enum SelectionType {
+  Labels = 'labels',
+  Assignees = 'assignees',
+  Nfr = 'nfr',
+  Link = 'link'
+}
+
 /**
  * This is a dynamic component displaying editing options for the issue depending on which
  * option gear the user clicked
@@ -27,7 +34,7 @@ import {LabelSelectorComponent} from '@app/label-selector/label-selector.compone
   styleUrls: ['./issue-settings-container.component.scss']
 })
 export class IssueSettingsContainerComponent implements OnInit {
-  @Input() selection;
+  @Input() selection: SelectionType;
   @Input() currentIssue: GetIssueQuery;
   @Input() selectedLabels: Array<string>;
   @Output() messageEvent = new EventEmitter<boolean>();
@@ -74,8 +81,6 @@ export class IssueSettingsContainerComponent implements OnInit {
       this.saveChanges();
       // if (this.saveChanges()) { this.messageEvent.emit(true); }
     }
-
-
   }
 
   /**
@@ -83,49 +88,46 @@ export class IssueSettingsContainerComponent implements OnInit {
    * Which method has to be called is defined by the attribute "selection". This information is injected to the classs
    */
   private saveChanges(): boolean {
-    if (this.selection === 'labels') {
-      const remove = this.getLabelsToRemove();
-      const add = this.getLabelsToAdd();
+    switch (this.selection) {
+      case SelectionType.Labels:
+        const labelsRemove = this.getLabelsToRemove();
+        const labelsAdd = this.getLabelsToAdd();
 
-      this.removeLabelsFromIssue(remove);
-      this.addLabelsToIssue(add);
-      if (remove.length < 1 && add.length < 1) {
+        this.removeLabelsFromIssue(labelsRemove);
+        this.addLabelsToIssue(labelsAdd);
+        if (labelsRemove.length < 1 && labelsAdd.length < 1) {
+          this.messageEvent.emit(false);
+        }
+        break;
+      case SelectionType.Assignees:
         this.messageEvent.emit(false);
-      }
-      return true;
+        break;
+      case SelectionType.Nfr:
+        const locsRemove = this.getLocationsToRemove();
+        const locsAdd = this.getLocationsToAdd();
+        if (locsRemove.length < 1 && locsAdd.length < 1) {
+          this.messageEvent.emit(false);
+        } else {
+          console.log(locsAdd, locsRemove);
+          this.removeIssueFromLocations(locsRemove);
+          this.addIssuesToLocations(locsAdd);
+        }
+        break;
+      case SelectionType.Link:
+        const remove = this.getIssuesToRemove();
+        const add = this.getIssuesToAdd();
+
+        this.unlinkIssues(remove);
+        this.linkIssues(add);
+        if (remove.length < 1 && add.length < 1) {
+          this.messageEvent.emit(false);
+        }
+        break;
+      default:
+        return false;
     }
 
-    if (this.selection === 'assignees') {
-      // assignees speichern
-      this.messageEvent.emit(false);
-    }
-    if (this.selection === 'nfr') {
-      // nfr speichern
-      const remove = this.getLocationsToRemove();
-      const add = this.getLocationsToAdd();
-      if (remove.length < 1 && add.length < 1) {
-        this.messageEvent.emit(false);
-      } else {
-        console.log(add, remove);
-
-        this.removeIssueFromLocations(remove);
-        this.addIssuesToLocations(add);
-      }
-      // this.messageEvent.emit(false);
-    }
-    if (this.selection === 'link') {
-      // linked Issues speichern
-      const remove = this.getIssuesToRemove();
-      const add = this.getIssuesToAdd();
-
-      this.unlinkIssues(remove);
-      this.linkIssues(add);
-      if (remove.length < 1 && add.length < 1) {
-        this.messageEvent.emit(false);
-      }
-      return true;
-    }
-    return false;
+    return true;
   }
 
   // Determines the labels the user wants to add to the issue
