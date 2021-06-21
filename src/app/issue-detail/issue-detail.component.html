@@ -1,15 +1,18 @@
-<div class="container-xl"  #issueContainer *ngIf="(issue$ | async) as issue">
-  <app-issue-settings-container *ngIf="this.editIssue" [selectedLabels]="this.labelList" [currentIssue]="issue" (messageEvent)="this.receiveMessage($event)" [selection]="this.attributeToEdit" [ngStyle]="{'left':this.mouseX,'top':this.mouseY,'z-index':'100'}"></app-issue-settings-container>
+<div class="container-xl" #issueContainer *ngIf="(issue$ | async) as issue">
+  <app-issue-settings-container *ngIf="this.editIssue" [selectedLabels]="this.labelList" [currentIssue]="issue"
+                                (messageEvent)="this.receiveMessage($event)" [selection]="this.attributeToEdit"
+                                [ngStyle]="{'left':this.mouseX,'top':this.mouseY,'z-index':'100'}"></app-issue-settings-container>
 
   <div>
     <section class="clear">
       <div id="issue-header" class="issue-header">
-        <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]= "issue.node.title">
+        <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.node.title">
         <h1 #title *ngIf="!this.editTitle" id="issue-heading">{{issue.node.title}}</h1>
         <div id="issue-action">
           <button mat-flat-button *ngIf="!this.editTitle" color="primary" (click)="this.editIssueTitle()">Edit</button>
-          <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle()" >Cancel</button>
-          <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle(true)" color="accent">Save</button>
+          <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle()">Cancel</button>
+          <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle(true)" color="accent">Save
+          </button>
         </div>
 
       </div>
@@ -17,109 +20,113 @@
         <span *ngIf="issue.node.isOpen" class="customLabelOpen ">&nbsp;Open&nbsp;</span>
         <span *ngIf="!issue.node.isOpen" class="customLabelClosed ">&nbsp;Closed&nbsp;</span>
         <a class="author text-bold link-gray">&nbsp;{{issue.node.createdBy.username}} </a>&nbsp;opened this issue
-        <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>· 1 comment
+        <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>
+        · 1 comment
 
       </div>
       <mat-divider style="margin-top:20px;"></mat-divider>
     </section>
 
     <section class="clear">
-      <div class="issue-content" >
-      <div class="Box Box--condensed issue-body-box" >
-        <div class="Box-header d-flex flex-items-center">
-          <h3 class="Box-title overflow-hidden flex-auto">
-            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented some time ago
-          </h3>
-          <button mat-flat-button  (click)="this.editBody=!this.editBody" >Edit</button>
-        </div>
-        <div *ngIf="!this.editBody" class="Box-body">
-          {{issue.node.body}}
-        </div>
-        <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
-          <textarea class="comment-text-area" matInput #bodyEdit>{{issue.node.body}}</textarea>
-          <div class="edit-body-buttons">
-            <button mat-raised-button  (click)="this.editBody=!this.editBody">Cancel</button>
-          <button mat-raised-button color="primary" (click)="this.EditIssueBody(bodyEdit.value)">Save</button>
-        </div>
-        </div>
-
-
-
-      </div>
-
-      <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 " class="TimelineItem  issue-comment">
-        <div class="Box Box--condensed">
+      <div class="issue-content">
+        <div class="Box Box--condensed issue-body-box">
           <div class="Box-header d-flex flex-items-center">
             <h3 class="Box-title overflow-hidden flex-auto">
-              <b>Linked Issues</b>
+              <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented some time ago
+            </h3>
+            <button mat-flat-button (click)="this.editBody=!this.editBody">Edit</button>
+          </div>
+          <div *ngIf="!this.editBody" class="Box-body">
+            {{issue.node.body}}
+          </div>
+          <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
+            <textarea class="comment-text-area" matInput #bodyEdit>{{issue.node.body}}</textarea>
+            <div class="edit-body-buttons">
+              <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
+              <button mat-raised-button color="primary" (click)="this.EditIssueBody(bodyEdit.value)">Save</button>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 "
+             class="TimelineItem  issue-comment">
+          <div class="Box Box--condensed">
+            <div class="Box-header d-flex flex-items-center">
+              <h3 class="Box-title overflow-hidden flex-auto">
+                <b>Linked Issues</b>
+              </h3>
+            </div>
+            <div class="Box-body">
+              <div class="linked-issues-container">
+                <mat-accordion>
+                  <mat-expansion-panel *ngFor="let currentIssue of issue.node.linksToIssues.nodes">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{currentIssue.componentName}}
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        {{currentIssue.title}}
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div style="width: 100%; height: 100%; text-align: left; ">
+                      <p>{{currentIssue.body}}</p>
+                    </div>
+
+                  </mat-expansion-panel>
+
+                </mat-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngFor="let comment of issue.node.issueComments.nodes" class="TimelineItem issue-comment">
+          <div class="Box Box--condensed">
+            <div class="Box-header d-flex flex-items-center">
+              <h3 class="Box-title overflow-hidden flex-auto">
+                <i><b>{{comment.createdBy.displayName}}</b></i> commented on {{comment.createdAt}}
+              </h3>
+            </div>
+            <div class="Box-body">
+              {{comment.body}}
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="Box Box--condensed issue-body-box comment-box-container">
+          <div class="Box-header d-flex flex-items-center">
+            <h3 class="Box-title overflow-hidden flex-auto">
+              Comment this issue as <b>{{issue.node.createdBy.displayName}}</b>
             </h3>
           </div>
-          <div class="Box-body">
-            <div  class="linked-issues-container">
-              <mat-accordion>
-                <mat-expansion-panel *ngFor="let currentIssue of issue.node.linksToIssues.nodes">
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      {{currentIssue.componentName}}
-                    </mat-panel-title>
-                    <mat-panel-description>
-                      {{currentIssue.title}}
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
-                  <div style="width: 100%; height: 100%; text-align: left; ">
-                    <p>{{currentIssue.body}}</p>
-                  </div>
-
-                </mat-expansion-panel>
-
-              </mat-accordion>
+          <div class="Box-body clear">
+            <textarea class="comment-text-area" matInput #comment></textarea>
+            <div class="comment-buttons">
+              <button *ngIf="issue.node.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue
+              </button>
+              <button *ngIf="!issue.node.isOpen" mat-raised-button color="warn" (click)="this.reopenIssue()">Reopen
+                Issue
+              </button>
+              <button mat-raised-button color="primary" (click)="this.commentIssue(comment.value)">Comment</button>
             </div>
           </div>
         </div>
       </div>
 
-
-      <div *ngFor="let comment of issue.node.issueComments.nodes" class="TimelineItem issue-comment">
-        <div class="Box Box--condensed">
-          <div class="Box-header d-flex flex-items-center">
-            <h3 class="Box-title overflow-hidden flex-auto">
-              <i><b>{{comment.createdBy.displayName}}</b></i> commented on {{comment.createdAt}}
-            </h3>
-          </div>
-          <div class="Box-body">
-            {{comment.body}}
-          </div>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-      <div class="Box Box--condensed issue-body-box comment-box-container">
-        <div class="Box-header d-flex flex-items-center">
-          <h3 class="Box-title overflow-hidden flex-auto">
-            Comment this issue as <b>{{issue.node.createdBy.displayName}}</b>
-          </h3>
-        </div>
-        <div class="Box-body clear" >
-          <textarea class="comment-text-area" matInput #comment></textarea>
-          <div class="comment-buttons">
-          <button *ngIf="issue.node.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()" >Close Issue</button>
-          <button *ngIf="!issue.node.isOpen" mat-raised-button color="warn" (click)="this.reopenIssue()" >Reopen Issue</button>
-          <button mat-raised-button color="primary" (click)="this.commentIssue(comment.value)">Comment</button>
-        </div>
-        </div>
-      </div>
-    </div>
-
       <div class="issue-side-bar">
         <div class="issue-side-bar-row">
           <mat-label><b>Labels</b></mat-label>
-          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'labels')">
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Labels)">
             <mat-icon>settings</mat-icon>
           </button>
-           <br>
+          <br>
           <div class="clear" style="width: 100%;">
-            <div style="margin: 1px;float: left; border-radius: 5px; padding-left: 5px; padding-right: 5px;"
-              *ngFor="let label of issue.node.labels.nodes"
-              [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
+            <div class="issue-label"
+                 *ngFor="let label of issue.node.labels.nodes"
+                 [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
               <span>{{label.name}} </span>
             </div>
           </div>
@@ -129,7 +136,7 @@
 
         <div class="issue-side-bar-row">
           <mat-label><b>Assignees</b></mat-label>
-          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'assignees')">
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Assignees)">
             <mat-icon>settings</mat-icon>
           </button>
           <br>
@@ -142,30 +149,32 @@
 
           <br>
 
-          <p class="linked-issue-p"  *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes">
+          <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes">
             <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
-            'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}},&nbsp;</a></p>
+            'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}},&nbsp;</a>
+          </p>
           <mat-divider></mat-divider>
         </div>
 
         <div class="issue-side-bar-row">
           <mat-label><b>Links to Issues</b></mat-label>
-          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'link')">
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Link)">
             <mat-icon>settings</mat-icon>
           </button>
-           <br>
-          <p class="linked-issue-p"  *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">
-          <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
-          'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}},&nbsp;</a></p>
+          <br>
+          <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">
+            <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
+          'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}
+              ,&nbsp;</a></p>
           <mat-divider></mat-divider>
         </div>
 
         <div class="issue-side-bar-row">
           <mat-label><b>Interfaces, Artefacts & NFR</b></mat-label>
-          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, 'nfr')">
+          <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Nfr)">
             <mat-icon>settings</mat-icon>
           </button>
-           <br>
+          <br>
           <mat-divider></mat-divider>
         </div>
 
@@ -175,9 +184,9 @@
     </section>
 
 
-  <div>
+    <div>
 
-</div>
+    </div>
 
     <!--
     <div class="TimelineItem" >

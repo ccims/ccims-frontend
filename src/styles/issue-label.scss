@@ -1,0 +1,11 @@
+.issue-label {
+  width: fit-content;
+  height: 1.8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  margin: 2px;
+  border-radius: 5px;
+  border: rgba(0, 0, 0, .35) solid 1px;
+}
