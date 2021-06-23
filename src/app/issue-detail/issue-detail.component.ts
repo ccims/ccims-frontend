@@ -144,7 +144,7 @@ export class IssueDetailComponent implements OnInit {
    * @param {string} id - The id of the current issue.
    * @returns {string} Id of the component the current issue belongs to.
    */
-  public GetComponentId(id: string): string {
+  public getComponentId(id: string): string {
     // by default: component id not found, return value is empty
     let found = false;
     let componentId = '';
