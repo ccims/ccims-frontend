@@ -13,9 +13,8 @@ import {SelectionType} from '@app/issue-settings-container/issue-settings-contai
   styleUrls: ['./issue-detail.component.scss']
 })
 /**
- * This component prevents detailed information about an issue
- * and provides functions to change properties of an issue like
- * labels, body, assignees, title
+ * This component provides detailed information about an issue.
+ * It also lets the user edit properties of an issue.
  */
 export class IssueDetailComponent implements OnInit {
   @ViewChild('issueContainer') issueContainer: ElementRef;
@@ -34,96 +33,169 @@ export class IssueDetailComponent implements OnInit {
   public projectComponents;
   public selectionType = SelectionType;
 
-  constructor(private labelStoreService: LabelStoreService, public activatedRoute: ActivatedRoute,
-              private issueStoreService: IssueStoreService, private projectStoreService: ProjectStoreService) {
+  constructor(
+    private labelStoreService: LabelStoreService, 
+    public activatedRoute: ActivatedRoute,
+    private issueStoreService: IssueStoreService, 
+    private projectStoreService: ProjectStoreService) {
   }
 
+  ngOnInit(): void {
+    // request current issue
+    this.requestIssue();
+
+    // request project info for current issue
+    this.requestProjectInformation();
+  }
+  
+  /**
+   * Requests the current issue.
+   */
+  private requestIssue(): void {
+    // current issue id
+    this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
+
+    // current issue
+    this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+  }
 
   /**
-   * requests the issue from the database
-   * request the project information for an issue
+   * Requests project information for the current issue.
+   * 
+   * TODO: Currently, the method retrieves only the component name 
+   * the current issue belongs to.
+   * It must also retrieve an interface name in case no component name is found.
+   * 
+   * TODO: Implement a method that handles the case in which
+   * no component name or interface name is found for the current issue.
    */
-  ngOnInit(): void {
-    this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
-    this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+  private requestProjectInformation(): void {
     this.issue$.subscribe(issue => {
+      // retrieves overall issue information?
       issue.node.labels.nodes.forEach(element => this.labelList.push(element.id));
 
-      // adding the component name to the issue information
-      this.projectStoreService.getFullProject(this.activatedRoute.snapshot.paramMap.get('id')).subscribe(project => {
-        this.projectComponents = project.node.components.edges;
-        let extended: ExtendedIssue;
-        issue.node.linksToIssues.nodes.forEach(linkedIssue => {
-          extended = linkedIssue;
-          extended.componentName = this.getComponentName(extended.id);
-        });
-        this.issue = issue;
+      // retrieves the component name (the current issue belongs to)
+      this.projectStoreService.getFullProject(this.activatedRoute.snapshot.paramMap.get('id'))
+        .subscribe(project => {
+          // project components
+          this.projectComponents = project.node.components.edges;
+
+          // extended type of issue that includes the component name
+          let extended: ExtendedIssue;
+
+          issue.node.linksToIssues.nodes.forEach(linkedIssue => {
+            extended = linkedIssue;
+
+            // name of the component (the current issue belongs to)
+            extended.componentName = this.getComponentName(extended.id);
+          });
+
+          // updates information for the current issue
+          this.issue = issue;
       });
+
+      // retrieves the interface name (the current issue belongs to)
+      //TODO: Implement a method that retrieves the interface name.
     });
   }
 
   /**
-   * Determines the name of the component which the issue belongs to
-   * @param id issueID
-   * @returns compName component name
+   * Returns the name of the component the current issue belongs to.
+   * 
+   * @param {string} id - The id of the current issue.
+   * @returns {string} Name of the component the current issue belongs to.
    */
   public getComponentName(id: string): string {
+    // by default: component name not found, return value is empty
     let found = false;
-    let compName = '';
-    this.projectComponents.forEach(comp => {
+    let componentName = '';
+    
+    // goes through all the components of the project
+    this.projectComponents.forEach(component => {
+      // case: component name found => continue iterating
       if (found) {
         return;
       }
-      comp.node.issues.nodes.forEach(element => {
-        if (element.id === id) {
-          compName = comp.node.name;
+
+      // goes through all the issues of each component
+      component.node.issues.nodes.forEach(issue => {
+        // case: component issue matches the current issue => update component name
+        if (issue.id === id) {
+          componentName = component.node.name;
           found = true;
           return;
         }
       });
     });
+
+    // case: component name found => return component name
     if (found) {
-      return compName;
-    } else {
+      return componentName;
+    }
+    // case: component name not found => return null 
+    else {
       return null;
     }
-
   }
 
-  public getComponentId(id: string): string {
+  /**
+   * Returns the id of the component the current issue belongs to.
+   * 
+   * @param {string} id - The id of the current issue.
+   * @returns {string} Id of the component the current issue belongs to.
+   */
+  public GetComponentId(id: string): string {
+    // by default: component id not found, return value is empty
     let found = false;
-    let compId = '';
-    this.projectComponents.forEach(comp => {
+    let componentId = '';
+    
+    // goes through all the components of the project
+    this.projectComponents.forEach(component => {
+      // case: component name found => continue iterating
       if (found) {
         return;
       }
-      comp.node.issues.nodes.forEach(element => {
-        if (element.id === id) {
-          compId = comp.node.id;
+
+      // goes through all the issues of each component
+      component.node.issues.nodes.forEach(issue => {
+        // case: component issue matches the current issue => update component id
+        if (issue.id === id) {
+          componentId = component.node.id;
           found = true;
           return;
         }
       });
     });
+
+    // case: component id found => return component id
     if (found) {
-
-
-      return compId;
-    } else {
+      return componentId;
+    }
+    // case: component id not found => return null 
+    else {
       return null;
     }
-
   }
 
+  /**
+   * Determines whether the background color is light or dark.
+   * 
+   * @param {any} color - Background color of a label.
+   * @returns {any} White if the background color is dark, black if the background color is light.
+   * 
+   * TODO: Better document the functionality of this method
+   * and its connection to LabelStoreService.lightOrDark().
+   */
   public lightOrDark(color) {
     return this.labelStoreService.lightOrDark(color);
   }
 
   /**
-   * Adds a comment to an issue
-   * @param commentBody comment string the user typed in
+   * Adds a comment to the current issue.
+   * 
+   * @param {string} commentBody - Comment to be added.
    */
-  public commentIssue(commentBody: string) {
+  public commentIssue(commentBody: string): void {
     const mutationInput: AddIssueCommentInput = {
       issue: this.issueId,
       body: commentBody
@@ -135,16 +207,17 @@ export class IssueDetailComponent implements OnInit {
         this.issue = issue;
       });
     });
-
   }
 
   /**
-   * opens the settings window (IssueSettingsContainer) for a specific attribute depending on the mouse position
-   * sets the state of the issue to edit-mode
-   * @param e mouse event
-   * @param attributeToEdit editable property represented as string
+   * Opens the settings window (IssueSettingsContainer) 
+   * for a specific attribute depending on the mouse position.
+   * Sets the state of the issue to edit-mode.
+   * 
+   * @param {any} e - Mouse event.
+   * @param {SelectionType} attributeToEdit - Editable property represented as string.
    */
-  public openSettings(e: any, attributeToEdit: SelectionType) {
+  public openSettings(e: any, attributeToEdit: SelectionType): void {
     const rect = document.getElementById('sidenav');
     const rect2 = document.getElementById('toolbar');
     let y;
@@ -162,11 +235,13 @@ export class IssueDetailComponent implements OnInit {
   }
 
   /**
-   * This method is triggered when the user clicks outside of a open IssueSettingsContainer
-   * @param $event closing event comming from the IssueSettingsContainer. The event contains the information
-   *               whether the user changed some properties
+   * This method is triggered when the user clicks 
+   * outside of an open IssueSettingsContainer.
+   * 
+   * @param {any} $event Closing event comming from the IssueSettingsContainer. 
+   * The event contains information whether the user changed some properties.
    */
-  public receiveMessage($event) {
+  public receiveMessage($event: any): void {
     if ($event === true && this.editIssue) {
       this.editIssue = false;
       this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
@@ -179,21 +254,21 @@ export class IssueDetailComponent implements OnInit {
     if ($event === false && this.editIssue) {
       this.editIssue = false;
     }
-
-  }
-
-  // resetst the issue edit state
-  public closeSettings() {
-    if (this.editIssue) {
-      this.editIssue = false;
-    }
-
   }
 
   /**
-   * closes the issue and refreshes the issue information
+   * Resets the edit state of the current issue.
    */
-  public closeIssue() {
+  public closeSettings(): void {
+    if (this.editIssue) {
+      this.editIssue = false;
+    }
+  }
+
+  /**
+   * Closes the current issue and refreshes its information.
+   */
+  public closeIssue(): void {
     const closeIssueInput: CloseIssueInput = {
       issue: this.issueId
     };
@@ -206,9 +281,9 @@ export class IssueDetailComponent implements OnInit {
   }
 
   /**
-   * reopens a closed issue
+   * Reopens the closed current issue.
    */
-  public reopenIssue() {
+  public reopenIssue(): void {
     const reopenIssueInput: ReopenIssueInput = {
       issue: this.issueId
     };
@@ -221,17 +296,22 @@ export class IssueDetailComponent implements OnInit {
     });
   }
 
-  public EditIssueBody(body: string) {
-    // TODO mutation for changing the issue body
-
+  /**
+   * Edits the description of the current issue.
+   * 
+   * @param {string} body - The new description of the current issue.
+   */
+  public EditIssueBody(body: string): void {
+    // TODO: Implement mutation for changing the issue body.
   }
 
   /**
-   * Changes the issue title
-   * @param save is a boolean if true saves the new title to the database. If it is false edit title is no longer active
+   * Edits the title of the current issue.
+   * 
+   * @param {boolean} save - Boolean that indicates whether to save the new title.
    */
-  public editIssueTitle(save?: boolean) {
-
+  public editIssueTitle(save?: boolean): void {
+    // case: the new title is to be saved
     if (save) {
       const nameIssueInput: RenameIssueTitleInput = {
         issue: this.issueId,
@@ -245,15 +325,15 @@ export class IssueDetailComponent implements OnInit {
         });
       });
     }
+
+    // case: the new title is not to be saved
     this.editTitle = !this.editTitle;
-
-
   }
-
 
 }
 
-// Defines an extended type of an issue including the component name
+// defines an extended type of an issue that includes the component name
+// TODO: include the interface name (if needed)
 export interface ExtendedIssue extends Pick<Issue, 'id' | 'title'> {
   componentName?: string;
 }
