@@ -32,7 +32,7 @@ export class IssueDetailComponent implements OnInit {
   public editBody = false;
   public projectComponents;
   public selectionType = SelectionType;
-
+  
   constructor(
     private labelStoreService: LabelStoreService, 
     public activatedRoute: ActivatedRoute,
@@ -301,7 +301,7 @@ export class IssueDetailComponent implements OnInit {
    * 
    * @param {string} body - The new description of the current issue.
    */
-  public EditIssueBody(body: string): void {
+  public editIssueBody(body: string): void {
     // TODO: Implement mutation for changing the issue body.
   }
 
