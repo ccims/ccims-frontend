@@ -87,6 +87,11 @@ export class IssueSettingsContainerComponent implements OnInit {
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  resize($event) {
+    this.messageEvent.emit(false);
+  }
+
   /**
    * Saves the changes
    * Which method has to be called is defined by the attribute "selection". This information is injected to the classs
