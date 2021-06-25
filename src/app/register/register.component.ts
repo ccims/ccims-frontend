@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import { Observable, Observer } from 'rxjs';
-import { environment } from '@environments/environment';
-import { CheckUsernameGQL, RegisterUserGQL, RegisterUserInput } from 'src/generated/public-graphql';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {Apollo} from 'apollo-angular';
+import {Observable, Observer} from 'rxjs';
+import {environment} from '@environments/environment';
+import {CheckUsernameGQL, RegisterUserGQL, RegisterUserInput} from 'src/generated/public-graphql';
+import {Router} from '@angular/router';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 /**
  * Allows a user to register for an account with Gropius
@@ -21,7 +22,8 @@ export class RegisterComponent {
   publicClientName = environment.publicClientName;
 
   constructor(private fb: FormBuilder, private apollo: Apollo, private router: Router,
-              private registerUserMutation: RegisterUserGQL, private userAvailablyQuery: CheckUsernameGQL) {
+              private registerUserMutation: RegisterUserGQL, private userAvailablyQuery: CheckUsernameGQL,
+              private notify: UserNotifyService) {
     this.registerUserMutation.client = this.publicClientName;
     this.userAvailablyQuery.client = this.publicClientName;
     this.validateForm = this.fb.group({
@@ -49,10 +51,10 @@ export class RegisterComponent {
       email: value.email
     };
 
-    this.registerUserMutation.mutate({ input }).subscribe(({ data }) => {
+    this.registerUserMutation.mutate({input}).subscribe(({data}) => {
       this.router.navigate(['login']);
     }, (error) => {
-      console.log('there was an error sending the query', error);
+      this.notify.notifyError('Failed to register the user!', error);
     });
   }
 
@@ -86,18 +88,18 @@ export class RegisterComponent {
    */
   userNameAsyncValidator = (control: FormControl) =>
     new Observable((observer: Observer<ValidationErrors | null>) => {
-      this.userAvailablyQuery.fetch({ username: control.value }).subscribe(({ data }) => {
+      this.userAvailablyQuery.fetch({username: control.value}).subscribe(({data}) => {
         if (!data.checkUsername) {
           // you have to return `{error: true}` to mark it as an error event
-          observer.next({ error: true, duplicated: true });
+          observer.next({error: true, duplicated: true});
         } else {
           observer.next(null);
         }
         observer.complete();
       }, (error) => {
-        console.log('there was an error sending the query', error);
+        this.notify.notifyError('Failed to verify user name!', error);
       });
-    })
+    });
 
   /**
    * Checks that password in "Confirm Password" field matches password in other
@@ -106,12 +108,10 @@ export class RegisterComponent {
    */
   confirmValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
-      return { error: true, required: true };
+      return {error: true, required: true};
     } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
+      return {confirm: true, error: true};
     }
     return {};
-  }
-
-
+  };
 }

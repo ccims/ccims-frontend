@@ -16,6 +16,7 @@ import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {IssueStoreService} from '@app/data/issue/issue-store.service';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 export enum SelectionType {
   Labels = 'labels',
@@ -50,9 +51,12 @@ export class IssueSettingsContainerComponent implements OnInit {
   loading: boolean;
   saveFailed = false;
 
-  constructor(private labelStoreService: LabelStoreService, private activatedRoute: ActivatedRoute,
+  constructor(private labelStoreService: LabelStoreService,
+              private activatedRoute: ActivatedRoute,
               private componentStoreService: ComponentStoreService,
-              private projectStoreService: ProjectStoreService, private issueStoreService: IssueStoreService) {
+              private projectStoreService: ProjectStoreService,
+              private issueStoreService: IssueStoreService,
+              private notify: UserNotifyService) {
   }
 
   ngOnInit(): void {
@@ -164,12 +168,12 @@ export class IssueSettingsContainerComponent implements OnInit {
         issue: this.currentIssue.node.id,
         label: element2
       };
+
       this.labelStoreService.removeLabel(input).subscribe(data => {
         console.log(data);
         this.messageEvent.emit(true);
-
       }, (error) => {
-        console.log('there was an error sending the query', error);
+        this.notify.notifyError('Failed to remove labels!', error);
       });
 
     });
@@ -185,12 +189,11 @@ export class IssueSettingsContainerComponent implements OnInit {
         issue: this.currentIssue.node.id,
         label: element1
       };
+
       this.labelStoreService.addLabel(input).subscribe(data => {
         console.log(data);
         this.messageEvent.emit(true);
-
       });
-
     });
   }
 
@@ -205,12 +208,13 @@ export class IssueSettingsContainerComponent implements OnInit {
         if (issue.id === selIssue) {
           found = true;
         }
-
       });
+
       if (!found) {
         add.push(selIssue);
       }
     });
+
     return add;
   }
 
@@ -238,12 +242,11 @@ export class IssueSettingsContainerComponent implements OnInit {
         issue: this.currentIssue.node.id,
         issueToLink: element1
       };
+
       this.issueStoreService.link(input).subscribe(data => {
         console.log(data);
         this.messageEvent.emit(true);
-
       });
-
     });
   }
 
@@ -256,14 +259,13 @@ export class IssueSettingsContainerComponent implements OnInit {
         issue: this.currentIssue.node.id,
         issueToUnlink
       };
+
       this.issueStoreService.unlink(input).subscribe(data => {
         console.log(data);
         this.messageEvent.emit(true);
-
       }, (error) => {
-        console.log('there was an error sending the query', error);
+        this.notify.notifyError('Failed to unlink issues!', error);
       });
-
     });
   }
 
@@ -285,6 +287,7 @@ export class IssueSettingsContainerComponent implements OnInit {
           this.linkableProjectIssues.push(tempIssue);
         });
       });
+
       // All Interfaces
       const projectInterfaces = project.node.interfaces.nodes;
       projectInterfaces.forEach(projectInterface => {
@@ -299,6 +302,7 @@ export class IssueSettingsContainerComponent implements OnInit {
           this.linkableProjectIssues.push(tempIssue);
         });
       });
+
       this.currentIssue.node.linksToIssues.nodes.forEach(linkedIssue => {
         this.selectedIssues.push(linkedIssue.id);
       });
@@ -314,10 +318,10 @@ export class IssueSettingsContainerComponent implements OnInit {
     const interfaceList = [];
     this.currentIssue.node.locations.nodes.forEach(location => {
       if (location.id !== componentLocation.node.id) {
-
         interfaceList.push(location.id);
       }
     });
+
     return interfaceList;
   }
 
@@ -327,13 +331,12 @@ export class IssueSettingsContainerComponent implements OnInit {
   getLocationsToRemove() {
     const remove: Array<string> = [];
     this.filterInterfacesFromLocations(this.issueComponent).forEach(locationId => {
-
       if (!this.selectedInterfaces.includes(locationId)) {
         remove.push(locationId);
       }
     });
-    return remove;
 
+    return remove;
   }
 
   /**
@@ -347,12 +350,13 @@ export class IssueSettingsContainerComponent implements OnInit {
         if (location.id === selInterface) {
           found = true;
         }
-
       });
+
       if (!found) {
         add.push(selInterface);
       }
     });
+
     return add;
   }
 
@@ -366,14 +370,13 @@ export class IssueSettingsContainerComponent implements OnInit {
         issue: this.currentIssue.node.id,
         location
       };
+
       this.issueStoreService.removeFromLocation(input).subscribe(data => {
         console.log(data);
         this.messageEvent.emit(true);
-
       }, (error) => {
-        console.log('there was an error sending the query', error);
+        this.notify.notifyError('Failed to remove issues!', error);
       });
-
     });
   }
 
@@ -387,14 +390,13 @@ export class IssueSettingsContainerComponent implements OnInit {
         issue: this.currentIssue.node.id,
         location
       };
+
       this.issueStoreService.addToLocation(input).subscribe(data => {
         console.log(data);
         this.messageEvent.emit(true);
-
       }, (error) => {
-        console.log('there was an error sending the query', error);
+        this.notify.notifyError('Failed to add issues!', error);
       });
-
     });
   }
 }

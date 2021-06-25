@@ -8,6 +8,7 @@ import {
   LinkIssueInput
 } from '../../../generated/graphql';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 @Component({
   selector: 'app-create-issue-dialog',
@@ -26,8 +27,12 @@ export class CreateIssueDialogComponent implements OnInit {
   public saveFailed: boolean;
   validateForm!: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>, private issueStoreService: IssueStoreService,
-              private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: DialogData, private projectStore: ProjectStoreService) {
+  constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>,
+              private issueStoreService: IssueStoreService,
+              private fb: FormBuilder,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              private projectStore: ProjectStoreService,
+              private notify: UserNotifyService) {
     this.loading = false;
     this.prepareLinkableIssues();
   }
@@ -45,7 +50,6 @@ export class CreateIssueDialogComponent implements OnInit {
   selectedAssignees = [];
   assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
 
-
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       title: [null, [Validators.required]],
@@ -60,7 +64,6 @@ export class CreateIssueDialogComponent implements OnInit {
 
   afterAlertClose(): void {
     this.saveFailed = false;
-
   }
 
   onOkClick(title: string, body: string, category: IssueCategory, selectedLabels: string[]): void {
@@ -92,8 +95,9 @@ export class CreateIssueDialogComponent implements OnInit {
           issueToLink: issueId
         };
 
-        this.issueStoreService.link(issueInput).subscribe(({data}) => {}, (error) => {
-          console.log('there was an error sending the query', error);
+        this.issueStoreService.link(issueInput).subscribe(({data}) => {
+        }, (error) => {
+          this.notify.notifyError('Failed to link issue!', error);
           this.loading = false;
           this.saveFailed = true;
         });
@@ -101,11 +105,10 @@ export class CreateIssueDialogComponent implements OnInit {
       this.loading = false;
       this.dialogRef.close(data);
     }, (error) => {
-      console.log('there was an error sending the query', error);
+      this.notify.notifyError('Failed to create issue!', error);
       this.loading = false;
       this.saveFailed = true;
     });
-
   }
 
   /**
