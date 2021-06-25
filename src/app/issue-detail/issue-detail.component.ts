@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {IssueStoreService} from '@app/data/issue/issue-store.service';
-import {AddIssueCommentInput, CloseIssueInput, GetIssueQuery, Issue, RenameIssueTitleInput, ReopenIssueInput} from 'src/generated/graphql';
+import {AddIssueCommentInput, CloseIssueInput, DeleteIssueCommentInput, GetIssueQuery, Issue, RenameIssueTitleInput, ReopenIssueInput} from 'src/generated/graphql';
 import {Observable} from 'rxjs';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
@@ -207,6 +207,37 @@ export class IssueDetailComponent implements OnInit {
         this.issue = issue;
       });
     });
+  }
+
+  /**
+   * Deletes an issue comment by using its id.
+   * 
+   * @param  {string} id - Id of the issue comment to be deleted.
+   */
+  public deleteComment(id: string) {
+    // TODO: Implement
+
+    this.issue.node.issueComments.nodes.forEach(comment => {
+      if (comment.id == id) {
+        // comment to be deleted found
+        alert('Comment to be deleted has id: ' + id);
+      }
+    });
+
+    // input for the deleteIssueComment mutation
+    const mutationInput: DeleteIssueCommentInput = {
+      issueComment: id
+    };
+
+    // call deleteIssueComment mutation
+    // TODO: implement deleteComment()
+    // this.issueStoreService.deleteComment(mutationInput).subscribe(data => {
+    //   console.log(data);
+    //   this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+    //   this.issue$.subscribe(issue => {
+    //     this.issue = issue;
+    //   });
+    // });
   }
 
   /**

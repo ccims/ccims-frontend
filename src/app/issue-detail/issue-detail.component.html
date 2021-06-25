@@ -92,6 +92,7 @@
         </div>
       </div>
 
+      <!--Part 4: Linked issues-->
       <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 "
             class="TimelineItem  issue-comment">
         <div class="Box Box--condensed">
@@ -124,20 +125,30 @@
         </div>
       </div>
 
-
+      <!--Part 5: Issue Comments-->
       <div *ngFor="let comment of issue.node.issueComments.nodes" class="TimelineItem issue-comment">
         <div class="Box Box--condensed">
+          <!--Comment header-->
           <div class="Box-header d-flex flex-items-center">
+            <!--Text-->
             <h3 class="Box-title overflow-hidden flex-auto">
               <i><b>{{comment.createdBy.displayName}}</b></i> commented on {{comment.createdAt}}
             </h3>
+
+            <!--Delete TODO: Add Edit button instead-->
+            <button mat-flat-button (click)="deleteComment(comment.id)">Delete</button>
           </div>
+
+          <!--Comment body-->
           <div class="Box-body">
             {{comment.body}}
           </div>
         </div>
       </div>
+
       <mat-divider></mat-divider>
+
+      <!--Part 6: Comment creation box-->
       <div class="Box Box--condensed issue-body-box comment-box-container">
         <div class="Box-header d-flex flex-items-center">
           <h3 class="Box-title overflow-hidden flex-auto">
@@ -158,6 +169,7 @@
       </div>
     </div>
 
+    <!--Side bar-->
     <div class="issue-side-bar">
       <div class="issue-side-bar-row">
         <mat-label><b>Labels</b></mat-label>
