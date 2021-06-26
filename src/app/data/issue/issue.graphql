@@ -103,6 +103,21 @@ mutation CommentIssue($input: AddIssueCommentInput!) {
 }
 }
 
+mutation DeleteIssueComment($input: DeleteIssueCommentInput!) {
+  deleteIssueComment(input: $input){
+       comment {
+      id
+      body
+      createdBy{
+        id
+        username
+        displayName
+      }
+      createdAt
+    }
+}
+}
+
 mutation CloseIssue($input: CloseIssueInput!) {
   closeIssue(input: $input){
       clientMutationID

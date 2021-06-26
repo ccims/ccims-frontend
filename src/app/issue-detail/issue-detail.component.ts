@@ -41,6 +41,7 @@ export class IssueDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     // request current issue
     this.requestIssue();
 
@@ -52,6 +53,7 @@ export class IssueDetailComponent implements OnInit {
    * Requests the current issue.
    */
   private requestIssue(): void {
+
     // current issue id
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
 
@@ -71,12 +73,14 @@ export class IssueDetailComponent implements OnInit {
    */
   private requestProjectInformation(): void {
     this.issue$.subscribe(issue => {
+
       // retrieves overall issue information?
       issue.node.labels.nodes.forEach(element => this.labelList.push(element.id));
 
       // retrieves the component name (the current issue belongs to)
       this.projectStoreService.getFullProject(this.activatedRoute.snapshot.paramMap.get('id'))
         .subscribe(project => {
+
           // project components
           this.projectComponents = project.node.components.edges;
 
@@ -84,6 +88,7 @@ export class IssueDetailComponent implements OnInit {
           let extended: ExtendedIssue;
 
           issue.node.linksToIssues.nodes.forEach(linkedIssue => {
+
             extended = linkedIssue;
 
             // name of the component (the current issue belongs to)
@@ -106,12 +111,14 @@ export class IssueDetailComponent implements OnInit {
    * @returns {string} Name of the component the current issue belongs to.
    */
   public getComponentName(id: string): string {
+
     // by default: component name not found, return value is empty
     let found = false;
     let componentName = '';
     
     // goes through all the components of the project
     this.projectComponents.forEach(component => {
+
       // case: component name found => continue iterating
       if (found) {
         return;
@@ -119,6 +126,7 @@ export class IssueDetailComponent implements OnInit {
 
       // goes through all the issues of each component
       component.node.issues.nodes.forEach(issue => {
+
         // case: component issue matches the current issue => update component name
         if (issue.id === id) {
           componentName = component.node.name;
@@ -145,12 +153,14 @@ export class IssueDetailComponent implements OnInit {
    * @returns {string} Id of the component the current issue belongs to.
    */
   public getComponentId(id: string): string {
+
     // by default: component id not found, return value is empty
     let found = false;
     let componentId = '';
     
     // goes through all the components of the project
     this.projectComponents.forEach(component => {
+
       // case: component name found => continue iterating
       if (found) {
         return;
@@ -158,6 +168,7 @@ export class IssueDetailComponent implements OnInit {
 
       // goes through all the issues of each component
       component.node.issues.nodes.forEach(issue => {
+        
         // case: component issue matches the current issue => update component id
         if (issue.id === id) {
           componentId = component.node.id;
@@ -196,10 +207,14 @@ export class IssueDetailComponent implements OnInit {
    * @param {string} commentBody - Comment to be added.
    */
   public commentIssue(commentBody: string): void {
+
+    // input for the addIssueComment mutation
     const mutationInput: AddIssueCommentInput = {
       issue: this.issueId,
       body: commentBody
     };
+
+    // calls the addIssueComment mutation
     this.issueStoreService.commentIssue(mutationInput).subscribe(data => {
       console.log(data);
       this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
@@ -213,10 +228,13 @@ export class IssueDetailComponent implements OnInit {
    * Deletes an issue comment by using its id.
    * 
    * @param  {string} id - Id of the issue comment to be deleted.
+   * 
+   * TODO: Implement the deleteIssueComment mutation that's to be used 
+   * to delete an issue comment (in ccims-frontend and in ccims-backed-gql).
    */
   public deleteComment(id: string) {
-    // TODO: Implement
 
+    // tests whether comment id is delivered correctly
     this.issue.node.issueComments.nodes.forEach(comment => {
       if (comment.id == id) {
         // comment to be deleted found
@@ -229,15 +247,14 @@ export class IssueDetailComponent implements OnInit {
       issueComment: id
     };
 
-    // call deleteIssueComment mutation
-    // TODO: implement deleteComment()
-    // this.issueStoreService.deleteComment(mutationInput).subscribe(data => {
-    //   console.log(data);
-    //   this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
-    //   this.issue$.subscribe(issue => {
-    //     this.issue = issue;
-    //   });
-    // });
+    // calls the deleteIssueComment mutation
+    this.issueStoreService.deleteComment(mutationInput).subscribe(data => {
+      console.log(data);
+      this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+      this.issue$.subscribe(issue => {
+        this.issue = issue;
+      });
+    });
   }
 
   /**
@@ -300,9 +317,13 @@ export class IssueDetailComponent implements OnInit {
    * Closes the current issue and refreshes its information.
    */
   public closeIssue(): void {
+    
+    // input for the closeIssue mutation
     const closeIssueInput: CloseIssueInput = {
       issue: this.issueId
     };
+
+    // calsl the closeIssue mutation
     this.issueStoreService.close(closeIssueInput).subscribe(data => {
       this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
       this.issue$.subscribe(issue => {
@@ -315,9 +336,13 @@ export class IssueDetailComponent implements OnInit {
    * Reopens the closed current issue.
    */
   public reopenIssue(): void {
+
+    // input for the reopenIssueInput mutation
     const reopenIssueInput: ReopenIssueInput = {
       issue: this.issueId
     };
+
+    // calls the reopenIssueInput mutation
     this.issueStoreService.reopen(reopenIssueInput).subscribe(data => {
       console.log(data);
       this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
@@ -331,9 +356,12 @@ export class IssueDetailComponent implements OnInit {
    * Edits the description of the current issue.
    * 
    * @param {string} body - The new description of the current issue.
+   * 
+   * TODO: Implement the edittIssueBody mutation that's to be used 
+   * to edit the issue's description (in ccims-frontend and in ccims-backed-gql).
    */
   public editIssueBody(body: string): void {
-    // TODO: Implement mutation for changing the issue body.
+    // ...
   }
 
   /**
@@ -342,12 +370,17 @@ export class IssueDetailComponent implements OnInit {
    * @param {boolean} save - Boolean that indicates whether to save the new title.
    */
   public editIssueTitle(save?: boolean): void {
+
     // case: the new title is to be saved
     if (save) {
+      
+      // input for the renameIssueTitle mutation
       const nameIssueInput: RenameIssueTitleInput = {
         issue: this.issueId,
         newTitle: this.inputTitle.nativeElement.value
       };
+
+      // calls the renameIssueTitle mutation
       this.issueStoreService.rename(nameIssueInput).subscribe(data => {
         console.log(data);
         this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
