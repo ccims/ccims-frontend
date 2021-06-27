@@ -75,6 +75,11 @@ export class IssueSettingsContainerComponent implements OnInit {
    */
   @HostListener('document:mousedown', ['$event'])
   clickout($event) {
+    console.log(this.labelSelector.isDialogOpen());
+    if (this.labelSelector.isDialogOpen()) {
+      return;
+    }
+
     let close = true;
     $event.path.forEach(element => {
       if (element.classList && element.classList.contains('settings')) {
@@ -89,6 +94,7 @@ export class IssueSettingsContainerComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   resize($event) {
+    this.labelSelector.closeDialog();
     this.messageEvent.emit(false);
   }
 

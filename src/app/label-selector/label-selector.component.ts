@@ -1,10 +1,11 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LabelStoreService} from '@app/data/label/label-store.service';
-import {CreateLabelInput, GetComponentQuery} from '../../generated/graphql';
-import {FormControl, Validators} from '@angular/forms';
+import {GetComponentQuery, Label} from '../../generated/graphql';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CreateLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-label-dialog.component';
+import {MatDialog, MatDialogRef, MatDialogState} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-label-selector-component',
@@ -18,19 +19,14 @@ export class LabelSelectorComponent implements OnInit {
   @ViewChild('labelDescription') descriptionInput: ElementRef;
   @ViewChild('labelSelector') labelSelector: NgSelectComponent;
 
-  public loading = false;
-
   component: GetComponentQuery;
   componentLabels = [];
-  validationLabelName = new FormControl('', [Validators.required, Validators.maxLength(20)]);
-  color = '#d31111'; // The default color for the label color picker
-  newLabelOpen = false;
-  saveFailed = false;
+  dialogRef: MatDialogRef<CreateLabelDialogComponent, Label>;
 
   constructor(public labelStore: LabelStoreService,
               private componentStoreService: ComponentStoreService,
-              private changeDetector: ChangeDetectorRef,
-              private notify: UserNotifyService) {
+              private notify: UserNotifyService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -40,43 +36,28 @@ export class LabelSelectorComponent implements OnInit {
     }, error => this.notify.notifyError('Failed to get component labels!', error));
   }
 
-  async onNewLabelClick(): Promise<void> {
-    this.color = '#' + Math.trunc(Math.random() * 0xFFFFFF).toString(16);
-    this.newLabelOpen = true;
-    this.changeDetector.detectChanges(); // Make sure div is visible before focusing
-    this.nameInput.nativeElement.focus();
+  closeDialog(): void {
+    if (this.isDialogOpen()) {
+      this.dialogRef.close(null);
+    }
   }
 
-  onLabelCancelClick(): void {
-    this.reset();
+  isDialogOpen(): boolean {
+    if (this.dialogRef) {
+      return this.dialogRef.getState() === MatDialogState.OPEN;
+    } else {
+      return false;
+    }
   }
 
-  reset(): void {
-    this.newLabelOpen = false;
-    this.validationLabelName.setValue('');
-    this.descriptionInput.nativeElement.value = '';
-  }
-
-  onConfirmCreateLabelClick(name: string, description?: string) {
-    const input: CreateLabelInput = {
-      name,
-      color: this.color,
-      components: [this.component.node.id],
-      description
-    };
-
-    this.loading = true;
-    this.labelStore.createLabel(input).subscribe(({data}) => {
-      this.loading = false;
-      // save returned label to labels
-      const label = {name: data.createLabel.label.name, id: data.createLabel.label.id, color: this.color};
-      this.componentLabels.push(label);
-      this.reset();
-      this.labelSelector.select({value: label.id});
-    }, (error) => {
-      this.notify.notifyError('Failed to create label!', error);
-      this.loading = false;
-      this.saveFailed = true;
-    });
+  onNewLabelClick(): void {
+    this.dialogRef = this.dialog.open(CreateLabelDialogComponent, {data: {componentId: this.componentId}});
+    this.dialogRef.afterClosed().subscribe((created: Label) => {
+        if (created) {
+          this.componentLabels.push(created);
+          this.labelSelector.select({value: created.id});
+        }
+      }
+    );
   }
 }
