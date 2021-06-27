@@ -1,4 +1,4 @@
-<div class="label-wrapper">
+<div class="label-wrapper" [hidden]="this.loading">
   <ng-select #labelSelector class="ng-select-label" [dropdownPosition]="'bottom'" [multiple]="true"
              [(ngModel)]="this.selectedLabels"
              [ngModelOptions]="{standalone: true}" placeholder="Select Labels">
@@ -11,8 +11,13 @@
       </span>
     </ng-option>
   </ng-select>
-
   <button mat-raised-button color="accent" class="new-label-button" (click)="this.onNewLabelClick()">
     New Label
   </button>
+</div>
+<div [hidden]="!this.loading" class="label-wrapper">
+  <mat-spinner diameter="40"></mat-spinner>Loading labels...
+</div>
+<div [hidden]="!this.error" class="label-wrapper">
+  <mat-error>Failed to load labels!</mat-error>
 </div>

@@ -22,6 +22,8 @@ export class LabelSelectorComponent implements OnInit {
   component: GetComponentQuery;
   componentLabels = [];
   dialogRef: MatDialogRef<CreateLabelDialogComponent, Label>;
+  loading = true;
+  error = false;
 
   constructor(public labelStore: LabelStoreService,
               private componentStoreService: ComponentStoreService,
@@ -33,7 +35,12 @@ export class LabelSelectorComponent implements OnInit {
     this.componentStoreService.getFullComponent(this.componentId).subscribe(component => {
       this.component = component;
       this.componentLabels = component.node.labels.nodes;
-    }, error => this.notify.notifyError('Failed to get component labels!', error));
+      this.loading = false;
+    }, error => {
+      this.notify.notifyError('Failed to get component labels!', error);
+      this.loading = false;
+      this.error = true;
+    });
   }
 
   closeDialog(): void {
