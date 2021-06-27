@@ -4,6 +4,7 @@ import {CreateLabelInput, GetComponentQuery} from '../../generated/graphql';
 import {FormControl, Validators} from '@angular/forms';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {NgSelectComponent} from '@ng-select/ng-select';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 @Component({
   selector: 'app-label-selector-component',
@@ -26,17 +27,18 @@ export class LabelSelectorComponent implements OnInit {
   newLabelOpen = false;
   saveFailed = false;
 
-  constructor(public labelStore: LabelStoreService, private componentStoreService: ComponentStoreService,
-              private changeDetector: ChangeDetectorRef) {
+  constructor(public labelStore: LabelStoreService,
+              private componentStoreService: ComponentStoreService,
+              private changeDetector: ChangeDetectorRef,
+              private notify: UserNotifyService) {
   }
 
   ngOnInit(): void {
     this.componentStoreService.getFullComponent(this.componentId).subscribe(component => {
       this.component = component;
       this.componentLabels = component.node.labels.nodes;
-    }, () => {
-      // TODO: Proper error handling
-      alert('Failed to get component details');
+    }, (error) => {
+      this.notify.notifyError('Failed to get component labels!', error);
     });
   }
 
@@ -73,8 +75,7 @@ export class LabelSelectorComponent implements OnInit {
       this.reset();
       this.labelSelector.select({value: label.id});
     }, (error) => {
-      // TODO: Proper error handling
-      console.log('there was an error sending the query', error);
+      this.notify.notifyError('Failed to create label!', error);
       this.loading = false;
       this.saveFailed = true;
     });

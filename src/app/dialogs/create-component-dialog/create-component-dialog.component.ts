@@ -1,32 +1,36 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
-import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
-import { CreateComponentGQL, CreateComponentInput, ImsType } from 'src/generated/graphql';
-import { AuthenticationService } from '@app/auth/authentication.service';
-import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.service';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
+import {IssueGraphComponent} from '@app/graphs/issue-graph/issue-graph.component';
+import {Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {CreateComponentGQL, CreateComponentInput, ImsType} from 'src/generated/graphql';
+import {AuthenticationService} from '@app/auth/authentication.service';
+import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+
 @Component({
   selector: 'app-create-component-dialog',
   templateUrl: './create-component-dialog.component.html',
   styleUrls: ['./create-component-dialog.component.scss']
 })
 export class CreateComponentDialogComponent implements OnInit {
-
-  @Input()
-  projectId: string;
-
+  @Input() projectId: string;
   public loading: boolean;
   public saveFailed: boolean;
   validateForm!: FormGroup;
   private zeroPosition: Point = {x: 0, y: 0};
   private graph: IssueGraphComponent;
-  constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>,  @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
+
+  constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
               private fb: FormBuilder,
-              private gs: IssueGraphStateService, private createComponentMutation: CreateComponentGQL,
-              private authService: AuthenticationService) {
-                this.loading = false;
-              }
+              private gs: IssueGraphStateService,
+              private createComponentMutation: CreateComponentGQL,
+              private authService: AuthenticationService,
+              private notify: UserNotifyService) {
+    this.loading = false;
+  }
+
   // define validations
   validationName = new FormControl('', [Validators.required]);
   validationUrl = new FormControl('', [Validators.required]);
@@ -36,18 +40,19 @@ export class CreateComponentDialogComponent implements OnInit {
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
-      url:  [null, [Validators.required]],
-      ims:  [null, [Validators.required]],
-      provider:  [null, [Validators.required]]
+      url: [null, [Validators.required]],
+      ims: [null, [Validators.required]],
+      provider: [null, [Validators.required]]
     });
-
   }
+
   // close dialog on cancel
   onNoClick(): void {
     this.dialogRef.close();
   }
+
   // callback method for component creation
-  onOkClick(name: string, url: string, description: string, ims: string, provider: string): void{
+  onOkClick(name: string, url: string, description: string, ims: string, provider: string): void {
     // check for valid form
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();
@@ -69,19 +74,20 @@ export class CreateComponentDialogComponent implements OnInit {
       this.loading = false;
       // error handling
     }, (error) => {
-      console.log('there was an error sending the query', error);
+      this.notify.notifyError('Failed to create component!', error);
       this.loading = false;
       this.saveFailed = true;
     });
-    if (!this.saveFailed){
+    if (!this.saveFailed) {
       this.dialogRef.close();
     }
   }
+
   afterAlertClose(): void {
     this.saveFailed = false;
   }
-  checkImsType(returnFromSelect: string): ImsType {
 
+  checkImsType(returnFromSelect: string): ImsType {
     if (returnFromSelect.localeCompare(ImsType.Github) === 0) {
       return ImsType.Github;
     }
@@ -97,10 +103,9 @@ export class CreateComponentDialogComponent implements OnInit {
     if (returnFromSelect.localeCompare(ImsType.Ccims) === 0) {
       return ImsType.Ccims;
     }
-
-
   }
 }
+
 export interface ComponentInformation {
   name: string;
   url: string;
