@@ -26,7 +26,7 @@ export class CreateLabelDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.color = '#' + Math.trunc(Math.random() * 0xFFFFFF).toString(16);
+    this.randomizeColor();
   }
 
   onLabelCancelClick(): void {
@@ -50,5 +50,9 @@ export class CreateLabelDialogComponent implements OnInit {
       this.loading = false;
       this.dialog.close(null);
     });
+  }
+
+  randomizeColor(): void {
+    this.color = '#' + Math.trunc(Math.random() * 0xFFFFFF).toString(16);
   }
 }
