@@ -37,12 +37,11 @@ export class LabelSelectorComponent implements OnInit {
     this.componentStoreService.getFullComponent(this.componentId).subscribe(component => {
       this.component = component;
       this.componentLabels = component.node.labels.nodes;
-    }, (error) => {
-      this.notify.notifyError('Failed to get component labels!', error);
-    });
+    }, error => this.notify.notifyError('Failed to get component labels!', error));
   }
 
   async onNewLabelClick(): Promise<void> {
+    this.color = '#' + Math.trunc(Math.random() * 0xFFFFFF).toString(16);
     this.newLabelOpen = true;
     this.changeDetector.detectChanges(); // Make sure div is visible before focusing
     this.nameInput.nativeElement.focus();
