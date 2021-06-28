@@ -9,6 +9,7 @@ import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { AddProjectMemberDialogComponent } from '@app/dialogs/add-project-member-dialog/add-project-member-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RemoveProjectMemberComponentComponent } from '@app/dialogs/remove-project-member-component/remove-project-member-component.component';
 /**
  * This component is an example for the manage members view
  * All users are displayed in a paginated list. The list can be filtered.
@@ -28,17 +29,23 @@ export class ProjectMembersComponent implements OnInit {
   public project: GetFullProjectQuery;
   validationFilter = new FormControl('');
 
-  columnsToDisplay = ['Name', 'Role', 'email', 'Actions'];
+  columnsToDisplay = ['Name', 'Role', 'email'];
   dataSource: MatTableDataSource<any>;
-  mockUsers: Array<userMock> = [{id: '1', displayName: 'User1', email: 'User1.de'}, {id: '2', displayName: 'User2', email: 'User2.de'},
-                                {id: '3', displayName: 'User3', email: 'User3.de'}];
-  addableUsers: Array<userMock> = [{id: '4', displayName: 'AddedUser1', email: 'AddedUser1.de'},
-                                  {id: '5', displayName: 'AddedUser2', email: 'AddedUser2.de'},
-                                  {id: '6', displayName: 'AddedUser3', email: 'AddedUser3.de'},
-                                  {id: '7', displayName: 'AddedUser4', email: 'AddedUser4.de'},
-                                  {id: '8', displayName: 'AddedUser5', email: 'AddedUser5.de'},
-                                  {id: '9', displayName: 'AddedUser6', email: 'AddedUser6.de'},
-                                   ];
+
+  //default users 
+  //hardcoded
+  mockUsers: Array<userMock> = [{ id: '1', displayName: 'User1', email: 'User1.de' }, { id: '2', displayName: 'User2', email: 'User2.de' },
+  { id: '3', displayName: 'User3', email: 'User3.de' }];
+
+  // list of users who can be addrd to the project 
+  //hardcoded
+  addableUsers: Array<userMock> = [{ id: '4', displayName: 'AddedUser1', email: 'AddedUser1.de' },
+  { id: '5', displayName: 'AddedUser2', email: 'AddedUser2.de' },
+  { id: '6', displayName: 'AddedUser3', email: 'AddedUser3.de' },
+  { id: '7', displayName: 'AddedUser4', email: 'AddedUser4.de' },
+  { id: '8', displayName: 'AddedUser5', email: 'AddedUser5.de' },
+  { id: '9', displayName: 'AddedUser6', email: 'AddedUser6.de' },
+  ];
   constructor(private dialog: MatDialog, private projectStore: ProjectStoreService, private route: ActivatedRoute) {
   }
 
@@ -51,46 +58,53 @@ export class ProjectMembersComponent implements OnInit {
       project.node.users.nodes.forEach(u => this.mockUsers.push(u));
       this.dataSource = new MatTableDataSource<any>(this.mockUsers);
       // MOCK DATA for table
-      this.sort.sort(({ id: 'Name', start: 'asc'}) as MatSortable);
+      this.sort.sort(({ id: 'Name', start: 'asc' }) as MatSortable);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
   }
 
   // This method adds a user to the project members list without processing a task in the back-end
-  onAddClick(){
+  onAddClick() {
     const addMemberDialogRef = this.dialog.open(AddProjectMemberDialogComponent,
-      { data: { addableMembers: this.addableUsers, projectId: this.projectId} });
+      { data: { addableMembers: this.addableUsers, projectId: this.projectId } });
     addMemberDialogRef.afterClosed().subscribe(data => {
-        if (data){
-          for (const user of data.usersToAdd){
-            this.addableUsers.forEach(addableUser => {
-              if (addableUser.id == user){
-                this.mockUsers.push(addableUser);
-              }
-            });
-          }
-          this.dataSource = new MatTableDataSource<any>(this.mockUsers);
-          console.log(this.mockUsers);
-
+      if (data) {
+        for (const user of data.usersToAdd) {
+          this.addableUsers.forEach(addableUser => {
+            if (addableUser.id == user) {
+              this.mockUsers.push(addableUser);
+            }
+          });
         }
-        });
+        this.dataSource = new MatTableDataSource<any>(this.mockUsers);
+        console.log(this.mockUsers);
+
+      }
+    });
 
   }
+
+  onDeleteClick() {
+     const addMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent);
+    //TODO delete user
+  }
+
   // on every key pressed in the filter-field this method is triggered and reduces the shown users in the list (table)
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  clickedOnRow(rowData){
+  clickedOnRow(rowData) {
     // there schould be the code when a user is selected
     // TODO jump to the user information page
   }
 
 }
+
 // defines the structure of a user
-export interface userMock{
+export interface userMock {
   id: string;
   displayName?: string;
   username?: string;
