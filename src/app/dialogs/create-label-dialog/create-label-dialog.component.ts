@@ -53,6 +53,10 @@ export class CreateLabelDialogComponent implements OnInit {
   }
 
   randomizeColor(): void {
-    this.color = '#' + Math.trunc(Math.random() * 0xFFFFFF).toString(16);
+    const r = ('00' + (Math.random() * 0xFF).toString(16)).slice(-2);
+    const g = ('00' + (Math.random() * 0xFF).toString(16)).slice(-2);
+    const b = ('00' + (Math.random() * 0xFF).toString(16)).slice(-2);
+
+    this.color = '#' + r + g + b;
   }
 }
