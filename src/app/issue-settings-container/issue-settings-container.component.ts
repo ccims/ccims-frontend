@@ -75,7 +75,7 @@ export class IssueSettingsContainerComponent implements OnInit {
    */
   @HostListener('document:mousedown', ['$event'])
   clickout($event) {
-    if (this.labelSelector.isDialogOpen()) {
+    if (this.selection === SelectionType.Labels && this.labelSelector.isDialogOpen()) {
       return;
     }
 
