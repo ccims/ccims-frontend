@@ -46,12 +46,11 @@
       <a class="author text-bold link-gray">&nbsp;{{issue.node.createdBy.username}} </a>&nbsp;opened this issue
 
       <!--Number of days the issue has been open-->
-      <!--TODO: display the number of days the issue has been open (no hardcoded values!)-->
-      <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>
+      <time [dateTime]="issue.node.createdAt"
+            [title]="this.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
 
       <!--Number of comments regarding the issue-->
-      <!--TODO: display the number of comments regarding the issue (no hardcoded values)!-->
-      · 1 comment
+      &nbsp;&sdot;&nbsp;{{this.pluralize(issue.node.issueComments.nodes.length + 1, 'comment')}}
     </div>
     <mat-divider style="margin-top:20px;"></mat-divider>
   </section>
@@ -65,7 +64,9 @@
         <div class="Box-header d-flex flex-items-center">
           <!--Text-->
           <h3 class="Box-title overflow-hidden flex-auto">
-            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented some time ago
+            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented
+            <time [dateTime]="issue.node.createdAt"
+                  [title]="this.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
           </h3>
 
           <!--Edit-->
@@ -132,7 +133,9 @@
           <div class="Box-header d-flex flex-items-center">
             <!--Text-->
             <h3 class="Box-title overflow-hidden flex-auto">
-              <i><b>{{comment.createdBy.displayName}}</b></i> commented on {{comment.createdAt}}
+              <i><b>{{comment.createdBy.displayName}}</b></i> commented on
+              <time [dateTime]="comment.createdAt"
+                    [title]="this.formatTime(comment.createdAt)">{{this.formatTimeDifference(comment.createdAt)}}</time>
             </h3>
 
             <!--Delete TODO: Add Edit button instead-->

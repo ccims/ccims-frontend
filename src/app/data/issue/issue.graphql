@@ -31,6 +31,7 @@ query GetIssue($id: ID!) {
       body
       bodyRendered
       isOpen
+      createdAt
       locations{
         nodes{
           id
