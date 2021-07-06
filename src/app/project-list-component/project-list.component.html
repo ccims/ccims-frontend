@@ -2,15 +2,17 @@
   <h1 class="centered-headline">My Projects</h1>
 </div>
 <div class="list-header">
-  <h2 class="list-h2"> Project-List</h2>
+  <h2 class="list-h2">Project-List</h2>
   <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()"
-    class="floating-button">Create Project</button>
-    <!--button mat-raised-button color="primary" (click)="this.createDemoProject()"
-    class="floating-button">Create Demo Project</button-->
+          class="floating-button">Create Project
+  </button>
+<!--  <button mat-raised-button color="primary" (click)="this.createDemoProject()"-->
+<!--          class="floating-button">Create Demo Project-->
+<!--  </button>-->
 </div>
 <div class="listWrapper">
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input type="text" [(ngModel)]="projectName" nz-input placeholder="input search text" />
+    <input type="text" [(ngModel)]="projectName" nz-input placeholder="input search text"/>
   </nz-input-group>
   <ng-template #suffixIconButton>
     <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch><i nz-icon nzType="search"></i></button>
@@ -19,20 +21,10 @@
   <mat-nav-list class="mat-nav-list-padding-removed">
     <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
       <span matLine>{{ project.name }}</span>
-
-      <div class="links-actions">
-        <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)">
-          <mat-icon class="graph-icon">account_tree</mat-icon>
-        </a>
-
-        <button nz-popconfirm nzPopconfirmTitle='Are you sure delete this project: {{this.project.name}}?'
-          (nzOnConfirm)="remove($event, project)" (nzOnCancel)="cancelConfirm()" s nzPopconfirmPlacement="topLeft"
-          nzOkText="Delete" nzOkType="danger" mat-icon-button (click)="this.nothing($event)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+      <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)">
+        <mat-icon class="graph-icon">account_tree</mat-icon>
+      </a>
       <mat-divider></mat-divider>
     </a>
   </mat-nav-list>
 </div>
-
