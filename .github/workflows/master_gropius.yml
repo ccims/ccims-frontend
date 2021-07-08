@@ -6,7 +6,7 @@ name: Azure App Service - gropius(Production), Build and deploy NodeJS app
 on:
   push:
     branches:
-      - master
+      - ci
 
 jobs:
   build-and-deploy:
