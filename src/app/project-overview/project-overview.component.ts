@@ -47,10 +47,16 @@ export class ProjectOverviewComponent implements OnInit {
 
   deleteProject(): void {
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
-      {data: {type: 'Project', name: this.project.node.name, id: this.projectId}});
-    confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
-      if (deleteData) {
+      {
+        data: {
+          title: 'Really delete project \"' + this.project.node.name + '\"?',
+          messages: ['Are you sure you want to delete the project \"' + this.project.node.name + '\"?', 'This action cannot be undone!']
+        }
+      });
+    confirmDeleteDialogRef.afterClosed().subscribe(del => {
+      if (del) {
         this.projectStore.delete(this.projectId).subscribe(() => {
+            this.notify.notifyInfo('Successfully deleted project \"' + this.project.node.name + '\"');
             this.router.navigate(['/']);
           },
           error => this.notify.notifyError('Failed to delete project!', error));

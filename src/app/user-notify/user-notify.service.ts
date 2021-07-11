@@ -10,6 +10,13 @@ export class UserNotifyService {
     enableHtml: true
   };
 
+  private infoConfig: Partial<IndividualConfig> = {
+    timeOut: 4000,
+    closeButton: true,
+    positionClass: 'toast-top-center',
+    enableHtml: true
+  };
+
   constructor(private toastr: ToastrService) {
   }
 
@@ -19,6 +26,10 @@ export class UserNotifyService {
     }
 
     this.toastr.error(message, 'Error!', this.errorConfig);
+  }
+
+  notifyInfo(message: string) {
+    this.toastr.info(message, 'Info', this.infoConfig);
   }
 }
 

@@ -1,18 +1,20 @@
-.centered-div {
-  display: flex;
-  align-items: center;
-  float: right;
-  height:60px;
-  margin-left: 1px;
-}
 .mat-dialog-content {
-  margin-top: 20px;
   border-top: lightgray;
   border-top-style: solid;
   border-bottom: lightgray;
   border-bottom-style: solid;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 1.1em;
 }
-.svg-container {
-  float: left;
-  margin-left: -15px;
+
+.delete-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.message-container {
+  display: inline-block;
+  vertical-align: middle;
 }
