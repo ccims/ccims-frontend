@@ -54,6 +54,7 @@ export class IssueDetailComponent implements OnInit {
 
     // request project info for current issue
     this.requestProjectInformation();
+
   }
 
   pluralize(n: number, singular: string): string {
@@ -65,25 +66,36 @@ export class IssueDetailComponent implements OnInit {
   }
 
   formatTimeDifference(dateString: string): string {
-    const pastTime = new Date(Date.parse(dateString));
-    const now = new Date();
+    const pastTimeMs = Date.parse(dateString);
+    const nowMs = Date.now();
+    const now = new Date(nowMs);
+    const pastTime = new Date(pastTimeMs);
 
-    if (now.getFullYear() !== pastTime.getFullYear()) {
-      return this.pluralize(now.getFullYear() - pastTime.getFullYear(), 'year') + ' ago';
-    } else if (now.getMonth() !== pastTime.getMonth()) {
-      return this.pluralize(now.getMonth() - pastTime.getMonth(), 'month') + ' ago';
-    } else if (now.getDate() !== pastTime.getDate()) {
-      return this.pluralize(now.getDate() - pastTime.getDate(), 'day') + ' ago';
-    } else if (now.getHours() !== pastTime.getHours()) {
-      return this.pluralize(now.getHours() - pastTime.getHours(), 'hour') + ' ago';
-    } else if (now.getMinutes() !== pastTime.getMinutes()) {
-      return this.pluralize(now.getMinutes() - pastTime.getMinutes(), 'minute') + ' ago';
+    const months = (now.getMonth() - pastTime.getMonth()) + (now.getFullYear() - pastTime.getFullYear()) * 12;
+    const minutes = Math.round((nowMs - pastTimeMs) / 1000 / 60);
+    const hours = Math.round(minutes / 60);
+    const days = Math.round(hours / 24);
+
+    if (months >= 12) {
+      return this.pluralize(months / 12, 'year') + ' ago';
+    } else if (days >= 31) {
+      return this.pluralize(months, 'month') + ' ago';
+    } else if (hours >= 24) {
+      return this.pluralize(days, 'day') + ' ago';
+    } else if (minutes >= 60) {
+      return this.pluralize(hours, 'hour') + ' ago';
+    } else if (minutes >= 1) {
+      return this.pluralize(minutes, 'minute') + ' ago';
     }
+
     return 'just now';
   }
 
   formatIssueOpenTime(): string {
-    return this.formatTimeDifference(this.issue.node.createdAt);
+    if (this.issue) {
+      return this.formatTimeDifference(this.issue.node.createdAt);
+    }
+    return '?';
   }
 
   /**
