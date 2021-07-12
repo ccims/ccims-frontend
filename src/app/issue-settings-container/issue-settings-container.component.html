@@ -6,7 +6,9 @@
                                   [selectedLabels]="this.selectedLabels">
     </app-label-selector-component>
   </div>
+
   <div class="settings" *ngIf="this.selection=='assignees'">Assingees aufgerufen</div>
+
   <div class="settings" *ngIf="this.selection=='link'">
     <p class="settings" name="settings"><b>Link issues</b></p>
     <mat-divider name="settings"></mat-divider>
@@ -25,8 +27,8 @@
         {{item.component || 'Unnamed group'}}
       </ng-template>
     </ng-select>
-
   </div>
+
   <div class="settings" *ngIf="this.selection=='nfr'">
     <p class="settings" name="settings"><b>Edit Interfaces, Artefacts & NFR</b></p>
     <mat-divider name="settings"></mat-divider>

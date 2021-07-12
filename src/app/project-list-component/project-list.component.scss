@@ -65,16 +65,6 @@ margin-bottom: 5px;
   margin-bottom: 0px;
 }
 
-.links-actions {
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-}
-
-:host ::ng-deep .mat-list-text {
-  flex: 1;
-}
-
 .graph-icon {
   color: $icon-gray;
 }

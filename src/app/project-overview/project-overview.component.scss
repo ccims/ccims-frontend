@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .project-title-row {
   width: 100%;
   margin-bottom: 12px;
@@ -12,6 +14,12 @@
   height: auto;
   margin-right: 5px;
 }
+
+.delete-button-container {
+  float: right;
+  height: 100%;
+}
+
 .content {
   float: left;
 }
@@ -32,14 +40,13 @@
 }
 
 img {
-  width:100%;
+  width: 100%;
 }
 
 .pagefill {
   width: 100%;
-  height: 300px;
 }
-.margin-left-top {
-  margin-top: 3px;
-  margin-left: 3px;
+
+.project-overview-container {
+  margin: 4px;
 }

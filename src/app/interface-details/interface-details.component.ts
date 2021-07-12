@@ -1,15 +1,10 @@
-import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
-import {ComponentStoreService} from '@app/data/component/component-store.service';
-import {CreateIssueDialogComponent} from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CreateLabelInput, GetComponentQuery, UpdateComponentInput, UpdateComponentInterfaceInput} from '../../generated/graphql';
-import {IssueListComponent} from '../issue-list/issue-list.component';
-import {LabelStoreService} from '@app/data/label/label-store.service';
+import {GetComponentQuery, UpdateComponentInterfaceInput} from '../../generated/graphql';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
@@ -30,7 +25,6 @@ export class InterfaceDetailsComponent implements OnInit {
   public loading: boolean;
   public saveFailed: boolean;
   public editMode: boolean;
-  public currentInterface: any;
   validationName = new FormControl('', [Validators.required]);
   validationDescription = new FormControl('');
   public validationType = new FormControl('');
@@ -73,11 +67,19 @@ export class InterfaceDetailsComponent implements OnInit {
     // show Confirm Dialog
     // Onconfirm
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
-      {data: {type: 'interface', name: this.interface.node.name, id: this.interfaceId}});
+      {
+        data: {
+          title: 'Really delete interface \"' + this.interface.node.name + '\"?',
+          messages: ['Are you sure you want to delete the project \"' + this.interface.node.name + '\"?', 'This action cannot be undone!']
+        }
+      });
     confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
       // dialog returns if the deleting was successfull
       if (deleteData) {
-        this.router.navigate(['projects', this.route.snapshot.paramMap.get('id'), 'graph']);
+        this.interfaceStoreService.delete(this.interfaceId).subscribe(() => {
+          this.notify.notifyInfo('Successfully deleted interface \"' + this.interface.node.name + '\"');
+          this.router.navigate(['projects', this.route.snapshot.paramMap.get('id'), 'graph']);
+        }, error => this.notify.notifyError('Failed to delete interface!', error));
       }
     });
   }

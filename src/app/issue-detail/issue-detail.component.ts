@@ -1,7 +1,15 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {IssueStoreService} from '@app/data/issue/issue-store.service';
-import {AddIssueCommentInput, CloseIssueInput, DeleteIssueCommentInput, GetIssueQuery, Issue, RenameIssueTitleInput, ReopenIssueInput} from 'src/generated/graphql';
+import {
+  AddIssueCommentInput,
+  CloseIssueInput,
+  DeleteIssueCommentInput,
+  GetIssueQuery,
+  Issue,
+  RenameIssueTitleInput,
+  ReopenIssueInput
+} from 'src/generated/graphql';
 import {Observable} from 'rxjs';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
@@ -32,11 +40,11 @@ export class IssueDetailComponent implements OnInit {
   public editBody = false;
   public projectComponents;
   public selectionType = SelectionType;
-  
+
   constructor(
-    private labelStoreService: LabelStoreService, 
+    private labelStoreService: LabelStoreService,
     public activatedRoute: ActivatedRoute,
-    private issueStoreService: IssueStoreService, 
+    private issueStoreService: IssueStoreService,
     private projectStoreService: ProjectStoreService) {
   }
 
@@ -47,8 +55,50 @@ export class IssueDetailComponent implements OnInit {
 
     // request project info for current issue
     this.requestProjectInformation();
+
   }
-  
+
+  pluralize(n: number, singular: string): string {
+    return (n === 1 ? n + ' ' + singular : n + ' ' + singular + 's');
+  }
+
+  formatTime(time: string): string {
+    return new Date(Date.parse(time)).toString();
+  }
+
+  formatTimeDifference(dateString: string): string {
+    const pastTimeMs = Date.parse(dateString);
+    const nowMs = Date.now();
+    const now = new Date(nowMs);
+    const pastTime = new Date(pastTimeMs);
+
+    const months = (now.getMonth() - pastTime.getMonth()) + (now.getFullYear() - pastTime.getFullYear()) * 12;
+    const minutes = Math.round((nowMs - pastTimeMs) / 1000 / 60);
+    const hours = Math.round(minutes / 60);
+    const days = Math.round(hours / 24);
+
+    if (months >= 12) {
+      return this.pluralize(months / 12, 'year') + ' ago';
+    } else if (days >= 31) {
+      return this.pluralize(months, 'month') + ' ago';
+    } else if (hours >= 24) {
+      return this.pluralize(days, 'day') + ' ago';
+    } else if (minutes >= 60) {
+      return this.pluralize(hours, 'hour') + ' ago';
+    } else if (minutes >= 1) {
+      return this.pluralize(minutes, 'minute') + ' ago';
+    }
+
+    return 'just now';
+  }
+
+  formatIssueOpenTime(): string {
+    if (this.issue) {
+      return this.formatTimeDifference(this.issue.node.createdAt);
+    }
+    return '?';
+  }
+
   /**
    * Requests the current issue.
    */
@@ -63,11 +113,11 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Requests project information for the current issue.
-   * 
-   * TODO: Currently, the method retrieves only the component name 
+   *
+   * TODO: Currently, the method retrieves only the component name
    * the current issue belongs to.
    * It must also retrieve an interface name in case no component name is found.
-   * 
+   *
    * TODO: Implement a method that handles the case in which
    * no component name or interface name is found for the current issue.
    */
@@ -97,7 +147,7 @@ export class IssueDetailComponent implements OnInit {
 
           // updates information for the current issue
           this.issue = issue;
-      });
+        });
 
       // retrieves the interface name (the current issue belongs to)
       //TODO: Implement a method that retrieves the interface name.
@@ -106,7 +156,7 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Returns the name of the component the current issue belongs to.
-   * 
+   *
    * @param {string} id - The id of the current issue.
    * @returns {string} Name of the component the current issue belongs to.
    */
@@ -115,7 +165,7 @@ export class IssueDetailComponent implements OnInit {
     // by default: component name not found, return value is empty
     let found = false;
     let componentName = '';
-    
+
     // goes through all the components of the project
     this.projectComponents.forEach(component => {
 
@@ -140,7 +190,7 @@ export class IssueDetailComponent implements OnInit {
     if (found) {
       return componentName;
     }
-    // case: component name not found => return null 
+    // case: component name not found => return null
     else {
       return null;
     }
@@ -148,7 +198,7 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Returns the id of the component the current issue belongs to.
-   * 
+   *
    * @param {string} id - The id of the current issue.
    * @returns {string} Id of the component the current issue belongs to.
    */
@@ -157,7 +207,7 @@ export class IssueDetailComponent implements OnInit {
     // by default: component id not found, return value is empty
     let found = false;
     let componentId = '';
-    
+
     // goes through all the components of the project
     this.projectComponents.forEach(component => {
 
@@ -182,7 +232,7 @@ export class IssueDetailComponent implements OnInit {
     if (found) {
       return componentId;
     }
-    // case: component id not found => return null 
+    // case: component id not found => return null
     else {
       return null;
     }
@@ -190,10 +240,10 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Determines whether the background color is light or dark.
-   * 
+   *
    * @param {any} color - Background color of a label.
    * @returns {any} White if the background color is dark, black if the background color is light.
-   * 
+   *
    * TODO: Better document the functionality of this method
    * and its connection to LabelStoreService.lightOrDark().
    */
@@ -203,7 +253,7 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Adds a comment to the current issue.
-   * 
+   *
    * @param {string} commentBody - Comment to be added.
    */
   public commentIssue(commentBody: string): void {
@@ -226,7 +276,7 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Deletes an issue comment by using its id.
-   * 
+   *
    * @param  {string} id - Id of the issue comment to be deleted.
    * 
    * TODO: Implement the deleteIssueComment mutation that's to be used 
@@ -258,10 +308,10 @@ export class IssueDetailComponent implements OnInit {
   }
 
   /**
-   * Opens the settings window (IssueSettingsContainer) 
+   * Opens the settings window (IssueSettingsContainer)
    * for a specific attribute depending on the mouse position.
    * Sets the state of the issue to edit-mode.
-   * 
+   *
    * @param {any} e - Mouse event.
    * @param {SelectionType} attributeToEdit - Editable property represented as string.
    */
@@ -283,10 +333,10 @@ export class IssueDetailComponent implements OnInit {
   }
 
   /**
-   * This method is triggered when the user clicks 
+   * This method is triggered when the user clicks
    * outside of an open IssueSettingsContainer.
-   * 
-   * @param {any} $event Closing event comming from the IssueSettingsContainer. 
+   *
+   * @param {any} $event Closing event comming from the IssueSettingsContainer.
    * The event contains information whether the user changed some properties.
    */
   public receiveMessage($event: any): void {
@@ -354,7 +404,7 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Edits the description of the current issue.
-   * 
+   *
    * @param {string} body - The new description of the current issue.
    * 
    * TODO: Implement the edittIssueBody mutation that's to be used 
@@ -366,7 +416,7 @@ export class IssueDetailComponent implements OnInit {
 
   /**
    * Edits the title of the current issue.
-   * 
+   *
    * @param {boolean} save - Boolean that indicates whether to save the new title.
    */
   public editIssueTitle(save?: boolean): void {

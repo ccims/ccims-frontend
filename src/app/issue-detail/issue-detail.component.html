@@ -2,12 +2,12 @@
 <div class="container-xl" #issueContainer *ngIf="(issue$ | async) as issue">
 
   <!--Part 1: Editing options-->
-  <app-issue-settings-container *ngIf="this.editIssue" 
-    [selectedLabels]="this.labelList" 
-    [currentIssue]="issue"
-    (messageEvent)="this.receiveMessage($event)" 
-    [selection]="this.attributeToEdit"
-    [ngStyle]="{'left':this.mouseX,'top':this.mouseY,'z-index':'100'}">
+  <app-issue-settings-container *ngIf="this.editIssue"
+                                [selectedLabels]="this.labelList"
+                                [currentIssue]="issue"
+                                (messageEvent)="this.receiveMessage($event)"
+                                [selection]="this.attributeToEdit"
+                                [ngStyle]="{'left':this.mouseX,'top':this.mouseY,'z-index':'100'}">
   </app-issue-settings-container>
 
   <!--Part 2: Header-->
@@ -48,15 +48,14 @@
       <span *ngIf="!issue.node.isOpen" class="customLabelClosed ">&nbsp;Closed&nbsp;</span>
 
       <!--User who has opened the issue-->
-      <a class="author text-bold link-gray">&nbsp;{{issue.node.createdBy.username}} </a>&nbsp;opened this issue
+      <a class="author text-bold link-gray">&nbsp;{{issue.node.createdBy.username}} </a>&nbsp;opened this issue&nbsp;
 
       <!--Number of days the issue has been open-->
-      <!--TODO: display the number of days the issue has been open (no hardcoded values!)-->
-      <time datetime="2020-08-06T08:54:30Z" title="Aug 6, 2020, 10:54 AM GMT+2">17 days ago</time>
+      <time [dateTime]="issue.node.createdAt"
+            [title]="this.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
 
       <!--Number of comments regarding the issue-->
-      <!--TODO: display the number of comments regarding the issue (no hardcoded values)!-->
-      · 1 comment
+      &nbsp;&sdot;&nbsp;{{this.pluralize(issue.node.issueComments.nodes.length + 1, 'comment')}}
     </div>
     <mat-divider style="margin-top:20px;"></mat-divider>
   </section>
@@ -73,7 +72,9 @@
 
           <!--Text-->
           <h3 class="Box-title overflow-hidden flex-auto">
-            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented some time ago
+            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented&nbsp;
+            <time [dateTime]="issue.node.createdAt"
+                  [title]="this.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
           </h3>
 
           <!--Edit-->
@@ -104,7 +105,7 @@
 
       <!--Part 4: Linked issues-->
       <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 "
-            class="TimelineItem  issue-comment">
+           class="TimelineItem  issue-comment">
         <div class="Box Box--condensed">
           <div class="Box-header d-flex flex-items-center">
             <h3 class="Box-title overflow-hidden flex-auto">
@@ -144,7 +145,9 @@
 
             <!--Text-->
             <h3 class="Box-title overflow-hidden flex-auto">
-              <i><b>{{comment.createdBy.displayName}}</b></i> commented on {{comment.createdAt}}
+              <i><b>{{comment.createdBy.displayName}}</b></i> commented on
+              <time [dateTime]="comment.createdAt"
+                    [title]="this.formatTime(comment.createdAt)">{{this.formatTimeDifference(comment.createdAt)}}</time>
             </h3>
 
             <!--Delete-->
@@ -172,10 +175,12 @@
           <div class="comment-buttons">
             <button *ngIf="issue.node.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue
             </button>
-            <button *ngIf="!issue.node.isOpen" mat-raised-button color="warn" (click)="this.reopenIssue()">Reopen
+            <button *ngIf="!issue.node.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen
               Issue
             </button>
-            <button mat-raised-button color="primary" (click)="this.commentIssue(comment.value)">Comment</button>
+            <button mat-raised-button color="primary" style="margin-left: 6px"
+                    (click)="this.commentIssue(comment.value)">Comment
+            </button>
           </div>
         </div>
       </div>
@@ -191,8 +196,8 @@
         <br>
         <div class="clear" style="width: 100%;">
           <div class="issue-label"
-                *ngFor="let label of issue.node.labels.nodes"
-                [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
+               *ngFor="let label of issue.node.labels.nodes"
+               [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
             <span>{{label.name}} </span>
           </div>
         </div>
@@ -212,12 +217,11 @@
 
       <div class="issue-side-bar-row">
         <mat-label><b>Linked By Issues</b></mat-label>
-
         <br>
-
-        <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes">
+        <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes; let last = last;">
           <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
-          'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}},&nbsp;</a>
+          'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}</a>
+          <ng-container *ngIf="!last">,&nbsp;</ng-container>
         </p>
         <mat-divider></mat-divider>
       </div>
@@ -228,10 +232,11 @@
           <mat-icon>settings</mat-icon>
         </button>
         <br>
-        <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linksToIssues.nodes">
+        <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linksToIssues.nodes; let last = last;">
           <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
-        'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}
-            ,&nbsp;</a></p>
+        'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}</a>
+          <ng-container *ngIf="!last">,&nbsp;</ng-container>
+        </p>
         <mat-divider></mat-divider>
       </div>
 
@@ -243,57 +248,6 @@
         <br>
         <mat-divider></mat-divider>
       </div>
-
-
     </div>
-
   </section>
-
-  <!--<div class="TimelineItem" >
-    <div class="TimelineItem-badge">
-
-      <svg class="octicon octicon-flame" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
-        <path fill-rule="evenodd"
-          d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z">
-        </path>
-      </svg>
-    </div>
-
-    <div class="TimelineItem-body">
-      <a href="#" class="text-bold link-gray-dark mr-1">Monalisa</a> created one
-      <a href="#" class="text-bold link-gray-dark">hot potato</a>
-      <a href="#" class="link-gray">Just now</a>
-    </div>
-  </div>
-  <div class="TimelineItem issue-comment">
-    <div class="Box Box--condensed">
-      <div class="Box-header d-flex flex-items-center">
-        <h3 class="Box-title overflow-hidden flex-auto">
-          Box title
-        </h3>
-        <button class="btn btn-primary btn-sm">
-          Button
-        </button>
-      </div>
-      <div class="Box-body">
-        Box body
-      </div>
-    </div>
-  </div>
-  <div class="TimelineItem issue-comment">
-    <div class="Box Box--condensed">
-      <div class="Box-header d-flex flex-items-center">
-        <h3 class="Box-title overflow-hidden flex-auto">
-          Box title
-        </h3>
-        <button class="btn btn-primary btn-sm">
-          Button
-        </button>
-      </div>
-      <div class="Box-body">
-        Box body
-      </div>
-    </div>
-  </div>-->
-
 </div>

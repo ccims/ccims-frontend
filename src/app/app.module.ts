@@ -51,6 +51,8 @@ import {IssueSettingsContainerComponent} from './issue-settings-container/issue-
 import {ProjectIssueListComponent} from './project-issue-list/project-issue-list.component';
 import {ProjectMembersComponent} from './project-members/project-members.component';
 import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
+import {CreateLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-label-dialog.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -82,36 +84,38 @@ const toasterConfig: Partial<GlobalConfig> = {
     CreateIssueDialogComponent,
     IssueSettingsContainerComponent,
     LabelSelectorComponent,
+    CreateLabelDialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot(toasterConfig),
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatInputModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatTabsModule,
-    MatSlideToggleModule,
-    GraphQLModule,
-    HttpClientModule,
-    GraphsModule,
-    MatDialogModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgZorroAntdModule,
-    NgSelectModule,
-    CommonModule,
-    NgOptionHighlightModule,
-    ColorPickerModule,
-    MatExpansionModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(toasterConfig),
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        MatInputModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatTabsModule,
+        MatSlideToggleModule,
+        GraphQLModule,
+        HttpClientModule,
+        GraphsModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgZorroAntdModule,
+        NgSelectModule,
+        CommonModule,
+        NgOptionHighlightModule,
+        ColorPickerModule,
+        MatExpansionModule,
+        MatProgressSpinnerModule
+    ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],

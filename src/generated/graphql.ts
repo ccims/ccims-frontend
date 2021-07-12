@@ -3750,7 +3750,7 @@ export type GetIssueQueryVariables = Exact<{
 
 
 export type GetIssueQuery = { node?: Maybe<(
-    Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered' | 'isOpen'>
+    Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered' | 'isOpen' | 'createdAt'>
     & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>>> }>, linkedByIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'id' | 'body'>>>> }>, createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, issueComments?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<IssueComment, 'id' | 'body' | 'bodyRendered' | 'createdAt'>
         & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
@@ -4422,6 +4422,7 @@ export const GetIssueDocument = gql`
       body
       bodyRendered
       isOpen
+      createdAt
       locations {
         nodes {
           id

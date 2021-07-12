@@ -1,25 +1,31 @@
-<div *ngIf="(project$ | async)?.node as project">
-<div class="margin-left-top p-3" >
-  <div class="project-title-row d-flex">
-    <div class="box">
-      <img src="https://github.com/github.png" />
-    </div>
-    <div >
-      <div class="content">
-        <p class="title">{{project.name}}</p>
-        <div class="sub-title">Owner: {{project.owner.displayName}}</div>
-        <div class="sub-sub-title">Project ID: {{project.id}}</div>
+<div *ngIf="loaded">
+  <div class="project-overview-container">
+    <div class="project-title-row">
+      <div class="box">
+        <img src="https://github.com/github.png"/>
       </div>
 
+      <div>
+        <div class="content">
+          <p class="title">{{this.project.node.name}}</p>
+          <div class="sub-title">Owner: {{this.project.node.owner.displayName}}</div>
+          <div class="sub-sub-title">Project ID: {{this.project.node.id}}</div>
+        </div>
+      </div>
+
+      <div class="delete-button-container">
+        <button mat-raised-button (click)="this.deleteProject()" color="warn" title="Delete this project" style="height: 100%">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </div>
 
-  </div>
-  <div class="d-flex text-sm-left">
-    <mat-form-field floatLabel="always" class="pagefill" appearance="outline">
-      <mat-label>Description</mat-label>
-      <textarea [readonly]="true" [ngModel]="project.description" class="pagefill"
-        name="description" matInput></textarea>
-    </mat-form-field>
+    <div class="d-flex text-sm-left">
+      <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
+        <mat-label>Description</mat-label>
+        <textarea #description matInput readonly style="overflow: hidden"></textarea>
+      </mat-form-field>
+    </div>
   </div>
 </div>
-</div>
+<!--TODO: Loading message-->
