@@ -34,8 +34,7 @@ export class ProjectMembersComponent implements OnInit {
 
   //default users 
   //hardcoded
-  mockUsers: Array<userMock> = [{ id: '1', displayName: 'User1', email: 'User1.de' }, { id: '2', displayName: 'User2', email: 'User2.de' },
-  { id: '3', displayName: 'User3', email: 'User3.de' }];
+  mockUsers: Array<userMock> = [{ id: '1', displayName: 'User1', email: 'User1.de' }, { id: '2', displayName: 'User2', email: 'User2.de' }];
 
   // list of users who can be addrd to the project 
   //hardcoded
@@ -86,7 +85,8 @@ export class ProjectMembersComponent implements OnInit {
   }
 
   onDeleteClick() {
-     const addMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent);
+    const addMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent,
+      { data: { addableMembers: this.addableUsers, projectId: this.projectId } });
     //TODO delete user
   }
 

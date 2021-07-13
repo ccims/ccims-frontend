@@ -1,3 +1,4 @@
+import { Inject } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,12 +10,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class RemoveProjectMemberComponentComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<RemoveProjectMemberComponentComponent>) { }
+  constructor(public dialogRef: MatDialogRef<RemoveProjectMemberComponentComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
   }
 
-  onNoClick(){
+  onNoClick() {
+
+    this.dialogRef.close();
+
+  }
+
+  onDeleteClick() {
 
     this.dialogRef.close();
 

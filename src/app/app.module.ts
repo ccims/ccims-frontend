@@ -112,6 +112,11 @@ const toasterConfig: Partial<GlobalConfig> = {
     ColorPickerModule,
     MatExpansionModule
   ],
+  exports: [
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
+  ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
