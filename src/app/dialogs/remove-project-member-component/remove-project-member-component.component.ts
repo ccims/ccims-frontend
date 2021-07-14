@@ -10,21 +10,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class RemoveProjectMemberComponentComponent implements OnInit {
 
+
   constructor(public dialogRef: MatDialogRef<RemoveProjectMemberComponentComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
+
+  //users selected in the dialog to be deleted
+  selectedUsers = [];
 
   ngOnInit(): void {
   }
 
   onNoClick() {
-
     this.dialogRef.close();
-
   }
 
   onDeleteClick() {
-
     this.dialogRef.close();
-
   }
 
 }

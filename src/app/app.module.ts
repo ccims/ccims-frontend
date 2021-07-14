@@ -51,6 +51,7 @@ import {IssueSettingsContainerComponent} from './issue-settings-container/issue-
 import {ProjectIssueListComponent} from './project-issue-list/project-issue-list.component';
 import {ProjectMembersComponent} from './project-members/project-members.component';
 import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
+import { RemoveProjectMemberComponentComponent } from './dialogs/remove-project-member-component/remove-project-member-component.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -82,6 +83,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     CreateIssueDialogComponent,
     IssueSettingsContainerComponent,
     LabelSelectorComponent,
+    RemoveProjectMemberComponentComponent
   ],
   imports: [
     BrowserModule,

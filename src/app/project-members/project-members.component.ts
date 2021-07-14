@@ -45,6 +45,8 @@ export class ProjectMembersComponent implements OnInit {
   { id: '8', displayName: 'AddedUser5', email: 'AddedUser5.de' },
   { id: '9', displayName: 'AddedUser6', email: 'AddedUser6.de' },
   ];
+
+
   constructor(private dialog: MatDialog, private projectStore: ProjectStoreService, private route: ActivatedRoute) {
   }
 
@@ -66,7 +68,7 @@ export class ProjectMembersComponent implements OnInit {
   // This method adds a user to the project members list without processing a task in the back-end
   onAddClick() {
     const addMemberDialogRef = this.dialog.open(AddProjectMemberDialogComponent,
-      { data: { addableMembers: this.addableUsers, projectId: this.projectId } });
+      { data: { addableMembers: this.addableUsers, mockMembers: this.mockUsers , projectId: this.projectId } });
     addMemberDialogRef.afterClosed().subscribe(data => {
       if (data) {
         for (const user of data.usersToAdd) {
@@ -86,7 +88,7 @@ export class ProjectMembersComponent implements OnInit {
 
   onDeleteClick() {
     const addMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent,
-      { data: { addableMembers: this.addableUsers, projectId: this.projectId } });
+      { data: { addableMembers: this.addableUsers, mockMembers: this.mockUsers, projectId: this.projectId } });
     //TODO delete user
   }
 

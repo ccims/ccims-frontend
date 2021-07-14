@@ -4,6 +4,7 @@
   <!-- select a user to add -->
   <ng-select [formControl]="validation" class="ng-select-label" [dropdownPosition]="'bottom'" [multiple]="true"
     [(ngModel)]="this.selectedUsers" [ngModelOptions]="{standalone: true}" placeholder="Select User(s)">
+    
     <ng-option *ngFor="let user of this.data.addableMembers" [value]="user.id">
 
       {{user.displayName}}
