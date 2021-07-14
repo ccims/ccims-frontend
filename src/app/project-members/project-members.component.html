@@ -1,5 +1,5 @@
 <div>
-  <div class="margin-left-top p-3" >
+  <div class="margin-left-top p-3">
     <div class="project-title-row d-flex">
       <div class="box">
         <img src="https://github.com/github.png" />
@@ -14,57 +14,62 @@
       </div>
 
     </div>
-    <div matSort matSortActive="Name" >
+    <div matSort matSortActive="Name">
 
-      <button  class="button-add" mat-fab color="primary" (click)="this.onAddClick()">
+      <button class="button-add" mat-fab color="primary" (click)="this.onAddClick()">
         <mat-icon>add</mat-icon>
       </button>
 
-      <button  class="button-add" mat-fab color="warn" (click)="this.onDeleteClick()">
+      <button class="button-add" mat-fab color="warn" (click)="this.onDeleteClick()">
         <mat-icon>remove</mat-icon>
       </button>
 
-      
+
       <div class="component-title">
-      <mat-form-field appearance="outline">
-        <mat-label>Filter</mat-label>
-        <input [formControl]="this.validationFilter" matInput (keyup)="applyFilter($event.target.value)" >
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Filter</mat-label>
+          <input [formControl]="this.validationFilter" matInput (keyup)="applyFilter($event.target.value)">
+        </mat-form-field>
       </div>
+
+
       <div class="table-container mat-elevation-z8">
 
-      <!-- Table of Members -->
-      <table *ngIf="(project$ | async)?.node as project" mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource">
+        <!-- Table of Members -->
+        <table *ngIf="(project$ | async)?.node as project" mat-table style="width:100%; min-width: 50%;"
+          [dataSource]="this.dataSource">
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="Name" >
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-          <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.displayName}} </td>
-        </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="Name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.displayName}} </td>
+          </ng-container>
 
-        <!-- Role Column -->
-        <ng-container matColumnDef="Role">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
-          <td mat-cell style="text-align: left;" *matCellDef="let element"> Administrator </td>
-        </ng-container>
+          <!-- Role Column -->
+          <ng-container matColumnDef="Role">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+            <td mat-cell style="text-align: left;" *matCellDef="let element"> Administrator </td>
+          </ng-container>
 
-        <!-- Mail Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> email </th>
-          <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.email}} </td>
-        </ng-container>
-        
+          <!-- Mail Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> email </th>
+            <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay" (click)="this.clickedOnRow(rowData)"></tr>
-      </table>
 
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay" (click)="this.clickedOnRow(rowData)"></tr>
+        </table>
+
+      </div>
+
+      <!-- TODO fix paginator -->
+      <mat-paginator [length]="mockUsers.length" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]" (page)="onPageChange($event)">
+      </mat-paginator>
     </div>
-    <!-- TODO fix paginator -->
-    <mat-paginator #paginator [pageSizeOptions]="[10, 20, 100]" showFirstLastButtons></mat-paginator>
-  </div>
 
-  <!-- Table of Members New -->
+    <!-- Table of Members New -->
 
   </div>
-  </div>
+</div>
