@@ -24,7 +24,8 @@ export class RemoveProjectMemberComponentComponent implements OnInit {
   }
 
   onDeleteClick() {
-    this.dialogRef.close();
+    const data = {usersToDelete: this.selectedUsers};
+    this.dialogRef.close(data);
   }
 
 }

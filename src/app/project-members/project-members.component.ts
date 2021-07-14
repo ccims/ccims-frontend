@@ -33,10 +33,9 @@ export class ProjectMembersComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
 
   //default users 
-  //hardcoded
   mockUsers: Array<userMock> = [{ id: '1', displayName: 'User1', email: 'User1.de' }, { id: '2', displayName: 'User2', email: 'User2.de' }];
 
-  // list of users who can be addrd to the project 
+  // list of users who can be added to the project 
   //hardcoded
   addableUsers: Array<userMock> = [{ id: '4', displayName: 'AddedUser1', email: 'AddedUser1.de' },
   { id: '5', displayName: 'AddedUser2', email: 'AddedUser2.de' },
@@ -68,7 +67,7 @@ export class ProjectMembersComponent implements OnInit {
   // This method adds a user to the project members list without processing a task in the back-end
   onAddClick() {
     const addMemberDialogRef = this.dialog.open(AddProjectMemberDialogComponent,
-      { data: { addableMembers: this.addableUsers, mockMembers: this.mockUsers , projectId: this.projectId } });
+      { data: { addableMembers: this.addableUsers, projectId: this.projectId } });
     addMemberDialogRef.afterClosed().subscribe(data => {
       if (data) {
         for (const user of data.usersToAdd) {
@@ -79,17 +78,30 @@ export class ProjectMembersComponent implements OnInit {
           });
         }
         this.dataSource = new MatTableDataSource<any>(this.mockUsers);
-        console.log(this.mockUsers);
 
       }
     });
 
   }
 
+  // This method deletes a user to the project members list without processing a task in the back-end
   onDeleteClick() {
-    const addMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent,
-      { data: { addableMembers: this.addableUsers, mockMembers: this.mockUsers, projectId: this.projectId } });
-    //TODO delete user
+    const deleteMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent,
+      { data: { mockMembers: this.mockUsers, projectId: this.projectId } });
+      deleteMemberDialogRef.afterClosed().subscribe(data => {
+        if (data) {
+          for (const user of data.usersToDelete) {
+  
+            for( var i = 0; i < this.mockUsers.length; i++){ 
+      
+              if ( this.mockUsers[i].id === user) { 
+                this.mockUsers.splice(i, 1); 
+              }
+          }
+          }
+          this.dataSource = new MatTableDataSource<any>(this.mockUsers);
+        }
+      });
   }
 
   // on every key pressed in the filter-field this method is triggered and reduces the shown users in the list (table)
