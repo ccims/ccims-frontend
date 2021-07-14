@@ -3755,24 +3755,35 @@ export type GetIssueQuery = { node?: Maybe<(
         Pick<IssueComment, 'id' | 'body' | 'bodyRendered' | 'createdAt'>
         & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
       )>>> }>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
-  )> };
+)> };
+
 
 export type CommentIssueMutationVariables = Exact<{
   input: AddIssueCommentInput;
 }>;
-
 
 export type CommentIssueMutation = { addIssueComment?: Maybe<{ comment?: Maybe<(
       Pick<IssueComment, 'id' | 'body' | 'createdAt'>
       & { createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
     )> }> };
 
+
+export type DeleteIssueCommentMutationVariables = Exact<{
+  input: DeleteIssueCommentInput;
+}>;
+
+export type DeleteIssueCommentMutation = { deleteIssueComment?: Maybe<{ comment?: Maybe<(
+      Pick<IssueComment, 'id' | 'body' | 'createdAt'>
+      & { createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
+    )> }> };
+    
+
 export type CloseIssueMutationVariables = Exact<{
   input: CloseIssueInput;
 }>;
 
-
 export type CloseIssueMutation = { closeIssue?: Maybe<Pick<CloseIssuePayload, 'clientMutationID'>> };
+
 
 export type ReopenIssueMutationVariables = Exact<{
   input: ReopenIssueInput;
@@ -4390,16 +4401,18 @@ export const UnlinkIssueDocument = gql`
 }
     `;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UnlinkIssueGQL extends Apollo.Mutation<UnlinkIssueMutation, UnlinkIssueMutationVariables> {
-    document = UnlinkIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UnlinkIssueGQL extends Apollo.Mutation<UnlinkIssueMutation, UnlinkIssueMutationVariables> {
+  document = UnlinkIssueDocument;
+  
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
   }
+}
+
 export const GetIssueDocument = gql`
     query GetIssue($id: ID!) {
   node(id: $id) {
@@ -4466,20 +4479,23 @@ export const GetIssueDocument = gql`
     }
   }
 }
-    `;
+`;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetIssueGQL extends Apollo.Query<GetIssueQuery, GetIssueQueryVariables> {
-    document = GetIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GetIssueGQL extends Apollo.Query<GetIssueQuery, GetIssueQueryVariables> {
+  document = GetIssueDocument;
+  
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
   }
+}
+
+
 export const CommentIssueDocument = gql`
-    mutation CommentIssue($input: AddIssueCommentInput!) {
+    mutation CommentIssueComment($input: AddIssueCommentInput!) {
   addIssueComment(input: $input) {
     comment {
       id
@@ -4493,18 +4509,49 @@ export const CommentIssueDocument = gql`
     }
   }
 }
-    `;
+`;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CommentIssueGQL extends Apollo.Mutation<CommentIssueMutation, CommentIssueMutationVariables> {
-    document = CommentIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+@Injectable({
+  providedIn: 'root'
+})
+export class CommentIssueGQL extends Apollo.Mutation<CommentIssueMutation, CommentIssueMutationVariables> {
+  document = CommentIssueDocument;
+  
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+
+
+export const DeleteIssueCommentDocument = gql`
+    mutation DeleteIssue($input: DeleteIssueCommentInput!) {
+  deleteIssueComment(input: $input) {
+    comment {
+      id
+      body
+      createdBy {
+        id
+        username
+        displayName
+      }
+      createdAt
     }
   }
+}
+`;
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DeleteIssueCommentGQL extends Apollo.Mutation<DeleteIssueCommentMutation, DeleteIssueCommentMutationVariables> {
+  document = DeleteIssueCommentDocument;
+  
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+
+
 export const CloseIssueDocument = gql`
     mutation CloseIssue($input: CloseIssueInput!) {
   closeIssue(input: $input) {

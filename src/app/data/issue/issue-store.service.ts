@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { AddIssueCommentInput, CloseIssueGQL, CommentIssueGQL, CreateIssueGQL, CreateIssueInput, GetIssueGQL,
   GetIssueQuery, LinkIssueGQL, LinkIssueInput, UnlinkIssueGQL, CloseIssueInput, UnlinkIssueInput, ReopenIssueGQL,
   ReopenIssueInput, RenameIssueTitleInput, RenameIssueTitleGQL, AddIssueToLocationInput, RemoveIssueFromLocationInput,
-  AddIssueToLocationGQL, RemoveIssueFromLocationGQL} from 'src/generated/graphql';
+  AddIssueToLocationGQL, RemoveIssueFromLocationGQL, DeleteIssueCommentInput, DeleteIssueCommentGQL} from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 /**
  * This service provides CRUD operations and linking for issues
@@ -16,7 +16,8 @@ import { Observable } from 'rxjs';
 export class IssueStoreService {
 
   constructor(private createIssue: CreateIssueGQL, private linkIssue: LinkIssueGQL, private getFullIssueQuery: GetIssueGQL,
-              private commentIssueMutation: CommentIssueGQL, private unlinkIssueMutation: UnlinkIssueGQL,
+              private commentIssueMutation: CommentIssueGQL, private deleteIssueCommentMutation: DeleteIssueCommentGQL,
+              private unlinkIssueMutation: UnlinkIssueGQL,
               private closeIssueMutation: CloseIssueGQL, private reopenIssueMutation: ReopenIssueGQL,
               private renameIssueMutation: RenameIssueTitleGQL, private addIssueToLocationMutation: AddIssueToLocationGQL,
               private removeIssueFromLocationMutation: RemoveIssueFromLocationGQL) { }
@@ -41,6 +42,10 @@ export class IssueStoreService {
 
   commentIssue(commentIssueInput: AddIssueCommentInput) {
     return this.commentIssueMutation.mutate({input: commentIssueInput});
+  }
+
+  deleteComment(deleteIssueCommentInput: DeleteIssueCommentInput) {
+    return this.deleteIssueCommentMutation.mutate({input: deleteIssueCommentInput});
   }
 
   close(closeInput: CloseIssueInput){
