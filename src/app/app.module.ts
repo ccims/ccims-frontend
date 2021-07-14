@@ -52,6 +52,9 @@ import {ProjectIssueListComponent} from './project-issue-list/project-issue-list
 import {ProjectMembersComponent} from './project-members/project-members.component';
 import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
 import { RemoveProjectMemberComponentComponent } from './dialogs/remove-project-member-component/remove-project-member-component.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+
+
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -112,12 +115,14 @@ const toasterConfig: Partial<GlobalConfig> = {
     CommonModule,
     NgOptionHighlightModule,
     ColorPickerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatPaginatorModule
   ],
   exports: [
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
