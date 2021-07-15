@@ -6,9 +6,9 @@
   <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()"
           class="floating-button">Create Project
   </button>
-<!--  <button mat-raised-button color="primary" (click)="this.createDemoProject()"-->
-<!--          class="floating-button">Create Demo Project-->
-<!--  </button>-->
+  <!--  <button mat-raised-button color="primary" (click)="this.createDemoProject()"-->
+  <!--          class="floating-button">Create Demo Project-->
+  <!--  </button>-->
 </div>
 <div class="listWrapper">
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
@@ -21,7 +21,8 @@
   <mat-nav-list class="mat-nav-list-padding-removed">
     <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
       <span matLine>{{ project.name }}</span>
-      <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)">
+      <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)"
+         title="Open project in graph view">
         <mat-icon class="graph-icon">account_tree</mat-icon>
       </a>
       <mat-divider></mat-divider>

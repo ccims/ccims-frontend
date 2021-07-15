@@ -13,9 +13,9 @@
         <mat-icon class="relation-edge-icon" svgIcon="relation-edge"></mat-icon>
       </mat-slide-toggle>
       <app-label-search #labelSearch></app-label-search>
-      <button mat-icon-button matTooltip="Create new Component" class="create-component-button"
+      <button mat-icon-button title="Create new Component" class="create-component-button"
           (click)="this.issueGraph.openCreateComponentDialog()">
-          <mat-icon>extension</mat-icon>
+          <mat-icon>add_box</mat-icon>
       </button>
   </div>
   <app-issue-graph [projectId]="projectId"></app-issue-graph>
