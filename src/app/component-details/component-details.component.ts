@@ -1,16 +1,12 @@
-import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, Injectable, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
-import {CreateIssueDialogComponent} from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
 // import { Component } from 'src/generated/graphql';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CreateLabelInput, GetComponentQuery, UpdateComponentInput} from '../../generated/graphql';
-import {IssueListComponent} from '../issue-list/issue-list.component';
-import {LabelStoreService} from '@app/data/label/label-store.service';
+import {GetComponentQuery, UpdateComponentInput} from '../../generated/graphql';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 @Component({
@@ -53,7 +49,6 @@ export class ComponentDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.validationIMS.setValue('http://beispiel.ims.test');
-
     this.validationUrl.setValue('http://beispiel.repo.test');
     this.activatedRoute.queryParams.subscribe(
       params => {
@@ -72,12 +67,22 @@ export class ComponentDetailsComponent implements OnInit {
 
   public onDeleteClick() {
     // show Confirm Dialog
-    // Onconfirm
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
-      {data: {type: 'Component', name: this.component.node.name, id: this.componentId}});
+      {
+        data: {
+          title: 'Really delete component \"' + this.component.node.name + '\"?',
+          messages: ['Are you sure you want to delete the component \"' + this.component.node.name + '\"?', 'This action cannot be undone!']
+        }
+      });
     confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
       if (deleteData) {
-        this.router.navigate(['../../../../graph'], {relativeTo: this.activatedRoute});
+        this.componentStoreService.deleteComponent(this.componentId).subscribe(
+          () => {
+            this.notify.notifyInfo('Successfully deleted component \"' + this.component.node.name + '\""');
+            this.router.navigate(['../../../../graph'], {relativeTo: this.activatedRoute});
+          },
+          error => this.notify.notifyError('Failed to delete component!', error)
+        );
       }
     });
   }
