@@ -19,11 +19,13 @@ export class AddProjectMemberDialogComponent implements OnInit {
   ngOnInit(): void {
     this.validationRole.setValue('administrator')
   }
+
+  //cancel button
   onNoClick(){
-
     this.dialogRef.close();
-
   }
+
+  //add member button
   onOkClick(){
     const data = {usersToAdd: this.selectedUsers};
     this.dialogRef.close(data);

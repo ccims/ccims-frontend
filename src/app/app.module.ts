@@ -53,6 +53,8 @@ import {ProjectMembersComponent} from './project-members/project-members.compone
 import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
 import {CreateLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-label-dialog.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { RemoveProjectMemberComponentComponent } from './dialogs/remove-project-member-component/remove-project-member-component.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -85,8 +87,9 @@ const toasterConfig: Partial<GlobalConfig> = {
     IssueSettingsContainerComponent,
     LabelSelectorComponent,
     CreateLabelDialogComponent,
+    RemoveProjectMemberComponentComponent
   ],
-    imports: [
+  imports: [
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,

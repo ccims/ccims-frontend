@@ -18,8 +18,12 @@
     <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch><i nz-icon nzType="search"></i></button>
   </ng-template>
 
+  
+  <!-- list of projects -->
   <mat-nav-list class="mat-nav-list-padding-removed">
     <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
+
+      <!-- name of project -->
       <span matLine>{{ project.name }}</span>
       <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)"
          title="Open project in graph view">

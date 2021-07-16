@@ -1,5 +1,6 @@
 <!--Current issue details-->
 <div class="container-xl" #issueContainer *ngIf="(issue$ | async) as issue">
+
   <!--Part 1: Editing options-->
   <app-issue-settings-container *ngIf="this.editIssue"
                                 [selectedLabels]="this.labelList"
@@ -12,8 +13,10 @@
   <!--Part 2: Header-->
   <section class="clear">
     <div id="issue-header" class="issue-header">
+
       <!--Part 2.1: Title-->
       <div>
+
         <!--Title while being edited-->
         <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.node.title">
 
@@ -23,6 +26,7 @@
 
       <!--Part 2.2: Title editing buttons-->
       <div id="issue-action">
+
         <!--Edit-->
         <button mat-flat-button *ngIf="!this.editTitle" color="primary" (click)="this.editIssueTitle()">Edit</button>
 
@@ -36,6 +40,7 @@
 
     <!--Part 2.3: Issue state-->
     <div id="issue-state">
+
       <!--Whether the issue is open-->
       <span *ngIf="issue.node.isOpen" class="customLabelOpen ">&nbsp;Open&nbsp;</span>
 
@@ -58,10 +63,13 @@
   <!--Contents-->
   <section class="clear">
     <div class="issue-content">
+
       <!--Part 3: Issue body-->
       <div class="Box Box--condensed issue-body-box">
+
         <!--Part 3.1: Header-->
         <div class="Box-header d-flex flex-items-center">
+
           <!--Text-->
           <h3 class="Box-title overflow-hidden flex-auto">
             <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented
@@ -80,10 +88,12 @@
 
         <!--Part 3.3: Editing-->
         <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
+
           <!--Text-->
           <textarea class="comment-text-area" matInput #bodyEdit>{{issue.node.body}}</textarea>
 
           <div class="edit-body-buttons">
+
             <!--Cancel-->
             <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
 
@@ -129,8 +139,10 @@
       <!--Part 5: Issue Comments-->
       <div *ngFor="let comment of issue.node.issueComments.nodes" class="TimelineItem issue-comment">
         <div class="Box Box--condensed">
+
           <!--Comment header-->
           <div class="Box-header d-flex flex-items-center">
+
             <!--Text-->
             <h3 class="Box-title overflow-hidden flex-auto">
               <i><b>{{comment.createdBy.displayName}}</b></i>&nbsp;commented
@@ -138,7 +150,7 @@
                     [title]="this.formatTime(comment.createdAt)">{{this.formatTimeDifference(comment.createdAt)}}</time>
             </h3>
 
-            <!--Delete TODO: Add Edit button instead-->
+            <!--Delete-->
             <button mat-flat-button (click)="deleteComment(comment.id)">Delete</button>
           </div>
 

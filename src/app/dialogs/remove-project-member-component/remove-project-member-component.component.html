@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Remove Project Member</h1>
+
+<!-- select user to be deleted -->
+  <div class="dialog-content" mat-dialog-content>
+    <ng-select class="ng-select-label" [dropdownPosition]="'bottom'" [multiple]="true"
+    [(ngModel)]="this.selectedUsers" [ngModelOptions]="{standalone: true}" placeholder="Select User(s) to be deleted">
+    <!-- options for users -->
+    <ng-option *ngFor="let user of this.data.mockMembers" [value]="user.id">
+
+      {{user.displayName}}
+    </ng-option>
+  </ng-select>
+
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onDeleteClick()">Delete User </button>
+</div>
