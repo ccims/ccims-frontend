@@ -1,12 +1,8 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IssueStoreService} from '@app/data/issue/issue-store.service';
-import {
-  CreateIssueInput, IssueCategory,
-  GetComponentQuery,
-  LinkIssueInput
-} from '../../../generated/graphql';
+import {CreateIssueInput, GetComponentQuery, IssueCategory, LinkIssueInput} from '../../../generated/graphql';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
@@ -72,11 +68,10 @@ export class CreateIssueDialogComponent implements OnInit {
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });
     this.loading = true;
-
     // set properties for create issue mutation
     const issueInput: CreateIssueInput = {
       title,
-      componentIDs: [this.data.id],
+      components: [this.data.id],
       body,
       category,
       assignees: ['0'],

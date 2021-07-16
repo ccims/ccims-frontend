@@ -24,40 +24,35 @@ query GetFullProject($id: ID!) {
       id
       name
       description
-      owner {
-        id
-        displayName
-      }
       components {
         edges {
           node {
             id
             name
-           issues {
-        nodes {
-            id
-            title
-            createdBy{
-              id
-              displayName
-            }
-            labels{
-              nodes{
-              id
-              name
-              color
-              }
-            }
-            assignees{
-              nodes{
+            issues {
+              nodes {
                 id
-                displayName
+                title
+                createdBy{
+                  id
+                  displayName
+                }
+                labels{
+                  nodes{
+                    id
+                    name
+                    color
+                  }
+                }
+                assignees{
+                  nodes{
+                    id
+                    displayName
+                  }
+                }
+                category
               }
             }
-            category
-
-        }
-      }
           }
         }
       }
@@ -73,36 +68,28 @@ query GetFullProject($id: ID!) {
           }
         }
       }
-      users {
-        nodes {
-            id
-            displayName
-            username
-            email
-        }
-      }
       issues {
         nodes {
+          id
+          title
+          createdBy{
             id
-            title
-            createdBy{
-              id
-              displayName
-            }
-            labels{
-              nodes{
+            displayName
+          }
+          labels{
+            nodes{
               id
               name
               color
-              }
             }
-            assignees{
-              nodes{
-                id
-                displayName
-              }
+          }
+          assignees{
+            nodes{
+              id
+              displayName
             }
-            category
+          }
+          category
 
         }
       }

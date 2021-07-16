@@ -18,10 +18,6 @@
     <mat-label>Provider Type (IMS)</mat-label>
     <mat-select  #provider [formControl]="validationProvider" required>
         <mat-option value="GITHUB">GitHub</mat-option>
-        <mat-option value="GITLAB">Gitlab</mat-option>
-        <mat-option value="REDMINE">Redmine</mat-option>
-        <mat-option value="JIRA">Jira</mat-option>
-        <mat-option value="CCIMS">CCIMS</mat-option>
     </mat-select>
     <mat-error *ngIf="validationProvider.invalid">Select the Provider</mat-error>
 </mat-form-field>

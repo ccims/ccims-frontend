@@ -1,8 +1,16 @@
-import { Injectable } from '@angular/core';
-import { CreateComponentInterfaceGQL, CreateComponentInterfaceInput, DeleteComponentInterfaceGQL,
-  DeleteComponentInterfaceInput, GetInterfaceGQL, GetInterfaceQuery, UpdateComponentInterfaceGQL, UpdateComponentInterfaceInput } from '../../../generated/graphql';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {
+  CreateComponentInterfaceGQL,
+  CreateComponentInterfaceInput,
+  DeleteComponentInterfaceGQL,
+  DeleteComponentInterfaceInput,
+  GetInterfaceGQL,
+  GetInterfaceQuery,
+  UpdateComponentInterfaceGQL,
+  UpdateComponentInterfaceInput
+} from '../../../generated/graphql';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 /**
  * This service provides creation, retrievel, update and deletion of interfaces offered by components.
@@ -16,10 +24,11 @@ export class InterfaceStoreService {
 
   constructor(private createInterfaceMutation: CreateComponentInterfaceGQL,
               private updateInterfaceMutation: UpdateComponentInterfaceGQL, private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
-              private getInterfaceQuery: GetInterfaceGQL) { }
+              private getInterfaceQuery: GetInterfaceGQL) {
+  }
 
   public create(name: string, offeringComponentId: string, description?: string) {
-    const input: CreateComponentInterfaceInput  = {
+    const input: CreateComponentInterfaceInput = {
       name,
       description,
       component: offeringComponentId
@@ -27,9 +36,9 @@ export class InterfaceStoreService {
     return this.createInterfaceMutation.mutate({input});
   }
 
-  public getInterface(id: string): Observable<GetInterfaceQuery>{
-    return this.getInterfaceQuery.fetch({ id }).pipe(
-      map(({ data }) => data)
+  public getInterface(id: string): Observable<GetInterfaceQuery> {
+    return this.getInterfaceQuery.fetch({id}).pipe(
+      map(({data}) => data)
     );
   }
 
@@ -39,7 +48,7 @@ export class InterfaceStoreService {
 
   public delete(id: string) {
     const input: DeleteComponentInterfaceInput = {
-      componentInterfaceId: id
+      componentInterface: id
     };
     return this.deleteInterfaceMutation.mutate({input});
   }

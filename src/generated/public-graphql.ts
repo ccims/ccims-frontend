@@ -53,12 +53,20 @@ export type Query = {
    * `false, if it __IS__ already taken and can't be used for a new user
    */
   checkUsername?: Maybe<Scalars['Boolean']>;
+  /** Returns the string which is given as input */
+  echo?: Maybe<Scalars['String']>;
 };
 
 
 /** Queries which are public and don't require authentication */
 export type QueryCheckUsernameArgs = {
   username: Scalars['String'];
+};
+
+
+/** Queries which are public and don't require authentication */
+export type QueryEchoArgs = {
+  input?: Maybe<Scalars['String']>;
 };
 
 /** Mutations which are public and don't require authentication */

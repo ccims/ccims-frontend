@@ -1,23 +1,12 @@
 mutation CreateComponent($input: CreateComponentInput!) {
   createComponent(input: $input) {
-		component {
-		  id
-      name
-      ims {
-        id
-      }
-      projects {
-        edges {
-          node {
-            id
-          }
-        }
-      }
-		}
+    component {
+      id
+    }
   }
 }
 
-mutation AddConsumedInterface($input: AddConsumedInterfaceInput!) {
+mutation AddConsumedInterface($input: AddConsumedComponentInterfaceInput!) {
   addConsumedInterface(input: $input) {
     component {
       id
@@ -28,7 +17,7 @@ mutation AddConsumedInterface($input: AddConsumedInterfaceInput!) {
   }
 }
 
-mutation RemoveConsumedInterface($input: RemoveConsumedInterfaceInput!) {
+mutation RemoveConsumedInterface($input: RemoveConsumedComponentInterfaceInput!) {
   removeConsumedInterface(input: $input) {
     component {
       id
@@ -39,12 +28,28 @@ mutation RemoveConsumedInterface($input: RemoveConsumedInterfaceInput!) {
   }
 }
 
+query GetComponentLabels($id: ID!){
+  node(id: $id) {
+    ... on Component{
+      labels{
+        nodes{
+          id
+          createdAt
+          name
+          description
+          color
+        }
+      }
+    }
+  }
+}
+
 query GetComponent($id: ID!) {
   node(id: $id) {
     ...on Component {
       id
       name
-      owner{
+      createdBy {
         displayName
         username
         id
@@ -56,11 +61,16 @@ query GetComponent($id: ID!) {
           id
           color
         }
-
       }
-      ims{
-        imsType
-      }
+      #      imsComponents {
+      #        edges{
+      #          node{
+      #            ims{
+      #              imsType
+      #            }
+      #          }
+      #        }
+      #      }
       issues
       {
         nodes{
@@ -95,15 +105,15 @@ query GetComponent($id: ID!) {
         }
       }
       consumedInterfaces{
-         nodes{
+        nodes{
           name
         }
       }
-      }
     }
   }
+}
 
-  mutation DeleteComponent($input: DeleteComponentInput!) {
+mutation DeleteComponent($input: DeleteComponentInput!) {
   deleteComponent(input: $input){
     clientMutationID
   }

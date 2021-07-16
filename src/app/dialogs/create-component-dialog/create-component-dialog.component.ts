@@ -1,12 +1,13 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IssueGraphComponent} from '@app/graphs/issue-graph/issue-graph.component';
 import {Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
-import {CreateComponentGQL, CreateComponentInput, ImsType} from 'src/generated/graphql';
+import {CreateComponentInput, ImsType} from 'src/generated/graphql';
 import {AuthenticationService} from '@app/auth/authentication.service';
 import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {ComponentStoreService} from '@app/data/component/component-store.service';
 
 @Component({
   selector: 'app-create-component-dialog',
@@ -25,7 +26,7 @@ export class CreateComponentDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
               private fb: FormBuilder,
               private gs: IssueGraphStateService,
-              private createComponentMutation: CreateComponentGQL,
+              private componentStore: ComponentStoreService,
               private authService: AuthenticationService,
               private notify: UserNotifyService) {
     this.loading = false;
@@ -63,21 +64,19 @@ export class CreateComponentDialogComponent implements OnInit {
     // define the input for the database mutation - required fields are specified by the graphQL schema
     const input: CreateComponentInput = {
       name,
-      owner: this.authService.currentUserValue.id,
-      imsType: this.checkImsType(provider),
       projects: [this.data.projectId],
       description,
-      endpoint: ims
+      repositoryURL: ims
     };
-    this.createComponentMutation.mutate({input}).subscribe(({data}) => {
-      console.log(data.createComponent.component);
+
+    this.componentStore.createComponent(input).subscribe(({data}) => {
       this.loading = false;
-      // error handling
     }, (error) => {
       this.notify.notifyError('Failed to create component!', error);
       this.loading = false;
       this.saveFailed = true;
     });
+
     if (!this.saveFailed) {
       this.dialogRef.close();
     }
@@ -90,18 +89,6 @@ export class CreateComponentDialogComponent implements OnInit {
   checkImsType(returnFromSelect: string): ImsType {
     if (returnFromSelect.localeCompare(ImsType.Github) === 0) {
       return ImsType.Github;
-    }
-    if (returnFromSelect.localeCompare(ImsType.Gitlab) === 0) {
-      return ImsType.Gitlab;
-    }
-    if (returnFromSelect.localeCompare(ImsType.Jira) === 0) {
-      return ImsType.Jira;
-    }
-    if (returnFromSelect.localeCompare(ImsType.Redmine) === 0) {
-      return ImsType.Redmine;
-    }
-    if (returnFromSelect.localeCompare(ImsType.Ccims) === 0) {
-      return ImsType.Ccims;
     }
   }
 }

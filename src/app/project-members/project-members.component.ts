@@ -48,7 +48,8 @@ export class ProjectMembersComponent implements OnInit {
     this.project$.subscribe(project => {
       this.project = project;
       // MOCK DATA for table
-      project.node.users.nodes.forEach(u => this.mockUsers.push(u));
+      // FIXME Api change
+      // project.node.users.nodes.forEach(u => this.mockUsers.push(u));
       this.dataSource = new MatTableDataSource<any>(this.mockUsers);
       // MOCK DATA for table
       this.sort.sort(({ id: 'Name', start: 'asc'}) as MatSortable);
@@ -65,7 +66,7 @@ export class ProjectMembersComponent implements OnInit {
         if (data){
           for (const user of data.usersToAdd){
             this.addableUsers.forEach(addableUser => {
-              if (addableUser.id == user){
+              if (addableUser.id === user){
                 this.mockUsers.push(addableUser);
               }
             });

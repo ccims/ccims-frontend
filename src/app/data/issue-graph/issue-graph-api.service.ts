@@ -1,10 +1,16 @@
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { AddConsumedInterfaceGQL, GetIssueGraphDataGQL, IssueCategory, RemoveConsumedInterfaceGQL, GetIssueGraphDataForSearchGQL } from 'src/generated/graphql';
-import { GraphData, GraphDataFactory } from './graph-data';
-import { Observable } from 'rxjs';
-import { SelectedCategories } from '@app/graphs/shared';
-import { FilterLabel } from '../label/label-store.service';
+import {Injectable} from '@angular/core';
+import {map} from 'rxjs/operators';
+import {
+  AddConsumedInterfaceGQL,
+  GetIssueGraphDataForSearchGQL,
+  GetIssueGraphDataGQL,
+  IssueCategory,
+  RemoveConsumedInterfaceGQL
+} from 'src/generated/graphql';
+import {GraphData, GraphDataFactory} from './graph-data';
+import {Observable} from 'rxjs';
+import {SelectedCategories} from '@app/graphs/shared';
+import {FilterLabel} from '../label/label-store.service';
 
 /**
  * Responsible for retrieval and conversion of data needed for graph rendering from backend.
@@ -20,7 +26,8 @@ export class IssueGraphApiService {
   constructor(private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
               private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
               private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
-              private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) { }
+              private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) {
+  }
 
   /**
    * Queries backend for data needed to render graph when given parameters restricting what information is requested.
@@ -40,13 +47,13 @@ export class IssueGraphApiService {
       }
     }
     if (labels.length === 0 && texts.length === 0) {
-      return this.getFullIssueGraphDataQuery.fetch({ projectId, activeCategories }).pipe(
+      return this.getFullIssueGraphDataQuery.fetch({projectId, activeCategories}).pipe(
         map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
         ));
     } else {
       const selectedLabels: string[] = labels.map(label => label.id);
       const issueRegex = this.textsToRegex(texts);
-      return this.getSearchIssueGraphDataQuery.fetch({ projectId, activeCategories, selectedLabels, issueRegex }).pipe(
+      return this.getSearchIssueGraphDataQuery.fetch({projectId, activeCategories, selectedLabels, issueRegex}).pipe(
         map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
         ));
     }
@@ -67,20 +74,20 @@ export class IssueGraphApiService {
 
   /**
    * Make the interface with interfaceId a consumed interface of the component with id componentId
-   * @param componentId
-   * @param interfaceId
+   * @param component
+   * @param componentInterface
    */
-  addConsumedInterface(componentId: string, interfaceId: string) {
-    return this.addConsumedInterfaceMutation.mutate({ input: { componentId, interfaceId } });
+  addConsumedInterface(component: string, componentInterface: string) {
+    return this.addConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
   }
 
   /**
    * Remove the interface with interfaceId from consumed interfaces of the component with id componentId
-   * @param componentId
-   * @param interfaceId
+   * @param component
+   * @param componentInterface
    */
-  removeConsumedInterface(componentId: string, interfaceId: string) {
-    return this.removeConsumedInterfaceMutation.mutate({ input: { componentId, interfaceId } });
+  removeConsumedInterface(component: string, componentInterface: string) {
+    return this.removeConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
   }
 }
 

@@ -1,29 +1,37 @@
-import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DynamicNodeTemplate, DynamicTemplateContext } from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
-import { DraggedEdge, Edge, edgeId, Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {DynamicNodeTemplate, DynamicTemplateContext} from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
+import {DraggedEdge, Edge, Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
-import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
-import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
-import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
-import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
-import { StateService } from '@app/state.service';
-import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
-import { GraphData } from '../../data/issue-graph/graph-data';
-import { IssueCategory } from 'src/generated/graphql';
+import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
+import {Rect} from '@ustutt/grapheditor-webcomponent/lib/util';
+import {BehaviorSubject, ReplaySubject, Subject} from 'rxjs';
+import {debounceTime, takeUntil} from 'rxjs/operators';
+import {IssueGraphStateService} from '../../data/issue-graph/issue-graph-state.service';
+import {IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour} from './group-behaviours';
+import {CreateInterfaceDialogComponent} from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
+import {StateService} from '@app/state.service';
+import {CreateInterfaceData} from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
+import {GraphData} from '../../data/issue-graph/graph-data';
+import {IssueCategory} from 'src/generated/graphql';
 import {
-  Position, IssueNode, createIssueGroupContainerNode, createInterfaceNode,
-  createComponentNode, createIssueFolderNode, InterfaceNode, IssueGroupContainerNode, createRelationEdge, getIssueFolderId, ComponentNode,
-  createConsumptionEdge, createInterfaceProvisionEdge
+  createComponentNode,
+  createConsumptionEdge,
+  createInterfaceNode,
+  createInterfaceProvisionEdge,
+  createIssueFolderNode,
+  createIssueGroupContainerNode,
+  createRelationEdge,
+  getIssueFolderId,
+  InterfaceNode,
+  IssueNode,
+  Position
 } from './issue-graph-nodes';
-import { Router, ActivatedRoute } from '@angular/router';
-import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
-import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CreateComponentDialogComponent} from '@app/dialogs/create-component-dialog/create-component-dialog.component';
+import {ComponentStoreService} from '@app/data/component/component-store.service';
+import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 
 /**
  * This component creates nodes and edges in the embedded MICO GraphEditor
@@ -43,13 +51,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
               private router: Router, private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
               private interfaceStoreService: InterfaceStoreService) {
   }
-  @ViewChild('graph', { static: true }) graphWrapper: { nativeElement: GraphEditor; };
-  @ViewChild('minimap', { static: true }) minimap: { nativeElement: GraphEditor; };
 
-  currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
+  @ViewChild('graph', {static: true}) graphWrapper: { nativeElement: GraphEditor; };
+  @ViewChild('minimap', {static: true}) minimap: { nativeElement: GraphEditor; };
+
+  currentVisibleArea: Rect = {x: 0, y: 0, width: 1, height: 1};
   @Input() projectId: string;
 
-  readonly zeroPosition = { x: 0, y: 0 };
+  readonly zeroPosition = {x: 0, y: 0};
 
   // contains all data about the projects interfaces, components, issues and their relations
   // that is needed in order to create nodes and edges in the grapheditor to visualize the project
@@ -478,7 +487,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
     return edge;
-  }
+  };
 
   private onDraggedEdgeTargetChanged = (
     edge: DraggedEdge,
@@ -501,7 +510,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     return edge;
-  }
+  };
 
   private onEdgeAdd = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -515,12 +524,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const targetNode = this.graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
         console.log('Add comp to interface');
-        this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(
-          () => this.reload$.next(null)
-        );
+        this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
-  }
+  };
 
   private onEdgeDrop = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -533,7 +540,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (edge.type === 'interface') {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
-  }
+  };
 
   private onEdgeRemove = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -547,12 +554,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const sourceNode = graph.getNode(edge.source);
       const targetNode = graph.getNode(edge.target);
       if (sourceNode != null && targetNode != null) {
-        this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(
-          () => this.reload$.next(null)
-        );
+        this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
-  }
+  };
 
   private onNodeClick = (event: CustomEvent) => {
     event.preventDefault(); // prevent node selection
@@ -560,13 +565,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // if the clicked node in the graph is a component, the router will route to the component details view
     if (node.type === 'component') {
-      this.router.navigate(['./component/', node.id], { relativeTo: this.activatedRoute.parent });
+      this.router.navigate(['./component/', node.id], {relativeTo: this.activatedRoute.parent});
       console.log('Open component info sheet');
       return;
     }
     // if the clicked node in the graph is a interface, the router will route to the interface details view
     if (node.type === 'interface') {
-      this.router.navigate(['./interface/', node.id], { relativeTo: this.activatedRoute.parent });
+      this.router.navigate(['./interface/', node.id], {relativeTo: this.activatedRoute.parent});
       return;
     }
 
@@ -593,7 +598,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
           this.componentStoreService.getFullComponent(rootId).subscribe(component => {
             const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
             this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId],
-              { relativeTo: this.activatedRoute.parent });
+              {relativeTo: this.activatedRoute.parent});
 
           });
         } else {
@@ -602,7 +607,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
             const componentId = componentInterface.node.component.id;
             this.router.navigate(['./', rootNode.type, rootId, 'component', componentId, 'issue', currentIssueId],
-              { relativeTo: this.activatedRoute.parent });
+              {relativeTo: this.activatedRoute.parent});
 
           });
         }
@@ -618,16 +623,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             const componentId = componentInterface.node.component.id;
             this.router.navigate(['./', 'component', componentId, rootNode.type, rootId],
               // the selected param defines the tab of the details view 0 means component details. 1 means component issues
-              { relativeTo: this.activatedRoute.parent, queryParams: { selected: '1', filter: node.type } });
+              {relativeTo: this.activatedRoute.parent, queryParams: {selected: '1', filter: node.type}});
           });
         }
         this.router.navigate(['./', rootNode.type, rootId],
-          { relativeTo: this.activatedRoute.parent, queryParams: { selected: '1', filter: node.type } });
+          {relativeTo: this.activatedRoute.parent, queryParams: {selected: '1', filter: node.type}});
       }
       return;
     }
     console.log('Clicked on another type of node:', node);
-  }
+  };
 
   /**
    * load positions of graph elements from local storage
@@ -683,7 +688,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   public openCreateComponentDialog(): void {
     const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
-      data: { projectId: this.projectId }
+      data: {projectId: this.projectId}
     });
     createComponentDialogRef.afterClosed().subscribe(componentInformation => {
       this.zoomOnRedraw = true;

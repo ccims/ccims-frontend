@@ -35,7 +35,6 @@ export class ProjectListComponent implements OnInit {
   public openCreateProjectDialog(): void {
     const createProjectDialogRef = this.dialog.open(CreateProjectDialogComponent);
     createProjectDialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.changeColour();
       if (result?.createdProjectId) {
         this.reloadProjects();

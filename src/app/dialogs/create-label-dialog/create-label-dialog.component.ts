@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {CreateLabelInput, Label} from '../../../generated/graphql';
+import {CreateLabelInput, CreateLabelMutation} from '../../../generated/graphql';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
@@ -19,7 +19,7 @@ export class CreateLabelDialogComponent implements OnInit {
   color = '#d31111'; // The default color for the label color picker
   loading = false;
 
-  constructor(private dialog: MatDialogRef<CreateLabelDialogComponent, Label>,
+  constructor(private dialog: MatDialogRef<CreateLabelDialogComponent, CreateLabelMutation>,
               private labelStore: LabelStoreService,
               @Inject(MAT_DIALOG_DATA) private data: CreateLabelDialogData,
               private notify: UserNotifyService) {
@@ -44,7 +44,7 @@ export class CreateLabelDialogComponent implements OnInit {
     this.loading = true;
     this.labelStore.createLabel(input).subscribe(({data}) => {
       this.loading = false;
-      this.dialog.close(data.createLabel.label);
+      this.dialog.close(data);
     }, (error) => {
       this.notify.notifyError('Failed to create label!', error);
       this.loading = false;

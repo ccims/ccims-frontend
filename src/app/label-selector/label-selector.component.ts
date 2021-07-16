@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LabelStoreService} from '@app/data/label/label-store.service';
-import {GetComponentQuery, Label} from '../../generated/graphql';
+import {CreateLabelMutation, GetComponentQuery} from '../../generated/graphql';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
@@ -21,7 +21,7 @@ export class LabelSelectorComponent implements OnInit {
 
   component: GetComponentQuery;
   componentLabels = [];
-  dialogRef: MatDialogRef<CreateLabelDialogComponent, Label>;
+  dialogRef: MatDialogRef<CreateLabelDialogComponent, CreateLabelMutation>;
   loading = true;
   error = false;
 
@@ -32,9 +32,8 @@ export class LabelSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.componentStoreService.getFullComponent(this.componentId).subscribe(component => {
-      this.component = component;
-      this.componentLabels = component.node.labels.nodes;
+    this.componentStoreService.getComponentLabels(this.componentId).subscribe(labels => {
+      this.componentLabels = labels.node.labels.nodes;
       this.loading = false;
     }, error => {
       this.notify.notifyError('Failed to get component labels!', error);
@@ -59,10 +58,10 @@ export class LabelSelectorComponent implements OnInit {
 
   onNewLabelClick(): void {
     this.dialogRef = this.dialog.open(CreateLabelDialogComponent, {data: {componentId: this.componentId}});
-    this.dialogRef.afterClosed().subscribe((created: Label) => {
+    this.dialogRef.afterClosed().subscribe((created) => {
         if (created) {
-          this.componentLabels.push(created);
-          this.labelSelector.select({value: created.id});
+          this.componentLabels.push(created.createLabel.label);
+          this.labelSelector.select({value: created.createLabel.label.id});
         }
       }
     );

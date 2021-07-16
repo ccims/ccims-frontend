@@ -3,9 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {GetFullProjectQuery} from 'src/generated/graphql';
 import {Observable} from 'rxjs';
-import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 
 /**
  * This component offers a view showing the project name,
@@ -54,13 +54,12 @@ export class ProjectOverviewComponent implements OnInit {
         }
       });
     confirmDeleteDialogRef.afterClosed().subscribe(del => {
-      if (del) {
         this.projectStore.delete(this.projectId).subscribe(() => {
             this.notify.notifyInfo('Successfully deleted project \"' + this.project.node.name + '\"');
             this.router.navigate(['/']);
           },
           error => this.notify.notifyError('Failed to delete project!', error));
       }
-    });
+    );
   }
 }
