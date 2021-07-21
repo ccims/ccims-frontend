@@ -1,21 +1,21 @@
 <mat-toolbar>{{menuTitle}}</mat-toolbar>
 <mat-nav-list>
-  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.id]" routerLinkActive="list-item-active"
+  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.node.id]" routerLinkActive="list-item-active"
                  [routerLinkActiveOptions]="{exact: true}">
     <mat-icon>info</mat-icon>
     <a>Overview</a>
   </mat-list-item>
-  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.id, 'graph']"
+  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.node.id, 'graph']"
                  routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon>account_tree</mat-icon>
     <a>Graph</a>
   </mat-list-item>
-  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.id, 'issues']"
+  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.node.id, 'issues']"
                  routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon>bug_report</mat-icon>
     <a>Issues</a>
   </mat-list-item>
-  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.id, 'members']"
+  <mat-list-item [routerLink]="['/projects', (ss.state$ | async).project.node.id, 'members']"
                  routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon>group</mat-icon>
     <a>Members</a>

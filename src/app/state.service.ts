@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { NavigationEnd, Router, PRIMARY_OUTLET } from '@angular/router';
-import { ReplaySubject } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
-import { Project } from 'src/generated/graphql';
-import { ProjectStoreService } from './data/project/project-store.service';
+import {Injectable} from '@angular/core';
+import {NavigationEnd, PRIMARY_OUTLET, Router} from '@angular/router';
+import {ReplaySubject} from 'rxjs';
+import {filter, switchMap} from 'rxjs/operators';
+import {GetBasicProjectQuery} from 'src/generated/graphql';
+import {ProjectStoreService} from './data/project/project-store.service';
 
 /**
  * This service exposes an observable of the name and id of the current project.
@@ -31,7 +31,9 @@ export class StateService {
   syncStateWithUrl(router: Router, ps: ProjectStoreService) {
     router.events.pipe(
       filter(event => (event instanceof NavigationEnd && this.isProjectURL(event.url))),
-      switchMap((event: NavigationEnd) => ps.get(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path))
+      switchMap((event: NavigationEnd) =>
+        ps.getBasicProject(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path)
+      )
     ).subscribe(project => {
       this.state.project = project;
       this.state$.next(this.state);
@@ -64,7 +66,7 @@ export class StateService {
 }
 
 export interface AppState {
-  project?: Pick<Project, 'id' | 'name'>;
+  project?: GetBasicProjectQuery;
 }
 
 export function isNonNull<T>(value: T): value is NonNullable<T> {

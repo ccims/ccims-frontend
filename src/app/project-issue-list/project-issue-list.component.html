@@ -6,9 +6,6 @@
     <div *ngIf="(project$ | async)?.node as project">
       <div class="content">
         <p class="title">{{project.name}}</p>
-        <!--      FIXME Api change-->
-        <!--      <div class="sub-title">Owner: {{project.owner.displayName}}</div>-->
-              <div class="sub-title">Owner: FIXME</div>
         <div class="sub-sub-title">Project ID: {{project.id}}</div>
       </div>
 

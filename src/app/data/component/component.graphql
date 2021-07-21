@@ -62,15 +62,15 @@ query GetComponent($id: ID!) {
           color
         }
       }
-      #      imsComponents {
-      #        edges{
-      #          node{
-      #            ims{
-      #              imsType
-      #            }
-      #          }
-      #        }
-      #      }
+      imsComponents {
+        edges{
+          node{
+            ims{
+              imsType
+            }
+          }
+        }
+      }
       issues
       {
         nodes{

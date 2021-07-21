@@ -9,11 +9,12 @@ query GetAllProjects($filter: ProjectFilter){
   }
 }
 
-query GetProject($id: ID!) {
+query GetBasicProject($id: ID!) {
   node(id: $id) {
     ...on Project {
       id
       name
+      description
     }
   }
 }
