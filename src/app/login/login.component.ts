@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {AuthenticationService} from '../auth/authentication.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * This component is responsible for the login screen. It gather username and password
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   isLoading = false;
   invalidCredentials = false;
+  unknownError = false;
 
   /**
    * Gather username and password from form and try login via AuthenticationService.
@@ -34,12 +36,15 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.validateForm.controls.password.reset();
           this.isLoading = false;
           this.router.navigate([this.returnUrl]);
         },
-        error => {
+        (error: HttpErrorResponse) => {
+          this.validateForm.controls.password.reset();
           this.isLoading = false;
-          this.invalidCredentials = true;
+          this.invalidCredentials = error.status === 401;
+          this.unknownError = error.status === 0;
         });
   }
 
