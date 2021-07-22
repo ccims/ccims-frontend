@@ -76,7 +76,7 @@ export class CreateIssueDialogComponent implements OnInit {
       category,
       assignees: ['0'],
       labels: selectedLabels,
-      locations: this.selectedInterfaces
+      locations: this.selectedInterfaces.concat(this.data.component.node.id)
     };
 
     this.loading = true;
