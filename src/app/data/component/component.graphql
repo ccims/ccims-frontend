@@ -44,6 +44,24 @@ query GetComponentLabels($id: ID!){
   }
 }
 
+query GetBasicComponent($id: ID!) {
+  node(id: $id){
+    ...on Component {
+      id
+      name
+      description
+      repositoryURL
+      imsComponents{
+        nodes{
+          ims{
+            imsType
+          }
+        }
+      }
+    }
+  }
+}
+
 query GetComponent($id: ID!) {
   node(id: $id) {
     ...on Component {

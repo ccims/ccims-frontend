@@ -13,7 +13,7 @@
       <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onCancelClick()">
         <mat-icon>cancel</mat-icon>
       </button>
-      <button class="delete-button" mat-fab color="danger" (click)="this.onDeleteClick()">
+      <button class="delete-button" mat-fab color="warn" (click)="this.onDeleteClick()">
         <mat-icon>delete</mat-icon>
       </button>
 
@@ -60,6 +60,7 @@
                     name="description" matInput></textarea>
         </mat-form-field>
       </form>
+      {{component.id}}
     </mat-tab>
     <mat-tab label="Component Issues">
       <div class="component-title">

@@ -4682,6 +4682,16 @@ export type GetComponentLabelsQueryVariables = Exact<{
 
 export type GetComponentLabelsQuery = { node?: Maybe<{ labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'createdAt' | 'name' | 'description' | 'color'>>>> }> }> };
 
+export type GetBasicComponentQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetBasicComponentQuery = { node?: Maybe<(
+    Pick<Component, 'id' | 'name' | 'description' | 'repositoryURL'>
+    & { imsComponents?: Maybe<{ nodes?: Maybe<Array<Maybe<{ ims?: Maybe<Pick<Ims, 'imsType'>> }>>> }> }
+  )> };
+
 export type GetComponentQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -5044,6 +5054,36 @@ export const GetComponentLabelsDocument = gql`
   })
   export class GetComponentLabelsGQL extends Apollo.Query<GetComponentLabelsQuery, GetComponentLabelsQueryVariables> {
     document = GetComponentLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetBasicComponentDocument = gql`
+    query GetBasicComponent($id: ID!) {
+  node(id: $id) {
+    ... on Component {
+      id
+      name
+      description
+      repositoryURL
+      imsComponents {
+        nodes {
+          ims {
+            imsType
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetBasicComponentGQL extends Apollo.Query<GetBasicComponentQuery, GetBasicComponentQueryVariables> {
+    document = GetBasicComponentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

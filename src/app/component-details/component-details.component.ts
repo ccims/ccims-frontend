@@ -5,7 +5,7 @@ import {ComponentStoreService} from '@app/data/component/component-store.service
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {GetComponentQuery, UpdateComponentInput} from '../../generated/graphql';
+import {GetBasicComponentQuery, GetComponentQuery, UpdateComponentInput} from '../../generated/graphql';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 @Component({
@@ -18,7 +18,7 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
 })
 export class ComponentDetailsComponent implements OnInit {
   public queryParamSelected: string;
-  public component$: Observable<GetComponentQuery>;
+  public component$: Observable<GetBasicComponentQuery>;
   private component: GetComponentQuery;
   private componentId: string;
   public loading: boolean;
@@ -46,12 +46,12 @@ export class ComponentDetailsComponent implements OnInit {
     this.validationIMS.setValue('?');
     this.validationUrl.setValue('?');
 
-    this.component$ = this.componentStoreService.getFullComponent(this.componentId);
+    this.component$ = this.componentStoreService.getBasicComponent(this.componentId);
     this.component$.subscribe(
       component => {
         this.component = component;
         this.validationIMS.setValue('This is a placeholder');
-        this.validationUrl.setValue('This is a placeholder');
+        this.validationUrl.setValue(component.node.repositoryURL);
       },
       error => this.notify.notifyError('Failed to get component information!', error));
 

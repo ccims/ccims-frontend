@@ -62,11 +62,12 @@ export class CreateComponentDialogComponent implements OnInit {
     this.loading = true;
 
     // define the input for the database mutation - required fields are specified by the graphQL schema
+    // TODO: Add component to IMS?
     const input: CreateComponentInput = {
       name,
       projects: [this.data.projectId],
       description,
-      repositoryURL: ims
+      repositoryURL: url
     };
 
     this.componentStore.createComponent(input).subscribe(({data}) => {

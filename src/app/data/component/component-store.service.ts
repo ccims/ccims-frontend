@@ -5,6 +5,8 @@ import {
   CreateComponentInput,
   DeleteComponentGQL,
   DeleteComponentInput,
+  GetBasicComponentGQL,
+  GetBasicComponentQuery,
   GetComponentGQL,
   GetComponentLabelsGQL,
   GetComponentLabelsQuery,
@@ -29,11 +31,16 @@ export class ComponentStoreService {
               private deleteComponentMutation: DeleteComponentGQL,
               private getFullComponentQuery: GetComponentGQL,
               private createComponentMutation: CreateComponentGQL,
-              private getLabelsQuery: GetComponentLabelsGQL) {
+              private getLabelsQuery: GetComponentLabelsGQL,
+              private getBasicComponentQuery: GetBasicComponentGQL) {
   }
 
   getComponentLabels(id: string): Observable<GetComponentLabelsQuery> {
     return this.getLabelsQuery.fetch({id}).pipe(map(({data}) => data));
+  }
+
+  getBasicComponent(id: string): Observable<GetBasicComponentQuery> {
+    return this.getBasicComponentQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   getFullComponent(id: string): Observable<GetComponentQuery> {
