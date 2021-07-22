@@ -12,13 +12,17 @@
 </div>
 <div class="listWrapper">
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input type="text" [(ngModel)]="projectName" nz-input placeholder="input search text"/>
+    <input type="text" [(ngModel)]="projectName" nz-input placeholder="Search projects..."
+           (keydown.enter)="reloadProjects()"/>
   </nz-input-group>
   <ng-template #suffixIconButton>
-    <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch><i nz-icon nzType="search"></i></button>
+    <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch (click)="reloadProjects()"
+            [disabled]="projectName === lastQueriedProjectName">
+      <i nz-icon nzType="search"></i>
+    </button>
   </ng-template>
 
-  
+  <nz-alert *ngIf="!loading && projects.length == 0" nzMessage="No projects found!" nzType="info"></nz-alert>
   <!-- list of projects -->
   <mat-nav-list class="mat-nav-list-padding-removed">
     <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">

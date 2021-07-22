@@ -225,7 +225,7 @@ export class demoProject {
 
   private getprojectCount() {
     let count = 10;
-    this.projectStore.getAll().subscribe(projects => {
+    this.projectStore.getAll('').subscribe(projects => {
       count = projects.length + 1;
       return count;
     });

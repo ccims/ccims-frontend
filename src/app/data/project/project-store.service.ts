@@ -56,8 +56,10 @@ export class ProjectStoreService {
     return this.getFullQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
-  getAll(): Observable<Pick<Project, 'id' | 'name'>[]> {
-    const filter: ProjectFilter = {};
+  getAll(filterText: string): Observable<Pick<Project, 'id' | 'name'>[]> {
+    const filter: ProjectFilter = {
+      name: filterText
+    };
     return this.getAllQuery.fetch({filter}).pipe(
       map(({data}) => data.projects.edges.map(edge => edge.node))
     );

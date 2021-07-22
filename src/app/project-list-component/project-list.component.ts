@@ -4,6 +4,7 @@ import {CreateProjectDialogComponent} from 'src/app/dialogs/create-project-dialo
 import {Project} from 'src/generated/graphql';
 import {ProjectStoreService} from '../data/project/project-store.service';
 import {demoProject} from '@app/evaluation/demo-project';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 /**
  * This component is the landing page for the user after loggin in to the system
@@ -16,20 +17,36 @@ import {demoProject} from '@app/evaluation/demo-project';
 })
 export class ProjectListComponent implements OnInit {
   pendingCreate = false;
-  projectName?: string;
-  projects: Pick<Project, 'id' | 'name'>[];
+  projectName = '';
+  lastQueriedProjectName: string;
+  projects: Pick<Project, 'id' | 'name'>[] = [];
   loading: boolean;
 
-  constructor(private projectMockService: demoProject, private ps: ProjectStoreService, private dialog: MatDialog) {
+  constructor(private projectMockService: demoProject,
+              private ps: ProjectStoreService,
+              private dialog: MatDialog,
+              private notify: UserNotifyService) {
   }
 
   ngOnInit(): void {
     // get all projects from the database
-    this.ps.getAll().subscribe(projects => this.projects = projects);
+    this.reloadProjects();
   }
 
   public reloadProjects(): void {
-    this.ps.getAll().subscribe(projects => this.projects = projects);
+    if (this.lastQueriedProjectName === this.projectName && this.lastQueriedProjectName) {
+      return;
+    }
+
+    this.loading = true;
+    this.ps.getAll(this.projectName).subscribe(projects => {
+      this.loading = false;
+      this.projects = projects;
+      this.lastQueriedProjectName = this.projectName;
+    }, error => {
+      this.loading = false;
+      this.notify.notifyError('Failed to load projects', error);
+    });
   }
 
   public openCreateProjectDialog(): void {
@@ -37,10 +54,10 @@ export class ProjectListComponent implements OnInit {
     createProjectDialogRef.afterClosed().subscribe(result => {
       this.changeColour();
       if (result?.createdProjectId) {
+        this.projectName = '';
         this.reloadProjects();
       }
     });
-
   }
 
   // remove the focus from the create project button after the project is created
