@@ -1,0 +1,118 @@
+# basic information about a label
+fragment fLabelStub on Label {
+  id
+  name
+  color
+}
+
+# basic information about an issue that we can show e.g. in a list of issues
+fragment fIssueStub on Issue {
+  id
+  title
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  lastUpdatedAt
+  isOpen
+  isDuplicate
+  category
+  labels(first: 10) {
+    totalCount
+    nodes {
+      ...fLabelStub
+    }
+  }
+  issueComments(first: 0) {
+    totalCount
+  }
+}
+
+fragment allPageInfo on PageInfo {
+  startCursor
+  endCursor
+  hasNextPage
+  hasPreviousPage
+}
+
+fragment issueListPage on IssuePage {
+  totalCount
+  pageInfo {
+    ...allPageInfo
+  }
+  nodes {
+    ...fIssueStub
+  }
+}
+
+query ListProjectIssues($project: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ...on Project {
+      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        ...issueListPage
+      }
+    }
+  }
+}
+
+query ListComponentIssues($component: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+  node(id: $component) {
+    ...on Component {
+      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        ...issueListPage
+      }
+    }
+  }
+}
+
+query ListComponentIssuesOnLocation($component: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+  node(id: $component) {
+    ...on Component {
+      issuesOnLocation(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        ...issueListPage
+      }
+    }
+  }
+}
+
+query ListComponentInterfaceIssuesOnLocation($interface: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+  node(id: $interface) {
+    ...on ComponentInterface {
+      issuesOnLocation(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        ...issueListPage
+      }
+    }
+  }
+}
+
+query ListIssueLinksToIssues($issue: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ...on Issue {
+      linksToIssues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        ...issueListPage
+      }
+    }
+  }
+}
+
+query ListIssueLinkedByIssues($issue: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ...on Issue {
+      linkedByIssues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        ...issueListPage
+      }
+    }
+  }
+}
+
+query ListArtifactIssues($artifact: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+  node(id: $artifact) {
+    ...on Artifact {
+      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        ...issueListPage
+      }
+    }
+  }
+}
