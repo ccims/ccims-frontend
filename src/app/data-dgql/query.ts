@@ -63,6 +63,7 @@ export class DataQuery<T, R, P> extends Observable<T> {
   /** Loads data. */
   load() {
     clearTimeout(this.loadTimeout);
+    this.loadTimeout = null;
     this.lastLoadTime = Date.now();
     this.loading = true;
 
@@ -100,6 +101,7 @@ export class DataQuery<T, R, P> extends Observable<T> {
       return;
     }
     this.loadTimeout = setTimeout(() => {
+      this.loadTimeout = null;
       this.load();
     }, CACHE_FAST_DEBOUNCE_TIME_MS);
   }

@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
 import { GetFullProjectQuery } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
+import { encodeListId, ListId, ListType, NodeType } from '@app/data-dgql/id';
+
 @Component({
   selector: 'app-project-issue-list',
   templateUrl: './project-issue-list.component.html',
@@ -10,8 +12,10 @@ import { Observable } from 'rxjs';
 })
 export class ProjectIssueListComponent implements OnInit {
   public projectId: string;
+  // TODO: do not get full project
   public project$: Observable<GetFullProjectQuery>;
   public project: GetFullProjectQuery;
+  public issueListId: ListId;
   constructor(private route: ActivatedRoute, private projectStore: ProjectStoreService) { }
 
   ngOnInit(): void {
@@ -20,6 +24,7 @@ export class ProjectIssueListComponent implements OnInit {
     this.project$.subscribe(project => {
       this.project = project;
     });
+    this.issueListId = encodeListId({ node: { type: NodeType.Project, id: this.projectId }, type: ListType.Issues });
   }
 
 }

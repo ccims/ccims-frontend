@@ -22,6 +22,9 @@ export interface NodeDescriptor {
 }
 
 export function decodeNodeId(id: NodeId): NodeDescriptor {
+  if (!id) {
+    throw new Error('Could not decode node ID: no id given');
+  }
   const parts = id.split('/');
   return { type: NodeType[parts[0]], id: parts[1] };
 }
@@ -30,7 +33,8 @@ export function encodeNodeId(nd: NodeDescriptor): NodeId {
   return NodeType[nd.type] + '/' + nd.id;
 }
 
-export const ROOT_NODE = encodeNodeId({ type: NodeType.Root, id: '' });
+export const ROOT_NODE = { type: NodeType.Root, id: '' };
+export const ROOT_NODE_ID = encodeNodeId(ROOT_NODE);
 
 export enum ListType {
   Projects,
@@ -61,6 +65,9 @@ export interface ListParams<F> {
 }
 
 export function decodeListId(id: ListId): ListDescriptor {
+  if (!id) {
+    throw new Error('Could not decode list ID: no id given');
+  }
   const parts = id.split('#');
   return { node: decodeNodeId(parts[0]), type: ListType[parts[1]] };
 }

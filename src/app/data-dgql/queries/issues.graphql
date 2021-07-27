@@ -5,6 +5,12 @@ fragment fLabelStub on Label {
   color
 }
 
+fragment fAssigneeStub on User {
+  id
+  username
+  displayName
+}
+
 # basic information about an issue that we can show e.g. in a list of issues
 fragment fIssueStub on Issue {
   id
@@ -23,6 +29,12 @@ fragment fIssueStub on Issue {
     totalCount
     nodes {
       ...fLabelStub
+    }
+  }
+  assignees(first: 10) {
+    totalCount
+    nodes {
+      ...fAssigneeStub
     }
   }
   issueComments(first: 0) {

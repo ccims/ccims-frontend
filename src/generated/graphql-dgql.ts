@@ -2555,8 +2555,6 @@ export type Query = {
   projects?: Maybe<ProjectPage>;
   /** Requests all components within the current ccims instance matching the `filterBy` */
   components?: Maybe<ComponentPage>;
-  /** Requests all IMSs within the current ccims instance matching the `filterBy` */
-  imss?: Maybe<ImsPage>;
   /** Returns the user from which the PAI is currently being accessed */
   currentUser?: Maybe<User>;
   /**
@@ -2598,16 +2596,6 @@ export type QueryComponentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<ComponentFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-/** All queries for requesting stuff */
-export type QueryImssArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filterBy?: Maybe<ImsFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -2743,7 +2731,7 @@ export type Mutation = {
   /** Creates a new IMS in the ccims for the specified component */
   createIMS?: Maybe<CreateImsPayload>;
   /** Creates a new IMSComponent which links the specified component to the specified IMS */
-  createIMSComponent?: Maybe<CreateImsComponentPayload>;
+  createIMSComponent?: Maybe<CreateImsPayload>;
   /** Create a new artifact in the system */
   createArtifact?: Maybe<CreateArtifactPayload>;
   /** Delets the specified artifact */
@@ -3085,13 +3073,13 @@ export type MutationRemoveLabelFromComponentArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateImsArgs = {
-  input: CreateImsInput;
+  input: CreateComponentInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateImsComponentArgs = {
-  input: CreateImsComponentInput;
+  input: CreateComponentInput;
 };
 
 
@@ -4484,46 +4472,6 @@ export type CreateImsPayload = {
   ims?: Maybe<Ims>;
 };
 
-/** The inputs for the createIMS mutation */
-export type CreateImsInput = {
-  /** An arbitraty string to return together with the mutation result */
-  clientMutationID?: Maybe<Scalars['String']>;
-  /** The type/system the IMS of this component is an instance of */
-  imsType: ImsType;
-  /**
-   * Data needed for the connection to the IMS API.
-   * 
-   * See the documentation for the IMS extensions for information which keys are expected.
-   * This must be a valid JSON-string
-   */
-  imsData?: Maybe<Scalars['JSON']>;
-};
-
-/** The Payload/Response for the createIMS mutation */
-export type CreateImsComponentPayload = {
-  /** The string provided by the client on sending the mutation */
-  clientMutationID?: Maybe<Scalars['String']>;
-  /** The IMSComponent created by this mutation */
-  imsComponent?: Maybe<ImsComponent>;
-};
-
-/** The inputs for the createIMS mutation */
-export type CreateImsComponentInput = {
-  /** An arbitraty string to return together with the mutation result */
-  clientMutationID?: Maybe<Scalars['String']>;
-  /** The component which the IMS is linked to */
-  component: Scalars['ID'];
-  /** The IMS which is linked to the component */
-  ims: Scalars['ID'];
-  /**
-   * Data needed for the connection to the IMS API to this specific component.
-   * 
-   * See the documentation for the IMS extensions for information which keys are expected.
-   * This must be a valid JSON-string
-   */
-  imsData?: Maybe<Scalars['JSON']>;
-};
-
 /** The Payload/Response for the createArtifact mutation */
 export type CreateArtifactPayload = {
   /** The string provided by the client on sending the mutation */
@@ -4656,11 +4604,20 @@ export type UpdateNonFunctionalConstraintInput = {
 
 export type FLabelStubFragment = Pick<Label, 'id' | 'name' | 'color'>;
 
+type FAssigneeStub_CcimsUser_Fragment = Pick<CcimsUser, 'id' | 'username' | 'displayName'>;
+
+type FAssigneeStub_ImsUser_Fragment = Pick<ImsUser, 'id' | 'username' | 'displayName'>;
+
+export type FAssigneeStubFragment = FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment;
+
 export type FIssueStubFragment = (
   Pick<Issue, 'id' | 'title' | 'createdAt' | 'lastUpdatedAt' | 'isOpen' | 'isDuplicate' | 'category'>
   & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, labels?: Maybe<(
     Pick<LabelPage, 'totalCount'>
     & { nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
+  )>, assignees?: Maybe<(
+    Pick<UserPage, 'totalCount'>
+    & { nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
   )>, issueComments?: Maybe<Pick<IssueCommentPage, 'totalCount'>> }
 );
 
@@ -4770,6 +4727,13 @@ export const FLabelStubFragmentDoc = gql`
   color
 }
     `;
+export const FAssigneeStubFragmentDoc = gql`
+    fragment fAssigneeStub on User {
+  id
+  username
+  displayName
+}
+    `;
 export const FIssueStubFragmentDoc = gql`
     fragment fIssueStub on Issue {
   id
@@ -4790,11 +4754,18 @@ export const FIssueStubFragmentDoc = gql`
       ...fLabelStub
     }
   }
+  assignees(first: 10) {
+    totalCount
+    nodes {
+      ...fAssigneeStub
+    }
+  }
   issueComments(first: 0) {
     totalCount
   }
 }
-    ${FLabelStubFragmentDoc}`;
+    ${FLabelStubFragmentDoc}
+${FAssigneeStubFragmentDoc}`;
 export const IssueListPageFragmentDoc = gql`
     fragment issueListPage on IssuePage {
   totalCount
