@@ -128,3 +128,274 @@ query ListArtifactIssues($artifact: ID!, $after: String, $before: String, $filte
     }
   }
 }
+
+fragment fArtifactStub on Artifact {
+  id
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  component {
+    id
+    name
+  }
+  uri
+  lineRangeStart
+  lineRangeEnd
+}
+
+fragment fNonFunctionalConstraintStub on NonFunctionalConstraint {
+  id
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  content
+  description
+  isActive
+}
+
+fragment fReactionsStub on ReactionGroupPage {
+  totalCount
+  nodes {
+    id
+    reaction
+    users(first: 5) {
+      totalCount
+      nodes {
+        id
+        username
+        displayName
+      }
+    }
+  }
+}
+
+fragment fTimelineItem on IssueTimelineItem {
+  id
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  ...on AddedToComponentEvent {
+    component {
+      id
+      name
+    }
+  }
+  ...on AddedToLocationEvent {
+    location {
+      id
+      name
+    }
+  }
+  ...on AssignedEvent {
+    assignee {
+      id
+      username
+      displayName
+    }
+  }
+  ...on CategoryChangedEvent {
+    oldCategory
+    newCategory
+  }
+  ...on DueDateChangedEvent {
+    oldDueDate
+    newDueDate
+  }
+  ...on DeletedIssueComment {
+    deletedAt
+    deletedBy {
+      id
+      username
+      displayName
+    }
+  }
+  ...on EstimatedTimeChangedEvent {
+    oldEstimatedTime
+    newEstimatedTime
+  }
+  ...on LabelledEvent {
+    label {
+      ...fLabelStub
+    }
+  }
+  ...on IssueComment {
+    body
+    currentUserCanEdit
+    lastEditedAt
+    reactions(first: 10) {
+      ...fReactionsStub
+    }
+  }
+  ...on MarkedAsDuplicateEvent {
+    originalIssue {
+      ...fIssueStub
+    }
+  }
+  ...on LinkEvent {
+    linkedIssue {
+      ...fIssueStub
+    }
+  }
+  ...on PinnedEvent {
+    component {
+      id
+      name
+    }
+  }
+  ...on ReferencedByIssueEvent {
+    mentionedAt {
+      ...fIssueStub
+    }
+    mentionedInComment {
+      id
+      createdBy {
+        id
+        username
+        displayName
+      }
+    }
+  }
+  ...on PriorityChangedEvent {
+    oldPriority
+    newPriority
+  }
+  ...on RemovedFromComponentEvent {
+    removedComponent {
+      id
+      name
+    }
+  }
+  ...on ReferencedByOtherEvent {
+    component {
+      id
+      name
+    }
+    source
+    sourceURL
+  }
+  ...on RemovedFromLocationEvent {
+    removedLocation {
+      id
+      name
+    }
+  }
+  ...on StartDateChangedEvent {
+    oldStartDate
+    newStartDate
+  }
+  ...on RenamedTitleEvent {
+    oldTitle
+    newTitle
+  }
+  ...on UnassignedEvent {
+    removedAssignee {
+      id
+      username
+      displayName
+    }
+  }
+  ...on UnlabelledEvent {
+    removedLabel {
+      ...fLabelStub
+    }
+  }
+  ...on WasLinkedEvent {
+    linkedBy {
+      ...fIssueStub
+    }
+  }
+  ...on WasUnlinkedEvent {
+    unlinkedBy {
+      ...fIssueStub
+    }
+  }
+  ...on UnpinnedEvent {
+    component {
+      id
+      name
+    }
+  }
+  ...on UnlinkEvent {
+    removedLinkedIssue {
+      ...fIssueStub
+    }
+  }
+  ...on AddedArtifactEvent {
+    artifact {
+      ...fArtifactStub
+    }
+  }
+  ...on RemovedArtifactEvent {
+    removedArtifact {
+      ...fArtifactStub
+    }
+  }
+  ...on AddedNonFunctionalConstraintEvent {
+    nonFunctionalConstraint {
+      ...fNonFunctionalConstraintStub
+    }
+  }
+  ...on RemovedNonFunctionalConstraintEvent {
+    removedNonFunctionalConstraint {
+      ...fNonFunctionalConstraintStub
+    }
+  }
+}
+
+query GetIssueHeader($id: ID!) {
+  node(id: $id) {
+    ...on Issue {
+      ...fIssueStub
+      body
+      lastEditedAt
+      reactions(first: 10) {
+        ...fReactionsStub
+      }
+      currentUserCanComment
+      currentUserCanEdit
+
+      startDate
+      dueDate
+      estimatedTime
+      spentTime
+
+      timeline(first: 20) {
+        totalCount
+        nodes {
+          ...fTimelineItem
+        }
+      }
+    }
+  }
+}
+
+query ListIssueTimelineItems($id: ID!, $after: String, $before: String, $filterBy: IssueTimelineItemFilter, $first: Int, $last: Int) {
+  node(id: $id) {
+    ...on Issue {
+      timeline(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fTimelineItem
+        }
+      }
+    }
+  }
+}

@@ -4712,6 +4712,244 @@ export type ListArtifactIssuesQueryVariables = Exact<{
 
 export type ListArtifactIssuesQuery = { node?: Maybe<{ issues?: Maybe<IssueListPageFragment> }> };
 
+export type FArtifactStubFragment = (
+  Pick<Artifact, 'id' | 'createdAt' | 'uri' | 'lineRangeStart' | 'lineRangeEnd'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, component?: Maybe<Pick<Component, 'id' | 'name'>> }
+);
+
+export type FNonFunctionalConstraintStubFragment = (
+  Pick<NonFunctionalConstraint, 'id' | 'createdAt' | 'content' | 'description' | 'isActive'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+export type FReactionsStubFragment = (
+  Pick<ReactionGroupPage, 'totalCount'>
+  & { nodes?: Maybe<Array<Maybe<(
+    Pick<ReactionGroup, 'id' | 'reaction'>
+    & { users?: Maybe<(
+      Pick<UserPage, 'totalCount'>
+      & { nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
+    )> }
+  )>>> }
+);
+
+type FTimelineItem_AddedToComponentEvent_Fragment = (
+  Pick<AddedToComponentEvent, 'id' | 'createdAt'>
+  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_AddedToLocationEvent_Fragment = (
+  Pick<AddedToLocationEvent, 'id' | 'createdAt'>
+  & { location?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_ClosedEvent_Fragment = (
+  Pick<ClosedEvent, 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_AssignedEvent_Fragment = (
+  Pick<AssignedEvent, 'id' | 'createdAt'>
+  & { assignee?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_CategoryChangedEvent_Fragment = (
+  Pick<CategoryChangedEvent, 'oldCategory' | 'newCategory' | 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_DueDateChangedEvent_Fragment = (
+  Pick<DueDateChangedEvent, 'oldDueDate' | 'newDueDate' | 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_DeletedIssueComment_Fragment = (
+  Pick<DeletedIssueComment, 'deletedAt' | 'id' | 'createdAt'>
+  & { deletedBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_EstimatedTimeChangedEvent_Fragment = (
+  Pick<EstimatedTimeChangedEvent, 'oldEstimatedTime' | 'newEstimatedTime' | 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_LabelledEvent_Fragment = (
+  Pick<LabelledEvent, 'id' | 'createdAt'>
+  & { label?: Maybe<FLabelStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_IssueComment_Fragment = (
+  Pick<IssueComment, 'body' | 'currentUserCanEdit' | 'lastEditedAt' | 'id' | 'createdAt'>
+  & { reactions?: Maybe<FReactionsStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_MarkedAsDuplicateEvent_Fragment = (
+  Pick<MarkedAsDuplicateEvent, 'id' | 'createdAt'>
+  & { originalIssue?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_LinkEvent_Fragment = (
+  Pick<LinkEvent, 'id' | 'createdAt'>
+  & { linkedIssue?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_PinnedEvent_Fragment = (
+  Pick<PinnedEvent, 'id' | 'createdAt'>
+  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_ReferencedByIssueEvent_Fragment = (
+  Pick<ReferencedByIssueEvent, 'id' | 'createdAt'>
+  & { mentionedAt?: Maybe<FIssueStubFragment>, mentionedInComment?: Maybe<(
+    Pick<IssueComment, 'id'>
+    & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+  )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_PriorityChangedEvent_Fragment = (
+  Pick<PriorityChangedEvent, 'oldPriority' | 'newPriority' | 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_RemovedFromComponentEvent_Fragment = (
+  Pick<RemovedFromComponentEvent, 'id' | 'createdAt'>
+  & { removedComponent?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_ReferencedByOtherEvent_Fragment = (
+  Pick<ReferencedByOtherEvent, 'source' | 'sourceURL' | 'id' | 'createdAt'>
+  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_RemovedFromLocationEvent_Fragment = (
+  Pick<RemovedFromLocationEvent, 'id' | 'createdAt'>
+  & { removedLocation?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_ReopenedEvent_Fragment = (
+  Pick<ReopenedEvent, 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_StartDateChangedEvent_Fragment = (
+  Pick<StartDateChangedEvent, 'oldStartDate' | 'newStartDate' | 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_RenamedTitleEvent_Fragment = (
+  Pick<RenamedTitleEvent, 'oldTitle' | 'newTitle' | 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_UnassignedEvent_Fragment = (
+  Pick<UnassignedEvent, 'id' | 'createdAt'>
+  & { removedAssignee?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_UnlabelledEvent_Fragment = (
+  Pick<UnlabelledEvent, 'id' | 'createdAt'>
+  & { removedLabel?: Maybe<FLabelStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_WasLinkedEvent_Fragment = (
+  Pick<WasLinkedEvent, 'id' | 'createdAt'>
+  & { linkedBy?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_UnmarkedAsDuplicateEvent_Fragment = (
+  Pick<UnmarkedAsDuplicateEvent, 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_WasUnlinkedEvent_Fragment = (
+  Pick<WasUnlinkedEvent, 'id' | 'createdAt'>
+  & { unlinkedBy?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_UnpinnedEvent_Fragment = (
+  Pick<UnpinnedEvent, 'id' | 'createdAt'>
+  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_UnlinkEvent_Fragment = (
+  Pick<UnlinkEvent, 'id' | 'createdAt'>
+  & { removedLinkedIssue?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_AddedArtifactEvent_Fragment = (
+  Pick<AddedArtifactEvent, 'id' | 'createdAt'>
+  & { artifact?: Maybe<FArtifactStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_RemovedArtifactEvent_Fragment = (
+  Pick<RemovedArtifactEvent, 'id' | 'createdAt'>
+  & { removedArtifact?: Maybe<FArtifactStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment = (
+  Pick<AddedNonFunctionalConstraintEvent, 'id' | 'createdAt'>
+  & { nonFunctionalConstraint?: Maybe<FNonFunctionalConstraintStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+type FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment = (
+  Pick<RemovedNonFunctionalConstraintEvent, 'id' | 'createdAt'>
+  & { removedNonFunctionalConstraint?: Maybe<FNonFunctionalConstraintStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+);
+
+export type FTimelineItemFragment = FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment;
+
+export type GetIssueHeaderQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetIssueHeaderQuery = { node?: Maybe<(
+    Pick<Issue, 'body' | 'lastEditedAt' | 'currentUserCanComment' | 'currentUserCanEdit' | 'startDate' | 'dueDate' | 'estimatedTime' | 'spentTime'>
+    & { reactions?: Maybe<FReactionsStubFragment>, timeline?: Maybe<(
+      Pick<IssueTimelineItemPage, 'totalCount'>
+      & { nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
+    )> }
+    & FIssueStubFragment
+  )> };
+
+export type ListIssueTimelineItemsQueryVariables = Exact<{
+  id: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueTimelineItemFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<(
+      Pick<IssueTimelineItemPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
+    )> }> };
+
+export type FProjectStubFragment = Pick<Project, 'id' | 'name' | 'description'>;
+
+export type ListProjectsQueryVariables = Exact<{
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ProjectFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListProjectsQuery = { projects?: Maybe<(
+    Pick<ProjectPage, 'totalCount'>
+    & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FProjectStubFragment>>> }
+  )> };
+
+export type GetProjectQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetProjectQuery = { node?: Maybe<FProjectStubFragment> };
+
 export const AllPageInfoFragmentDoc = gql`
     fragment allPageInfo on PageInfo {
   startCursor
@@ -4778,6 +5016,243 @@ export const IssueListPageFragmentDoc = gql`
 }
     ${AllPageInfoFragmentDoc}
 ${FIssueStubFragmentDoc}`;
+export const FReactionsStubFragmentDoc = gql`
+    fragment fReactionsStub on ReactionGroupPage {
+  totalCount
+  nodes {
+    id
+    reaction
+    users(first: 5) {
+      totalCount
+      nodes {
+        id
+        username
+        displayName
+      }
+    }
+  }
+}
+    `;
+export const FArtifactStubFragmentDoc = gql`
+    fragment fArtifactStub on Artifact {
+  id
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  component {
+    id
+    name
+  }
+  uri
+  lineRangeStart
+  lineRangeEnd
+}
+    `;
+export const FNonFunctionalConstraintStubFragmentDoc = gql`
+    fragment fNonFunctionalConstraintStub on NonFunctionalConstraint {
+  id
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  content
+  description
+  isActive
+}
+    `;
+export const FTimelineItemFragmentDoc = gql`
+    fragment fTimelineItem on IssueTimelineItem {
+  id
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  ... on AddedToComponentEvent {
+    component {
+      id
+      name
+    }
+  }
+  ... on AddedToLocationEvent {
+    location {
+      id
+      name
+    }
+  }
+  ... on AssignedEvent {
+    assignee {
+      id
+      username
+      displayName
+    }
+  }
+  ... on CategoryChangedEvent {
+    oldCategory
+    newCategory
+  }
+  ... on DueDateChangedEvent {
+    oldDueDate
+    newDueDate
+  }
+  ... on DeletedIssueComment {
+    deletedAt
+    deletedBy {
+      id
+      username
+      displayName
+    }
+  }
+  ... on EstimatedTimeChangedEvent {
+    oldEstimatedTime
+    newEstimatedTime
+  }
+  ... on LabelledEvent {
+    label {
+      ...fLabelStub
+    }
+  }
+  ... on IssueComment {
+    body
+    currentUserCanEdit
+    lastEditedAt
+    reactions(first: 10) {
+      ...fReactionsStub
+    }
+  }
+  ... on MarkedAsDuplicateEvent {
+    originalIssue {
+      ...fIssueStub
+    }
+  }
+  ... on LinkEvent {
+    linkedIssue {
+      ...fIssueStub
+    }
+  }
+  ... on PinnedEvent {
+    component {
+      id
+      name
+    }
+  }
+  ... on ReferencedByIssueEvent {
+    mentionedAt {
+      ...fIssueStub
+    }
+    mentionedInComment {
+      id
+      createdBy {
+        id
+        username
+        displayName
+      }
+    }
+  }
+  ... on PriorityChangedEvent {
+    oldPriority
+    newPriority
+  }
+  ... on RemovedFromComponentEvent {
+    removedComponent {
+      id
+      name
+    }
+  }
+  ... on ReferencedByOtherEvent {
+    component {
+      id
+      name
+    }
+    source
+    sourceURL
+  }
+  ... on RemovedFromLocationEvent {
+    removedLocation {
+      id
+      name
+    }
+  }
+  ... on StartDateChangedEvent {
+    oldStartDate
+    newStartDate
+  }
+  ... on RenamedTitleEvent {
+    oldTitle
+    newTitle
+  }
+  ... on UnassignedEvent {
+    removedAssignee {
+      id
+      username
+      displayName
+    }
+  }
+  ... on UnlabelledEvent {
+    removedLabel {
+      ...fLabelStub
+    }
+  }
+  ... on WasLinkedEvent {
+    linkedBy {
+      ...fIssueStub
+    }
+  }
+  ... on WasUnlinkedEvent {
+    unlinkedBy {
+      ...fIssueStub
+    }
+  }
+  ... on UnpinnedEvent {
+    component {
+      id
+      name
+    }
+  }
+  ... on UnlinkEvent {
+    removedLinkedIssue {
+      ...fIssueStub
+    }
+  }
+  ... on AddedArtifactEvent {
+    artifact {
+      ...fArtifactStub
+    }
+  }
+  ... on RemovedArtifactEvent {
+    removedArtifact {
+      ...fArtifactStub
+    }
+  }
+  ... on AddedNonFunctionalConstraintEvent {
+    nonFunctionalConstraint {
+      ...fNonFunctionalConstraintStub
+    }
+  }
+  ... on RemovedNonFunctionalConstraintEvent {
+    removedNonFunctionalConstraint {
+      ...fNonFunctionalConstraintStub
+    }
+  }
+}
+    ${FLabelStubFragmentDoc}
+${FReactionsStubFragmentDoc}
+${FIssueStubFragmentDoc}
+${FArtifactStubFragmentDoc}
+${FNonFunctionalConstraintStubFragmentDoc}`;
+export const FProjectStubFragmentDoc = gql`
+    fragment fProjectStub on Project {
+  id
+  name
+  description
+}
+    `;
 export const ListProjectIssuesDocument = gql`
     query ListProjectIssues($project: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
   node(id: $project) {
@@ -4927,6 +5402,123 @@ export const ListArtifactIssuesDocument = gql`
   })
   export class ListArtifactIssuesGQL extends Apollo.Query<ListArtifactIssuesQuery, ListArtifactIssuesQueryVariables> {
     document = ListArtifactIssuesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetIssueHeaderDocument = gql`
+    query GetIssueHeader($id: ID!) {
+  node(id: $id) {
+    ... on Issue {
+      ...fIssueStub
+      body
+      lastEditedAt
+      reactions(first: 10) {
+        ...fReactionsStub
+      }
+      currentUserCanComment
+      currentUserCanEdit
+      startDate
+      dueDate
+      estimatedTime
+      spentTime
+      timeline(first: 20) {
+        totalCount
+        nodes {
+          ...fTimelineItem
+        }
+      }
+    }
+  }
+}
+    ${FIssueStubFragmentDoc}
+${FReactionsStubFragmentDoc}
+${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetIssueHeaderGQL extends Apollo.Query<GetIssueHeaderQuery, GetIssueHeaderQueryVariables> {
+    document = GetIssueHeaderDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueTimelineItemsDocument = gql`
+    query ListIssueTimelineItems($id: ID!, $after: String, $before: String, $filterBy: IssueTimelineItemFilter, $first: Int, $last: Int) {
+  node(id: $id) {
+    ... on Issue {
+      timeline(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fTimelineItem
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueTimelineItemsGQL extends Apollo.Query<ListIssueTimelineItemsQuery, ListIssueTimelineItemsQueryVariables> {
+    document = ListIssueTimelineItemsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListProjectsDocument = gql`
+    query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $first: Int, $last: Int) {
+  projects(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    nodes {
+      ... on Project {
+        ...fProjectStub
+      }
+    }
+  }
+}
+    ${FProjectStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListProjectsGQL extends Apollo.Query<ListProjectsQuery, ListProjectsQueryVariables> {
+    document = ListProjectsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetProjectDocument = gql`
+    query GetProject($id: ID!) {
+  node(id: $id) {
+    ... on Project {
+      ...fProjectStub
+    }
+  }
+}
+    ${FProjectStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
+    document = GetProjectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

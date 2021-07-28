@@ -8,3 +8,11 @@ export function promisifyApolloFetch<T>(f: Observable<{ data: T }>): Promise<T> 
     f.subscribe(({ data }) => resolve(data), error => reject(error));
   });
 }
+
+export interface QueryListParams<F> {
+  after?: string;
+  before?: string;
+  filterBy?: F;
+  first?: number;
+  last?: number;
+}

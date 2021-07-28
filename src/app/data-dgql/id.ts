@@ -9,6 +9,7 @@ export enum NodeType {
   Component,
   Interface,
   Issue,
+  TimelineItem,
   Label,
   Project,
   Artifact,
@@ -42,7 +43,7 @@ export enum ListType {
   ComponentInterfaces,
   Issues,
   IssuesOnLocation,
-  IssueComments,
+  TimelineItems,
   Labels,
   Artifacts,
 }
