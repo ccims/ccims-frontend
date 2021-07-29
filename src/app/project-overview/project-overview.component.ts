@@ -51,11 +51,13 @@ export class ProjectOverviewComponent implements OnInit {
         }
       });
     confirmDeleteDialogRef.afterClosed().subscribe(del => {
-        this.projectStore.delete(this.projectId).subscribe(() => {
-            this.notify.notifyInfo('Successfully deleted project \"' + this.project.node.name + '\"');
-            this.router.navigate(['/']);
-          },
-          error => this.notify.notifyError('Failed to delete project!', error));
+        if (del) {
+          this.projectStore.delete(this.projectId).subscribe(() => {
+              this.notify.notifyInfo('Successfully deleted project \"' + this.project.node.name + '\"');
+              this.router.navigate(['/']);
+            },
+            error => this.notify.notifyError('Failed to delete project!', error));
+        }
       }
     );
   }
