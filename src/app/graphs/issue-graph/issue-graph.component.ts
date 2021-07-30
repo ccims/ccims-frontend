@@ -32,6 +32,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CreateComponentDialogComponent} from '@app/dialogs/create-component-dialog/create-component-dialog.component';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
+import {Overlay} from '@angular/cdk/overlay';
+import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
 
 /**
  * This component creates nodes and edges in the embedded MICO GraphEditor
@@ -47,9 +49,14 @@ import {InterfaceStoreService} from '@app/data/interface/interface-store.service
 })
 export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  constructor(private dialog: MatDialog, private gs: IssueGraphStateService, private ss: StateService,
-              private router: Router, private activatedRoute: ActivatedRoute, private componentStoreService: ComponentStoreService,
-              private interfaceStoreService: InterfaceStoreService) {
+  constructor(private dialog: MatDialog,
+              private gs: IssueGraphStateService,
+              private ss: StateService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private componentStoreService: ComponentStoreService,
+              private interfaceStoreService: InterfaceStoreService,
+              private overlay: Overlay) {
   }
 
   @ViewChild('graph', {static: true}) graphWrapper: { nativeElement: GraphEditor; };
@@ -85,6 +92,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // local storage key for positions of graph elements
   private projectStorageKey: string;
 
+  private componentActionsOverlay: ComponentContextMenuComponent;
+  private componentActionsOverlayId: number | string;
 
   /**
    * Get reference to MICO grapheditor instance and initialize it
@@ -106,6 +115,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngOnDestroy() {
     this.destroy$.next();
+    this.closeComponentActions();
   }
 
   /**
@@ -261,6 +271,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     } as DynamicNodeTemplate);
 
+    graph.addEventListener('nodedragstart', (event: CustomEvent) => {
+      this.closeComponentActions();
+    });
     graph.addEventListener('nodedragend', (event: CustomEvent) => {
       const node = event.detail.node;
       // store node positioning information
@@ -304,9 +317,29 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         minimap.zoomToBoundingBox();
       }
     });
+    graph.addEventListener('click', (e) => this.closeComponentActions());
     graph.addEventListener('zoomchange', (event: CustomEvent) => {
       this.currentVisibleArea = event.detail.currentViewWindow;
+      if (!this.componentActionsOverlay) {
+        return;
+      }
+
+      const node = this.graph.getNode(this.componentActionsOverlayId);
+      const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
+      if (x >= 0 && y >= 0) {
+        this.componentActionsOverlay.updatePosition(x, y);
+      } else {
+        this.closeComponentActions();
+      }
     });
+  }
+
+  private closeComponentActions() {
+    if (this.componentActionsOverlay) {
+      this.componentActionsOverlay.close();
+      this.componentActionsOverlay = null;
+      this.componentActionsOverlayId = null;
+    }
   }
 
   /**
@@ -560,8 +593,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   private onNodeClick = (event: CustomEvent) => {
+    this.closeComponentActions();
     event.preventDefault(); // prevent node selection
-    const node = event.detail.node;
+    const node: Node = event.detail.node;
+
+    const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
+    this.componentActionsOverlay = ComponentContextMenuComponent.open(this.graphWrapper.nativeElement, this.overlay, x, y);
+    this.componentActionsOverlayId = node.id;
+    event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
+    return;
 
     // if the clicked node in the graph is a component, the router will route to the component details view
     if (node.type === 'component') {

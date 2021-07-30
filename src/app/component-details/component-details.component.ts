@@ -2,11 +2,11 @@ import {Component, Injectable, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
-import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GetBasicComponentQuery, GetComponentQuery, UpdateComponentInput} from '../../generated/graphql';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 
 @Component({
   selector: 'app-component-details',
