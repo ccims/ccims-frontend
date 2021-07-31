@@ -32,8 +32,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CreateComponentDialogComponent} from '@app/dialogs/create-component-dialog/create-component-dialog.component';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
-import {Overlay} from '@angular/cdk/overlay';
-import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
+import {
+  ComponentContextMenuComponent,
+  ComponentContextMenuService,
+  ComponentContextMenuType
+} from '@app/graphs/component-context-menu/component-context-menu.component';
+import {NzResizeObserver} from 'ng-zorro-antd';
 
 /**
  * This component creates nodes and edges in the embedded MICO GraphEditor
@@ -56,7 +60,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
               private activatedRoute: ActivatedRoute,
               private componentStoreService: ComponentStoreService,
               private interfaceStoreService: InterfaceStoreService,
-              private overlay: Overlay) {
+              private componentContextMenuService: ComponentContextMenuService) {
   }
 
   @ViewChild('graph', {static: true}) graphWrapper: { nativeElement: GraphEditor; };
@@ -332,6 +336,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.closeComponentActions();
       }
     });
+    graph.addEventListener('', () => console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'));
   }
 
   private closeComponentActions() {
@@ -543,7 +548,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     return edge;
-  };
+  }
 
   private onEdgeAdd = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -596,35 +601,24 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeComponentActions();
     event.preventDefault(); // prevent node selection
     const node: Node = event.detail.node;
+    let contextMenuType: ComponentContextMenuType = null;
 
-    const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
-    this.componentActionsOverlay = ComponentContextMenuComponent.open(this.graphWrapper.nativeElement, this.overlay, x, y);
-    this.componentActionsOverlayId = node.id;
-    event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-    return;
-
-    // if the clicked node in the graph is a component, the router will route to the component details view
     if (node.type === 'component') {
-      this.router.navigate(['./component/', node.id], {relativeTo: this.activatedRoute.parent});
-      console.log('Open component info sheet');
-      return;
+      contextMenuType = ComponentContextMenuType.Component;
     }
-    // if the clicked node in the graph is a interface, the router will route to the interface details view
+
     if (node.type === 'interface') {
-      this.router.navigate(['./interface/', node.id], {relativeTo: this.activatedRoute.parent});
+      contextMenuType = ComponentContextMenuType.Interface;
+    }
+
+    if (contextMenuType != null) {
+      const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
+      this.componentActionsOverlayId = node.id;
+      event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
+      this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType);
       return;
     }
 
-    if (node.type.startsWith('issue-')) {
-      const graph: GraphEditor = this.graphWrapper.nativeElement;
-      const rootId = graph.groupingManager.getTreeRootOf(node.id);
-      const rootNode = graph.getNode(rootId);
-      if (rootNode.type === 'interface') {
-        const componentNode = this.graph.getNode(node.componentNodeId);
-        return;
-      }
-
-    }
     // if the clicked node in the graph is a issue folder, the issue count for the folder has to be determined
     if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
       const graph: GraphEditor = this.graphWrapper.nativeElement;
@@ -671,7 +665,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       return;
     }
-    console.log('Clicked on another type of node:', node);
+    console.log('Clicked on another type of node:', node.type);
   };
 
   /**
