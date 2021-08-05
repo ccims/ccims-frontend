@@ -52,7 +52,7 @@
     </table>
 
   </div>
-  <mat-paginator #paginator [pageSizeOptions]="[10, 20, 100]" showFirstLastButtons></mat-paginator>
+  <app-cursor-paginator [list]="this.list$" [pageSizes]="[10, 25, 50, 100]"></app-cursor-paginator>
 </div>
 
 

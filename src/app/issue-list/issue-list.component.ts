@@ -71,12 +71,12 @@ export class IssueListComponent implements OnInit, OnDestroy {
     }
 
     this.list$ = this.dataService.getList(this.listId);
-    this.list$.count = 99999; // FIXME api is incompatible with index-based pagination, what do we do?
+    this.list$.count = 25;
     this.listSub = this.list$.subscribe(data => {
       this.dataSource = new MatTableDataSource<any>(data ? [...data.values()] : []);
       this.sort.sort(({ id: 'category', start: 'asc' }) as MatSortable);
       this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      // this.dataSource.paginator = this.paginator;
       this.dataSource.filter = this.getQueryParamFilter();
       this.validationFilter.setValue(this.getQueryParamFilter());
       this.prepareIssueArray();

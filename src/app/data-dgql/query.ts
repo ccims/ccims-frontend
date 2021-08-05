@@ -177,10 +177,21 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
   private pFilter?: F;
   private pForward = true;
   private pageInfo?: PageInfo;
+  private previouslyHadPageContents = false;
 
   constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
     super(id, queryList(queries, nodes), result => {
       this.pageInfo = result.pageInfo;
+
+      // API *only* reports hasPreviousPage or hasNextPage correctly if we are navigating in that
+      // same direction. Hence, we need to amend pageInfo with prior knowledge.
+      if (this.forward) {
+        this.pageInfo.hasPreviousPage = this.previouslyHadPageContents;
+      } else {
+        this.pageInfo.hasNextPage = this.previouslyHadPageContents;
+      }
+      this.previouslyHadPageContents = !!result.items.size;
+
       return result.items;
     });
     this.pSetParamsNoUpdate = true;
@@ -239,6 +250,21 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
     }
     const keys = [...this.current.keys()];
     return keys[keys.length - 1] || null;
+  }
+
+  get hasPrevPage() {
+    return !this.pageInfo || this.pageInfo.hasPreviousPage;
+  }
+  get hasNextPage() {
+    return !this.pageInfo || this.pageInfo.hasNextPage;
+  }
+
+  firstPage() {
+    this.cursor = null;
+    this.forward = true;
+    this.previouslyHadPageContents = false;
+    this.invalidate();
+    return true;
   }
 
   prevPage() {

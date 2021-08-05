@@ -4602,6 +4602,39 @@ export type UpdateNonFunctionalConstraintInput = {
   description?: Maybe<Scalars['String']>;
 };
 
+export type FComponentStubFragment = (
+  Pick<Component, 'id' | 'name' | 'description' | 'repositoryURL' | 'lastUpdatedAt'>
+  & { imsComponents?: Maybe<(
+    Pick<ImsComponentPage, 'totalCount'>
+    & { nodes?: Maybe<Array<Maybe<(
+      Pick<ImsComponent, 'id'>
+      & { ims?: Maybe<Pick<Ims, 'id' | 'imsType'>> }
+    )>>> }
+  )> }
+);
+
+export type ListProjectComponentsQueryVariables = Exact<{
+  project: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListProjectComponentsQuery = { node?: Maybe<{ components?: Maybe<(
+      Pick<ComponentPage, 'totalCount'>
+      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
+    )> }> };
+
+export type GetComponentQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetComponentQuery = { node?: Maybe<FComponentStubFragment> };
+
 export type FLabelStubFragment = Pick<Label, 'id' | 'name' | 'color'>;
 
 type FAssigneeStub_CcimsUser_Fragment = Pick<CcimsUser, 'id' | 'username' | 'displayName'>;
@@ -4950,6 +4983,25 @@ export type GetProjectQueryVariables = Exact<{
 
 export type GetProjectQuery = { node?: Maybe<FProjectStubFragment> };
 
+export const FComponentStubFragmentDoc = gql`
+    fragment fComponentStub on Component {
+  id
+  name
+  description
+  repositoryURL
+  lastUpdatedAt
+  imsComponents(first: 10) {
+    totalCount
+    nodes {
+      id
+      ims {
+        id
+        imsType
+      }
+    }
+  }
+}
+    `;
 export const AllPageInfoFragmentDoc = gql`
     fragment allPageInfo on PageInfo {
   startCursor
@@ -5253,6 +5305,57 @@ export const FProjectStubFragmentDoc = gql`
   description
 }
     `;
+export const ListProjectComponentsDocument = gql`
+    query ListProjectComponents($project: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ... on Project {
+      components(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...fComponentStub
+        }
+      }
+    }
+  }
+}
+    ${FComponentStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListProjectComponentsGQL extends Apollo.Query<ListProjectComponentsQuery, ListProjectComponentsQueryVariables> {
+    document = ListProjectComponentsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetComponentDocument = gql`
+    query GetComponent($id: ID!) {
+  node(id: $id) {
+    ... on Component {
+      ...fComponentStub
+    }
+  }
+}
+    ${FComponentStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetComponentGQL extends Apollo.Query<GetComponentQuery, GetComponentQueryVariables> {
+    document = GetComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ListProjectIssuesDocument = gql`
     query ListProjectIssues($project: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
   node(id: $project) {
