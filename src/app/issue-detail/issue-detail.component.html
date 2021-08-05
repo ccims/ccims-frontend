@@ -72,7 +72,7 @@
 
           <!--Text-->
           <h3 class="Box-title overflow-hidden flex-auto">
-            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented&nbsp;
+            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented
             <time [dateTime]="issue.node.createdAt"
                   [title]="this.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
           </h3>
@@ -145,7 +145,7 @@
 
             <!--Text-->
             <h3 class="Box-title overflow-hidden flex-auto">
-              <i><b>{{comment.createdBy.displayName}}</b></i> commented on
+              <i><b>{{comment.createdBy.displayName}}</b></i>&nbsp;commented
               <time [dateTime]="comment.createdAt"
                     [title]="this.formatTime(comment.createdAt)">{{this.formatTimeDifference(comment.createdAt)}}</time>
             </h3>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
-import { AuthenticationService } from '../auth/authentication.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {first} from 'rxjs/operators';
+import {AuthenticationService} from '../auth/authentication.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * This component is responsible for the login screen. It gather username and password
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   isLoading = false;
   invalidCredentials = false;
+  unknownError = false;
 
   /**
    * Gather username and password from form and try login via AuthenticationService.
@@ -30,21 +32,25 @@ export class LoginComponent implements OnInit {
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });
     this.isLoading = true;
-    this.authService.login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value).pipe(
-      first(),
-      )
+    this.authService.login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
+      .pipe(first())
       .subscribe(
         data => {
+          this.validateForm.controls.password.reset();
           this.isLoading = false;
           this.router.navigate([this.returnUrl]);
         },
-        error => {
+        (error: HttpErrorResponse) => {
+          this.validateForm.controls.password.reset();
           this.isLoading = false;
-          this.invalidCredentials = true;
+          this.invalidCredentials = error.status === 401;
+          this.unknownError = error.status === 0;
         });
   }
+
   constructor(private route: ActivatedRoute, private router: Router,
-              private authService: AuthenticationService, private fb: FormBuilder) { }
+              private authService: AuthenticationService, private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

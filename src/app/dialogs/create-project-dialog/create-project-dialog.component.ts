@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
-import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
@@ -44,7 +44,7 @@ export class CreateProjectDialogComponent implements OnInit {
     this.saveFailed = false;
   }
 
-  // after the user clicked on the create button the project crefation mutation is fired
+  // after the user clicked on the create button the project creation mutation is fired
   onOkClick(name: string, description: string): void {
     Object.keys(this.validateForm.controls).forEach(controlKey => {
       this.validateForm.controls[controlKey].markAsDirty();

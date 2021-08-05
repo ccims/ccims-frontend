@@ -11,16 +11,16 @@ mutation LinkIssue($input: LinkIssueInput!) {
   linkIssue(input: $input){
     issue{
       id
+    }
   }
-}
 }
 
 mutation UnlinkIssue($input: UnlinkIssueInput!) {
   unlinkIssue(input: $input){
     issue{
       id
+    }
   }
-}
 }
 
 query GetIssue($id: ID!) {
@@ -73,25 +73,25 @@ query GetIssue($id: ID!) {
         }
       }
       labels{
-            nodes{
-              name
-              id
-              color
-            }
-          }
-          assignees{
-            nodes{
-              id
-              displayName
-            }
-          }
+        nodes{
+          name
+          id
+          color
+        }
+      }
+      assignees{
+        nodes{
+          id
+          displayName
+        }
+      }
     }
   }
 }
 
 mutation CommentIssue($input: AddIssueCommentInput!) {
   addIssueComment(input: $input){
-       comment {
+    comment {
       id
       body
       createdBy{
@@ -101,14 +101,13 @@ mutation CommentIssue($input: AddIssueCommentInput!) {
       }
       createdAt
     }
-}
+  }
 }
 
 mutation DeleteIssueComment($input: DeleteIssueCommentInput!) {
   deleteIssueComment(input: $input){
-       comment {
+    deletedComment {
       id
-      body
       createdBy{
         id
         username
@@ -116,35 +115,35 @@ mutation DeleteIssueComment($input: DeleteIssueCommentInput!) {
       }
       createdAt
     }
-}
+  }
 }
 
 mutation CloseIssue($input: CloseIssueInput!) {
   closeIssue(input: $input){
-      clientMutationID
-}
+    clientMutationID
+  }
 }
 
 mutation ReopenIssue($input: ReopenIssueInput!) {
   reopenIssue(input: $input){
-      clientMutationID
-}
+    clientMutationID
+  }
 }
 
 mutation RenameIssueTitle($input: RenameIssueTitleInput!) {
   renameIssueTitle(input: $input){
-      clientMutationID
-}
+    clientMutationID
+  }
 }
 
 mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
   removeIssueFromLocation(input: $input){
-      clientMutationID
-}
+    clientMutationID
+  }
 }
 
 mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
   addIssueToLocation(input: $input){
-      clientMutationID
-}
+    clientMutationID
+  }
 }

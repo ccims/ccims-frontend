@@ -1,6 +1,6 @@
 <div matSort matSortActive="category">
   <button *ngIf="this.parentCaller.match('component')" class="button-add" mat-fab color="warn"
-          (click)="this.onAddClick()">
+          (click)="this.onAddClick()" title="Create a new issue">
     <mat-icon>add</mat-icon>
   </button>
   <mat-form-field appearance="outline">

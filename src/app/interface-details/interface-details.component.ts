@@ -51,7 +51,6 @@ export class InterfaceDetailsComponent implements OnInit {
       params => {
         this.queryParamSelected = params.selected;
       });
-    //
   }
 
   public onCancelClick() {
@@ -97,7 +96,7 @@ export class InterfaceDetailsComponent implements OnInit {
 
   private updateInterface(): void {
     const MutationinputData: UpdateComponentInterfaceInput = {
-      componentinterfaceId: this.interfaceId,
+      componentInterface: this.interfaceId,
       name: this.interface.node.name,
       description: this.interface.node.description
     };
@@ -106,7 +105,6 @@ export class InterfaceDetailsComponent implements OnInit {
     this.interfaceStoreService.update(MutationinputData).subscribe(({data}) => {
       this.editMode = !this.editMode;
       this.loading = false;
-      console.log(data);
     }, (error) => {
       this.notify.notifyError('Failed to update interface!', error);
       this.loading = false;

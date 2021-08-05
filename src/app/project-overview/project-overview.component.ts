@@ -1,11 +1,10 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
-import {GetFullProjectQuery} from 'src/generated/graphql';
-import {Observable} from 'rxjs';
-import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {GetBasicProjectQuery} from 'src/generated/graphql';
 import {MatDialog} from '@angular/material/dialog';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 
 /**
  * This component offers a view showing the project name,
@@ -20,8 +19,7 @@ export class ProjectOverviewComponent implements OnInit {
   @ViewChild('description') description: ElementRef;
 
   public projectId: string;
-  public project$: Observable<GetFullProjectQuery>;
-  public project: GetFullProjectQuery;
+  public project: GetBasicProjectQuery;
   loaded = false;
 
   constructor(private projectStore: ProjectStoreService,
@@ -35,8 +33,7 @@ export class ProjectOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
     // FIXME: Don't get the whole project here!
-    this.project$ = this.projectStore.getFullProject(this.projectId);
-    this.project$.subscribe(project => {
+    this.projectStore.getBasicProject(this.projectId).subscribe(project => {
       this.project = project;
       this.loaded = true;
       this.changeDetector.detectChanges();
@@ -54,13 +51,12 @@ export class ProjectOverviewComponent implements OnInit {
         }
       });
     confirmDeleteDialogRef.afterClosed().subscribe(del => {
-      if (del) {
         this.projectStore.delete(this.projectId).subscribe(() => {
             this.notify.notifyInfo('Successfully deleted project \"' + this.project.node.name + '\"');
             this.router.navigate(['/']);
           },
           error => this.notify.notifyError('Failed to delete project!', error));
       }
-    });
+    );
   }
 }

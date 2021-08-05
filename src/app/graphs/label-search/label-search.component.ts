@@ -52,7 +52,7 @@ export class LabelSearchComponent implements OnInit {
           this.labelsInput$.pipe(
               distinctUntilChanged(),
               tap(() => this.labelsLoading = true),
-              switchMap(term => this.labelStore.getMatchingLabels(this.ss.state.project.id, term).pipe(
+              switchMap(term => this.labelStore.getMatchingLabels(this.ss.state.project.node.id, term).pipe(
                   catchError(() => of([])), // empty list on error
                   tap(() => this.labelsLoading = false)
               ))

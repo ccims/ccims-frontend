@@ -13,7 +13,7 @@
       <button *ngIf="this.editMode" mat-fab color="basic" (click)="this.onCancelClick()">
         <mat-icon>cancel</mat-icon>
       </button>
-      <button class="delete-button" mat-fab color="danger" (click)="this.onDeleteClick()">
+      <button class="delete-button" mat-fab color="warn" (click)="this.onDeleteClick()">
         <mat-icon>delete</mat-icon>
       </button>
 
@@ -21,7 +21,7 @@
         <mat-form-field floatLabel="always" class="stretch" appearance="outline">
           <mat-label>Name</mat-label>
           <input [readonly]="!this.editMode" name="name" [ngModel]="component.name" matInput
-            [formControl]="this.validationName">
+                 [formControl]="this.validationName">
           <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your Component</mat-error>
         </mat-form-field>
 
@@ -33,7 +33,8 @@
 
         <mat-form-field floatLabel="always" *ngIf="!this.editMode" class="stretch" appearance="outline">
           <mat-label>Provider Type</mat-label>
-          <input [ngModel]="component.ims.imsType" [readonly]="!this.editMode" name="provider2" matInput [formControl]="this.validationProvider">
+          <input [ngModel]="this.placeholder" [readonly]="!this.editMode" name="provider2" matInput
+                 [formControl]="this.validationProvider">
           <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Enter a valid URL</mat-error>
         </mat-form-field>
 
@@ -41,32 +42,30 @@
           <mat-label>Provider Type (IMS)</mat-label>
           <mat-select name="provider" [formControl]="this.validationProvider">
             <mat-option value="GITHUB">GitHub</mat-option>
-            <mat-option value="GITLAB">Gitlab</mat-option>
-            <mat-option value="REDMINE">Redmine</mat-option>
-            <mat-option value="JIRA">Jira</mat-option>
-            <mat-option value="CCIMS">CCIMS</mat-option>
           </mat-select>
           <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Select the Provider</mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" class="stretch" appearance="outline">
           <mat-label>IMS-URL</mat-label>
-          <input name="ims" [readonly]="!this.editMode"  matInput
-            [formControl]="this.validationIMS">
+          <input name="ims" [readonly]="!this.editMode" matInput
+                 [formControl]="this.validationIMS">
           <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL</mat-error>
         </mat-form-field>
 
         <mat-form-field floatLabel="always" class="pagefill" appearance="outline">
           <mat-label>Description</mat-label>
-          <textarea [readonly]="!this.editMode" [ngModel]="component.description" [formControl]="this.validationDescription" class="description-field"
-            name="description" matInput></textarea>
+          <textarea [readonly]="!this.editMode" [ngModel]="component.description"
+                    [formControl]="this.validationDescription" class="description-field"
+                    name="description" matInput></textarea>
         </mat-form-field>
       </form>
+      {{component.id}}
     </mat-tab>
     <mat-tab label="Component Issues">
       <div class="component-title">
         <h1>{{component.name}}</h1>
-        <app-issue-list [parentCaller] ="'component'"></app-issue-list>
+        <app-issue-list [parentCaller]="'component'"></app-issue-list>
       </div>
     </mat-tab>
   </mat-tab-group>

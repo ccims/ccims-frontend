@@ -12,11 +12,9 @@ export type Scalars = {
   Float: number;
   /**
    * A scalar type representing a colour in RGB colour space.
-   * The scalar must be a string in CSS Colour Hex format:
-   * 
-   * `#rrggbb` where `rr`, `gg`, `bb` are the hex values between _0_ and _ff_
-   * 
-   * Example: `#ffff00` (would be a _beautiful_ yellow)
+   * Please note: alpha channel is not supported and will be dropped
+   * All common CSS formats are supported
+   * For a detailed list of supported values, see https://www.npmjs.com/package/color-string
    */
   Color: any;
   /**
@@ -43,16 +41,8 @@ export type Scalars = {
 
 /** The type of the Issue management system. Currently only GitHub and ccims internal are available */
 export enum ImsType {
-  /** The type of the Issue management system. Currently only GitHub and ccims internal are available */
-  Ccims = 'CCIMS',
   /** GitHub (or GitHub enterprise server) is the IMS for the component */
-  Github = 'GITHUB',
-  /** Any instance of GitLab is used as issue management system */
-  Gitlab = 'GITLAB',
-  /** Any instance of Jira is used as issue management system */
-  Jira = 'JIRA',
-  /** Any instance of Redmine is used as issue management system */
-  Redmine = 'REDMINE'
+  Github = 'GITHUB'
 }
 
 /** The category of an issue. The issue will be displayed accordingly in the ccims */
@@ -138,7 +128,15 @@ export enum IssueTimelineItemType {
   /** An event if the issue has been added to a new component and copied to the components ims (not a issue location) */
   AddedToComponentEvent = 'ADDED_TO_COMPONENT_EVENT',
   /** An event if the issue has been removed from a component and deleted in the components ims (not a issue location) */
-  RemovedFromComponentEvent = 'REMOVED_FROM_COMPONENT_EVENT'
+  RemovedFromComponentEvent = 'REMOVED_FROM_COMPONENT_EVENT',
+  /** An event if an artifact has been added to the issue */
+  AddedArtifactEvent = 'ADDED_ARTIFACT_EVENT',
+  /** An event if an artifact has been removed from the issue */
+  RemovedArtifactEvent = 'REMOVED_ARTIFACT_EVENT',
+  /** An event if a non functional constraint has been added to the issue */
+  AddedNonFunctionalConstraintEvent = 'ADDED_NON_FUNCTIONAL_CONSTRAINT_EVENT',
+  /** An event if a non functional constraint has been removed from the issue */
+  RemovedNonFunctionalConstrainEvent = 'REMOVED_NON_FUNCTIONAL_CONSTRAIN_EVENT'
 }
 
 /** The Priority which an issue has - how urgent it needs to be resolved */
@@ -155,10 +153,10 @@ export enum Priority {
 
 
 
-/** An object which can be identified by an ID - called a node */
+/** An object which can be identified by an ID - called a Node */
 export type Node = {
   /**
-   * The ID of this node. Every node will have an non-empty and non-null edge.
+   * The ID of this Node. Every Node will have an non-empty and non-null edge.
    * 
    * If this is ever empty or null, something went wrong.
    */
@@ -167,7 +165,7 @@ export type Node = {
 
 /** An edge for a ComponentInterfacePage to link a cursor to an element */
 export type ComponentInterfaceEdge = {
-  /** The interface linked to by this edge */
+  /** The ComponentInterface linked to by this edge */
   node?: Maybe<ComponentInterface>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
@@ -175,39 +173,39 @@ export type ComponentInterfaceEdge = {
 
 /** An edge for a ComponentPage to link a cursor to an element */
 export type ComponentEdge = {
-  /** The component linked to by this edge */
+  /** The Component linked to by this edge */
   node?: Maybe<Component>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
 };
 
-/** An edge for an IssueCommentPage to link a cursor to an element */
+/** An edge for a IssueCommentPage to link a cursor to an element */
 export type IssueCommentEdge = {
-  /** The issue comment linked to by this edge */
+  /** The IssueComment linked to by this edge */
   node?: Maybe<IssueComment>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
 };
 
-/** An edge for an IssuePage to link a cursor to an element */
+/** An edge for a IssuePage to link a cursor to an element */
 export type IssueEdge = {
-  /** The issue linked to by this edge */
+  /** The Issue linked to by this edge */
   node?: Maybe<Issue>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
 };
 
-/** An edge for an IssueLocationPage to link a cursor to an element */
+/** An edge for a IssueLocationPage to link a cursor to an element */
 export type IssueLocationEdge = {
-  /** The issue location linked to by this edge */
+  /** The IssueLocation linked to by this edge */
   node?: Maybe<IssueLocation>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
 };
 
-/** An edge for an IssueTimelineItemPage to link a cursor to an element */
+/** An edge for a IssueTimelineItemPage to link a cursor to an element */
 export type IssueTimelineItemEdge = {
-  /** The issue timeline item linked to by this edge */
+  /** The IssueTimelineItem linked to by this edge */
   node?: Maybe<IssueTimelineItem>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
@@ -215,7 +213,7 @@ export type IssueTimelineItemEdge = {
 
 /** An edge for a LabelPage to link a cursor to an element */
 export type LabelEdge = {
-  /** The label linked to by this edge */
+  /** The Label linked to by this edge */
   node?: Maybe<Label>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
@@ -223,15 +221,15 @@ export type LabelEdge = {
 
 /** An edge for a ProjectPage to link a cursor to an element */
 export type ProjectEdge = {
-  /** The project linked to by this edge */
+  /** The Project linked to by this edge */
   node?: Maybe<Project>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
 };
 
-/** An edge for a RecationGroupPage to link a cursor to an element */
+/** An edge for a ReactionGroupPage to link a cursor to an element */
 export type ReactionGroupEdge = {
-  /** The reaction group linked to by this edge */
+  /** The ReactionGroup linked to by this edge */
   node?: Maybe<ReactionGroup>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
@@ -239,7 +237,7 @@ export type ReactionGroupEdge = {
 
 /** An edge for a UserPage to link a cursor to an element */
 export type UserEdge = {
-  /** The user linked to by this edge */
+  /** The User linked to by this edge */
   node?: Maybe<User>;
   /** The cursor for use in the pagination */
   cursor: Scalars['String'];
@@ -247,22 +245,44 @@ export type UserEdge = {
 
 /** Filters for component matching the given properties */
 export type ComponentFilter = {
-  /** The name of the component must match the given RegEx */
+  /** The id of the Component creating the issue must be any of the given ones */
+  createdBy?: Maybe<Array<Scalars['ID']>>;
+  /** The Component must have been created __after__ the given date (inclusive) */
+  createdAfter?: Maybe<Scalars['Date']>;
+  /** The Component must have been created __before__ the given date (inclusive) */
+  createdBefore?: Maybe<Scalars['Date']>;
+  /** The name of the Component must match the given RegEx */
   name?: Maybe<Scalars['String']>;
-  /** The owner of the component must have any of the given ids */
-  owner?: Maybe<Array<Scalars['ID']>>;
-  /** The components description must match the given __RegEx__ */
+  /** The __RegEx__ the description of the Component needs to match */
   description?: Maybe<Scalars['String']>;
+  /** The last update to this Component must have occurred __after__ the given date (inclusive) */
+  lastUpdatedAfter?: Maybe<Scalars['Date']>;
+  /** The last update to this Component must have occurred __before__ the given date (inclusive) */
+  lastUpdatedBefore?: Maybe<Scalars['Date']>;
+  /** The components repositoryURL must match the given __RegEx__ */
+  repositoryURL?: Maybe<Scalars['String']>;
   /** The IMS type of a component must be one of the given ones */
   imsType?: Maybe<Array<ImsType>>;
 };
 
 /** Filters for an instance of a component's interface */
 export type ComponentInterfaceFilter = {
-  /** The name the component has to have */
+  /** The id of the ComponentInterface creating the issue must be any of the given ones */
+  createdBy?: Maybe<Array<Scalars['ID']>>;
+  /** The ComponentInterface must have been created __after__ the given date (inclusive) */
+  createdAfter?: Maybe<Scalars['Date']>;
+  /** The ComponentInterface must have been created __before__ the given date (inclusive) */
+  createdBefore?: Maybe<Scalars['Date']>;
+  /** The name of the ComponentInterface must match the given RegEx */
   name?: Maybe<Scalars['String']>;
-  /** A Regex which the description of the interface needs to match */
+  /** The __RegEx__ the description of the ComponentInterface needs to match */
   description?: Maybe<Scalars['String']>;
+  /** The last update to this ComponentInterface must have occurred __after__ the given date (inclusive) */
+  lastUpdatedAfter?: Maybe<Scalars['Date']>;
+  /** The last update to this ComponentInterface must have occurred __before__ the given date (inclusive) */
+  lastUpdatedBefore?: Maybe<Scalars['Date']>;
+  /** The __RegEx__ the type of the ComponentInterface needs to match */
+  type?: Maybe<Scalars['String']>;
   /** If given, only interfaces, that are __offered by__ one of the components with the IDs given can match the given filter */
   component?: Maybe<Array<Scalars['ID']>>;
   /** If given, only interfaces which are consumed by at least one of the components with the given ids can match the filter */
@@ -271,26 +291,26 @@ export type ComponentInterfaceFilter = {
 
 /** Filter for comments on issues (not including the issue bodies themselves). All parameters given in this filter will be connected via _AND_ */
 export type IssueCommentFilter = {
+  /** The id of the IssueComment creating the issue must be any of the given ones */
+  createdBy?: Maybe<Array<Scalars['ID']>>;
+  /** The IssueComment must have been created __after__ the given date (inclusive) */
+  createdAfter?: Maybe<Scalars['Date']>;
+  /** The IssueComment must have been created __before__ the given date (inclusive) */
+  createdBefore?: Maybe<Scalars['Date']>;
+  /** The id of the user who __last__ edited the IssueComment must match any of the given ids */
+  editedBy?: Maybe<Array<Scalars['ID']>>;
+  /** Match all IssueComments last edited after the given date (inclusive) */
+  lastEditedAfter?: Maybe<Scalars['Date']>;
+  /** Match all IssueComments last edited before the given date (inclusive) */
+  lastEditedBefore?: Maybe<Scalars['Date']>;
+  /** The body of a IssueComment must match this __RegEx__ to match the filter */
+  body?: Maybe<Scalars['String']>;
+  /** A IssueComment must have all the reactions in one of the lists given. */
+  reactions?: Maybe<Array<Array<Scalars['String']>>>;
+  /** If given, filters for IssueComments which the user either has or hasn't got edit permissions */
+  currentUserCanEdit?: Maybe<Scalars['Boolean']>;
   /** The id of the issue the comment belongs to must match any of the given ids */
   issue?: Maybe<Array<Scalars['ID']>>;
-  /** The id of the user creating the comment.Must match any one of the given ids */
-  createdBy?: Maybe<Array<Scalars['ID']>>;
-  /** The id of the user who __last__ edited the comment must match any of the given ids */
-  editedBy?: Maybe<Array<Scalars['ID']>>;
-  /** Match all comments created after the given date (inclusive) */
-  createdAfter?: Maybe<Scalars['Date']>;
-  /** Match all comments created before the given date (inclusive) */
-  createdBefore?: Maybe<Scalars['Date']>;
-  /** Match all comments last edited after the given date (inclusive) */
-  editedAfter?: Maybe<Scalars['Date']>;
-  /** Match all comments last edited before the given date (inclusive) */
-  editedBefore?: Maybe<Scalars['Date']>;
-  /** The body of a comment must match this __RegEx__ to match the filter */
-  body?: Maybe<Scalars['String']>;
-  /** A comment must have all the reactions in one of the lists given. */
-  reactions?: Maybe<Array<Array<Scalars['String']>>>;
-  /** If given, filters for comments which the user either has or hasn't got edit permissions */
-  currentUserCanEdit?: Maybe<Scalars['Boolean']>;
 };
 
 /**
@@ -307,18 +327,8 @@ export type IssueFilter = {
   body?: Maybe<Scalars['String']>;
   /** The issue must match the full search */
   fullSearch?: Maybe<FullSearch>;
-  /** The id of the user creating the issue must be any of the given ones */
-  createdBy?: Maybe<Array<Scalars['ID']>>;
   /** The id of the user last editing the issue must match any of the ones in the list */
   editedBy?: Maybe<Array<Scalars['ID']>>;
-  /** The issue must have been created __after__ the given date (inclusive) */
-  createdAfter?: Maybe<Scalars['Date']>;
-  /** The issue must have been created __before__ the given date (inclusive) */
-  createdBefore?: Maybe<Scalars['Date']>;
-  /** The issue must have been last edited __after__ the given date (inclusive) */
-  editedAfter?: Maybe<Scalars['Date']>;
-  /** The issue must have been last edited __before__ the given date (inclusive) */
-  editedBefore?: Maybe<Scalars['Date']>;
   /** The last event in this issue must have occurred __after__ the given date (inclusive) */
   updatedAfter?: Maybe<Scalars['Date']>;
   /** The last event in this issue must have occurred __before__ the given date (inclusive) */
@@ -379,10 +389,20 @@ export type FullSearch = {
 
 /** Filters for Issues locations (components and interfaces). All parameters given in this filter will be connected via _AND_ */
 export type IssueLocationFilter = {
-  /** The name of the location must match the given RegEx */
+  /** The id of the IssueLocation creating the issue must be any of the given ones */
+  createdBy?: Maybe<Array<Scalars['ID']>>;
+  /** The IssueLocation must have been created __after__ the given date (inclusive) */
+  createdAfter?: Maybe<Scalars['Date']>;
+  /** The IssueLocation must have been created __before__ the given date (inclusive) */
+  createdBefore?: Maybe<Scalars['Date']>;
+  /** The name of the IssueLocation must match the given RegEx */
   name?: Maybe<Scalars['String']>;
-  /** The issue locations description must match the given __RegEx__ */
+  /** The __RegEx__ the description of the IssueLocation needs to match */
   description?: Maybe<Scalars['String']>;
+  /** The last update to this IssueLocation must have occurred __after__ the given date (inclusive) */
+  lastUpdatedAfter?: Maybe<Scalars['Date']>;
+  /** The last update to this IssueLocation must have occurred __before__ the given date (inclusive) */
+  lastUpdatedBefore?: Maybe<Scalars['Date']>;
 };
 
 /**
@@ -391,11 +411,11 @@ export type IssueLocationFilter = {
  * __Please note:__ It's currently __not__ possible to filter for specific properties of an event. Might be added in future
  */
 export type IssueTimelineItemFilter = {
-  /** Filters for the creator user of the timeline event. The id of the user must match any of the given ids */
+  /** The id of the IssueTimelineItem creating the issue must be any of the given ones */
   createdBy?: Maybe<Array<Scalars['ID']>>;
-  /** The timeline event must have occurred after the given date (inclusive) to match the filter */
+  /** The IssueTimelineItem must have been created __after__ the given date (inclusive) */
   createdAfter?: Maybe<Scalars['Date']>;
-  /** The timeline event must have occurred before the given date (inclusive) to match the filter */
+  /** The IssueTimelineItem must have been created __before__ the given date (inclusive) */
   createdBefore?: Maybe<Scalars['Date']>;
   /** The type of the timeline item must match one of the given ones */
   type?: Maybe<Array<IssueTimelineItemType>>;
@@ -403,34 +423,34 @@ export type IssueTimelineItemFilter = {
 
 /** A Filter data input for labels.  All parameters given in this filter will be connected via _AND_ */
 export type LabelFilter = {
-  /** The name of the label must match the given RegEx */
-  name?: Maybe<Scalars['String']>;
-  /** The __RegEx__ the description of the label needs to match */
-  description?: Maybe<Scalars['String']>;
-  /** Filters for the creator user of the label. The id of the user must match any of the given ids */
+  /** The id of the Label creating the issue must be any of the given ones */
   createdBy?: Maybe<Array<Scalars['ID']>>;
-  /** The label must have been created after the given date (inclusive) to match the filter */
+  /** The Label must have been created __after__ the given date (inclusive) */
   createdAfter?: Maybe<Scalars['Date']>;
-  /** The label must have been created before the given date (inclusive) to match the filter */
+  /** The Label must have been created __before__ the given date (inclusive) */
   createdBefore?: Maybe<Scalars['Date']>;
+  /** The name of the Label must match the given RegEx */
+  name?: Maybe<Scalars['String']>;
+  /** The __RegEx__ the description of the Label needs to match */
+  description?: Maybe<Scalars['String']>;
+  /** The last update to this Label must have occurred __after__ the given date (inclusive) */
+  lastUpdatedAfter?: Maybe<Scalars['Date']>;
+  /** The last update to this Label must have occurred __before__ the given date (inclusive) */
+  lastUpdatedBefore?: Maybe<Scalars['Date']>;
   /** A list of label colours. Any one or more of the given colours need to match the labels colour. */
   color?: Maybe<Array<Scalars['Color']>>;
 };
 
 /** Filter for a Project. All parameters given in this filter will be connected via _AND_ */
 export type ProjectFilter = {
-  /** The name of the project must match the given RegEx */
+  /** The name of the Project must match the given RegEx */
   name?: Maybe<Scalars['String']>;
-  /** The project must have any of the components with the given ids */
-  components?: Maybe<Array<Scalars['ID']>>;
-  /** At least one of the users with the given ids must be part of the project */
-  users?: Maybe<Array<Scalars['ID']>>;
-  /** The Owner of the project must be a user with one of the given ids */
-  owner?: Maybe<Array<Scalars['ID']>>;
-  /** At least one of the issues given must be on a component assigned to the project */
-  issues?: Maybe<Array<Scalars['ID']>>;
   /** The projects description must match the given __RegEx__ */
   description?: Maybe<Scalars['String']>;
+  /** At least one of the users with the given ids must be part of the project */
+  users?: Maybe<Array<Scalars['ID']>>;
+  /** At least one of the issues given must be on a component assigned to the project */
+  issues?: Maybe<Array<Scalars['ID']>>;
 };
 
 /** A filter for reaction groups (a reaction together with the users who reacted). All parameters given in this filter will be connected via _AND_ */
@@ -443,27 +463,25 @@ export type ReactionGroupFilter = {
 
 /** Filter for a user of the system. All parameters given in this filter will be connected via _AND_ */
 export type UserFilter = {
-  /** The users username must match this given RegEx */
+  /** The User's username must match this given RegEx */
   username?: Maybe<Scalars['String']>;
-  /** The users display name must match this given RegEx */
+  /** The User's display name must match this given RegEx */
   displayName?: Maybe<Scalars['String']>;
-  /** The users email must match this given RegEx */
+  /** The User's email must match this given RegEx */
   email?: Maybe<Scalars['String']>;
-  /** The user must be member of at least one of the projects with the given ids */
-  projects?: Maybe<Array<Scalars['ID']>>;
-  /** The user must be assigned to at least one of the issues with the given ids */
+  /** The User must be assigned to at least one of the issues with the given ids */
   assignedToIssues?: Maybe<Array<Scalars['ID']>>;
-  /** The user must be participant of at least one of the issues with the given ids */
+  /** The User must be participant of at least one of the issues with the given ids */
   participantOfIssues?: Maybe<Array<Scalars['ID']>>;
-  /** The user must have written or edited at least one of the comments (issue or comment) with the given ids */
+  /** The User must have written or edited at least one of the comments (issue or comment) with the given ids */
   comments?: Maybe<Array<Scalars['ID']>>;
 };
 
-/** A page of multiple component interfaces */
+/** A page of multiple ComponentInterfaces */
 export type ComponentInterfacePage = Page & {
-  /** All interfaces on this page */
+  /** All ComponentInterfaces on this page */
   nodes?: Maybe<Array<Maybe<ComponentInterface>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all ComponentInterfaces containing the cursor */
   edges?: Maybe<Array<Maybe<ComponentInterfaceEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -475,11 +493,11 @@ export type ComponentInterfacePage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of multiple components */
+/** A page of multiple Components */
 export type ComponentPage = Page & {
-  /** All components on this page */
+  /** All Components on this page */
   nodes?: Maybe<Array<Maybe<Component>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all Components containing the cursor */
   edges?: Maybe<Array<Maybe<ComponentEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -491,11 +509,11 @@ export type ComponentPage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of multiple issue comments */
+/** A page of multiple IssueComments */
 export type IssueCommentPage = Page & {
-  /** All issue comments on this page */
+  /** All IssueComments on this page */
   nodes?: Maybe<Array<Maybe<IssueComment>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all IssueComments containing the cursor */
   edges?: Maybe<Array<Maybe<IssueCommentEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -507,11 +525,11 @@ export type IssueCommentPage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of multiple issue locations */
+/** A page of multiple IssueLocations */
 export type IssueLocationPage = Page & {
-  /** All issue locations on this page */
+  /** All IssueLocations on this page */
   nodes?: Maybe<Array<Maybe<IssueLocation>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all IssueLocations containing the cursor */
   edges?: Maybe<Array<Maybe<IssueLocationEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -523,11 +541,11 @@ export type IssueLocationPage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of multiple issues */
+/** A page of multiple Issues */
 export type IssuePage = Page & {
-  /** All issues on this page */
+  /** All Issues on this page */
   nodes?: Maybe<Array<Maybe<Issue>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all Issues containing the cursor */
   edges?: Maybe<Array<Maybe<IssueEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -539,11 +557,11 @@ export type IssuePage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of multiple labels */
+/** A page of multiple Labels */
 export type LabelPage = Page & {
-  /** All labels on this page */
+  /** All Labels on this page */
   nodes?: Maybe<Array<Maybe<Label>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all Labels containing the cursor */
   edges?: Maybe<Array<Maybe<LabelEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -555,11 +573,11 @@ export type LabelPage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of multiple issue timeline items */
+/** A page of multiple IssueTimelineItems */
 export type IssueTimelineItemPage = Page & {
-  /** All issue timeline items on this page */
+  /** All IssueTimelineItems on this page */
   nodes?: Maybe<Array<Maybe<IssueTimelineItem>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all IssueTimelineItems containing the cursor */
   edges?: Maybe<Array<Maybe<IssueTimelineItemEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -599,11 +617,11 @@ export type PageInfo = {
   hasPreviousPage: Scalars['Boolean'];
 };
 
-/** A page of multiple users */
+/** A page of multiple Users */
 export type UserPage = Page & {
-  /** All users on this page */
+  /** All Users on this page */
   nodes?: Maybe<Array<Maybe<User>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all Users containing the cursor */
   edges?: Maybe<Array<Maybe<UserEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -615,11 +633,11 @@ export type UserPage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of reaction groups */
+/** A page of multiple ReactionGroups */
 export type ReactionGroupPage = Page & {
-  /** All reaction groups on this page */
+  /** All ReactionGroups on this page */
   nodes?: Maybe<Array<Maybe<ReactionGroup>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all ReactionGroups containing the cursor */
   edges?: Maybe<Array<Maybe<ReactionGroupEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -631,11 +649,11 @@ export type ReactionGroupPage = Page & {
   totalCount: Scalars['Int'];
 };
 
-/** A page of projects */
+/** A page of multiple Projects */
 export type ProjectPage = Page & {
-  /** All projects on this page */
+  /** All Projects on this page */
   nodes?: Maybe<Array<Maybe<Project>>>;
-  /** Edges to all nodes containing the cursor */
+  /** Edges to all Projects containing the cursor */
   edges?: Maybe<Array<Maybe<ProjectEdge>>>;
   /** Information about the current page (like length, first/last element) */
   pageInfo: PageInfo;
@@ -649,33 +667,47 @@ export type ProjectPage = Page & {
 
 /** An interface specifying an editable text block (e.g. Issue, Comment) */
 export type Comment = {
-  /** The unique id of this comment */
-  id: Scalars['ID'];
   /**
-   * The body text of the comment.
+   * The ID of this Comment. Every Comment will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the Comment (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the Comment was first created on */
+  createdAt: Scalars['Date'];
+  /**
+   * The body text of the Comment.
    * Markdown supported.
    * 
    * Max. 65536 characters
    */
-  body?: Maybe<Scalars['String']>;
-  /** The body text of the comment rendered to html */
-  bodyRendered?: Maybe<Scalars['String']>;
-  /** The user who originally created the comment (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** A list of all people who edited the root of this comment (body and title) */
-  editedBy?: Maybe<Array<User>>;
-  /** The date the comment was first created on */
-  createdAt: Scalars['Date'];
-  /** Date when the core comment(title, body etc.) was last changed (comments and other events DO NOT count) */
-  lastEditedAt?: Maybe<Scalars['Date']>;
+  body: Scalars['String'];
+  /** The body text of the Comment rendered to html */
+  bodyRendered: Scalars['String'];
   /**
-   * `true` iff the user authenticated by the given JWT is permitted to edit this comment.
+   * `true` iff the User authenticated by the given JWT is permitted to edit this Comment.
    * 
    * This only refers to editing the core comment (title, body, etc.)
    */
   currentUserCanEdit: Scalars['Boolean'];
-  /** All reactions that have been added to this comment */
+  /** Date when the Comment's body was last edited */
+  lastEditedAt: Scalars['Date'];
+  /** All Users who edited this Comment (body and/or title) */
+  editedBy?: Maybe<UserPage>;
+  /** All reactions that have been added to this Comment */
   reactions?: Maybe<ReactionGroupPage>;
+};
+
+
+/** An interface specifying an editable text block (e.g. Issue, Comment) */
+export type CommentEditedByArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -694,28 +726,40 @@ export type CommentReactionsArgs = {
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type Component = Node & IssueLocation & {
-  /** The unique id of this component */
-  id: Scalars['ID'];
   /**
-   * The (non unique) display name of this component
+   * The ID of this Component. Every Component will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the Component (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the Component was first created on */
+  createdAt: Scalars['Date'];
+  /**
+   * The (non unique) display name of this Component
    * 
    * Max. 256 characters
    */
   name: Scalars['String'];
-  /** The user who administrates "owns" the component */
-  owner?: Maybe<User>;
   /**
-   * A textual description (of the fuction) of this component.
+   * A textual description (of the function) of this Component.
    * 
    * Max. 65536 characters
    */
-  description?: Maybe<Scalars['String']>;
-  /** The IMS instance used by this component. */
-  ims?: Maybe<Ims>;
+  description: Scalars['String'];
+  /** Date when the name, description or any other field directly on Component was last updated */
+  lastUpdatedAt: Scalars['Date'];
+  /** All Issues that are assinged to on this Component matching (if given) `filterBy` */
+  issuesOnLocation?: Maybe<IssuePage>;
+  /**
+   * The URL where the code repository of this component is located
+   * 
+   * Max. 65536 characters
+   */
+  repositoryURL?: Maybe<Scalars['String']>;
   /** All issues that are mirrored on this component (not the issue location but the ims) matching (if given) `filterBy` */
   issues?: Maybe<IssuePage>;
-  /** All issues that are assigned to this components issue location matching (if given) `filterBy` */
-  issuesOnLocation?: Maybe<IssuePage>;
   /** All projects that this component is assigned to matching the `filterBy` */
   projects?: Maybe<ProjectPage>;
   /** Requests component interfaces which this component offers */
@@ -724,6 +768,10 @@ export type Component = Node & IssueLocation & {
   consumedInterfaces?: Maybe<ComponentInterfacePage>;
   /** All labels which are available on this component, matching (if given) `filterBy` */
   labels?: Maybe<LabelPage>;
+  /** All IMSComponents which this component is synced to, matching (if given) `filterBy` */
+  imsComponents?: Maybe<ImsComponentPage>;
+  /** All Artifacts on this Component, matching (if given) `filterBy` */
+  artifacts?: Maybe<ArtifactPage>;
 };
 
 
@@ -732,7 +780,7 @@ export type Component = Node & IssueLocation & {
  * 
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
-export type ComponentIssuesArgs = {
+export type ComponentIssuesOnLocationArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<IssueFilter>;
@@ -746,7 +794,7 @@ export type ComponentIssuesArgs = {
  * 
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
-export type ComponentIssuesOnLocationArgs = {
+export type ComponentIssuesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<IssueFilter>;
@@ -810,40 +858,66 @@ export type ComponentLabelsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
 /**
- * An issue management system. This will be an __instance__ of one of the available IMS Types.
+ * A component known to ccims.
  * 
- * E.g. One GitHub Repository's issue page.
+ * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
-export type Ims = Node & {
-  /** The unique ID of this IMS */
-  id: Scalars['ID'];
-  /** The type/system this IMS is an instance of */
-  imsType?: Maybe<ImsType>;
-  /** The component this IMS belongs to */
-  component?: Maybe<Component>;
+export type ComponentImsComponentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ImsComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/**
+ * A component known to ccims.
+ * 
+ * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
+ */
+export type ComponentArtifactsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ArtifactFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 /** An interface offered by a component which can be counsumed by other components */
 export type ComponentInterface = Node & IssueLocation & {
-  /** The unique id of this component interface */
-  id: Scalars['ID'];
   /**
-   * The name of the component interface
+   * The ID of this ComponentInterface. Every ComponentInterface will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the ComponentInterface (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the ComponentInterface was first created on */
+  createdAt: Scalars['Date'];
+  /**
+   * The (non unique) display name of this ComponentInterface
    * 
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
-   * A textual description (of the fuction) of this component interface .
+   * A textual description (of the function) of this ComponentInterface.
    * 
    * Max. 65536 characters
    */
-  description?: Maybe<Scalars['String']>;
-  /** The parent component of this interface which offers it */
-  component: Component;
-  /** All issues that are assigned to this component interface matching (if given) `filterBy` */
+  description: Scalars['String'];
+  /** Date when the name, description or any other field directly on ComponentInterface was last updated */
+  lastUpdatedAt: Scalars['Date'];
+  /** All Issues that are assinged to on this ComponentInterface matching (if given) `filterBy` */
   issuesOnLocation?: Maybe<IssuePage>;
+  /** The type of the ComponentInterface */
+  type: Scalars['String'];
+  /** The parent component of this interface which offers it, null if deleted */
+  component?: Maybe<Component>;
   /**
    * Components which consume the interface and match the filter.
    * 
@@ -874,33 +948,45 @@ export type ComponentInterfaceConsumedByArgs = {
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type Issue = Comment & Node & {
-  /** The unique id of this issue */
-  id: Scalars['ID'];
+  /**
+   * The ID of this Issue. Every Issue will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the Issue (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the Issue was first created on */
+  createdAt: Scalars['Date'];
+  /**
+   * The body text of the Issue.
+   * Markdown supported.
+   * 
+   * Max. 65536 characters
+   */
+  body: Scalars['String'];
+  /** The body text of the Issue rendered to html */
+  bodyRendered: Scalars['String'];
+  /**
+   * `true` iff the User authenticated by the given JWT is permitted to edit this Issue.
+   * 
+   * This only refers to editing the core comment (title, body, etc.)
+   */
+  currentUserCanEdit: Scalars['Boolean'];
+  /** Date when the Issue's body was last edited */
+  lastEditedAt: Scalars['Date'];
+  /** All Users who edited this Issue (body and/or title) */
+  editedBy?: Maybe<UserPage>;
+  /** All reactions that have been added to the body of this issue */
+  reactions?: Maybe<ReactionGroupPage>;
   /**
    * The title to display for this issue.
    * 
    * Not unique; Max. 256 characters
    */
   title: Scalars['String'];
-  /**
-   * The body text of the issue.
-   * Markdown supported.
-   * 
-   * Max. 65536 characters
-   */
-  body?: Maybe<Scalars['String']>;
-  /** The body text of the issue rendered to html */
-  bodyRendered?: Maybe<Scalars['String']>;
-  /** The user who originally created the issue (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** A list of all people who edited the root of this issue (body and title) */
-  editedBy?: Maybe<Array<User>>;
-  /** The date the issue was first created on */
-  createdAt: Scalars['Date'];
-  /** Date when the core issue(title, body etc.) was last changed (comments and other events DO NOT count) */
-  lastEditedAt?: Maybe<Scalars['Date']>;
   /** Date when any update / activity was made to any part of the issue (__including__ title, commens, reactions) */
-  updatedAt?: Maybe<Scalars['Date']>;
+  lastUpdatedAt: Scalars['Date'];
   /** `true` iff the issue is open at this point */
   isOpen: Scalars['Boolean'];
   /** Weather or not this issue has been marked as duplicate of another issue */
@@ -911,12 +997,6 @@ export type Issue = Comment & Node & {
    * This can be one of BUG,FEATURE_REQUEST or UNCLASSIFIED
    */
   category: IssueCategory;
-  /**
-   * `true` iff the user authenticated by the given JWT is permitted to edit this issue.
-   * 
-   * This only refers to editing the core issue (title, body, etc.)
-   */
-  currentUserCanEdit: Scalars['Boolean'];
   /** `true` iff the user authenticated by the given JWT is permitted to comment on this issue. */
   currentUserCanComment: Scalars['Boolean'];
   /**
@@ -955,8 +1035,6 @@ export type Issue = Comment & Node & {
    * If no filter is given, all issues will be returned
    */
   linkedByIssues?: Maybe<IssuePage>;
-  /** All reactions that have been added to the body of this issue */
-  reactions?: Maybe<ReactionGroupPage>;
   /**
    * All users who are explicitely assigned to issue, matching the given filter.
    * If no filter is given, all issues will be returned
@@ -980,6 +1058,33 @@ export type Issue = Comment & Node & {
   locations?: Maybe<IssueLocationPage>;
   /** All components this issue is on */
   components?: Maybe<ComponentPage>;
+  /** All Artifacts that are currently assigned to this Issue, matching (if given) `filterBy */
+  artifacts?: Maybe<ArtifactPage>;
+  /**
+   * All NonFunctionalConstraints on this Issue, matching (if given) `filterBy.
+   * WARNING: if filterBy.isActive is not set, ALL NonFunctionalConstraints are returned
+   */
+  nonFunctionalConstraints?: Maybe<NonFunctionalConstraintPage>;
+};
+
+
+/** A cross component issue within ccims which links multiple issues from single ims */
+export type IssueEditedByArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A cross component issue within ccims which links multiple issues from single ims */
+export type IssueReactionsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ReactionGroupFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -1008,16 +1113,6 @@ export type IssueLinkedByIssuesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<IssueFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-/** A cross component issue within ccims which links multiple issues from single ims */
-export type IssueReactionsArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filterBy?: Maybe<ReactionGroupFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -1092,27 +1187,57 @@ export type IssueComponentsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+
+/** A cross component issue within ccims which links multiple issues from single ims */
+export type IssueArtifactsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ArtifactFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A cross component issue within ccims which links multiple issues from single ims */
+export type IssueNonFunctionalConstraintsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<NonFunctionalConstraintFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
 /**
  * A location an issue can be assigned to
  * 
  * Currently this can be either a component or an interface
  */
 export type IssueLocation = {
-  /** The unique id of the node of this location */
-  id: Scalars['ID'];
   /**
-   * The name of the location
+   * The ID of this IssueLocation. Every IssueLocation will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the IssueLocation (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the IssueLocation was first created on */
+  createdAt: Scalars['Date'];
+  /**
+   * The (non unique) display name of this IssueLocation
    * 
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
-   * A textual description (of the fuction) of this issue location.
+   * A textual description (of the function) of this IssueLocation.
    * 
    * Max. 65536 characters
    */
-  description?: Maybe<Scalars['String']>;
-  /** All issues that are assinged to on this issue location matching (if given) `filterBy` */
+  description: Scalars['String'];
+  /** Date when the name, description or any other field directly on IssueLocation was last updated */
+  lastUpdatedAt: Scalars['Date'];
+  /** All Issues that are assinged to on this IssueLocation matching (if given) `filterBy` */
   issuesOnLocation?: Maybe<IssuePage>;
 };
 
@@ -1132,42 +1257,48 @@ export type IssueLocationIssuesOnLocationArgs = {
 
 /** An event in the timeline of an issue with a date and a creator */
 export type IssueTimelineItem = {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this IssueTimelineItem. Every IssueTimelineItem will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the IssueTimelineItem (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the IssueTimelineItem was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this IssueTimelineItem belongs to */
+  issue: Issue;
 };
 
-/** A label assignable to issues. A label is per-project */
+/** A label assignable to issues. A label is per-component */
 export type Label = Node & {
-  /** The unique id of this label */
-  id: Scalars['ID'];
   /**
-   * The name of the label to display.
+   * The ID of this Label. Every Label will have an non-empty and non-null edge.
    * 
-   *  Max. 256 characters
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the Label (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the Label was first created on */
+  createdAt: Scalars['Date'];
+  /**
+   * The (non unique) display name of this Label
+   * 
+   * Max. 256 characters
    */
   name: Scalars['String'];
   /**
-   * A text describing the labels' function
+   * A textual description (of the function) of this Label.
    * 
    * Max. 65536 characters
    */
-  description?: Maybe<Scalars['String']>;
+  description: Scalars['String'];
+  /** Date when the name, description or any other field directly on Label was last updated */
+  lastUpdatedAt: Scalars['Date'];
   /** The color of the label in the GUI */
-  color?: Maybe<Scalars['Color']>;
+  color: Scalars['Color'];
   /** The components this label is available on */
   components?: Maybe<ComponentPage>;
   /** All projetcs that this label is used on */
@@ -1175,7 +1306,7 @@ export type Label = Node & {
 };
 
 
-/** A label assignable to issues. A label is per-project */
+/** A label assignable to issues. A label is per-component */
 export type LabelComponentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1185,7 +1316,7 @@ export type LabelComponentsArgs = {
 };
 
 
-/** A label assignable to issues. A label is per-project */
+/** A label assignable to issues. A label is per-component */
 export type LabelProjectsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1196,54 +1327,61 @@ export type LabelProjectsArgs = {
 
 /** A relation of users who have reacted with a certain reaction to something */
 export type ReactionGroup = Node & {
-  /** The unique id of this reaction group */
-  id: Scalars['ID'];
   /**
-   * Users who reacted with this reaction.
+   * The ID of this ReactionGroup. Every ReactionGroup will have an non-empty and non-null edge.
    * 
-   * If there are only a few, all users will be returned. If too many users are part of this reaction group, only a few will be returned
+   * If this is ever empty or null, something went wrong.
    */
-  users?: Maybe<Array<Maybe<User>>>;
-  /**
-   * The total number of users in this reaction group.
-   * This is needed in case the `users` list was truncated.
-   */
-  totalUserCount: Scalars['Int'];
+  id?: Maybe<Scalars['ID']>;
   /** The name of the recation with which the people in this reaction group have reacted */
   reaction: Scalars['String'];
+  /** Users who reacted with this reaction. */
+  users?: Maybe<UserPage>;
+};
+
+
+/** A relation of users who have reacted with a certain reaction to something */
+export type ReactionGroupUsersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 /** A project is a one unit in which the participating components colaborate */
 export type Project = Node & {
-  /** The unique id of this project */
-  id: Scalars['ID'];
   /**
-   * The human readable name of this project
+   * The ID of this Project. Every Project will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /**
+   * The (non unique) display name of this Project
    * 
    * Max. 256 characters
    */
   name: Scalars['String'];
-  /** All compomponents which are a part of this project and match (if given) `filterBy` */
-  components?: Maybe<ComponentPage>;
-  /** Requests component interfaces which are offered by any of this project's components */
-  interfaces?: Maybe<ComponentInterfacePage>;
-  /** All users that participate in this project and (if given)match `filterBy` */
-  users?: Maybe<UserPage>;
-  /** The user who administrates "owns" the project */
-  owner: User;
-  /** All issues on components that are assigned to this project */
-  issues?: Maybe<IssuePage>;
   /**
-   * All labels which are available on this project, matching the given filter.
-   * If no filter is given, all labels will be returned
-   */
-  labels?: Maybe<LabelPage>;
-  /**
-   * A textual description of this project.
+   * A textual description (of the function) of this Project.
    * 
    * Max. 65536 characters
    */
-  description?: Maybe<Scalars['String']>;
+  description: Scalars['String'];
+  /** All Components which are a part of this Project and match (if given) `filterBy` */
+  components?: Maybe<ComponentPage>;
+  /** Requests ComponentInterfaces which are offered by any of this Project's Components */
+  interfaces?: Maybe<ComponentInterfacePage>;
+  /** All Issues on Components that are assigned to this Project */
+  issues?: Maybe<IssuePage>;
+  /**
+   * All Labels which are available on this Project, matching the given filter.
+   * If no filter is given, all Labels will be returned
+   */
+  labels?: Maybe<LabelPage>;
+  /** All Artifacts on Components which are part of this Project */
+  artifacts?: Maybe<ArtifactPage>;
 };
 
 
@@ -1268,16 +1406,6 @@ export type ProjectInterfacesArgs = {
 
 
 /** A project is a one unit in which the participating components colaborate */
-export type ProjectUsersArgs = {
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  filterBy?: Maybe<UserFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-/** A project is a one unit in which the participating components colaborate */
 export type ProjectIssuesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1296,38 +1424,40 @@ export type ProjectLabelsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-/** A user of th ccims. Can be assigned to projects, components and can have multiple ims accounts */
-export type User = Node & {
-  /** The unique id of this user */
-  id: Scalars['ID'];
-  /** The unique username used for login */
-  username: Scalars['String'];
-  /** The name of the user to display in the GUI */
-  displayName?: Maybe<Scalars['String']>;
-  /** The mail address of the user */
-  email?: Maybe<Scalars['String']>;
-  /** All the projects this user is a participant of matching `filterBy` */
-  projects?: Maybe<ProjectPage>;
-  /** All issues that this the user is assigned to matching (if given) `filterBy` */
-  assignedToIssues?: Maybe<IssuePage>;
-  /** All issues that this the user is a participant of matching (if given) `filterBy` */
-  participantOfIssues?: Maybe<IssuePage>;
-  /** All issue comments (not including issues) written by this user */
-  issueComments?: Maybe<IssueCommentPage>;
-};
 
-
-/** A user of th ccims. Can be assigned to projects, components and can have multiple ims accounts */
-export type UserProjectsArgs = {
+/** A project is a one unit in which the participating components colaborate */
+export type ProjectArtifactsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  filterBy?: Maybe<ProjectFilter>;
+  filterBy?: Maybe<ArtifactFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
 
+/** A user registered  */
+export type User = {
+  /**
+   * The ID of this User. Every User will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The unique username used */
+  username: Scalars['String'];
+  /** The name of the User to display in the GUI */
+  displayName: Scalars['String'];
+  /** The mail address of the User */
+  email?: Maybe<Scalars['String']>;
+  /** All Issues that this the User is assigned to matching (if given) `filterBy` */
+  assignedToIssues?: Maybe<IssuePage>;
+  /** All Issues that this the User is a participant of matching (if given) `filterBy` */
+  participantOfIssues?: Maybe<IssuePage>;
+  /** All IssueComments (not including Issues) written by this User */
+  issueComments?: Maybe<IssueCommentPage>;
+};
 
-/** A user of th ccims. Can be assigned to projects, components and can have multiple ims accounts */
+
+/** A user registered  */
 export type UserAssignedToIssuesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1337,7 +1467,7 @@ export type UserAssignedToIssuesArgs = {
 };
 
 
-/** A user of th ccims. Can be assigned to projects, components and can have multiple ims accounts */
+/** A user registered  */
 export type UserParticipantOfIssuesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1347,7 +1477,7 @@ export type UserParticipantOfIssuesArgs = {
 };
 
 
-/** A user of th ccims. Can be assigned to projects, components and can have multiple ims accounts */
+/** A user registered  */
 export type UserIssueCommentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -1358,108 +1488,88 @@ export type UserIssueCommentsArgs = {
 
 /** An AddedToComponentEvent in the timeline of an issue with a date and a creator */
 export type AddedToComponentEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this AddedToComponentEvent. Every AddedToComponentEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the AddedToComponentEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the AddedToComponentEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The component the issue was added to */
-  component: Component;
+  /** The Issue this AddedToComponentEvent belongs to */
+  issue: Issue;
+  /** The component the issue was added to, null if deleted */
+  component?: Maybe<Component>;
 };
 
 /** An AddedToLocationEvent in the timeline of an issue with a date and a creator */
 export type AddedToLocationEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this AddedToLocationEvent. Every AddedToLocationEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the AddedToLocationEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the AddedToLocationEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The location the issue was added to */
-  location: IssueLocation;
+  /** The Issue this AddedToLocationEvent belongs to */
+  issue: Issue;
+  /** The location the issue was added to, null if deleted */
+  location?: Maybe<IssueLocation>;
 };
 
 /** An ClosedEvent in the timeline of an issue with a date and a creator */
 export type ClosedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this ClosedEvent. Every ClosedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the ClosedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the ClosedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this ClosedEvent belongs to */
+  issue: Issue;
 };
 
 /** An AssignedEvent in the timeline of an issue with a date and a creator */
 export type AssignedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this AssignedEvent. Every AssignedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the AssignedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the AssignedEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The user which was newly assigned to this issue */
-  assignee: User;
+  /** The Issue this AssignedEvent belongs to */
+  issue: Issue;
+  /** The user which was newly assigned to this issue, null if deleted */
+  assignee?: Maybe<User>;
 };
 
 /** An CategoryChangedEvent in the timeline of an issue with a date and a creator */
 export type CategoryChangedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this CategoryChangedEvent. Every CategoryChangedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the CategoryChangedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the CategoryChangedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this CategoryChangedEvent belongs to */
+  issue: Issue;
   /** The old category of the issue */
   oldCategory: IssueCategory;
   /** The new updated issue category */
@@ -1468,22 +1578,18 @@ export type CategoryChangedEvent = IssueTimelineItem & Node & {
 
 /** An DueDateChangedEvent in the timeline of an issue with a date and a creator */
 export type DueDateChangedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this DueDateChangedEvent. Every DueDateChangedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the DueDateChangedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the DueDateChangedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this DueDateChangedEvent belongs to */
+  issue: Issue;
   /** The old due date */
   oldDueDate?: Maybe<Scalars['Date']>;
   /** The new due date for the issue */
@@ -1492,14 +1598,18 @@ export type DueDateChangedEvent = IssueTimelineItem & Node & {
 
 /** An DeletedIssueComment in the timeline of an issue with a date and a creator */
 export type DeletedIssueComment = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
-  /** The user responsible who originally wrote the comment */
+  /**
+   * The ID of this DeletedIssueComment. Every DeletedIssueComment will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the DeletedIssueComment (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /** The date the original comment was first written. It's importand to user __this__ date for sorting to maintain the conversation order */
+  /** The date the DeletedIssueComment was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this DeletedIssueComment belongs to */
+  issue: Issue;
   /** The user who __deleted__ the comment */
   deletedBy?: Maybe<User>;
   /** The date the comment was deleted */
@@ -1508,22 +1618,18 @@ export type DeletedIssueComment = IssueTimelineItem & Node & {
 
 /** An EstimatedTimeChangedEvent in the timeline of an issue with a date and a creator */
 export type EstimatedTimeChangedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this EstimatedTimeChangedEvent. Every EstimatedTimeChangedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the EstimatedTimeChangedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the EstimatedTimeChangedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this EstimatedTimeChangedEvent belongs to */
+  issue: Issue;
   /** The old time estimate for the issue */
   oldEstimatedTime?: Maybe<Scalars['TimeSpan']>;
   /** The new updated time estimate for the issue */
@@ -1532,57 +1638,67 @@ export type EstimatedTimeChangedEvent = IssueTimelineItem & Node & {
 
 /** An LabelledEvent in the timeline of an issue with a date and a creator */
 export type LabelledEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this LabelledEvent. Every LabelledEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the LabelledEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the LabelledEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The label which was added to the issue */
-  label: Label;
+  /** The Issue this LabelledEvent belongs to */
+  issue: Issue;
+  /** The label which was added to the issue, null if deleted */
+  label?: Maybe<Label>;
 };
 
 /** A commemt on an issue. Not including th issue body itself */
 export type IssueComment = IssueTimelineItem & Comment & Node & {
-  /** The unique id of this comment */
-  id: Scalars['ID'];
-  /** The issue this comment belongs to */
+  /**
+   * The ID of this IssueComment. Every IssueComment will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the IssueComment (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the IssueComment was first created on */
+  createdAt: Scalars['Date'];
+  /** The Issue this IssueComment belongs to */
   issue: Issue;
   /**
-   * The body text of the comment.
+   * The body text of the IssueComment.
    * Markdown supported.
    * 
    * Max. 65536 characters
    */
-  body?: Maybe<Scalars['String']>;
-  /** The body text of the comment rendered to html */
-  bodyRendered?: Maybe<Scalars['String']>;
-  /** The user who originally created the comment (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** A list of all people who edited the root of this comment (body and title) */
-  editedBy?: Maybe<Array<User>>;
-  /** The date the comment was first created on */
-  createdAt: Scalars['Date'];
-  /** Date when the core comment(title, body etc.) was last changed (comments and other events DO NOT count) */
-  lastEditedAt?: Maybe<Scalars['Date']>;
+  body: Scalars['String'];
+  /** The body text of the IssueComment rendered to html */
+  bodyRendered: Scalars['String'];
   /**
-   * `true` iff the user authenticated by the given JWT is permitted to edit this comment.
+   * `true` iff the User authenticated by the given JWT is permitted to edit this IssueComment.
    * 
    * This only refers to editing the core comment (title, body, etc.)
    */
   currentUserCanEdit: Scalars['Boolean'];
-  /** All reactions on this issue comment */
+  /** Date when the IssueComment's body was last edited */
+  lastEditedAt: Scalars['Date'];
+  /** All Users who edited this IssueComment (body and/or title) */
+  editedBy?: Maybe<UserPage>;
+  /** All reactions that have been added to this IssueComment */
   reactions?: Maybe<ReactionGroupPage>;
+};
+
+
+/** A commemt on an issue. Not including th issue body itself */
+export type IssueCommentEditedByArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 
@@ -1597,66 +1713,56 @@ export type IssueCommentReactionsArgs = {
 
 /** An MarkedAsDuplicateEvent in the timeline of an issue with a date and a creator */
 export type MarkedAsDuplicateEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this MarkedAsDuplicateEvent. Every MarkedAsDuplicateEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the MarkedAsDuplicateEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the MarkedAsDuplicateEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The issue of which __this__ issue is a duplicate */
+  /** The Issue this MarkedAsDuplicateEvent belongs to */
+  issue: Issue;
+  /** The issue of which __this__ issue is a duplicate, null if deleted */
   originalIssue?: Maybe<Issue>;
 };
 
 /** An LinkEvent in the timeline of an issue with a date and a creator */
 export type LinkEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this LinkEvent. Every LinkEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the LinkEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the LinkEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The issue that was linked __to__ (__from__ this issue) */
+  /** The Issue this LinkEvent belongs to */
+  issue: Issue;
+  /** The issue that was linked __to__ (__from__ this issue), nul if deleted */
   linkedIssue?: Maybe<Issue>;
 };
 
 /** An PinnedEvent in the timeline of an issue with a date and a creator */
 export type PinnedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this PinnedEvent. Every PinnedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the PinnedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the PinnedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this PinnedEvent belongs to */
+  issue: Issue;
+  /** The component the issue was pinned on, null if deleted */
+  component?: Maybe<Component>;
 };
 
 /**
@@ -1665,22 +1771,18 @@ export type PinnedEvent = IssueTimelineItem & Node & {
  * This occurs if this issue is referenced by another known issue
  */
 export type ReferencedByIssueEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this ReferencedByIssueEvent. Every ReferencedByIssueEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the ReferencedByIssueEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the ReferencedByIssueEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this ReferencedByIssueEvent belongs to */
+  issue: Issue;
   /** The issue by which this issue was referenced */
   mentionedAt?: Maybe<Issue>;
   /** The comment in which the reference to this issue was made */
@@ -1689,22 +1791,18 @@ export type ReferencedByIssueEvent = IssueTimelineItem & Node & {
 
 /** An PriorityChangedEvent in the timeline of an issue with a date and a creator */
 export type PriorityChangedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this PriorityChangedEvent. Every PriorityChangedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the PriorityChangedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the PriorityChangedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this PriorityChangedEvent belongs to */
+  issue: Issue;
   /** The old priority of the issue */
   oldPriority?: Maybe<Priority>;
   /** The new updated priority of the issue */
@@ -1713,24 +1811,20 @@ export type PriorityChangedEvent = IssueTimelineItem & Node & {
 
 /** An RemovedFromComponentEvent in the timeline of an issue with a date and a creator */
 export type RemovedFromComponentEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this RemovedFromComponentEvent. Every RemovedFromComponentEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the RemovedFromComponentEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the RemovedFromComponentEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The component the issue was removed from */
-  removedComponent: Component;
+  /** The Issue this RemovedFromComponentEvent belongs to */
+  issue: Issue;
+  /** The component the issue was removed from, null if deleted */
+  removedComponent?: Maybe<Component>;
 };
 
 /**
@@ -1739,23 +1833,19 @@ export type RemovedFromComponentEvent = IssueTimelineItem & Node & {
  * This occures if this issue is referenced outside of an issue (e.g. pull request etc.)
  */
 export type ReferencedByOtherEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this ReferencedByOtherEvent. Every ReferencedByOtherEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the ReferencedByOtherEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the ReferencedByOtherEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The component from which this issue was referenced */
+  /** The Issue this ReferencedByOtherEvent belongs to */
+  issue: Issue;
+  /** The component from which this issue was referenced, null if deleted */
   component?: Maybe<Component>;
   /** A human readable name of the source of the reference (e.g. 'Pull request #2') */
   source?: Maybe<Scalars['String']>;
@@ -1765,64 +1855,52 @@ export type ReferencedByOtherEvent = IssueTimelineItem & Node & {
 
 /** An RemovedFromLocationEvent in the timeline of an issue with a date and a creator */
 export type RemovedFromLocationEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this RemovedFromLocationEvent. Every RemovedFromLocationEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the RemovedFromLocationEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the RemovedFromLocationEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The location the issue was removed from */
-  removedLocation: IssueLocation;
+  /** The Issue this RemovedFromLocationEvent belongs to */
+  issue: Issue;
+  /** The location the issue was removed from, null if deleted */
+  removedLocation?: Maybe<IssueLocation>;
 };
 
 /** An ReopenedEvent in the timeline of an issue with a date and a creator */
 export type ReopenedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this ReopenedEvent. Every ReopenedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the ReopenedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the ReopenedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this ReopenedEvent belongs to */
+  issue: Issue;
 };
 
 /** An StartDateChangedEvent in the timeline of an issue with a date and a creator */
 export type StartDateChangedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this StartDateChangedEvent. Every StartDateChangedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the StartDateChangedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the StartDateChangedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this StartDateChangedEvent belongs to */
+  issue: Issue;
   /** The start date set for the issue before it was changed */
   oldStartDate?: Maybe<Scalars['Date']>;
   /** The new set start date for the issue */
@@ -1831,22 +1909,18 @@ export type StartDateChangedEvent = IssueTimelineItem & Node & {
 
 /** An RenamedTitleEvent in the timeline of an issue with a date and a creator */
 export type RenamedTitleEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this RenamedTitleEvent. Every RenamedTitleEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the RenamedTitleEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the RenamedTitleEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this RenamedTitleEvent belongs to */
+  issue: Issue;
   /** The title of the issue before the change */
   oldTitle: Scalars['String'];
   /** The new updated title of the issue */
@@ -1855,152 +1929,620 @@ export type RenamedTitleEvent = IssueTimelineItem & Node & {
 
 /** An UnassignedEvent in the timeline of an issue with a date and a creator */
 export type UnassignedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this UnassignedEvent. Every UnassignedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the UnassignedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the UnassignedEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The user which was unassigned from this issue */
-  removedAssignee: User;
+  /** The Issue this UnassignedEvent belongs to */
+  issue: Issue;
+  /** The user which was unassigned from this issue, null if deleted */
+  removedAssignee?: Maybe<User>;
 };
 
 /** An UnlabelledEvent in the timeline of an issue with a date and a creator */
 export type UnlabelledEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this UnlabelledEvent. Every UnlabelledEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the UnlabelledEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the UnlabelledEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The label which was removed from the issue on this event */
-  removedLabel: Label;
+  /** The Issue this UnlabelledEvent belongs to */
+  issue: Issue;
+  /** The label which was removed from the issue on this event, null if deleted */
+  removedLabel?: Maybe<Label>;
 };
 
 /** An WasLinkedEvent in the timeline of an issue with a date and a creator */
 export type WasLinkedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this WasLinkedEvent. Every WasLinkedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the WasLinkedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the WasLinkedEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The issue which this issue is linked to after this event */
+  /** The Issue this WasLinkedEvent belongs to */
+  issue: Issue;
+  /** The issue which this issue is linked to after this event, null if deleted */
   linkedBy?: Maybe<Issue>;
 };
 
 /** An UnmarkedAsDuplicateEvent in the timeline of an issue with a date and a creator */
 export type UnmarkedAsDuplicateEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this UnmarkedAsDuplicateEvent. Every UnmarkedAsDuplicateEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the UnmarkedAsDuplicateEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the UnmarkedAsDuplicateEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this UnmarkedAsDuplicateEvent belongs to */
+  issue: Issue;
 };
 
 /** An WasUnlinkedEvent in the timeline of an issue with a date and a creator */
 export type WasUnlinkedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this WasUnlinkedEvent. Every WasUnlinkedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the WasUnlinkedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the WasUnlinkedEvent was first created on */
   createdAt: Scalars['Date'];
-  /** The issue which this issue was linked to before this event */
+  /** The Issue this WasUnlinkedEvent belongs to */
+  issue: Issue;
+  /** The issue which this issue was linked to before this event, null if deleted */
   unlinkedBy?: Maybe<Issue>;
 };
 
 /** An UnpinnedEvent in the timeline of an issue with a date and a creator */
 export type UnpinnedEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this UnpinnedEvent. Every UnpinnedEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the UnpinnedEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the UnpinnedEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this UnpinnedEvent belongs to */
+  issue: Issue;
+  /** The component the issue was previously pinned on, null if deleted */
+  component?: Maybe<Component>;
 };
 
 /** An UnlinkEvent in the timeline of an issue with a date and a creator */
 export type UnlinkEvent = IssueTimelineItem & Node & {
-  /** The unique id of this timeline item */
-  id: Scalars['ID'];
-  /** The issue this timeline event belongs to */
-  issue: Issue;
   /**
-   * The user responsible for the creation of the event (e.g. autor of a comment)
+   * The ID of this UnlinkEvent. Every UnlinkEvent will have an non-empty and non-null edge.
    * 
-   * It's possible there is no autor, for example if the action was performed automatically
+   * If this is ever empty or null, something went wrong.
    */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the UnlinkEvent (in ccims or any ims) */
   createdBy?: Maybe<User>;
-  /**
-   * The date the event occured on/was created.
-   * 
-   * This ISN'T updated if the event is be changed
-   */
+  /** The date the UnlinkEvent was first created on */
   createdAt: Scalars['Date'];
+  /** The Issue this UnlinkEvent belongs to */
+  issue: Issue;
   /** The issue this issue __linked to__ before this event */
   removedLinkedIssue?: Maybe<Issue>;
+};
+
+/** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
+export type CcimsUser = Node & User & {
+  /**
+   * The ID of this CCIMSUser. Every CCIMSUser will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The unique username used for login */
+  username: Scalars['String'];
+  /** The name of the CCIMSUser to display in the GUI */
+  displayName: Scalars['String'];
+  /** The mail address of the CCIMSUser */
+  email?: Maybe<Scalars['String']>;
+  /** All Issues that this the CCIMSUser is assigned to matching (if given) `filterBy` */
+  assignedToIssues?: Maybe<IssuePage>;
+  /** All Issues that this the CCIMSUser is a participant of matching (if given) `filterBy` */
+  participantOfIssues?: Maybe<IssuePage>;
+  /** All IssueComments (not including Issues) written by this CCIMSUser */
+  issueComments?: Maybe<IssueCommentPage>;
+  /** All IMSUsers of this CCIMSUser which match `filterBy` */
+  imsUsers?: Maybe<ImsUserPage>;
+};
+
+
+/** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
+export type CcimsUserAssignedToIssuesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
+export type CcimsUserParticipantOfIssuesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
+export type CcimsUserIssueCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueCommentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
+export type CcimsUserImsUsersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ImsUserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** A page of multiple IMSUsers */
+export type ImsUserPage = Page & {
+  /** All IMSUsers on this page */
+  nodes?: Maybe<Array<Maybe<ImsUser>>>;
+  /** Edges to all IMSUsers containing the cursor */
+  edges?: Maybe<Array<Maybe<ImsUserEdge>>>;
+  /** Information about the current page (like length, first/last element) */
+  pageInfo: PageInfo;
+  /**
+   * The total number of elements matching the filter
+   * 
+   * (Even ones that don't match the current page)
+   */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge for a IMSUserPage to link a cursor to an element */
+export type ImsUserEdge = {
+  /** The IMSUser linked to by this edge */
+  node?: Maybe<ImsUser>;
+  /** The cursor for use in the pagination */
+  cursor: Scalars['String'];
+};
+
+/** Filter for a user of the system. All parameters given in this filter will be connected via _AND_ */
+export type ImsUserFilter = {
+  /** The IMSUser's username must match this given RegEx */
+  username?: Maybe<Scalars['String']>;
+  /** The IMSUser's display name must match this given RegEx */
+  displayName?: Maybe<Scalars['String']>;
+  /** The IMSUser's email must match this given RegEx */
+  email?: Maybe<Scalars['String']>;
+  /** The IMSUser must be assigned to at least one of the issues with the given ids */
+  assignedToIssues?: Maybe<Array<Scalars['ID']>>;
+  /** The IMSUser must be participant of at least one of the issues with the given ids */
+  participantOfIssues?: Maybe<Array<Scalars['ID']>>;
+  /** The IMSUser must have written or edited at least one of the comments (issue or comment) with the given ids */
+  comments?: Maybe<Array<Scalars['ID']>>;
+  /** The IMSUser must be part of one of the specified IMS with the given ids */
+  ims?: Maybe<Array<Scalars['ID']>>;
+};
+
+/** A user of the ims. Can be assigned to projects, components */
+export type ImsUser = Node & User & {
+  /**
+   * The ID of this IMSUser. Every IMSUser will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The unique username used */
+  username: Scalars['String'];
+  /** The name of the IMSUser to display in the GUI */
+  displayName: Scalars['String'];
+  /** The mail address of the IMSUser */
+  email?: Maybe<Scalars['String']>;
+  /** All Issues that this the IMSUser is assigned to matching (if given) `filterBy` */
+  assignedToIssues?: Maybe<IssuePage>;
+  /** All Issues that this the IMSUser is a participant of matching (if given) `filterBy` */
+  participantOfIssues?: Maybe<IssuePage>;
+  /** All IssueComments (not including Issues) written by this IMSUser */
+  issueComments?: Maybe<IssueCommentPage>;
+  /** The associated IMS of the user */
+  ims?: Maybe<Ims>;
+};
+
+
+/** A user of the ims. Can be assigned to projects, components */
+export type ImsUserAssignedToIssuesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A user of the ims. Can be assigned to projects, components */
+export type ImsUserParticipantOfIssuesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** A user of the ims. Can be assigned to projects, components */
+export type ImsUserIssueCommentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueCommentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/**
+ * An issue management system. This will be an __instance__ of one of the available IMS Types.
+ * 
+ * E.g. a GitHub Enterprise instance, or GitHub itself.
+ */
+export type Ims = Node & {
+  /**
+   * The ID of this IMS. Every IMS will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The type/system this IMS is an instance of */
+  imsType: ImsType;
+  /** All IMSUsers with this IMS */
+  users?: Maybe<ImsUserPage>;
+  /** All IMSComponents with this IMS */
+  imsComponents?: Maybe<ImsComponentPage>;
+};
+
+
+/**
+ * An issue management system. This will be an __instance__ of one of the available IMS Types.
+ * 
+ * E.g. a GitHub Enterprise instance, or GitHub itself.
+ */
+export type ImsUsersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ImsUserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/**
+ * An issue management system. This will be an __instance__ of one of the available IMS Types.
+ * 
+ * E.g. a GitHub Enterprise instance, or GitHub itself.
+ */
+export type ImsImsComponentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ImsComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** A page of multiple IMSs */
+export type ImsPage = Page & {
+  /** All IMSs on this page */
+  nodes?: Maybe<Array<Maybe<Ims>>>;
+  /** Edges to all IMSs containing the cursor */
+  edges?: Maybe<Array<Maybe<ImsEdge>>>;
+  /** Information about the current page (like length, first/last element) */
+  pageInfo: PageInfo;
+  /**
+   * The total number of elements matching the filter
+   * 
+   * (Even ones that don't match the current page)
+   */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge for a IMSPage to link a cursor to an element */
+export type ImsEdge = {
+  /** The IMS linked to by this edge */
+  node?: Maybe<Ims>;
+  /** The cursor for use in the pagination */
+  cursor: Scalars['String'];
+};
+
+/** Filter for a IMS of the system. All parameters given in this filter will be connected via _AND_ */
+export type ImsFilter = {
+  /** The IMS must be used for at least one of the specified Components using any IMSComponent */
+  components?: Maybe<Array<Scalars['ID']>>;
+  /** The IMS must be used for at least one of the specified IMSComponents */
+  imsComponents?: Maybe<Array<Scalars['ID']>>;
+};
+
+/** An component on an ims. For example a single GitHub repository */
+export type ImsComponent = Node & {
+  /**
+   * The ID of this IMSComponent. Every IMSComponent will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The IMS which is linked to the Component */
+  ims?: Maybe<Ims>;
+  /** The component which is linked by the IMS */
+  component?: Maybe<Component>;
+};
+
+/** An edge for a IMSComponentPage to link a cursor to an element */
+export type ImsComponentEdge = {
+  /** The IMSComponent linked to by this edge */
+  node?: Maybe<ImsComponent>;
+  /** The cursor for use in the pagination */
+  cursor: Scalars['String'];
+};
+
+/** Filter for a IMSComponent of the system. All parameters given in this filter will be connected via _AND_ */
+export type ImsComponentFilter = {
+  /** The IMSComponent must be used to link any IMS to at least one of the specified components */
+  components?: Maybe<Array<Scalars['ID']>>;
+  /** The IMSComponent must be used to link at least one of the specified ims to any component */
+  ims?: Maybe<Array<Scalars['ID']>>;
+};
+
+/** A page of multiple IMSComponents */
+export type ImsComponentPage = Page & {
+  /** All IMSComponents on this page */
+  nodes?: Maybe<Array<Maybe<ImsComponent>>>;
+  /** Edges to all IMSComponents containing the cursor */
+  edges?: Maybe<Array<Maybe<ImsComponentEdge>>>;
+  /** Information about the current page (like length, first/last element) */
+  pageInfo: PageInfo;
+  /**
+   * The total number of elements matching the filter
+   * 
+   * (Even ones that don't match the current page)
+   */
+  totalCount: Scalars['Int'];
+};
+
+/** An artifact assignable to issues. An artifact is per-component */
+export type Artifact = Node & {
+  /**
+   * The ID of this Artifact. Every Artifact will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the Artifact (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the Artifact was first created on */
+  createdAt: Scalars['Date'];
+  /** The component this Artifact is available on */
+  component?: Maybe<Component>;
+  /** The URI identifying the resource */
+  uri: Scalars['String'];
+  /** The start (inclusive) of the lines range the Artifact refers to, optional (can only be applied to text resources) */
+  lineRangeStart?: Maybe<Scalars['Int']>;
+  /** The end (inclusive) of the lines range the Artifact refers to, optional (can only be applied to text resources) */
+  lineRangeEnd?: Maybe<Scalars['Int']>;
+  /** All issues that have the given artifact */
+  issues?: Maybe<IssuePage>;
+};
+
+
+/** An artifact assignable to issues. An artifact is per-component */
+export type ArtifactIssuesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+/** An edge for a ArtifactPage to link a cursor to an element */
+export type ArtifactEdge = {
+  /** The Artifact linked to by this edge */
+  node?: Maybe<Artifact>;
+  /** The cursor for use in the pagination */
+  cursor: Scalars['String'];
+};
+
+/** Filters for Artifacts matching the given properties */
+export type ArtifactFilter = {
+  /** The id of the Artifact creating the issue must be any of the given ones */
+  createdBy?: Maybe<Array<Scalars['ID']>>;
+  /** The Artifact must have been created __after__ the given date (inclusive) */
+  createdAfter?: Maybe<Scalars['Date']>;
+  /** The Artifact must have been created __before__ the given date (inclusive) */
+  createdBefore?: Maybe<Scalars['Date']>;
+  /** The uri of the Artifact must match the given RegEx */
+  uri?: Maybe<Scalars['String']>;
+};
+
+/** A page of multiple Artifacts */
+export type ArtifactPage = Page & {
+  /** All Artifacts on this page */
+  nodes?: Maybe<Array<Maybe<Artifact>>>;
+  /** Edges to all Artifacts containing the cursor */
+  edges?: Maybe<Array<Maybe<ArtifactEdge>>>;
+  /** Information about the current page (like length, first/last element) */
+  pageInfo: PageInfo;
+  /**
+   * The total number of elements matching the filter
+   * 
+   * (Even ones that don't match the current page)
+   */
+  totalCount: Scalars['Int'];
+};
+
+/** A non functional constraint assignable to a specific issue. A NonFunctionalConstraint is per-issue */
+export type NonFunctionalConstraint = Node & {
+  /**
+   * The ID of this NonFunctionalConstraint. Every NonFunctionalConstraint will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the NonFunctionalConstraint (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the NonFunctionalConstraint was first created on */
+  createdAt: Scalars['Date'];
+  /** The content of the constraint, defines the constraint */
+  content: Scalars['String'];
+  /**
+   * A textual description (of the function) of this NonFunctionalConstraint.
+   * 
+   * Max. 65536 characters
+   */
+  description: Scalars['String'];
+  /** True iff the NonFunctionalConstraint is currently active on the issue. */
+  isActive: Scalars['Boolean'];
+  /** The issue this NonFunctionalConstraint is part of (this is also provided if the NonFunctionalConstraint is not active) */
+  issue: Issue;
+};
+
+/** An edge for a NonFunctionalConstraintPage to link a cursor to an element */
+export type NonFunctionalConstraintEdge = {
+  /** The NonFunctionalConstraint linked to by this edge */
+  node?: Maybe<NonFunctionalConstraint>;
+  /** The cursor for use in the pagination */
+  cursor: Scalars['String'];
+};
+
+/** Filters for NonFunctionalConstraint matching the given properties */
+export type NonFunctionalConstraintFilter = {
+  /** The id of the NonFunctionalConstraint creating the issue must be any of the given ones */
+  createdBy?: Maybe<Array<Scalars['ID']>>;
+  /** The NonFunctionalConstraint must have been created __after__ the given date (inclusive) */
+  createdAfter?: Maybe<Scalars['Date']>;
+  /** The NonFunctionalConstraint must have been created __before__ the given date (inclusive) */
+  createdBefore?: Maybe<Scalars['Date']>;
+  /** If true, only NonFunctionalConstraints which are currently active are returned, if false only NonFunctionalConstraints which are NOT active are returned. All are returned if not provided */
+  isActive?: Maybe<Scalars['Boolean']>;
+  /** The __RegEx__ the content of the NonFunctionalConstraint needs to match */
+  content?: Maybe<Scalars['String']>;
+  /** The __RegEx__ the description of the NonFunctionalConstraint needs to match */
+  description?: Maybe<Scalars['String']>;
+};
+
+/** A page of multiple NonFunctionalConstraints */
+export type NonFunctionalConstraintPage = Page & {
+  /** All NonFunctionalConstraints on this page */
+  nodes?: Maybe<Array<Maybe<NonFunctionalConstraint>>>;
+  /** Edges to all NonFunctionalConstraints containing the cursor */
+  edges?: Maybe<Array<Maybe<NonFunctionalConstraintEdge>>>;
+  /** Information about the current page (like length, first/last element) */
+  pageInfo: PageInfo;
+  /**
+   * The total number of elements matching the filter
+   * 
+   * (Even ones that don't match the current page)
+   */
+  totalCount: Scalars['Int'];
+};
+
+/** An AddedArtifactEvent in the timeline of an issue with a date and a creator */
+export type AddedArtifactEvent = IssueTimelineItem & Node & {
+  /**
+   * The ID of this AddedArtifactEvent. Every AddedArtifactEvent will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the AddedArtifactEvent (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the AddedArtifactEvent was first created on */
+  createdAt: Scalars['Date'];
+  /** The Issue this AddedArtifactEvent belongs to */
+  issue: Issue;
+  /** The Artifact which was added to the Issue, null if deleted */
+  artifact?: Maybe<Artifact>;
+};
+
+/** An RemovedArtifactEvent in the timeline of an issue with a date and a creator */
+export type RemovedArtifactEvent = IssueTimelineItem & Node & {
+  /**
+   * The ID of this RemovedArtifactEvent. Every RemovedArtifactEvent will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the RemovedArtifactEvent (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the RemovedArtifactEvent was first created on */
+  createdAt: Scalars['Date'];
+  /** The Issue this RemovedArtifactEvent belongs to */
+  issue: Issue;
+  /** The Artifact which was removed from the Issue, null if deleted */
+  removedArtifact?: Maybe<Artifact>;
+};
+
+/** An AddedNonFunctionalConstraintEvent in the timeline of an issue with a date and a creator */
+export type AddedNonFunctionalConstraintEvent = IssueTimelineItem & Node & {
+  /**
+   * The ID of this AddedNonFunctionalConstraintEvent. Every AddedNonFunctionalConstraintEvent will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the AddedNonFunctionalConstraintEvent (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the AddedNonFunctionalConstraintEvent was first created on */
+  createdAt: Scalars['Date'];
+  /** The Issue this AddedNonFunctionalConstraintEvent belongs to */
+  issue: Issue;
+  /** The NonFunctionalConstraint which was added to the Issue, null if deleted */
+  nonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
+};
+
+/** An RemovedNonFunctionalConstraintEvent in the timeline of an issue with a date and a creator */
+export type RemovedNonFunctionalConstraintEvent = IssueTimelineItem & Node & {
+  /**
+   * The ID of this RemovedNonFunctionalConstraintEvent. Every RemovedNonFunctionalConstraintEvent will have an non-empty and non-null edge.
+   * 
+   * If this is ever empty or null, something went wrong.
+   */
+  id?: Maybe<Scalars['ID']>;
+  /** The user who originally created the RemovedNonFunctionalConstraintEvent (in ccims or any ims) */
+  createdBy?: Maybe<User>;
+  /** The date the RemovedNonFunctionalConstraintEvent was first created on */
+  createdAt: Scalars['Date'];
+  /** The Issue this RemovedNonFunctionalConstraintEvent belongs to */
+  issue: Issue;
+  /** The NonFunctionalConstraint which was removed from the Issue, null if deleted */
+  removedNonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
 };
 
 /** All queries for requesting stuff */
@@ -2009,8 +2551,12 @@ export type Query = {
   node?: Maybe<Node>;
   /** Returns the string which is given as input */
   echo?: Maybe<Scalars['String']>;
-  /** Requests all projects within the current ccims instance mathcing the `filterBy` */
+  /** Requests all projects within the current ccims instance matching the `filterBy` */
   projects?: Maybe<ProjectPage>;
+  /** Requests all components within the current ccims instance matching the `filterBy` */
+  components?: Maybe<ComponentPage>;
+  /** Requests all IMSs within the current ccims instance matching the `filterBy` */
+  imss?: Maybe<ImsPage>;
   /** Returns the user from which the PAI is currently being accessed */
   currentUser?: Maybe<User>;
   /**
@@ -2020,6 +2566,8 @@ export type Query = {
    * `false, if it __IS__ already taken and can't be used for a new user
    */
   checkUsername?: Maybe<Scalars['Boolean']>;
+  /** Searches for users with a similar displayName or username, returns max 10 users */
+  searchUser: Array<User>;
 };
 
 
@@ -2046,19 +2594,45 @@ export type QueryProjectsArgs = {
 
 
 /** All queries for requesting stuff */
+export type QueryComponentsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** All queries for requesting stuff */
+export type QueryImssArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ImsFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** All queries for requesting stuff */
 export type QueryCheckUsernameArgs = {
   username: Scalars['String'];
 };
 
+
+/** All queries for requesting stuff */
+export type QuerySearchUserArgs = {
+  text: Scalars['String'];
+};
+
 /** Mutations to change the data within the ccims */
 export type Mutation = {
-  /** A mutation for testing if you're able to use GraphQL */
-  testMutation?: Maybe<TestMutationPayload>;
   /** Creates a new issue */
   createIssue?: Maybe<CreateIssuePayload>;
+  /** Delets the specified issue */
+  deleteIssue?: Maybe<DeleteIssuePayload>;
   /** Creates a new comment on an existing issue */
   addIssueComment?: Maybe<AddIssueCommentPayload>;
-  /** Creates a new comment on an existing issue */
+  /** Updates a Comment. Fields which are not provided are not updated. */
   updateComment?: Maybe<UpdateCommentPayload>;
   /**
    * Deletes an issue comment.
@@ -2068,7 +2642,7 @@ export type Mutation = {
    * `DeletedComment` (only contains creation/deletion date/user) which is for conversation completness
    */
   deleteIssueComment?: Maybe<DeleteIssueCommentPayload>;
-  /** Links an issue to another one, creating a relation */
+  /** Links an issue to another one, creating a relation. It is not possible to link an Issue to itself. */
   linkIssue?: Maybe<LinkIssuePayload>;
   /** Unlinks an issue from another one, removing a relation */
   unlinkIssue?: Maybe<UnlinkIssuePayload>;
@@ -2116,6 +2690,14 @@ export type Mutation = {
   addReactionToComment?: Maybe<AddReactionToCommentPayload>;
   /** Remove a reaction from a comment which was added by the current user (issue body or issue comment) */
   removeReactionFromComment?: Maybe<RemoveReactionFromCommentPayload>;
+  /** Adds a artifact to an issue */
+  addArtifactToIssue?: Maybe<AddArtifactToIssuePayload>;
+  /** Remove a artifact from an issue */
+  removeArtifactFromIssue?: Maybe<RemoveArtifactFromIssuePayload>;
+  /** Adds a NonFunctionalConstraint to an issue */
+  addNonFunctionalConstraintToIssue?: Maybe<AddNonFunctionalConstraintToIssuePayload>;
+  /** Remove a nonFunctionalConstraint from an issue */
+  removeNonFunctionalConstraintFromIssue?: Maybe<RemoveNonFunctionalConstraintFromIssuePayload>;
   /** Creates a new project */
   createProject?: Maybe<CreateProjectPayload>;
   /** Delets the specified project */
@@ -2130,13 +2712,13 @@ export type Mutation = {
   createComponentInterface?: Maybe<CreateComponentInterfacePayload>;
   /** Delets the specified componentInterface */
   deleteComponentInterface?: Maybe<DeleteComponentInterfacePayload>;
-  /** Updates the specified componentInterface */
+  /** Updates the specified ComponentInterface. Fields which are not provided are not updated. */
   updateComponentInterface?: Maybe<UpdateComponentInterfacePayload>;
   /** Creates a new component in the ccims and adds it to the given users */
   createComponent?: Maybe<CreateComponentPayload>;
   /** Delets the specified component */
   deleteComponent?: Maybe<DeleteComponentPayload>;
-  /** Updates a component in the ccims and adds it to the given users */
+  /** Updates a Component in the ccims. Fields which are not provided are not updated. */
   updateComponent?: Maybe<UpdateComponentPayload>;
   /** Adds the specified component to the project if it is not already on the project */
   addConsumedInterface?: Maybe<AddConsumedInterfacePayload>;
@@ -2144,22 +2726,48 @@ export type Mutation = {
   removeConsumedInterface?: Maybe<RemoveConsumedInterfacePayload>;
   /** Creates a new user in the system */
   createUser?: Maybe<CreateUserPayload>;
+  /** Links a user to an IMS, updating an existing IMSUser or creating a new one */
+  linkUserToIMS?: Maybe<LinkUserToImsPayload>;
   /** Registers/creates a new user in the ccims system */
   registerUser?: Maybe<RegisterUserPayload>;
   /** Create a new label in the system */
   createLabel?: Maybe<CreateLabelPayload>;
-};
-
-
-/** Mutations to change the data within the ccims */
-export type MutationTestMutationArgs = {
-  input?: Maybe<TestMutationInput>;
+  /** Delets the specified label */
+  deleteLabel?: Maybe<DeleteLabelPayload>;
+  /** Updates a Label in the ccims. Fields which are not provided are not updated. */
+  updateLabel?: Maybe<UpdateLabelPayload>;
+  /** Adds the specified label to the component if it is not already on the component */
+  addLabelToComponent?: Maybe<AddLabelToComponentPayload>;
+  /** Removes the specified label from the component if it is on the component */
+  removeLabelFromComponent?: Maybe<RemoveLabelFromComponentPayload>;
+  /** Creates a new IMS in the ccims for the specified component */
+  createIMS?: Maybe<CreateImsPayload>;
+  /** Creates a new IMSComponent which links the specified component to the specified IMS */
+  createIMSComponent?: Maybe<CreateImsComponentPayload>;
+  /** Create a new artifact in the system */
+  createArtifact?: Maybe<CreateArtifactPayload>;
+  /** Delets the specified artifact */
+  deleteArtifact?: Maybe<DeleteArtifactPayload>;
+  /** Updates a Artifact in the ccims. Fields which are not provided are not updated. */
+  updateArtifact?: Maybe<UpdateArtifactPayload>;
+  /** Create a new NonFunctionalConstraint in the system */
+  createNonFunctionalConstraint?: Maybe<CreateNonFunctionalConstraintPayload>;
+  /** Delets the specified NonFunctionalConstraint */
+  deleteNonFunctionalConstraint?: Maybe<DeleteNonFunctionalConstraintPayload>;
+  /** Updates a NonFunctionalConstraint in the ccims. Fields which are not provided are not updated. */
+  updateNonFunctionalConstraint?: Maybe<UpdateNonFunctionalConstraintPayload>;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateIssueArgs = {
   input: CreateIssueInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationDeleteIssueArgs = {
+  input: DeleteIssueInput;
 };
 
 
@@ -2261,7 +2869,7 @@ export type MutationChangeIssuePriorityArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssueStartDateArgs = {
-  input?: Maybe<ChangeIssueStartDateInput>;
+  input: ChangeIssueStartDateInput;
 };
 
 
@@ -2322,6 +2930,30 @@ export type MutationAddReactionToCommentArgs = {
 /** Mutations to change the data within the ccims */
 export type MutationRemoveReactionFromCommentArgs = {
   input?: Maybe<RemoveReactionFromCommentInput>;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationAddArtifactToIssueArgs = {
+  input: AddArtifactToIssueInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationRemoveArtifactFromIssueArgs = {
+  input: RemoveArtifactFromIssueInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationAddNonFunctionalConstraintToIssueArgs = {
+  input: AddNonFunctionalConstraintToIssueInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationRemoveNonFunctionalConstraintFromIssueArgs = {
+  input: RemoveNonFunctionalConstraintFromIssueInput;
 };
 
 
@@ -2393,19 +3025,25 @@ export type MutationUpdateComponentArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationAddConsumedInterfaceArgs = {
-  input: AddConsumedInterfaceInput;
+  input: AddConsumedComponentInterfaceInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveConsumedInterfaceArgs = {
-  input: RemoveConsumedInterfaceInput;
+  input: RemoveConsumedComponentInterfaceInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationLinkUserToImsArgs = {
+  input: LinkUserToImsInputConfig;
 };
 
 
@@ -2420,16 +3058,76 @@ export type MutationCreateLabelArgs = {
   input: CreateLabelInput;
 };
 
-/** The Payload/Response for the addIssueToLocation mutation */
-export type TestMutationPayload = {
-  /** The string provided by the client on sending the mutation */
-  clientMutationID?: Maybe<Scalars['String']>;
+
+/** Mutations to change the data within the ccims */
+export type MutationDeleteLabelArgs = {
+  input: DeleteLabelInput;
 };
 
-/** The inputs for the testMutation */
-export type TestMutationInput = {
-  /** An arbitraty string to return together with the mutation result */
-  clientMutationID?: Maybe<Scalars['String']>;
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateLabelArgs = {
+  input: UpdateLabelInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationAddLabelToComponentArgs = {
+  input: AddLabelToComponentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationRemoveLabelFromComponentArgs = {
+  input: RemoveLabelFromComponentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationCreateImsArgs = {
+  input: CreateImsInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationCreateImsComponentArgs = {
+  input: CreateImsComponentInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationCreateArtifactArgs = {
+  input: CreateArtifactInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationDeleteArtifactArgs = {
+  input: DeleteArtifactInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateArtifactArgs = {
+  input: UpdateArtifactInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationCreateNonFunctionalConstraintArgs = {
+  input: CreateNonFunctionalConstraintInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationDeleteNonFunctionalConstraintArgs = {
+  input: DeleteNonFunctionalConstraintInput;
+};
+
+
+/** Mutations to change the data within the ccims */
+export type MutationUpdateNonFunctionalConstraintArgs = {
+  input: UpdateNonFunctionalConstraintInput;
 };
 
 /** The Payload/Response for the createIssue mutation */
@@ -2461,7 +3159,7 @@ export type CreateIssueInput = {
    * 
    * At least one valid component must be given.
    */
-  componentIDs: Array<Scalars['ID']>;
+  components: Array<Scalars['ID']>;
   /**
    * The category to assign the issue to.
    * 
@@ -2487,6 +3185,12 @@ export type CreateIssueInput = {
    */
   locations?: Maybe<Array<Scalars['ID']>>;
   /**
+   * A list of IDs of Artifacts to add to the issue to.
+   * 
+   *  If `null`, none will be added.
+   */
+  artifacts?: Maybe<Array<Scalars['ID']>>;
+  /**
    * The start date to be set for the issue.
    * 
    * If `null`, none will be set
@@ -2504,6 +3208,20 @@ export type CreateIssueInput = {
    * If `null`, none will be set
    */
   estimatedTime?: Maybe<Scalars['TimeSpan']>;
+};
+
+/** The Payload/Response for the deleteIssue mutation */
+export type DeleteIssuePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteIssue mutation */
+export type DeleteIssueInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the issue to delete */
+  issue: Scalars['ID'];
 };
 
 /** The Payload/Response for the addIssueComment mutation */
@@ -2544,11 +3262,11 @@ export type UpdateCommentPayload = {
   comment?: Maybe<Comment>;
 };
 
-/** The inputs for the updateComment */
+/** The inputs for the updateComment, updates only the provided fields */
 export type UpdateCommentInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
-  /** The ID of the comment to update */
+  /** The ID of the comment to update. May be an Issue or an IssueComment */
   comment: Scalars['ID'];
   /**
    * The body text of the comment to be updated.
@@ -2640,7 +3358,7 @@ export type AddLabelToIssuePayload = {
   timelineEdge?: Maybe<IssueTimelineItemEdge>;
 };
 
-/** The inputs for the addToIssueLabel */
+/** The inputs for the addLabelToIssue mutation */
 export type AddLabelToIssueInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
@@ -2664,7 +3382,7 @@ export type RemoveLabelFromIssuePayload = {
   timelineEdge?: Maybe<IssueTimelineItemEdge>;
 };
 
-/** The inputs for the removeFromIssueLabel */
+/** The inputs for the removeLabelFromIssue mutation */
 export type RemoveLabelFromIssueInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
@@ -3126,6 +3844,98 @@ export type RemoveReactionFromCommentInput = {
   reactionToRemove: Scalars['String'];
 };
 
+/** The Payload/Response for the addToIssueArtifact mutation */
+export type AddArtifactToIssuePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The Artifact that was added to the issue */
+  artifact?: Maybe<Artifact>;
+  /** The issue to which the specified Artifact was added */
+  issue?: Maybe<Issue>;
+  /** The issue timeline event for adding the Artifact to the Issue */
+  event?: Maybe<AddedArtifactEvent>;
+  /** The edge to be able to request other timeline items from this timeline item */
+  timelineEdge?: Maybe<IssueTimelineItemEdge>;
+};
+
+/** The inputs for the addArtifactToIssue mutation */
+export type AddArtifactToIssueInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the issue to which to add the artifact */
+  issue: Scalars['ID'];
+  /** The ID of the artifact to be added to the specified issue */
+  artifact: Scalars['ID'];
+};
+
+/** The Payload/Response for the removeFromIssueArtifact mutation */
+export type RemoveArtifactFromIssuePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The Artifact that was removed from the issue */
+  artifact?: Maybe<Artifact>;
+  /** The issue from which the Artifact was removed */
+  issue?: Maybe<Issue>;
+  /** The issue timeline event for the removal of the Artifact from the issue */
+  event?: Maybe<RemovedArtifactEvent>;
+  /** The edge to be able to request other timeline items from this timeline item */
+  timelineEdge?: Maybe<IssueTimelineItemEdge>;
+};
+
+/** The inputs for the removeArtifactFromIssue mutation */
+export type RemoveArtifactFromIssueInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the issue from which to remove a artifact */
+  issue: Scalars['ID'];
+  /** The ID of the artifact to remove from the specified issue */
+  artifact: Scalars['ID'];
+};
+
+/** The Payload/Response for the addToIssueNonFunctionalConstraint mutation */
+export type AddNonFunctionalConstraintToIssuePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The NonFunctionalConstraint that was added to the issue */
+  NonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
+  /** The issue to which the specified NonFunctionalConstraint was added */
+  issue?: Maybe<Issue>;
+  /** The issue timeline event for adding the NonFunctionalConstraint to the Issue */
+  event?: Maybe<AddedNonFunctionalConstraintEvent>;
+  /** The edge to be able to request other timeline items from this timeline item */
+  timelineEdge?: Maybe<IssueTimelineItemEdge>;
+};
+
+/** The inputs for the addToIssueNonFunctionalConstraint */
+export type AddNonFunctionalConstraintToIssueInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the NonFunctionalConstraint to be added to the specified issue */
+  nonFunctionalConstraint: Scalars['ID'];
+};
+
+/** The Payload/Response for the removeFromIssueNonFunctionalConstraint mutation */
+export type RemoveNonFunctionalConstraintFromIssuePayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The NonFunctionalConstraint that was removed from the issue */
+  nonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
+  /** The issue from which the NonFunctionalConstraint was removed */
+  issue?: Maybe<Issue>;
+  /** The issue timeline event for the removal of the NonFunctionalConstraint from the issue */
+  event?: Maybe<RemovedNonFunctionalConstraintEvent>;
+  /** The edge to be able to request other timeline items from this timeline item */
+  timelineEdge?: Maybe<IssueTimelineItemEdge>;
+};
+
+/** The inputs for the removeNonFunctionalConstraintFromIssue mutation */
+export type RemoveNonFunctionalConstraintFromIssueInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the NonFunctionalConstraint to remove from the specified issue */
+  nonFunctionalConstraint: Scalars['ID'];
+};
+
 /** The Payload/Response for the createProject mutation */
 export type CreateProjectPayload = {
   /** The string provided by the client on sending the mutation */
@@ -3156,15 +3966,6 @@ export type CreateProjectInput = {
    * If `null`, the peoject will contain no components (However, they can be added later)
    */
   components?: Maybe<Array<Scalars['ID']>>;
-  /**
-   * The users which will initially be part of the project.
-   * The owner will always be added.
-   * 
-   * If `null`, only the owner will be added to the project
-   */
-  users?: Maybe<Array<Scalars['ID']>>;
-  /** The owner user of this component. This user will be able to administrate the component */
-  owner: Scalars['ID'];
 };
 
 /** The Payload/Response for the deleteProject mutation */
@@ -3178,7 +3979,7 @@ export type DeleteProjectInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the project to delete */
-  projectId: Scalars['ID'];
+  project: Scalars['ID'];
 };
 
 /** The Payload/Response for the updateProject mutation */
@@ -3194,7 +3995,7 @@ export type UpdateProjectInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the project to update */
-  projectId: Scalars['ID'];
+  project: Scalars['ID'];
   /**
    * The name of the project
    * 
@@ -3224,9 +4025,9 @@ export type AddComponentToProjectInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the project to which to add the component */
-  projectId: Scalars['ID'];
+  project: Scalars['ID'];
   /** The id of the component to add to the project */
-  componentId: Scalars['ID'];
+  component: Scalars['ID'];
 };
 
 /** The Payload/Response for the removeComponentFromProject mutation */
@@ -3244,9 +4045,9 @@ export type RemoveComponentFromProjectInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the project from which to remove the component */
-  projectId: Scalars['ID'];
+  project: Scalars['ID'];
   /** The id of the component to remove from the project */
-  componentId: Scalars['ID'];
+  component: Scalars['ID'];
 };
 
 /** The Payload/Response for the createComponentInterface mutation */
@@ -3273,6 +4074,12 @@ export type CreateComponentInterfaceInput = {
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
+  /**
+   * The type of the ComponentInterface
+   * 
+   * Max. 65536 characters
+   */
+  type?: Maybe<Scalars['String']>;
   /** The id of the component on which the created interface should be */
   component: Scalars['ID'];
 };
@@ -3288,7 +4095,7 @@ export type DeleteComponentInterfaceInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the componentInterface to delete */
-  componentInterfaceId: Scalars['ID'];
+  componentInterface: Scalars['ID'];
 };
 
 /** The Payload/Response for the updateComponentInterface mutation */
@@ -3304,7 +4111,7 @@ export type UpdateComponentInterfaceInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the componentinterface to update */
-  componentinterfaceId: Scalars['ID'];
+  componentInterface: Scalars['ID'];
   /**
    * The name of the componentinterface
    * 
@@ -3317,6 +4124,12 @@ export type UpdateComponentInterfaceInput = {
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
+  /**
+   * The type of the ComponentInterface
+   * 
+   * Max. 65536 characters
+   */
+  type?: Maybe<Scalars['String']>;
 };
 
 /** The Payload/Response for the createComponent mutation */
@@ -3339,37 +4152,18 @@ export type CreateComponentInput = {
    * Max. 256 characters
    */
   name: Scalars['String'];
-  /** The ID of the user who administrates "owns" the component */
-  owner: Scalars['ID'];
   /**
-   * A textual description (of the fuction) of this component.
+   * A textual description (of the function) of this component.
    * 
    * Max. 65536 characters. `null` equivalent to ""
    */
   description?: Maybe<Scalars['String']>;
-  /** The type/system the IMS of this component is an instance of */
-  imsType: ImsType;
   /**
-   * The endpoint where to reach the IMS of this component instance.
+   * The URL where the code repository of this component is located
    * 
-   * In the most cases this will be a URL in the form of
-   * ```
-   * https://example.com/api/[API_KEY]
-   * ```
-   * where strings in [] can be replaced by the IMS extension with values needed
-   * (either dynamid, like the API key of a user or static, like values from the config).
-   * See the documentation for the IMS extions for information which keys are expected.
-   * 
-   * In rare cases depending on the IMS type this might be empty or not a URL
+   * Max. 65536 characters
    */
-  endpoint?: Maybe<Scalars['String']>;
-  /**
-   * Data needed for the connection to the IMS API.
-   * 
-   * See the documentation for the IMS extions for information which keys are expected.
-   * This must be a valid JSON-string
-   */
-  connectionData?: Maybe<Scalars['JSON']>;
+  repositoryURL?: Maybe<Scalars['String']>;
   /**
    * If given, the component will be added to the projects with those IDs.
    * 
@@ -3395,7 +4189,7 @@ export type DeleteComponentInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the component to delete */
-  componentId: Scalars['ID'];
+  component: Scalars['ID'];
 };
 
 /** The Payload/Response for the updateComponent mutation */
@@ -3404,16 +4198,14 @@ export type UpdateComponentPayload = {
   clientMutationID?: Maybe<Scalars['String']>;
   /** The component updated by this mutation */
   component?: Maybe<Component>;
-  /** The IMS of the component updated by this mutation */
-  ims?: Maybe<Ims>;
 };
 
-/** The inputs for the updateComponent mutation */
+/** The inputs for the updateComponent mutation, updates only the provided fields */
 export type UpdateComponentInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the component to update */
-  componentId: Scalars['ID'];
+  component: Scalars['ID'];
   /**
    * The (non unique) display name of this component
    * 
@@ -3421,34 +4213,17 @@ export type UpdateComponentInput = {
    */
   name?: Maybe<Scalars['String']>;
   /**
-   * A textual description (of the fuction) of this component.
+   * A textual description (of the function) of this component.
    * 
-   * Max. 65536 characters. `null` equivalent to ""
+   * Max. 65536 characters.
    */
   description?: Maybe<Scalars['String']>;
-  /** The type/system the IMS of this component is an instance of */
-  imsType?: Maybe<ImsType>;
   /**
-   * The endpoint where to reach the IMS of this component instance.
+   * The URL where the code repository of this component is located
    * 
-   * In the most cases this will be a URL in the form of
-   * ```
-   * https://example.com/api/[API_KEY]
-   * ```
-   * where strings in [] can be replaced by the IMS extension with values needed
-   * (either dynamid, like the API key of a user or static, like values from the config).
-   * See the documentation for the IMS extions for information which keys are expected.
-   * 
-   * In rare cases depending on the IMS type this might be empty or not a URL
+   * Max. 65536 characters
    */
-  endpoint?: Maybe<Scalars['String']>;
-  /**
-   * Data needed for the connection to the IMS API.
-   * 
-   * See the documentation for the IMS extions for information which keys are expected.
-   * This must be a valid JSON-string
-   */
-  connectionData?: Maybe<Scalars['JSON']>;
+  repositoryURL?: Maybe<Scalars['String']>;
 };
 
 /** The Payload/Response for the addComponentToProject mutation */
@@ -3462,13 +4237,13 @@ export type AddConsumedInterfacePayload = {
 };
 
 /** The inputs for the addConsumedInterface mutation */
-export type AddConsumedInterfaceInput = {
+export type AddConsumedComponentInterfaceInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the component where to add the consumed interface */
-  componentId: Scalars['ID'];
+  component: Scalars['ID'];
   /** The id of the componentInterface which is consumed by the component */
-  interfaceId: Scalars['ID'];
+  componentInterface: Scalars['ID'];
 };
 
 /** The Payload/Response for the removeComponentFromProject mutation */
@@ -3482,13 +4257,13 @@ export type RemoveConsumedInterfacePayload = {
 };
 
 /** The inputs for the removeConsumedInterface mutation */
-export type RemoveConsumedInterfaceInput = {
+export type RemoveConsumedComponentInterfaceInput = {
   /** An arbitraty string to return together with the mutation result */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The id of the component where to remove the interface */
-  componentId: Scalars['ID'];
+  component: Scalars['ID'];
   /** The id of the componentInterface which is consumed by the component */
-  interfaceId: Scalars['ID'];
+  componentInterface: Scalars['ID'];
 };
 
 /** The Payload/Response for the createUser mutation */
@@ -3496,7 +4271,7 @@ export type CreateUserPayload = {
   /** The string provided by the client on sending the mutation */
   clientMutationID?: Maybe<Scalars['String']>;
   /** The user created by this mutation */
-  user?: Maybe<User>;
+  user?: Maybe<CcimsUser>;
 };
 
 /** The inputs for the createUser mutation */
@@ -3523,6 +4298,26 @@ export type CreateUserInput = {
    * Max. 320 characters. Must be a valid email address
    */
   email?: Maybe<Scalars['String']>;
+};
+
+/** The Payload/Response for the linkUserToIMS mutation */
+export type LinkUserToImsPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The newly created or updated IMSUser that represents the user on the specified IMS */
+  imsUser?: Maybe<ImsUser>;
+};
+
+/** The inputs for the linkUserToIMS mutation */
+export type LinkUserToImsInputConfig = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the user which should be linked to the specified IMS */
+  user?: Maybe<Scalars['String']>;
+  /** The id of the IMS which the user is linked to */
+  ims?: Maybe<Scalars['String']>;
+  /** Any other data that is necessary to link the user to the IMS, for example a username, id, authorization token etc., this depends on the type of IMS */
+  imsData?: Maybe<Scalars['JSON']>;
 };
 
 /** The Payload/Response for the public registerUser mutation */
@@ -3593,29 +4388,309 @@ export type CreateLabelInput = {
   components: Array<Scalars['ID']>;
 };
 
+/** The Payload/Response for the deleteLabel mutation */
+export type DeleteLabelPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteLabel mutation */
+export type DeleteLabelInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the label to delete */
+  label: Scalars['ID'];
+};
+
+/** The Payload/Response for the updateLabel mutation */
+export type UpdateLabelPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The Label updated by this mutation */
+  label?: Maybe<Label>;
+};
+
+/** The inputs for the updateLabel mutation, updates only the provided fields */
+export type UpdateLabelInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the label to update */
+  label: Scalars['ID'];
+  /**
+   * The name of the label which to show in the GUI.
+   * 
+   * Max. 256 characters.
+   */
+  name?: Maybe<Scalars['String']>;
+  /**
+   * The description text for the label.
+   * 
+   * Max. 65536 characters.
+   */
+  description?: Maybe<Scalars['String']>;
+  /**
+   * The color of the label
+   * 
+   * Must be a valid Color string
+   */
+  color?: Maybe<Scalars['Color']>;
+};
+
+/** The Payload/Response for the addComponentToProject mutation */
+export type AddLabelToComponentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which to which the label is added */
+  component?: Maybe<Component>;
+  /** The Label which is added to the Component */
+  label?: Maybe<Label>;
+};
+
+/** The inputs for the addLabelToComponent mutation */
+export type AddLabelToComponentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the component to which to add the label */
+  component: Scalars['ID'];
+  /** The ID of the label to be added to the specified component */
+  label: Scalars['ID'];
+};
+
+/** The Payload/Response for the removeComponentFromProject mutation */
+export type RemoveLabelFromComponentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which from which the label is removeed */
+  component?: Maybe<Component>;
+  /** The Label which is removed from the Component */
+  label?: Maybe<Label>;
+};
+
+/** The inputs for the removeLabelFromComponent mutation */
+export type RemoveLabelFromComponentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The ID of the component from which to remove a label */
+  component: Scalars['ID'];
+  /** The ID of the label to remove from the specified component */
+  label: Scalars['ID'];
+};
+
+/** The Payload/Response for the createIMS mutation */
+export type CreateImsPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The IMS created by this mutation */
+  ims?: Maybe<Ims>;
+};
+
+/** The inputs for the createIMS mutation */
+export type CreateImsInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The type/system the IMS of this component is an instance of */
+  imsType: ImsType;
+  /**
+   * Data needed for the connection to the IMS API.
+   * 
+   * See the documentation for the IMS extensions for information which keys are expected.
+   * This must be a valid JSON-string
+   */
+  imsData?: Maybe<Scalars['JSON']>;
+};
+
+/** The Payload/Response for the createIMS mutation */
+export type CreateImsComponentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The IMSComponent created by this mutation */
+  imsComponent?: Maybe<ImsComponent>;
+};
+
+/** The inputs for the createIMS mutation */
+export type CreateImsComponentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which the IMS is linked to */
+  component: Scalars['ID'];
+  /** The IMS which is linked to the component */
+  ims: Scalars['ID'];
+  /**
+   * Data needed for the connection to the IMS API to this specific component.
+   * 
+   * See the documentation for the IMS extensions for information which keys are expected.
+   * This must be a valid JSON-string
+   */
+  imsData?: Maybe<Scalars['JSON']>;
+};
+
+/** The Payload/Response for the createArtifact mutation */
+export type CreateArtifactPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The Artifact created by this mutation */
+  artifact?: Maybe<Artifact>;
+};
+
+/** The inputs for the createArtifact mutation */
+export type CreateArtifactInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The location of the resource. This should be a valid URL in most cases */
+  uri: Scalars['String'];
+  /** The start of the line range. This can only be applied to text documents. Optional */
+  lineRangeStart?: Maybe<Scalars['Int']>;
+  /** The end of the line range. This can only be applied to text documents. Optional */
+  lineRangeEnd?: Maybe<Scalars['Int']>;
+  /** The id of the component on which the Artifact is created on */
+  component: Scalars['ID'];
+};
+
+/** The Payload/Response for the deleteArtifact mutation */
+export type DeleteArtifactPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteArtifact mutation */
+export type DeleteArtifactInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the Artifact to delete */
+  artifact: Scalars['ID'];
+};
+
+/** The Payload/Response for the updateArtifact mutation */
+export type UpdateArtifactPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The Artifact updated by this mutation */
+  Artifact?: Maybe<Artifact>;
+};
+
+/** The inputs for the updateArtifact mutation, updates only the provided fields */
+export type UpdateArtifactInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the artifact to update */
+  artifact: Scalars['ID'];
+  /** The location of the resource. This should be a valid URL in most cases */
+  uri?: Maybe<Scalars['String']>;
+  /** The start of the line range. This can only be applied to text documents. If null is provided, the value is unset */
+  lineRangeStart?: Maybe<Scalars['Int']>;
+  /** The end of the line range. This can only be applied to text documents. If null is provided, the value is unset */
+  lineRangeEnd?: Maybe<Scalars['Int']>;
+};
+
+/** The Payload/Response for the createNonFunctionalConstraint mutation */
+export type CreateNonFunctionalConstraintPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The NonFunctionalConstraint created by this mutation */
+  nonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
+  /** The event for adding the NonFunctionalConstraint to the Issue */
+  addedEvent?: Maybe<AddedNonFunctionalConstraintEvent>;
+};
+
+/** The inputs for the createNonFunctionalConstraint mutation */
+export type CreateNonFunctionalConstraintInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /**
+   * The name of the NonFunctionalConstraint which to show in the GUI.
+   * 
+   * Max. 256 characters.
+   */
+  content: Scalars['String'];
+  /**
+   * The description text for the NonFunctionalConstraint.
+   * 
+   * Max. 65536 characters.
+   */
+  description?: Maybe<Scalars['String']>;
+  /** The id of the issue where the NonFunctionalConstraint is created on. */
+  issue: Scalars['ID'];
+};
+
+/** The Payload/Response for the deleteNonFunctionalConstraint mutation */
+export type DeleteNonFunctionalConstraintPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+};
+
+/** The inputs for the deleteNonFunctionalConstraint mutation */
+export type DeleteNonFunctionalConstraintInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the NonFunctionalConstraint to delete */
+  nonFunctionalConstraint: Scalars['ID'];
+};
+
+/** The Payload/Response for the updateNonFunctionalConstraint mutation */
+export type UpdateNonFunctionalConstraintPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The NonFunctionalConstraint updated by this mutation */
+  NonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
+};
+
+/** The inputs for the updateNonFunctionalConstraint mutation, updates only the provided fields */
+export type UpdateNonFunctionalConstraintInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The id of the NonFunctionalConstraint to update */
+  nonFunctionalConstraint: Scalars['ID'];
+  /**
+   * The name of the NonFunctionalConstraint which to show in the GUI.
+   * 
+   * Max. 256 characters.
+   */
+  content?: Maybe<Scalars['String']>;
+  /**
+   * The description text for the NonFunctionalConstraint.
+   * 
+   * Max. 65536 characters.
+   */
+  description?: Maybe<Scalars['String']>;
+};
+
 export type CreateComponentMutationVariables = Exact<{
   input: CreateComponentInput;
 }>;
 
 
-export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Maybe<(
-      Pick<Component, 'id' | 'name'>
-      & { ims?: Maybe<Pick<Ims, 'id'>>, projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id'>> }>>> }> }
-    )> }> };
+export type CreateComponentMutation = { createComponent?: Maybe<{ component?: Maybe<Pick<Component, 'id'>> }> };
 
 export type AddConsumedInterfaceMutationVariables = Exact<{
-  input: AddConsumedInterfaceInput;
+  input: AddConsumedComponentInterfaceInput;
 }>;
 
 
 export type AddConsumedInterfaceMutation = { addConsumedInterface?: Maybe<{ component?: Maybe<Pick<Component, 'id'>>, interface?: Maybe<Pick<ComponentInterface, 'id'>> }> };
 
 export type RemoveConsumedInterfaceMutationVariables = Exact<{
-  input: RemoveConsumedInterfaceInput;
+  input: RemoveConsumedComponentInterfaceInput;
 }>;
 
 
 export type RemoveConsumedInterfaceMutation = { removeConsumedInterface?: Maybe<{ component?: Maybe<Pick<Component, 'id'>>, interface?: Maybe<Pick<ComponentInterface, 'id'>> }> };
+
+export type GetComponentLabelsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetComponentLabelsQuery = { node?: Maybe<{ labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'createdAt' | 'name' | 'description' | 'color'>>>> }> }> };
+
+export type GetBasicComponentQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetBasicComponentQuery = { node?: Maybe<(
+    Pick<Component, 'id' | 'name' | 'description' | 'repositoryURL'>
+    & { imsComponents?: Maybe<{ nodes?: Maybe<Array<Maybe<{ ims?: Maybe<Pick<Ims, 'imsType'>> }>>> }> }
+  )> };
 
 export type GetComponentQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -3624,9 +4699,9 @@ export type GetComponentQueryVariables = Exact<{
 
 export type GetComponentQuery = { node?: Maybe<(
     Pick<Component, 'id' | 'name' | 'description'>
-    & { owner?: Maybe<Pick<User, 'displayName' | 'username' | 'id'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, ims?: Maybe<Pick<Ims, 'imsType'>>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+    & { createdBy?: Maybe<Pick<CcimsUser, 'displayName' | 'username' | 'id'> | Pick<ImsUser, 'displayName' | 'username' | 'id'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, imsComponents?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<{ ims?: Maybe<Pick<Ims, 'imsType'>> }> }>>> }>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'title' | 'isOpen' | 'category' | 'body'>
-        & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
       )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name' | 'id'>>>> }>, consumedInterfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<ComponentInterface, 'name'>>>> }> }
   )> };
 
@@ -3651,7 +4726,7 @@ export type CreateComponentInterfaceMutationVariables = Exact<{
 
 export type CreateComponentInterfaceMutation = { createComponentInterface?: Maybe<{ componentInterface?: Maybe<(
       Pick<ComponentInterface, 'id' | 'name'>
-      & { component: Pick<Component, 'id'> }
+      & { component?: Maybe<Pick<Component, 'id'>> }
     )> }> };
 
 export type UpdateComponentInterfaceMutationVariables = Exact<{
@@ -3675,9 +4750,9 @@ export type GetInterfaceQueryVariables = Exact<{
 
 export type GetInterfaceQuery = { node?: Maybe<(
     Pick<ComponentInterface, 'id' | 'name' | 'description'>
-    & { component: Pick<Component, 'id'>, issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+    & { component?: Maybe<Pick<Component, 'id'>>, issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'title' | 'isOpen' | 'category' | 'body'>
-        & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
       )>>> }> }
   )> };
 
@@ -3692,7 +4767,7 @@ export type GetIssueGraphDataQuery = { node?: Maybe<{ components?: Maybe<{ nodes
         & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
       )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<ComponentInterface, 'id' | 'name'>
-        & { component: Pick<Component, 'id'>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+        & { component?: Maybe<Pick<Component, 'id'>>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
       )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'category'>
         & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
@@ -3714,7 +4789,7 @@ export type GetIssueGraphDataForSearchQuery = { node?: Maybe<{ components?: Mayb
         & { bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>> }
       )>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<ComponentInterface, 'id' | 'name'>
-        & { component: Pick<Component, 'id'>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
+        & { component?: Maybe<Pick<Component, 'id'>>, bugs?: Maybe<Pick<IssuePage, 'totalCount'>>, featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>, unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }> }
       )>>> }>, linkingIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'category'>
         & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
@@ -3751,39 +4826,38 @@ export type GetIssueQueryVariables = Exact<{
 
 export type GetIssueQuery = { node?: Maybe<(
     Pick<Issue, 'id' | 'title' | 'body' | 'bodyRendered' | 'isOpen' | 'createdAt'>
-    & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>>> }>, linkedByIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'id' | 'body'>>>> }>, createdBy?: Maybe<Pick<User, 'id' | 'displayName' | 'username'>>, issueComments?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+    & { locations?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>>> }>, linkedByIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }>, linksToIssues?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'title' | 'id' | 'body'>>>> }>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName' | 'username'> | Pick<ImsUser, 'id' | 'displayName' | 'username'>>, issueComments?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<IssueComment, 'id' | 'body' | 'bodyRendered' | 'createdAt'>
-        & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
-      )>>> }>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
-)> };
-
+        & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      )>>> }>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'name' | 'id' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
+  )> };
 
 export type CommentIssueMutationVariables = Exact<{
   input: AddIssueCommentInput;
 }>;
 
+
 export type CommentIssueMutation = { addIssueComment?: Maybe<{ comment?: Maybe<(
       Pick<IssueComment, 'id' | 'body' | 'createdAt'>
-      & { createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
+      & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
     )> }> };
-
 
 export type DeleteIssueCommentMutationVariables = Exact<{
   input: DeleteIssueCommentInput;
 }>;
 
-export type DeleteIssueCommentMutation = { deleteIssueComment?: Maybe<{ comment?: Maybe<(
-      Pick<IssueComment, 'id' | 'body' | 'createdAt'>
-      & { createdBy?: Maybe<Pick<User, 'id' | 'username' | 'displayName'>> }
+
+export type DeleteIssueCommentMutation = { deleteIssueComment?: Maybe<{ deletedComment?: Maybe<(
+      Pick<DeletedIssueComment, 'id' | 'createdAt'>
+      & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
     )> }> };
-    
 
 export type CloseIssueMutationVariables = Exact<{
   input: CloseIssueInput;
 }>;
 
-export type CloseIssueMutation = { closeIssue?: Maybe<Pick<CloseIssuePayload, 'clientMutationID'>> };
 
+export type CloseIssueMutation = { closeIssue?: Maybe<Pick<CloseIssuePayload, 'clientMutationID'>> };
 
 export type ReopenIssueMutationVariables = Exact<{
   input: ReopenIssueInput;
@@ -3825,7 +4899,7 @@ export type CreateLabelMutationVariables = Exact<{
 }>;
 
 
-export type CreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<Pick<Label, 'id' | 'name' | 'color' | 'description'>> }> };
+export type CreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<Pick<Label, 'id' | 'color' | 'name'>> }> };
 
 export type AddLabelToIssueMutationVariables = Exact<{
   input: AddLabelToIssueInput;
@@ -3848,12 +4922,12 @@ export type GetAllProjectsQueryVariables = Exact<{
 
 export type GetAllProjectsQuery = { projects?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<Pick<Project, 'id' | 'name'>> }>>> }> };
 
-export type GetProjectQueryVariables = Exact<{
+export type GetBasicProjectQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetProjectQuery = { node?: Maybe<Pick<Project, 'id' | 'name'>> };
+export type GetBasicProjectQuery = { node?: Maybe<Pick<Project, 'id' | 'name' | 'description'>> };
 
 export type GetFullProjectQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -3862,18 +4936,18 @@ export type GetFullProjectQueryVariables = Exact<{
 
 export type GetFullProjectQuery = { node?: Maybe<(
     Pick<Project, 'id' | 'name' | 'description'>
-    & { owner: Pick<User, 'id' | 'displayName'>, components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<(
+    & { components?: Maybe<{ edges?: Maybe<Array<Maybe<{ node?: Maybe<(
           Pick<Component, 'id' | 'name'>
           & { issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
               Pick<Issue, 'id' | 'title' | 'category'>
-              & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+              & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
             )>>> }> }
         )> }>>> }>, interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<ComponentInterface, 'name' | 'id'>
         & { issuesOnLocation?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title'>>>> }> }
-      )>>> }>, users?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName' | 'username' | 'email'>>>> }>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+      )>>> }>, issues?: Maybe<{ nodes?: Maybe<Array<Maybe<(
         Pick<Issue, 'id' | 'title' | 'category'>
-        & { createdBy?: Maybe<Pick<User, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<User, 'id' | 'displayName'>>>> }> }
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, labels?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Label, 'id' | 'name' | 'color'>>>> }>, assignees?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
       )>>> }> }
   )> };
 
@@ -3896,17 +4970,6 @@ export const CreateComponentDocument = gql`
   createComponent(input: $input) {
     component {
       id
-      name
-      ims {
-        id
-      }
-      projects {
-        edges {
-          node {
-            id
-          }
-        }
-      }
     }
   }
 }
@@ -3923,7 +4986,7 @@ export const CreateComponentDocument = gql`
     }
   }
 export const AddConsumedInterfaceDocument = gql`
-    mutation AddConsumedInterface($input: AddConsumedInterfaceInput!) {
+    mutation AddConsumedInterface($input: AddConsumedComponentInterfaceInput!) {
   addConsumedInterface(input: $input) {
     component {
       id
@@ -3946,7 +5009,7 @@ export const AddConsumedInterfaceDocument = gql`
     }
   }
 export const RemoveConsumedInterfaceDocument = gql`
-    mutation RemoveConsumedInterface($input: RemoveConsumedInterfaceInput!) {
+    mutation RemoveConsumedInterface($input: RemoveConsumedComponentInterfaceInput!) {
   removeConsumedInterface(input: $input) {
     component {
       id
@@ -3968,13 +5031,71 @@ export const RemoveConsumedInterfaceDocument = gql`
       super(apollo);
     }
   }
+export const GetComponentLabelsDocument = gql`
+    query GetComponentLabels($id: ID!) {
+  node(id: $id) {
+    ... on Component {
+      labels {
+        nodes {
+          id
+          createdAt
+          name
+          description
+          color
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetComponentLabelsGQL extends Apollo.Query<GetComponentLabelsQuery, GetComponentLabelsQueryVariables> {
+    document = GetComponentLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetBasicComponentDocument = gql`
+    query GetBasicComponent($id: ID!) {
+  node(id: $id) {
+    ... on Component {
+      id
+      name
+      description
+      repositoryURL
+      imsComponents {
+        nodes {
+          ims {
+            imsType
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetBasicComponentGQL extends Apollo.Query<GetBasicComponentQuery, GetBasicComponentQueryVariables> {
+    document = GetBasicComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetComponentDocument = gql`
     query GetComponent($id: ID!) {
   node(id: $id) {
     ... on Component {
       id
       name
-      owner {
+      createdBy {
         displayName
         username
         id
@@ -3987,8 +5108,14 @@ export const GetComponentDocument = gql`
           color
         }
       }
-      ims {
-        imsType
+      imsComponents {
+        edges {
+          node {
+            ims {
+              imsType
+            }
+          }
+        }
       }
       issues {
         nodes {
@@ -4401,18 +5528,16 @@ export const UnlinkIssueDocument = gql`
 }
     `;
 
-
-@Injectable({
-  providedIn: 'root'
-})
-export class UnlinkIssueGQL extends Apollo.Mutation<UnlinkIssueMutation, UnlinkIssueMutationVariables> {
-  document = UnlinkIssueDocument;
-  
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnlinkIssueGQL extends Apollo.Mutation<UnlinkIssueMutation, UnlinkIssueMutationVariables> {
+    document = UnlinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
-}
-
 export const GetIssueDocument = gql`
     query GetIssue($id: ID!) {
   node(id: $id) {
@@ -4479,23 +5604,20 @@ export const GetIssueDocument = gql`
     }
   }
 }
-`;
+    `;
 
-
-@Injectable({
-  providedIn: 'root'
-})
-export class GetIssueGQL extends Apollo.Query<GetIssueQuery, GetIssueQueryVariables> {
-  document = GetIssueDocument;
-  
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetIssueGQL extends Apollo.Query<GetIssueQuery, GetIssueQueryVariables> {
+    document = GetIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
-}
-
-
 export const CommentIssueDocument = gql`
-    mutation CommentIssueComment($input: AddIssueCommentInput!) {
+    mutation CommentIssue($input: AddIssueCommentInput!) {
   addIssueComment(input: $input) {
     comment {
       id
@@ -4509,26 +5631,23 @@ export const CommentIssueDocument = gql`
     }
   }
 }
-`;
+    `;
 
-@Injectable({
-  providedIn: 'root'
-})
-export class CommentIssueGQL extends Apollo.Mutation<CommentIssueMutation, CommentIssueMutationVariables> {
-  document = CommentIssueDocument;
-  
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommentIssueGQL extends Apollo.Mutation<CommentIssueMutation, CommentIssueMutationVariables> {
+    document = CommentIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
-}
-
-
 export const DeleteIssueCommentDocument = gql`
-    mutation DeleteIssue($input: DeleteIssueCommentInput!) {
+    mutation DeleteIssueComment($input: DeleteIssueCommentInput!) {
   deleteIssueComment(input: $input) {
-    comment {
+    deletedComment {
       id
-      body
       createdBy {
         id
         username
@@ -4538,20 +5657,18 @@ export const DeleteIssueCommentDocument = gql`
     }
   }
 }
-`;
+    `;
 
-@Injectable({
-  providedIn: 'root'
-})
-export class DeleteIssueCommentGQL extends Apollo.Mutation<DeleteIssueCommentMutation, DeleteIssueCommentMutationVariables> {
-  document = DeleteIssueCommentDocument;
-  
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteIssueCommentGQL extends Apollo.Mutation<DeleteIssueCommentMutation, DeleteIssueCommentMutationVariables> {
+    document = DeleteIssueCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
   }
-}
-
-
 export const CloseIssueDocument = gql`
     mutation CloseIssue($input: CloseIssueInput!) {
   closeIssue(input: $input) {
@@ -4673,9 +5790,8 @@ export const CreateLabelDocument = gql`
   createLabel(input: $input) {
     label {
       id
-      name
       color
-      description
+      name
     }
   }
 }
@@ -4754,12 +5870,13 @@ export const GetAllProjectsDocument = gql`
       super(apollo);
     }
   }
-export const GetProjectDocument = gql`
-    query GetProject($id: ID!) {
+export const GetBasicProjectDocument = gql`
+    query GetBasicProject($id: ID!) {
   node(id: $id) {
     ... on Project {
       id
       name
+      description
     }
   }
 }
@@ -4768,8 +5885,8 @@ export const GetProjectDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
-    document = GetProjectDocument;
+  export class GetBasicProjectGQL extends Apollo.Query<GetBasicProjectQuery, GetBasicProjectQueryVariables> {
+    document = GetBasicProjectDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -4782,10 +5899,6 @@ export const GetFullProjectDocument = gql`
       id
       name
       description
-      owner {
-        id
-        displayName
-      }
       components {
         edges {
           node {
@@ -4828,14 +5941,6 @@ export const GetFullProjectDocument = gql`
               title
             }
           }
-        }
-      }
-      users {
-        nodes {
-          id
-          displayName
-          username
-          email
         }
       }
       issues {

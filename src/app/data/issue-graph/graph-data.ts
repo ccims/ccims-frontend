@@ -1,10 +1,20 @@
-import { Scalars, Component, GetIssueGraphDataQuery, IssueCategory, ComponentInterface, Issue, IssuePage } from 'src/generated/graphql';
-import { DefaultDictionary } from 'typescript-collections';
+import {
+  Component,
+  ComponentInterface, GetIssueGraphDataDocument,
+  GetIssueGraphDataQuery,
+  Issue,
+  IssueCategory,
+  IssuePage,
+  Maybe,
+  Scalars
+} from 'src/generated/graphql';
+import {DefaultDictionary} from 'typescript-collections';
 
 
 type LocationId = Scalars['ID'];
 type GraphFolder = [LocationId, IssueCategory];
 type GraphLocation = GraphInterface | GraphComponent;
+
 /**
  * Describes data needed by IssueGraphComponent to draw the graph.
  */
@@ -54,10 +64,9 @@ export class GraphDataFactory {
  */
 function removeOfferingComponents(locationIds: string[], interfaces: Map<LocationId, GraphInterface>) {
   // compute components that offer an interface whoose id is in locationIds
-  const interfaceOfferingComponents: Set<string> = new Set(locationIds.filter(locationId => interfaces.has(locationId)).
-    map(interfaceId =>
-      interfaces.get(interfaceId).offeredBy
-    ));
+  const interfaceOfferingComponents: Set<string> = new Set(locationIds.filter(locationId => interfaces.has(locationId)).map(interfaceId =>
+    interfaces.get(interfaceId).offeredBy
+  ));
   // return location ids with the components offering an interface with id in locationIds removed
   return locationIds.filter(id => !interfaceOfferingComponents.has(id));
 }
@@ -79,11 +88,11 @@ function issueCounts(bugCount: number, featureRequestCount: number, unclassified
 
 // backend data format for interface
 type GQLInterface = Pick<ComponentInterface, 'id' | 'name'> & {
-  bugs?: Pick<IssuePage, 'totalCount'>;
-  featureRequests?: Pick<IssuePage, 'totalCount'>;
-  unclassified?: Pick<IssuePage, 'totalCount'>;
-  consumedBy?: { nodes?: Pick<Component, 'id'>[]; };
-  component: Pick<Component, 'id'>;
+  component?: Maybe<Pick<Component, 'id'>>;
+  bugs?: Maybe<Pick<IssuePage, 'totalCount'>>;
+  featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>;
+  unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>;
+  consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }>
 };
 
 // desired frontend data format for interface
@@ -106,6 +115,7 @@ export class GraphInterface {
       issues
     };
   }
+
   static mapFromGQL(gqlInterfaces: GQLInterface[]): Map<LocationId, GraphInterface> {
     return new Map(gqlInterfaces.map(gqlInterface => [gqlInterface.id, GraphInterface.fromGQL(gqlInterface)]));
   }
@@ -192,7 +202,7 @@ class GraphIssue {
  * @param interfaces mapping from ids of locations to interfaces attached to locations
  */
 function computeRelatedFolders(linkIssues: GraphIssue[], interfaces: Map<LocationId, GraphInterface>):
-DefaultDictionary<GraphFolder, GraphFolder[]> {
+  DefaultDictionary<GraphFolder, GraphFolder[]> {
   let targetFolders: GraphFolder[];
   const relatedFolders: DefaultDictionary<GraphFolder, GraphFolder[]> = new DefaultDictionary<GraphFolder, GraphFolder[]>(() => []);
   for (const issue of linkIssues) {

@@ -64,7 +64,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 
 // configuration for toasts, the toastrservice is configured in graphql.module.ts
 const toasterConfig: Partial<GlobalConfig> = {
-  maxOpened: 1,
+  maxOpened: 4,
   autoDismiss: true
 };
 

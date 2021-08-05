@@ -17,7 +17,7 @@ export class SideNavComponent {
 
   constructor(public ss: StateService) {
     ss.state$.subscribe(appState => {
-      this.menuTitle = (appState.project != null) ? appState.project.name : this.defaultMenuTitle;
+      this.menuTitle = (appState.project != null) ? appState.project.node.name : this.defaultMenuTitle;
     });
   }
 
