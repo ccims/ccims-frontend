@@ -32,6 +32,7 @@ import { InterfaceDetailsComponent } from '@app/interface-details/interface-deta
 import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue-list.component';
 import { ProjectMembersComponent } from '@app/project-members/project-members.component';
 import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-dialog/add-project-member-dialog.component';
+import { CursorPaginatorComponent } from '@app/components/cursor-paginator/cursor-paginator.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -46,7 +47,7 @@ import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-d
     InterfaceDetailsComponent,
     ProjectIssueListComponent,
     ProjectMembersComponent,
-    AddProjectMemberDialogComponent],
+    AddProjectMemberDialogComponent, CursorPaginatorComponent],
   imports: [
     CommonModule,
     MatToolbarModule,

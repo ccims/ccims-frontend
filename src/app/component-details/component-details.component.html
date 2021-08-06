@@ -65,7 +65,7 @@
     <mat-tab label="Component Issues">
       <div class="component-title">
         <h1>{{component.name}}</h1>
-        <app-issue-list [parentCaller]="'component'"></app-issue-list>
+        <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list>
       </div>
     </mat-tab>
   </mat-tab-group>

@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material/dialog';
-import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
-import {Observable} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
-import {GetComponentQuery, UpdateComponentInterfaceInput} from '../../generated/graphql';
-import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
-import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GetComponentQuery, UpdateComponentInterfaceInput } from '../../generated/graphql';
+import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
+import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import { encodeListId, ListId, ListType, NodeType } from '@app/data-dgql/id';
 
 /**
  * This component provides the interface details
@@ -22,6 +23,7 @@ export class InterfaceDetailsComponent implements OnInit {
   public interface$: Observable<GetComponentQuery>;
   private interface: GetComponentQuery;
   private interfaceId: string;
+  public issueListId: ListId;
   public loading: boolean;
   public saveFailed: boolean;
   public editMode: boolean;
@@ -41,6 +43,8 @@ export class InterfaceDetailsComponent implements OnInit {
     this.interface$.subscribe(componentInterface => {
       this.interface = componentInterface;
     });
+
+    this.issueListId = encodeListId({ node: { type: NodeType.Interface, id: this.interfaceId }, type: ListType.IssuesOnLocation });
   }
 
   // check if there are query params set in the url

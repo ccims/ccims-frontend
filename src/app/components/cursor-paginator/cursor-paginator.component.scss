@@ -1,0 +1,19 @@
+.cursor-paginator {
+  display: flex;
+  justify-content: flex-end;
+  color: fade-in(black, 0.54);
+  padding: 8px 16px;
+
+  .page-size-control {
+    margin-right: 16px;
+
+    .page-size-label {
+      margin-right: 8px;
+      font-size: 12px;
+    }
+
+    .page-size-select {
+      width: 64px;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<div *ngIf="loaded">
+<div *ngIf="project.hasData">
   <div class="project-overview-container">
     <div class="project-title-row">
       <div class="box">
@@ -7,8 +7,8 @@
 
       <div>
         <div class="content">
-          <p class="title">{{this.project.node.name}}</p>
-          <div class="sub-sub-title">Project ID: {{this.project.node.id}}</div>
+          <p class="title">{{project.current.name}}</p>
+          <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
         </div>
       </div>
 
@@ -22,7 +22,8 @@
     <div class="d-flex text-sm-left">
       <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
         <mat-label>Description</mat-label>
-        <textarea #description matInput readonly style="overflow: hidden"></textarea>
+        <!-- FIXME: why is this a textarea? -->
+        <textarea [ngModel]="project.current.description" matInput readonly></textarea>
       </mat-form-field>
     </div>
   </div>
