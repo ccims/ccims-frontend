@@ -67,6 +67,7 @@ export class IssueDetailComponent implements OnInit {
   }
 
   formatTimeDifference(dateString: string): string {
+    // FIXME: this method should be a component
     const pastTimeMs = Date.parse(dateString);
     const nowMs = Date.now();
     const now = new Date(nowMs);
@@ -218,7 +219,7 @@ export class IssueDetailComponent implements OnInit {
 
       // goes through all the issues of each component
       component.node.issues.nodes.forEach(issue => {
-        
+
         // case: component issue matches the current issue => update component id
         if (issue.id === id) {
           componentId = component.node.id;
@@ -278,8 +279,8 @@ export class IssueDetailComponent implements OnInit {
    * Deletes an issue comment by using its id.
    *
    * @param  {string} id - Id of the issue comment to be deleted.
-   * 
-   * TODO: Implement the deleteIssueComment mutation that's to be used 
+   *
+   * TODO: Implement the deleteIssueComment mutation that's to be used
    * to delete an issue comment (in ccims-frontend and in ccims-backed-gql).
    */
   public deleteComment(id: string) {
@@ -367,7 +368,7 @@ export class IssueDetailComponent implements OnInit {
    * Closes the current issue and refreshes its information.
    */
   public closeIssue(): void {
-    
+
     // input for the closeIssue mutation
     const closeIssueInput: CloseIssueInput = {
       issue: this.issueId
@@ -406,8 +407,8 @@ export class IssueDetailComponent implements OnInit {
    * Edits the description of the current issue.
    *
    * @param {string} body - The new description of the current issue.
-   * 
-   * TODO: Implement the edittIssueBody mutation that's to be used 
+   *
+   * TODO: Implement the edittIssueBody mutation that's to be used
    * to edit the issue's description (in ccims-frontend and in ccims-backed-gql).
    */
   public editIssueBody(body: string): void {
@@ -423,7 +424,7 @@ export class IssueDetailComponent implements OnInit {
 
     // case: the new title is to be saved
     if (save) {
-      
+
       // input for the renameIssueTitle mutation
       const nameIssueInput: RenameIssueTitleInput = {
         issue: this.issueId,

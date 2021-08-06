@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectStoreService } from '@app/data/project/project-store.service';
-import { GetFullProjectQuery } from 'src/generated/graphql';
-import { Observable } from 'rxjs';
+import { encodeListId, encodeNodeId, ListId, ListType, NodeType } from '@app/data-dgql/id';
+import { DataNode } from '@app/data-dgql/query';
+import { Project } from '../../generated/graphql-dgql';
+import DataService from '@app/data-dgql';
+
 @Component({
   selector: 'app-project-issue-list',
   templateUrl: './project-issue-list.component.html',
@@ -10,16 +12,15 @@ import { Observable } from 'rxjs';
 })
 export class ProjectIssueListComponent implements OnInit {
   public projectId: string;
-  public project$: Observable<GetFullProjectQuery>;
-  public project: GetFullProjectQuery;
-  constructor(private route: ActivatedRoute, private projectStore: ProjectStoreService) { }
+  public project$: DataNode<Project>;
+  public issueListId: ListId;
+  constructor(private route: ActivatedRoute, private dataService: DataService) { }
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.project$ = this.projectStore.getFullProject(this.projectId);
-    this.project$.subscribe(project => {
-      this.project = project;
-    });
+    const node = { type: NodeType.Project, id: this.projectId };
+    this.project$ = this.dataService.getNode(encodeNodeId(node));
+    this.issueListId = encodeListId({ node, type: ListType.Issues });
   }
 
 }

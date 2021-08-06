@@ -1,5 +1,5 @@
 <div matSort matSortActive="category">
-  <button *ngIf="this.parentCaller.match('component')" class="button-add" mat-fab color="warn"
+  <button *ngIf="this.canCreateNewIssue" class="button-add" mat-fab color="warn"
           (click)="this.onAddClick()" title="Create a new issue">
     <mat-icon>add</mat-icon>
   </button>
@@ -9,7 +9,7 @@
   </mat-form-field>
 
   <div class="table-container mat-elevation-z8"
-       *ngIf="(component$ | async)?.node || (interface$ | async)?.node || (project$ | async)?.node as component">
+       *ngIf="list$.hasData">
     <table mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource">
 
       <!-- Title Column -->
@@ -52,7 +52,7 @@
     </table>
 
   </div>
-  <mat-paginator #paginator [pageSizeOptions]="[10, 20, 100]" showFirstLastButtons></mat-paginator>
+  <app-cursor-paginator [list]="this.list$" [pageSizes]="[10, 25, 50, 100]"></app-cursor-paginator>
 </div>
 
 

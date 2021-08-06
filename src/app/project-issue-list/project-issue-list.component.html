@@ -3,7 +3,7 @@
     <div class="box">
       <img src="https://github.com/github.png"/>
     </div>
-    <div *ngIf="(project$ | async)?.node as project">
+    <div *ngIf="(project$ | async) as project">
       <div class="content">
         <p class="title">{{project.name}}</p>
         <div class="sub-sub-title">Project ID: {{project.id}}</div>
@@ -13,6 +13,6 @@
 
   </div>
   <div class="component-title">
-    <app-issue-list [parentCaller]="'project'"></app-issue-list>
+    <app-issue-list [listId]="issueListId"></app-issue-list>
   </div>
 </div>

@@ -1,0 +1,36 @@
+fragment fProjectStub on Project {
+  id
+  name
+  description
+}
+
+query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $first: Int, $last: Int) {
+  projects(
+    after: $after,
+    before: $before,
+    filterBy: $filterBy,
+    first: $first,
+    last: $last
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    nodes {
+      ...on Project {
+        ...fProjectStub
+      }
+    }
+  }
+}
+
+query GetProject($id: ID!) {
+  node(id: $id) {
+    ...on Project {
+      ...fProjectStub
+    }
+  }
+}

@@ -5,6 +5,15 @@ generates:
     documents:
         - "src/**/*.graphql"
         - "!src/**/*-public.graphql"
+        - "!src/app/data-dgql/**/*.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+  src/generated/graphql-dgql.ts:
+    schema: "http://localhost:8080/api"
+    documents:
+      - "src/app/data-dgql/**/*.graphql"
     plugins:
       - "typescript"
       - "typescript-operations"

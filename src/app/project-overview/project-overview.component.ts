@@ -1,10 +1,15 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProjectStoreService} from '@app/data/project/project-store.service';
-import {GetBasicProjectQuery} from 'src/generated/graphql';
-import {MatDialog} from '@angular/material/dialog';
-import {UserNotifyService} from '@app/user-notify/user-notify.service';
-import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectStoreService } from '@app/data/project/project-store.service';
+import { GetBasicProjectQuery } from 'src/generated/graphql';
+import { MatDialog } from '@angular/material/dialog';
+import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
+import { DataNode } from '@app/data-dgql/query';
+import { Project } from '../../generated/graphql-dgql';
+import DataService from '@app/data-dgql';
+import { encodeNodeId, NodeType } from '@app/data-dgql/id';
+import { Subscription } from 'rxjs';
 
 /**
  * This component offers a view showing the project name,
@@ -15,14 +20,15 @@ import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.co
   templateUrl: './project-overview.component.html',
   styleUrls: ['./project-overview.component.scss']
 })
-export class ProjectOverviewComponent implements OnInit {
+export class ProjectOverviewComponent implements OnInit, OnDestroy {
   @ViewChild('description') description: ElementRef;
 
   public projectId: string;
-  public project: GetBasicProjectQuery;
-  loaded = false;
+  public project: DataNode<Project>;
+  private projectSub: Subscription;
 
-  constructor(private projectStore: ProjectStoreService,
+  constructor(private dataService: DataService,
+              private projectStore: ProjectStoreService,
               private route: ActivatedRoute,
               private router: Router,
               private changeDetector: ChangeDetectorRef,
@@ -32,33 +38,30 @@ export class ProjectOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
-    // FIXME: Don't get the whole project here!
-    this.projectStore.getBasicProject(this.projectId).subscribe(project => {
-      this.project = project;
-      this.loaded = true;
-      this.changeDetector.detectChanges();
-      this.description.nativeElement.value = this.project.node.description;
-      this.description.nativeElement.style.height = this.description.nativeElement.scrollHeight + 'px';
-    });
+    this.project = this.dataService.getNode(encodeNodeId({ type: NodeType.Project, id: this.projectId }));
+    this.projectSub = this.project.subscribe();
+  }
+
+  ngOnDestroy() {
+    this.projectSub.unsubscribe();
   }
 
   deleteProject(): void {
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
       {
         data: {
-          title: 'Really delete project \"' + this.project.node.name + '\"?',
-          messages: ['Are you sure you want to delete the project \"' + this.project.node.name + '\"?', 'This action cannot be undone!']
+          title: 'Really delete project \"' + this.project.current.name + '\"?',
+          messages: ['Are you sure you want to delete the project \"' + this.project.current.name + '\"?', 'This action cannot be undone!']
         }
       });
     confirmDeleteDialogRef.afterClosed().subscribe(del => {
-        if (del) {
-          this.projectStore.delete(this.projectId).subscribe(() => {
-              this.notify.notifyInfo('Successfully deleted project \"' + this.project.node.name + '\"');
-              this.router.navigate(['/']);
-            },
-            error => this.notify.notifyError('Failed to delete project!', error));
-        }
+      if (del) {
+        this.projectStore.delete(this.projectId).subscribe(() => {
+            this.notify.notifyInfo('Successfully deleted project \"' + this.project.current.name + '\"');
+            this.router.navigate(['/']);
+          },
+          error => this.notify.notifyError('Failed to delete project!', error));
       }
-    );
+    });
   }
 }

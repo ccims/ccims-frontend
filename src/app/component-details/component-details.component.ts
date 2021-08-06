@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {GetBasicComponentQuery, GetComponentQuery, UpdateComponentInput} from '../../generated/graphql';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import { encodeListId, NodeType, ListType, ListId } from '@app/data-dgql/id';
 
 @Component({
   selector: 'app-component-details',
@@ -21,6 +22,8 @@ export class ComponentDetailsComponent implements OnInit {
   public component$: Observable<GetBasicComponentQuery>;
   private component: GetComponentQuery;
   private componentId: string;
+  public issueListId: ListId;
+  public projectId: string;
   public loading: boolean;
   public saveFailed: boolean;
   public editMode: boolean;
@@ -54,6 +57,9 @@ export class ComponentDetailsComponent implements OnInit {
         this.validationUrl.setValue(component.node.repositoryURL);
       },
       error => this.notify.notifyError('Failed to get component information!', error));
+
+    this.projectId = this.route.snapshot.paramMap.get('id');
+    this.issueListId = encodeListId({ node: { type: NodeType.Component, id: this.componentId }, type: ListType.Issues });
 
     this.activatedRoute.queryParams.subscribe(params => this.queryParamSelected = params.selected);
   }
