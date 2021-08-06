@@ -614,7 +614,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       if (x >= 0 && y >= 0) {
         this.componentActionsOverlayId = node.id;
         event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType);
+        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType, this);
       }
       return;
     }
@@ -716,6 +716,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
   }
 
+  public reload(): void {
+    this.reload$.next(null);
+  }
 
   /**
    * Opens create component dialog and triggers reload of data after the dialog is closed.
