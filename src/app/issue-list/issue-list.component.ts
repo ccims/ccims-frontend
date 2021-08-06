@@ -24,10 +24,10 @@ import { ProjectStoreService } from '@app/data/project/project-store.service';
 })
 export class IssueListComponent implements OnInit {
   @Input() parentCaller: string;
+  @Input() componentId: string;
   public queryParamFilter = '';
   public component$?: Observable<GetComponentQuery>;
   private component?: GetComponentQuery;
-  private componentId?: string;
   private interface?: GetInterfaceQuery;
   public interface$?: Observable<GetInterfaceQuery>;
   public project$?: Observable<GetFullProjectQuery>;
@@ -50,7 +50,10 @@ export class IssueListComponent implements OnInit {
     // if the IssueListComponent is called from a component, only the issues they belong to the component
     // are displayed
     if (this.parentCaller.match('component')){
-      this.componentId = this.route.snapshot.paramMap.get('componentId');
+      if (!this.componentId) {
+        this.componentId = this.route.snapshot.paramMap.get('componentId');
+      }
+
       this.component$ = this.componentStoreService.getFullComponent(this.componentId);
       this.component$.subscribe(component => {
       this.component = component;

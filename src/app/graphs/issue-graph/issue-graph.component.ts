@@ -37,7 +37,6 @@ import {
   ComponentContextMenuService,
   ComponentContextMenuType
 } from '@app/graphs/component-context-menu/component-context-menu.component';
-import {NzResizeObserver} from 'ng-zorro-antd';
 
 /**
  * This component creates nodes and edges in the embedded MICO GraphEditor
@@ -336,7 +335,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.closeComponentActions();
       }
     });
-    graph.addEventListener('', () => console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'));
   }
 
   private closeComponentActions() {
@@ -548,7 +546,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     return edge;
-  }
+  };
 
   private onEdgeAdd = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -613,9 +611,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (contextMenuType != null) {
       const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
-      this.componentActionsOverlayId = node.id;
-      event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-      this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType);
+      if (x >= 0 && y >= 0) {
+        this.componentActionsOverlayId = node.id;
+        event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
+        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType);
+      }
       return;
     }
 

@@ -1,10 +1,42 @@
 @import "src/styles/variables";
 
 .frame {
-  width: 100%;
-  height: 100%;
   padding: 6px;
   background-color: $background-controls;
   border-radius: 5px;
   box-shadow: 0 0 8px 0 #000000;
+  //display: flex;
+  //flex-direction: column;
+  //position: relative;
+}
+
+.center-horizontal {
+  width: 100%;
+  text-align: center;
+}
+
+.delete-button {
+  float: right;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.row > * {
+  margin-right: 4px;
+  flex-grow: 1;
+}
+
+.row > *:last-child {
+  margin-right: 0;
+  flex-grow: 1;
+}
+
+.details {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
 }

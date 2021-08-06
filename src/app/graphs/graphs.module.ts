@@ -83,7 +83,8 @@ import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-d
     CdkTableModule,
     CdkTreeModule,
     IssueGraphComponent,
-    IssueGraphControlsComponent
+    IssueGraphControlsComponent,
+    IssueListComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
