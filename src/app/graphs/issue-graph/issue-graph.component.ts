@@ -329,11 +329,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
       const node = this.graph.getNode(this.componentActionsOverlayId);
       const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
-      if (x >= 0 && y >= 0) {
-        this.componentActionsOverlay.updatePosition(x, y);
-      } else {
-        this.closeComponentActions();
-      }
+      this.componentActionsOverlay.updatePosition(Math.max(x, 0), Math.max(y, 0));
     });
   }
 
