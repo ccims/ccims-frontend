@@ -336,6 +336,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private closeComponentActions() {
     if (this.componentActionsOverlay) {
+      this.reload();
       this.componentActionsOverlay.close();
       this.componentActionsOverlay = null;
       this.componentActionsOverlayId = null;
@@ -431,7 +432,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // zoomOnRedraw is set on first render & when user created a new component
     if (this.zoomOnRedraw) {
       this.zoomOnRedraw = false;
-      this.graph.zoomToBoundingBox();
+      this.fitGraphInView();
     }
   }
 
