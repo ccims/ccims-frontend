@@ -92,6 +92,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // see the IssueGraphControlsComponents ngAfterViewInit for how it is used
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
+  private reloadOnMouseUp = false;
 
   // local storage key for positions of graph elements
   private projectStorageKey: string;
@@ -274,9 +275,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         return []; // template has no link handles
       },
     } as DynamicNodeTemplate);
-
-    graph.addEventListener('nodedragstart', (event: CustomEvent) => {
-      this.closeComponentActions();
+    graph.addEventListener('nodepositionchange', (e: CustomEvent) => {
+      this.closeComponentActions(false);
+      this.reloadOnMouseUp = true;
     });
     graph.addEventListener('nodedragend', (event: CustomEvent) => {
       const node = event.detail.node;
@@ -286,6 +287,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         y: node.y,
       };
       this.saveNodePositionsSubject.next();
+      if (this.reloadOnMouseUp) {
+        this.reloadOnMouseUp = false;
+        this.zoomOnRedraw = false;
+        this.reload();
+      }
     });
 
     graph.addEventListener('nodeadd', (event: CustomEvent) => {
@@ -334,9 +340,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private closeComponentActions() {
+  private closeComponentActions(reload: boolean = true): void {
     if (this.componentActionsOverlay) {
-      this.reload();
+      if (reload) {
+        this.reload();
+      }
+
       this.componentActionsOverlay.close();
       this.componentActionsOverlay = null;
       this.componentActionsOverlayId = null;
@@ -596,9 +605,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private onNodeClick = (event: CustomEvent) => {
     // console.log(event.detail.node.x, event.detail.node.y);
     // return;
-    this.closeComponentActions();
+
     event.preventDefault(); // prevent node selection
     const node: Node = event.detail.node;
+
+    if (this.componentActionsOverlay && this.componentActionsOverlay.data.nodeId === node.id) {
+      this.closeComponentActions();
+      return;
+    }
+
+    this.closeComponentActions();
     let contextMenuType: ComponentContextMenuType = null;
 
     if (node.type === NodeType.Component) {
