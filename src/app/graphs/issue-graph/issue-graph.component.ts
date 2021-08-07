@@ -26,6 +26,7 @@ import {
   getIssueFolderId,
   InterfaceNode,
   IssueNode,
+  NodeType,
   Position
 } from './issue-graph-nodes';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -501,15 +502,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       return edge;
     }
     const sourceNode = graph.getNode(edge.source);
-    if (sourceNode.type === 'component') {
+    if (sourceNode.type === NodeType.Component) {
       // update edge properties
-      edge.type = 'interface';
+      edge.type = NodeType.Interface;
       edge.dragHandles = []; // no drag handles
       // update valid targets
       edge.validTargets.clear();
       // allow only interfaces as targets
       graph.nodeList.forEach((node) => {
-        if (node.type === 'interface') {
+        if (node.type === NodeType.Interface) {
           edge.validTargets.add(node.id.toString());
         }
       });
@@ -526,17 +527,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     sourceNode: Node,
     targetNode: Node
   ) => {
-    if (sourceNode.type === 'component') {
-      if (targetNode?.type === 'interface') {
-        edge.type = 'interface-connect';
+    if (sourceNode.type === NodeType.Component) {
+      if (targetNode?.type === NodeType.Interface) {
+        edge.type = NodeType.InterfaceConsumer;
         edge.markerEnd = {
-          template: 'interface-connector',
+          template: NodeType.InterfaceConsumer,
           relativeRotation: 0,
         };
         delete edge.dragHandles; // default drag handle
       } else {
         // target was null/create a new interface
-        edge.type = 'interface';
+        edge.type = NodeType.Interface;
         delete edge.markerEnd;
         edge.dragHandles = []; // no drag handles
       }
@@ -549,7 +550,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     const edge: Edge = event.detail.edge;
-    if (edge.type === 'interface-connect') {
+    if (edge.type === NodeType.InterfaceConsumer) {
       event.preventDefault(); // cancel edge creation
       // and then update the graph via the api
       const sourceNode = this.graph.getNode(edge.source);
@@ -569,7 +570,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (edge.createdFrom != null) {
       return;
     }
-    if (edge.type === 'interface') {
+    if (edge.type === NodeType.Interface) {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
   };
@@ -579,7 +580,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     const edge: Edge = event.detail.edge;
-    if (edge.type === 'interface-connect') {
+    if (edge.type === NodeType.InterfaceConsumer) {
       event.preventDefault(); // cancel edge deletion
       // and then update the graph via the api
       const graph: GraphEditor = this.graphWrapper.nativeElement;
@@ -592,16 +593,18 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   private onNodeClick = (event: CustomEvent) => {
+    // console.log(event.detail.node.x, event.detail.node.y);
+    // return;
     this.closeComponentActions();
     event.preventDefault(); // prevent node selection
     const node: Node = event.detail.node;
     let contextMenuType: ComponentContextMenuType = null;
 
-    if (node.type === 'component') {
+    if (node.type === NodeType.Component) {
       contextMenuType = ComponentContextMenuType.Component;
     }
 
-    if (node.type === 'interface') {
+    if (node.type === NodeType.Interface) {
       contextMenuType = ComponentContextMenuType.Interface;
     }
 
@@ -624,7 +627,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       // if there is only one issue inside the clicked folder the graph leads the user direktly to the issue details view
       if (node.issueCount < 2 && node.issueCount > 0) {
         // if the clicked folder is on a component the url for the issu ends like .../component/COMPONENTID/issue/ISSUEID
-        if (rootNode.type === 'component') {
+        if (rootNode.type === NodeType.Component) {
           this.componentStoreService.getFullComponent(rootId).subscribe(component => {
             const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
             this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId],
@@ -647,7 +650,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         // if the clicked folder is on a component, router opens component details and jumps to the issues tab
         // a filter for the issue type is set
         // only issues of the selected issue type are displayed in the issue list
-        if (rootNode.type === 'interface') {
+        if (rootNode.type === NodeType.Interface) {
           this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
             const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
             const componentId = componentInterface.node.component.id;
@@ -663,6 +666,49 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     console.log('Clicked on another type of node:', node.type);
   };
+
+  fitGraphInView(): void {
+    const componentSize = {width: 100, height: 60};
+    const interfaceSize = {width: 14, height: 14};
+    const issueContainerSize = {width: 40, height: 30};
+
+    // Calculate bounding box
+    let rect = null;
+    for (const node of this.graph.nodeList) {
+      let size;
+      if (node.type === NodeType.Component) {
+        size = componentSize;
+      } else if (node.type === NodeType.Interface || node.type === NodeType.InterfaceConsumer) {
+        size = interfaceSize;
+      } else if (node.type === NodeType.IssueGroupContainer) {
+        if (node.issueGroupNodeIds.size === 0) {
+          // Ignore empty issue group containers
+          continue;
+        }
+
+        size = issueContainerSize;
+      } else {
+        continue;
+      }
+
+      const nodeX = node.x - size.width / 2;
+      const nodeY = node.y - size.height / 2;
+
+      if (rect === null) {
+        rect = {xMin: nodeX, yMin: nodeY, xMax: nodeX + size.width, yMax: nodeY + size.height};
+      } else {
+        rect.xMin = Math.min(nodeX, rect.xMin);
+        rect.yMin = Math.min(nodeY, rect.yMin);
+
+        rect.xMax = Math.max(nodeX + size.width, rect.xMax);
+        rect.yMax = Math.max(nodeY + size.height, rect.yMax);
+      }
+    }
+
+    if (rect) {
+      this.graph.zoomToBox({x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin});
+    }
+  }
 
   /**
    * load positions of graph elements from local storage
