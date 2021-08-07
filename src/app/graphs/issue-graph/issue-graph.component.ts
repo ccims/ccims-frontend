@@ -631,7 +631,23 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.componentActionsOverlayId = node.id;
         event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
         this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType, this);
+
+        // Make sure that context menu is visible if it extends over right or bottom edge
+        const visible = this.graph.currentViewWindow;
+        const scale = this.graph.currentZoomTransform.k;
+        const padding = 85 / scale; // FIXME: This isn't ideal, as the padding is somewhat dependent on the aspect ratio
+        const edgeX = visible.width * scale;
+        const edgeY = visible.height * scale;
+        const moveX = Math.max(0, this.componentActionsOverlay.width + x - edgeX) / scale;
+        const moveY = Math.max(0, this.componentActionsOverlay.height + y - edgeY) / scale;
+        if (moveX || moveY) {
+          this.graph.zoomToBox({
+            x: visible.x + moveX + padding, y: visible.y + moveY + padding,
+            width: visible.width - 2 * padding, height: visible.height - 2 * padding
+          });
+        }
       }
+
       return;
     }
 
