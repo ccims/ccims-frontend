@@ -1,6 +1,9 @@
 import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {DynamicNodeTemplate, DynamicTemplateContext} from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
+import {
+  DynamicNodeTemplate,
+  DynamicTemplateContext
+} from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
 import {DraggedEdge, Edge, Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
@@ -38,6 +41,11 @@ import {
   ComponentContextMenuService,
   ComponentContextMenuType
 } from '@app/graphs/component-context-menu/component-context-menu.component';
+
+interface Positions {
+  nodes: { [prop: string]: Point; };
+  issueGroups: { [node: string]: string };
+}
 
 /**
  * This component creates nodes and edges in the embedded MICO GraphEditor
@@ -83,10 +91,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // contains nodes representing interfaces and components which utilize node groups for display of issue folders
   private issueGroupParents: Node[] = [];
 
-  private saveNodePositionsSubject = new Subject<null>();
-  private nodePositions: {
-    [prop: string]: Point;
-  } = {};
+  private savePositionsSubject = new Subject<null>();
+  private savedPositions: Positions = {nodes: {}, issueGroups: {}};
 
   private destroy$ = new ReplaySubject(1);
 
@@ -134,14 +140,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.graphInitialized) {
       return;
     }
-    this.nodePositions = this.loadNodePositions();
+    this.savedPositions = this.loadSavedPositions();
     // subscribe to subject emitting node positions
-    this.saveNodePositionsSubject
+    this.savePositionsSubject
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(() => {
         console.log('Setting: ', this.projectStorageKey);
-        if (this.nodePositions != null) {
-          const newData = JSON.stringify(this.nodePositions);
+        if (this.savedPositions != null) {
+          const newData = JSON.stringify(this.savedPositions);
           localStorage.setItem(this.projectStorageKey, newData);
         }
       });
@@ -282,12 +288,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     graph.addEventListener('nodedragend', (event: CustomEvent) => {
       const node = event.detail.node;
+      if (node.type === NodeType.IssueGroupContainer) {
+        this.savedPositions.issueGroups[node.id] = node.position;
+      }
+
       // store node positioning information
-      this.nodePositions[node.id] = {
+      this.savedPositions.nodes[node.id] = {
         x: node.x,
         y: node.y,
       };
-      this.saveNodePositionsSubject.next();
+      this.savePositionsSubject.next();
       if (this.reloadOnMouseUp) {
         this.reloadOnMouseUp = false;
         this.zoomOnRedraw = false;
@@ -296,7 +306,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     graph.addEventListener('nodeadd', (event: CustomEvent) => {
-      if (event.detail.node.type === 'issue-group-container') {
+      if (event.detail.node.type === NodeType.IssueGroupContainer) {
         return;
       }
       const node = event.detail.node;
@@ -304,7 +314,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     graph.addEventListener('noderemove', (event: CustomEvent) => {
       const node = event.detail.node;
-      if (event.detail.node.type !== 'issue-group-container') {
+      if (event.detail.node.type !== NodeType.IssueGroupContainer) {
         minimap.removeNode(node);
       }
     });
@@ -341,7 +351,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private closeComponentActions(reload: boolean = true): void {
+  private closeComponentActions(reload: boolean = true): boolean {
     if (this.componentActionsOverlay) {
       if (reload) {
         this.reload();
@@ -369,12 +379,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private addIssueGroupContainer(node: IssueNode) {
     const gm = this.graph.groupingManager;
     gm.markAsTreeRoot(node.id);
+    const issueGroupContainerNode = createIssueGroupContainerNode(node);
+    const initialPosition = this.savedPositions.issueGroups[issueGroupContainerNode.id];
     gm.setGroupBehaviourOf(
       node.id,
-      new IssueGroupContainerParentBehaviour()
+      new IssueGroupContainerParentBehaviour(initialPosition)
     );
     // the issueGroupContainerNode has no visual representation but contains the visible issue folders
-    const issueGroupContainerNode = createIssueGroupContainerNode(node);
     node.issueGroupContainer = issueGroupContainerNode;
     this.graph.addNode(issueGroupContainerNode);
     gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
@@ -425,9 +436,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resetGraph();
     // create nodes corresponding to the components and interfaces of the project
     const componentNodes = Array.from(this.graphData.components.values()).map(component =>
-      createComponentNode(component, this.nodePositions[component.id]));
+      createComponentNode(component, this.savedPositions.nodes[component.id]));
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
-      intrface => createInterfaceNode(intrface, this.nodePositions[intrface.id]));
+      intrface => createInterfaceNode(intrface, this.savedPositions.nodes[intrface.id]));
     // issueNodes contains BOTH componentNodes and interfaceNodes
     const issueNodes = (componentNodes as IssueNode[]).concat(interfaceNodes as IssueNode[]);
     // For components AND interfaces: add the edges, issue folders and relations between folders
@@ -535,7 +546,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
     return edge;
-  };
+  }
 
   private onDraggedEdgeTargetChanged = (
     edge: DraggedEdge,
@@ -558,7 +569,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     return edge;
-  };
+  }
 
   private onEdgeAdd = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -575,7 +586,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
-  };
+  }
 
   private onEdgeDrop = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -588,7 +599,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (edge.type === NodeType.Interface) {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
-  };
+  }
 
   private onEdgeRemove = (event: CustomEvent) => {
     if (event.detail.eventSource === 'API') {
@@ -605,7 +616,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
-  };
+  }
 
   private onNodeClick = (event: CustomEvent) => {
     // console.log(event.detail.node.x, event.detail.node.y);
@@ -751,10 +762,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * load positions of graph elements from local storage
    */
-  private loadNodePositions() {
+  private loadSavedPositions(): Positions {
     const data = localStorage.getItem(this.projectStorageKey);
     if (data == null) {
-      return {};
+      return {nodes: {}, issueGroups: {}};
     }
     return JSON.parse(data);
   }
@@ -777,11 +788,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     createInterfaceDialogRef.afterClosed().subscribe((interfaceId) => {
-      this.nodePositions[interfaceId] = {
+      this.savedPositions.nodes[interfaceId] = {
         x: position.x,
         y: position.y
       };
-      this.saveNodePositionsSubject.next();
+      this.savePositionsSubject.next();
       this.reload$.next(null);
     });
   }
