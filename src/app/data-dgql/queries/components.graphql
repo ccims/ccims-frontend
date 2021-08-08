@@ -16,6 +16,14 @@ fragment fComponentStub on Component {
   }
 }
 
+fragment fInterfaceStub on ComponentInterface {
+  id
+  type
+  name
+  description
+  lastUpdatedAt
+}
+
 query ListProjectComponents($project: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
   node(id: $project) {
     ...on Project {
@@ -45,6 +53,67 @@ query GetComponent($id: ID!) {
   node(id: $id) {
     ...on Component {
       ...fComponentStub
+    }
+  }
+}
+
+query ListComponentInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+  node(id: $component) {
+    ...on Component {
+      interfaces(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...fInterfaceStub
+        }
+      }
+    }
+  }
+}
+
+query ListComponentConsumedInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+  node(id: $component) {
+    ...on Component {
+      consumedInterfaces(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...fInterfaceStub
+          component {
+            ...fComponentStub
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetInterface($id: ID!) {
+  node(id: $id) {
+    ...on ComponentInterface {
+      ...fInterfaceStub
     }
   }
 }

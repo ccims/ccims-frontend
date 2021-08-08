@@ -23,6 +23,7 @@ export class InterfaceDetailsComponent implements OnInit {
   public interface$: Observable<GetComponentQuery>;
   private interface: GetComponentQuery;
   private interfaceId: string;
+  public projectId: string;
   public issueListId: ListId;
   public loading: boolean;
   public saveFailed: boolean;
@@ -38,6 +39,7 @@ export class InterfaceDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private notify: UserNotifyService) {
     this.editMode = false;
+    this.projectId = this.route.snapshot.paramMap.get('id');
     this.interfaceId = this.route.snapshot.paramMap.get('interfaceId');
     this.interface$ = this.interfaceStoreService.getInterface(this.interfaceId);
     this.interface$.subscribe(componentInterface => {

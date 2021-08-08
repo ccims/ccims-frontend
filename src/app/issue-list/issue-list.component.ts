@@ -1,21 +1,18 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { GetComponentQuery, GetFullProjectQuery, GetInterfaceQuery } from 'src/generated/graphql';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
 import { FormControl } from '@angular/forms';
 import { LabelStoreService } from '@app/data/label/label-store.service';
-import { ProjectStoreService } from '@app/data/project/project-store.service';
 import DataService from '@app/data-dgql';
-import { decodeListId, NodeType } from '@app/data-dgql/id';
-import { DataList } from '@app/data-dgql/query';
-import { Issue } from '../../generated/graphql-dgql';
+import { decodeListId, encodeNodeId, NodeType } from '@app/data-dgql/id';
+import { DataList, DataNode } from '@app/data-dgql/query';
+import { Component as IComponent, Issue } from '../../generated/graphql-dgql';
 
 /**
  * This component displays a sortable and filterable list of issues in a table view
@@ -28,13 +25,12 @@ import { Issue } from '../../generated/graphql-dgql';
 })
 export class IssueListComponent implements OnInit, OnDestroy {
   @Input() listId: string;
-  @Input() projectId?: string;
+  @Input() projectId: string;
   public queryParamFilter = '';
   public list$?: DataList<Issue, unknown>;
   private listSub?: Subscription;
-  public component$?: Observable<GetComponentQuery>;
-  private component?: GetComponentQuery;
-  private componentId?: string;
+  public component$?: DataNode<IComponent>;
+  private componentSub?: Subscription;
   public canCreateNewIssue = false; // TODO remove this; use proper logic
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
@@ -44,30 +40,20 @@ export class IssueListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private labelStoreService: LabelStoreService, private activatedRoute: ActivatedRoute,
-              private dialog: MatDialog, private route: ActivatedRoute,
-              private componentStoreService: ComponentStoreService,
-              private router: Router, private interfaceStoreService: InterfaceStoreService,
-              private projectStoreService: ProjectStoreService,
-              private dataService: DataService) {
-
-  }
+  constructor(
+    private labelStoreService: LabelStoreService,
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private router: Router,
+    private dataService: DataService
+  ) {}
 
   ngOnInit(): void {
-    // if the IssueListComponent is called from a component, only the issues they belong to the component
-    // are displayed
-    // FIXME temporary bindings - make better API
     if (decodeListId(this.listId).node.type === NodeType.Component) {
-      this.componentId = decodeListId(this.listId).node.id;
-      this.canCreateNewIssue = true;
-
       // FIXME remove this / needed for + button
-      this.component$ = this.componentStoreService.getFullComponent(this.componentId);
-      this.component$.subscribe(component => {
-        this.component = component;
-      });
-    } else if (decodeListId(this.listId).node.type === NodeType.Interface) {
-      this.componentId = decodeListId(this.listId).node.id;
+      this.canCreateNewIssue = true;
+      this.component$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
+      this.componentSub = this.component$.subscribe();
     }
 
     this.list$ = this.dataService.getList(this.listId);
@@ -76,6 +62,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource<any>(data ? [...data.values()] : []);
       this.sort.sort(({ id: 'category', start: 'asc' }) as MatSortable);
       this.dataSource.sort = this.sort;
+      // TODO use bespoke pagination/sorting/filtering
       // this.dataSource.paginator = this.paginator;
       this.dataSource.filter = this.getQueryParamFilter();
       this.validationFilter.setValue(this.getQueryParamFilter());
@@ -85,6 +72,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.listSub.unsubscribe();
+    this.componentSub.unsubscribe();
   }
 
   // if the query param filter is set, the list shows only issues, that belong to the given keyword
@@ -110,20 +98,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
   }
 
   clickedOnRow(row: any) {
-    // route to issue details
-    // the url depends on the view, in which the issue list is embedded
-    // parentCaller defindes the embedding view
-    // FIXME: this routing make no sense because issues may have multiple parents
-    if (decodeListId(this.listId).node.type === NodeType.Component) {
-      this.router.navigate(['issue', row.id], { relativeTo: this.route });
-    } else if (decodeListId(this.listId).node.type === NodeType.Interface) {
-      this.router.navigate(['component', this.componentId, 'issue', row.id], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['component', row.parentComponent, 'issue', row.id], { relativeTo: this.route });
-    }
-
-    console.log(row);
-
+    this.router.navigate(['/projects', this.projectId, 'issues', row.id]);
   }
 
   /**
@@ -164,8 +139,8 @@ export class IssueListComponent implements OnInit, OnDestroy {
     const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
       {
         data: {
-          user: 'Component', name: this.component.node.name, id: this.componentId,
-          component: this.component, projectId: this.projectId
+          user: 'Component', name: this.component$.current.name, id: this.component$.current.id,
+          component: this.component$.current, projectId: this.projectId
         }
       });
     createIssueDialogRef.afterClosed().subscribe(issueData => {
