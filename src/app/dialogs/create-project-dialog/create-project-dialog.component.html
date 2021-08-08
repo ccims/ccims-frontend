@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Create Project</h1>
   <div mat-dialog-content>
   <form [formGroup]="validateForm">
-  <mat-form-field appearance="outline">
+  <mat-form-field class="stretch" appearance="outline">
     <mat-label>Name</mat-label>
     <input #name reqired matInput  [formControl]="validation" >
     <mat-error *ngIf="validation.invalid">Name your Project</mat-error>
