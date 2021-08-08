@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -22,7 +22,7 @@ import {IssueDetailComponent} from './issue-detail/issue-detail.component';
 import {GraphsModule} from './graphs/graphs.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NZ_ICONS} from 'ng-zorro-antd/icon';
-import {NZ_I18N, en_US} from 'ng-zorro-antd/i18n';
+import {en_US, NZ_I18N} from 'ng-zorro-antd/i18n';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import {IconDefinition} from '@ant-design/icons-angular';
@@ -40,21 +40,17 @@ import {GlobalConfig, ToastrModule} from 'ngx-toastr';
 import {RemoveDialogComponent} from './dialogs/remove-dialog/remove-dialog.component';
 import {CreateComponentDialogComponent} from './dialogs/create-component-dialog/create-component-dialog.component';
 import {CreateInterfaceDialogComponent} from './dialogs/create-interface-dialog/create-interface-dialog.component';
-import {ComponentDetailsComponent} from './component-details/component-details.component';
 import {CreateIssueDialogComponent} from './dialogs/create-issue-dialog/create-issue-dialog.component';
-import {IssueListComponent} from './issue-list/issue-list.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {ColorPickerModule} from 'ngx-color-picker';
-import {InterfaceDetailsComponent} from './interface-details/interface-details.component';
 import {IssueSettingsContainerComponent} from './issue-settings-container/issue-settings-container.component';
-import {ProjectIssueListComponent} from './project-issue-list/project-issue-list.component';
-import {ProjectMembersComponent} from './project-members/project-members.component';
 import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
 import {CreateLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-label-dialog.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { RemoveProjectMemberComponentComponent } from './dialogs/remove-project-member-component/remove-project-member-component.component';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {RemoveProjectMemberComponentComponent} from './dialogs/remove-project-member-component/remove-project-member-component.component';
+import {PortalModule} from '@angular/cdk/portal';
+import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -87,38 +83,40 @@ const toasterConfig: Partial<GlobalConfig> = {
     IssueSettingsContainerComponent,
     LabelSelectorComponent,
     CreateLabelDialogComponent,
-    RemoveProjectMemberComponentComponent
+    RemoveProjectMemberComponentComponent,
+    ComponentContextMenuComponent
   ],
   imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot(toasterConfig),
-        LayoutModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        MatInputModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatTabsModule,
-        MatSlideToggleModule,
-        GraphQLModule,
-        HttpClientModule,
-        GraphsModule,
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgZorroAntdModule,
-        NgSelectModule,
-        CommonModule,
-        NgOptionHighlightModule,
-        ColorPickerModule,
-        MatExpansionModule,
-        MatProgressSpinnerModule
-    ],
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(toasterConfig),
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatTabsModule,
+    MatSlideToggleModule,
+    GraphQLModule,
+    HttpClientModule,
+    GraphsModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgZorroAntdModule,
+    NgSelectModule,
+    CommonModule,
+    NgOptionHighlightModule,
+    ColorPickerModule,
+    MatExpansionModule,
+    MatProgressSpinnerModule,
+    PortalModule
+  ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],

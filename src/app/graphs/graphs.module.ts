@@ -84,7 +84,8 @@ import { CursorPaginatorComponent } from '@app/components/cursor-paginator/curso
     CdkTableModule,
     CdkTreeModule,
     IssueGraphComponent,
-    IssueGraphControlsComponent
+    IssueGraphControlsComponent,
+    IssueListComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

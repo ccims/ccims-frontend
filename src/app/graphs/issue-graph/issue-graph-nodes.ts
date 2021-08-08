@@ -1,7 +1,7 @@
-import { GraphComponent, GraphInterface } from '@app/data/issue-graph/graph-data';
-import { IssueCategory } from 'src/generated/graphql';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
-import { Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {GraphComponent, GraphInterface} from '@app/data/issue-graph/graph-data';
+import {IssueCategory} from 'src/generated/graphql';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
+import {Edge} from '@ustutt/grapheditor-webcomponent/lib/edge';
 
 export {
   IssueNode, ComponentNode, InterfaceNode, IssueGroupContainerNode, RelationEdge,
@@ -10,6 +10,13 @@ export {
   Position,
   getIssueFolderId
 };
+
+export enum NodeType {
+  Component = 'component',
+  Interface = 'interface',
+  InterfaceConsumer = 'interface-connect',
+  IssueGroupContainer = 'issue-group-container'
+}
 
 /**
  * This file includes type definitions and creation functions (think constructors)
@@ -35,7 +42,7 @@ function createComponentNode(component: GraphComponent, position: Position): Com
     ...(position || zeroPosition),
     id: component.id,
     title: component.name,
-    type: 'component',
+    type: NodeType.Component,
     data: component
   };
 }
@@ -49,7 +56,7 @@ function createInterfaceNode(intrface: GraphInterface, position: Position): Inte
     ...(position || zeroPosition),
     id: intrface.id,
     title: intrface.name,
-    type: 'interface',
+    type: NodeType.Interface,
     offeredById: intrface.offeredBy,
   };
 }
@@ -58,10 +65,11 @@ interface IssueGroupContainerNode extends Node {
   position: string;
   issueGroupNodeIds: Set<string>;
 }
+
 function createIssueGroupContainerNode(node: IssueNode): IssueGroupContainerNode {
   return {
     id: `${node.id}__issue-group-container`,
-    type: 'issue-group-container',
+    type: NodeType.IssueGroupContainer,
     dynamicTemplate: 'issue-group-container',
     x: 0,
     y: 0,
@@ -109,7 +117,7 @@ function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
   return {
     source: componentId,
     target: interfaceId,
-    type: 'interface-connect',
+    type: NodeType.InterfaceConsumer,
     markerEnd: {
       template: 'interface-connector',
       relativeRotation: 0,
@@ -121,7 +129,7 @@ function createInterfaceProvisionEdge(componentId: string, interfaceId: string):
   return {
     source: componentId,
     target: interfaceId,
-    type: 'interface',
+    type: NodeType.Interface,
     dragHandles: [],
   };
 }
@@ -134,7 +142,8 @@ interface Position {
   x: number;
   y: number;
 }
-const zeroPosition = { x: 0, y: 0 };
+
+const zeroPosition = {x: 0, y: 0};
 
 enum folderEdgeTypes {
   RelatedTo = 'relatedTo',

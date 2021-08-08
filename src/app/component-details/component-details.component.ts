@@ -2,12 +2,12 @@ import {Component, Injectable, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
-import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GetBasicComponentQuery, GetComponentQuery, UpdateComponentInput} from '../../generated/graphql';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
-import { encodeListId, NodeType, ListType, ListId } from '@app/data-dgql/id';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {encodeListId, ListId, ListType, NodeType} from '@app/data-dgql/id';
 
 @Component({
   selector: 'app-component-details',
@@ -59,7 +59,7 @@ export class ComponentDetailsComponent implements OnInit {
       error => this.notify.notifyError('Failed to get component information!', error));
 
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.issueListId = encodeListId({ node: { type: NodeType.Component, id: this.componentId }, type: ListType.Issues });
+    this.issueListId = encodeListId({node: {type: NodeType.Component, id: this.componentId}, type: ListType.Issues});
 
     this.activatedRoute.queryParams.subscribe(params => this.queryParamSelected = params.selected);
   }

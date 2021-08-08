@@ -1,0 +1,41 @@
+@import "src/styles/variables";
+
+.frame {
+  padding: 6px;
+  background-color: $background-controls;
+  border-radius: 5px;
+  box-shadow: 0 0 8px 0 #000000;
+}
+
+.center-horizontal {
+  width: 100%;
+  text-align: center;
+}
+
+.description-field {
+  min-height: 50px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.row > * {
+  margin-right: 4px;
+  flex-grow: 1;
+}
+
+.row > *:last-child {
+  margin-right: 0;
+  flex-grow: 1;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+  height: 100%;
+}
+
+:host ::ng-deep .mat-tab-body.mat-tab-body-active {
+  height: 100%;
+}
