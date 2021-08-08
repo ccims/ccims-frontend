@@ -276,8 +276,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     } as DynamicNodeTemplate);
     graph.addEventListener('nodepositionchange', (e: CustomEvent) => {
-      this.closeComponentActions(false);
-      this.reloadOnMouseUp = true;
+      if (this.closeComponentActions(false)) {
+        this.reloadOnMouseUp = true;
+      }
     });
     graph.addEventListener('nodedragend', (event: CustomEvent) => {
       const node = event.detail.node;
@@ -349,7 +350,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.componentActionsOverlay.close();
       this.componentActionsOverlay = null;
       this.componentActionsOverlayId = null;
+
+      return true;
     }
+
+    return false;
   }
 
   /**
