@@ -23,30 +23,35 @@ const routes: Routes = [
       {
         path: 'projects/:id',
         children: [
-          { path: '', pathMatch: 'full', component: ProjectOverviewComponent},
-          { path: 'graph', component: IssueGraphControlsComponent},
-          { path: 'issues',
-          children: [{ path: '', pathMatch: 'full', component: ProjectIssueListComponent},
-                     { path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent},
-                    ]},
-          { path: 'members', component: ProjectMembersComponent},
-          { path: 'component/:componentId',
+          { path: '', pathMatch: 'full', component: ProjectOverviewComponent },
+          { path: 'graph', component: IssueGraphControlsComponent },
+          {
+            path: 'issues',
             children: [
-              { path: 'interface/:interfaceId',
+              { path: '', pathMatch: 'full', component: ProjectIssueListComponent },
+              { path: ':issueId', pathMatch: 'full', component: IssueDetailComponent },
+            ]
+          },
+          { path: 'members', component: ProjectMembersComponent },
+          {
+            path: 'component/:componentId',
             children: [
-              {path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' }},
-              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent},
-              {path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
-            ]},
-              {path: '', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' }},
-              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
-            ]},
-          { path: 'interface/:interfaceId',
+              { path: '', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' } },
+              {
+                path: 'interface/:interfaceId',
+                children: [
+                  { path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' } },
+                  { path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent }
+                ]
+              },
+            ]
+          },
+          {
+            path: 'interface/:interfaceId',
             children: [
-              {path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' }},
-              {path: 'issue/:issueId', pathMatch: 'full', component: IssueDetailComponent},
-              {path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent}
-            ]}
+              { path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' } },
+            ]
+          }
         ]
       },
       { path: 'issue', component: IssueDetailComponent },
@@ -63,4 +68,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

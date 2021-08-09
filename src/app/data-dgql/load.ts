@@ -13,6 +13,7 @@ type NodeQueries = {
 
 const nodeQueries: NodeQueries = {
   [NodeType.Project]: (i, id) => i.q.projects.getProject(id).then(data => data.node),
+  [NodeType.Component]: (i, id) => i.q.components.getComponent(id).then(data => data.node),
   [NodeType.Issue]: (i, id) => i.q.issues.getIssueHeader(id).then(data => data.node),
 };
 
