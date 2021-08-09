@@ -71,7 +71,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.listSub.unsubscribe();
-    this.componentSub.unsubscribe();
+    this.componentSub?.unsubscribe();
   }
 
   // if the query param filter is set, the list shows only issues, that belong to the given keyword
