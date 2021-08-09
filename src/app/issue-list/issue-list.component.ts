@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ComponentStoreService } from '@app/data/component/component-store.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -140,7 +139,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
       {
         data: {
           user: 'Component', name: this.component$.current.name, id: this.component$.current.id,
-          component: this.component$.current, projectId: this.projectId
+          component: { node: this.component$.current }, projectId: this.projectId
         }
       });
     createIssueDialogRef.afterClosed().subscribe(issueData => {

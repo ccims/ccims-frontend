@@ -41,7 +41,7 @@ export class CreateIssueDialogComponent implements OnInit {
   selectedIssues: any = [];
   linkableProjectIssues: any = [];
 
-  selectableComponentInterfaces = this.data.component.node.interfaces.nodes;
+  selectableComponentInterfaces = []; // this.data.component.node.interfaces.nodes;
   selectedInterfaces = [];
   selectedAssignees = [];
   assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
