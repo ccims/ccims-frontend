@@ -103,8 +103,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // local storage key for positions of graph elements
   private projectStorageKey: string;
 
+  private graphFirstRender = true;
+
   private componentActionsOverlay: ComponentContextMenuComponent;
   private componentActionsOverlayId: number | string;
+
+  // The component details page moves the graph sometimes a bit, so dont move back when closing the component details page
+  private redrawByCloseOfComponentDetails = false;
+
 
   /**
    * Get reference to MICO grapheditor instance and initialize it
@@ -125,6 +131,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Cancel all subscriptions on component destruction.
    */
   ngOnDestroy() {
+    // Save the current zoom details of the graph for when the user comes back to the graph
+    localStorage.setItem(`zoomTransform_${this.projectStorageKey}`, JSON.stringify(this.graph.currentZoomTransform));
+    // Save the current bounding box of the graph for when the user comes back to the graph
+    localStorage.setItem(`zoomBoundingBox_${this.projectStorageKey}`, JSON.stringify(this.graph.currentViewWindow));
     this.destroy$.next();
     this.closeComponentActions();
   }
@@ -430,6 +440,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Takes care of adding interfaces and components, and their connections.
    * Additionally adds issue folders attached to each component and the dashed edges
    * between them based on this.graphData.relatedFolders
+   * @param byIssueGraphControls expresses whether function is invoked from that component
    */
   drawGraph() {
     // reset graph and remove all elements, gives us clean slate
@@ -454,11 +465,46 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     // render all changes
     this.graph.completeRender();
-    // zoomOnRedraw is set on first render & when user created a new component
-    if (this.zoomOnRedraw) {
-      this.zoomOnRedraw = false;
-      this.fitGraphInView();
-    }
+    this.setGraphToLastView();
+  }
+
+
+
+  /**
+   * Sets the view and the bounding box of the graph to how it was when the user left the graph with the help of localStorage.
+   * When theres no previous session available set the view to the optimized bounding box for the graph.
+   */
+  private setGraphToLastView(){
+    // The previous currentViewWindow of the graph as JSON string
+    const previousBoundingBoxAsString = localStorage.getItem(`zoomBoundingBox_${this.projectStorageKey}`);
+    // The previous zoomTransform of the graph as JSON string
+    const zoomTransformAsString = localStorage.getItem(`zoomTransform_${this.projectStorageKey}`);
+    // Only set the bounding box to the optimized bounding box for the graph when creating the first component
+    const firstComponent = this.graphData.components.size === 1 ? true : false;
+    console.log(firstComponent);
+      // Set the bounding box to the bounding box of the last session or to the optimized bounding box if there wasnt a last session
+    if ((JSON.parse(previousBoundingBoxAsString) !== null) && (JSON.parse(zoomTransformAsString) !== null) && this.graphFirstRender
+      && !this.redrawByCloseOfComponentDetails && !firstComponent){
+        const previousBoundingBox = JSON.parse(previousBoundingBoxAsString);
+        /* These calculations are necessary because of how GraphEditor.zoomToBox(box: Rect) works. GraphEditor.zoomToBox zooms to
+        the given box and adds some padding.These calculations get rid of the padding. Otherwise the padding would be added to the graph
+         with every execution of the setGraphToLastView() method. */
+        previousBoundingBox.width = previousBoundingBox.width * 0.9;
+        previousBoundingBox.height = previousBoundingBox.height * 0.9;
+        // Difference between Rect.x that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.x
+        const paddingX = 57.75 / JSON.parse(zoomTransformAsString).k;
+        // Difference between Rect.y that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.y
+        const paddingY = 17.2 / JSON.parse(zoomTransformAsString).k;
+        previousBoundingBox.x = previousBoundingBox.x + paddingX;
+        previousBoundingBox.y = previousBoundingBox.y + paddingY;
+        this.graph.zoomToBox(previousBoundingBox);
+        this.graphFirstRender = false;
+      }
+    // Zoom to the optimized bounding box if no graph view is stored from the last session or when the first component is created
+      else if ((this.zoomOnRedraw && !this.redrawByCloseOfComponentDetails) || firstComponent){
+        this.fitGraphInView();
+        this.zoomOnRedraw = false;
+      }
   }
 
 
@@ -631,6 +677,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.closeComponentActions();
+    // Dont change the view of the graph after the details page has been closed
+    this.redrawByCloseOfComponentDetails = true;
     let contextMenuType: ComponentContextMenuType = null;
 
     if (node.type === NodeType.Component) {
@@ -647,7 +695,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.componentActionsOverlayId = node.id;
         event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
         this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType, this);
-
         // Make sure that context menu is visible if it extends over right or bottom edge
         const visible = this.graph.currentViewWindow;
         const scale = this.graph.currentZoomTransform.k;
@@ -714,7 +761,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     console.log('Clicked on another type of node:', node.type);
-  };
+  }
 
   fitGraphInView(): void {
     const componentSize = {width: 100, height: 60};
@@ -819,7 +866,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       data: {projectId: this.projectId}
     });
     createComponentDialogRef.afterClosed().subscribe(componentInformation => {
-      this.zoomOnRedraw = true;
+      this.zoomOnRedraw = false;
       this.reload$.next(null);
     });
   }
