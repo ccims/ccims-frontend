@@ -425,6 +425,22 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  findIdealComponentPosition(id: string, boundingBox: Rect): Point {
+    const saved = this.savedPositions.nodes[id];
+    if (saved) {
+      return saved;
+    }
+
+    const point = {x: 0, y: 0};
+    if (boundingBox) {
+      point.x = boundingBox.x + boundingBox.width + 60;
+      point.y = boundingBox.y + boundingBox.height / 2;
+    }
+
+    this.savedPositions.nodes[id] = point;
+    return point;
+  }
+
   /**
    * Responsible for drawing the graph based on this.graphData.
    * Takes care of adding interfaces and components, and their connections.
@@ -432,11 +448,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * between them based on this.graphData.relatedFolders
    */
   drawGraph() {
+    const boundingBox = this.calculateBoundingBox();
     // reset graph and remove all elements, gives us clean slate
     this.resetGraph();
     // create nodes corresponding to the components and interfaces of the project
     const componentNodes = Array.from(this.graphData.components.values()).map(component =>
-      createComponentNode(component, this.savedPositions.nodes[component.id]));
+      createComponentNode(component, this.findIdealComponentPosition(component.id, boundingBox)));
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
       intrface => createInterfaceNode(intrface, this.savedPositions.nodes[intrface.id]));
     // issueNodes contains BOTH componentNodes and interfaceNodes
@@ -716,7 +733,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('Clicked on another type of node:', node.type);
   };
 
-  fitGraphInView(): void {
+  calculateBoundingBox(): Rect {
     const componentSize = {width: 100, height: 60};
     const interfaceSize = {width: 14, height: 14};
     const issueContainerSize = {width: 40, height: 30};
@@ -754,8 +771,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
 
+    return rect ? {x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin} : null;
+  }
+
+  fitGraphInView(): void {
+    const rect = this.calculateBoundingBox();
+
     if (rect) {
-      this.graph.zoomToBox({x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin});
+      this.graph.zoomToBox(rect);
     }
   }
 
