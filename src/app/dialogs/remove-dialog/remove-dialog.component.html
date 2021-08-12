@@ -1,12 +1,13 @@
 <div mat-dialog-title>{{data.title}}</div>
 
-<div mat-dialog-content>
+<div class="container">
   <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 0 24 24" class="delete-icon">
     <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
   </svg>
-  <div class="message-container">
+  <div mat-dialog-content class="message-container">
     <ng-container *ngFor="let message of data.messages">
-      {{message}}<br>
+      <ng-container *ngIf="message.startsWith(' ')">&nbsp;&nbsp;&nbsp;&nbsp;</ng-container>
+      {{message.startsWith(' ') ? message.substring(1) : message}}<br>
     </ng-container>
   </div>
 </div>

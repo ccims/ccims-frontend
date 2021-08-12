@@ -62,6 +62,26 @@ query GetBasicComponent($id: ID!) {
   }
 }
 
+query GetComponentInterfaces($id: ID!) {
+  node(id: $id) {
+    ...on Component {
+      id
+      interfaces {
+        nodes{
+          id
+          name
+          consumedBy {
+            nodes {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 query GetComponent($id: ID!) {
   node(id: $id) {
     ...on Component {

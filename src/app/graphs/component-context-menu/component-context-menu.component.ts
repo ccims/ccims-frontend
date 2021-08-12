@@ -12,8 +12,12 @@ import {
 } from '@angular/core';
 import {ConnectedPosition, Overlay, OverlayRef} from '@angular/cdk/overlay';
 import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
-import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
-import {GetComponentQuery, GetInterfaceQuery, UpdateComponentInput, UpdateComponentInterfaceInput} from '../../../generated/graphql';
+import {
+  GetComponentQuery,
+  GetInterfaceQuery,
+  UpdateComponentInput,
+  UpdateComponentInterfaceInput
+} from '../../../generated/graphql';
 import {FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
@@ -22,6 +26,7 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {encodeListId, ListType, NodeType} from '@app/data-dgql/id';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {IssueGraphComponent} from '@app/graphs/issue-graph/issue-graph.component';
+import {RemoveDialogComponent} from "@app/dialogs/remove-dialog/remove-dialog.component";
 
 export enum ComponentContextMenuType {
   Component,
@@ -62,7 +67,13 @@ export class ComponentContextMenuService {
     });
 
     const map = new WeakMap();
-    map.set(COMPONENT_CONTEXT_MENU_DATA, {overlayRef: ref, position: pos, nodeId: componentId, type: componentType, graph: issueGraph});
+    map.set(COMPONENT_CONTEXT_MENU_DATA, {
+      overlayRef: ref,
+      position: pos,
+      nodeId: componentId,
+      type: componentType,
+      graph: issueGraph
+    });
     const injector = new PortalInjector(this.injector, map);
     return ref.attach(new ComponentPortal(ComponentContextMenuComponent, null, injector)).instance;
   }
@@ -214,13 +225,46 @@ export class ComponentContextMenuComponent implements OnInit, OnDestroy {
     this.editMode = true;
   }
 
-  public onDeleteClick() {
+  public onDeleteClick(): void {
+    // TODO: Error handling/loading messages etc.
+    const affected: string[] = [];
+    if (this.data.type === ComponentContextMenuType.Component) {
+      this.componentStoreService.getComponentInterfaces(this.data.nodeId).subscribe(interfaces => {
+        for (const i of interfaces.node.interfaces.nodes) {
+          let affectedInterface = 'Interface "' + i.name + '" will be deleted';
+          if (i.consumedBy.nodes.length > 0) {
+            affectedInterface += ', which will affect the following component(s):';
+          }
+
+          affected.push(affectedInterface);
+          for (const component of i.consumedBy.nodes) {
+            affected.push(' ' + component.name);
+          }
+        }
+
+        this.showDeleteDialog(affected);
+      });
+    } else if (this.data.type === ComponentContextMenuType.Interface) {
+      this.interfaceStoreService.getConsumingComponents(this.data.nodeId).subscribe(components => {
+        affected.push('Deleting this interface will affect the following component(s):');
+        affected.push(' ' + components.node.component.name);
+        for (const c of components.node.consumedBy.nodes) {
+          affected.push(' ' + c.name);
+        }
+
+        this.showDeleteDialog(affected);
+      });
+    }
+  }
+
+  private showDeleteDialog(affected: string[]): void {
     if (this.data.type === ComponentContextMenuType.Component) {
       const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
         {
           data: {
             title: 'Really delete component \"' + this.component.node.name + '\"?',
-            messages: ['Are you sure you want to delete the component \"' + this.component.node.name + '\"?', 'This action cannot be undone!']
+            messages: ['Are you sure you want to delete the component \"' + this.component.node.name + '\"?',
+              'This action cannot be undone!'].concat(affected)
           }
         });
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
@@ -240,7 +284,8 @@ export class ComponentContextMenuComponent implements OnInit, OnDestroy {
         {
           data: {
             title: 'Really delete interface \"' + this.interface.node.name + '\"?',
-            messages: ['Are you sure you want to delete the project \"' + this.interface.node.name + '\"?', 'This action cannot be undone!']
+            messages: ['Are you sure you want to delete the interface \"' + this.interface.node.name + '\"?',
+              'This action cannot be undone!'].concat(affected)
           }
         });
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {

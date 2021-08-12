@@ -1,20 +1,24 @@
-.mat-dialog-content {
+.container {
+  display: flex;
+  flex-direction: row;
   border-top: lightgray;
   border-top-style: solid;
   border-bottom: lightgray;
   border-bottom-style: solid;
-  padding: 10px;
-  font-weight: bold;
-  font-size: 1.1em;
 }
 
 .delete-icon {
   display: inline-block;
-  vertical-align: middle;
-  margin-right: 8px;
+  margin: 10px 30px auto 0;
+  width: 50px;
+  flex: 0 0 auto;
 }
 
 .message-container {
+  padding: 10px 30px 10px 0;
+  font-weight: bold;
+  font-size: 1.1em;
   display: inline-block;
   vertical-align: middle;
+  flex: 1 1 auto;
 }

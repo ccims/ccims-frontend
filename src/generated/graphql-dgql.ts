@@ -2555,6 +2555,8 @@ export type Query = {
   projects?: Maybe<ProjectPage>;
   /** Requests all components within the current ccims instance matching the `filterBy` */
   components?: Maybe<ComponentPage>;
+  /** Requests all IMSs within the current ccims instance matching the `filterBy` */
+  imss?: Maybe<ImsPage>;
   /** Returns the user from which the PAI is currently being accessed */
   currentUser?: Maybe<User>;
   /**
@@ -2596,6 +2598,16 @@ export type QueryComponentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   filterBy?: Maybe<ComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+/** All queries for requesting stuff */
+export type QueryImssArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ImsFilter>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
@@ -2731,7 +2743,7 @@ export type Mutation = {
   /** Creates a new IMS in the ccims for the specified component */
   createIMS?: Maybe<CreateImsPayload>;
   /** Creates a new IMSComponent which links the specified component to the specified IMS */
-  createIMSComponent?: Maybe<CreateImsPayload>;
+  createIMSComponent?: Maybe<CreateImsComponentPayload>;
   /** Create a new artifact in the system */
   createArtifact?: Maybe<CreateArtifactPayload>;
   /** Delets the specified artifact */
@@ -3073,13 +3085,13 @@ export type MutationRemoveLabelFromComponentArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateImsArgs = {
-  input: CreateComponentInput;
+  input: CreateImsInput;
 };
 
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateImsComponentArgs = {
-  input: CreateComponentInput;
+  input: CreateImsComponentInput;
 };
 
 
@@ -4472,6 +4484,46 @@ export type CreateImsPayload = {
   ims?: Maybe<Ims>;
 };
 
+/** The inputs for the createIMS mutation */
+export type CreateImsInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The type/system the IMS of this component is an instance of */
+  imsType: ImsType;
+  /**
+   * Data needed for the connection to the IMS API.
+   * 
+   * See the documentation for the IMS extensions for information which keys are expected.
+   * This must be a valid JSON-string
+   */
+  imsData?: Maybe<Scalars['JSON']>;
+};
+
+/** The Payload/Response for the createIMS mutation */
+export type CreateImsComponentPayload = {
+  /** The string provided by the client on sending the mutation */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The IMSComponent created by this mutation */
+  imsComponent?: Maybe<ImsComponent>;
+};
+
+/** The inputs for the createIMS mutation */
+export type CreateImsComponentInput = {
+  /** An arbitraty string to return together with the mutation result */
+  clientMutationID?: Maybe<Scalars['String']>;
+  /** The component which the IMS is linked to */
+  component: Scalars['ID'];
+  /** The IMS which is linked to the component */
+  ims: Scalars['ID'];
+  /**
+   * Data needed for the connection to the IMS API to this specific component.
+   * 
+   * See the documentation for the IMS extensions for information which keys are expected.
+   * This must be a valid JSON-string
+   */
+  imsData?: Maybe<Scalars['JSON']>;
+};
+
 /** The Payload/Response for the createArtifact mutation */
 export type CreateArtifactPayload = {
   /** The string provided by the client on sending the mutation */
@@ -4613,6 +4665,8 @@ export type FComponentStubFragment = (
   )> }
 );
 
+export type FInterfaceStubFragment = Pick<ComponentInterface, 'id' | 'type' | 'name' | 'description' | 'lastUpdatedAt'>;
+
 export type ListProjectComponentsQueryVariables = Exact<{
   project: Scalars['ID'];
   after?: Maybe<Scalars['String']>;
@@ -4634,6 +4688,46 @@ export type GetComponentQueryVariables = Exact<{
 
 
 export type GetComponentQuery = { node?: Maybe<FComponentStubFragment> };
+
+export type ListComponentInterfacesQueryVariables = Exact<{
+  component: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentInterfaceFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListComponentInterfacesQuery = { node?: Maybe<{ interfaces?: Maybe<(
+      Pick<ComponentInterfacePage, 'totalCount'>
+      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FInterfaceStubFragment>>> }
+    )> }> };
+
+export type ListComponentConsumedInterfacesQueryVariables = Exact<{
+  component: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentInterfaceFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListComponentConsumedInterfacesQuery = { node?: Maybe<{ consumedInterfaces?: Maybe<(
+      Pick<ComponentInterfacePage, 'totalCount'>
+      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<(
+        { component?: Maybe<FComponentStubFragment> }
+        & FInterfaceStubFragment
+      )>>> }
+    )> }> };
+
+export type GetInterfaceQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetInterfaceQuery = { node?: Maybe<FInterfaceStubFragment> };
 
 export type FLabelStubFragment = Pick<Label, 'id' | 'name' | 'color'>;
 
@@ -5002,6 +5096,15 @@ export const FComponentStubFragmentDoc = gql`
   }
 }
     `;
+export const FInterfaceStubFragmentDoc = gql`
+    fragment fInterfaceStub on ComponentInterface {
+  id
+  type
+  name
+  description
+  lastUpdatedAt
+}
+    `;
 export const AllPageInfoFragmentDoc = gql`
     fragment allPageInfo on PageInfo {
   startCursor
@@ -5351,6 +5454,92 @@ export const GetComponentDocument = gql`
   })
   export class GetComponentGQL extends Apollo.Query<GetComponentQuery, GetComponentQueryVariables> {
     document = GetComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListComponentInterfacesDocument = gql`
+    query ListComponentInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+  node(id: $component) {
+    ... on Component {
+      interfaces(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...fInterfaceStub
+        }
+      }
+    }
+  }
+}
+    ${FInterfaceStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListComponentInterfacesGQL extends Apollo.Query<ListComponentInterfacesQuery, ListComponentInterfacesQueryVariables> {
+    document = ListComponentInterfacesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListComponentConsumedInterfacesDocument = gql`
+    query ListComponentConsumedInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+  node(id: $component) {
+    ... on Component {
+      consumedInterfaces(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...fInterfaceStub
+          component {
+            ...fComponentStub
+          }
+        }
+      }
+    }
+  }
+}
+    ${FInterfaceStubFragmentDoc}
+${FComponentStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListComponentConsumedInterfacesGQL extends Apollo.Query<ListComponentConsumedInterfacesQuery, ListComponentConsumedInterfacesQueryVariables> {
+    document = ListComponentConsumedInterfacesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetInterfaceDocument = gql`
+    query GetInterface($id: ID!) {
+  node(id: $id) {
+    ... on ComponentInterface {
+      ...fInterfaceStub
+    }
+  }
+}
+    ${FInterfaceStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetInterfaceGQL extends Apollo.Query<GetInterfaceQuery, GetInterfaceQueryVariables> {
+    document = GetInterfaceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
