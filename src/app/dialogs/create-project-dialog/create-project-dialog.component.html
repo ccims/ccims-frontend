@@ -3,7 +3,7 @@
   <form [formGroup]="validateForm">
   <mat-form-field class="stretch" appearance="outline">
     <mat-label>Name</mat-label>
-    <input #name reqired matInput  [formControl]="validation" >
+    <input #name required matInput  [formControl]="validation" >
     <mat-error *ngIf="validation.invalid">Name your Project</mat-error>
   </mat-form-field>
 
