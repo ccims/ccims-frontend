@@ -1,15 +1,14 @@
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectStoreService } from '@app/data/project/project-store.service';
-import { GetBasicProjectQuery } from 'src/generated/graphql';
-import { MatDialog } from '@angular/material/dialog';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
-import { DataNode } from '@app/data-dgql/query';
-import { Project } from '../../generated/graphql-dgql';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProjectStoreService} from '@app/data/project/project-store.service';
+import {MatDialog} from '@angular/material/dialog';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {DataNode} from '@app/data-dgql/query';
+import {Project} from '../../generated/graphql-dgql';
 import DataService from '@app/data-dgql';
-import { encodeNodeId, NodeType } from '@app/data-dgql/id';
-import { Subscription } from 'rxjs';
+import {encodeNodeId, NodeType} from '@app/data-dgql/id';
+import {Subscription} from 'rxjs';
 
 /**
  * This component offers a view showing the project name,
@@ -38,7 +37,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.project = this.dataService.getNode(encodeNodeId({ type: NodeType.Project, id: this.projectId }));
+    this.project = this.dataService.getNode(encodeNodeId({type: NodeType.Project, id: this.projectId}));
     this.projectSub = this.project.subscribe();
   }
 
@@ -51,7 +50,9 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
       {
         data: {
           title: 'Really delete project \"' + this.project.current.name + '\"?',
-          messages: ['Are you sure you want to delete the project \"' + this.project.current.name + '\"?', 'This action cannot be undone!']
+          messages: ['Are you sure you want to delete the project \"' + this.project.current.name + '\"?',
+            'This action cannot be undone!'],
+          verificationName: this.project.current.name
         }
       });
     confirmDeleteDialogRef.afterClosed().subscribe(del => {

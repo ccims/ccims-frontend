@@ -264,7 +264,8 @@ export class ComponentContextMenuComponent implements OnInit, OnDestroy {
           data: {
             title: 'Really delete component \"' + this.component.node.name + '\"?',
             messages: ['Are you sure you want to delete the component \"' + this.component.node.name + '\"?',
-              'This action cannot be undone!'].concat(affected)
+              'This action cannot be undone!'].concat(affected),
+            verificationName: this.component.node.name
           }
         });
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
@@ -285,7 +286,8 @@ export class ComponentContextMenuComponent implements OnInit, OnDestroy {
           data: {
             title: 'Really delete interface \"' + this.interface.node.name + '\"?',
             messages: ['Are you sure you want to delete the interface \"' + this.interface.node.name + '\"?',
-              'This action cannot be undone!'].concat(affected)
+              'This action cannot be undone!'].concat(affected),
+            verificationName: this.interface.node.name
           }
         });
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {

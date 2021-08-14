@@ -1,24 +1,24 @@
-.container {
-  display: flex;
-  flex-direction: row;
+.content {
+  display: inline-block;
+  align-self: center;
+  place-self: center;
+  vertical-align: middle;
   border-top: lightgray;
   border-top-style: solid;
   border-bottom: lightgray;
   border-bottom-style: solid;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 8px;
+  margin: 0;
+}
+
+.title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .delete-icon {
-  display: inline-block;
-  margin: 10px 30px auto 0;
-  width: 50px;
   flex: 0 0 auto;
-}
-
-.message-container {
-  padding: 10px 30px 10px 0;
-  font-weight: bold;
-  font-size: 1.1em;
-  display: inline-block;
-  vertical-align: middle;
-  flex: 1 1 auto;
 }
