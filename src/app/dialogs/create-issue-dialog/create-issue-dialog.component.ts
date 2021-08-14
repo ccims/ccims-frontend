@@ -5,6 +5,7 @@ import {IssueStoreService} from '@app/data/issue/issue-store.service';
 import {CreateIssueInput, GetComponentQuery, IssueCategory, LinkIssueInput} from '../../../generated/graphql';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CCIMSValidators} from '@app/utils/validators';
 
 @Component({
   selector: 'app-create-issue-dialog',
@@ -21,7 +22,6 @@ export class CreateIssueDialogComponent implements OnInit {
 
   public loading: boolean;
   public saveFailed: boolean;
-  validateForm!: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>,
               private issueStoreService: IssueStoreService,
@@ -34,8 +34,8 @@ export class CreateIssueDialogComponent implements OnInit {
   }
 
   // create form controls for the form fields
-  validationTitle = new FormControl('', [Validators.required]);
-  validationBody = new FormControl('', [Validators.required]);
+  validationTitle = new FormControl('', [CCIMSValidators.nameValidator, Validators.required]);
+  validationBody = new FormControl('', [CCIMSValidators.contentValidator, Validators.required]);
   validationCategory = new FormControl('', [Validators.required]);
   issuesLoaded = false;
   selectedIssues: any = [];
@@ -47,10 +47,6 @@ export class CreateIssueDialogComponent implements OnInit {
   assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
 
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      title: [null, [Validators.required]],
-      body: [null, [Validators.required]]
-    });
     this.validationCategory.setValue('UNCLASSIFIED');
   }
 
@@ -63,10 +59,6 @@ export class CreateIssueDialogComponent implements OnInit {
   }
 
   onOkClick(title: string, body: string, category: IssueCategory, selectedLabels: string[]): void {
-    Object.keys(this.validateForm.controls).forEach(controlKey => {
-      this.validateForm.controls[controlKey].markAsDirty();
-      this.validateForm.controls[controlKey].updateValueAndValidity();
-    });
     this.loading = true;
     // set properties for create issue mutation
     const issueInput: CreateIssueInput = {

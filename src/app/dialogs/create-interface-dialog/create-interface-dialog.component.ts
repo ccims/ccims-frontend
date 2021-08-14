@@ -1,25 +1,25 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {Component, Inject, Input} from '@angular/core';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AuthenticationService} from '@app/auth/authentication.service';
 import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
-import {Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
-import {InterfaceStoreService} from '../../data/interface/interface-store.service';
+import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CCIMSValidators} from '@app/utils/validators';
 
 @Component({
   selector: 'app-create-interface-dialog',
   templateUrl: './create-interface-dialog.component.html',
   styleUrls: ['./create-interface-dialog.component.scss']
 })
-export class CreateInterfaceDialogComponent implements OnInit {
+export class CreateInterfaceDialogComponent {
   @Input()
   projectId: string;
 
   public loading: boolean;
   public saveFailed: boolean;
-  validateForm!: FormGroup;
-  private zeroPosition: Point = {x: 0, y: 0};
+  validationName = new FormControl('', [CCIMSValidators.nameFormatValidator, Validators.required]);
+  validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
   constructor(public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
@@ -31,25 +31,11 @@ export class CreateInterfaceDialogComponent implements OnInit {
     this.loading = false;
   }
 
-  validationName = new FormControl('', [Validators.required]);
-
-
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
-    });
-  }
-
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   onOkClick(name: string, description: string, type: string): void {
-    // check for valid form
-    Object.keys(this.validateForm.controls).forEach(controlKey => {
-      this.validateForm.controls[controlKey].markAsDirty();
-      this.validateForm.controls[controlKey].updateValueAndValidity();
-    });
     this.loading = true;
 
     // db mutation to create an interface
