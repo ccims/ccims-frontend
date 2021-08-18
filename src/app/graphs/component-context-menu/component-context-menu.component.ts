@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -27,6 +28,7 @@ import {encodeListId, ListType, NodeType} from '@app/data-dgql/id';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {IssueGraphComponent} from '@app/graphs/issue-graph/issue-graph.component';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {QueryComponent} from '@app/utils/query-component/query.component';
 
 export enum ComponentContextMenuType {
   Component,
@@ -83,15 +85,13 @@ export class ComponentContextMenuService {
   styleUrls: ['component-context-menu.component.scss'],
   templateUrl: './component-context-menu.component.html'
 })
-export class ComponentContextMenuComponent implements OnInit, OnDestroy {
+export class ComponentContextMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   private static MIN_WIDTH = 700;
   private static MIN_HEIGHT = 400;
   private static LAST_WIDTH = ComponentContextMenuComponent.MIN_WIDTH;
   private static LAST_HEIGHT = ComponentContextMenuComponent.MIN_HEIGHT;
 
   Type = ComponentContextMenuType;
-  loading: boolean;
-  error: boolean;
   saveFailed: boolean;
   editMode: boolean;
   placeholder = 'placeholder';
@@ -109,18 +109,13 @@ export class ComponentContextMenuComponent implements OnInit, OnDestroy {
   validationDescription = new FormControl('');
   private resize = false;
 
-  @ViewChild('frame') set frame(content: ElementRef) {
-    if (content) {
-      content.nativeElement.style.minWidth = ComponentContextMenuComponent.MIN_WIDTH + 'px';
-      content.nativeElement.style.minHeight = ComponentContextMenuComponent.MIN_HEIGHT + 'px';
-    }
-  }
-
+  @ViewChild('frame') frame: ElementRef;
   @ViewChild('resizeCorner') set resizeCorner(content: ElementRef) {
     if (content) {
       content.nativeElement.addEventListener('mousedown', () => this.resize = true);
     }
   }
+  @ViewChild(QueryComponent) queryComponent: QueryComponent;
 
   constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData,
               private router: Router,
@@ -155,30 +150,28 @@ export class ComponentContextMenuComponent implements OnInit, OnDestroy {
     this.validationIMS.setValue('?');
     this.validationUrl.setValue('?');
     console.log(this.data.nodeId);
+  }
 
-    this.loading = true;
+  ngAfterViewInit() {
+    this.frame.nativeElement.style.minWidth = ComponentContextMenuComponent.MIN_WIDTH + 'px';
+    this.frame.nativeElement.style.minHeight = ComponentContextMenuComponent.MIN_HEIGHT + 'px';
+
     if (this.data.type === ComponentContextMenuType.Component) {
-      this.componentStoreService.getBasicComponent(this.data.nodeId).subscribe(
+      this.queryComponent.listenTo(this.componentStoreService.getBasicComponent(this.data.nodeId)).subscribe(
         component => {
           this.component = component;
           this.validationIMS.setValue('This is a placeholder');
           this.validationUrl.setValue(component.node.repositoryURL);
-          this.loading = false;
         }, error => {
           this.notify.notifyError('Failed to get component information!', error);
-          this.loading = false;
-          this.error = true;
         });
     } else if (this.data.type === ComponentContextMenuType.Interface) {
-      this.interfaceStoreService.getInterface(this.data.nodeId).subscribe(
+      this.queryComponent.listenTo(this.interfaceStoreService.getInterface(this.data.nodeId)).subscribe(
         int => {
           this.interface = int;
-          this.loading = false;
         },
         error => {
           this.notify.notifyError('Failed to get interface information!', error);
-          this.loading = false;
-          this.error = true;
         }
       );
     }
