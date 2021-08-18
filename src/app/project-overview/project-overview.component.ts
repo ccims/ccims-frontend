@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import {Project} from '../../generated/graphql-dgql';
 import DataService from '@app/data-dgql';
 import {encodeNodeId, NodeType} from '@app/data-dgql/id';
 import {Subscription} from 'rxjs';
+import {QueryComponent} from '@app/utils/query-component/query.component';
 
 /**
  * This component offers a view showing the project name,
@@ -19,8 +20,9 @@ import {Subscription} from 'rxjs';
   templateUrl: './project-overview.component.html',
   styleUrls: ['./project-overview.component.scss']
 })
-export class ProjectOverviewComponent implements OnInit, OnDestroy {
+export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('description') description: ElementRef;
+  @ViewChild(QueryComponent) queryComponent: QueryComponent;
 
   public projectId: string;
   public project: DataNode<Project>;
@@ -38,7 +40,10 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
     this.project = this.dataService.getNode(encodeNodeId({type: NodeType.Project, id: this.projectId}));
-    this.projectSub = this.project.subscribe();
+  }
+
+  ngAfterViewInit() {
+    this.projectSub = this.queryComponent.listenTo(this.project).subscribe();
   }
 
   ngOnDestroy() {

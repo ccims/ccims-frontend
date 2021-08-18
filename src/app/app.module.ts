@@ -51,6 +51,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RemoveProjectMemberComponentComponent} from './dialogs/remove-project-member-component/remove-project-member-component.component';
 import {PortalModule} from '@angular/cdk/portal';
 import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
+import {QueryBodyDirective, QueryComponent} from '@app/utils/query-component/query.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -84,7 +85,9 @@ const toasterConfig: Partial<GlobalConfig> = {
     LabelSelectorComponent,
     CreateLabelDialogComponent,
     RemoveProjectMemberComponentComponent,
-    ComponentContextMenuComponent
+    ComponentContextMenuComponent,
+    QueryComponent,
+    QueryBodyDirective
   ],
   imports: [
     BrowserModule,

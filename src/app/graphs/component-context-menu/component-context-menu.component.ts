@@ -26,7 +26,7 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {encodeListId, ListType, NodeType} from '@app/data-dgql/id';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {IssueGraphComponent} from '@app/graphs/issue-graph/issue-graph.component';
-import {RemoveDialogComponent} from "@app/dialogs/remove-dialog/remove-dialog.component";
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 
 export enum ComponentContextMenuType {
   Component,
