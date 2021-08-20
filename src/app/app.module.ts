@@ -52,6 +52,7 @@ import {RemoveProjectMemberComponentComponent} from './dialogs/remove-project-me
 import {PortalModule} from '@angular/cdk/portal';
 import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
 import {QueryBodyDirective, QueryComponent} from '@app/utils/query-component/query.component';
+import {NodeDetailsComponent} from '@app/node-details/node-details.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -87,7 +88,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     RemoveProjectMemberComponentComponent,
     ComponentContextMenuComponent,
     QueryComponent,
-    QueryBodyDirective
+    QueryBodyDirective,
+    NodeDetailsComponent
   ],
   imports: [
     BrowserModule,

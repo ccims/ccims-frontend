@@ -38,9 +38,9 @@ import {ComponentStoreService} from '@app/data/component/component-store.service
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {
   ComponentContextMenuComponent,
-  ComponentContextMenuService,
-  ComponentContextMenuType
+  ComponentContextMenuService
 } from '@app/graphs/component-context-menu/component-context-menu.component';
+import {NodeDetailsType} from '@app/node-details/node-details.component';
 
 interface Positions {
   nodes: { [prop: string]: Point; };
@@ -648,14 +648,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.closeComponentActions();
-    let contextMenuType: ComponentContextMenuType = null;
+    let contextMenuType: NodeDetailsType = null;
 
     if (node.type === NodeType.Component) {
-      contextMenuType = ComponentContextMenuType.Component;
+      contextMenuType = NodeDetailsType.Component;
     }
 
     if (node.type === NodeType.Interface) {
-      contextMenuType = ComponentContextMenuType.Interface;
+      contextMenuType = NodeDetailsType.Interface;
     }
 
     if (contextMenuType != null) {
