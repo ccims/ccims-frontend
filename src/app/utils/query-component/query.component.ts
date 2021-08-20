@@ -41,18 +41,26 @@ export class QueryComponent implements OnDestroy {
     return this.queryState === QueryComponentState.Ready;
   }
 
-  public listenTo<T>(query: Observable<T>): Observable<T> {
+  public listenTo<T>(query: Observable<T>, before?: (value: T) => void, error?: (error: any) => void): Observable<T> {
     this.queryState = QueryComponentState.Loading;
     this.changeDetector.detectChanges();
     this.subscription?.unsubscribe();
 
-    this.subscription = query.subscribe(() => {
+    this.subscription = query.subscribe((value: T) => {
+      if (before) {
+        before(value);
+      }
+
       this.queryState = QueryComponentState.Ready;
       this.changeDetector.detectChanges();
-    }, error => {
+    }, err => {
+      if (error) {
+        error(err);
+      }
+
       this.queryState = QueryComponentState.Error;
       this.changeDetector.detectChanges();
-      this.notify.notifyError(this.errorMessage, error);
+      this.notify.notifyError(this.errorMessage, err);
     });
 
     return query;
