@@ -18,6 +18,7 @@ import {NodeDetailsComponent, NodeDetailsType} from '@app/node-details/node-deta
 export interface ComponentContextMenuData {
   overlayRef: OverlayRef;
   position: ConnectedPosition;
+  projectId: string;
   nodeId: string;
   type: NodeDetailsType;
   graph: IssueGraphComponent;
@@ -32,8 +33,9 @@ export class ComponentContextMenuService {
 
   open(parent: Element,
        x: number, y: number,
-       componentId: string,
-       componentType: NodeDetailsType,
+       projectID: string,
+       nodeID: string,
+       nodeType: NodeDetailsType,
        issueGraph: IssueGraphComponent): ComponentContextMenuComponent {
     const position = this.overlay.position().flexibleConnectedTo(parent);
     const pos: ConnectedPosition = {
@@ -56,8 +58,9 @@ export class ComponentContextMenuService {
     map.set(COMPONENT_CONTEXT_MENU_DATA, {
       overlayRef: ref,
       position: pos,
-      nodeId: componentId,
-      type: componentType,
+      projectId: projectID,
+      nodeId: nodeID,
+      type: nodeType,
       graph: issueGraph
     });
     const injector = new PortalInjector(this.injector, map);

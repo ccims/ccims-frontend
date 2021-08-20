@@ -663,7 +663,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       if (x >= 0 && y >= 0) {
         this.componentActionsOverlayId = node.id;
         event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType, this);
+        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, this.projectId, node.id.toString(), contextMenuType, this);
 
         // Make sure that context menu is visible if it extends over right or bottom edge
         const visible = this.graph.currentViewWindow;

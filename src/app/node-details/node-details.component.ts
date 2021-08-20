@@ -28,13 +28,13 @@ export declare type NodeUpdatedCallbackFn = (nodeDeleted: boolean) => void;
   styleUrls: ['./node-details.component.scss']
 })
 export class NodeDetailsComponent implements OnInit, AfterViewInit {
+  @Input() projectId: string;
   @Input() nodeId: string;
   @Input() nodeType: NodeDetailsType;
   @Input() callback?: NodeUpdatedCallbackFn;
   @ViewChild(QueryComponent) queryComponent: QueryComponent;
 
   Type = NodeDetailsType;
-  projectId: string;
   issueListId: string;
   component: GetComponentQuery;
   interface: GetInterfaceQuery;
@@ -61,7 +61,6 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.editMode = false;
-    this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
 
     let listType = NodeType.Component;
     if (this.nodeType === NodeDetailsType.Interface) {
