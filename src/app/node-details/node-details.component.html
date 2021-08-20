@@ -1,4 +1,5 @@
-<app-query-component [errorMessage]="'Failed to load ' + getNodeTypeString().toLowerCase() + ' information!'">
+<app-query-component #nodeQuery
+                     [errorMessage]="'Failed to load ' + getNodeTypeString().toLowerCase() + ' information!'">
     <ng-template appQueryBody>
         <mat-tab-group style="height: calc(100% - 40px)">
             <mat-tab [label]="getNodeTypeString() + ' Issues'">
@@ -107,21 +108,31 @@
                             <mat-icon>edit</mat-icon>
                             Edit {{getNodeTypeString().toLowerCase()}}
                         </button>
-                        <button mat-raised-button *ngIf="this.editMode" color="primary"
-                                (click)="this.onSaveClick()">
-                            <mat-icon>save</mat-icon>
-                            Save changes
-                        </button>
+
+                        <ng-container *ngIf="this.editMode">
+                            <app-query-component #updateQuery
+                                                 [errorMessage]="'Failed to update ' + getNodeTypeString().toLowerCase()">
+                                <button mat-raised-button color="primary" style="width: 100%"
+                                        (click)="this.onSaveClick()" appQueryButton>
+                                    <mat-icon>save</mat-icon>
+                                    Save changes
+                                </button>
+                            </app-query-component>
+                        </ng-container>
+
                         <button mat-raised-button *ngIf="this.editMode" color="basic"
                                 (click)="this.onCancelClick()">
                             <mat-icon>cancel</mat-icon>
                             Discard changes
                         </button>
-                        <button mat-raised-button class="delete-button" color="warn"
-                                (click)="this.onDeleteClick()">
-                            <mat-icon>delete</mat-icon>
-                            Delete {{getNodeTypeString().toLowerCase()}}
-                        </button>
+
+                        <app-query-component #deleteQuery errorMessage="Failed to load affected components">
+                            <button mat-raised-button color="warn" style="width: 100%"
+                                    (click)="this.onDeleteClick()" appQueryButton>
+                                <mat-icon>delete</mat-icon>
+                                Delete {{getNodeTypeString().toLowerCase()}}
+                            </button>
+                        </app-query-component>
                     </div>
                 </div>
             </mat-tab>

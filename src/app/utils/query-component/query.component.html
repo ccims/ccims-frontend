@@ -1,12 +1,27 @@
-<ng-container *ngIf="queryState===State.Ready">
-    <ng-container *ngTemplateOutlet="body.template"></ng-container>
-</ng-container>
-<div *ngIf="queryState===State.Error" class="container">
-    <div class="error">
-        <span class="error-text">{{errorMessage}}</span>
+<ng-container *ngIf="buttonMode; else bodyMode">
+    <div style="display: flex; align-items: center; width: 100%">
+        <ng-content></ng-content>
+        <span style="margin-left: 4px" *ngIf="queryState === State.Loading">
+            <mat-spinner diameter="20"></mat-spinner>
+        </span>
     </div>
-</div>
-<div *ngIf="queryState===State.Loading" class="container">
-    <mat-spinner diameter="40" style="margin-bottom: 8px"></mat-spinner>
-    <span style="font-size: 1.2em">Loading...</span>
-</div>
+</ng-container>
+
+<ng-template #bodyMode>
+    <ng-container *ngIf="queryState===State.Ready">
+        <ng-container *ngTemplateOutlet="body.template"></ng-container>
+    </ng-container>
+
+    <div *ngIf="queryState===State.Error" class="container">
+        <div class="error">
+            <span class="error-text">{{errorMessage}}</span>
+        </div>
+    </div>
+
+    <div *ngIf="queryState===State.Loading" class="container">
+        <mat-spinner diameter="40" style="margin-bottom: 8px"></mat-spinner>
+        <span style="font-size: 1.2em">Loading...</span>
+    </div>
+</ng-template>
+
+

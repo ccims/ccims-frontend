@@ -1,5 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -82,13 +83,21 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   height = ComponentContextMenuComponent.LAST_HEIGHT;
   private resize = false;
   nodeDetailsReady: boolean;
+  detailsCallback = (nodeDeleted) => {
+    this.data.graph.reload();
+    if (nodeDeleted) {
+      this.close();
+    }
+  };
 
   @ViewChild('frame') frame: ElementRef;
+
   @ViewChild('resizeCorner') set resizeCorner(content: ElementRef) {
     if (content) {
       content.nativeElement.addEventListener('mousedown', () => this.resize = true);
     }
   }
+
   @ViewChild(NodeDetailsComponent) nodeDetails: NodeDetailsComponent;
 
   constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData,
@@ -110,13 +119,6 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
     this.frame.nativeElement.style.minHeight = ComponentContextMenuComponent.MIN_HEIGHT + 'px';
     this.nodeDetailsReady = true;
     this.changeDetector.detectChanges();
-  }
-
-  detailsCallback(nodeDeleted: boolean): void {
-    this.data.graph.reload();
-    if (nodeDeleted) {
-      this.close();
-    }
   }
 
   ngOnDestroy(): void {
