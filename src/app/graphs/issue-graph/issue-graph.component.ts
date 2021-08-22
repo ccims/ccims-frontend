@@ -41,6 +41,7 @@ import {
   ComponentContextMenuService
 } from '@app/graphs/component-context-menu/component-context-menu.component';
 import {NodeDetailsType} from '@app/node-details/node-details.component';
+import {doGraphLayout, LayoutNode} from '@app/graphs/automatic-layout';
 
 interface Positions {
   nodes: { [prop: string]: Point; };
@@ -451,6 +452,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const boundingBox = this.calculateBoundingBox();
     // reset graph and remove all elements, gives us clean slate
     this.resetGraph();
+
+    const layoutGraph = Object.keys(this.savedPositions.nodes).length === 0;
     // create nodes corresponding to the components and interfaces of the project
     const componentNodes = Array.from(this.graphData.components.values()).map(component =>
       createComponentNode(component, this.findIdealComponentPosition(component.id, boundingBox)));
@@ -469,8 +472,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.connectToOfferingComponent(interfaceNode);
       this.connectConsumingComponents(interfaceNode);
     });
+
     // render all changes
     this.graph.completeRender();
+
+    if (layoutGraph && issueNodes.length > 0) {
+      this.layoutGraph();
+      this.drawGraph();
+    }
+
     // zoomOnRedraw is set on first render & when user created a new component
     if (this.zoomOnRedraw) {
       this.zoomOnRedraw = false;
@@ -772,6 +782,33 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return rect ? {x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin} : null;
+  }
+
+  layoutGraph(): void {
+    const nodes = new Map<string | number, LayoutNode>();
+
+    for (const node of this.graph.nodeList) {
+      if (node.type === NodeType.Component || node.type === NodeType.Interface) {
+        nodes.set(node.id, new LayoutNode(node.id, node.x, node.y, node.type));
+      }
+    }
+
+    for (const edge of this.graph.edgeList) {
+      if (nodes.has(edge.source) && nodes.has(edge.target)) {
+        nodes.get(edge.source).connectTo(nodes.get(edge.target));
+        nodes.get(edge.target).connectTo(nodes.get(edge.source));
+      }
+    }
+
+    const nodeList = Array.from(nodes.values());
+    doGraphLayout(nodeList);
+
+    for (const node of nodeList) {
+      const layoutNode = nodes.get(node.id);
+      this.savedPositions.nodes[layoutNode.id] = {x: layoutNode.position.x, y: layoutNode.position.y};
+    }
+
+    this.savePositionsSubject.next();
   }
 
   fitGraphInView(): void {

@@ -20,6 +20,10 @@
             style=" margin-left: 20px">
       <mat-icon>center_focus_strong</mat-icon>
     </button>
+    <button mat-icon-button title="Layout graph" (click)="this.layoutGraph()"
+            style=" margin-left: 20px">
+      <mat-icon>dashboard</mat-icon>
+    </button>
     <app-label-search #labelSearch></app-label-search>
     <button mat-icon-button title="Create new Component" class="create-component-button"
             (click)="this.issueGraph.openCreateComponentDialog()">

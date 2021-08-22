@@ -1,14 +1,14 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
-import { IssueCategory } from 'src/generated/graphql';
-import { BehaviorSubject, Observable, combineLatest, ReplaySubject } from 'rxjs';
-import { SelectedCategories } from '../shared';
-import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
-import { LabelSearchComponent } from '../label-search/label-search.component';
-import { map, takeUntil } from 'rxjs/operators';
-import { FilterState } from '@app/graphs/shared';
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
+import {IssueGraphComponent} from '../issue-graph/issue-graph.component';
+import {IssueCategory} from 'src/generated/graphql';
+import {BehaviorSubject, combineLatest, ReplaySubject} from 'rxjs';
+import {SelectedCategories} from '../shared';
+import {IssueGraphStateService} from '../../data/issue-graph/issue-graph-state.service';
+import {LabelSearchComponent} from '../label-search/label-search.component';
+import {map, takeUntil} from 'rxjs/operators';
+import {FilterState} from '@app/graphs/shared';
 
 /**
  * This component contains the graph toggles, the search bar and the button
@@ -71,6 +71,12 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     };
   }
 
+  layoutGraph(): void {
+    this.issueGraph.layoutGraph();
+    this.issueGraph.drawGraph();
+    this.issueGraph.fitGraphInView();
+  }
+
   /**
    * Setup this.filter$ and create subscription for observable returned from graphDataForFilter
    */
@@ -78,7 +84,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     // sets up emission of values representing the state of the graph toggles and the search bar via this.filter$
     combineLatest([this.selectedCategories$, this.labelSearch.filterSelection$]).pipe(
       takeUntil(this.destroy$),
-      map(([selectedCategories, filterSelection]) => ({ selectedCategories, selectedFilter: filterSelection }))
+      map(([selectedCategories, filterSelection]) => ({selectedCategories, selectedFilter: filterSelection}))
     ).subscribe(filterState => this.filter$.next(filterState));
 
     // gets an obervable from GraphStateService that emits the matching graph state
