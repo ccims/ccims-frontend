@@ -109,19 +109,19 @@ export class LayoutNode {
       towardsOther = towardsOther.scale(1 / distance);
 
       let scale = 0;
-      if (distance < LayoutNode.MIN_DISTANCE_CONNECTED) {
-        // Connected nodes have a minimum distance to each other
-        result.addSelf(towardsOther.scale(-Math.max(LayoutNode.MIN_DISTANCE_CONNECTED - distance, 0)));
-      } else {
-        if (this.connectedTo.has(otherNode)) {
+      if (this.connectedTo.has(otherNode)) {
+        if (distance < LayoutNode.MIN_DISTANCE_CONNECTED) {
+          // Connected nodes have a minimum distance to each other
+          scale = -Math.max(LayoutNode.MIN_DISTANCE_CONNECTED - distance, 0);
+        } else {
           // Node attracted to connected nodes
           scale = Math.max(distance - LayoutNode.MAX_DISTANCE_CONNECTED, 0);
-        } else {
-          // Node repelled by non-connected nodes
-          scale = -Math.max(LayoutNode.MIN_DISTANCE_NOT_CONNECTED - distance, 0);
         }
-        result.addSelf(towardsOther.scale(scale));
+      } else {
+        // Node repelled by non-connected nodes
+        scale = -Math.max(LayoutNode.MIN_DISTANCE_NOT_CONNECTED - distance, 0);
       }
+      result.addSelf(towardsOther.scale(scale));
 
       for (const edgeNode of otherNode.connectedTo) {
         if (edgeNode.id === this.id || (otherNodesVisited.has(otherNode.id) && otherNodesVisited.has(edgeNode.id))) {
