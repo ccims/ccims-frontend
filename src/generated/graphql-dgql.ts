@@ -4741,10 +4741,10 @@ export type FIssueStubFragment = (
   Pick<Issue, 'id' | 'title' | 'createdAt' | 'lastUpdatedAt' | 'isOpen' | 'isDuplicate' | 'category'>
   & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, labels?: Maybe<(
     Pick<LabelPage, 'totalCount'>
-    & { nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
   )>, assignees?: Maybe<(
     Pick<UserPage, 'totalCount'>
-    & { nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
   )>, issueComments?: Maybe<Pick<IssueCommentPage, 'totalCount'>> }
 );
 
@@ -4851,7 +4851,7 @@ export type FNonFunctionalConstraintStubFragment = (
 
 export type FReactionsStubFragment = (
   Pick<ReactionGroupPage, 'totalCount'>
-  & { nodes?: Maybe<Array<Maybe<(
+  & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
     Pick<ReactionGroup, 'id' | 'reaction'>
     & { users?: Maybe<(
       Pick<UserPage, 'totalCount'>
@@ -5031,7 +5031,7 @@ export type GetIssueHeaderQueryVariables = Exact<{
 
 
 export type GetIssueHeaderQuery = { node?: Maybe<(
-    Pick<Issue, 'body' | 'lastEditedAt' | 'currentUserCanComment' | 'currentUserCanEdit' | 'startDate' | 'dueDate' | 'estimatedTime' | 'spentTime'>
+    Pick<Issue, 'body' | 'lastEditedAt' | 'startDate' | 'dueDate' | 'estimatedTime' | 'spentTime'>
     & { reactions?: Maybe<FReactionsStubFragment>, timeline?: Maybe<(
       Pick<IssueTimelineItemPage, 'totalCount'>
       & { nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
@@ -5052,6 +5052,36 @@ export type ListIssueTimelineItemsQueryVariables = Exact<{
 export type ListIssueTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<(
       Pick<IssueTimelineItemPage, 'totalCount'>
       & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
+    )> }> };
+
+export type ListProjectLabelsQueryVariables = Exact<{
+  project: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<LabelFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListProjectLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
+      Pick<LabelPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
+    )> }> };
+
+export type ListIssueLabelsQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<LabelFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
+      Pick<LabelPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
     )> }> };
 
 export type FProjectStubFragment = Pick<Project, 'id' | 'name' | 'description'>;
@@ -5143,12 +5173,18 @@ export const FIssueStubFragmentDoc = gql`
   category
   labels(first: 10) {
     totalCount
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fLabelStub
     }
   }
   assignees(first: 10) {
     totalCount
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fAssigneeStub
     }
@@ -5157,7 +5193,8 @@ export const FIssueStubFragmentDoc = gql`
     totalCount
   }
 }
-    ${FLabelStubFragmentDoc}
+    ${AllPageInfoFragmentDoc}
+${FLabelStubFragmentDoc}
 ${FAssigneeStubFragmentDoc}`;
 export const IssueListPageFragmentDoc = gql`
     fragment issueListPage on IssuePage {
@@ -5174,6 +5211,9 @@ ${FIssueStubFragmentDoc}`;
 export const FReactionsStubFragmentDoc = gql`
     fragment fReactionsStub on ReactionGroupPage {
   totalCount
+  pageInfo {
+    ...allPageInfo
+  }
   nodes {
     id
     reaction
@@ -5187,7 +5227,7 @@ export const FReactionsStubFragmentDoc = gql`
     }
   }
 }
-    `;
+    ${AllPageInfoFragmentDoc}`;
 export const FArtifactStubFragmentDoc = gql`
     fragment fArtifactStub on Artifact {
   id
@@ -5709,8 +5749,6 @@ export const GetIssueHeaderDocument = gql`
       reactions(first: 10) {
         ...fReactionsStub
       }
-      currentUserCanComment
-      currentUserCanEdit
       startDate
       dueDate
       estimatedTime
@@ -5762,6 +5800,64 @@ ${FTimelineItemFragmentDoc}`;
   })
   export class ListIssueTimelineItemsGQL extends Apollo.Query<ListIssueTimelineItemsQuery, ListIssueTimelineItemsQueryVariables> {
     document = ListIssueTimelineItemsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListProjectLabelsDocument = gql`
+    query ListProjectLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ... on Project {
+      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FLabelStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListProjectLabelsGQL extends Apollo.Query<ListProjectLabelsQuery, ListProjectLabelsQueryVariables> {
+    document = ListProjectLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueLabelsDocument = gql`
+    query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FLabelStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueLabelsGQL extends Apollo.Query<ListIssueLabelsQuery, ListIssueLabelsQueryVariables> {
+    document = ListIssueLabelsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

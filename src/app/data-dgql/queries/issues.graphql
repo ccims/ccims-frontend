@@ -27,12 +27,14 @@ fragment fIssueStub on Issue {
   category
   labels(first: 10) {
     totalCount
+    pageInfo { ...allPageInfo }
     nodes {
       ...fLabelStub
     }
   }
   assignees(first: 10) {
     totalCount
+    pageInfo { ...allPageInfo }
     nodes {
       ...fAssigneeStub
     }
@@ -161,6 +163,7 @@ fragment fNonFunctionalConstraintStub on NonFunctionalConstraint {
 
 fragment fReactionsStub on ReactionGroupPage {
   totalCount
+  pageInfo { ...allPageInfo }
   nodes {
     id
     reaction
@@ -360,8 +363,9 @@ query GetIssueHeader($id: ID!) {
       reactions(first: 10) {
         ...fReactionsStub
       }
-      currentUserCanComment
-      currentUserCanEdit
+      # FIXME these are broken for some reason
+      #currentUserCanComment
+      #currentUserCanEdit
 
       startDate
       dueDate
@@ -394,6 +398,49 @@ query ListIssueTimelineItems($id: ID!, $after: String, $before: String, $filterB
         }
         nodes {
           ...fTimelineItem
+        }
+      }
+    }
+  }
+}
+
+query ListProjectLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ...on Project {
+      labels(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
+        }
+      }
+    }
+  }
+}
+query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ...on Issue {
+      labels(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
         }
       }
     }

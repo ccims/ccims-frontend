@@ -191,7 +191,13 @@
     <!--Side bar-->
     <div class="issue-side-bar">
       <div class="issue-side-bar-row">
-        <mat-label><b>Labels</b></mat-label>
+        <app-set-editor [listSet]="labelListId" [listAll]="allLabelsListId" [hydrate]="labelListPromise">
+          <span title>Labels (set editor)</span>
+          <ng-container *appItem="let item">
+            <app-issue-label [label]="item"></app-issue-label>
+          </ng-container>
+        </app-set-editor>
+        <mat-label><b>Labels (in issue detail)</b></mat-label>
         <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Labels)">
           <mat-icon>settings</mat-icon>
         </button>

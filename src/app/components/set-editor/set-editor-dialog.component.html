@@ -1,0 +1,8 @@
+<div class="set-editor-dialog">
+    todo
+    <div class="set-editor-items">
+        <ng-container *ngFor="let item of listAll$.currentItems">
+            <ng-container *ngTemplateOutlet="data.itemTemplate; context: { $implicit: item }"></ng-container>
+        </ng-container>
+    </div>
+</div>

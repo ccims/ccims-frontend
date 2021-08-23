@@ -47,6 +47,7 @@ export class DataQuery<T, R, P> extends Observable<T> {
   protected innerMapFn: (r: R) => T;
   protected stateLock = 0;
   protected loadTimeout = null;
+  protected hydrated = false;
 
   /**
    * @param id an identifier for the data being loaded
@@ -60,8 +61,22 @@ export class DataQuery<T, R, P> extends Observable<T> {
     this.innerMapFn = map;
   }
 
-  /** Loads data. */
-  load() {
+  public dataAsPromise(): Promise<T> {
+    if (this.hasData) {
+      return Promise.resolve(this.current);
+    }
+    return new Promise((resolve, reject) => {
+      const sub = this.subscribe(data => {
+        resolve(data);
+        sub.unsubscribe();
+      }, error => {
+        reject(error);
+        sub.unsubscribe();
+      });
+    });
+  }
+
+  private loadImpl(fut: Promise<R>) {
     clearTimeout(this.loadTimeout);
     this.loadTimeout = null;
     this.lastLoadTime = Date.now();
@@ -70,19 +85,36 @@ export class DataQuery<T, R, P> extends Observable<T> {
     // if load is called twice; only the newest load call will have an effect
     const stateLock = ++this.stateLock;
 
-    this.innerQueryFn(this.id, this.currentQueryParams).then(data => {
+    fut.then(data => {
       if (stateLock !== this.stateLock) {
         return;
       }
       this.insertResult(data);
       this.loading = false;
+      this.hydrated = false;
     }).catch(error => {
       if (stateLock !== this.stateLock) {
         return;
       }
       this.emitErrorToAllSubscribers(error);
       this.loading = false;
+      this.hydrated = false;
     });
+  }
+
+  /** Loads data. */
+  load() {
+    this.hydrated = false;
+    this.loadImpl(this.innerQueryFn(this.id, this.currentQueryParams));
+  }
+
+  /** Use when data has not yet been loaded but is available from elsewhere. */
+  hydrateRaw(preparedData: Promise<R>) {
+    if (this.hasData) {
+      return; // don't need hydration
+    }
+    this.hydrated = true;
+    this.loadImpl(preparedData);
   }
 
   /** Will load data if it's stale or not present. */
@@ -119,8 +151,10 @@ export class DataQuery<T, R, P> extends Observable<T> {
       subscriber.next(this.current);
     }
 
-    // TODO: don't call if passive
-    this.loadIfNeeded();
+    if (!this.hydrated) {
+      // TODO: don't call if passive
+      this.loadIfNeeded();
+    }
 
     return {
       unsubscribe: () => {
@@ -144,6 +178,10 @@ export class DataQuery<T, R, P> extends Observable<T> {
   insertResult(result: R) {
     this.currentData = this.innerMapFn(result);
     this.emitUpdateToAllSubscribers();
+  }
+
+  get subscriberCount(): number {
+    return this.subscribers.size;
   }
 }
 
@@ -178,6 +216,7 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
   private pForward = true;
   private pageInfo?: PageInfo;
   private previouslyHadPageContents = false;
+  private pNodes: NodeCache;
 
   constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
     super(id, queryList(queries, nodes), result => {
@@ -194,6 +233,7 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
 
       return result.items;
     });
+    this.pNodes = nodes;
     this.pSetParamsNoUpdate = true;
     this.setParams();
     this.pSetParamsNoUpdate = false;
@@ -206,6 +246,13 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
       forward: this.pForward,
       filter: this.pFilter,
     };
+  }
+
+  get currentItems(): T[] {
+    if (!this.hasData) {
+      return [];
+    }
+    return [...this.current.values()];
   }
 
   get filter(): F | undefined {
@@ -286,7 +333,27 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
     this.invalidate();
     return true;
   }
+
+  /**
+   * Hydrates this list with initial data in the API format (e.g. loaded from a node request).
+   * @param type NodeType of the list (implementation detail! ideally this would not be part of this API)
+   * @param data a promise that returns the API data
+   */
+  hydrateInitial<IdT extends T & { id: string }>(type: NodeType, data: Promise<HydrateList<IdT>>) {
+    this.hydrateRaw(data.then(value => ({
+      totalCount: value.totalCount,
+      pageInfo: value.pageInfo,
+      items: this.pNodes.insertNodes(type, value.nodes || [])
+    })));
+  }
 }
+
+export type HydrateList<T> = {
+  totalCount: number,
+  pageInfo: PageInfo,
+  /** This is nullable because it's nullable in the GQL schema. In practice it should always exist */
+  nodes?: (T | null)[]
+};
 
 export class NodeCache {
   // TODO: garbage collection?
@@ -315,7 +382,7 @@ export class NodeCache {
     const map = new Map();
 
     for (const node of nodes) {
-      if (!node.id) {
+      if (!node?.id) {
         continue;
       }
       const dataNode: DataNode<T> = this.getNode(encodeNodeId({ type, id: node.id }));

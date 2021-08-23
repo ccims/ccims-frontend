@@ -102,6 +102,20 @@ const listQueries: ListQueries = {
         pageInfo: data.node.timeline.pageInfo,
         items: i.c.insertNodes(NodeType.TimelineItem, data.node.timeline.nodes),
       })),
+  },
+  [ListType.Labels]: {
+    [NodeType.Project]: (i, list, params) => i.q.issues.listProjectLabels(list.node.id, listParams(params))
+      .then(data => ({
+        totalCount: data.node.labels.totalCount,
+        pageInfo: data.node.labels.pageInfo,
+        items: i.c.insertNodes(NodeType.Label, data.node.labels.nodes)
+      })),
+    [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueLabels(list.node.id, listParams(params))
+      .then(data => ({
+        totalCount: data.node.labels.totalCount,
+        pageInfo: data.node.labels.pageInfo,
+        items: i.c.insertNodes(NodeType.Label, data.node.labels.nodes)
+      }))
   }
 };
 

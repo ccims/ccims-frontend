@@ -1,0 +1,20 @@
+<div class="app-set-editor">
+    <div class="set-editor-title">
+        <span class="title-text-container">
+            <ng-content select="[title]"></ng-content>
+        </span>
+        <button
+                *ngIf="editable"
+                mat-icon-button
+                class="settings-button"
+                aria-label="Edit"
+                (click)="beginEditing()">
+            <mat-icon>settings</mat-icon>
+        </button>
+    </div>
+    <div class="set-editor-items">
+        <ng-container *ngFor="let item of listSet$.currentItems">
+            <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+        </ng-container>
+    </div>
+</div>

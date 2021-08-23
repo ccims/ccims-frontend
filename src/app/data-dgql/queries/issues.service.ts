@@ -7,7 +7,7 @@ import {
   ListIssueLinksToIssuesGQL,
   ListIssueLinkedByIssuesGQL,
   ListArtifactIssuesGQL,
-  IssueFilter, GetIssueHeaderGQL, ListIssueTimelineItemsGQL, IssueTimelineItemFilter,
+  IssueFilter, GetIssueHeaderGQL, ListIssueTimelineItemsGQL, IssueTimelineItemFilter, ListIssueLabelsGQL, ListProjectLabelsGQL, LabelFilter,
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
 
@@ -27,6 +27,8 @@ export class IssuesService {
     private qListArtifactIssues: ListArtifactIssuesGQL,
     private qGetIssueHeader: GetIssueHeaderGQL,
     private qListIssueTimelineItems: ListIssueTimelineItemsGQL,
+    private qListProjectLabels: ListProjectLabelsGQL,
+    private qListIssueLabels: ListIssueLabelsGQL
   ) {}
 
   listProjectIssues(project: string, list: IssueListParams) {
@@ -63,5 +65,13 @@ export class IssuesService {
 
   listIssueTimelineItems(id: string, list: QueryListParams<IssueTimelineItemFilter>) {
     return promisifyApolloFetch(this.qListIssueTimelineItems.fetch({ id, ...list }));
+  }
+
+  listIssueLabels(issue: string, list: QueryListParams<LabelFilter>) {
+    return promisifyApolloFetch(this.qListIssueLabels.fetch({ issue, ...list }));
+  }
+
+  listProjectLabels(project: string, list: QueryListParams<LabelFilter>) {
+    return promisifyApolloFetch(this.qListProjectLabels.fetch({ project, ...list }));
   }
 }

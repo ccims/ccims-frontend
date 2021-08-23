@@ -33,6 +33,10 @@ import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue
 import { ProjectMembersComponent } from '@app/project-members/project-members.component';
 import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-dialog/add-project-member-dialog.component';
 import { CursorPaginatorComponent } from '@app/components/cursor-paginator/cursor-paginator.component';
+import { SetEditorComponent } from '@app/components/set-editor/set-editor.component';
+import { ItemDirective } from '@app/components/item.directive';
+import { IssueLabelComponent } from '@app/components/issue-label/issue-label.component';
+import { SetEditorDialogComponent } from '@app/components/set-editor/set-editor-dialog.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -47,7 +51,7 @@ import { CursorPaginatorComponent } from '@app/components/cursor-paginator/curso
     InterfaceDetailsComponent,
     ProjectIssueListComponent,
     ProjectMembersComponent,
-    AddProjectMemberDialogComponent, CursorPaginatorComponent],
+    AddProjectMemberDialogComponent, CursorPaginatorComponent, SetEditorComponent, ItemDirective, IssueLabelComponent, SetEditorDialogComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -85,7 +89,10 @@ import { CursorPaginatorComponent } from '@app/components/cursor-paginator/curso
     CdkTreeModule,
     IssueGraphComponent,
     IssueGraphControlsComponent,
-    IssueListComponent
+    IssueListComponent,
+    SetEditorComponent,
+    ItemDirective,
+    IssueLabelComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

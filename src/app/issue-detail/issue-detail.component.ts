@@ -1,6 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {IssueStoreService} from '@app/data/issue/issue-store.service';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IssueStoreService } from '@app/data/issue/issue-store.service';
 import {
   AddIssueCommentInput,
   CloseIssueInput,
@@ -10,10 +10,15 @@ import {
   RenameIssueTitleInput,
   ReopenIssueInput
 } from 'src/generated/graphql';
-import {Observable} from 'rxjs';
-import {LabelStoreService} from '@app/data/label/label-store.service';
-import {ProjectStoreService} from '@app/data/project/project-store.service';
-import {SelectionType} from '@app/issue-settings-container/issue-settings-container.component';
+import { Observable, Subscription } from 'rxjs';
+import { LabelStoreService } from '@app/data/label/label-store.service';
+import { ProjectStoreService } from '@app/data/project/project-store.service';
+import { SelectionType } from '@app/issue-settings-container/issue-settings-container.component';
+import { encodeListId, encodeNodeId, ListId, ListType, NodeType } from '@app/data-dgql/id';
+import { DataNode, HydrateList } from '@app/data-dgql/query';
+import DataService from '@app/data-dgql';
+import { ListResult } from '@app/data-dgql/load';
+import { Label } from '../../generated/graphql-dgql';
 
 @Component({
   selector: 'app-issue-detail',
@@ -24,7 +29,7 @@ import {SelectionType} from '@app/issue-settings-container/issue-settings-contai
  * This component provides detailed information about an issue.
  * It also lets the user edit properties of an issue.
  */
-export class IssueDetailComponent implements OnInit {
+export class IssueDetailComponent implements OnInit, OnDestroy {
   @ViewChild('issueContainer') issueContainer: ElementRef;
   @ViewChild('titleInput') inputTitle: ElementRef;
   public issueId: string;
@@ -41,7 +46,14 @@ export class IssueDetailComponent implements OnInit {
   public projectComponents;
   public selectionType = SelectionType;
 
+  public issue2$: DataNode<Issue>;
+  public issue2Sub: Subscription;
+  public labelListId: ListId;
+  public allLabelsListId: ListId;
+  public labelListPromise: Promise<HydrateList<Label>>;
+
   constructor(
+    private dataService: DataService,
     private labelStoreService: LabelStoreService,
     public activatedRoute: ActivatedRoute,
     private issueStoreService: IssueStoreService,
@@ -56,6 +68,21 @@ export class IssueDetailComponent implements OnInit {
     // request project info for current issue
     this.requestProjectInformation();
 
+    this.issue2$ = this.dataService.getNode(encodeNodeId({ type: NodeType.Issue, id: this.issueId }));
+    this.issue2Sub = this.issue2$.subscribe();
+    this.labelListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.Labels
+    });
+    this.allLabelsListId = encodeListId({
+      node: { type: NodeType.Project, id: this.activatedRoute.snapshot.paramMap.get('id') },
+      type: ListType.Labels
+    });
+    this.labelListPromise = this.issue2$.dataAsPromise().then(data => data.labels);
+  }
+
+  ngOnDestroy() {
+    this.issue2Sub.unsubscribe();
   }
 
   pluralize(n: number, singular: string): string {
