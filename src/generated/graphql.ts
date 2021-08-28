@@ -4692,6 +4692,19 @@ export type GetBasicComponentQuery = { node?: Maybe<(
     & { imsComponents?: Maybe<{ nodes?: Maybe<Array<Maybe<{ ims?: Maybe<Pick<Ims, 'imsType'>> }>>> }> }
   )> };
 
+export type GetComponentInterfacesQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetComponentInterfacesQuery = { node?: Maybe<(
+    Pick<Component, 'id'>
+    & { interfaces?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        Pick<ComponentInterface, 'id' | 'name'>
+        & { consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id' | 'name'>>>> }> }
+      )>>> }> }
+  )> };
+
 export type GetComponentQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -4742,6 +4755,16 @@ export type DeleteComponentInterfaceMutationVariables = Exact<{
 
 
 export type DeleteComponentInterfaceMutation = { deleteComponentInterface?: Maybe<Pick<DeleteComponentInterfacePayload, 'clientMutationID'>> };
+
+export type GetConsumingComponentsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetConsumingComponentsQuery = { node?: Maybe<(
+    Pick<ComponentInterface, 'id' | 'name' | 'description'>
+    & { component?: Maybe<Pick<Component, 'name'>>, consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id' | 'name'>>>> }> }
+  )> };
 
 export type GetInterfaceQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -5089,6 +5112,38 @@ export const GetBasicComponentDocument = gql`
       super(apollo);
     }
   }
+export const GetComponentInterfacesDocument = gql`
+    query GetComponentInterfaces($id: ID!) {
+  node(id: $id) {
+    ... on Component {
+      id
+      interfaces {
+        nodes {
+          id
+          name
+          consumedBy {
+            nodes {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetComponentInterfacesGQL extends Apollo.Query<GetComponentInterfacesQuery, GetComponentInterfacesQueryVariables> {
+    document = GetComponentInterfacesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const GetComponentDocument = gql`
     query GetComponent($id: ID!) {
   node(id: $id) {
@@ -5263,6 +5318,37 @@ export const DeleteComponentInterfaceDocument = gql`
   })
   export class DeleteComponentInterfaceGQL extends Apollo.Mutation<DeleteComponentInterfaceMutation, DeleteComponentInterfaceMutationVariables> {
     document = DeleteComponentInterfaceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetConsumingComponentsDocument = gql`
+    query GetConsumingComponents($id: ID!) {
+  node(id: $id) {
+    ... on ComponentInterface {
+      id
+      name
+      description
+      component {
+        name
+      }
+      consumedBy {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetConsumingComponentsGQL extends Apollo.Query<GetConsumingComponentsQuery, GetConsumingComponentsQueryVariables> {
+    document = GetConsumingComponentsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

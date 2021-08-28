@@ -1,17 +1,36 @@
-<div mat-dialog-title>{{data.title}}</div>
+<div mat-dialog-title class="title">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="60px" class="delete-icon">
+        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+    </svg>
+    {{data.title}}
+</div>
 
-<div mat-dialog-content>
-  <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 0 24 24" class="delete-icon">
-    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-  </svg>
-  <div class="message-container">
-    <ng-container *ngFor="let message of data.messages">
-      {{message}}<br>
-    </ng-container>
-  </div>
+<div mat-dialog-content cdkFocusInitial>
+    <div class="content">
+        <ng-container *ngFor="let message of data.messages">
+            <ng-container *ngIf="message.startsWith(' ')">&nbsp;&nbsp;&nbsp;&nbsp;</ng-container>
+            {{message.startsWith(' ') ? message.substring(1) : message}}<br>
+        </ng-container>
+    </div>
+    <div style="flex: 0 0 auto">
+      <div *ngIf="data.verificationName; else spacing" style="margin-top: 20px">
+        Type &quot;<b>{{data.verificationName}}</b>&quot; to confirm:
+        <mat-form-field style="width: 100%; margin-top: 4px" appearance="outline">
+          <mat-label>Confirm name</mat-label>
+          <input required matInput [formControl]="verificationNameInput" autocomplete="off">
+          <mat-error *ngIf="verificationNameInput.invalid">Names don't match!</mat-error>
+        </mat-form-field>
+      </div>
+
+      <ng-template #spacing>
+        <div style="height: 26px"></div>
+      </ng-template>
+    </div>
 </div>
 
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button color="warn" (click)="onDeleteClick()">Delete</button>
+  <button mat-raised-button color="warn" (click)="onDeleteClick()"
+          [disabled]="data.verificationName && verificationNameInput.invalid">Delete
+  </button>
 </div>

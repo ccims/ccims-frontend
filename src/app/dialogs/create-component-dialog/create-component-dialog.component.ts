@@ -8,19 +8,17 @@ import {AuthenticationService} from '@app/auth/authentication.service';
 import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
+import {CCIMSValidators} from "@app/utils/validators";
 
 @Component({
   selector: 'app-create-component-dialog',
   templateUrl: './create-component-dialog.component.html',
   styleUrls: ['./create-component-dialog.component.scss']
 })
-export class CreateComponentDialogComponent implements OnInit {
+export class CreateComponentDialogComponent {
   @Input() projectId: string;
   public loading: boolean;
   public saveFailed: boolean;
-  validateForm!: FormGroup;
-  private zeroPosition: Point = {x: 0, y: 0};
-  private graph: IssueGraphComponent;
 
   constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
@@ -33,19 +31,11 @@ export class CreateComponentDialogComponent implements OnInit {
   }
 
   // define validations
-  validationName = new FormControl('', [Validators.required]);
-  validationUrl = new FormControl('', [Validators.required]);
-  validationIMS = new FormControl('', [Validators.required]);
-  validationProvider = new FormControl('', [Validators.required]);
-
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
-      url: [null, [Validators.required]],
-      ims: [null, [Validators.required]],
-      provider: [null, [Validators.required]]
-    });
-  }
+  validationName = new FormControl('', [CCIMSValidators.nameFormatValidator, Validators.required]);
+  validationUrl = new FormControl('', [CCIMSValidators.urlValidator, Validators.required]);
+  validationIMS = new FormControl('', [CCIMSValidators.urlValidator, Validators.required]);
+  validationProvider = new FormControl('', Validators.required);
+  validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
   // close dialog on cancel
   onNoClick(): void {
@@ -54,11 +44,6 @@ export class CreateComponentDialogComponent implements OnInit {
 
   // callback method for component creation
   onOkClick(name: string, url: string, description: string, ims: string, provider: string): void {
-    // check for valid form
-    Object.keys(this.validateForm.controls).forEach(controlKey => {
-      this.validateForm.controls[controlKey].markAsDirty();
-      this.validateForm.controls[controlKey].updateValueAndValidity();
-    });
     this.loading = true;
 
     // define the input for the database mutation - required fields are specified by the graphQL schema
@@ -92,11 +77,6 @@ export class CreateComponentDialogComponent implements OnInit {
       return ImsType.Github;
     }
   }
-}
-
-export interface ComponentInformation {
-  name: string;
-  url: string;
 }
 
 interface CreateComponentData {

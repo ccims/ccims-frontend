@@ -1,31 +1,33 @@
-<div *ngIf="project.hasData">
-  <div class="project-overview-container">
-    <div class="project-title-row">
-      <div class="box">
-        <img src="https://github.com/github.png"/>
-      </div>
+<app-query-component errorMessage="Failed to load project information">
+    <ng-template appQueryBody>
+        <div class="project-overview-container">
+            <div class="project-title-row">
+                <div class="box">
+                    <img src="https://github.com/github.png"/>
+                </div>
 
-      <div>
-        <div class="content">
-          <p class="title">{{project.current.name}}</p>
-          <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
+                <div>
+                    <div class="content">
+                        <p class="title">{{project.current.name}}</p>
+                        <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
+                    </div>
+                </div>
+
+                <div class="delete-button-container">
+                    <button mat-raised-button (click)="this.deleteProject()" color="warn" title="Delete this project"
+                            style="height: 100%">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex text-sm-left">
+                <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
+                    <mat-label>Description</mat-label>
+                    <!-- FIXME: why is this a textarea? -->
+                    <textarea [ngModel]="project.current.description" matInput readonly></textarea>
+                </mat-form-field>
+            </div>
         </div>
-      </div>
-
-      <div class="delete-button-container">
-        <button mat-raised-button (click)="this.deleteProject()" color="warn" title="Delete this project" style="height: 100%">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </div>
-
-    <div class="d-flex text-sm-left">
-      <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
-        <mat-label>Description</mat-label>
-        <!-- FIXME: why is this a textarea? -->
-        <textarea [ngModel]="project.current.description" matInput readonly></textarea>
-      </mat-form-field>
-    </div>
-  </div>
-</div>
-<!--TODO: Loading message-->
+    </ng-template>
+</app-query-component>

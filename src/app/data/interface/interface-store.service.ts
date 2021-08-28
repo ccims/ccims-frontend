@@ -4,6 +4,8 @@ import {
   CreateComponentInterfaceInput,
   DeleteComponentInterfaceGQL,
   DeleteComponentInterfaceInput,
+  GetConsumingComponentsGQL,
+  GetConsumingComponentsQuery,
   GetInterfaceGQL,
   GetInterfaceQuery,
   UpdateComponentInterfaceGQL,
@@ -23,8 +25,10 @@ import {Observable} from 'rxjs';
 export class InterfaceStoreService {
 
   constructor(private createInterfaceMutation: CreateComponentInterfaceGQL,
-              private updateInterfaceMutation: UpdateComponentInterfaceGQL, private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
-              private getInterfaceQuery: GetInterfaceGQL) {
+              private updateInterfaceMutation: UpdateComponentInterfaceGQL,
+              private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
+              private getInterfaceQuery: GetInterfaceGQL,
+              private getConsumingComponentsQuery: GetConsumingComponentsGQL) {
   }
 
   public create(name: string, offeringComponentId: string, description?: string) {
@@ -40,6 +44,10 @@ export class InterfaceStoreService {
     return this.getInterfaceQuery.fetch({id}).pipe(
       map(({data}) => data)
     );
+  }
+
+  public getConsumingComponents(id: string): Observable<GetConsumingComponentsQuery> {
+    return this.getConsumingComponentsQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   public update(input: UpdateComponentInterfaceInput) {

@@ -1,43 +1,51 @@
 <div class="dialog-wrapper">
-<h1 mat-dialog-title>Create Component</h1>
+  <h1 mat-dialog-title>Create Component</h1>
   <div mat-dialog-content>
-  <form [formGroup]="validateForm">
-  <mat-form-field class="stretch" appearance="outline">
-    <mat-label>Name</mat-label>
-    <input #name required matInput  [formControl]="validationName" >
-    <mat-error *ngIf="validationName.invalid">Name your Component</mat-error>
-  </mat-form-field>
+    <form>
+      <mat-form-field class="stretch" appearance="outline">
+        <mat-label>Name</mat-label>
+        <input #name required matInput [formControl]="validationName">
+        <mat-error *ngIf="validationName.invalid">Invalid component name</mat-error>
+      </mat-form-field>
 
-  <mat-form-field class="stretch" appearance="outline">
-    <mat-label>Repository-URL</mat-label>
-    <input readonly="false" #url required matInput  [formControl]="validationUrl" >
-    <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
-  </mat-form-field>
+      <mat-form-field class="stretch" appearance="outline">
+        <mat-label>Repository-URL</mat-label>
+        <input readonly="false" #url required matInput [formControl]="validationUrl">
+        <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
+      </mat-form-field>
 
-  <mat-form-field  appearance="outline">
-    <mat-label>Provider Type (IMS)</mat-label>
-    <mat-select  #provider [formControl]="validationProvider" required>
-        <mat-option value="GITHUB">GitHub</mat-option>
-    </mat-select>
-    <mat-error *ngIf="validationProvider.invalid">Select the Provider</mat-error>
-</mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Provider Type (IMS)</mat-label>
+        <mat-select #provider [formControl]="validationProvider" required>
+          <mat-option value="GITHUB">GitHub</mat-option>
+        </mat-select>
+        <mat-error *ngIf="validationProvider.invalid">Select the Provider</mat-error>
+      </mat-form-field>
 
-<mat-form-field class="stretch" appearance="outline">
-  <mat-label>IMS-URL</mat-label>
-  <input #ims required matInput  [formControl]="validationIMS" >
-  <mat-error *ngIf="validationIMS.invalid">Enter a valid URL</mat-error>
-</mat-form-field>
+      <mat-form-field class="stretch" appearance="outline">
+        <mat-label>IMS-URL</mat-label>
+        <input #ims required matInput [formControl]="validationIMS">
+        <mat-error *ngIf="validationIMS.invalid">Enter a valid URL</mat-error>
+      </mat-form-field>
 
-  <mat-form-field class="stretch" appearance="outline">
-    <mat-label>Description</mat-label>
-    <textarea style="height: 66px;" #description matInput ></textarea>
-  </mat-form-field>
+      <mat-form-field class="stretch" appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea style="height: 66px;" #description matInput [formControl]="validationDescription"></textarea>
+      </mat-form-field>
 
-  <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
-</form>
-</div>
-<div mat-dialog-actions style="justify-content: flex-end;">
-  <button  mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [class.spinner]="loading" [disabled]="loading || validationName.invalid || validationUrl.invalid ||validationIMS.invalid || validationProvider.invalid" (click)="onOkClick(name.value, url.value, description.value, ims.value, provider.value)">Create</button>
-</div>
+      <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon
+                nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
+    </form>
+  </div>
+  <div mat-dialog-actions style="justify-content: flex-end;">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [class.spinner]="loading"
+            [disabled]="loading ||
+            validationName.invalid ||
+            validationUrl.invalid ||
+            validationIMS.invalid ||
+            validationProvider.invalid"
+            (click)="onOkClick(name.value, url.value, description.value, ims.value, provider.value)">Create
+    </button>
+  </div>
 </div>

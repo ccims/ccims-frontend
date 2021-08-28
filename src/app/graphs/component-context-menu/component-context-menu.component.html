@@ -1,131 +1,20 @@
-<div class="frame" *ngIf="loading" style="text-align: center">
-  <mat-spinner diameter="40" style="margin: auto"></mat-spinner>
-  <br>
-  Loading...
-</div>
-<div class="frame" *ngIf="error" style="text-align: center">
-  <mat-error>Failed to load {{getNodeTypeString().toLowerCase()}} information!</mat-error>
-</div>
-<div #frame class="frame" *ngIf="!loading && !error" [style.width.px]="width"
-     [style.height.px]="height">
-  <div style="height: calc(100% - 20px); overflow: hidden">
-    <div class="center-horizontal">
-      <h1 style="margin: 4px">{{this.node().node.name}}</h1>
+<div #frame class="frame" [style.width.px]="width" [style.height.px]="height">
+    <div style="height: calc(100% - 20px); overflow: hidden">
+        <div class="center-horizontal" *ngIf="nodeDetailsReady && nodeDetails.getNodeName()">
+            <h1 style="margin: 4px">{{this.nodeDetails.getNodeName()}}</h1>
+            <mat-divider></mat-divider>
+        </div>
+        <app-node-details [projectId]="data.projectId" [nodeId]="data.nodeId" [nodeType]="data.type"
+                          [callback]="detailsCallback"></app-node-details>
     </div>
 
-    <mat-divider></mat-divider>
-    <mat-tab-group style="height: calc(100% - 40px)">
-      <mat-tab [label]="getNodeTypeString() + ' Issues'">
-        <div class="details">
-          <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list>
-        </div>
-      </mat-tab>
-
-      <mat-tab [label]="getNodeTypeString() + ' Details'">
-        <div style="padding: 8px">
-          <form *ngIf="data.type == Type.Component">
-            <div class="row">
-              <mat-form-field floatLabel="always" appearance="outline">
-                <mat-label>Name</mat-label>
-                <input [readonly]="!this.editMode" name="name" [ngModel]="this.node().node.name" matInput
-                       [formControl]="this.validationName">
-                <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your Component</mat-error>
-              </mat-form-field>
-              <mat-form-field floatLabel="always" appearance="outline">
-                <mat-label>Repository-URL</mat-label>
-                <input [readonly]="!this.editMode" name="url" matInput [formControl]="this.validationUrl">
-                <mat-error *ngIf="this.validationUrl.invalid && this.editMode">Enter a valid URL</mat-error>
-              </mat-form-field>
-            </div>
-
-            <div class="row">
-              <mat-form-field floatLabel="always" *ngIf="!this.editMode" appearance="outline">
-                <mat-label>Provider Type</mat-label>
-                <input [ngModel]="this.placeholder" [readonly]="!this.editMode" name="provider2" matInput
-                       [formControl]="this.validationProvider">
-                <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Enter a valid URL</mat-error>
-              </mat-form-field>
-              <mat-form-field floatLabel="always" *ngIf="this.editMode" appearance="outline">
-                <mat-label>Provider Type (IMS)</mat-label>
-                <mat-select name="provider" [formControl]="this.validationProvider">
-                  <mat-option value="GITHUB">GitHub</mat-option>
-                </mat-select>
-                <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Select the Provider</mat-error>
-              </mat-form-field>
-
-              <mat-form-field floatLabel="always" appearance="outline">
-                <mat-label>IMS-URL</mat-label>
-                <input name="ims" [readonly]="!this.editMode" matInput
-                       [formControl]="this.validationIMS">
-                <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL</mat-error>
-              </mat-form-field>
-            </div>
-
-            <div class="row">
-              <mat-form-field floatLabel="always" appearance="outline">
-                <mat-label>Description</mat-label>
-                <textarea [readonly]="!this.editMode" [ngModel]="this.node().node.description"
-                          [formControl]="this.validationDescription"
-                          placeholder="No description provided" class="description-field"
-                          name="description" matInput></textarea>
-              </mat-form-field>
-            </div>
-          </form>
-          <form *ngIf="data.type == Type.Interface">
-            <div class="row">
-              <mat-form-field floatLabel="always" appearance="outline">
-                <mat-label>Name</mat-label>
-                <input [readonly]="!this.editMode" name="name" [ngModel]="interface.node.name" matInput
-                       [formControl]="this.validationName">
-                <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your Interface</mat-error>
-              </mat-form-field>
-
-              <mat-form-field floatLabel="always" appearance="outline">
-                <mat-label>Interface Type</mat-label>
-                <input readonly matInput [formControl]="this.validationType">
-                <mat-error *ngIf="this.validationType.invalid && this.editMode">Enter a valid URL</mat-error>
-              </mat-form-field>
-            </div>
-
-            <div class="row">
-              <mat-form-field floatLabel="always" appearance="outline">
-                <mat-label>Description</mat-label>
-                <textarea [readonly]="!this.editMode" [ngModel]="interface.node.description"
-                          [formControl]="this.validationDescription" name="description" class="description-field"
-                          matInput></textarea>
-              </mat-form-field>
-            </div>
-          </form>
-
-          <div class="row">
-            <button mat-raised-button *ngIf="!this.editMode" color="primary" (click)="this.onEditClick()">
-              <mat-icon>edit</mat-icon>
-              Edit {{getNodeTypeString().toLowerCase()}}
-            </button>
-            <button mat-raised-button *ngIf="this.editMode" color="primary" (click)="this.onSaveClick()">
-              <mat-icon>save</mat-icon>
-              Save changes
-            </button>
-            <button mat-raised-button *ngIf="this.editMode" color="basic" (click)="this.onCancelClick()">
-              <mat-icon>cancel</mat-icon>
-              Discard changes
-            </button>
-            <button mat-raised-button class="delete-button" color="warn" (click)="this.onDeleteClick()">
-              <mat-icon>delete</mat-icon>
-              Delete {{getNodeTypeString().toLowerCase()}}
-            </button>
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-
-  <div style="width: 100%; height: 20px; display: inline-block;">
-    <span style="font-size: .8em">{{this.data.nodeId}}</span>
-    <span #resizeCorner style="float: right; user-select: none; width: 10px; height: 10px; margin-right: 8px">
-      <mat-icon>south_east</mat-icon>
-    </span>
-  </div>
+    <div style="width: 100%; height: 20px; display: inline-block;">
+        <span style="font-size: .8em">{{this.data.nodeId}}</span>
+        <span #resizeCorner
+              style="float: right; user-select: none; width: 10px; height: 10px; margin-right: 8px">
+                    <mat-icon>south_east</mat-icon>
+                </span>
+    </div>
 </div>
 
 

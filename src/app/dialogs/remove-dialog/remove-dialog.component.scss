@@ -1,20 +1,33 @@
-.mat-dialog-content {
+.mat-dialog-content{
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: inline-block;
+  align-self: center;
+  place-self: center;
+  vertical-align: middle;
   border-top: lightgray;
   border-top-style: solid;
   border-bottom: lightgray;
   border-bottom-style: solid;
-  padding: 10px;
   font-weight: bold;
   font-size: 1.1em;
+  padding: 8px;
+  margin: 0;
+  width: 100%;
+  overflow: auto;
+  flex: 1 1 auto;
+  white-space: nowrap;
+}
+
+.title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .delete-icon {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 8px;
-}
-
-.message-container {
-  display: inline-block;
-  vertical-align: middle;
+  flex: 0 0 auto;
 }
