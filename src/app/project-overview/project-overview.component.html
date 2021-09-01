@@ -13,6 +13,15 @@
                     </div>
                 </div>
 
+                <!-- edit desctiption button -->
+                <div class="edit-button-container">
+                    <button mat-raised-button color="primary" title="Edit desctiption"
+                        style="height: 100%">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
+
+                <!-- delete project button -->
                 <div class="delete-button-container">
                     <button mat-raised-button (click)="this.deleteProject()" color="warn" title="Delete this project"
                             style="height: 100%">
@@ -24,8 +33,11 @@
             <div class="d-flex text-sm-left">
                 <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
                     <mat-label>Description</mat-label>
-                    <!-- FIXME: why is this a textarea? -->
-                    <textarea [ngModel]="project.current.description" matInput readonly></textarea>
+                    
+                    <!-- automatically resizing text field -->
+                    <textarea [ngModel]="project.current.description" matInput cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="50" style="overflow:hidden"
+                        readonly></textarea>
                 </mat-form-field>
             </div>
         </div>

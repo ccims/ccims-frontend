@@ -10,6 +10,8 @@ import DataService from '@app/data-dgql';
 import {encodeNodeId, NodeType} from '@app/data-dgql/id';
 import {Subscription} from 'rxjs';
 import {QueryComponent} from '@app/utils/query-component/query.component';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import { NgZone } from '@angular/core';
 
 /**
  * This component offers a view showing the project name,
@@ -23,6 +25,7 @@ import {QueryComponent} from '@app/utils/query-component/query.component';
 export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('description') description: ElementRef;
   @ViewChild(QueryComponent) queryComponent: QueryComponent;
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   public projectId: string;
   public project: DataNode<Project>;
@@ -34,7 +37,8 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
               private router: Router,
               private changeDetector: ChangeDetectorRef,
               private dialog: MatDialog,
-              private notify: UserNotifyService) {
+              private notify: UserNotifyService,
+              private _ngZone: NgZone) {
   }
 
   ngOnInit(): void {
