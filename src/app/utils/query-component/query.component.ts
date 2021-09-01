@@ -78,6 +78,10 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
     this.subscription = query.subscribe((value: T) => {
       if (before) {
         before(value);
+
+        if (this.queryState === QueryComponentState.Error) {
+          return;
+        }
       }
 
       this.queryState = QueryComponentState.Ready;
@@ -88,13 +92,17 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
         error(err);
       }
 
-      this.queryState = QueryComponentState.Error;
-      this.changeDetector.detectChanges();
+      this.setError();
       this.notify.notifyError(this.errorMessage, err);
-      this.updateButton();
     });
 
     return query;
+  }
+
+  public setError(): void {
+    this.queryState = QueryComponentState.Error;
+    this.changeDetector.detectChanges();
+    this.updateButton();
   }
 
   private updateButton(): void {
