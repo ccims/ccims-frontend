@@ -7,7 +7,7 @@ import {
 } from '../../generated/graphql';
 import {FormControl, Validators} from '@angular/forms';
 import {encodeListId, ListType, NodeType} from '@app/data-dgql/id';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -54,7 +54,6 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
   validationDescription = new FormControl('');
 
   constructor(private router: Router,
-              private activatedRoute: ActivatedRoute,
               private componentStoreService: ComponentStoreService,
               private interfaceStoreService: InterfaceStoreService,
               private dialog: MatDialog,
@@ -77,12 +76,22 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (this.nodeType === NodeDetailsType.Component) {
       this.nodeQuery.listenTo(this.componentStoreService.getBasicComponent(this.nodeId), component => {
-        this.component = component;
-        this.validationIMS.setValue('This is a placeholder');
-        this.validationUrl.setValue(component.node.repositoryURL);
+        if (component.node) {
+          this.component = component;
+          this.validationIMS.setValue('This is a placeholder');
+          this.validationUrl.setValue(component.node.repositoryURL);
+        } else {
+          this.nodeQuery.setError();
+        }
       });
     } else if (this.nodeType === NodeDetailsType.Interface) {
-      this.nodeQuery.listenTo(this.interfaceStoreService.getInterface(this.nodeId), int => this.interface = int);
+      this.nodeQuery.listenTo(this.interfaceStoreService.getInterface(this.nodeId), int => {
+        if (int.node) {
+          this.interface = int;
+        } else {
+          this.nodeQuery.setError();
+        }
+      });
     }
   }
 
