@@ -8,10 +8,9 @@ import { LoginComponent } from './login/login.component';
 import { FrameComponent } from './frame/frame.component';
 import { AuthGuard } from './auth/auth.guard';
 import { RegisterComponent } from './register/register.component';
-import { ComponentDetailsComponent } from './component-details/component-details.component';
-import { InterfaceDetailsComponent } from './interface-details/interface-details.component';
 import { ProjectIssueListComponent } from './project-issue-list/project-issue-list.component';
 import { ProjectMembersComponent } from './project-members/project-members.component';
+import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
 
 
 const routes: Routes = [
@@ -36,11 +35,11 @@ const routes: Routes = [
           {
             path: 'component/:componentId',
             children: [
-              { path: '', pathMatch: 'full', component: ComponentDetailsComponent, data: { animation: 'isRight' } },
+              { path: '', pathMatch: 'full', component: NodeDetailsPageComponent},
               {
                 path: 'interface/:interfaceId',
                 children: [
-                  { path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' } },
+                  { path: '', pathMatch: 'full', component: NodeDetailsPageComponent},
                   { path: 'component/:componentId/issue/:issueId', pathMatch: 'full', component: IssueDetailComponent }
                 ]
               },
@@ -49,7 +48,7 @@ const routes: Routes = [
           {
             path: 'interface/:interfaceId',
             children: [
-              { path: '', pathMatch: 'full', component: InterfaceDetailsComponent, data: { animation: 'isRight' } },
+              { path: '', pathMatch: 'full', component: NodeDetailsPageComponent},
             ]
           }
         ]

@@ -17,7 +17,6 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComponentDetailsComponent } from '../component-details/component-details.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -28,7 +27,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { LabelSearchComponent } from './label-search/label-search.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
-import { InterfaceDetailsComponent } from '@app/interface-details/interface-details.component';
 import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue-list.component';
 import { ProjectMembersComponent } from '@app/project-members/project-members.component';
 import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-dialog/add-project-member-dialog.component';
@@ -41,10 +39,9 @@ import { CursorPaginatorComponent } from '@app/components/cursor-paginator/curso
  * @class GraphsModule
  */
 @NgModule({
-  declarations: [IssueGraphComponent, IssueGraphControlsComponent, ComponentDetailsComponent,
+  declarations: [IssueGraphComponent, IssueGraphControlsComponent,
     IssueListComponent,
     LabelSearchComponent,
-    InterfaceDetailsComponent,
     ProjectIssueListComponent,
     ProjectMembersComponent,
     AddProjectMemberDialogComponent, CursorPaginatorComponent],

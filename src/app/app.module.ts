@@ -53,6 +53,7 @@ import {PortalModule} from '@angular/cdk/portal';
 import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
 import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
 import {NodeDetailsComponent} from '@app/node-details/node-details.component';
+import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -90,7 +91,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     QueryComponent,
     QueryBodyDirective,
     NodeDetailsComponent,
-    QueryButtonDirective
+    QueryButtonDirective,
+    NodeDetailsPageComponent
   ],
   imports: [
     BrowserModule,

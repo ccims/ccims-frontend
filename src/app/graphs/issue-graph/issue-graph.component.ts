@@ -42,6 +42,7 @@ import {
 } from '@app/graphs/component-context-menu/component-context-menu.component';
 import {NodeDetailsType} from '@app/node-details/node-details.component';
 import {doGraphLayout, LayoutNode} from '@app/graphs/automatic-layout';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 interface Positions {
   nodes: { [prop: string]: Point; };
@@ -69,7 +70,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
               private activatedRoute: ActivatedRoute,
               private componentStoreService: ComponentStoreService,
               private interfaceStoreService: InterfaceStoreService,
-              private componentContextMenuService: ComponentContextMenuService) {
+              private componentContextMenuService: ComponentContextMenuService,
+              private breakPointObserver: BreakpointObserver) {
   }
 
   @ViewChild('graph', {static: true}) graphWrapper: { nativeElement: GraphEditor; };
@@ -79,6 +81,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() projectId: string;
 
   readonly zeroPosition = {x: 0, y: 0};
+  private isHandset = false;
 
   // contains all data about the projects interfaces, components, issues and their relations
   // that is needed in order to create nodes and edges in the grapheditor to visualize the project
@@ -120,6 +123,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngOnInit() {
     this.projectStorageKey = `CCIMS-Project_${this.projectId}`;
+    this.breakPointObserver.observe(Breakpoints.Handset)
+      // .pipe(map(result => result.matches), shareReplay());
+      .subscribe(r => this.isHandset = r.matches);
   }
 
   /**
@@ -660,38 +666,50 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeComponentActions();
     let contextMenuType: NodeDetailsType = null;
 
-    if (node.type === NodeType.Component) {
-      contextMenuType = NodeDetailsType.Component;
-    }
-
-    if (node.type === NodeType.Interface) {
-      contextMenuType = NodeDetailsType.Interface;
-    }
-
-    if (contextMenuType != null) {
-      const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
-      if (x >= 0 && y >= 0) {
-        this.componentActionsOverlayId = node.id;
-        event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, this.projectId, node.id.toString(), contextMenuType, this);
-
-        // Make sure that context menu is visible if it extends over right or bottom edge
-        const visible = this.graph.currentViewWindow;
-        const scale = this.graph.currentZoomTransform.k;
-        const padding = 85 / scale; // FIXME: This isn't ideal, as the padding is somewhat dependent on the aspect ratio
-        const edgeX = visible.width * scale;
-        const edgeY = visible.height * scale;
-        const moveX = Math.max(0, this.componentActionsOverlay.width + x - edgeX) / scale;
-        const moveY = Math.max(0, this.componentActionsOverlay.height + y - edgeY) / scale;
-        if (moveX || moveY) {
-          this.graph.zoomToBox({
-            x: visible.x + moveX + padding, y: visible.y + moveY + padding,
-            width: visible.width - 2 * padding, height: visible.height - 2 * padding
-          });
-        }
+    if (this.isHandset) {
+      if (node.type === NodeType.Component) {
+        this.router.navigate(['./component/', node.id], {relativeTo: this.activatedRoute.parent});
+        return;
       }
 
-      return;
+      if (node.type === NodeType.Interface) {
+        this.router.navigate(['./interface/', node.id], {relativeTo: this.activatedRoute.parent});
+        return;
+      }
+    } else {
+      if (node.type === NodeType.Component) {
+        contextMenuType = NodeDetailsType.Component;
+      }
+
+      if (node.type === NodeType.Interface) {
+        contextMenuType = NodeDetailsType.Interface;
+      }
+
+      if (contextMenuType != null) {
+        const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
+        if (x >= 0 && y >= 0) {
+          this.componentActionsOverlayId = node.id;
+          event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
+          this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, this.projectId, node.id.toString(), contextMenuType, this);
+
+          // Make sure that context menu is visible if it extends over right or bottom edge
+          const visible = this.graph.currentViewWindow;
+          const scale = this.graph.currentZoomTransform.k;
+          const padding = 85 / scale; // FIXME: This isn't ideal, as the padding is somewhat dependent on the aspect ratio
+          const edgeX = visible.width * scale;
+          const edgeY = visible.height * scale;
+          const moveX = Math.max(0, this.componentActionsOverlay.width + x - edgeX) / scale;
+          const moveY = Math.max(0, this.componentActionsOverlay.height + y - edgeY) / scale;
+          if (moveX || moveY) {
+            this.graph.zoomToBox({
+              x: visible.x + moveX + padding, y: visible.y + moveY + padding,
+              width: visible.width - 2 * padding, height: visible.height - 2 * padding
+            });
+          }
+        }
+
+        return;
+      }
     }
 
     // if the clicked node in the graph is a issue folder, the issue count for the folder has to be determined
