@@ -14,6 +14,9 @@
       <mat-error *ngIf="validationBody.invalid">Invalid issue body</mat-error>
     </mat-form-field>
 
+    <app-markdown-editor></app-markdown-editor>
+
+
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>
       <mat-select #category [formControl]="validationCategory" required>
@@ -73,4 +76,5 @@
           [disabled]="loading || validationTitle.invalid || validationBody.invalid || validationCategory.invalid"
           (click)="onOkClick(title.value,body.value, category.value, labels.selectedLabels)">Create
   </button>
+
 </div>
