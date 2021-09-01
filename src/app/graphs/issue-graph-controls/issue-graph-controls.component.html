@@ -25,9 +25,9 @@
       <mat-icon>dashboard</mat-icon>
     </button>
     <app-label-search #labelSearch></app-label-search>
-    <button mat-icon-button title="Create new Component" class="create-component-button"
+    <button mat-fab title="Create new Component" color="primary" class="create-component-button"
             (click)="this.issueGraph.openCreateComponentDialog()">
-      <mat-icon>add_box</mat-icon>
+      <mat-icon>add</mat-icon>
     </button>
   </div>
   <app-issue-graph [projectId]="projectId"></app-issue-graph>
