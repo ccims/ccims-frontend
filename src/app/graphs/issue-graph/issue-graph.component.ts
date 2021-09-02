@@ -38,9 +38,10 @@ import {ComponentStoreService} from '@app/data/component/component-store.service
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import {
   ComponentContextMenuComponent,
-  ComponentContextMenuService,
-  ComponentContextMenuType
+  ComponentContextMenuService
 } from '@app/graphs/component-context-menu/component-context-menu.component';
+import {NodeDetailsType} from '@app/node-details/node-details.component';
+import {doGraphLayout, LayoutNode} from '@app/graphs/automatic-layout';
 
 interface Positions {
   nodes: { [prop: string]: Point; };
@@ -435,6 +436,22 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  findIdealComponentPosition(id: string, boundingBox: Rect): Point {
+    const saved = this.savedPositions.nodes[id];
+    if (saved) {
+      return saved;
+    }
+
+    const point = {x: 0, y: 0};
+    if (boundingBox) {
+      point.x = boundingBox.x + boundingBox.width + 60;
+      point.y = boundingBox.y + boundingBox.height / 2;
+    }
+
+    this.savedPositions.nodes[id] = point;
+    return point;
+  }
+
   /**
    * Responsible for drawing the graph based on this.graphData.
    * Takes care of adding interfaces and components, and their connections.
@@ -443,11 +460,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param byIssueGraphControls expresses whether function is invoked from that component
    */
   drawGraph() {
+    const boundingBox = this.calculateBoundingBox();
     // reset graph and remove all elements, gives us clean slate
     this.resetGraph();
+
+    const layoutGraph = Object.keys(this.savedPositions.nodes).length === 0;
     // create nodes corresponding to the components and interfaces of the project
     const componentNodes = Array.from(this.graphData.components.values()).map(component =>
-      createComponentNode(component, this.savedPositions.nodes[component.id]));
+      createComponentNode(component, this.findIdealComponentPosition(component.id, boundingBox)));
     const interfaceNodes = Array.from(this.graphData.interfaces.values()).map(
       intrface => createInterfaceNode(intrface, this.savedPositions.nodes[intrface.id]));
     // issueNodes contains BOTH componentNodes and interfaceNodes
@@ -463,12 +483,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.connectToOfferingComponent(interfaceNode);
       this.connectConsumingComponents(interfaceNode);
     });
+
     // render all changes
     this.graph.completeRender();
     this.setGraphToLastView();
+    if (layoutGraph && issueNodes.length > 0) {
+      this.layoutGraph();
+      this.drawGraph();
+    }
   }
-
-
 
   /**
    * Sets the view and the bounding box of the graph to how it was when the user left the graph with the help of localStorage.
@@ -677,16 +700,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.closeComponentActions();
+
     // Dont change the view of the graph after the details page has been closed
     this.redrawByCloseOfComponentDetails = true;
-    let contextMenuType: ComponentContextMenuType = null;
+    let contextMenuType: NodeDetailsType = null;
 
     if (node.type === NodeType.Component) {
-      contextMenuType = ComponentContextMenuType.Component;
+      contextMenuType = NodeDetailsType.Component;
     }
 
     if (node.type === NodeType.Interface) {
-      contextMenuType = ComponentContextMenuType.Interface;
+      contextMenuType = NodeDetailsType.Interface;
     }
 
     if (contextMenuType != null) {
@@ -694,7 +718,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       if (x >= 0 && y >= 0) {
         this.componentActionsOverlayId = node.id;
         event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, node.id.toString(), contextMenuType, this);
+        this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, this.projectId, node.id.toString(), contextMenuType, this);
+        
         // Make sure that context menu is visible if it extends over right or bottom edge
         const visible = this.graph.currentViewWindow;
         const scale = this.graph.currentZoomTransform.k;
@@ -763,7 +788,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('Clicked on another type of node:', node.type);
   }
 
-  fitGraphInView(): void {
+  calculateBoundingBox(): Rect {
     const componentSize = {width: 100, height: 60};
     const interfaceSize = {width: 14, height: 14};
     const issueContainerSize = {width: 40, height: 30};
@@ -801,8 +826,41 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
 
+    return rect ? {x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin} : null;
+  }
+
+  layoutGraph(): void {
+    const nodes = new Map<string | number, LayoutNode>();
+
+    for (const node of this.graph.nodeList) {
+      if (node.type === NodeType.Component || node.type === NodeType.Interface) {
+        nodes.set(node.id, new LayoutNode(node.id, node.x, node.y, node.type));
+      }
+    }
+
+    for (const edge of this.graph.edgeList) {
+      if (nodes.has(edge.source) && nodes.has(edge.target)) {
+        nodes.get(edge.source).connectTo(nodes.get(edge.target));
+        nodes.get(edge.target).connectTo(nodes.get(edge.source));
+      }
+    }
+
+    const nodeList = Array.from(nodes.values());
+    doGraphLayout(nodeList);
+
+    for (const node of nodeList) {
+      const layoutNode = nodes.get(node.id);
+      this.savedPositions.nodes[layoutNode.id] = {x: layoutNode.position.x, y: layoutNode.position.y};
+    }
+
+    this.savePositionsSubject.next();
+  }
+
+  fitGraphInView(): void {
+    const rect = this.calculateBoundingBox();
+
     if (rect) {
-      this.graph.zoomToBox({x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin});
+      this.graph.zoomToBox(rect);
     }
   }
 

@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CreateLabelInput, CreateLabelMutation} from '../../../generated/graphql';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CCIMSValidators} from '@app/utils/validators';
 
 export interface CreateLabelDialogData {
   componentId: string;
@@ -15,7 +16,8 @@ export interface CreateLabelDialogData {
   styleUrls: ['./create-label-dialog.component.scss']
 })
 export class CreateLabelDialogComponent implements OnInit {
-  validationLabelName = new FormControl('', [Validators.required, Validators.maxLength(20)]);
+  validationLabelName = new FormControl('', [Validators.required, Validators.maxLength(30)]);
+  validationLabelDescription = new FormControl('', CCIMSValidators.contentValidator);
   color = '#d31111'; // The default color for the label color picker
   loading = false;
 

@@ -1,0 +1,141 @@
+<app-query-component #nodeQuery
+                     [errorMessage]="'Failed to load ' + getNodeTypeString().toLowerCase() + ' information!'">
+    <ng-template appQueryBody>
+        <mat-tab-group style="height: calc(100% - 40px)">
+            <mat-tab [label]="getNodeTypeString() + ' Issues'">
+                <div class="details">
+                    <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list>
+                </div>
+            </mat-tab>
+
+            <mat-tab [label]="getNodeTypeString() + ' Details'">
+                <div style="padding: 8px">
+                    <form *ngIf="nodeType == Type.Component">
+                        <div class="row">
+                            <mat-form-field floatLabel="always" appearance="outline">
+                                <mat-label>Name</mat-label>
+                                <input [readonly]="!this.editMode" name="name" [ngModel]="this.node().node.name"
+                                       matInput
+                                       [formControl]="this.validationName">
+                                <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your
+                                    Component
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field floatLabel="always" appearance="outline">
+                                <mat-label>Repository-URL</mat-label>
+                                <input [readonly]="!this.editMode" name="url" matInput
+                                       [formControl]="this.validationUrl">
+                                <mat-error *ngIf="this.validationUrl.invalid && this.editMode">Enter a valid URL
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row">
+                            <mat-form-field floatLabel="always" *ngIf="!this.editMode" appearance="outline">
+                                <mat-label>Provider Type</mat-label>
+                                <input [ngModel]="this.placeholder" [readonly]="!this.editMode" name="provider2"
+                                       matInput
+                                       [formControl]="this.validationProvider">
+                                <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Enter a
+                                    valid
+                                    URL
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field floatLabel="always" *ngIf="this.editMode" appearance="outline">
+                                <mat-label>Provider Type (IMS)</mat-label>
+                                <mat-select name="provider" [formControl]="this.validationProvider">
+                                    <mat-option value="GITHUB">GitHub</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="this.validationProvider.invalid && this.editMode">Select the
+                                    Provider
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field floatLabel="always" appearance="outline">
+                                <mat-label>IMS-URL</mat-label>
+                                <input name="ims" [readonly]="!this.editMode" matInput
+                                       [formControl]="this.validationIMS">
+                                <mat-error *ngIf="this.validationIMS.invalid && this.editMode">Enter a valid URL
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row">
+                            <mat-form-field floatLabel="always" appearance="outline">
+                                <mat-label>Description</mat-label>
+                                <textarea [readonly]="!this.editMode" [ngModel]="this.node().node.description"
+                                          [formControl]="this.validationDescription"
+                                          placeholder="No description provided" class="description-field"
+                                          name="description" matInput></textarea>
+                            </mat-form-field>
+                        </div>
+                    </form>
+                    <form *ngIf="nodeType == Type.Interface">
+                        <div class="row">
+                            <mat-form-field floatLabel="always" appearance="outline">
+                                <mat-label>Name</mat-label>
+                                <input [readonly]="!this.editMode" name="name" [ngModel]="interface.node.name"
+                                       matInput
+                                       [formControl]="this.validationName">
+                                <mat-error *ngIf="this.validationName.invalid && this.editMode">Name your
+                                    Interface
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field floatLabel="always" appearance="outline">
+                                <mat-label>Interface Type</mat-label>
+                                <input readonly matInput [formControl]="this.validationType">
+                                <mat-error *ngIf="this.validationType.invalid && this.editMode">Enter a valid
+                                    URL
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row">
+                            <mat-form-field floatLabel="always" appearance="outline">
+                                <mat-label>Description</mat-label>
+                                <textarea [readonly]="!this.editMode" [ngModel]="interface.node.description"
+                                          [formControl]="this.validationDescription" name="description"
+                                          class="description-field"
+                                          matInput></textarea>
+                            </mat-form-field>
+                        </div>
+                    </form>
+
+                    <div class="row">
+                        <button mat-raised-button *ngIf="!this.editMode" color="primary"
+                                (click)="this.onEditClick()">
+                            <mat-icon>edit</mat-icon>
+                            Edit {{getNodeTypeString().toLowerCase()}}
+                        </button>
+
+                        <ng-container *ngIf="this.editMode">
+                            <app-query-component #updateQuery
+                                                 [errorMessage]="'Failed to update ' + getNodeTypeString().toLowerCase()">
+                                <button mat-raised-button color="primary" style="width: 100%"
+                                        (click)="this.onSaveClick()" appQueryButton>
+                                    <mat-icon>save</mat-icon>
+                                    Save changes
+                                </button>
+                            </app-query-component>
+                        </ng-container>
+
+                        <button mat-raised-button *ngIf="this.editMode" color="basic"
+                                (click)="this.onCancelClick()">
+                            <mat-icon>cancel</mat-icon>
+                            Discard changes
+                        </button>
+
+                        <app-query-component #deleteQuery errorMessage="Failed to load affected components">
+                            <button mat-raised-button color="warn" style="width: 100%"
+                                    (click)="this.onDeleteClick()" appQueryButton>
+                                <mat-icon>delete</mat-icon>
+                                Delete {{getNodeTypeString().toLowerCase()}}
+                            </button>
+                        </app-query-component>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </ng-template>
+</app-query-component>

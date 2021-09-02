@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, KeyValueDiffers, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CCIMSValidators} from "@app/utils/validators";
 
 /**
  * This component provides a dialog for the project creation
@@ -14,12 +15,11 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
   templateUrl: './create-project-dialog.component.html',
   styleUrls: ['./create-project-dialog.component.scss']
 })
-export class CreateProjectDialogComponent implements OnInit {
+export class CreateProjectDialogComponent {
   @Input() name: string;
   @Input() description: string;
   public loading: boolean;
   public saveFailed: boolean;
-  validateForm!: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
               private ps: ProjectStoreService,
@@ -28,13 +28,8 @@ export class CreateProjectDialogComponent implements OnInit {
     this.loading = false;
   }
 
-  validation = new FormControl('', [Validators.required]);
-
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      name: [null, [Validators.required]]
-    });
-  }
+  nameValidator = new FormControl('', [CCIMSValidators.nameFormatValidator, Validators.required]);
+  descriptionValidator = new FormControl('', CCIMSValidators.contentValidator);
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -46,10 +41,6 @@ export class CreateProjectDialogComponent implements OnInit {
 
   // after the user clicked on the create button the project creation mutation is fired
   onOkClick(name: string, description: string): void {
-    Object.keys(this.validateForm.controls).forEach(controlKey => {
-      this.validateForm.controls[controlKey].markAsDirty();
-      this.validateForm.controls[controlKey].updateValueAndValidity();
-    });
     this.loading = true;
     this.ps.create(name, description).subscribe(({data}) => {
       this.loading = false;

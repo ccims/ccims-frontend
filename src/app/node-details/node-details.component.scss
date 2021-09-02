@@ -1,0 +1,27 @@
+.description-field {
+  min-height: 50px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.row > * {
+  margin-right: 4px;
+  flex-grow: 1;
+}
+
+.row > *:last-child {
+  margin-right: 0;
+  flex-grow: 1;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+  height: 100%;
+}
+
+:host ::ng-deep .mat-tab-body.mat-tab-body-active {
+  height: 100%;
+}
