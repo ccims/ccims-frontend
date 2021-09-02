@@ -6,11 +6,9 @@
                     <img src="https://github.com/github.png"/>
                 </div>
 
-                <div>
-                    <div class="content">
-                        <p class="title">{{project.current.name}}</p>
-                        <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
-                    </div>
+                <div class="content">
+                    <p class="title">{{project.current.name}}</p>
+                    <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
                 </div>
 
                 <div class="delete-button-container">
@@ -20,6 +18,8 @@
                     </button>
                 </div>
             </div>
+
+            <app-text-display></app-text-display>
 
             <div class="d-flex text-sm-left">
                 <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
