@@ -140,7 +140,8 @@ export class IssueListComponent implements OnInit, OnDestroy {
         data: {
           user: 'Component', name: this.component$.current.name, id: this.component$.current.id,
           component: { node: this.component$.current }, projectId: this.projectId
-        }
+        },
+        width: '40%'
       });
     createIssueDialogRef.afterClosed().subscribe(issueData => {
       if (issueData) {
