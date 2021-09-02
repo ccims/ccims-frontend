@@ -7,14 +7,18 @@ export type ListId = string;
 export enum NodeType {
   Root,
   Component,
-  Interface,
+  ComponentInterface,
   Issue,
-  TimelineItem,
+  IssueTimelineItem,
   Label,
   Project,
   Artifact,
-  ImsUser,
-  CcimsUser,
+  IMSUser,
+  CCIMSUser
+}
+
+export function nodeTypeFromTypename(typename: string) {
+  return NodeType[typename] || null;
 }
 
 export interface NodeDescriptor {
@@ -43,6 +47,7 @@ export enum ListType {
   ComponentInterfaces,
   Issues,
   IssuesOnLocation,
+  IssueLocations,
   TimelineItems,
   Labels,
   Artifacts,

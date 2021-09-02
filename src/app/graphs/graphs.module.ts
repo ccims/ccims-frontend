@@ -37,6 +37,7 @@ import { SetEditorComponent } from '@app/components/set-editor/set-editor.compon
 import { ItemDirective } from '@app/components/item.directive';
 import { IssueLabelComponent } from '@app/components/issue-label/issue-label.component';
 import { SetEditorDialogComponent } from '@app/components/set-editor/set-editor-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -82,7 +83,8 @@ import { SetEditorDialogComponent } from '@app/components/set-editor/set-editor-
     MatPaginatorModule,
     MatSortModule,
     NgSelectModule,
-    NgOptionHighlightModule
+    NgOptionHighlightModule,
+    MatCheckboxModule
   ],
   exports: [
     CdkTableModule,

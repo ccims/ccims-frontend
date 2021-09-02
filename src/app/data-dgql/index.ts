@@ -2,6 +2,7 @@ import { NodeId, ListId } from './id';
 import { Injectable } from '@angular/core';
 import { QueriesService } from './queries/queries.service';
 import { DataNode, DataList, NodeCache } from './query';
+import { Mutations } from '@app/data-dgql/mutate';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,13 @@ import { DataNode, DataList, NodeCache } from './query';
 export default class DataService {
   nodes: NodeCache;
   lists: Map<ListId, Set<DataList<unknown, unknown>>> = new Map();
+  mutations: Mutations;
 
   constructor(
     private queries: QueriesService
   ) {
     this.nodes = new NodeCache(queries);
+    this.mutations = new Mutations(queries, this.nodes, this.invalidateLists.bind(this));
   }
 
   getNode<T>(id: NodeId): DataNode<T> {

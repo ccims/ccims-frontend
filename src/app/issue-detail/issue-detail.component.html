@@ -191,27 +191,61 @@
     <!--Side bar-->
     <div class="issue-side-bar">
       <div class="issue-side-bar-row">
-        <app-set-editor [listSet]="labelListId" [listAll]="allLabelsListId" [hydrate]="labelListPromise">
-          <span title>Labels (set editor)</span>
+        <app-set-editor
+            [nodeType]="'Component'"
+            [makeFilter]="makeComponentFilter"
+            [listSet]="componentListId"
+            [listAll]="allComponentsListId"
+            [hydrate]="componentListPromise"
+            [applyChangeset]="applyComponentChangeset">
+          <span title>Components</span>
+          <span if-empty>No components assigned</span>
+          <ng-container *appItem="let item">
+            <div>{{item.name}}</div>
+          </ng-container>
+        </app-set-editor>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="issue-side-bar-row">
+        <app-set-editor
+            [nodeType]="'Component'"
+            [makeFilter]="makeLocationFilter"
+            [listSet]="locationListId"
+            [listAll]="allLocationsList"
+            [hydrate]="locationListPromise"
+            [applyChangeset]="applyLocationChangeset">
+          <span title>Locations</span>
+          <span if-empty>No locations assigned</span>
+          <ng-container *appItem="let item">
+            <div *ngIf="item.__typename === 'Component'">
+              {{item.name}}
+            </div>
+            <div *ngIf="item.__typename === 'ComponentInterface'">
+              <span class="location-containing-component-name" *ngIf="!!item.component">
+                {{item.component.name}} ›
+              </span>
+              {{item.name}}
+            </div>
+          </ng-container>
+        </app-set-editor>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="issue-side-bar-row">
+        <app-set-editor
+            [nodeType]="'Label'"
+            [makeFilter]="makeLabelFilter"
+            [listSet]="labelListId"
+            [listAll]="allLabelsList"
+            [hydrate]="labelListPromise"
+            [applyChangeset]="applyLabelChangeset">
+          <span title>Labels</span>
+          <span if-empty>No labels assigned</span>
           <ng-container *appItem="let item">
             <app-issue-label [label]="item"></app-issue-label>
           </ng-container>
         </app-set-editor>
-        <mat-label><b>Labels (in issue detail)</b></mat-label>
-        <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Labels)">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <br>
-        <div class="clear" style="width: 100%;">
-          <div class="issue-label"
-               *ngFor="let label of issue.node.labels.nodes"
-               [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
-            <span>{{label.name}} </span>
-          </div>
-        </div>
-
-        <mat-divider></mat-divider>
       </div>
+      <mat-divider></mat-divider>
 
       <div class="issue-side-bar-row">
         <mat-label><b>Assignees</b></mat-label>

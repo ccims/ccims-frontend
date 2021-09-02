@@ -46,7 +46,7 @@ export class InterfaceDetailsComponent implements OnInit {
       this.interface = componentInterface;
     });
 
-    this.issueListId = encodeListId({ node: { type: NodeType.Interface, id: this.interfaceId }, type: ListType.IssuesOnLocation });
+    this.issueListId = encodeListId({ node: { type: NodeType.ComponentInterface, id: this.interfaceId }, type: ListType.IssuesOnLocation });
   }
 
   // check if there are query params set in the url

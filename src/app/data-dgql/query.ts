@@ -1,11 +1,12 @@
 import { Observable, Subscriber } from 'rxjs';
-import { encodeNodeId, ListId, ListParams, NodeId, NodeType, QueryNodeId } from './id';
+import { encodeNodeId, ListId, ListParams, NodeId, nodeTypeFromTypename, QueryNodeId } from './id';
 import { QueriesService } from './queries/queries.service';
 import { ListResult, queryList, queryNode } from './load';
 import { PageInfo } from '../../generated/graphql-dgql';
 
 const CACHE_FAST_DEBOUNCE_TIME_MS = 200;
-const CACHE_DEBOUNCE_TIME_MS = 5000;
+const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS = 500;
+const CACHE_STALE_TIME_MS = 5000;
 
 // TODO: passive subscribers
 
@@ -48,6 +49,9 @@ export class DataQuery<T, R, P> extends Observable<T> {
   protected stateLock = 0;
   protected loadTimeout = null;
   protected hydrated = false;
+
+  /** If true, will prolong debounce time a bit. */
+  interactive = false;
 
   /**
    * @param id an identifier for the data being loaded
@@ -122,20 +126,20 @@ export class DataQuery<T, R, P> extends Observable<T> {
     if (this.loading) {
       return;
     }
-    if (!this.hasData || Date.now() - this.lastLoadTime > CACHE_DEBOUNCE_TIME_MS) {
+    if (!this.hasData || Date.now() - this.lastLoadTime > CACHE_STALE_TIME_MS) {
       this.load();
     }
   }
 
   /** Loads data after a short delay. Will debounce. */
-  loadDebounced() {
+  loadDebounced(interactive = this.interactive) {
     if (this.loadTimeout) {
       return;
     }
     this.loadTimeout = setTimeout(() => {
       this.loadTimeout = null;
       this.load();
-    }, CACHE_FAST_DEBOUNCE_TIME_MS);
+    }, interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS);
   }
 
   /** Deletes current data. */
@@ -200,7 +204,7 @@ export class DataNode<T> extends DataQuery<T, T, void> {
   }
 
   loadIfNeeded() {
-    if (!this.loading && Date.now() - this.lastLoadTime > CACHE_DEBOUNCE_TIME_MS) {
+    if (!this.loading && Date.now() - this.lastLoadTime > CACHE_STALE_TIME_MS) {
       this.load();
     }
   }
@@ -215,12 +219,14 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
   private pFilter?: F;
   private pForward = true;
   private pageInfo?: PageInfo;
+  private pTotalCount?: number;
   private previouslyHadPageContents = false;
   private pNodes: NodeCache;
 
   constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
     super(id, queryList(queries, nodes), result => {
       this.pageInfo = result.pageInfo;
+      this.pTotalCount = result.totalCount;
 
       // API *only* reports hasPreviousPage or hasNextPage correctly if we are navigating in that
       // same direction. Hence, we need to amend pageInfo with prior knowledge.
@@ -246,6 +252,10 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
       forward: this.pForward,
       filter: this.pFilter,
     };
+  }
+
+  get totalCount() {
+    return this.pTotalCount;
   }
 
   get currentItems(): T[] {
@@ -339,11 +349,11 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
    * @param type NodeType of the list (implementation detail! ideally this would not be part of this API)
    * @param data a promise that returns the API data
    */
-  hydrateInitial<IdT extends T & { id: string }>(type: NodeType, data: Promise<HydrateList<IdT>>) {
+  hydrateInitial<IdT extends T & { id: string, __typename: string }>(data: Promise<HydrateList<IdT>>) {
     this.hydrateRaw(data.then(value => ({
       totalCount: value.totalCount,
       pageInfo: value.pageInfo,
-      items: this.pNodes.insertNodes(type, value.nodes || [])
+      items: this.pNodes.insertNodes(value.nodes || [])
     })));
   }
 }
@@ -378,13 +388,14 @@ export class NodeCache {
    * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
    * Nodes without an ID will be ignored.
    */
-  insertNodes<T extends { id?: string }>(type: NodeType, nodes: T[]) {
+  insertNodes<T extends { id?: string, __typename?: string }>(nodes: T[]) {
     const map = new Map();
 
     for (const node of nodes) {
       if (!node?.id) {
         continue;
       }
+      const type = nodeTypeFromTypename(node.__typename);
       const dataNode: DataNode<T> = this.getNode(encodeNodeId({ type, id: node.id }));
       if (!dataNode.hasData) {
         // FIXME: different queries load different amounts of data, simple overwriting doesn't work

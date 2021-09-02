@@ -1,8 +1,39 @@
 <div class="set-editor-dialog">
-    todo
-    <div class="set-editor-items">
-        <ng-container *ngFor="let item of listAll$.currentItems">
-            <ng-container *ngTemplateOutlet="data.itemTemplate; context: { $implicit: item }"></ng-container>
-        </ng-container>
-    </div>
+    <h2 mat-dialog-title>{{data.title}}</h2>
+    <mat-dialog-content>
+        <div class="dialog-search">
+            <mat-form-field class="search-field">
+                <mat-label>Search</mat-label>
+                <mat-icon matPrefix>search</mat-icon>
+                <input
+                    matInput
+                    type="search"
+                    [(ngModel)]="searchQuery"
+                    (ngModelChange)="searchQueryDidChange()" />
+            </mat-form-field>
+        </div>
+        <div class="dialog-items">
+            <ng-container *ngFor="let item of (listAll.results || [])">
+                <div class="selectable-item">
+                    <mat-checkbox
+                        class="inner-checkbox"
+                        [checked]="isInSet(item)"
+                        (change)="toggleInSet(item)">
+                        <ng-container *ngTemplateOutlet="data.itemTemplate; context: { $implicit: item }"></ng-container>
+                    </mat-checkbox>
+                </div>
+            </ng-container>
+            <div class="items-empty" *ngIf="!listAll.results?.length && !listAll.isLoading()">
+                No results
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="null">
+            Cancel
+        </button>
+        <button mat-button [color]="'primary'" (click)="apply()">
+            Apply
+        </button>
+    </mat-dialog-actions>
 </div>

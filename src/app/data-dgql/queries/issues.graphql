@@ -1,3 +1,9 @@
+fragment fLocationStub on IssueLocation {
+  id
+  name
+  description
+}
+
 # basic information about a label
 fragment fLabelStub on Label {
   id
@@ -25,6 +31,20 @@ fragment fIssueStub on Issue {
   isOpen
   isDuplicate
   category
+  components(first: 10) {
+    totalCount
+    pageInfo { ...allPageInfo }
+    nodes {
+      ...fComponentStub
+    }
+  }
+  locations(first: 10) {
+    totalCount
+    pageInfo { ...allPageInfo }
+    nodes {
+      ...fLocationStub
+    }
+  }
   labels(first: 10) {
     totalCount
     pageInfo { ...allPageInfo }
@@ -425,6 +445,27 @@ query ListProjectLabels($project: ID!, $after: String, $before: String, $filterB
     }
   }
 }
+query ListComponentLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ...on Component {
+      labels(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
+        }
+      }
+    }
+  }
+}
 query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
   node(id: $issue) {
     ...on Issue {
@@ -443,6 +484,122 @@ query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: L
           ...fLabelStub
         }
       }
+    }
+  }
+}
+
+query ListIssueLocations($issue: ID!, $after: String, $before: String, $filterBy: IssueLocationFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ...on Issue {
+      locations(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLocationStub
+        }
+      }
+    }
+  }
+}
+
+query ListIssueComponents($issue: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ...on Issue {
+      components(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLocationStub
+        }
+      }
+    }
+  }
+}
+
+mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
+  addLabelToIssue(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    label: $label
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutRemoveIssueLabel($id: String, $issue: ID!, $label: ID!) {
+  removeLabelFromIssue(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    label: $label
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutAddIssueToComponent($id: String, $issue: ID!, $component: ID!) {
+  addIssueToComponent(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    component: $component
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutRemoveIssueFromComponent($id: String, $issue: ID!, $component: ID!) {
+  removeIssueFromComponent(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    component: $component
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutAddIssueToLocation($id: String, $issue: ID!, $location: ID!) {
+  addIssueToLocation(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    location: $location
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutRemoveIssueFromLocation($id: String, $issue: ID!, $location: ID!) {
+  removeIssueFromLocation(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    location: $location
+  }) {
+    event {
+      ...fTimelineItem
     }
   }
 }

@@ -14,11 +14,18 @@ import { Observable, Subscription } from 'rxjs';
 import { LabelStoreService } from '@app/data/label/label-store.service';
 import { ProjectStoreService } from '@app/data/project/project-store.service';
 import { SelectionType } from '@app/issue-settings-container/issue-settings-container.component';
-import { encodeListId, encodeNodeId, ListId, ListType, NodeType } from '@app/data-dgql/id';
+import { decodeNodeId, encodeListId, encodeNodeId, ListId, ListType, NodeId, NodeType } from '@app/data-dgql/id';
 import { DataNode, HydrateList } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { ListResult } from '@app/data-dgql/load';
-import { Label } from '../../generated/graphql-dgql';
+import {
+  IssueLocation,
+  IssueLocationFilter,
+  Label,
+  LabelFilter,
+  Component as QComponent,
+  ComponentFilter
+} from '../../generated/graphql-dgql';
+import { SetMultiSource } from '@app/components/set-editor/set-editor-dialog.component';
 
 @Component({
   selector: 'app-issue-detail',
@@ -48,8 +55,14 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   public issue2$: DataNode<Issue>;
   public issue2Sub: Subscription;
+  public componentListId: ListId;
+  public allComponentsListId: ListId;
+  public componentListPromise: Promise<HydrateList<QComponent>>;
+  public locationListId: ListId;
+  public allLocationsList: SetMultiSource;
+  public locationListPromise: Promise<HydrateList<IssueLocation>>;
   public labelListId: ListId;
-  public allLabelsListId: ListId;
+  public allLabelsList: SetMultiSource;
   public labelListPromise: Promise<HydrateList<Label>>;
 
   constructor(
@@ -70,15 +83,91 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
     this.issue2$ = this.dataService.getNode(encodeNodeId({ type: NodeType.Issue, id: this.issueId }));
     this.issue2Sub = this.issue2$.subscribe();
+    this.componentListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.Components
+    });
+    const projectComponents = encodeListId({
+      node: { type: NodeType.Project, id: this.activatedRoute.snapshot.paramMap.get('id') },
+      type: ListType.Components
+    });
+    this.allComponentsListId = projectComponents;
+    this.componentListPromise = this.issue2$.dataAsPromise().then(data => data.components);
+    this.locationListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.IssueLocations
+    });
+    const projectInterfaces = encodeListId({
+      node: { type: NodeType.Project, id: this.activatedRoute.snapshot.paramMap.get('id') },
+      type: ListType.ComponentInterfaces
+    });
+    this.allLocationsList = {
+      staticSources: [projectComponents, projectInterfaces],
+    };
+    this.locationListPromise = this.issue2$.dataAsPromise().then(data => data.locations);
     this.labelListId = encodeListId({
       node: { type: NodeType.Issue, id: this.issueId },
       type: ListType.Labels
     });
-    this.allLabelsListId = encodeListId({
-      node: { type: NodeType.Project, id: this.activatedRoute.snapshot.paramMap.get('id') },
-      type: ListType.Labels
-    });
+    this.allLabelsList = {
+      staticSources: [encodeListId({
+        node: { type: NodeType.Issue, id: this.issueId },
+        type: ListType.Labels
+      })],
+      // source labels from labels of issue components
+      sourceNodes: encodeListId({
+        node: { type: NodeType.Issue, id: this.issueId },
+        type: ListType.Components,
+      }),
+      listFromNode: node => encodeListId({
+        node: decodeNodeId(node),
+        type: ListType.Labels
+      })
+    };
     this.labelListPromise = this.issue2$.dataAsPromise().then(data => data.labels);
+  }
+
+  makeComponentFilter(search): ComponentFilter {
+    return { name: search };
+  }
+  makeLocationFilter(search): IssueLocationFilter {
+    return { name: search };
+  }
+  makeLabelFilter(search): LabelFilter {
+    return { name: search };
+  }
+  applyComponentChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.addIssueComponent(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.removeIssueComponent(mutId, issue, id);
+    }
+  }
+  applyLocationChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.addIssueLocation(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.removeIssueLocation(mutId, issue, id);
+    }
+  }
+  applyLabelChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.addIssueLabel(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.removeIssueLabel(mutId, issue, id);
+    }
   }
 
   ngOnDestroy() {

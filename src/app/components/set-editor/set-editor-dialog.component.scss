@@ -1,0 +1,29 @@
+.set-editor-dialog {
+  .dialog-search {
+    .search-field {
+      width: 100%;
+    }
+  }
+
+  .dialog-items {
+    margin-bottom: 16px;
+
+    .selectable-item {
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+
+      &:first-child {
+        border-top: none;
+      }
+
+      .inner-checkbox {
+        display: block;
+        padding: 8px 16px;
+      }
+    }
+
+    .items-empty {
+      text-align: center;
+      opacity: 0.5;
+    }
+  }
+}

@@ -66,19 +66,38 @@ const listQueries: ListQueries = {
     [NodeType.Root]: (i, list, params) => i.q.projects.listProjects(listParams(params)).then(data => ({
       totalCount: data.projects.totalCount,
       pageInfo: data.projects.pageInfo,
-      items: i.c.insertNodes(NodeType.Project, data.projects.nodes),
+      items: i.c.insertNodes(data.projects.nodes),
+    })),
+  },
+  [ListType.Components]: {
+    [NodeType.Project]: (i, list, params) => i.q.components.listProjectComponents(list.node.id, listParams(params)).then(data => ({
+      totalCount: data.node.components.totalCount,
+      pageInfo: data.node.components.pageInfo,
+      items: i.c.insertNodes(data.node.components.nodes),
+    })),
+    [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueComponents(list.node.id, listParams(params)).then(data => ({
+      totalCount: data.node.components.totalCount,
+      pageInfo: data.node.components.pageInfo,
+      items: i.c.insertNodes(data.node.components.nodes),
+    }))
+  },
+  [ListType.ComponentInterfaces]: {
+    [NodeType.Project]: (i, list, params) => i.q.components.listProjectInterfaces(list.node.id, listParams(params)).then(data => ({
+      totalCount: data.node.interfaces.totalCount,
+      pageInfo: data.node.interfaces.pageInfo,
+      items: i.c.insertNodes(data.node.interfaces.nodes),
     })),
   },
   [ListType.Issues]: {
     [NodeType.Project]: (i, list, params) => i.q.issues.listProjectIssues(list.node.id, listParams(params)).then(data => ({
       totalCount: data.node.issues.totalCount,
       pageInfo: data.node.issues.pageInfo,
-      items: i.c.insertNodes(NodeType.Issue, data.node.issues.nodes),
+      items: i.c.insertNodes(data.node.issues.nodes),
     })),
     [NodeType.Component]: (i, list, params) => i.q.issues.listComponentIssues(list.node.id, listParams(params)).then(data => ({
       totalCount: data.node.issues.totalCount,
       pageInfo: data.node.issues.pageInfo,
-      items: i.c.insertNodes(NodeType.Issue, data.node.issues.nodes),
+      items: i.c.insertNodes(data.node.issues.nodes),
     })),
   },
   [ListType.IssuesOnLocation]: {
@@ -86,13 +105,13 @@ const listQueries: ListQueries = {
       .then(data => ({
         totalCount: data.node.issuesOnLocation.totalCount,
         pageInfo: data.node.issuesOnLocation.pageInfo,
-        items: i.c.insertNodes(NodeType.Issue, data.node.issuesOnLocation.nodes),
+        items: i.c.insertNodes(data.node.issuesOnLocation.nodes),
       })),
-    [NodeType.Interface]: (i, list, params) => i.q.issues.listComponentInterfaceIssuesOnLocation(list.node.id, listParams(params))
+    [NodeType.ComponentInterface]: (i, list, params) => i.q.issues.listComponentInterfaceIssuesOnLocation(list.node.id, listParams(params))
       .then(data => ({
         totalCount: data.node.issuesOnLocation.totalCount,
         pageInfo: data.node.issuesOnLocation.pageInfo,
-        items: i.c.insertNodes(NodeType.Issue, data.node.issuesOnLocation.nodes),
+        items: i.c.insertNodes(data.node.issuesOnLocation.nodes),
       })),
   },
   [ListType.TimelineItems]: {
@@ -100,21 +119,35 @@ const listQueries: ListQueries = {
       .then(data => ({
         totalCount: data.node.timeline.totalCount,
         pageInfo: data.node.timeline.pageInfo,
-        items: i.c.insertNodes(NodeType.TimelineItem, data.node.timeline.nodes),
+        items: i.c.insertNodes(data.node.timeline.nodes),
       })),
+  },
+  [ListType.IssueLocations]: {
+    [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueLocations(list.node.id, listParams(params))
+      .then(data => ({
+        totalCount: data.node.locations.totalCount,
+        pageInfo: data.node.locations.pageInfo,
+        items: i.c.insertNodes(data.node.locations.nodes),
+      }))
   },
   [ListType.Labels]: {
     [NodeType.Project]: (i, list, params) => i.q.issues.listProjectLabels(list.node.id, listParams(params))
       .then(data => ({
         totalCount: data.node.labels.totalCount,
         pageInfo: data.node.labels.pageInfo,
-        items: i.c.insertNodes(NodeType.Label, data.node.labels.nodes)
+        items: i.c.insertNodes(data.node.labels.nodes)
+      })),
+    [NodeType.Component]: (i, list, params) => i.q.issues.listComponentLabels(list.node.id, listParams(params))
+      .then(data => ({
+        totalCount: data.node.labels.totalCount,
+        pageInfo: data.node.labels.pageInfo,
+        items: i.c.insertNodes(data.node.labels.nodes)
       })),
     [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueLabels(list.node.id, listParams(params))
       .then(data => ({
         totalCount: data.node.labels.totalCount,
         pageInfo: data.node.labels.pageInfo,
-        items: i.c.insertNodes(NodeType.Label, data.node.labels.nodes)
+        items: i.c.insertNodes(data.node.labels.nodes)
       }))
   }
 };
