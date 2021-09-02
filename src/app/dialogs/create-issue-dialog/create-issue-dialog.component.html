@@ -7,15 +7,8 @@
       <mat-error *ngIf="validationTitle.invalid">Invalid issue title</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="stretch body" appearance="outline">
-      <mat-label>Body</mat-label>
-      <textarea style="height: 66px;" #body matInput [formControl]="validationBody" required></textarea>
-      <!--<input #body reqired matInput  [formControl]="validationBody" >-->
-      <mat-error *ngIf="validationBody.invalid">Invalid issue body</mat-error>
-    </mat-form-field>
 
-    <app-markdown-editor></app-markdown-editor>
-
+    <app-markdown-editor #body></app-markdown-editor>
 
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>
@@ -73,8 +66,8 @@
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
   <button mat-button [class.spinner]="loading"
-          [disabled]="loading || validationTitle.invalid || validationBody.invalid || validationCategory.invalid"
-          (click)="onOkClick(title.value,body.value, category.value, labels.selectedLabels)">Create
+          [disabled]="loading || validationTitle.invalid || validationCategory.invalid"
+          (click)="onOkClick(title.value,body.code, category.value, labels.selectedLabels)">Create
   </button>
 
 </div>

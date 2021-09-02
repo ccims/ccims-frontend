@@ -35,7 +35,7 @@ export class CreateIssueDialogComponent implements OnInit {
 
   // create form controls for the form fields
   validationTitle = new FormControl('', [CCIMSValidators.nameValidator, Validators.required]);
-  validationBody = new FormControl('', [CCIMSValidators.contentValidator, Validators.required]);
+  // validationBody = new FormControl('', [CCIMSValidators.contentValidator, Validators.required]);
   validationCategory = new FormControl('', [Validators.required]);
   issuesLoaded = false;
   selectedIssues: any = [];

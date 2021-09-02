@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-markdown-editor',
@@ -10,9 +10,9 @@ import { Component, OnInit } from '@angular/core';
  */
 export class MarkdownEditorComponent implements OnInit {
 
-  editorOptions = {theme: 'vs-dark', language: 'javascript'};
-  code = 'function x() {\nconsole.log("Hello world!");\n}';
-
+  editorOptions = {theme: 'vs', language: 'markdown'};
+  // This code is displayed in the editor
+  @Input() code: string;
 
   constructor() { }
 

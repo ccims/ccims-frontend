@@ -54,7 +54,9 @@ import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/
 import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
 import {NodeDetailsComponent} from '@app/node-details/node-details.component';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
-import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
+import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-editor.component';
+import {MarkdownModule} from 'ngx-markdown';
+import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -67,6 +69,8 @@ const toasterConfig: Partial<GlobalConfig> = {
   maxOpened: 4,
   autoDismiss: true
 };
+
+
 
 @NgModule({
   declarations: [
@@ -93,7 +97,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     QueryBodyDirective,
     NodeDetailsComponent,
     QueryButtonDirective,
-    MarkdownEditorComponent
+    MarkdownEditorComponent,
+    MarkdownPreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -125,7 +130,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     MatExpansionModule,
     MatProgressSpinnerModule,
     PortalModule,
-    MonacoEditorModule.forRoot()
+    MonacoEditorModule.forRoot(),
+    MarkdownModule.forRoot()
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
