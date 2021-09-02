@@ -53,6 +53,10 @@ import {PortalModule} from '@angular/cdk/portal';
 import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
 import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
 import {NodeDetailsComponent} from '@app/node-details/node-details.component';
+import {MonacoEditorModule} from 'ngx-monaco-editor';
+import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-editor.component';
+import {MarkdownModule} from 'ngx-markdown';
+import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
 import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
 
 registerLocaleData(en);
@@ -66,6 +70,8 @@ const toasterConfig: Partial<GlobalConfig> = {
   maxOpened: 4,
   autoDismiss: true
 };
+
+
 
 @NgModule({
   declarations: [
@@ -92,7 +98,9 @@ const toasterConfig: Partial<GlobalConfig> = {
     QueryBodyDirective,
     NodeDetailsComponent,
     QueryButtonDirective,
-    NodeDetailsPageComponent
+    NodeDetailsPageComponent,
+    MarkdownEditorComponent,
+    MarkdownPreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -123,7 +131,9 @@ const toasterConfig: Partial<GlobalConfig> = {
     ColorPickerModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-    PortalModule
+    PortalModule,
+    MonacoEditorModule.forRoot(),
+    MarkdownModule.forRoot()
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

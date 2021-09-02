@@ -20,7 +20,7 @@
         <!--Title while being edited-->
         <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.node.title">
 
-        <!--Title while not beign edited-->
+        <!--Title while not being edited-->
         <h1 #title *ngIf="!this.editTitle" id="issue-heading">{{issue.node.title}}</h1>
       </div>
 
@@ -83,14 +83,16 @@
 
         <!--Part 3.2: Description-->
         <div *ngIf="!this.editBody" class="Box-body">
-          {{issue.node.body}}
+          <app-markdown-preview [displayedCode]="issue.node.body"></app-markdown-preview>
         </div>
+
+
 
         <!--Part 3.3: Editing-->
         <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
 
           <!--Text-->
-          <textarea class="comment-text-area" matInput #bodyEdit>{{issue.node.body}}</textarea>
+          <app-markdown-editor #bodyEdit [code]="issue.node.body"></app-markdown-editor>
 
           <div class="edit-body-buttons">
 
@@ -98,7 +100,7 @@
             <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
 
             <!--Save-->
-            <button mat-raised-button color="primary" (click)="this.editIssueBody(bodyEdit.value)">Save</button>
+            <button mat-raised-button color="primary" (click)="this.editIssueBody(bodyEdit.code)">Save</button>
           </div>
         </div>
       </div>
