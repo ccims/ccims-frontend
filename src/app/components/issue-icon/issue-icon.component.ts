@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Issue, IssueCategory } from 'src/generated/graphql-dgql';
 
+/**
+ * This component automatically displays the appropriate mat-icon for the given issue.
+ */
 @Component({
   selector: 'app-issue-icon',
   templateUrl: './issue-icon.component.html'

@@ -7,6 +7,9 @@ import { ItemDirective } from '@app/components/item.directive';
 import { MatDialog } from '@angular/material/dialog';
 import { SetEditorDialogComponent, SetEditorDialogData, SetMultiSource } from './set-editor-dialog.component';
 
+/**
+ * The set editor displays and edits a list like in the issue detail sidebar.
+ */
 @Component({
   selector: 'app-set-editor',
   templateUrl: './set-editor.component.html',

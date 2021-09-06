@@ -17,6 +17,9 @@ export interface SetMultiSource {
   listFromNode?: (n: NodeId) => ListId;
 }
 
+/**
+ * This is an internal component used to load data from multiple sources and through a layer of indirection (also see SetMultiSource).
+ */
 class MultiSourceList<T, F> {
   public sourceNodeList: DataList<{ __typename: string }, unknown>;
   public sourceNodeListSub: Subscription;
@@ -174,7 +177,7 @@ export class SetEditorDialogComponent<T extends { id: string }, F> implements On
 
     this.listSet$.interactive = true;
 
-    // TODO: reasonable heuristic for listSet count (maybe sum of all listAll counts?)
+    // TODO: is this a reasonable heuristic for the listSet count? we need to cover >= results from listAll
     this.listSet$.count = 10;
   }
 

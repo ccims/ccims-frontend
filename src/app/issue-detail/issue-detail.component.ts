@@ -39,6 +39,7 @@ import { SetMultiSource } from '@app/components/set-editor/set-editor-dialog.com
 export class IssueDetailComponent implements OnInit, OnDestroy {
   @ViewChild('issueContainer') issueContainer: ElementRef;
   @ViewChild('titleInput') inputTitle: ElementRef;
+  public projectId: string;
   public issueId: string;
   public issue: GetIssueQuery;
   public issue$: Observable<GetIssueQuery>;
@@ -53,8 +54,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   public projectComponents;
   public selectionType = SelectionType;
 
-  public projectId: string;
-
+  // TODO: remove issue and issue$ above when migrated
   public issue2$: DataNode<Issue>;
   public issue2Sub: Subscription;
   public componentListId: ListId;
