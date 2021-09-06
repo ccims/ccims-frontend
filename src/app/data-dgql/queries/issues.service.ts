@@ -23,7 +23,13 @@ import {
   ComponentFilter,
   MutRemoveIssueFromComponentGQL,
   MutAddIssueToComponentGQL,
-  ListIssueComponentsGQL, ListComponentLabelsGQL,
+  ListIssueComponentsGQL,
+  ListComponentLabelsGQL,
+  MutLinkIssueGQL,
+  MutUnlinkIssueGQL,
+  ListIssueAssigneesGQL,
+  ListIssueParticipantsGQL,
+  UserFilter, MutAddIssueAssigneeGQL, MutRemoveIssueAssigneeGQL,
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
 
@@ -48,12 +54,18 @@ export class IssuesService {
     private qListIssueLabels: ListIssueLabelsGQL,
     private qListIssueLocations: ListIssueLocationsGQL,
     private qListIssueComponents: ListIssueComponentsGQL,
+    private qListIssueParticipants: ListIssueParticipantsGQL,
+    private qListIssueAssignees: ListIssueAssigneesGQL,
     private qMutAddIssueLabel: MutAddIssueLabelGQL,
     private qMutRemoveIssueLabel: MutRemoveIssueLabelGQL,
     private qMutAddIssueComponent: MutAddIssueToComponentGQL,
     private qMutRemoveIssueComponent: MutRemoveIssueFromComponentGQL,
     private qMutAddIssueLocation: MutAddIssueToLocationGQL,
-    private qMutRemoveIssueLocation: MutRemoveIssueFromLocationGQL
+    private qMutRemoveIssueLocation: MutRemoveIssueFromLocationGQL,
+    private qMutAddIssueAssignee: MutAddIssueAssigneeGQL,
+    private qMutRemoveIssueAssignee: MutRemoveIssueAssigneeGQL,
+    private qMutLinkIssue: MutLinkIssueGQL,
+    private qMutUnlinkIssue: MutUnlinkIssueGQL
   ) {}
 
   listProjectIssues(project: string, list: IssueListParams) {
@@ -112,6 +124,14 @@ export class IssuesService {
     return promisifyApolloFetch(this.qListComponentLabels.fetch({ project, ...list }));
   }
 
+  listIssueParticipants(issue: string, list: QueryListParams<UserFilter>) {
+    return promisifyApolloFetch(this.qListIssueParticipants.fetch({ issue, ...list }));
+  }
+
+  listIssueAssignees(issue: string, list: QueryListParams<UserFilter>) {
+    return promisifyApolloFetch(this.qListIssueAssignees.fetch({ issue, ...list }));
+  }
+
   mutAddIssueLabel(id: string, issue: string, label: string) {
     return promisifyApolloFetch(this.qMutAddIssueLabel.mutate({ id, issue, label }));
   }
@@ -134,5 +154,21 @@ export class IssuesService {
 
   mutRemoveIssueLocation(id: string, issue: string, location: string) {
     return promisifyApolloFetch(this.qMutRemoveIssueLocation.mutate({ id, issue, location }));
+  }
+
+  mutAddIssueAssignee(id: string, issue: string, assignee: string) {
+    return promisifyApolloFetch(this.qMutAddIssueAssignee.mutate({ id, issue, assignee }));
+  }
+
+  mutRemoveIssueAssignee(id: string, issue: string, assignee: string) {
+    return promisifyApolloFetch(this.qMutRemoveIssueAssignee.mutate({ id, issue, assignee }));
+  }
+
+  mutLinkIssue(id: string, issue: string, link: string) {
+    return promisifyApolloFetch(this.qMutLinkIssue.mutate({ id, issue, link }));
+  }
+
+  mutUnlinkIssue(id: string, issue: string, link: string) {
+    return promisifyApolloFetch(this.qMutUnlinkIssue.mutate({ id, issue, link }));
   }
 }

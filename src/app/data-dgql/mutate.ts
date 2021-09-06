@@ -67,4 +67,41 @@ export class Mutations {
       this.invalidateLists(encodeListId({ node: locationNode, type: ListType.IssuesOnLocation }));
     });
   }
+
+  addIssueAssignee(id: string, issue: NodeId, assignee: NodeId) {
+    this.qs.issues.mutAddIssueAssignee(id, getId(issue), getId(assignee)).then(() => {
+      const issueNode = decodeNodeId(issue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Assignees }));
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Participants }));
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+    });
+  }
+  removeIssueAssignee(id: string, issue: NodeId, assignee: NodeId) {
+    this.qs.issues.mutRemoveIssueAssignee(id, getId(issue), getId(assignee)).then(() => {
+      const issueNode = decodeNodeId(issue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Assignees }));
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+    });
+  }
+
+  linkIssue(id: string, issue: NodeId, linkedIssue: NodeId) {
+    this.qs.issues.mutLinkIssue(id, getId(issue), getId(linkedIssue)).then(() => {
+      const issueNode = decodeNodeId(issue);
+      const linkedNode = decodeNodeId(linkedIssue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.LinkedIssues }));
+      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.TimelineItems }));
+      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.LinkedByIssues }));
+    });
+  }
+  unlinkIssue(id: string, issue: NodeId, linkedIssue: NodeId) {
+    this.qs.issues.mutUnlinkIssue(id, getId(issue), getId(linkedIssue)).then(() => {
+      const issueNode = decodeNodeId(issue);
+      const linkedNode = decodeNodeId(linkedIssue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.LinkedIssues }));
+      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.TimelineItems }));
+      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.LinkedByIssues }));
+    });
+  }
 }

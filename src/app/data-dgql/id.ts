@@ -13,8 +13,7 @@ export enum NodeType {
   Label,
   Project,
   Artifact,
-  IMSUser,
-  CCIMSUser
+  User
 }
 
 export function nodeTypeFromTypename(typename: string) {
@@ -51,6 +50,11 @@ export enum ListType {
   TimelineItems,
   Labels,
   Artifacts,
+  Participants,
+  Assignees,
+  SearchUsers,
+  LinkedIssues,
+  LinkedByIssues
 }
 
 export interface ListDescriptor {

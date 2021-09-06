@@ -59,6 +59,35 @@ fragment fIssueStub on Issue {
       ...fAssigneeStub
     }
   }
+  participants(first: 10) {
+    totalCount
+    pageInfo { ...allPageInfo }
+    nodes {
+      ...fAssigneeStub
+    }
+  }
+  linksToIssues(first: 10) {
+    totalCount
+    pageInfo { ...allPageInfo }
+    nodes {
+      ...on Issue {
+        id
+        title
+        isOpen
+      }
+    }
+  }
+  linkedByIssues(first: 10) {
+    totalCount
+    pageInfo { ...allPageInfo }
+    nodes {
+      ...on Issue {
+        id
+        title
+        isOpen
+      }
+    }
+  }
   issueComments(first: 0) {
     totalCount
   }
@@ -532,6 +561,58 @@ query ListIssueComponents($issue: ID!, $after: String, $before: String, $filterB
   }
 }
 
+query ListIssueParticipants($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ...on Issue {
+      participants(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...on User {
+            id
+            username
+            displayName
+          }
+        }
+      }
+    }
+  }
+}
+
+query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ...on Issue {
+      assignees(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...on User {
+            id
+            username
+            displayName
+          }
+        }
+      }
+    }
+  }
+}
+
 mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
   addLabelToIssue(input: {
     clientMutationID: $id,
@@ -597,6 +678,54 @@ mutation MutRemoveIssueFromLocation($id: String, $issue: ID!, $location: ID!) {
     clientMutationID: $id,
     issue: $issue,
     location: $location
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutAddIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+  addAssignee(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    user: $assignee
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutRemoveIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+  removeAssignee(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    user: $assignee
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutLinkIssue($id: String, $issue: ID!, $link: ID!) {
+  linkIssue(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    issueToLink: $link
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutUnlinkIssue($id: String, $issue: ID!, $link: ID!) {
+  unlinkIssue(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    issueToUnlink: $link
   }) {
     event {
       ...fTimelineItem

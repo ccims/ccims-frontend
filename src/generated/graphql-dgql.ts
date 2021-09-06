@@ -4766,6 +4766,15 @@ export type FIssueStubFragment = (
   )>, assignees?: Maybe<(
     Pick<UserPage, 'totalCount'>
     & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
+  )>, participants?: Maybe<(
+    Pick<UserPage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
+  )>, linksToIssues?: Maybe<(
+    Pick<IssuePage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title' | 'isOpen'>>>> }
+  )>, linkedByIssues?: Maybe<(
+    Pick<IssuePage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title' | 'isOpen'>>>> }
   )>, issueComments?: Maybe<Pick<IssueCommentPage, 'totalCount'>> }
 );
 
@@ -5150,6 +5159,36 @@ export type ListIssueComponentsQuery = { node?: Maybe<{ components?: Maybe<(
       & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment>>> }
     )> }> };
 
+export type ListIssueParticipantsQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueParticipantsQuery = { node?: Maybe<{ participants?: Maybe<(
+      Pick<UserPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
+    )> }> };
+
+export type ListIssueAssigneesQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueAssigneesQuery = { node?: Maybe<{ assignees?: Maybe<(
+      Pick<UserPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
+    )> }> };
+
 export type MutAddIssueLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   issue: Scalars['ID'];
@@ -5204,6 +5243,42 @@ export type MutRemoveIssueFromLocationMutationVariables = Exact<{
 
 export type MutRemoveIssueFromLocationMutation = { removeIssueFromLocation?: Maybe<{ event?: Maybe<FTimelineItem_RemovedFromLocationEvent_Fragment> }> };
 
+export type MutAddIssueAssigneeMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  assignee: Scalars['ID'];
+}>;
+
+
+export type MutAddIssueAssigneeMutation = { addAssignee?: Maybe<{ event?: Maybe<FTimelineItem_AssignedEvent_Fragment> }> };
+
+export type MutRemoveIssueAssigneeMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  assignee: Scalars['ID'];
+}>;
+
+
+export type MutRemoveIssueAssigneeMutation = { removeAssignee?: Maybe<{ event?: Maybe<FTimelineItem_UnassignedEvent_Fragment> }> };
+
+export type MutLinkIssueMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  link: Scalars['ID'];
+}>;
+
+
+export type MutLinkIssueMutation = { linkIssue?: Maybe<{ event?: Maybe<FTimelineItem_LinkEvent_Fragment> }> };
+
+export type MutUnlinkIssueMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  link: Scalars['ID'];
+}>;
+
+
+export type MutUnlinkIssueMutation = { unlinkIssue?: Maybe<{ event?: Maybe<FTimelineItem_UnlinkEvent_Fragment> }> };
+
 export type FProjectStubFragment = Pick<Project, 'id' | 'name' | 'description'>;
 
 export type ListProjectsQueryVariables = Exact<{
@@ -5226,6 +5301,19 @@ export type GetProjectQueryVariables = Exact<{
 
 
 export type GetProjectQuery = { node?: Maybe<FProjectStubFragment> };
+
+type FUserStub_CcimsUser_Fragment = Pick<CcimsUser, 'id' | 'username' | 'displayName'>;
+
+type FUserStub_ImsUser_Fragment = Pick<ImsUser, 'id' | 'username' | 'displayName'>;
+
+export type FUserStubFragment = FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment;
+
+export type SearchUsersQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SearchUsersQuery = { searchUser: Array<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> };
 
 export const FInterfaceStubFragmentDoc = gql`
     fragment fInterfaceStub on ComponentInterface {
@@ -5326,6 +5414,41 @@ export const FIssueStubFragmentDoc = gql`
     }
     nodes {
       ...fAssigneeStub
+    }
+  }
+  participants(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ...fAssigneeStub
+    }
+  }
+  linksToIssues(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ... on Issue {
+        id
+        title
+        isOpen
+      }
+    }
+  }
+  linkedByIssues(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ... on Issue {
+        id
+        title
+        isOpen
+      }
     }
   }
   issueComments(first: 0) {
@@ -5587,6 +5710,13 @@ export const FProjectStubFragmentDoc = gql`
   id
   name
   description
+}
+    `;
+export const FUserStubFragmentDoc = gql`
+    fragment fUserStub on User {
+  id
+  username
+  displayName
 }
     `;
 export const ListProjectComponentsDocument = gql`
@@ -6122,6 +6252,70 @@ ${FLocationStubFragmentDoc}`;
       super(apollo);
     }
   }
+export const ListIssueParticipantsDocument = gql`
+    query ListIssueParticipants($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      participants(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ... on User {
+            id
+            username
+            displayName
+          }
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueParticipantsGQL extends Apollo.Query<ListIssueParticipantsQuery, ListIssueParticipantsQueryVariables> {
+    document = ListIssueParticipantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueAssigneesDocument = gql`
+    query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      assignees(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ... on User {
+            id
+            username
+            displayName
+          }
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueAssigneesGQL extends Apollo.Query<ListIssueAssigneesQuery, ListIssueAssigneesQueryVariables> {
+    document = ListIssueAssigneesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const MutAddIssueLabelDocument = gql`
     mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
   addLabelToIssue(input: {clientMutationID: $id, issue: $issue, label: $label}) {
@@ -6242,6 +6436,86 @@ export const MutRemoveIssueFromLocationDocument = gql`
       super(apollo);
     }
   }
+export const MutAddIssueAssigneeDocument = gql`
+    mutation MutAddIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+  addAssignee(input: {clientMutationID: $id, issue: $issue, user: $assignee}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutAddIssueAssigneeGQL extends Apollo.Mutation<MutAddIssueAssigneeMutation, MutAddIssueAssigneeMutationVariables> {
+    document = MutAddIssueAssigneeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutRemoveIssueAssigneeDocument = gql`
+    mutation MutRemoveIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+  removeAssignee(input: {clientMutationID: $id, issue: $issue, user: $assignee}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutRemoveIssueAssigneeGQL extends Apollo.Mutation<MutRemoveIssueAssigneeMutation, MutRemoveIssueAssigneeMutationVariables> {
+    document = MutRemoveIssueAssigneeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutLinkIssueDocument = gql`
+    mutation MutLinkIssue($id: String, $issue: ID!, $link: ID!) {
+  linkIssue(input: {clientMutationID: $id, issue: $issue, issueToLink: $link}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutLinkIssueGQL extends Apollo.Mutation<MutLinkIssueMutation, MutLinkIssueMutationVariables> {
+    document = MutLinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutUnlinkIssueDocument = gql`
+    mutation MutUnlinkIssue($id: String, $issue: ID!, $link: ID!) {
+  unlinkIssue(input: {clientMutationID: $id, issue: $issue, issueToUnlink: $link}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutUnlinkIssueGQL extends Apollo.Mutation<MutUnlinkIssueMutation, MutUnlinkIssueMutationVariables> {
+    document = MutUnlinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ListProjectsDocument = gql`
     query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $first: Int, $last: Int) {
   projects(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
@@ -6286,6 +6560,24 @@ export const GetProjectDocument = gql`
   })
   export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
     document = GetProjectDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchUsersDocument = gql`
+    query SearchUsers($query: String!) {
+  searchUser(text: $query) {
+    ...fUserStub
+  }
+}
+    ${FUserStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchUsersGQL extends Apollo.Query<SearchUsersQuery, SearchUsersQueryVariables> {
+    document = SearchUsersDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

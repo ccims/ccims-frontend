@@ -44,7 +44,7 @@ function listParams<F>(params: ListParams<F>) {
     }
   }
   if (params.filter) {
-    output.filter = params.filter;
+    output.filterBy = params.filter;
   }
   return output;
 }
@@ -148,6 +148,43 @@ const listQueries: ListQueries = {
         totalCount: data.node.labels.totalCount,
         pageInfo: data.node.labels.pageInfo,
         items: i.c.insertNodes(data.node.labels.nodes)
+      }))
+  },
+  [ListType.Assignees]: {
+    [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueAssignees(list.node.id, listParams(params))
+      .then(data => ({
+        totalCount: data.node.assignees.totalCount,
+        pageInfo: data.node.assignees.pageInfo,
+        items: i.c.insertNodes(data.node.assignees.nodes)
+      }))
+  },
+  [ListType.LinkedIssues]: {
+    [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueLinksToIssues(list.node.id, listParams(params))
+      .then(data => ({
+        totalCount: data.node.linksToIssues.totalCount,
+        pageInfo: data.node.linksToIssues.pageInfo,
+        items: i.c.insertNodes(data.node.linksToIssues.nodes)
+      }))
+  },
+  [ListType.LinkedByIssues]: {
+    [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueLinkedByIssues(list.node.id, listParams(params))
+      .then(data => ({
+        totalCount: data.node.linkedByIssues.totalCount,
+        pageInfo: data.node.linkedByIssues.pageInfo,
+        items: i.c.insertNodes(data.node.linkedByIssues.nodes)
+      }))
+  },
+  [ListType.SearchUsers]: {
+    [NodeType.Root]: (i, list, params) => i.q.users.searchUsers(params.filter as (string | { username: string }))
+      .then(data => ({
+        totalCount: data.length,
+        pageInfo: {
+          startCursor: data[0]?.id || null,
+          endCursor: data[data.length - 1]?.id || null,
+          hasNextPage: false,
+          hasPreviousPage: false,
+        },
+        items: i.c.insertNodes(data)
       }))
   }
 };

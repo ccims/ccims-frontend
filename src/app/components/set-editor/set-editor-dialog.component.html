@@ -23,8 +23,22 @@
                     </mat-checkbox>
                 </div>
             </ng-container>
+            <div class="items-more" *ngIf="!listAll.isLoading() && listAll.hasMore">
+                <div class="more-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                Use search to find more items
+            </div>
             <div class="items-empty" *ngIf="!listAll.results?.length && !listAll.isLoading()">
-                No results
+                <ng-container *ngIf="!!listAll.query; else noQueryEmptyResults">
+                    {{data.emptyResultsLabel}}
+                </ng-container>
+                <ng-template #noQueryEmptyResults>
+                    {{data.emptySuggestionsLabel}}
+                </ng-template>
             </div>
         </div>
     </mat-dialog-content>

@@ -194,6 +194,7 @@
         <app-set-editor
             [nodeType]="'Component'"
             [makeFilter]="makeComponentFilter"
+            [scoreKeys]="['name']"
             [listSet]="componentListId"
             [listAll]="allComponentsListId"
             [hydrate]="componentListPromise"
@@ -210,6 +211,7 @@
         <app-set-editor
             [nodeType]="'Component'"
             [makeFilter]="makeLocationFilter"
+            [scoreKeys]="['name']"
             [listSet]="locationListId"
             [listAll]="allLocationsList"
             [hydrate]="locationListPromise"
@@ -234,6 +236,7 @@
         <app-set-editor
             [nodeType]="'Label'"
             [makeFilter]="makeLabelFilter"
+            [scoreKeys]="['name']"
             [listSet]="labelListId"
             [listAll]="allLabelsList"
             [hydrate]="labelListPromise"
@@ -248,14 +251,48 @@
       <mat-divider></mat-divider>
 
       <div class="issue-side-bar-row">
-        <mat-label><b>Assignees</b></mat-label>
-        <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Assignees)">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <br>
-        <span *ngFor="let assignee of issue.node.assignees.nodes">{{assignee.displayName}},&nbsp;</span>
-        <mat-divider></mat-divider>
+        <app-set-editor
+            [nodeType]="'User'"
+            [makeFilter]="makeUserFilter"
+            [scoreKeys]="['username', 'displayName']"
+            [emptySuggestionsLabel]="'Search for a user to see results'"
+            [listSet]="assigneeListId"
+            [listAll]="allAssigneeCandidatesList"
+            [hydrate]="assigneeListPromise"
+            [applyChangeset]="applyAssigneeChangeset">
+          <span title>Assignees</span>
+          <span if-empty>No one</span>
+          <div *appItem="let item">
+            TODO
+            {{item.displayName}}
+            {{item.username}}
+          </div>
+        </app-set-editor>
       </div>
+      <mat-divider></mat-divider>
+
+      <div class="issue-side-bar-row">
+        <app-set-editor
+            [nodeType]="'Issue'"
+            [makeFilter]="makeIssueFilter"
+            [scoreKeys]="['title']"
+            [listSet]="linkedIssueListId"
+            [listAll]="allLinkedIssuesListId"
+            [hydrate]="linkedIssueListPromise"
+            [applyChangeset]="applyLinkedIssueChangeset">
+          <span title>Linked Issues</span>
+          <span if-empty>No issues linked</span>
+          <div class="linked-issue-item" *appItem="let item">
+            {{item.title}} (TODO make this a component)
+            <div class="linked-issue-locations" *ngIf="!!item.locations?.totalCount">
+              <span class="inner-item" *ngFor="let component of item.locations.nodes">
+                {{component.name}}
+              </span>
+            </div>
+          </div>
+        </app-set-editor>
+      </div>
+      <mat-divider></mat-divider>
 
       <div class="issue-side-bar-row">
         <mat-label><b>Linked By Issues</b></mat-label>
@@ -265,22 +302,8 @@
           'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}</a>
           <ng-container *ngIf="!last">,&nbsp;</ng-container>
         </p>
-        <mat-divider></mat-divider>
       </div>
-
-      <div class="issue-side-bar-row">
-        <mat-label><b>Links to Issues</b></mat-label>
-        <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Link)">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <br>
-        <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linksToIssues.nodes; let last = last;">
-          <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
-        'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}</a>
-          <ng-container *ngIf="!last">,&nbsp;</ng-container>
-        </p>
-        <mat-divider></mat-divider>
-      </div>
+      <mat-divider></mat-divider>
 
       <div class="issue-side-bar-row">
         <mat-label><b>Interfaces, Artefacts & NFR</b></mat-label>
@@ -288,7 +311,6 @@
           <mat-icon>settings</mat-icon>
         </button>
         <br>
-        <mat-divider></mat-divider>
       </div>
     </div>
   </section>

@@ -7,20 +7,6 @@ import { ItemDirective } from '@app/components/item.directive';
 import { MatDialog } from '@angular/material/dialog';
 import { SetEditorDialogComponent, SetEditorDialogData, SetMultiSource } from './set-editor-dialog.component';
 
-// TODO: concat labels from multiple components
-// --> show first n items ("relevance"?) (not available for users!!); search for everything else
-
-// --> have a ui thats like
-// 1. COMPONENT
-//       LOCATIONS
-//       LABELS
-// 2. COMPONENT
-//       LOCATIONS
-//       LABELS
-// ???
-//
-// or instead dynamically source stuff from lists. doesnt matter anyway. were only showing a search box
-
 @Component({
   selector: 'app-set-editor',
   templateUrl: './set-editor.component.html',
@@ -39,10 +25,14 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   @Input() applyChangeset: (additions: NodeId[], deletions: NodeId[]) => Promise<void>;
   /** Callback for making a filter for the given search query. */
   @Input() makeFilter: (searchQuery: string) => F;
-  /** Callback for scoring a search result for relevance. */
-  @Input() score: (searchQuery: string, item: T) => number;
+  /** Object keys used for scoring a search result. (e.g. 'title') Should correspond to fields searched in makeFilter. */
+  @Input() scoreKeys: string[];
   /** Set editable to false to just display items in the set, without being able to edit them. */
   @Input() editable = true;
+  /** Set to override the “no results” text in the dialog. Appears only when there is no search query. */
+  @Input() emptySuggestionsLabel = 'No suggestions';
+  /** Set to override the “no results” text in the dialog. Appears when there is a search query. */
+  @Input() emptyResultsLabel = 'No results';
 
   @ViewChild('titleText') titleText: ElementRef<HTMLElement>;
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
@@ -82,7 +72,9 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
         itemTemplate: this.itemTemplate,
         applyChangeset: this.onDialogApplyChangeset,
         makeFilter: this.makeFilter,
-        score: this.score
+        scoreKeys: this.scoreKeys,
+        emptySuggestionsLabel: this.emptySuggestionsLabel,
+        emptyResultsLabel: this.emptyResultsLabel
       } as SetEditorDialogData<T, F>
     });
   }

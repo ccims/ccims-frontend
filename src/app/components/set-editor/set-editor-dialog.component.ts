@@ -5,6 +5,7 @@ import { DataList } from '@app/data-dgql/query';
 import { Subscription } from 'rxjs';
 import DataService from '@app/data-dgql';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import { quickScore } from 'quick-score';
 
 /** This interface is used to source items from multiple sources in the set editor. */
 export interface SetMultiSource {
@@ -23,8 +24,10 @@ class MultiSourceList<T, F> {
   public sourceSubs: Map<string, Subscription> = new Map();
   public limit = 10;
   public results?: T[];
+  public hasMore = false;
+  public query = '';
 
-  constructor(public spec: SetMultiSource, public score: (query: string, item: T) => number, private dataService: DataService) {
+  constructor(public spec: SetMultiSource, public scoreKeys: string[], private dataService: DataService) {
     if (spec.sourceNodes) {
       this.sourceNodeList = dataService.getList(spec.sourceNodes);
       this.sourceNodeListSub = this.sourceNodeList.subscribe(() => this.update());
@@ -32,8 +35,8 @@ class MultiSourceList<T, F> {
     this.update();
   }
 
-  static fromSingleList<T, F>(list: ListId, score: (query: string, item: T) => number, dataService: DataService) {
-    return new this<T, F>({ staticSources: [list] }, score, dataService);
+  static fromSingleList<T, F>(list: ListId, scoreKeys: string[], dataService: DataService) {
+    return new this<T, F>({ staticSources: [list] }, scoreKeys, dataService);
   }
 
   update() {
@@ -63,15 +66,35 @@ class MultiSourceList<T, F> {
     }
   }
 
-  setFilter(filter: F) {
+  setFilter(query: string, filter: F) {
+    this.query = query;
     for (const source of this.sources.values()) {
       source.filter = filter;
     }
   }
 
+  score(item: T) {
+    const matchStrings = [];
+    for (const key of this.scoreKeys) {
+      let cursor = item;
+      for (const objKey of key.split('.')) {
+        cursor = cursor[objKey];
+        if (!cursor) {
+          break;
+        }
+      }
+      if (cursor) {
+        matchStrings.push(cursor);
+      }
+    }
+
+    return quickScore(matchStrings.join(' '), this.query);
+  }
+
   updateResults() {
     const seenItems = new Set();
     const items = [];
+    this.hasMore = false;
     for (const source of this.sources.values()) {
       if (!source.hasData) {
         continue;
@@ -82,10 +105,11 @@ class MultiSourceList<T, F> {
           items.push(item);
         }
       }
+      this.hasMore = this.hasMore || (source.current.size < source.totalCount);
     }
-    // TODO: scoring
-    // items.sort((a, b) => this.score(this.query, a) - this.score(this.query, b));
-    // items.splice(this.limit);
+
+    items.sort((a, b) => this.score(a) - this.score(b));
+    items.splice(this.limit);
 
     this.results = items;
   }
@@ -116,7 +140,9 @@ export interface SetEditorDialogData<T, F> {
   applyChangeset: (add: string[], del: string[]) => Promise<void>;
   itemTemplate: TemplateRef<unknown>;
   makeFilter: (query: string) => F;
-  score: (query: string, item: T) => number;
+  scoreKeys: string[];
+  emptySuggestionsLabel: string;
+  emptyResultsLabel: string;
 }
 
 @Component({
@@ -142,20 +168,19 @@ export class SetEditorDialogComponent<T extends { id: string }, F> implements On
   ngOnInit() {
     this.listSet$ = this.dataService.getList(this.data.listSet);
     this.listAll = typeof this.data.listAll === 'string'
-      ? MultiSourceList.fromSingleList<T, F>(this.data.listAll, this.data.score, this.dataService)
-      : new MultiSourceList<T, F>(this.data.listAll, this.data.score, this.dataService);
+      ? MultiSourceList.fromSingleList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService)
+      : new MultiSourceList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService);
     this.listSetSub = this.listSet$.subscribe();
 
     this.listSet$.interactive = true;
 
-    // given that listSet is always a subset of listAll, fetching the first 10 items of both lists
-    // means we will always know whether they're in the set
+    // TODO: reasonable heuristic for listSet count (maybe sum of all listAll counts?)
     this.listSet$.count = 10;
   }
 
   searchQueryDidChange() {
     this.listSet$.filter = this.data.makeFilter(this.searchQuery);
-    this.listAll.setFilter(this.listSet$.filter);
+    this.listAll.setFilter(this.searchQuery, this.listSet$.filter);
   }
 
   isInSet(item): boolean {

@@ -1,0 +1,11 @@
+fragment fUserStub on User {
+  id
+  username
+  displayName
+}
+
+query SearchUsers($query: String!) {
+  searchUser(text: $query) {
+    ...fUserStub
+  }
+}
