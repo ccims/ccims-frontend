@@ -21,7 +21,9 @@
         <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.node.title">
 
         <!--Title while not being edited-->
-        <h1 #title *ngIf="!this.editTitle" id="issue-heading">{{issue.node.title}}</h1>
+        <h1 #title *ngIf="!this.editTitle" id="issue-heading">
+          {{issue.node.title}}
+        </h1>
       </div>
 
       <!--Part 2.2: Title editing buttons-->
@@ -263,9 +265,7 @@
           <span title>Assignees</span>
           <span if-empty>No one</span>
           <div *appItem="let item">
-            TODO
-            {{item.displayName}}
-            {{item.username}}
+            <app-user-item [user]="item"></app-user-item>
           </div>
         </app-set-editor>
       </div>
@@ -282,13 +282,8 @@
             [applyChangeset]="applyLinkedIssueChangeset">
           <span title>Linked Issues</span>
           <span if-empty>No issues linked</span>
-          <div class="linked-issue-item" *appItem="let item">
-            {{item.title}} (TODO make this a component)
-            <div class="linked-issue-locations" *ngIf="!!item.locations?.totalCount">
-              <span class="inner-item" *ngFor="let component of item.locations.nodes">
-                {{component.name}}
-              </span>
-            </div>
+          <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
+            <app-issue-item [issue]="item" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
           </div>
         </app-set-editor>
       </div>

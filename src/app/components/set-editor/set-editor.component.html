@@ -14,7 +14,7 @@
     </div>
     <div class="set-editor-items">
         <ng-container *ngFor="let item of listSet$.currentItems">
-            <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+            <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item, interactive: true }"></ng-container>
         </ng-container>
         <div class="more-items" *ngIf="listSet$.current?.size < listSet$.totalCount">
             ...

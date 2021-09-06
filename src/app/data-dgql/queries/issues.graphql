@@ -74,6 +74,9 @@ fragment fIssueStub on Issue {
         id
         title
         isOpen
+        category
+        linkedByIssues { totalCount }
+        linksToIssues { totalCount }
       }
     }
   }
@@ -85,6 +88,9 @@ fragment fIssueStub on Issue {
         id
         title
         isOpen
+        category
+        linkedByIssues { totalCount }
+        linksToIssues { totalCount }
       }
     }
   }

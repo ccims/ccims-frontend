@@ -149,21 +149,3 @@ h3 {
 .location-containing-component-name {
   opacity: 0.7;
 }
-
-.linked-issue-item {
-  line-height: 1.4em;
-
-  .linked-issue-locations {
-    font-size: 0.8em;
-    font-weight: normal;
-
-    .inner-item {
-      display: inline-block;
-      line-height: 1.2em;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 2px;
-      padding: 1px 2px;
-      margin-right: 2px;
-    }
-  }
-}

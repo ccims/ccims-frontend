@@ -53,6 +53,8 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   public projectComponents;
   public selectionType = SelectionType;
 
+  public projectId: string;
+
   public issue2$: DataNode<Issue>;
   public issue2Sub: Subscription;
   public componentListId: ListId;
@@ -80,6 +82,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
 
     // request current issue
     this.requestIssue();
@@ -94,7 +97,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       type: ListType.Components
     });
     const projectComponents = encodeListId({
-      node: { type: NodeType.Project, id: this.activatedRoute.snapshot.paramMap.get('id') },
+      node: { type: NodeType.Project, id: this.projectId },
       type: ListType.Components
     });
     this.allComponentsListId = projectComponents;
@@ -104,7 +107,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       type: ListType.IssueLocations
     });
     const projectInterfaces = encodeListId({
-      node: { type: NodeType.Project, id: this.activatedRoute.snapshot.paramMap.get('id') },
+      node: { type: NodeType.Project, id: this.projectId },
       type: ListType.ComponentInterfaces
     });
     this.allLocationsList = {
@@ -155,7 +158,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       type: ListType.LinkedIssues
     });
     this.allLinkedIssuesListId = encodeListId({
-      node: { type: NodeType.Project, id: this.activatedRoute.snapshot.paramMap.get('id') },
+      node: { type: NodeType.Project, id: this.projectId },
       type: ListType.Issues
     });
     this.linkedIssueListPromise = this.issue2$.dataAsPromise().then(data => data.linksToIssues);

@@ -4771,10 +4771,16 @@ export type FIssueStubFragment = (
     & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
   )>, linksToIssues?: Maybe<(
     Pick<IssuePage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title' | 'isOpen'>>>> }
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
+      Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'>
+      & { linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+    )>>> }
   )>, linkedByIssues?: Maybe<(
     Pick<IssuePage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<Issue, 'id' | 'title' | 'isOpen'>>>> }
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
+      Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'>
+      & { linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+    )>>> }
   )>, issueComments?: Maybe<Pick<IssueCommentPage, 'totalCount'>> }
 );
 
@@ -5435,6 +5441,13 @@ export const FIssueStubFragmentDoc = gql`
         id
         title
         isOpen
+        category
+        linkedByIssues {
+          totalCount
+        }
+        linksToIssues {
+          totalCount
+        }
       }
     }
   }
@@ -5448,6 +5461,13 @@ export const FIssueStubFragmentDoc = gql`
         id
         title
         isOpen
+        category
+        linkedByIssues {
+          totalCount
+        }
+        linksToIssues {
+          totalCount
+        }
       }
     }
   }

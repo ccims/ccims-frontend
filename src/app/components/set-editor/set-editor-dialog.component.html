@@ -19,7 +19,7 @@
                         class="inner-checkbox"
                         [checked]="isInSet(item)"
                         (change)="toggleInSet(item)">
-                        <ng-container *ngTemplateOutlet="data.itemTemplate; context: { $implicit: item }"></ng-container>
+                        <ng-container *ngTemplateOutlet="data.itemTemplate; context: { $implicit: item, interactive: false }"></ng-container>
                     </mat-checkbox>
                 </div>
             </ng-container>

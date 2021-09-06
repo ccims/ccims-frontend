@@ -38,6 +38,9 @@ import { ItemDirective } from '@app/components/item.directive';
 import { IssueLabelComponent } from '@app/components/issue-label/issue-label.component';
 import { SetEditorDialogComponent } from '@app/components/set-editor/set-editor-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { IssueItemComponent } from '@app/components/issue-item/issue-item.component';
+import { UserItemComponent } from '@app/components/user-item/user-item.component';
+import { IssueIconComponent } from '@app/components/issue-icon/issue-icon.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -52,7 +55,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     InterfaceDetailsComponent,
     ProjectIssueListComponent,
     ProjectMembersComponent,
-    AddProjectMemberDialogComponent, CursorPaginatorComponent, SetEditorComponent, ItemDirective, IssueLabelComponent, SetEditorDialogComponent],
+    AddProjectMemberDialogComponent, CursorPaginatorComponent, SetEditorComponent, ItemDirective, IssueLabelComponent, SetEditorDialogComponent, IssueItemComponent, UserItemComponent, IssueIconComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -94,7 +97,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     IssueListComponent,
     SetEditorComponent,
     ItemDirective,
-    IssueLabelComponent
+    IssueLabelComponent,
+    IssueItemComponent,
+    UserItemComponent,
+    IssueIconComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
