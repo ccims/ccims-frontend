@@ -29,6 +29,11 @@
               "src/assets/icons",
               {
                 "glob": "**/*",
+                "input": "node_modules/ngx-monaco-editor/assets/monaco",
+                "output": "/assets/monaco/"
+              },
+              {
+                "glob": "**/*",
                 "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
                 "output": "/assets/"
               }
@@ -43,7 +48,9 @@
                 "src/styles"
               ]
             },
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -140,5 +147,8 @@
       }
     }
   },
-  "defaultProject": "ccims"
+  "defaultProject": "ccims",
+  "cli": {
+    "analytics": "9601857a-1815-4963-a19c-1f3b22d4deaa"
+  }
 }
