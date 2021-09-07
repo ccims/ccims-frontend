@@ -23,7 +23,7 @@ export class ProjectListComponent implements OnInit {
   loading: boolean;
 
   constructor(private projectMockService: demoProject,
-              private ps: ProjectStoreService,
+              private projectStore: ProjectStoreService,
               private dialog: MatDialog,
               private notify: UserNotifyService) {
   }
@@ -39,7 +39,7 @@ export class ProjectListComponent implements OnInit {
     }
 
     this.loading = true;
-    this.ps.getAll(this.projectName).subscribe(projects => {
+    this.projectStore.getAll(this.projectName).subscribe(projects => {
       this.loading = false;
       this.projects = projects;
       this.lastQueriedProjectName = this.projectName;

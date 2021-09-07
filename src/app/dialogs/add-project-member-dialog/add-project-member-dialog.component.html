@@ -22,7 +22,7 @@
 </div>
 <!-- close window or add user and close window -->
 <div mat-dialog-actions class="actions">
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [class.spinner]="loading" [disabled]="loading || validation.invalid"
+  <button mat-raised-button color="warn"(click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validation.invalid"
     (click)="onOkClick()">Add</button>
 </div>

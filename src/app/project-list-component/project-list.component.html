@@ -13,11 +13,15 @@
   <!--          class="floating-button">Create Demo Project-->
   <!--  </button>-->
 </div>
+
+
+<!-- list wrapper including search input field and list of projects -->
 <div class="listWrapper">
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
     <input type="text" [(ngModel)]="projectName" nz-input placeholder="Search projects..."
            (keydown.enter)="reloadProjects()"/>
   </nz-input-group>
+  <!-- search button -->
   <ng-template #suffixIconButton>
     <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch (click)="reloadProjects()"
             [disabled]="projectName === lastQueriedProjectName">

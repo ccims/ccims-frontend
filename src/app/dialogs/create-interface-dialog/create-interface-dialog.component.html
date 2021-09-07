@@ -23,8 +23,8 @@
     </form>
   </div>
   <div mat-dialog-actions style="justify-content: flex-end;">
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button [class.spinner]="loading" [disabled]="loading || validationName.invalid "
+    <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validationName.invalid "
             (click)="onOkClick(name.value, description.value, type.value)">Create
     </button>
   </div>
