@@ -1,6 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {IssueStoreService} from '@app/data/issue/issue-store.service';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IssueStoreService } from '@app/data/issue/issue-store.service';
 import {
   AddIssueCommentInput,
   CloseIssueInput,
@@ -10,10 +10,22 @@ import {
   RenameIssueTitleInput,
   ReopenIssueInput
 } from 'src/generated/graphql';
-import {Observable} from 'rxjs';
-import {LabelStoreService} from '@app/data/label/label-store.service';
-import {ProjectStoreService} from '@app/data/project/project-store.service';
-import {SelectionType} from '@app/issue-settings-container/issue-settings-container.component';
+import { Observable, Subscription } from 'rxjs';
+import { LabelStoreService } from '@app/data/label/label-store.service';
+import { ProjectStoreService } from '@app/data/project/project-store.service';
+import { SelectionType } from '@app/issue-settings-container/issue-settings-container.component';
+import { decodeNodeId, encodeListId, encodeNodeId, ListId, ListType, NodeId, NodeType, ROOT_NODE } from '@app/data-dgql/id';
+import { DataNode, HydrateList } from '@app/data-dgql/query';
+import DataService from '@app/data-dgql';
+import {
+  IssueLocation,
+  IssueLocationFilter,
+  Label,
+  LabelFilter,
+  Component as QComponent,
+  ComponentFilter, IssueFilter, UserFilter, User
+} from '../../generated/graphql-dgql';
+import { SetMultiSource } from '@app/components/set-editor/set-editor-dialog.component';
 
 @Component({
   selector: 'app-issue-detail',
@@ -24,9 +36,10 @@ import {SelectionType} from '@app/issue-settings-container/issue-settings-contai
  * This component provides detailed information about an issue.
  * It also lets the user edit properties of an issue.
  */
-export class IssueDetailComponent implements OnInit {
+export class IssueDetailComponent implements OnInit, OnDestroy {
   @ViewChild('issueContainer') issueContainer: ElementRef;
   @ViewChild('titleInput') inputTitle: ElementRef;
+  public projectId: string;
   public issueId: string;
   public issue: GetIssueQuery;
   public issue$: Observable<GetIssueQuery>;
@@ -41,7 +54,27 @@ export class IssueDetailComponent implements OnInit {
   public projectComponents;
   public selectionType = SelectionType;
 
+  // TODO: remove issue and issue$ above when migrated
+  public issue2$: DataNode<Issue>;
+  public issue2Sub: Subscription;
+  public componentListId: ListId;
+  public allComponentsListId: ListId;
+  public componentListPromise: Promise<HydrateList<QComponent>>;
+  public locationListId: ListId;
+  public allLocationsList: SetMultiSource;
+  public locationListPromise: Promise<HydrateList<IssueLocation>>;
+  public labelListId: ListId;
+  public allLabelsList: SetMultiSource;
+  public labelListPromise: Promise<HydrateList<Issue>>;
+  public linkedIssueListId: ListId;
+  public allLinkedIssuesListId: ListId;
+  public linkedIssueListPromise: Promise<HydrateList<Issue>>;
+  public assigneeListId: ListId;
+  public allAssigneeCandidatesList: SetMultiSource;
+  public assigneeListPromise: Promise<HydrateList<User>>;
+
   constructor(
+    private dataService: DataService,
     private labelStoreService: LabelStoreService,
     public activatedRoute: ActivatedRoute,
     private issueStoreService: IssueStoreService,
@@ -49,6 +82,7 @@ export class IssueDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
 
     // request current issue
     this.requestIssue();
@@ -56,6 +90,154 @@ export class IssueDetailComponent implements OnInit {
     // request project info for current issue
     this.requestProjectInformation();
 
+    this.issue2$ = this.dataService.getNode(encodeNodeId({ type: NodeType.Issue, id: this.issueId }));
+    this.issue2Sub = this.issue2$.subscribe();
+    this.componentListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.Components
+    });
+    const projectComponents = encodeListId({
+      node: { type: NodeType.Project, id: this.projectId },
+      type: ListType.Components
+    });
+    this.allComponentsListId = projectComponents;
+    this.componentListPromise = this.issue2$.dataAsPromise().then(data => data.components);
+    this.locationListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.IssueLocations
+    });
+    const projectInterfaces = encodeListId({
+      node: { type: NodeType.Project, id: this.projectId },
+      type: ListType.ComponentInterfaces
+    });
+    this.allLocationsList = {
+      staticSources: [projectComponents, projectInterfaces],
+    };
+    this.locationListPromise = this.issue2$.dataAsPromise().then(data => data.locations);
+    this.labelListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.Labels
+    });
+    this.allLabelsList = {
+      staticSources: [encodeListId({
+        node: { type: NodeType.Issue, id: this.issueId },
+        type: ListType.Labels
+      })],
+      // source labels from labels of issue components
+      sourceNodes: encodeListId({
+        node: { type: NodeType.Issue, id: this.issueId },
+        type: ListType.Components,
+      }),
+      listFromNode: node => encodeListId({
+        node: decodeNodeId(node),
+        type: ListType.Labels
+      })
+    };
+    this.labelListPromise = this.issue2$.dataAsPromise().then(data => data.labels);
+
+    this.assigneeListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.Assignees
+    });
+    this.allAssigneeCandidatesList = {
+      staticSources: [
+        encodeListId({
+          node: { type: NodeType.Issue, id: this.issueId },
+          type: ListType.Assignees
+        }),
+        encodeListId({
+          node: ROOT_NODE,
+          type: ListType.SearchUsers
+        })
+      ],
+    };
+    this.assigneeListPromise = this.issue2$.dataAsPromise().then(data => data.assignees);
+
+    this.linkedIssueListId = encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.LinkedIssues
+    });
+    this.allLinkedIssuesListId = encodeListId({
+      node: { type: NodeType.Project, id: this.projectId },
+      type: ListType.Issues
+    });
+    this.linkedIssueListPromise = this.issue2$.dataAsPromise().then(data => data.linksToIssues);
+  }
+
+  makeComponentFilter(search): ComponentFilter {
+    return { name: search };
+  }
+  makeLocationFilter(search): IssueLocationFilter {
+    return { name: search };
+  }
+  makeLabelFilter(search): LabelFilter {
+    return { name: search };
+  }
+  makeIssueFilter(search): IssueFilter {
+    return { title: search };
+  }
+  makeUserFilter(search): UserFilter {
+    // FIXME: maybe you would want to search by display name?
+    return { username: search };
+  }
+  applyComponentChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.addIssueComponent(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.removeIssueComponent(mutId, issue, id);
+    }
+  }
+  applyLocationChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.addIssueLocation(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.removeIssueLocation(mutId, issue, id);
+    }
+  }
+  applyLabelChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.addIssueLabel(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.removeIssueLabel(mutId, issue, id);
+    }
+  }
+  applyAssigneeChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.addIssueAssignee(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.removeIssueAssignee(mutId, issue, id);
+    }
+  }
+  applyLinkedIssueChangeset = async (add: NodeId[], remove: NodeId[]) => {
+    const mutId = Math.random().toString();
+    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    // FIXME: batch mutations?
+    for (const id of add) {
+      await this.dataService.mutations.linkIssue(mutId, issue, id);
+    }
+    for (const id of remove) {
+      await this.dataService.mutations.unlinkIssue(mutId, issue, id);
+    }
+  }
+
+  ngOnDestroy() {
+    this.issue2Sub.unsubscribe();
   }
 
   pluralize(n: number, singular: string): string {

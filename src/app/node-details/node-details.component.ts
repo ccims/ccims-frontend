@@ -65,7 +65,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
 
     let listType = NodeType.Component;
     if (this.nodeType === NodeDetailsType.Interface) {
-      listType = NodeType.Interface;
+      listType = NodeType.ComponentInterface;
     }
 
     this.issueListId = encodeListId({node: {type: listType, id: this.nodeId}, type: ListType.Issues});
