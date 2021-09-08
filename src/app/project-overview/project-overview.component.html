@@ -16,7 +16,7 @@
                 <!-- delete project button -->
                 <div class="delete-button-container">
 
-                    <button id="button" mat-flat-button (click)="deleteProject()"
+                    <button id="button" mat-raised-button (click)="deleteProject()"
                         color="warn"> Delete </button>
                 </div>
 
@@ -24,14 +24,14 @@
                 <div id="description-edit">
 
                     <!--Edit-->
-                    <button id="button" mat-flat-button *ngIf="!this.editDesctiption" color="primary"
+                    <button id="button" mat-raised-button *ngIf="!this.editDesctiption" color="primary"
                         (click)="this.editProjectDescription()">Edit</button>
 
                     <!--Cancel-->
-                    <button id="button" color="primary" mat-flat-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription()">Cancel</button>
+                    <button id="button" mat-raised-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription()">Cancel</button>
 
                     <!--Save-->
-                    <button id="button" mat-flat-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription(true)"
+                    <button id="button" mat-raised-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription(true)"
                         color="accent">Save</button>
                 </div>
 
