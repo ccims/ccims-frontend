@@ -11,10 +11,16 @@
 
     <div style="width: 100%; height: 20px; display: inline-block;">
         <span style="font-size: .8em">{{this.data.nodeId}}</span>
-        <span #resizeCorner
-              style="float: right; user-select: none; width: 10px; height: 10px; margin-right: 8px">
-                    <mat-icon>south_east</mat-icon>
-                </span>
+        <span #resizeCorner style="position: absolute; bottom: 0; right: 4px; user-select: none">
+            <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+                <g transform="rotate(-45 9.60526 5.10526)" id="svg_15">
+                   <line x1="-5.39474" y1="2.10526" y2="2.10526" stroke="#000" x2="24.60526" fill="none"/>
+                   <line x1="-5.39474" stroke="#000" y2="5.10526" x2="24.60526" y1="5.10526" fill="none"/>
+                   <line x1="-5.39474" stroke="#000" y2="5.10526" x2="24.60526" y1="5.10526" fill="none"/>
+                   <line x1="-5.39474" stroke="#000" y2="8.10526" x2="24.60526" y1="8.10526" fill="none"/>
+                </g>
+            </svg>
+        </span>
     </div>
 </div>
 
