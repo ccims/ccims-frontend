@@ -3,7 +3,7 @@
         <div class="project-overview-container">
             <div class="project-title-row">
                 <div class="box">
-                    <img src="https://github.com/github.png"/>
+                    <img src="https://github.com/github.png" />
                 </div>
 
                 <div>
@@ -13,18 +13,25 @@
                     </div>
                 </div>
 
-                <!-- edit desctiption button -->
-                <div class="edit-button-container">
-                    <button mat-fab color="primary" title="Edit desctiption"
-                        style="height: 100%">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                <!-- Description editing buttons-->
+                <div id="description-edit">
+
+                    <!--Edit-->
+                    <button mat-flat-button *ngIf="!this.editDesctiption" color="primary"
+                        (click)="this.editProjectDescription()">Edit</button>
+
+                    <!--Cancel-->
+                    <button mat-flat-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription()">Cancel</button>
+
+                    <!--Save-->
+                    <button mat-flat-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription(true)"
+                        color="accent">Save</button>
                 </div>
 
                 <!-- delete project button -->
                 <div class="delete-button-container">
                     <button mat-fab (click)="deleteProject()" color="warn" title="Delete this project"
-                            style="height: 100%">
+                        style="height: 100%">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -33,11 +40,11 @@
             <div class="d-flex text-sm-left">
                 <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
                     <mat-label>Description</mat-label>
-                    
+
                     <!-- automatically resizing text field -->
-                    <textarea [ngModel]="project.current.description" matInput cdkTextareaAutosize
-                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="50" style="overflow:hidden"
-                        readonly></textarea>
+                    <textarea id="textarea" [ngModel]="project.current.description" matInput cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="50"
+                        style="overflow:hidden" readonly></textarea>
                 </mat-form-field>
             </div>
         </div>

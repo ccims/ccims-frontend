@@ -12,6 +12,7 @@ import {Subscription} from 'rxjs';
 import {QueryComponent} from '@app/utils/query-component/query.component';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import { NgZone } from '@angular/core';
+import { VariableDefinitionNode } from 'graphql';
 
 /**
  * This component offers a view showing the project name,
@@ -28,8 +29,10 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   public projectId: string;
+  public projectDescription: string;
   public project: DataNode<Project>;
   private projectSub: Subscription;
+  public editDesctiption: Boolean;
 
   constructor(private dataService: DataService,
               private projectStore: ProjectStoreService,
@@ -44,6 +47,7 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
     this.project = this.dataService.getNode(encodeNodeId({type: NodeType.Project, id: this.projectId}));
+    this.editDesctiption = false;
   }
 
   ngAfterViewInit() {
@@ -73,5 +77,13 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
           error => this.notify.notifyError('Failed to delete project!', error));
       }
     });
+  }
+
+  // this function allows the user to edit the desctiption of a project
+  editProjectDescription(): void {
+    //remove readonly property to let user edit the description
+    document.getElementById('textarea').removeAttribute('readonly');
+    console.log("description edited");
+    console.log(this.project.current.description);
   }
 }
