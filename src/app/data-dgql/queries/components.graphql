@@ -4,16 +4,17 @@ fragment fComponentStub on Component {
   description
   repositoryURL
   lastUpdatedAt
-  imsComponents(first: 10) {
-    totalCount
-    nodes {
-      id
-      ims {
-        id
-        imsType
-      }
-    }
-  }
+  # TODO does not appear to be working at the moment
+  # imsComponents(first: 10) {
+  #   totalCount
+  #   nodes {
+  #     id
+  #     ims {
+  #       id
+  #       imsType
+  #     }
+  #   }
+  # }
 }
 
 fragment fInterfaceStub on ComponentInterface {
@@ -22,6 +23,10 @@ fragment fInterfaceStub on ComponentInterface {
   name
   description
   lastUpdatedAt
+  component {
+    id
+    name
+  }
 }
 
 query ListProjectComponents($project: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
@@ -43,6 +48,31 @@ query ListProjectComponents($project: ID!, $after: String, $before: String, $fil
         }
         nodes {
           ...fComponentStub
+        }
+      }
+    }
+  }
+}
+
+query ListProjectInterfaces($project: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ...on Project {
+      interfaces(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last,
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...fInterfaceStub
         }
       }
     }

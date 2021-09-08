@@ -1,0 +1,15 @@
+.app-set-editor {
+  .set-editor-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title-text-container {
+      font-weight: bold;
+    }
+  }
+
+  .items-empty {
+    opacity: 0.5;
+  }
+}

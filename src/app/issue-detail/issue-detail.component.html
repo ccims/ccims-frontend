@@ -21,7 +21,9 @@
         <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.node.title">
 
         <!--Title while not being edited-->
-        <h1 #title *ngIf="!this.editTitle" id="issue-heading">{{issue.node.title}}</h1>
+        <h1 #title *ngIf="!this.editTitle" id="issue-heading">
+          {{issue.node.title}}
+        </h1>
       </div>
 
       <!--Part 2.2: Title editing buttons-->
@@ -191,31 +193,101 @@
     <!--Side bar-->
     <div class="issue-side-bar">
       <div class="issue-side-bar-row">
-        <mat-label><b>Labels</b></mat-label>
-        <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Labels)">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <br>
-        <div class="clear" style="width: 100%;">
-          <div class="issue-label"
-               *ngFor="let label of issue.node.labels.nodes"
-               [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">
-            <span>{{label.name}} </span>
-          </div>
-        </div>
-
-        <mat-divider></mat-divider>
+        <app-set-editor
+            [nodeType]="'Component'"
+            [makeFilter]="makeComponentFilter"
+            [scoreKeys]="['name']"
+            [listSet]="componentListId"
+            [listAll]="allComponentsListId"
+            [hydrate]="componentListPromise"
+            [applyChangeset]="applyComponentChangeset">
+          <span title>Components</span>
+          <span if-empty>No components assigned</span>
+          <ng-container *appItem="let item">
+            <div>{{item.name}}</div>
+          </ng-container>
+        </app-set-editor>
       </div>
+      <mat-divider></mat-divider>
+      <div class="issue-side-bar-row">
+        <app-set-editor
+            [nodeType]="'Component'"
+            [makeFilter]="makeLocationFilter"
+            [scoreKeys]="['name']"
+            [listSet]="locationListId"
+            [listAll]="allLocationsList"
+            [hydrate]="locationListPromise"
+            [applyChangeset]="applyLocationChangeset">
+          <span title>Locations</span>
+          <span if-empty>No locations assigned</span>
+          <ng-container *appItem="let item">
+            <div *ngIf="item.__typename === 'Component'">
+              {{item.name}}
+            </div>
+            <div *ngIf="item.__typename === 'ComponentInterface'">
+              <span class="location-containing-component-name" *ngIf="!!item.component">
+                {{item.component.name}} ›
+              </span>
+              {{item.name}}
+            </div>
+          </ng-container>
+        </app-set-editor>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="issue-side-bar-row">
+        <app-set-editor
+            [nodeType]="'Label'"
+            [makeFilter]="makeLabelFilter"
+            [scoreKeys]="['name']"
+            [listSet]="labelListId"
+            [listAll]="allLabelsList"
+            [hydrate]="labelListPromise"
+            [applyChangeset]="applyLabelChangeset">
+          <span title>Labels</span>
+          <span if-empty>No labels assigned</span>
+          <ng-container *appItem="let item">
+            <app-issue-label [label]="item"></app-issue-label>
+          </ng-container>
+        </app-set-editor>
+      </div>
+      <mat-divider></mat-divider>
 
       <div class="issue-side-bar-row">
-        <mat-label><b>Assignees</b></mat-label>
-        <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Assignees)">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <br>
-        <span *ngFor="let assignee of issue.node.assignees.nodes">{{assignee.displayName}},&nbsp;</span>
-        <mat-divider></mat-divider>
+        <app-set-editor
+            [nodeType]="'User'"
+            [makeFilter]="makeUserFilter"
+            [scoreKeys]="['username', 'displayName']"
+            [emptySuggestionsLabel]="'Search for a user to see results'"
+            [listSet]="assigneeListId"
+            [listAll]="allAssigneeCandidatesList"
+            [hydrate]="assigneeListPromise"
+            [applyChangeset]="applyAssigneeChangeset">
+          <span title>Assignees</span>
+          <span if-empty>No one</span>
+          <div *appItem="let item">
+            <app-user-item [user]="item"></app-user-item>
+          </div>
+        </app-set-editor>
       </div>
+      <mat-divider></mat-divider>
+
+      <div class="issue-side-bar-row">
+        <app-set-editor
+            [nodeType]="'Issue'"
+            [makeFilter]="makeIssueFilter"
+            [scoreKeys]="['title']"
+            [listSet]="linkedIssueListId"
+            [listAll]="allLinkedIssuesListId"
+            [hydrate]="linkedIssueListPromise"
+            [applyChangeset]="applyLinkedIssueChangeset">
+          <span title>Linked Issues</span>
+          <span if-empty>No issues linked</span>
+          <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
+            <app-issue-item [issue]="item" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
+          </div>
+        </app-set-editor>
+      </div>
+      <mat-divider></mat-divider>
 
       <div class="issue-side-bar-row">
         <mat-label><b>Linked By Issues</b></mat-label>
@@ -225,22 +297,8 @@
           'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}</a>
           <ng-container *ngIf="!last">,&nbsp;</ng-container>
         </p>
-        <mat-divider></mat-divider>
       </div>
-
-      <div class="issue-side-bar-row">
-        <mat-label><b>Links to Issues</b></mat-label>
-        <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Link)">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <br>
-        <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linksToIssues.nodes; let last = last;">
-          <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
-        'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}</a>
-          <ng-container *ngIf="!last">,&nbsp;</ng-container>
-        </p>
-        <mat-divider></mat-divider>
-      </div>
+      <mat-divider></mat-divider>
 
       <div class="issue-side-bar-row">
         <mat-label><b>Interfaces, Artefacts & NFR</b></mat-label>
@@ -248,7 +306,6 @@
           <mat-icon>settings</mat-icon>
         </button>
         <br>
-        <mat-divider></mat-divider>
       </div>
     </div>
   </section>

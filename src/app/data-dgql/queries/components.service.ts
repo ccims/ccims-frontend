@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  ComponentFilter,
+  ComponentFilter, ComponentInterfaceFilter,
   GetComponentGQL,
-  ListProjectComponentsGQL,
+  ListProjectComponentsGQL, ListProjectInterfacesGQL,
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
 
@@ -12,11 +12,16 @@ import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/ut
 export class ComponentsService {
   constructor(
     private qListProjectComponents: ListProjectComponentsGQL,
+    private qListProjectInterfaces: ListProjectInterfacesGQL,
     private qGetComponent: GetComponentGQL,
   ) {}
 
   listProjectComponents(project: string, list: QueryListParams<ComponentFilter>) {
     return promisifyApolloFetch(this.qListProjectComponents.fetch({ project, ...list }));
+  }
+
+  listProjectInterfaces(project: string, list: QueryListParams<ComponentInterfaceFilter>) {
+    return promisifyApolloFetch(this.qListProjectInterfaces.fetch({ project, ...list }));
   }
 
   getComponent(id: string) {

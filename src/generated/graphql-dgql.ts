@@ -2680,7 +2680,7 @@ export type Mutation = {
   removeIssueFromLocation?: Maybe<RemoveIssueFromLocationPayload>;
   /** Adds an issue to a component (including creating the issue on the ims of the component) */
   addIssueToComponent?: Maybe<AddIssueToComponentPayload>;
-  /** Removes an issue from a component it is currently assigned to and deletes it from the ims of the component */
+  /** Removes an issue from a component (including creating the issue on the ims of the component) */
   removeIssueFromComponent?: Maybe<RemoveIssueFromComponentPayload>;
   /** Marks an issue as being a duplicate of another issue */
   markIssueAsDuplicate?: Maybe<MarkIssueAsDuplicatePayload>;
@@ -2905,7 +2905,7 @@ export type MutationAddIssueToComponentArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveIssueFromComponentArgs = {
-  input?: Maybe<RemoveIssueFromComponentInput>;
+  input: RemoveIssueFromComponentInput;
 };
 
 
@@ -4654,18 +4654,12 @@ export type UpdateNonFunctionalConstraintInput = {
   description?: Maybe<Scalars['String']>;
 };
 
-export type FComponentStubFragment = (
-  Pick<Component, 'id' | 'name' | 'description' | 'repositoryURL' | 'lastUpdatedAt'>
-  & { imsComponents?: Maybe<(
-    Pick<ImsComponentPage, 'totalCount'>
-    & { nodes?: Maybe<Array<Maybe<(
-      Pick<ImsComponent, 'id'>
-      & { ims?: Maybe<Pick<Ims, 'id' | 'imsType'>> }
-    )>>> }
-  )> }
-);
+export type FComponentStubFragment = Pick<Component, 'id' | 'name' | 'description' | 'repositoryURL' | 'lastUpdatedAt'>;
 
-export type FInterfaceStubFragment = Pick<ComponentInterface, 'id' | 'type' | 'name' | 'description' | 'lastUpdatedAt'>;
+export type FInterfaceStubFragment = (
+  Pick<ComponentInterface, 'id' | 'type' | 'name' | 'description' | 'lastUpdatedAt'>
+  & { component?: Maybe<Pick<Component, 'id' | 'name'>> }
+);
 
 export type ListProjectComponentsQueryVariables = Exact<{
   project: Scalars['ID'];
@@ -4680,6 +4674,21 @@ export type ListProjectComponentsQueryVariables = Exact<{
 export type ListProjectComponentsQuery = { node?: Maybe<{ components?: Maybe<(
       Pick<ComponentPage, 'totalCount'>
       & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
+    )> }> };
+
+export type ListProjectInterfacesQueryVariables = Exact<{
+  project: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentInterfaceFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListProjectInterfacesQuery = { node?: Maybe<{ interfaces?: Maybe<(
+      Pick<ComponentInterfacePage, 'totalCount'>
+      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FInterfaceStubFragment>>> }
     )> }> };
 
 export type GetComponentQueryVariables = Exact<{
@@ -4729,6 +4738,12 @@ export type GetInterfaceQueryVariables = Exact<{
 
 export type GetInterfaceQuery = { node?: Maybe<FInterfaceStubFragment> };
 
+type FLocationStub_Component_Fragment = Pick<Component, 'id' | 'name' | 'description'>;
+
+type FLocationStub_ComponentInterface_Fragment = Pick<ComponentInterface, 'id' | 'name' | 'description'>;
+
+export type FLocationStubFragment = FLocationStub_Component_Fragment | FLocationStub_ComponentInterface_Fragment;
+
 export type FLabelStubFragment = Pick<Label, 'id' | 'name' | 'color'>;
 
 type FAssigneeStub_CcimsUser_Fragment = Pick<CcimsUser, 'id' | 'username' | 'displayName'>;
@@ -4739,12 +4754,33 @@ export type FAssigneeStubFragment = FAssigneeStub_CcimsUser_Fragment | FAssignee
 
 export type FIssueStubFragment = (
   Pick<Issue, 'id' | 'title' | 'createdAt' | 'lastUpdatedAt' | 'isOpen' | 'isDuplicate' | 'category'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, labels?: Maybe<(
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, components?: Maybe<(
+    Pick<ComponentPage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
+  )>, locations?: Maybe<(
+    Pick<IssueLocationPage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment | FLocationStub_ComponentInterface_Fragment>>> }
+  )>, labels?: Maybe<(
     Pick<LabelPage, 'totalCount'>
-    & { nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
   )>, assignees?: Maybe<(
     Pick<UserPage, 'totalCount'>
-    & { nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
+  )>, participants?: Maybe<(
+    Pick<UserPage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
+  )>, linksToIssues?: Maybe<(
+    Pick<IssuePage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
+      Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'>
+      & { linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+    )>>> }
+  )>, linkedByIssues?: Maybe<(
+    Pick<IssuePage, 'totalCount'>
+    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
+      Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'>
+      & { linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+    )>>> }
   )>, issueComments?: Maybe<Pick<IssueCommentPage, 'totalCount'>> }
 );
 
@@ -4851,7 +4887,7 @@ export type FNonFunctionalConstraintStubFragment = (
 
 export type FReactionsStubFragment = (
   Pick<ReactionGroupPage, 'totalCount'>
-  & { nodes?: Maybe<Array<Maybe<(
+  & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
     Pick<ReactionGroup, 'id' | 'reaction'>
     & { users?: Maybe<(
       Pick<UserPage, 'totalCount'>
@@ -5031,7 +5067,7 @@ export type GetIssueHeaderQueryVariables = Exact<{
 
 
 export type GetIssueHeaderQuery = { node?: Maybe<(
-    Pick<Issue, 'body' | 'lastEditedAt' | 'currentUserCanComment' | 'currentUserCanEdit' | 'startDate' | 'dueDate' | 'estimatedTime' | 'spentTime'>
+    Pick<Issue, 'body' | 'lastEditedAt' | 'startDate' | 'dueDate' | 'estimatedTime' | 'spentTime'>
     & { reactions?: Maybe<FReactionsStubFragment>, timeline?: Maybe<(
       Pick<IssueTimelineItemPage, 'totalCount'>
       & { nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
@@ -5053,6 +5089,201 @@ export type ListIssueTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<(
       Pick<IssueTimelineItemPage, 'totalCount'>
       & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
     )> }> };
+
+export type ListProjectLabelsQueryVariables = Exact<{
+  project: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<LabelFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListProjectLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
+      Pick<LabelPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
+    )> }> };
+
+export type ListComponentLabelsQueryVariables = Exact<{
+  project: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<LabelFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListComponentLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
+      Pick<LabelPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
+    )> }> };
+
+export type ListIssueLabelsQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<LabelFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
+      Pick<LabelPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
+    )> }> };
+
+export type ListIssueLocationsQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<IssueLocationFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueLocationsQuery = { node?: Maybe<{ locations?: Maybe<(
+      Pick<IssueLocationPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment | FLocationStub_ComponentInterface_Fragment>>> }
+    )> }> };
+
+export type ListIssueComponentsQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueComponentsQuery = { node?: Maybe<{ components?: Maybe<(
+      Pick<ComponentPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment>>> }
+    )> }> };
+
+export type ListIssueParticipantsQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueParticipantsQuery = { node?: Maybe<{ participants?: Maybe<(
+      Pick<UserPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
+    )> }> };
+
+export type ListIssueAssigneesQueryVariables = Exact<{
+  issue: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<UserFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListIssueAssigneesQuery = { node?: Maybe<{ assignees?: Maybe<(
+      Pick<UserPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
+    )> }> };
+
+export type MutAddIssueLabelMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  label: Scalars['ID'];
+}>;
+
+
+export type MutAddIssueLabelMutation = { addLabelToIssue?: Maybe<{ event?: Maybe<FTimelineItem_LabelledEvent_Fragment> }> };
+
+export type MutRemoveIssueLabelMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  label: Scalars['ID'];
+}>;
+
+
+export type MutRemoveIssueLabelMutation = { removeLabelFromIssue?: Maybe<{ event?: Maybe<FTimelineItem_UnlabelledEvent_Fragment> }> };
+
+export type MutAddIssueToComponentMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  component: Scalars['ID'];
+}>;
+
+
+export type MutAddIssueToComponentMutation = { addIssueToComponent?: Maybe<{ event?: Maybe<FTimelineItem_AddedToComponentEvent_Fragment> }> };
+
+export type MutRemoveIssueFromComponentMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  component: Scalars['ID'];
+}>;
+
+
+export type MutRemoveIssueFromComponentMutation = { removeIssueFromComponent?: Maybe<{ event?: Maybe<FTimelineItem_RemovedFromComponentEvent_Fragment> }> };
+
+export type MutAddIssueToLocationMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  location: Scalars['ID'];
+}>;
+
+
+export type MutAddIssueToLocationMutation = { addIssueToLocation?: Maybe<{ event?: Maybe<FTimelineItem_AddedToLocationEvent_Fragment> }> };
+
+export type MutRemoveIssueFromLocationMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  location: Scalars['ID'];
+}>;
+
+
+export type MutRemoveIssueFromLocationMutation = { removeIssueFromLocation?: Maybe<{ event?: Maybe<FTimelineItem_RemovedFromLocationEvent_Fragment> }> };
+
+export type MutAddIssueAssigneeMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  assignee: Scalars['ID'];
+}>;
+
+
+export type MutAddIssueAssigneeMutation = { addAssignee?: Maybe<{ event?: Maybe<FTimelineItem_AssignedEvent_Fragment> }> };
+
+export type MutRemoveIssueAssigneeMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  assignee: Scalars['ID'];
+}>;
+
+
+export type MutRemoveIssueAssigneeMutation = { removeAssignee?: Maybe<{ event?: Maybe<FTimelineItem_UnassignedEvent_Fragment> }> };
+
+export type MutLinkIssueMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  link: Scalars['ID'];
+}>;
+
+
+export type MutLinkIssueMutation = { linkIssue?: Maybe<{ event?: Maybe<FTimelineItem_LinkEvent_Fragment> }> };
+
+export type MutUnlinkIssueMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  link: Scalars['ID'];
+}>;
+
+
+export type MutUnlinkIssueMutation = { unlinkIssue?: Maybe<{ event?: Maybe<FTimelineItem_UnlinkEvent_Fragment> }> };
 
 export type FProjectStubFragment = Pick<Project, 'id' | 'name' | 'description'>;
 
@@ -5077,25 +5308,19 @@ export type GetProjectQueryVariables = Exact<{
 
 export type GetProjectQuery = { node?: Maybe<FProjectStubFragment> };
 
-export const FComponentStubFragmentDoc = gql`
-    fragment fComponentStub on Component {
-  id
-  name
-  description
-  repositoryURL
-  lastUpdatedAt
-  imsComponents(first: 10) {
-    totalCount
-    nodes {
-      id
-      ims {
-        id
-        imsType
-      }
-    }
-  }
-}
-    `;
+type FUserStub_CcimsUser_Fragment = Pick<CcimsUser, 'id' | 'username' | 'displayName'>;
+
+type FUserStub_ImsUser_Fragment = Pick<ImsUser, 'id' | 'username' | 'displayName'>;
+
+export type FUserStubFragment = FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment;
+
+export type SearchUsersQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SearchUsersQuery = { searchUser: Array<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> };
+
 export const FInterfaceStubFragmentDoc = gql`
     fragment fInterfaceStub on ComponentInterface {
   id
@@ -5103,6 +5328,10 @@ export const FInterfaceStubFragmentDoc = gql`
   name
   description
   lastUpdatedAt
+  component {
+    id
+    name
+  }
 }
     `;
 export const AllPageInfoFragmentDoc = gql`
@@ -5111,6 +5340,22 @@ export const AllPageInfoFragmentDoc = gql`
   endCursor
   hasNextPage
   hasPreviousPage
+}
+    `;
+export const FComponentStubFragmentDoc = gql`
+    fragment fComponentStub on Component {
+  id
+  name
+  description
+  repositoryURL
+  lastUpdatedAt
+}
+    `;
+export const FLocationStubFragmentDoc = gql`
+    fragment fLocationStub on IssueLocation {
+  id
+  name
+  description
 }
     `;
 export const FLabelStubFragmentDoc = gql`
@@ -5141,23 +5386,99 @@ export const FIssueStubFragmentDoc = gql`
   isOpen
   isDuplicate
   category
+  components(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ...fComponentStub
+    }
+  }
+  locations(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ...fLocationStub
+    }
+  }
   labels(first: 10) {
     totalCount
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fLabelStub
     }
   }
   assignees(first: 10) {
     totalCount
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fAssigneeStub
+    }
+  }
+  participants(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ...fAssigneeStub
+    }
+  }
+  linksToIssues(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ... on Issue {
+        id
+        title
+        isOpen
+        category
+        linkedByIssues {
+          totalCount
+        }
+        linksToIssues {
+          totalCount
+        }
+      }
+    }
+  }
+  linkedByIssues(first: 10) {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ... on Issue {
+        id
+        title
+        isOpen
+        category
+        linkedByIssues {
+          totalCount
+        }
+        linksToIssues {
+          totalCount
+        }
+      }
     }
   }
   issueComments(first: 0) {
     totalCount
   }
 }
-    ${FLabelStubFragmentDoc}
+    ${AllPageInfoFragmentDoc}
+${FComponentStubFragmentDoc}
+${FLocationStubFragmentDoc}
+${FLabelStubFragmentDoc}
 ${FAssigneeStubFragmentDoc}`;
 export const IssueListPageFragmentDoc = gql`
     fragment issueListPage on IssuePage {
@@ -5174,6 +5495,9 @@ ${FIssueStubFragmentDoc}`;
 export const FReactionsStubFragmentDoc = gql`
     fragment fReactionsStub on ReactionGroupPage {
   totalCount
+  pageInfo {
+    ...allPageInfo
+  }
   nodes {
     id
     reaction
@@ -5187,7 +5511,7 @@ export const FReactionsStubFragmentDoc = gql`
     }
   }
 }
-    `;
+    ${AllPageInfoFragmentDoc}`;
 export const FArtifactStubFragmentDoc = gql`
     fragment fArtifactStub on Artifact {
   id
@@ -5408,6 +5732,13 @@ export const FProjectStubFragmentDoc = gql`
   description
 }
     `;
+export const FUserStubFragmentDoc = gql`
+    fragment fUserStub on User {
+  id
+  username
+  displayName
+}
+    `;
 export const ListProjectComponentsDocument = gql`
     query ListProjectComponents($project: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
   node(id: $project) {
@@ -5434,6 +5765,37 @@ export const ListProjectComponentsDocument = gql`
   })
   export class ListProjectComponentsGQL extends Apollo.Query<ListProjectComponentsQuery, ListProjectComponentsQueryVariables> {
     document = ListProjectComponentsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListProjectInterfacesDocument = gql`
+    query ListProjectInterfaces($project: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ... on Project {
+      interfaces(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        nodes {
+          ...fInterfaceStub
+        }
+      }
+    }
+  }
+}
+    ${FInterfaceStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListProjectInterfacesGQL extends Apollo.Query<ListProjectInterfacesQuery, ListProjectInterfacesQueryVariables> {
+    document = ListProjectInterfacesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -5709,8 +6071,6 @@ export const GetIssueHeaderDocument = gql`
       reactions(first: 10) {
         ...fReactionsStub
       }
-      currentUserCanComment
-      currentUserCanEdit
       startDate
       dueDate
       estimatedTime
@@ -5767,6 +6127,415 @@ ${FTimelineItemFragmentDoc}`;
       super(apollo);
     }
   }
+export const ListProjectLabelsDocument = gql`
+    query ListProjectLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ... on Project {
+      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FLabelStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListProjectLabelsGQL extends Apollo.Query<ListProjectLabelsQuery, ListProjectLabelsQueryVariables> {
+    document = ListProjectLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListComponentLabelsDocument = gql`
+    query ListComponentLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $project) {
+    ... on Component {
+      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FLabelStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListComponentLabelsGQL extends Apollo.Query<ListComponentLabelsQuery, ListComponentLabelsQueryVariables> {
+    document = ListComponentLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueLabelsDocument = gql`
+    query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLabelStub
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FLabelStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueLabelsGQL extends Apollo.Query<ListIssueLabelsQuery, ListIssueLabelsQueryVariables> {
+    document = ListIssueLabelsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueLocationsDocument = gql`
+    query ListIssueLocations($issue: ID!, $after: String, $before: String, $filterBy: IssueLocationFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      locations(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLocationStub
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FLocationStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueLocationsGQL extends Apollo.Query<ListIssueLocationsQuery, ListIssueLocationsQueryVariables> {
+    document = ListIssueLocationsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueComponentsDocument = gql`
+    query ListIssueComponents($issue: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      components(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...fLocationStub
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FLocationStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueComponentsGQL extends Apollo.Query<ListIssueComponentsQuery, ListIssueComponentsQueryVariables> {
+    document = ListIssueComponentsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueParticipantsDocument = gql`
+    query ListIssueParticipants($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      participants(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ... on User {
+            id
+            username
+            displayName
+          }
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueParticipantsGQL extends Apollo.Query<ListIssueParticipantsQuery, ListIssueParticipantsQueryVariables> {
+    document = ListIssueParticipantsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListIssueAssigneesDocument = gql`
+    query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+  node(id: $issue) {
+    ... on Issue {
+      assignees(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ... on User {
+            id
+            username
+            displayName
+          }
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListIssueAssigneesGQL extends Apollo.Query<ListIssueAssigneesQuery, ListIssueAssigneesQueryVariables> {
+    document = ListIssueAssigneesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutAddIssueLabelDocument = gql`
+    mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
+  addLabelToIssue(input: {clientMutationID: $id, issue: $issue, label: $label}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutAddIssueLabelGQL extends Apollo.Mutation<MutAddIssueLabelMutation, MutAddIssueLabelMutationVariables> {
+    document = MutAddIssueLabelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutRemoveIssueLabelDocument = gql`
+    mutation MutRemoveIssueLabel($id: String, $issue: ID!, $label: ID!) {
+  removeLabelFromIssue(input: {clientMutationID: $id, issue: $issue, label: $label}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutRemoveIssueLabelGQL extends Apollo.Mutation<MutRemoveIssueLabelMutation, MutRemoveIssueLabelMutationVariables> {
+    document = MutRemoveIssueLabelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutAddIssueToComponentDocument = gql`
+    mutation MutAddIssueToComponent($id: String, $issue: ID!, $component: ID!) {
+  addIssueToComponent(input: {clientMutationID: $id, issue: $issue, component: $component}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutAddIssueToComponentGQL extends Apollo.Mutation<MutAddIssueToComponentMutation, MutAddIssueToComponentMutationVariables> {
+    document = MutAddIssueToComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutRemoveIssueFromComponentDocument = gql`
+    mutation MutRemoveIssueFromComponent($id: String, $issue: ID!, $component: ID!) {
+  removeIssueFromComponent(input: {clientMutationID: $id, issue: $issue, component: $component}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutRemoveIssueFromComponentGQL extends Apollo.Mutation<MutRemoveIssueFromComponentMutation, MutRemoveIssueFromComponentMutationVariables> {
+    document = MutRemoveIssueFromComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutAddIssueToLocationDocument = gql`
+    mutation MutAddIssueToLocation($id: String, $issue: ID!, $location: ID!) {
+  addIssueToLocation(input: {clientMutationID: $id, issue: $issue, location: $location}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutAddIssueToLocationGQL extends Apollo.Mutation<MutAddIssueToLocationMutation, MutAddIssueToLocationMutationVariables> {
+    document = MutAddIssueToLocationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutRemoveIssueFromLocationDocument = gql`
+    mutation MutRemoveIssueFromLocation($id: String, $issue: ID!, $location: ID!) {
+  removeIssueFromLocation(input: {clientMutationID: $id, issue: $issue, location: $location}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutRemoveIssueFromLocationGQL extends Apollo.Mutation<MutRemoveIssueFromLocationMutation, MutRemoveIssueFromLocationMutationVariables> {
+    document = MutRemoveIssueFromLocationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutAddIssueAssigneeDocument = gql`
+    mutation MutAddIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+  addAssignee(input: {clientMutationID: $id, issue: $issue, user: $assignee}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutAddIssueAssigneeGQL extends Apollo.Mutation<MutAddIssueAssigneeMutation, MutAddIssueAssigneeMutationVariables> {
+    document = MutAddIssueAssigneeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutRemoveIssueAssigneeDocument = gql`
+    mutation MutRemoveIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+  removeAssignee(input: {clientMutationID: $id, issue: $issue, user: $assignee}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutRemoveIssueAssigneeGQL extends Apollo.Mutation<MutRemoveIssueAssigneeMutation, MutRemoveIssueAssigneeMutationVariables> {
+    document = MutRemoveIssueAssigneeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutLinkIssueDocument = gql`
+    mutation MutLinkIssue($id: String, $issue: ID!, $link: ID!) {
+  linkIssue(input: {clientMutationID: $id, issue: $issue, issueToLink: $link}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutLinkIssueGQL extends Apollo.Mutation<MutLinkIssueMutation, MutLinkIssueMutationVariables> {
+    document = MutLinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutUnlinkIssueDocument = gql`
+    mutation MutUnlinkIssue($id: String, $issue: ID!, $link: ID!) {
+  unlinkIssue(input: {clientMutationID: $id, issue: $issue, issueToUnlink: $link}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutUnlinkIssueGQL extends Apollo.Mutation<MutUnlinkIssueMutation, MutUnlinkIssueMutationVariables> {
+    document = MutUnlinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ListProjectsDocument = gql`
     query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $first: Int, $last: Int) {
   projects(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
@@ -5811,6 +6580,24 @@ export const GetProjectDocument = gql`
   })
   export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
     document = GetProjectDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SearchUsersDocument = gql`
+    query SearchUsers($query: String!) {
+  searchUser(text: $query) {
+    ...fUserStub
+  }
+}
+    ${FUserStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SearchUsersGQL extends Apollo.Query<SearchUsersQuery, SearchUsersQueryVariables> {
+    document = SearchUsersDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
