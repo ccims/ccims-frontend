@@ -501,7 +501,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Sets the view and the bounding box of the graph to how it was when the user left the graph with the help of localStorage.
    * When theres no previous session available set the view to the optimized bounding box for the graph.
    */
-  private setGraphToLastView(){
+  private setGraphToLastView() {
     // The previous currentViewWindow of the graph as JSON string
     const previousBoundingBoxAsString = localStorage.getItem(`zoomBoundingBox_${this.projectStorageKey}`);
     // The previous zoomTransform of the graph as JSON string
@@ -509,29 +509,29 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // Only set the bounding box to the optimized bounding box for the graph when creating the first component
     const firstComponent = this.graphData.components.size === 1 ? true : false;
     console.log(firstComponent);
-      // Set the bounding box to the bounding box of the last session or to the optimized bounding box if there wasnt a last session
+    // Set the bounding box to the bounding box of the last session or to the optimized bounding box if there wasnt a last session
     if ((JSON.parse(previousBoundingBoxAsString) !== null) && (JSON.parse(zoomTransformAsString) !== null) && this.graphFirstRender
-      && !this.redrawByCloseOfComponentDetails && !firstComponent){
-        const previousBoundingBox = JSON.parse(previousBoundingBoxAsString);
-        /* These calculations are necessary because of how GraphEditor.zoomToBox(box: Rect) works. GraphEditor.zoomToBox zooms to
-        the given box and adds some padding.These calculations get rid of the padding. Otherwise the padding would be added to the graph
-         with every execution of the setGraphToLastView() method. */
-        previousBoundingBox.width = previousBoundingBox.width * 0.9;
-        previousBoundingBox.height = previousBoundingBox.height * 0.9;
-        // Difference between Rect.x that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.x
-        const paddingX = 57.75 / JSON.parse(zoomTransformAsString).k;
-        // Difference between Rect.y that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.y
-        const paddingY = 17.2 / JSON.parse(zoomTransformAsString).k;
-        previousBoundingBox.x = previousBoundingBox.x + paddingX;
-        previousBoundingBox.y = previousBoundingBox.y + paddingY;
-        this.graph.zoomToBox(previousBoundingBox);
-        this.graphFirstRender = false;
-      }
+      && !this.redrawByCloseOfComponentDetails && !firstComponent) {
+      const previousBoundingBox = JSON.parse(previousBoundingBoxAsString);
+      /* These calculations are necessary because of how GraphEditor.zoomToBox(box: Rect) works. GraphEditor.zoomToBox zooms to
+      the given box and adds some padding.These calculations get rid of the padding. Otherwise the padding would be added to the graph
+       with every execution of the setGraphToLastView() method. */
+      previousBoundingBox.width = previousBoundingBox.width * 0.9;
+      previousBoundingBox.height = previousBoundingBox.height * 0.9;
+      // Difference between Rect.x that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.x
+      const paddingX = 57.75 / JSON.parse(zoomTransformAsString).k;
+      // Difference between Rect.y that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.y
+      const paddingY = 17.2 / JSON.parse(zoomTransformAsString).k;
+      previousBoundingBox.x = previousBoundingBox.x + paddingX;
+      previousBoundingBox.y = previousBoundingBox.y + paddingY;
+      this.graph.zoomToBox(previousBoundingBox);
+      this.graphFirstRender = false;
+    }
     // Zoom to the optimized bounding box if no graph view is stored from the last session or when the first component is created
-      else if ((this.zoomOnRedraw && !this.redrawByCloseOfComponentDetails) || firstComponent){
-        this.fitGraphInView();
-        this.zoomOnRedraw = false;
-      }
+    else if ((this.zoomOnRedraw && !this.redrawByCloseOfComponentDetails) || firstComponent) {
+      this.fitGraphInView();
+      this.zoomOnRedraw = false;
+    }
   }
 
 
@@ -733,7 +733,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         if (x >= 0 && y >= 0) {
           this.componentActionsOverlayId = node.id;
           event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-          this.componentActionsOverlay = this.componentContextMenuService.open(this.graphWrapper.nativeElement, x, y, this.projectId, node.id.toString(), contextMenuType, this);
+
+          this.componentActionsOverlay =
+            this.componentContextMenuService.open(
+              this.graphWrapper.nativeElement,
+              x,
+              y,
+              this.projectId,
+              node.id.toString(),
+              contextMenuType,
+              this);
 
           // Make sure that context menu is visible if it extends over right or bottom edge
           const visible = this.graph.currentViewWindow;
@@ -761,45 +770,31 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const rootId = graph.groupingManager.getTreeRootOf(node.id);
       const rootNode = graph.getNode(rootId);
 
-      // if there is only one issue inside the clicked folder the graph leads the user direktly to the issue details view
+      // if there is only one issue inside the clicked folder the graph leads the user directly to the issue details view
       if (node.issueCount < 2 && node.issueCount > 0) {
-        // if the clicked folder is on a component the url for the issu ends like .../component/COMPONENTID/issue/ISSUEID
         if (rootNode.type === NodeType.Component) {
           this.componentStoreService.getFullComponent(rootId).subscribe(component => {
             const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
-            this.router.navigate(['./', rootNode.type, rootId, 'issue', currentIssueId],
-              {relativeTo: this.activatedRoute.parent});
-
+            this.router.navigate(['./', 'issues', currentIssueId], {relativeTo: this.activatedRoute.parent});
           });
-        } else {
-          // if the clicked folder is on a interface the url for the issu ends like .../interface/INTERFACEID/component/COMPONENTID/issue/ISSUEID
-          this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
-            const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
-            const componentId = componentInterface.node.component.id;
-            this.router.navigate(['./', rootNode.type, rootId, 'component', componentId, 'issue', currentIssueId],
-              {relativeTo: this.activatedRoute.parent});
-
+        } else if (rootNode.type === NodeType.Interface) {
+          this.interfaceStoreService.getInterface(rootId).subscribe(interfaceComponent => {
+            const currentIssueId = this.extractIssueId(interfaceComponent.node.issuesOnLocation.nodes, node.type);
+            this.router.navigate(['./', 'issues', currentIssueId], {relativeTo: this.activatedRoute.parent});
           });
         }
-        // if the issue count for the clicked folder is more than one
+        return;
       } else {
-        // if the clicked folder is on a interface, router opens interface details and jumps to the issues tab
-        // if the clicked folder is on a component, router opens component details and jumps to the issues tab
-        // a filter for the issue type is set
-        // only issues of the selected issue type are displayed in the issue list
-        if (rootNode.type === NodeType.Interface) {
-          this.interfaceStoreService.getInterface(rootId).subscribe(componentInterface => {
-            const currentIssueId = this.extractIssueId(componentInterface.node.issuesOnLocation.nodes, node.type);
-            const componentId = componentInterface.node.component.id;
-            this.router.navigate(['./', 'component', componentId, rootNode.type, rootId],
-              // the selected param defines the tab of the details view 0 means component details. 1 means component issues
-              {relativeTo: this.activatedRoute.parent, queryParams: {selected: '1', filter: node.type}});
-          });
+        if (rootNode.type === NodeType.Component) {
+          this.router.navigate(['./component/', rootNode.id], {relativeTo: this.activatedRoute.parent});
         }
-        this.router.navigate(['./', rootNode.type, rootId],
-          {relativeTo: this.activatedRoute.parent, queryParams: {selected: '1', filter: node.type}});
+
+        if (rootNode.type === NodeType.Interface) {
+          this.router.navigate(['./interface/', rootNode.id], {relativeTo: this.activatedRoute.parent});
+        }
+
+        return;
       }
-      return;
     }
     console.log('Clicked on another type of node:', node.type);
   }
