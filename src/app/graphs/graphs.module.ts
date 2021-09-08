@@ -33,6 +33,14 @@ import { ProjectIssueListComponent } from '@app/project-issue-list/project-issue
 import { ProjectMembersComponent } from '@app/project-members/project-members.component';
 import { AddProjectMemberDialogComponent } from '../dialogs/add-project-member-dialog/add-project-member-dialog.component';
 import { CursorPaginatorComponent } from '@app/components/cursor-paginator/cursor-paginator.component';
+import { SetEditorComponent } from '@app/components/set-editor/set-editor.component';
+import { ItemDirective } from '@app/components/item.directive';
+import { IssueLabelComponent } from '@app/components/issue-label/issue-label.component';
+import { SetEditorDialogComponent } from '@app/components/set-editor/set-editor-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { IssueItemComponent } from '@app/components/issue-item/issue-item.component';
+import { UserItemComponent } from '@app/components/user-item/user-item.component';
+import { IssueIconComponent } from '@app/components/issue-icon/issue-icon.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -47,7 +55,7 @@ import { CursorPaginatorComponent } from '@app/components/cursor-paginator/curso
     InterfaceDetailsComponent,
     ProjectIssueListComponent,
     ProjectMembersComponent,
-    AddProjectMemberDialogComponent, CursorPaginatorComponent],
+    AddProjectMemberDialogComponent, CursorPaginatorComponent, SetEditorComponent, ItemDirective, IssueLabelComponent, SetEditorDialogComponent, IssueItemComponent, UserItemComponent, IssueIconComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -78,14 +86,21 @@ import { CursorPaginatorComponent } from '@app/components/cursor-paginator/curso
     MatPaginatorModule,
     MatSortModule,
     NgSelectModule,
-    NgOptionHighlightModule
+    NgOptionHighlightModule,
+    MatCheckboxModule
   ],
   exports: [
     CdkTableModule,
     CdkTreeModule,
     IssueGraphComponent,
     IssueGraphControlsComponent,
-    IssueListComponent
+    IssueListComponent,
+    SetEditorComponent,
+    ItemDirective,
+    IssueLabelComponent,
+    IssueItemComponent,
+    UserItemComponent,
+    IssueIconComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

@@ -78,10 +78,7 @@ height: 50px;
   margin-top: 15px;
 }
 .issue-side-bar-row {
-  margin-bottom: 15px;
-}
-mat-divider{
-  margin-top: 8px;
+  margin: 8px 0;
 }
 .clear:after {
   clear: both;
@@ -146,4 +143,9 @@ h3 {
   }
   visibility: visible;
   margin-left: 2%;
+}
+
+
+.location-containing-component-name {
+  opacity: 0.7;
 }

@@ -17,6 +17,23 @@ export class AppComponent {
       'relation-edge',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/relation-edge.svg')
     );
+
+    // add all issue icons
+    for (const type of ['normal', 'assigned']) {
+      for (const category of ['bug', 'feature', 'uncategorized']) {
+        for (const isClosed of [false, true]) {
+          for (const edgeType of [null, 'in', 'out', 'inout']) {
+            const assetUrl = [
+              '../assets/icons/issues/', type, '/', category, isClosed ? '-closed' : null, edgeType && '-', edgeType, '.svg'
+            ].filter(part => !!part).join('');
+            const iconName = [
+              'issue', type === 'assigned' ? 'assigned' : null, category, isClosed ? 'closed' : null, edgeType
+            ].filter(part => !!part).join('-');
+            this.matIconRegistry.addSvgIcon(iconName, this.domSanitizer.bypassSecurityTrustResourceUrl(assetUrl));
+          }
+        }
+      }
+    }
   }
 
 }

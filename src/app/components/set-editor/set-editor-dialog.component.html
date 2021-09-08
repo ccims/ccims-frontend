@@ -1,0 +1,53 @@
+<div class="set-editor-dialog">
+    <h2 mat-dialog-title>{{data.title}}</h2>
+    <mat-dialog-content>
+        <div class="dialog-search">
+            <mat-form-field class="search-field">
+                <mat-label>Search</mat-label>
+                <mat-icon matPrefix>search</mat-icon>
+                <input
+                    matInput
+                    type="search"
+                    [(ngModel)]="searchQuery"
+                    (ngModelChange)="searchQueryDidChange()" />
+            </mat-form-field>
+        </div>
+        <div class="dialog-items">
+            <ng-container *ngFor="let item of (listAll.results || [])">
+                <div class="selectable-item">
+                    <mat-checkbox
+                        class="inner-checkbox"
+                        [checked]="isInSet(item)"
+                        (change)="toggleInSet(item)">
+                        <ng-container *ngTemplateOutlet="data.itemTemplate; context: { $implicit: item, interactive: false }"></ng-container>
+                    </mat-checkbox>
+                </div>
+            </ng-container>
+            <div class="items-more" *ngIf="!listAll.isLoading() && listAll.hasMore">
+                <div class="more-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                Use search to find more items
+            </div>
+            <div class="items-empty" *ngIf="!listAll.results?.length && !listAll.isLoading()">
+                <ng-container *ngIf="!!listAll.query; else noQueryEmptyResults">
+                    {{data.emptyResultsLabel}}
+                </ng-container>
+                <ng-template #noQueryEmptyResults>
+                    {{data.emptySuggestionsLabel}}
+                </ng-template>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="null">
+            Cancel
+        </button>
+        <button mat-button [color]="'primary'" (click)="apply()">
+            Apply
+        </button>
+    </mat-dialog-actions>
+</div>

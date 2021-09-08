@@ -1,11 +1,12 @@
 import { Observable, Subscriber } from 'rxjs';
-import { encodeNodeId, ListId, ListParams, NodeId, NodeType, QueryNodeId } from './id';
+import { encodeNodeId, ListId, ListParams, NodeId, nodeTypeFromTypename, QueryNodeId } from './id';
 import { QueriesService } from './queries/queries.service';
 import { ListResult, queryList, queryNode } from './load';
 import { PageInfo } from '../../generated/graphql-dgql';
 
 const CACHE_FAST_DEBOUNCE_TIME_MS = 200;
-const CACHE_DEBOUNCE_TIME_MS = 5000;
+const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS = 500;
+const CACHE_STALE_TIME_MS = 5000;
 
 // TODO: passive subscribers
 
@@ -47,6 +48,10 @@ export class DataQuery<T, R, P> extends Observable<T> {
   protected innerMapFn: (r: R) => T;
   protected stateLock = 0;
   protected loadTimeout = null;
+  protected hydrated = false;
+
+  /** If true, will prolong debounce time a bit. */
+  interactive = false;
 
   /**
    * @param id an identifier for the data being loaded
@@ -60,8 +65,22 @@ export class DataQuery<T, R, P> extends Observable<T> {
     this.innerMapFn = map;
   }
 
-  /** Loads data. */
-  load() {
+  public dataAsPromise(): Promise<T> {
+    if (this.hasData) {
+      return Promise.resolve(this.current);
+    }
+    return new Promise((resolve, reject) => {
+      const sub = this.subscribe(data => {
+        resolve(data);
+        sub.unsubscribe();
+      }, error => {
+        reject(error);
+        sub.unsubscribe();
+      });
+    });
+  }
+
+  private loadImpl(fut: Promise<R>) {
     clearTimeout(this.loadTimeout);
     this.loadTimeout = null;
     this.lastLoadTime = Date.now();
@@ -70,19 +89,36 @@ export class DataQuery<T, R, P> extends Observable<T> {
     // if load is called twice; only the newest load call will have an effect
     const stateLock = ++this.stateLock;
 
-    this.innerQueryFn(this.id, this.currentQueryParams).then(data => {
+    fut.then(data => {
       if (stateLock !== this.stateLock) {
         return;
       }
       this.insertResult(data);
       this.loading = false;
+      this.hydrated = false;
     }).catch(error => {
       if (stateLock !== this.stateLock) {
         return;
       }
       this.emitErrorToAllSubscribers(error);
       this.loading = false;
+      this.hydrated = false;
     });
+  }
+
+  /** Loads data. */
+  load() {
+    this.hydrated = false;
+    this.loadImpl(this.innerQueryFn(this.id, this.currentQueryParams));
+  }
+
+  /** Use when data has not yet been loaded but is available from elsewhere. */
+  hydrateRaw(preparedData: Promise<R>) {
+    if (this.hasData) {
+      return; // don't need hydration
+    }
+    this.hydrated = true;
+    this.loadImpl(preparedData);
   }
 
   /** Will load data if it's stale or not present. */
@@ -90,20 +126,20 @@ export class DataQuery<T, R, P> extends Observable<T> {
     if (this.loading) {
       return;
     }
-    if (!this.hasData || Date.now() - this.lastLoadTime > CACHE_DEBOUNCE_TIME_MS) {
+    if (!this.hasData || Date.now() - this.lastLoadTime > CACHE_STALE_TIME_MS) {
       this.load();
     }
   }
 
   /** Loads data after a short delay. Will debounce. */
-  loadDebounced() {
+  loadDebounced(interactive = this.interactive) {
     if (this.loadTimeout) {
       return;
     }
     this.loadTimeout = setTimeout(() => {
       this.loadTimeout = null;
       this.load();
-    }, CACHE_FAST_DEBOUNCE_TIME_MS);
+    }, interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS);
   }
 
   /** Deletes current data. */
@@ -119,8 +155,10 @@ export class DataQuery<T, R, P> extends Observable<T> {
       subscriber.next(this.current);
     }
 
-    // TODO: don't call if passive
-    this.loadIfNeeded();
+    if (!this.hydrated) {
+      // TODO: don't call if passive
+      this.loadIfNeeded();
+    }
 
     return {
       unsubscribe: () => {
@@ -145,6 +183,10 @@ export class DataQuery<T, R, P> extends Observable<T> {
     this.currentData = this.innerMapFn(result);
     this.emitUpdateToAllSubscribers();
   }
+
+  get subscriberCount(): number {
+    return this.subscribers.size;
+  }
 }
 
 const identity = id => id;
@@ -162,7 +204,7 @@ export class DataNode<T> extends DataQuery<T, T, void> {
   }
 
   loadIfNeeded() {
-    if (!this.loading && Date.now() - this.lastLoadTime > CACHE_DEBOUNCE_TIME_MS) {
+    if (!this.loading && Date.now() - this.lastLoadTime > CACHE_STALE_TIME_MS) {
       this.load();
     }
   }
@@ -177,11 +219,14 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
   private pFilter?: F;
   private pForward = true;
   private pageInfo?: PageInfo;
+  private pTotalCount?: number;
   private previouslyHadPageContents = false;
+  private pNodes: NodeCache;
 
   constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
     super(id, queryList(queries, nodes), result => {
       this.pageInfo = result.pageInfo;
+      this.pTotalCount = result.totalCount;
 
       // API *only* reports hasPreviousPage or hasNextPage correctly if we are navigating in that
       // same direction. Hence, we need to amend pageInfo with prior knowledge.
@@ -194,6 +239,7 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
 
       return result.items;
     });
+    this.pNodes = nodes;
     this.pSetParamsNoUpdate = true;
     this.setParams();
     this.pSetParamsNoUpdate = false;
@@ -206,6 +252,17 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
       forward: this.pForward,
       filter: this.pFilter,
     };
+  }
+
+  get totalCount() {
+    return this.pTotalCount;
+  }
+
+  get currentItems(): T[] {
+    if (!this.hasData) {
+      return [];
+    }
+    return [...this.current.values()];
   }
 
   get filter(): F | undefined {
@@ -286,7 +343,27 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
     this.invalidate();
     return true;
   }
+
+  /**
+   * Hydrates this list with initial data in the API format (e.g. loaded from a node request).
+   * @param type NodeType of the list (implementation detail! ideally this would not be part of this API)
+   * @param data a promise that returns the API data
+   */
+  hydrateInitial<IdT extends T & { id: string, __typename: string }>(data: Promise<HydrateList<IdT>>) {
+    this.hydrateRaw(data.then(value => ({
+      totalCount: value.totalCount,
+      pageInfo: value.pageInfo,
+      items: this.pNodes.insertNodes(value.nodes || [])
+    })));
+  }
 }
+
+export type HydrateList<T> = {
+  totalCount: number,
+  pageInfo: PageInfo,
+  /** This is nullable because it's nullable in the GQL schema. In practice it should always exist */
+  nodes?: (T | null)[]
+};
 
 export class NodeCache {
   // TODO: garbage collection?
@@ -311,13 +388,14 @@ export class NodeCache {
    * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
    * Nodes without an ID will be ignored.
    */
-  insertNodes<T extends { id?: string }>(type: NodeType, nodes: T[]) {
+  insertNodes<T extends { id?: string, __typename?: string }>(nodes: T[]) {
     const map = new Map();
 
     for (const node of nodes) {
-      if (!node.id) {
+      if (!node?.id) {
         continue;
       }
+      const type = nodeTypeFromTypename(node.__typename);
       const dataNode: DataNode<T> = this.getNode(encodeNodeId({ type, id: node.id }));
       if (!dataNode.hasData) {
         // FIXME: different queries load different amounts of data, simple overwriting doesn't work

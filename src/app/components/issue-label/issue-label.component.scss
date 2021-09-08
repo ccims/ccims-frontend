@@ -1,0 +1,17 @@
+:host {
+  display: inline-block;
+}
+
+.inner-label {
+  display: inline-block;
+  color: white;
+  border-radius: 4px;
+  padding: 1px 2px;
+  margin: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  &.is-dark-text {
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+}

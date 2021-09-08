@@ -1,0 +1,6 @@
+<span class="display-name" *ngIf="user.displayName">
+  {{user.displayName}}
+</span>
+<span [ngClass]="user.displayName ? 'username has-display-name' : 'username'">
+  {{user.username}}
+</span>

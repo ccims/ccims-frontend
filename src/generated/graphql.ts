@@ -2680,7 +2680,7 @@ export type Mutation = {
   removeIssueFromLocation?: Maybe<RemoveIssueFromLocationPayload>;
   /** Adds an issue to a component (including creating the issue on the ims of the component) */
   addIssueToComponent?: Maybe<AddIssueToComponentPayload>;
-  /** Removes an issue from a component it is currently assigned to and deletes it from the ims of the component */
+  /** Removes an issue from a component (including creating the issue on the ims of the component) */
   removeIssueFromComponent?: Maybe<RemoveIssueFromComponentPayload>;
   /** Marks an issue as being a duplicate of another issue */
   markIssueAsDuplicate?: Maybe<MarkIssueAsDuplicatePayload>;
@@ -2905,7 +2905,7 @@ export type MutationAddIssueToComponentArgs = {
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveIssueFromComponentArgs = {
-  input?: Maybe<RemoveIssueFromComponentInput>;
+  input: RemoveIssueFromComponentInput;
 };
 
 
