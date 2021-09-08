@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -21,12 +21,12 @@ import {QueryComponent} from '@app/utils/query-component/query.component';
   styleUrls: ['./project-overview.component.scss']
 })
 export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('description') description: ElementRef;
   @ViewChild(QueryComponent) queryComponent: QueryComponent;
 
   public projectId: string;
   public project: DataNode<Project>;
   private projectSub: Subscription;
+  description = '';
 
   constructor(private dataService: DataService,
               private projectStore: ProjectStoreService,
@@ -43,11 +43,19 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    this.projectSub = this.queryComponent.listenTo(this.project).subscribe();
+    this.projectSub = this.queryComponent.listenTo(this.project).subscribe(project => this.description = project.description);
   }
 
   ngOnDestroy() {
     this.projectSub.unsubscribe();
+  }
+
+  projectNameEdited(saved: boolean): void {
+    if (!saved) {
+      return;
+    }
+
+    alert('TODO: Save');
   }
 
   deleteProject(): void {

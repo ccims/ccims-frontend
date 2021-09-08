@@ -19,15 +19,10 @@
                 </div>
             </div>
 
-            <app-text-display></app-text-display>
-
-            <div class="d-flex text-sm-left">
-                <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
-                    <mat-label>Description</mat-label>
-                    <!-- FIXME: why is this a textarea? -->
-                    <textarea [ngModel]="project.current.description" matInput readonly></textarea>
-                </mat-form-field>
-            </div>
+            <app-text-display [text]="description"
+                              [onEditFinished]="projectNameEdited"
+                              placeholder="No project description!"
+                              labelText="Project description"></app-text-display>
         </div>
     </ng-template>
 </app-query-component>
