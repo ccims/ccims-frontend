@@ -80,10 +80,18 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   // this function allows the user to edit the desctiption of a project
-  editProjectDescription(): void {
-    //remove readonly property to let user edit the description
-    document.getElementById('textarea').removeAttribute('readonly');
-    console.log("description edited");
-    console.log(this.project.current.description);
+  editProjectDescription(save?: boolean): void {
+
+    // case: the new description is to be saved
+    if (save) {
+      //remove readonly property to let user edit the description
+      document.getElementById('textarea').removeAttribute('readonly');
+      console.log("description edited");
+      console.log(this.project.current.description);
+    }
+
+    // case: the new description is not to be saved
+    this.editDesctiption = !this.editDesctiption;
+    
   }
 }
