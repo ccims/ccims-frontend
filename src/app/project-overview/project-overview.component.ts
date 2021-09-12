@@ -10,6 +10,9 @@ import DataService from '@app/data-dgql';
 import {encodeNodeId, NodeType} from '@app/data-dgql/id';
 import {Subscription} from 'rxjs';
 import {QueryComponent} from '@app/utils/query-component/query.component';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import { NgZone } from '@angular/core';
+import { VariableDefinitionNode } from 'graphql';
 
 /**
  * This component offers a view showing the project name,
@@ -23,10 +26,13 @@ import {QueryComponent} from '@app/utils/query-component/query.component';
 export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('description') description: ElementRef;
   @ViewChild(QueryComponent) queryComponent: QueryComponent;
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   public projectId: string;
+  public projectDescription: string;
   public project: DataNode<Project>;
   private projectSub: Subscription;
+  public editDesctiption: Boolean;
 
   constructor(private dataService: DataService,
               private projectStore: ProjectStoreService,
@@ -34,12 +40,14 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
               private router: Router,
               private changeDetector: ChangeDetectorRef,
               private dialog: MatDialog,
-              private notify: UserNotifyService) {
+              private notify: UserNotifyService,
+              private _ngZone: NgZone) {
   }
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
     this.project = this.dataService.getNode(encodeNodeId({type: NodeType.Project, id: this.projectId}));
+    this.editDesctiption = false;
   }
 
   ngAfterViewInit() {
@@ -69,5 +77,21 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
           error => this.notify.notifyError('Failed to delete project!', error));
       }
     });
+  }
+
+  // this function allows the user to edit the desctiption of a project
+  editProjectDescription(save?: boolean): void {
+
+    // case: the new description is to be saved
+    if (save) {
+      //remove readonly property to let user edit the description
+      document.getElementById('textarea').removeAttribute('readonly');
+      console.log("description edited");
+      console.log(this.project.current.description);
+    }
+
+    // case: the new description is not to be saved
+    this.editDesctiption = !this.editDesctiption;
+    
   }
 }

@@ -63,9 +63,9 @@
 
 
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [class.spinner]="loading"
+<div mat-dialog-actions class="actions">
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="success" [class.spinner]="loading"
           [disabled]="loading || validationTitle.invalid || validationCategory.invalid"
           (click)="onOkClick(title.value,body.code, category.value, labels.selectedLabels)">Create
   </button>
