@@ -8,7 +8,7 @@ import {
   GetIssueQuery,
   Issue,
   RenameIssueTitleInput,
-  ReopenIssueInput
+  ReopenIssueInput, UpdateCommentInput
 } from 'src/generated/graphql';
 import { Observable, Subscription } from 'rxjs';
 import { LabelStoreService } from '@app/data/label/label-store.service';
@@ -595,6 +595,19 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
    */
   public editIssueBody(body: string): void {
     // ...
+    const updateCommentInput: UpdateCommentInput = {
+      comment: this.issueId,
+      body
+    };
+    this.issueStoreService.updateComment(updateCommentInput).subscribe((data) => {
+      console.log(data);
+      this.issue$ = this.issueStoreService.getFullIssue(this.issueId);
+      this.issue$.subscribe(issue => {
+        this.issue = issue;
+      });
+    });
+
+    this.editBody = !this.editBody;
   }
 
   /**

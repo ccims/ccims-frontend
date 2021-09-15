@@ -85,7 +85,9 @@
 
         <!--Part 3.2: Description-->
         <div *ngIf="!this.editBody" class="Box-body">
-          <app-markdown-preview [displayedCode]="issue.node.body"></app-markdown-preview>
+          <div style="margin-left: 15px">
+            <app-markdown-preview [displayedCode]="issue.node.body"></app-markdown-preview>
+          </div>
         </div>
 
 

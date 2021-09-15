@@ -4910,6 +4910,13 @@ export type AddIssueToLocationMutationVariables = Exact<{
 
 export type AddIssueToLocationMutation = { addIssueToLocation?: Maybe<Pick<AddIssueToLocationPayload, 'clientMutationID'>> };
 
+export type UpdateCommentMutationVariables = Exact<{
+  input: UpdateCommentInput;
+}>;
+
+
+export type UpdateCommentMutation = { updateComment?: Maybe<Pick<UpdateCommentPayload, 'clientMutationID'>> };
+
 export type GetLabelsQueryVariables = Exact<{
   projectId: Scalars['ID'];
 }>;
@@ -5840,6 +5847,24 @@ export const AddIssueToLocationDocument = gql`
   })
   export class AddIssueToLocationGQL extends Apollo.Mutation<AddIssueToLocationMutation, AddIssueToLocationMutationVariables> {
     document = AddIssueToLocationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateCommentDocument = gql`
+    mutation UpdateComment($input: UpdateCommentInput!) {
+  updateComment(input: $input) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateCommentGQL extends Apollo.Mutation<UpdateCommentMutation, UpdateCommentMutationVariables> {
+    document = UpdateCommentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
