@@ -1,9 +1,31 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AddIssueCommentInput, CloseIssueGQL, CommentIssueGQL, CreateIssueGQL, CreateIssueInput, GetIssueGQL,
-  GetIssueQuery, LinkIssueGQL, LinkIssueInput, UnlinkIssueGQL, CloseIssueInput, UnlinkIssueInput, ReopenIssueGQL,
-  ReopenIssueInput, RenameIssueTitleInput, RenameIssueTitleGQL, AddIssueToLocationInput, RemoveIssueFromLocationInput,
-  AddIssueToLocationGQL, RemoveIssueFromLocationGQL, DeleteIssueCommentInput, DeleteIssueCommentGQL} from 'src/generated/graphql';
+import {
+  AddIssueCommentInput,
+  CloseIssueGQL,
+  CommentIssueGQL,
+  CreateIssueGQL,
+  CreateIssueInput,
+  GetIssueGQL,
+  GetIssueQuery,
+  LinkIssueGQL,
+  LinkIssueInput,
+  UnlinkIssueGQL,
+  CloseIssueInput,
+  UnlinkIssueInput,
+  ReopenIssueGQL,
+  ReopenIssueInput,
+  RenameIssueTitleInput,
+  RenameIssueTitleGQL,
+  AddIssueToLocationInput,
+  RemoveIssueFromLocationInput,
+  AddIssueToLocationGQL,
+  RemoveIssueFromLocationGQL,
+  DeleteIssueCommentInput,
+  DeleteIssueCommentGQL,
+  UpdateCommentInput,
+  UpdateComponentGQL, UpdateCommentGQL
+} from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 /**
  * This service provides CRUD operations and linking for issues
@@ -20,23 +42,25 @@ export class IssueStoreService {
               private unlinkIssueMutation: UnlinkIssueGQL,
               private closeIssueMutation: CloseIssueGQL, private reopenIssueMutation: ReopenIssueGQL,
               private renameIssueMutation: RenameIssueTitleGQL, private addIssueToLocationMutation: AddIssueToLocationGQL,
-              private removeIssueFromLocationMutation: RemoveIssueFromLocationGQL) { }
+              private removeIssueFromLocationMutation: RemoveIssueFromLocationGQL,
+              private updateCommentMutation: UpdateCommentGQL) {
+  }
 
   create(issueInput: CreateIssueInput) {
     return this.createIssue.mutate({input: issueInput});
   }
 
-  link(linkIssueInput: LinkIssueInput){
+  link(linkIssueInput: LinkIssueInput) {
     return this.linkIssue.mutate({input: linkIssueInput});
   }
 
-  unlink(unlinkIssueInput: UnlinkIssueInput){
+  unlink(unlinkIssueInput: UnlinkIssueInput) {
     return this.unlinkIssueMutation.mutate({input: unlinkIssueInput});
   }
 
-  getFullIssue(id: string): Observable<GetIssueQuery>{
-    return this.getFullIssueQuery.fetch({ id }).pipe(
-      map(({ data }) => data)
+  getFullIssue(id: string): Observable<GetIssueQuery> {
+    return this.getFullIssueQuery.fetch({id}).pipe(
+      map(({data}) => data)
     );
   }
 
@@ -48,23 +72,27 @@ export class IssueStoreService {
     return this.deleteIssueCommentMutation.mutate({input: deleteIssueCommentInput});
   }
 
-  close(closeInput: CloseIssueInput){
+  close(closeInput: CloseIssueInput) {
     return this.closeIssueMutation.mutate({input: closeInput});
   }
 
-  reopen(reopenInput: ReopenIssueInput){
+  reopen(reopenInput: ReopenIssueInput) {
     return this.reopenIssueMutation.mutate({input: reopenInput});
   }
 
-  rename(renameInput: RenameIssueTitleInput){
+  rename(renameInput: RenameIssueTitleInput) {
     return this.renameIssueMutation.mutate({input: renameInput});
   }
 
-  addToLocation(addLocationInput: AddIssueToLocationInput){
+  addToLocation(addLocationInput: AddIssueToLocationInput) {
     return this.addIssueToLocationMutation.mutate({input: addLocationInput});
   }
 
-  removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput){
+  removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput) {
     return this.removeIssueFromLocationMutation.mutate({input: removeLocationInput});
+  }
+
+  updateComment(updateCommentInput: UpdateCommentInput) {
+    return this.updateCommentMutation.mutate({input: updateCommentInput});
   }
 }
