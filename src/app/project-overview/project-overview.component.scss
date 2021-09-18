@@ -15,9 +15,12 @@
   margin-right: 5px;
 }
 
+.edit-button-container {
+  float: right;
+}
+
 .delete-button-container {
   float: right;
-  height: 100%;
 }
 
 .content {
@@ -49,4 +52,12 @@ img {
 
 .project-overview-container {
   margin: 4px;
+}
+
+#description-edit {
+  float: right;
+}
+
+#button{
+  margin: 5px;
 }

@@ -147,3 +147,9 @@ mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
     clientMutationID
   }
 }
+
+mutation UpdateComment($input: UpdateCommentInput!) {
+  updateComment(input: $input){
+    clientMutationID
+  }
+}

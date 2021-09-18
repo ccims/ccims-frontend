@@ -3,7 +3,7 @@
         <div class="project-overview-container">
             <div class="project-title-row">
                 <div class="box">
-                    <img src="https://github.com/github.png"/>
+                    <img src="https://github.com/github.png" />
                 </div>
 
                 <div class="content">
@@ -11,11 +11,11 @@
                     <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
                 </div>
 
+                <!-- delete project button -->
                 <div class="delete-button-container">
-                    <button mat-raised-button (click)="this.deleteProject()" color="warn" title="Delete this project"
-                            style="height: 100%">
-                        <mat-icon>delete</mat-icon>
-                    </button>
+
+                    <button id="button" mat-raised-button (click)="deleteProject()"
+                        color="warn"> Delete </button>
                 </div>
             </div>
 
