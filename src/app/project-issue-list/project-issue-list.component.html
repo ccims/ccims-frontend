@@ -1,18 +1,6 @@
 <div class="margin-left-top p-3">
-  <div class="project-title-row d-flex">
-    <div class="box">
-      <img src="https://github.com/github.png"/>
-    </div>
     <div *ngIf="(project$ | async) as project">
-      <div class="content">
-        <p class="title">{{project.name}}</p>
-        <div class="sub-sub-title">Project ID: {{project.id}}</div>
-      </div>
-
+        <app-project-header [projectId]="projectId" [projectName]="project$.current.name"></app-project-header>
     </div>
-
-  </div>
-  <div class="component-title">
     <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list>
-  </div>
 </div>

@@ -1,8 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ProjectStoreService} from '@app/data/project/project-store.service';
-import {GetFullProjectQuery} from 'src/generated/graphql';
-import {Observable} from 'rxjs';
+import {Project} from 'src/generated/graphql';
 import {FormControl} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, MatSortable} from '@angular/material/sort';
@@ -10,6 +8,9 @@ import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/pag
 import {AddProjectMemberDialogComponent} from '@app/dialogs/add-project-member-dialog/add-project-member-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {RemoveProjectMemberComponentComponent} from '@app/dialogs/remove-project-member-component/remove-project-member-component.component';
+import {DataNode} from '@app/data-dgql/query';
+import DataService from '@app/data-dgql';
+import {encodeNodeId, NodeType} from '@app/data-dgql/id';
 
 /**
  * This component is an example for the manage members view
@@ -22,19 +23,18 @@ import {RemoveProjectMemberComponentComponent} from '@app/dialogs/remove-project
   templateUrl: './project-members.component.html',
   styleUrls: ['./project-members.component.scss']
 })
-export class ProjectMembersComponent implements OnInit {
+export class ProjectMembersComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatPaginatorModule) paginatorModule: MatPaginatorModule;
   @ViewChild(MatSort) sort: MatSort;
   public projectId: string;
-  public project$: Observable<GetFullProjectQuery>;
-  public project: GetFullProjectQuery;
+  public project$: DataNode<Project>;
   validationFilter = new FormControl('');
 
   columnsToDisplay = ['Name', 'Role', 'email'];
   dataSource: MatTableDataSource<any>;
 
-  //users
+  // users
   mockUsers: Array<userMock> = [{id: '1', displayName: 'User1', email: 'User1.de'},
     {id: '2', displayName: 'User2', email: 'User2.de'},
     {id: '3', displayName: 'User3', email: 'User3.de'},
@@ -43,7 +43,7 @@ export class ProjectMembersComponent implements OnInit {
     {id: '6', displayName: 'User6', email: 'User6.de'}];
 
   // list of users who can be added to the project
-  //hardcoded
+  // hardcoded
   addableUsers: Array<userMock> = [
     {id: '7', displayName: 'AddedUser1', email: 'AddedUser1.de'},
     {id: '8', displayName: 'AddedUser2', email: 'AddedUser2.de'},
@@ -51,43 +51,47 @@ export class ProjectMembersComponent implements OnInit {
   ];
 
 
-  constructor(private dialog: MatDialog, private projectStore: ProjectStoreService, private route: ActivatedRoute) {
+  constructor(private dialog: MatDialog,
+              private dataService: DataService,
+              private route: ActivatedRoute,
+              private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.project$ = this.projectStore.getFullProject(this.projectId);
-    this.project$.subscribe(project => {
-      this.project = project;
-      // MOCK DATA for table
-      // FIXME Api change
-      // project.node.users.nodes.forEach(u => this.mockUsers.push(u));
-      this.dataSource = new MatTableDataSource<any>(this.mockUsers);
+    this.project$ = this.dataService.getNode(encodeNodeId({type: NodeType.Project, id: this.projectId}));
+  }
 
-      // sort data in table
-      this.sort.sort(({id: 'Name', start: 'asc'}) as MatSortable);
-      this.dataSource.sort = this.sort;
+  ngAfterViewInit() {
+    // MOCK DATA for table
+    // FIXME Api change
+    // project.node.users.nodes.forEach(u => this.mockUsers.push(u));
+    this.dataSource = new MatTableDataSource<any>(this.mockUsers);
+    // sort data in table
 
-      //paginator
-      this.dataSource.paginator = this.paginator;
-    });
+    this.sort.sort(({id: 'Name', start: 'asc'}) as MatSortable);
+    this.dataSource.sort = this.sort;
+
+    // paginator
+    this.dataSource.paginator = this.paginator;
+    this.changeDetector.detectChanges();
   }
 
   // This method adds a user to the project members list without processing a task in the back-end
   onAddClick() {
+    console.log(this.sort);
     const addMemberDialogRef = this.dialog.open(AddProjectMemberDialogComponent,
       {data: {addableMembers: this.addableUsers, projectId: this.projectId}});
     addMemberDialogRef.afterClosed().subscribe(data => {
       if (data) {
         for (const user of data.usersToAdd) {
           this.addableUsers.forEach(addableUser => {
-            if (addableUser.id == user) {
+            if (addableUser.id === user) {
               this.mockUsers.push(addableUser);
             }
           });
         }
         this.dataSource = new MatTableDataSource<any>(this.mockUsers);
-
       }
     });
 
@@ -111,7 +115,7 @@ export class ProjectMembersComponent implements OnInit {
     });
   }
 
-  //change pages
+  // change pages
   onPageChange(event: PageEvent) {
   }
 

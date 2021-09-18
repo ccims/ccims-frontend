@@ -54,11 +54,17 @@ import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/
 import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
 import {NodeDetailsComponent} from '@app/node-details/node-details.component';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
-import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-editor.component';
+import {MarkdownEditorComponent} from './markdown/markdown-editor/markdown-editor.component';
 import {MarkdownModule} from 'ngx-markdown';
-import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
+import {MarkdownPreviewComponent} from './markdown/markdown-preview/markdown-preview.component';
 import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
 import {TextDisplayComponent} from '@app/text-display/text-display.component';
+import {ProjectIssueListComponent} from '@app/project-issue-list/project-issue-list.component';
+import {ProjectMembersComponent} from '@app/project-members/project-members.component';
+import {ProjectHeaderComponent} from '@app/project-header/project-header.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -71,7 +77,6 @@ const toasterConfig: Partial<GlobalConfig> = {
   maxOpened: 4,
   autoDismiss: true
 };
-
 
 
 @NgModule({
@@ -102,7 +107,10 @@ const toasterConfig: Partial<GlobalConfig> = {
     NodeDetailsPageComponent,
     MarkdownEditorComponent,
     MarkdownPreviewComponent,
-    TextDisplayComponent
+    TextDisplayComponent,
+    ProjectHeaderComponent,
+    ProjectIssueListComponent,
+    ProjectMembersComponent
   ],
   imports: [
     BrowserModule,
@@ -129,6 +137,9 @@ const toasterConfig: Partial<GlobalConfig> = {
     NgZorroAntdModule,
     NgSelectModule,
     CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     NgOptionHighlightModule,
     ColorPickerModule,
     MatExpansionModule,
