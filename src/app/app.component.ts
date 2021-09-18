@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
+import {Component} from '@angular/core';
+import {MatIconRegistry} from '@angular/material/icon';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +12,15 @@ export class AppComponent {
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer) {
-    // add the svg icon used for the edge slide toggle above the graph
-    this.matIconRegistry.addSvgIcon(
-      'relation-edge',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/relation-edge.svg')
-    );
+    const ccimsIcons = {
+      'relation-edge': 'relation-edge.svg',
+      'resize-corner': 'resize-corner.svg'
+    };
+
+    for (const [key, value] of Object.entries(ccimsIcons)) {
+      console.log('register', key, 'as', '../assets/icons/svg/' + value );
+      this.matIconRegistry.addSvgIcon(key, this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/svg/' + value));
+    }
 
     // add all issue icons
     for (const type of ['normal', 'assigned']) {
