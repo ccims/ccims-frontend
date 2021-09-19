@@ -692,9 +692,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private onNodeClick = (event: CustomEvent) => {
-    // console.log(event.detail.node.x, event.detail.node.y);
-    // return;
-
     event.preventDefault(); // prevent node selection
     const node: Node = event.detail.node;
 
@@ -709,7 +706,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.redrawByCloseOfComponentDetails = true;
     let contextMenuType: NodeDetailsType = null;
 
-    if (this.isHandset) {
+    if (event.detail.sourceEvent.ctrlKey || this.isHandset) {
       if (node.type === NodeType.Component) {
         this.router.navigate(['./component/', node.id], {relativeTo: this.activatedRoute.parent});
         return;
