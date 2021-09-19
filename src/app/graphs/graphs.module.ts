@@ -89,7 +89,8 @@ import {IssueIconComponent} from '@app/components/issue-icon/issue-icon.componen
     MatPaginatorModule,
     NgSelectModule,
     NgOptionHighlightModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSortModule
   ],
   exports: [
     CdkTableModule,
