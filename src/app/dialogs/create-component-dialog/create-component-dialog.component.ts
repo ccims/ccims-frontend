@@ -1,14 +1,13 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {IssueGraphComponent} from '@app/graphs/issue-graph/issue-graph.component';
-import {Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {CreateComponentInput, ImsType} from 'src/generated/graphql';
 import {AuthenticationService} from '@app/auth/authentication.service';
 import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
-import {CCIMSValidators} from "@app/utils/validators";
+import {CCIMSValidators} from '@app/utils/validators';
+import {QueryComponent} from '@app/utils/query-component/query.component';
 
 @Component({
   selector: 'app-create-component-dialog',
@@ -17,17 +16,13 @@ import {CCIMSValidators} from "@app/utils/validators";
 })
 export class CreateComponentDialogComponent {
   @Input() projectId: string;
-  public loading: boolean;
-  public saveFailed: boolean;
+  @ViewChild(QueryComponent) queryComponent: QueryComponent;
 
   constructor(public dialogRef: MatDialogRef<CreateComponentDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
               private fb: FormBuilder,
               private gs: IssueGraphStateService,
-              private componentStore: ComponentStoreService,
-              private authService: AuthenticationService,
-              private notify: UserNotifyService) {
-    this.loading = false;
+              private componentStore: ComponentStoreService) {
   }
 
   // define validations
@@ -44,8 +39,6 @@ export class CreateComponentDialogComponent {
 
   // callback method for component creation
   onOkClick(name: string, url: string, description: string, ims: string, provider: string): void {
-    this.loading = true;
-
     // define the input for the database mutation - required fields are specified by the graphQL schema
     // TODO: Add component to IMS?
     const input: CreateComponentInput = {
@@ -55,21 +48,9 @@ export class CreateComponentDialogComponent {
       repositoryURL: url
     };
 
-    this.componentStore.createComponent(input).subscribe(({data}) => {
-      this.loading = false;
-    }, (error) => {
-      this.notify.notifyError('Failed to create component!', error);
-      this.loading = false;
-      this.saveFailed = true;
-    });
-
-    if (!this.saveFailed) {
+    this.queryComponent.listenTo(this.componentStore.createComponent(input)).subscribe(() => {
       this.dialogRef.close();
-    }
-  }
-
-  afterAlertClose(): void {
-    this.saveFailed = false;
+    });
   }
 
   checkImsType(returnFromSelect: string): ImsType {
