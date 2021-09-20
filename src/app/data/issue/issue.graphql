@@ -153,3 +153,184 @@ mutation UpdateComment($input: UpdateCommentInput!) {
     clientMutationID
   }
 }
+
+query getAllTimelineItems($input: ID!) {
+  node(id: $input) {
+    ... on Issue {
+      timeline {
+        nodes {
+          __typename
+          ... on IssueTimelineItem {
+            id
+            createdBy {
+              id
+              username
+              displayName
+            }
+            createdAt
+            ... on AddedToComponentEvent {
+              component {
+                id,
+                name
+              }
+            }
+            ... on AddedToLocationEvent {
+              location {
+                id,
+                name
+              }
+            }
+            ... on AssignedEvent {
+              assignee {
+                id
+              }
+            }
+            ... on CategoryChangedEvent {
+              oldCategory
+              newCategory
+            }
+            ... on DueDateChangedEvent {
+              oldDueDate
+              newDueDate
+            }
+            ... on DeletedIssueComment {
+              deletedBy {
+                id
+              }
+              deletedAt
+            }
+            ... on EstimatedTimeChangedEvent {
+              oldEstimatedTime
+              newEstimatedTime
+            }
+            ... on LabelledEvent {
+              label {
+                id
+              }
+            }
+            ... on IssueComment {
+              body
+              lastEditedAt
+              editedBy {
+                nodes {
+                  id
+                  username
+                  displayName
+                }
+              }
+            }
+            ... on MarkedAsDuplicateEvent {
+              originalIssue {
+                id
+              }
+            }
+            ... on LinkEvent {
+              linkedIssue {
+                id
+              }
+            }
+            ... on PinnedEvent {
+              component {
+                id
+              }
+            }
+            ... on ReferencedByIssueEvent {
+              mentionedAt {
+                id
+              }
+              mentionedInComment {
+                id
+              }
+            }
+            ... on PriorityChangedEvent {
+              oldPriority
+              newPriority
+            }
+            ... on RemovedFromComponentEvent {
+              removedComponent {
+                id
+              }
+            }
+            ... on ReferencedByOtherEvent {
+              component {
+                id
+                name
+              }
+              source
+              sourceURL
+            }
+            ... on RemovedFromLocationEvent {
+              removedLocation {
+                id
+              }
+            }
+            ... on StartDateChangedEvent {
+              oldStartDate
+              newStartDate
+            }
+            ... on RenamedTitleEvent {
+              oldTitle
+              newTitle
+            }
+            ... on UnassignedEvent {
+              removedAssignee {
+                id
+              }
+            }
+            ... on UnlabelledEvent {
+              removedLabel {
+                id
+              }
+            }
+            ...on WasLinkedEvent {
+              linkedBy{
+                id
+              }
+            }
+            ...on UnmarkedAsDuplicateEvent {
+              issue{
+                id
+              }
+            }
+            ... on WasUnlinkedEvent {
+              unlinkedBy {
+                id
+              }
+            }
+            ... on UnpinnedEvent {
+              component {
+                id
+              }
+            }
+            ... on UnlinkEvent {
+              removedLinkedIssue {
+                id
+              }
+            }
+            ... on AddedArtifactEvent {
+              artifact {
+                id
+              }
+            }
+            ... on RemovedArtifactEvent {
+              removedArtifact {
+                id
+              }
+            }
+            ... on AddedNonFunctionalConstraintEvent {
+              nonFunctionalConstraint {
+                id
+              }
+            }
+            ... on RemovedNonFunctionalConstraintEvent {
+              removedNonFunctionalConstraint {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

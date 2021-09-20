@@ -54,10 +54,10 @@
 
       <!--Number of days the issue has been open-->
       <time [dateTime]="issue.node.createdAt"
-            [title]="this.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
+            [title]="this.timeFormatter.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
 
       <!--Number of comments regarding the issue-->
-      &nbsp;&sdot;&nbsp;{{this.pluralize(issue.node.issueComments.nodes.length + 1, 'comment')}}
+      &nbsp;&sdot;&nbsp;{{this.timeFormatter.pluralize(issue.node.issueComments.nodes.length + 1, 'comment')}}
     </div>
     <mat-divider style="margin-top:20px;"></mat-divider>
   </section>
@@ -76,7 +76,7 @@
           <h3 class="Box-title overflow-hidden flex-auto">
             <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented
             <time [dateTime]="issue.node.createdAt"
-                  [title]="this.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
+                  [title]="this.timeFormatter.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
           </h3>
 
           <!--Edit-->
@@ -142,30 +142,8 @@
         </div>
       </div>
 
-      <!--Part 5: Issue Comments-->
-      <div *ngFor="let comment of issue.node.issueComments.nodes" class="TimelineItem issue-comment">
-        <div class="Box Box--condensed">
+      <app-timeline [issueId]="issueId"></app-timeline>
 
-          <!--Comment header-->
-          <div class="Box-header d-flex flex-items-center">
-
-            <!--Text-->
-            <h3 class="Box-title overflow-hidden flex-auto">
-              <i><b>{{comment.createdBy.displayName}}</b></i>&nbsp;commented
-              <time [dateTime]="comment.createdAt"
-                    [title]="this.formatTime(comment.createdAt)">{{this.formatTimeDifference(comment.createdAt)}}</time>
-            </h3>
-
-            <!--Delete-->
-            <button mat-flat-button (click)="deleteComment(comment.id)">Delete</button>
-          </div>
-
-          <!--Comment body-->
-          <div class="Box-body">
-            {{comment.body}}
-          </div>
-        </div>
-      </div>
 
       <mat-divider></mat-divider>
 
@@ -312,3 +290,4 @@
     </div>
   </section>
 </div>
+

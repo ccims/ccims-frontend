@@ -24,7 +24,9 @@ import {
   DeleteIssueCommentInput,
   DeleteIssueCommentGQL,
   UpdateCommentInput,
-  UpdateComponentGQL, UpdateCommentGQL
+  UpdateCommentGQL,
+  GetAllTimelineItemsGQL,
+  GetAllTimelineItemsQuery
 } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 /**
@@ -43,7 +45,8 @@ export class IssueStoreService {
               private closeIssueMutation: CloseIssueGQL, private reopenIssueMutation: ReopenIssueGQL,
               private renameIssueMutation: RenameIssueTitleGQL, private addIssueToLocationMutation: AddIssueToLocationGQL,
               private removeIssueFromLocationMutation: RemoveIssueFromLocationGQL,
-              private updateCommentMutation: UpdateCommentGQL) {
+              private updateCommentMutation: UpdateCommentGQL,
+              private getAllTimelineItemsQuery: GetAllTimelineItemsGQL) {
   }
 
   create(issueInput: CreateIssueInput) {
@@ -56,12 +59,6 @@ export class IssueStoreService {
 
   unlink(unlinkIssueInput: UnlinkIssueInput) {
     return this.unlinkIssueMutation.mutate({input: unlinkIssueInput});
-  }
-
-  getFullIssue(id: string): Observable<GetIssueQuery> {
-    return this.getFullIssueQuery.fetch({id}).pipe(
-      map(({data}) => data)
-    );
   }
 
   commentIssue(commentIssueInput: AddIssueCommentInput) {
@@ -95,4 +92,17 @@ export class IssueStoreService {
   updateComment(updateCommentInput: UpdateCommentInput) {
     return this.updateCommentMutation.mutate({input: updateCommentInput});
   }
+
+  getFullIssue(id: string): Observable<GetIssueQuery> {
+    return this.getFullIssueQuery.fetch({id}).pipe(
+      map(({data}) => data)
+    );
+  }
+
+  getAllTimelineItems(id: string): Observable<GetAllTimelineItemsQuery>{
+    return this.getAllTimelineItemsQuery.fetch({input: id}).pipe(
+      map(({data}) => data)
+    );
+  }
 }
+
