@@ -4942,7 +4942,7 @@ type FTimelineItem_LabelledEvent_Fragment = (
 );
 
 type FTimelineItem_IssueComment_Fragment = (
-  Pick<IssueComment, 'body' | 'currentUserCanEdit' | 'lastEditedAt' | 'id' | 'createdAt'>
+  Pick<IssueComment, 'body' | 'lastEditedAt' | 'id' | 'createdAt'>
   & { reactions?: Maybe<FReactionsStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
 );
 
@@ -5194,6 +5194,13 @@ export type ListIssueAssigneesQuery = { node?: Maybe<{ assignees?: Maybe<(
       Pick<UserPage, 'totalCount'>
       & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
     )> }> };
+
+export type MutCreateIssueMutationVariables = Exact<{
+  issue: CreateIssueInput;
+}>;
+
+
+export type MutCreateIssueMutation = { createIssue?: Maybe<{ issue?: Maybe<FIssueStubFragment> }> };
 
 export type MutAddIssueLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5599,7 +5606,6 @@ export const FTimelineItemFragmentDoc = gql`
   }
   ... on IssueComment {
     body
-    currentUserCanEdit
     lastEditedAt
     reactions(first: 10) {
       ...fReactionsStub
@@ -6331,6 +6337,26 @@ export const ListIssueAssigneesDocument = gql`
   })
   export class ListIssueAssigneesGQL extends Apollo.Query<ListIssueAssigneesQuery, ListIssueAssigneesQueryVariables> {
     document = ListIssueAssigneesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutCreateIssueDocument = gql`
+    mutation MutCreateIssue($issue: CreateIssueInput!) {
+  createIssue(input: $issue) {
+    issue {
+      ...fIssueStub
+    }
+  }
+}
+    ${FIssueStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutCreateIssueGQL extends Apollo.Mutation<MutCreateIssueMutation, MutCreateIssueMutationVariables> {
+    document = MutCreateIssueDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

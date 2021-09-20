@@ -1,0 +1,63 @@
+.timeline-item {
+  position: relative;
+  margin-left: 16px;
+  padding: 12px 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .item-box {
+    position: relative;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-left: -16px;
+
+    .item-header {
+      background: rgba(0, 0, 0, 0.06);
+      border-bottom: rgba(0, 0, 0, 0.1);
+      border-radius: 4px 4px 0 0;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 8px;
+        margin-left: -8px;
+      }
+
+      .item-title {
+        flex: 1;
+        margin: 0 16px 0 0;
+        overflow: hidden;
+        font-size: inherit;
+        font-weight: inherit;
+      }
+    }
+
+    .item-body {
+      padding: 16px;
+
+      &.is-editing {
+        padding: 8px;
+      }
+
+      .edit-body-buttons {
+        text-align: right;
+        margin-top: 5px;
+        margin-bottom: 3px;
+      }
+    }
+  }
+}

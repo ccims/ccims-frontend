@@ -29,9 +29,10 @@ import {
   MutUnlinkIssueGQL,
   ListIssueAssigneesGQL,
   ListIssueParticipantsGQL,
-  UserFilter, MutAddIssueAssigneeGQL, MutRemoveIssueAssigneeGQL,
+  UserFilter, MutAddIssueAssigneeGQL, MutRemoveIssueAssigneeGQL, MutCreateIssueGQL,
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
+import { CreateIssueInput } from '../../../generated/graphql';
 
 type IssueListParams = QueryListParams<IssueFilter>;
 
@@ -56,6 +57,7 @@ export class IssuesService {
     private qListIssueComponents: ListIssueComponentsGQL,
     private qListIssueParticipants: ListIssueParticipantsGQL,
     private qListIssueAssignees: ListIssueAssigneesGQL,
+    private qMutCreateIssue: MutCreateIssueGQL,
     private qMutAddIssueLabel: MutAddIssueLabelGQL,
     private qMutRemoveIssueLabel: MutRemoveIssueLabelGQL,
     private qMutAddIssueComponent: MutAddIssueToComponentGQL,
@@ -130,6 +132,10 @@ export class IssuesService {
 
   listIssueAssignees(issue: string, list: QueryListParams<UserFilter>) {
     return promisifyApolloFetch(this.qListIssueAssignees.fetch({ issue, ...list }));
+  }
+
+  mutCreateIssue(issue: CreateIssueInput) {
+    return promisifyApolloFetch(this.qMutCreateIssue.mutate({ issue }));
   }
 
   mutAddIssueLabel(id: string, issue: string, label: string) {

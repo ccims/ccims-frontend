@@ -37,6 +37,10 @@ export function encodeNodeId(nd: NodeDescriptor): NodeId {
   return NodeType[nd.type] + '/' + nd.id;
 }
 
+export function getRawId(id: NodeId): string {
+  return decodeNodeId(id).id;
+}
+
 export const ROOT_NODE = { type: NodeType.Root, id: '' };
 export const ROOT_NODE_ID = encodeNodeId(ROOT_NODE);
 

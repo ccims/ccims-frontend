@@ -1,5 +1,16 @@
-import { Component, ContentChild, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { encodeNodeId, ListId, NodeId, NodeType } from '@app/data-dgql/id';
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
+import { decodeNodeId, encodeNodeId, ListId, NodeId, NodeType } from '@app/data-dgql/id';
 import { DataList, HydrateList } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import { Subscription } from 'rxjs';
@@ -15,13 +26,11 @@ import { SetEditorDialogComponent, SetEditorDialogData, SetMultiSource } from '.
   templateUrl: './set-editor.component.html',
   styleUrls: ['./set-editor.component.scss']
 })
-export class SetEditorComponent<T extends { id: string, __typename: string }, F> implements OnInit, OnDestroy {
+export class SetEditorComponent<T extends { id: string, __typename: string }, F> implements OnInit, OnChanges, OnDestroy {
   /** Pass a HydrateList object to load the listSet with existing data instead of sending a request to the server. */
   @Input() hydrate: Promise<HydrateList<T>>;
-  /** NodeType displayed in this set. */
-  @Input() nodeType: keyof NodeType; // FIXME: don't ask for node type
-  /** The list that contains all nodes that are part of the set. */
-  @Input() listSet: ListId;
+  /** The list that contains all nodes that are part of the set. string[] is treated as local state. */
+  @Input() listSet: ListId | NodeId[];
   /** The list of all possible items. Should be a superset of listSet, as otherwise the user may not be able to deselect items. */
   @Input() listAll: ListId | SetMultiSource;
   /** Callback for applying a changeset to the listSet. */
@@ -41,6 +50,7 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
 
   public listSet$: DataList<T, unknown>;
+  public isLocalSet = false;
   private listSetSub: Subscription;
 
   constructor(
@@ -48,21 +58,41 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
     private dialogService: MatDialog
   ) {}
 
-  ngOnInit() {
-    this.listSet$ = this.dataService.getList(this.listSet);
-    if (this.hydrate) {
-      this.listSet$.hydrateInitial(this.hydrate);
+  reloadListSet() {
+    if (Array.isArray(this.listSet)) {
+      this.isLocalSet = true;
+      if (this.listSet$) {
+        this.listSetSub.unsubscribe();
+        this.listSet$ = null;
+      }
+    } else {
+      this.isLocalSet = false;
+      this.listSet$ = this.dataService.getList(this.listSet);
+      this.listSetSub = this.listSet$.subscribe();
     }
-    this.listSetSub = this.listSet$.subscribe();
-  }
-  ngOnDestroy() {
-    this.listSetSub.unsubscribe();
   }
 
-  private onDialogApplyChangeset = (additions: string[], deletions: string[]) => {
-    const add = additions.map(id => encodeNodeId({ type: NodeType[this.nodeType], id }));
-    const del = deletions.map(id => encodeNodeId({ type: NodeType[this.nodeType], id }));
-    return this.applyChangeset(add, del);
+  ngOnInit() {
+    this.reloadListSet();
+    if (this.hydrate && this.listSet$) {
+      this.listSet$.hydrateInitial(this.hydrate);
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.listSet) {
+      const newValue = changes.listSet.currentValue;
+      if (this.isLocalSet !== (typeof newValue !== 'string')) {
+        this.reloadListSet();
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.listSetSub?.unsubscribe();
+  }
+
+  private onDialogApplyChangeset = (additions: NodeId[], deletions: NodeId[]) => {
+    return this.applyChangeset(additions, deletions);
   }
 
   beginEditing() {

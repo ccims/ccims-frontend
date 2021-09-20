@@ -1,0 +1,122 @@
+<div class="issue-timeline" *ngIf="issue$?.current as issue">
+    <!--Part 3: Issue body-->
+    <div class="timeline-item issue-body">
+        <div class="item-box">
+            <!--Part 3.1: Header-->
+            <div class="item-header">
+
+                <!--Text-->
+                <h3 class="item-title">
+                    <app-user-item [short]="true" [user]="issue.createdBy"></app-user-item> commented
+                    <time [dateTime]="issue.createdAt"
+                          [title]="this.formatTime(issue.createdAt)">{{this.formatIssueOpenTime()}}</time>
+                </h3>
+
+                <!--Edit-->
+                <button
+                    *ngIf="!this.editBody"
+                    class="item-edit"
+                    mat-flat-button
+                    (click)="this.editBody=!this.editBody">
+                    Edit
+                </button>
+            </div>
+
+            <!--Part 3.2: Description-->
+            <div *ngIf="!this.editBody" class="item-body">
+                <app-markdown-preview [displayedCode]="issue.body"></app-markdown-preview>
+            </div>
+
+            <!--Part 3.3: Editing-->
+            <div *ngIf="this.editBody" class="item-body is-editing" [ngStyle]="{minHeight: (this.editBody) ? '280px' : 'auto'}">
+
+                <!--Text-->
+                <app-markdown-editor #bodyEdit [code]="issue.body"></app-markdown-editor>
+
+                <div class="edit-body-buttons">
+
+                    <!--Cancel-->
+                    <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
+
+                    <!--Save-->
+                    <button mat-raised-button color="primary" (click)="this.editIssueBody(bodyEdit.code)">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Part 4: Linked issues-->
+    <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">
+        <div class="item-box">
+            <div class="item-header">
+                <mat-icon>link</mat-icon>
+                <h3 class="item-title">
+                    <b>Linked Issues</b>
+                </h3>
+            </div>
+            <div class="item-body">
+                <div class="linked-issues-container">
+                    <mat-accordion>
+                        <ng-container *ngFor="let currentIssue of linkedIssues$.currentItems">
+                            <app-issue-detail-linked-issue-item [issueStub]="currentIssue" [projectId]="projectId">
+                            </app-issue-detail-linked-issue-item>
+                        </ng-container>
+                    </mat-accordion>
+                </div>
+                <app-cursor-paginator
+                    *ngIf="linkedIssues$.totalCount > 10"
+                    [list]="linkedIssues$"
+                    [pageSizes]="[10]"></app-cursor-paginator>
+            </div>
+        </div>
+    </div>
+
+    <!--Part 5: Issue Comments-->
+    <div *ngFor="let comment of (issue.issueComments?.nodes || [])" class="TimelineItem issue-comment">
+        <div class="Box Box--condensed">
+
+            <!--Comment header-->
+            <div class="Box-header d-flex flex-items-center">
+
+                <!--Text-->
+                <h3 class="Box-title overflow-hidden flex-auto">
+                    <i><b>{{comment.createdBy.displayName}}</b></i>&nbsp;commented
+                    <time [dateTime]="comment.createdAt"
+                          [title]="this.formatTime(comment.createdAt)">{{this.formatTimeDifference(comment.createdAt)}}</time>
+                </h3>
+
+                <!--Delete-->
+                <!--button mat-flat-button (click)="deleteComment(comment.id)">Delete</button-->
+            </div>
+
+            <!--Comment body-->
+            <div class="Box-body">
+                {{comment.body}}
+            </div>
+        </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!--Part 6: Comment creation box-->
+    <div class="Box Box--condensed issue-body-box comment-box-container">
+        <div class="Box-header d-flex flex-items-center">
+            <h3 class="Box-title overflow-hidden flex-auto">
+                Comment this issue as <b>{{issue.createdBy.displayName}}</b>
+            </h3>
+        </div>
+        <div class="Box-body clear">
+            <textarea class="comment-text-area" matInput #comment></textarea>
+            <div class="comment-buttons">
+                <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue
+                </button>
+                <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen
+                    Issue
+                </button>
+                <button mat-raised-button color="primary" style="margin-left: 6px"
+                        (click)="this.commentIssue(comment.value)">Comment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,7 +6,8 @@ import { Issue, IssueCategory } from 'src/generated/graphql-dgql';
  */
 @Component({
   selector: 'app-issue-icon',
-  templateUrl: './issue-icon.component.html'
+  templateUrl: './issue-icon.component.html',
+  styleUrls: ['./issue-icon.component.scss']
 })
 export class IssueIconComponent {
   @Input() issue: Issue;
@@ -24,5 +25,11 @@ export class IssueIconComponent {
     const edgeType = (hasIn ? 'in' : '') + (hasOut ? 'out' : '');
 
     return ['issue-', category, closed, edgeType && '-', edgeType].filter(part => part).join('');
+  }
+
+  getIconLabel() {
+    const category = this.issue.category === IssueCategory.Bug ? 'bug'
+      : this.issue.category === IssueCategory.FeatureRequest ? 'feature' : 'issue';
+    return this.issue.isOpen ? `Open ${category}` : `Closed ${category}`;
   }
 }

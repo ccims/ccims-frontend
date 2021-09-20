@@ -1,3 +1,16 @@
+.category-selector {
+  width: 100%;
+  margin-bottom: 8px;
+
+  mat-button-toggle {
+    width: 100%;
+
+    ::ng-deep &.mat-button-toggle-checked {
+      font-weight: 600;
+    }
+  }
+}
+
 @keyframes spinner {
   to {
     transform: rotate(360deg);
@@ -55,15 +68,6 @@
 
 .stretch {
   width: 100%;
-}
-
-.adding-margin {
-  margin-top: 20px;
-}
-
-.color-input {
-  width: 30px;
-  height: 70px;
 }
 
 .mat-success {

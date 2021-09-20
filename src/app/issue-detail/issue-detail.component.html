@@ -1,15 +1,52 @@
 <!--Current issue details-->
-<div class="container-xl" #issueContainer *ngIf="(issue$ | async) as issue">
+<div class="issue-details" #issueContainer *ngIf="issue$?.current as issue">
+  <header class="issue-header">
+    <div class="issue-title">
+      <h1 class="title-text">
+        {{issue.title}}
+      </h1>
+      <div class="title-actions" *ngIf="userCanEditIssue">
+        <button mat-flat-button class="title-edit-button" color="primary">
+          Edit
+        </button>
+      </div>
+    </div>
+    <div class="issue-subheading">
+      <div [ngClass]="['issue-status', issue.isOpen ? 'is-open' : 'is-closed']">
+        <app-issue-icon class="status-icon" [issue]="issue"></app-issue-icon>
+        <span class="status-label">
+          <ng-container *ngIf="issue.isOpen">Open</ng-container>
+          <ng-container *ngIf="!issue.isOpen">Closed</ng-container>
+        </span>
+      </div>
+      <div class="issue-opened">
+        <app-user-item [noDisplay]="true" [user]="issue.createdBy"></app-user-item>
+        opened this issue
+        <time [dateTime]="issue.createdAt"
+              [title]="this.timeFormatter.formatTime(issue.createdAt)">
+          {{this.formatIssueOpenTime()}}
+        </time>
+      </div>
+      <div class="issue-stats">
+        &nbsp;&sdot; {{this.timeFormatter.pluralize(issue.issueComments?.totalCount + 1, 'comment')}}
+      </div>
+    </div>
+  </header>
+  <div class="issue-contents">
+    <app-issue-timeline
+        class="issue-timeline"
+        [issue$]="issue$"
+        [issueId]="issueId"
+        [projectId]="projectId"></app-issue-timeline>
+    <app-issue-sidebar
+        class="issue-sidebar"
+        [issue$]="issue$"
+        [issueId]="issueId"
+        [projectId]="projectId"></app-issue-sidebar>
+  </div>
+</div>
 
-  <!--Part 1: Editing options-->
-  <app-issue-settings-container *ngIf="this.editIssue"
-                                [selectedLabels]="this.labelList"
-                                [currentIssue]="issue"
-                                (messageEvent)="this.receiveMessage($event)"
-                                [selection]="this.attributeToEdit"
-                                [ngStyle]="{'left':this.mouseX,'top':this.mouseY,'z-index':'100'}">
-  </app-issue-settings-container>
-
+<div class="aaa" *ngIf="issue$?.current as issue">
   <!--Part 2: Header-->
   <section class="clear">
     <div id="issue-header" class="issue-header">
@@ -18,11 +55,11 @@
       <div>
 
         <!--Title while being edited-->
-        <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.node.title">
+        <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.title">
 
         <!--Title while not being edited-->
         <h1 #title *ngIf="!this.editTitle" id="issue-heading">
-          {{issue.node.title}}
+          {{issue.title}}
         </h1>
       </div>
 
@@ -44,250 +81,22 @@
     <div id="issue-state">
 
       <!--Whether the issue is open-->
-      <span *ngIf="issue.node.isOpen" class="customLabelOpen ">&nbsp;Open&nbsp;</span>
+      <span *ngIf="issue.isOpen" class="customLabelOpen ">&nbsp;Open&nbsp;</span>
 
       <!--Whether the issue is closed-->
-      <span *ngIf="!issue.node.isOpen" class="customLabelClosed ">&nbsp;Closed&nbsp;</span>
+      <span *ngIf="!issue.isOpen" class="customLabelClosed ">&nbsp;Closed&nbsp;</span>
 
       <!--User who has opened the issue-->
-      <a class="author text-bold link-gray">&nbsp;{{issue.node.createdBy.username}} </a>&nbsp;opened this issue&nbsp;
+      <a class="author text-bold link-gray">&nbsp;{{issue.createdBy.username}} </a>&nbsp;opened this issue&nbsp;
 
       <!--Number of days the issue has been open-->
-      <time [dateTime]="issue.node.createdAt"
-            [title]="this.timeFormatter.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
+      <time [dateTime]="issue.createdAt"
+            [title]="this.timeFormatter.formatTime(issue.createdAt)">{{this.formatIssueOpenTime()}}</time>
 
       <!--Number of comments regarding the issue-->
-      &nbsp;&sdot;&nbsp;{{this.timeFormatter.pluralize(issue.node.issueComments.nodes.length + 1, 'comment')}}
+      &nbsp;&sdot;&nbsp;{{this.timeFormatter.pluralize(issue.issueComments?.nodes?.length + 1, 'comment')}}
     </div>
     <mat-divider style="margin-top:20px;"></mat-divider>
-  </section>
-
-  <!--Contents-->
-  <section class="clear">
-    <div class="issue-content">
-
-      <!--Part 3: Issue body-->
-      <div class="Box Box--condensed issue-body-box">
-
-        <!--Part 3.1: Header-->
-        <div class="Box-header d-flex flex-items-center">
-
-          <!--Text-->
-          <h3 class="Box-title overflow-hidden flex-auto">
-            <i><b>{{issue.node.createdBy.displayName}}</b></i>&nbsp;commented
-            <time [dateTime]="issue.node.createdAt"
-                  [title]="this.timeFormatter.formatTime(issue.node.createdAt)">{{this.formatIssueOpenTime()}}</time>
-          </h3>
-
-          <!--Edit-->
-          <button mat-flat-button (click)="this.editBody=!this.editBody">Edit</button>
-        </div>
-
-        <!--Part 3.2: Description-->
-        <div *ngIf="!this.editBody" class="Box-body">
-          <div style="margin-left: 15px">
-            <app-markdown-preview [displayedCode]="issue.node.body"></app-markdown-preview>
-          </div>
-        </div>
-
-
-
-        <!--Part 3.3: Editing-->
-        <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
-
-          <!--Text-->
-          <app-markdown-editor #bodyEdit [code]="issue.node.body"></app-markdown-editor>
-
-          <div class="edit-body-buttons">
-
-            <!--Cancel-->
-            <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
-
-            <!--Save-->
-            <button mat-raised-button color="primary" (click)="this.editIssueBody(bodyEdit.code)">Save</button>
-          </div>
-        </div>
-      </div>
-
-      <!--Part 4: Linked issues-->
-      <div *ngIf="this.projectComponents && this.issue.node.linksToIssues.nodes.length >0 "
-           class="TimelineItem  issue-comment">
-        <div class="Box Box--condensed">
-          <div class="Box-header d-flex flex-items-center">
-            <h3 class="Box-title overflow-hidden flex-auto">
-              <b>Linked Issues</b>
-            </h3>
-          </div>
-          <div class="Box-body">
-            <div class="linked-issues-container">
-              <mat-accordion>
-                <mat-expansion-panel *ngFor="let currentIssue of issue.node.linksToIssues.nodes">
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      {{currentIssue.componentName}}
-                    </mat-panel-title>
-                    <mat-panel-description>
-                      {{currentIssue.title}}
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
-                  <div style="width: 100%; height: 100%; text-align: left; ">
-                    <p>{{currentIssue.body}}</p>
-                  </div>
-
-                </mat-expansion-panel>
-
-              </mat-accordion>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <app-timeline [issueId]="issueId" [projectID]="projectId"></app-timeline>
-
-
-      <mat-divider></mat-divider>
-
-      <!--Part 6: Comment creation box-->
-      <div class="Box Box--condensed issue-body-box comment-box-container">
-        <div class="Box-header d-flex flex-items-center">
-          <h3 class="Box-title overflow-hidden flex-auto">
-            Comment this issue as <b>{{issue.node.createdBy.displayName}}</b>
-          </h3>
-        </div>
-        <div class="Box-body clear">
-          <textarea class="comment-text-area" matInput #comment></textarea>
-          <div class="comment-buttons">
-            <button *ngIf="issue.node.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue
-            </button>
-            <button *ngIf="!issue.node.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen
-              Issue
-            </button>
-            <button mat-raised-button color="primary" style="margin-left: 6px"
-                    (click)="this.commentIssue(comment.value)">Comment
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--Side bar-->
-    <div class="issue-side-bar">
-      <div class="issue-side-bar-row">
-        <app-set-editor
-            [nodeType]="'Component'"
-            [makeFilter]="makeComponentFilter"
-            [scoreKeys]="['name']"
-            [listSet]="componentListId"
-            [listAll]="allComponentsListId"
-            [hydrate]="componentListPromise"
-            [applyChangeset]="applyComponentChangeset">
-          <span title>Components</span>
-          <span if-empty>No components assigned</span>
-          <ng-container *appItem="let item">
-            <div>{{item.name}}</div>
-          </ng-container>
-        </app-set-editor>
-      </div>
-      <mat-divider></mat-divider>
-      <div class="issue-side-bar-row">
-        <app-set-editor
-            [nodeType]="'Component'"
-            [makeFilter]="makeLocationFilter"
-            [scoreKeys]="['name']"
-            [listSet]="locationListId"
-            [listAll]="allLocationsList"
-            [hydrate]="locationListPromise"
-            [applyChangeset]="applyLocationChangeset">
-          <span title>Locations</span>
-          <span if-empty>No locations assigned</span>
-          <ng-container *appItem="let item">
-            <div *ngIf="item.__typename === 'Component'">
-              {{item.name}}
-            </div>
-            <div *ngIf="item.__typename === 'ComponentInterface'">
-              <span class="location-containing-component-name" *ngIf="!!item.component">
-                {{item.component.name}} ›
-              </span>
-              {{item.name}}
-            </div>
-          </ng-container>
-        </app-set-editor>
-      </div>
-      <mat-divider></mat-divider>
-      <div class="issue-side-bar-row">
-        <app-set-editor
-            [nodeType]="'Label'"
-            [makeFilter]="makeLabelFilter"
-            [scoreKeys]="['name']"
-            [listSet]="labelListId"
-            [listAll]="allLabelsList"
-            [hydrate]="labelListPromise"
-            [applyChangeset]="applyLabelChangeset">
-          <span title>Labels</span>
-          <span if-empty>No labels assigned</span>
-          <ng-container *appItem="let item">
-            <app-issue-label [label]="item"></app-issue-label>
-          </ng-container>
-        </app-set-editor>
-      </div>
-      <mat-divider></mat-divider>
-
-      <div class="issue-side-bar-row">
-        <app-set-editor
-            [nodeType]="'User'"
-            [makeFilter]="makeUserFilter"
-            [scoreKeys]="['username', 'displayName']"
-            [emptySuggestionsLabel]="'Search for a user to see results'"
-            [listSet]="assigneeListId"
-            [listAll]="allAssigneeCandidatesList"
-            [hydrate]="assigneeListPromise"
-            [applyChangeset]="applyAssigneeChangeset">
-          <span title>Assignees</span>
-          <span if-empty>No one</span>
-          <div *appItem="let item">
-            <app-user-item [user]="item"></app-user-item>
-          </div>
-        </app-set-editor>
-      </div>
-      <mat-divider></mat-divider>
-
-      <div class="issue-side-bar-row">
-        <app-set-editor
-            [nodeType]="'Issue'"
-            [makeFilter]="makeIssueFilter"
-            [scoreKeys]="['title']"
-            [listSet]="linkedIssueListId"
-            [listAll]="allLinkedIssuesListId"
-            [hydrate]="linkedIssueListPromise"
-            [applyChangeset]="applyLinkedIssueChangeset">
-          <span title>Linked Issues</span>
-          <span if-empty>No issues linked</span>
-          <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
-            <app-issue-item [issue]="item" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
-          </div>
-        </app-set-editor>
-      </div>
-      <mat-divider></mat-divider>
-
-      <div class="issue-side-bar-row">
-        <mat-label><b>Linked By Issues</b></mat-label>
-        <br>
-        <p class="linked-issue-p" *ngFor="let linkedIssue of issue.node.linkedByIssues.nodes; let last = last;">
-          <a [routerLink]="['/projects', this.activatedRoute.snapshot.paramMap.get('id'),
-          'issues','component',this.getComponentId(linkedIssue.id),'issue',linkedIssue.id]">{{linkedIssue.title}}</a>
-          <ng-container *ngIf="!last">,&nbsp;</ng-container>
-        </p>
-      </div>
-      <mat-divider></mat-divider>
-
-      <div class="issue-side-bar-row">
-        <mat-label><b>Interfaces, Artefacts & NFR</b></mat-label>
-        <button mat-icon-button aria-label="Edit" (click)="this.openSettings($event, selectionType.Nfr)">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <br>
-      </div>
-    </div>
   </section>
 </div>
 

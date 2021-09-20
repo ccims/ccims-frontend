@@ -287,7 +287,8 @@ fragment fTimelineItem on IssueTimelineItem {
   }
   ...on IssueComment {
     body
-    currentUserCanEdit
+    # TODO broken on backend; uncomment when fixed
+    # currentUserCanEdit
     lastEditedAt
     reactions(first: 10) {
       ...fReactionsStub
@@ -615,6 +616,14 @@ query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy
           }
         }
       }
+    }
+  }
+}
+
+mutation MutCreateIssue($issue: CreateIssueInput!) {
+  createIssue(input: $issue) {
+    issue {
+      ...fIssueStub
     }
   }
 }

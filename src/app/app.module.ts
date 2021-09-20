@@ -59,8 +59,11 @@ import {MarkdownModule} from 'ngx-markdown';
 import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
 import { TimelineComponent } from './issue-detail/timeline/timeline.component';
 import { CommentComponent } from './issue-detail/comment/comment.component';
-import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
-import {TextDisplayComponent} from '@app/text-display/text-display.component';
+import { NodeDetailsPageComponent } from '@app/node-details-page/node-details-page.component';
+import { TextDisplayComponent } from '@app/text-display/text-display.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { IssueTimelineComponent } from '@app/issue-detail/issue-timeline.component';
+import { LinkedIssueItemComponent } from '@app/issue-detail/linked-issue-item.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -106,7 +109,9 @@ const toasterConfig: Partial<GlobalConfig> = {
     MarkdownPreviewComponent,
     TimelineComponent,
     CommentComponent,
-    TextDisplayComponent
+    TextDisplayComponent,
+    IssueTimelineComponent,
+    LinkedIssueItemComponent
   ],
   imports: [
     BrowserModule,
@@ -139,7 +144,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     MatProgressSpinnerModule,
     PortalModule,
     MonacoEditorModule.forRoot(),
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    MatButtonToggleModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

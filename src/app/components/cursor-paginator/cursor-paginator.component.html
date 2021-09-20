@@ -1,5 +1,5 @@
 <div class="cursor-paginator">
-    <div class="page-size-control">
+    <div class="page-size-control" *ngIf="this.pageSizes?.length > 1">
         <span class="page-size-label">Items per page:</span>
         <mat-form-field class="page-size-select">
             <mat-select [(value)]="this.list.count" (valueChange)="this.list.firstPage()">

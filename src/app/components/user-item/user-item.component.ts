@@ -9,4 +9,8 @@ import { User } from 'src/generated/graphql-dgql';
 })
 export class UserItemComponent {
   @Input() user: User;
+  /** Will show only the display name or username. */
+  @Input() short = false;
+  /** Hides the display name. */
+  @Input() noDisplay = false;
 }

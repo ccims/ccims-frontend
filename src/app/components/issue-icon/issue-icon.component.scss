@@ -1,0 +1,8 @@
+:host {
+  display: inline-block;
+}
+
+:host > * {
+  // get rid of bottom space caused by line height
+  display: block;
+}

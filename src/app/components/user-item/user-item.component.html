@@ -1,6 +1,6 @@
-<span class="display-name" *ngIf="user.displayName">
+<span class="display-name" *ngIf="!noDisplay && user.displayName && user.displayName !== user.username">
   {{user.displayName}}
 </span>
-<span [ngClass]="user.displayName ? 'username has-display-name' : 'username'">
+<span *ngIf="!short || !user.displayName" [ngClass]="(!noDisplay && user.displayName && user.displayName !== user.username) ? 'username has-display-name' : 'username'">
   {{user.username}}
 </span>

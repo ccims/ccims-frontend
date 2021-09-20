@@ -1,0 +1,19 @@
+<mat-expansion-panel (opened)="didOpen()">
+    <mat-expansion-panel-header>
+        <mat-panel-title class="linked-issue-components">
+            <span
+                class="linked-issue-component"
+                *ngFor="let component of issueStub.components.nodes">{{component.name}}</span>
+        </mat-panel-title>
+        <mat-panel-description>
+            {{issueStub.title}}
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="body-loading" *ngIf="fullIssue?.loading">
+        Loading…
+    </div>
+    <app-markdown-preview *ngIf="fullIssue?.hasData" [displayedCode]="fullIssue.current.body"></app-markdown-preview>
+    <div class="issue-buttons">
+        <a mat-button [href]="fullIssueLink">View Issue <mat-icon>chevron_right</mat-icon></a>
+    </div>
+</mat-expansion-panel>

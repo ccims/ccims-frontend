@@ -3,71 +3,39 @@
   <form>
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Title</mat-label>
-      <input #title reqired matInput [formControl]="validationTitle" required>
-      <mat-error *ngIf="validationTitle.invalid">Invalid issue title</mat-error>
+      <input matInput [formControl]="title" required>
+      <mat-error *ngIf="title.invalid">Invalid issue title</mat-error>
     </mat-form-field>
-
 
     <app-markdown-editor #body></app-markdown-editor>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Category</mat-label>
-      <mat-select #category [formControl]="validationCategory" required>
-        <mat-option value="UNCLASSIFIED">Undefined</mat-option>
-        <mat-option value="BUG">Bug</mat-option>
-        <mat-option value="FEATURE_REQUEST">Feature Request</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <mat-button-toggle-group class="category-selector" [formControl]="category" required>
+      <mat-button-toggle value="UNCLASSIFIED">
+        <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
+        Uncategorized
+      </mat-button-toggle>
+      <mat-button-toggle value="BUG">
+        <mat-icon [svgIcon]="'issue-bug'"></mat-icon>
+        Bug
+      </mat-button-toggle>
+      <mat-button-toggle value="FEATURE_REQUEST">
+        <mat-icon [svgIcon]="'issue-feature'"></mat-icon>
+        Feature Request
+      </mat-button-toggle>
+    </mat-button-toggle-group>
 
-    <app-label-selector-component #labels [componentId]="this.data.id"></app-label-selector-component>
-
-    <ng-select class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedAssignees"
-               [ngModelOptions]="{standalone: true}" placeholder="Select Assignees">
-      <ng-option *ngFor="let assignee of this.assignees" [value]="assignee.id">{{assignee.name}}</ng-option>
-    </ng-select>
-
-    <ng-select class="adding-margin" [dropdownPosition]="'top'" [multiple]="true" [(ngModel)]="this.selectedInterfaces"
-               [ngModelOptions]="{standalone: true}" placeholder="Interfaces providing the issue">
-      <ng-option *ngFor="let componentInterface of this.selectableComponentInterfaces"
-                 [value]="componentInterface.id">{{componentInterface.name}}</ng-option>
-    </ng-select>
-
-    <ng-select *ngIf="issuesLoaded" class="adding-margin"
-               [dropdownPosition]="'top'"
-               [multiple]="true"
-               [(ngModel)]="this.selectedIssues"
-               [ngModelOptions]="{standalone: true}"
-               placeholder="Select Issues to link"
-               groupBy="component"
-               [items]="linkableProjectIssues"
-               bindLabel="title"
-               bindValue="id">
-      <ng-template ng-optgroup-tmp let-item="item">
-        {{item.component || 'Unnamed group'}}
-      </ng-template>
-    </ng-select>
-
-    <mat-form-field class="stretch body" appearance="outline">
-      <mat-label>Artefacts</mat-label>
-      <textarea style="height: 30px;" #artefects matInput></textarea>
-    </mat-form-field>
-
-    <mat-form-field class="stretch body" appearance="outline">
-      <mat-label>Non-functional-requirements</mat-label>
-      <textarea style="height: 30px;" #nfr matInput></textarea>
-    </mat-form-field>
+    <app-issue-sidebar [(localIssue)]="issueData" [projectId]="data.projectId"></app-issue-sidebar>
 
     <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon
               nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
   </form>
 
-
 </div>
 <div mat-dialog-actions class="actions">
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
   <button mat-raised-button color="success" [class.spinner]="loading"
-          [disabled]="loading || validationTitle.invalid || validationCategory.invalid"
-          (click)="onOkClick(title.value,body.code, category.value, labels.selectedLabels)">Create
+          [disabled]="loading || title.invalid || category.invalid"
+          (click)="onCreate()">Create
   </button>
 
 </div>
