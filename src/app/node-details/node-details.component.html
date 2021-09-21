@@ -1,7 +1,7 @@
 <app-query-component #nodeQuery
                      [errorMessage]="'Failed to load ' + getNodeTypeString().toLowerCase() + ' information!'">
     <ng-template appQueryBody>
-        <mat-tab-group style="height: calc(100% - 40px)">
+        <mat-tab-group>
             <mat-tab [label]="getNodeTypeString() + ' Issues'">
                 <div class="details">
                     <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list>

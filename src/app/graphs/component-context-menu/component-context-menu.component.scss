@@ -1,13 +1,19 @@
 @import "src/styles/variables";
 
 .frame {
-  padding: 6px;
+  padding: 24px;
   background-color: $background-controls;
-  border-radius: 5px;
-  box-shadow: 0 0 8px 0 #000000;
+  border-radius: 4px;
+  box-shadow: 0 11px 15px -7px rgb(0 0 0 / 20%), 0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%);
 }
 
-.center-horizontal {
+.node-title {
   width: 100%;
   text-align: center;
+  margin: 0 0 20px;
+}
+
+.container{
+  height: calc(100% - 50px);
+  overflow: auto;
 }
