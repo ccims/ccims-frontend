@@ -4957,7 +4957,7 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'LabelledEvent' }
         & Pick<LabelledEvent, 'id' | 'createdAt'>
-        & { label?: Maybe<Pick<Label, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { label?: Maybe<Pick<Label, 'id' | 'name' | 'color'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'IssueComment' }
         & Pick<IssueComment, 'body' | 'lastEditedAt' | 'id' | 'createdAt'>
@@ -6058,6 +6058,8 @@ export const GetAllTimelineItemsDocument = gql`
             ... on LabelledEvent {
               label {
                 id
+                name
+                color
               }
             }
             ... on IssueComment {

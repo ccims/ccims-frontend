@@ -111,7 +111,13 @@
     <div class="timeline-panel" *ngSwitchCase="'LabelledEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.label; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> added Label <a>{{timelineItem.label.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> added Label
+          <span style="display: inline-block">
+           <span class="issue-label"
+                 [ngStyle]="{'background-color': timelineItem.label.color, 'color': this.labelStore.lightOrDark(timelineItem.label.color)}">
+              {{timelineItem.label.name}}
+           </span>
+          </span>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> added Label <a>deleted</a>

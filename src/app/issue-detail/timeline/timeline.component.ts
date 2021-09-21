@@ -5,6 +5,7 @@ import {
 import {Observable, Subscription} from 'rxjs';
 import {IssueStoreService} from '@app/data/issue/issue-store.service';
 import {TimeFormatter} from "@app/issue-detail/TimeFormatter";
+import {LabelStoreService} from '@app/data/label/label-store.service';
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
@@ -19,7 +20,8 @@ export class TimelineComponent implements OnInit {
   public timelineItemsSub: Subscription;
   @Input() issueId: string;
 
-  constructor(private issueStoreService: IssueStoreService) { }
+  constructor(private issueStoreService: IssueStoreService,
+              public labelStore: LabelStoreService) { }
 
   ngOnInit(): void {
     this.requestTimelineItems();
