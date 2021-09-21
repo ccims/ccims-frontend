@@ -8,7 +8,7 @@
     </div>
 
 <ul class="timeline">
-  <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.__typename" [ngClass]="externOrIntern(timelineItem.__typename)">
+  <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.__typename" class="timeline-inverted">
     <!-- Icons in the timeline -->
     <div class="timeline-badge" *ngSwitchCase="'AddedToComponentEvent'"><mat-icon>add</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedFromComponentEvent'"><mat-icon>remove</mat-icon></div>
@@ -23,7 +23,6 @@
     <div class="timeline-badge" *ngSwitchCase="'EstimatedTimeChangedEvent'"><mat-icon>date_range</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'LabelledEvent'"><mat-icon>new_label</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'UnlabelledEvent'"><mat-icon>label</mat-icon></div>
-    <div class="timeline-badge" *ngSwitchCase="'IssueComment'"><mat-icon>chat_bubble_outline</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'DeletedIssueComment'"><mat-icon>speaker_notes_off</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'MarkedAsDuplicateEvent'"><mat-icon>plagiarism</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'UnmarkedAsDuplicateEvent'"><mat-icon>file_copy</mat-icon></div>
@@ -46,6 +45,9 @@
 
     <!-- Contents of timeline items -->
 
+    <div class="commentContainer" *ngSwitchCase="'IssueComment'">
+      <app-comment [comment]="timelineItem"></app-comment>
+    </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ClosedEvent'">
       <div class="timeline-body">
@@ -131,13 +133,6 @@
       </div>
     </div>
 
-
-
-    <div class="timeline-panel" *ngSwitchCase="'IssueComment'">
-      <div class="timeline-body">
-        <app-comment [comment]="timelineItem"></app-comment>
-      </div>
-    </div>
 
     <div class="timeline-panel" *ngSwitchCase="'DeletedIssueComment'">
       <div class="timeline-body">

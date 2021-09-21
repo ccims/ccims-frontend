@@ -14,7 +14,7 @@
   content: " ";
   width: 3px;
   background-color: #eeeeee;
-  left: 30%;
+  left: 10%;
   margin-left: -1.5px;
 }
 
@@ -55,6 +55,14 @@
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
 
+.timeline > li > .commentContainer {
+  width: 120%;
+  float: left;
+  position: relative;
+  left: 5%;
+  z-index: 100;
+}
+
 .timeline > li > .timeline-panel:before {
   position: absolute;
   top: 26px;
@@ -88,7 +96,7 @@
   text-align: center;
   position: absolute;
   top: 16px;
-  left: 30%;
+  left: 10%;
   margin-left: -25px;
   background-color: #999999;
   z-index: 100;
@@ -98,19 +106,11 @@
   border-bottom-left-radius: 50%;
 }
 
-.timeline > li > .commentContainer {
-  text-align: center;
-  position: absolute;
-  top: 16px;
-  left: 30%;
-  margin-left: -25px;
-  z-index: 100;
-}
 
 
 .timeline > li.timeline-inverted > .timeline-panel {
   float: right;
-  width: 66%;
+  width: 86%;
 }
 
 .timeline > li.timeline-inverted > .timeline-panel:before {
