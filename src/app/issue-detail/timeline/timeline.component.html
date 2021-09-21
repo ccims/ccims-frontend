@@ -30,12 +30,12 @@
     <div class="timeline-badge" *ngSwitchCase="'UnlinkEvent'"><mat-icon>link_off</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'PinnedEvent'"><mat-icon>push_pin</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'UnpinnedEvent'"><mat-icon>push_pin</mat-icon></div>
-    <div class="timeline-badge" *ngSwitchCase="'ReferencedByIssueEvent'"><mat-icon>switch_access_shortcut_add</mat-icon></div>
-    <div class="timeline-badge" *ngSwitchCase="'ReferencedByOtherEvent'"><mat-icon>switch_access_shortcut</mat-icon></div>
+    <div class="timeline-badge warning" *ngSwitchCase="'ReferencedByIssueEvent'"><mat-icon>switch_access_shortcut_add</mat-icon></div>
+    <div class="timeline-badge warning" *ngSwitchCase="'ReferencedByOtherEvent'"><mat-icon>switch_access_shortcut</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'StartDateChangedEvent'"><mat-icon>event</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'PriorityChangedEvent'"><mat-icon>reorder</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RenamedTitleEvent'"><mat-icon>drive_file_rename_outline</mat-icon></div>
-    <div class="timeline-badge" *ngSwitchCase="'WasLinkedEvent'"><mat-icon>add_link</mat-icon></div>
+    <div class="timeline-badge warning" *ngSwitchCase="'WasLinkedEvent'"><mat-icon>add_link</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'WasUnlinkedEvent'"><mat-icon>link_off</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'AddedArtifactEvent'"><mat-icon>data_object</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedArtifactEvent'"><mat-icon>data_object</mat-icon></div>
@@ -151,7 +151,8 @@
     <div class="timeline-panel" *ngSwitchCase="'MarkedAsDuplicateEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.originalIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of <a>{{timelineItem.originalIssue.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of
+          <a (click)="goToIssueDetails(timelineItem.originalIssue)">{{timelineItem.originalIssue.title}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of <a>deleted</a>
@@ -168,7 +169,8 @@
     <div class="timeline-panel" *ngSwitchCase="'LinkEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.linkedIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> linked issue to <a>{{timelineItem.linkedIssue.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> linked issue to issue
+          <a (click)="goToIssueDetails(timelineItem.linkedIssue)">{{timelineItem.linkedIssue.title}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> linked issue to <a>deleted</a>
@@ -185,7 +187,8 @@
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> pinned issue on <a>{{timelineItem.component.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> pinned issue on component
+          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> pinned issue on <a>deleted</a>
@@ -202,7 +205,9 @@
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByIssueEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.mentionedAt; else isNull">
-          This issue was referenced by issue <a>{{timelineItem.mentionedAt.id}}</a> in comment <a>{{timelineItem.mentionedInComment?.id}}</a>
+          This issue was referenced by issue
+          <a (click)="goToIssueDetails(timelineItem.mentionedAt)">{{timelineItem.mentionedAt.title}}</a>
+          in comment <a>{{timelineItem.mentionedInComment?.id}}</a>
           by <a>{{timelineItem.createdBy?.displayName}}</a>
         </div>
         <ng-template #isNull>
@@ -234,7 +239,8 @@
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromComponentEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component <a>{{timelineItem.component.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component
+          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component <a>deleted</a>
@@ -251,7 +257,8 @@
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByOtherEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> referenced this issue in component <a>{{timelineItem.component.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> referenced this issue in component
+          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
           with <a href="{{timelineItem.sourceURL}}">{{timelineItem.source}}</a>
         </div>
         <ng-template #isNull>
@@ -269,7 +276,8 @@
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromLocationEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.removedLocation; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location <a>{{timelineItem.removedLocation.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location
+          <a (click)="goToLocationDetails(timelineItem.removedLocation)">{{timelineItem.removedLocation.name}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location <a>deleted</a>
@@ -349,7 +357,13 @@
     <div class="timeline-panel" *ngSwitchCase="'UnlabelledEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.removedLabel; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed label <a>{{timelineItem.removedLabel.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> removed label
+          <span style="display: inline-block">
+           <span class="issue-label"
+                 [ngStyle]="{'background-color': timelineItem.removedLabel.color, 'color': this.labelStore.lightOrDark(timelineItem.removedLabel.color)}">
+              {{timelineItem.removedLabel.name}}
+           </span>
+          </span>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> removed label <a>deleted</a>
@@ -366,7 +380,8 @@
     <div class="timeline-panel" *ngSwitchCase="'WasLinkedEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.linkedBy; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> linked issue <a>{{timelineItem.linkedBy.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> linked issue
+          <a (click)="goToIssueDetails(timelineItem.linkedBy)">{{timelineItem.linkedBy.title}}</a>
           to this issue
         </div>
         <ng-template #isNull>
@@ -398,7 +413,8 @@
     <div class="timeline-panel" *ngSwitchCase="'WasUnlinkedEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.unlinkedBy; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue <a>{{timelineItem.unlinkedBy.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue
+          <a (click)="goToIssueDetails(timelineItem.unlinkedBy)">{{timelineItem.unlinkedBy.title}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue <a>deleted</a>
@@ -415,7 +431,8 @@
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> unpinned this issue in <a>{{timelineItem.component.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> unpinned this issue in
+          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> unpinned this issue in <a>deleted component</a>
@@ -432,7 +449,8 @@
     <div class="timeline-panel" *ngSwitchCase="'UnlinkEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue <a>{{timelineItem.removedLinkedIssue.id}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue
+          <a (click)="goToIssueDetails(timelineItem.removedLinkedIssue)">{{timelineItem.removedLinkedIssue.title}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue <a>deleted</a>
@@ -518,7 +536,8 @@
     <div class="timeline-panel" *ngSwitchCase="'AddedToComponentEvent'">
         <div class="timeline-body">
           <div *ngIf="!!timelineItem.component; else isNull">
-            <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component <a>{{timelineItem.component.name}}</a>
+            <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component
+            <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
           </div>
           <ng-template #isNull>
             <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component <a>deleted</a>
@@ -549,7 +568,8 @@
     <div class="timeline-panel" *ngSwitchCase="'AddedToLocationEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.location; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location <a>{{timelineItem.location.name}}</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location
+          <a (click)="goToLocationDetails(timelineItem.location)">{{timelineItem.location.name}}</a>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location <a>deleted</a>

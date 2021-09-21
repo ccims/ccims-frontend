@@ -4974,19 +4974,19 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'MarkedAsDuplicateEvent' }
         & Pick<MarkedAsDuplicateEvent, 'id' | 'createdAt'>
-        & { originalIssue?: Maybe<Pick<Issue, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { originalIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'LinkEvent' }
         & Pick<LinkEvent, 'id' | 'createdAt'>
-        & { linkedIssue?: Maybe<Pick<Issue, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { linkedIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'PinnedEvent' }
         & Pick<PinnedEvent, 'id' | 'createdAt'>
-        & { component?: Maybe<Pick<Component, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'ReferencedByIssueEvent' }
         & Pick<ReferencedByIssueEvent, 'id' | 'createdAt'>
-        & { mentionedAt?: Maybe<Pick<Issue, 'id'>>, mentionedInComment?: Maybe<Pick<IssueComment, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { mentionedAt?: Maybe<Pick<Issue, 'id' | 'title'>>, mentionedInComment?: Maybe<Pick<IssueComment, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'PriorityChangedEvent' }
         & Pick<PriorityChangedEvent, 'oldPriority' | 'newPriority' | 'id' | 'createdAt'>
@@ -4994,7 +4994,7 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'RemovedFromComponentEvent' }
         & Pick<RemovedFromComponentEvent, 'id' | 'createdAt'>
-        & { removedComponent?: Maybe<Pick<Component, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { removedComponent?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'ReferencedByOtherEvent' }
         & Pick<ReferencedByOtherEvent, 'source' | 'sourceURL' | 'id' | 'createdAt'>
@@ -5002,7 +5002,7 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'RemovedFromLocationEvent' }
         & Pick<RemovedFromLocationEvent, 'id' | 'createdAt'>
-        & { removedLocation?: Maybe<Pick<Component, 'id'> | Pick<ComponentInterface, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { removedLocation?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'ReopenedEvent' }
         & Pick<ReopenedEvent, 'id' | 'createdAt'>
@@ -5026,23 +5026,23 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'WasLinkedEvent' }
         & Pick<WasLinkedEvent, 'id' | 'createdAt'>
-        & { linkedBy?: Maybe<Pick<Issue, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { linkedBy?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'UnmarkedAsDuplicateEvent' }
         & Pick<UnmarkedAsDuplicateEvent, 'id' | 'createdAt'>
-        & { issue: Pick<Issue, 'id'>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { issue: Pick<Issue, 'id' | 'title'>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'WasUnlinkedEvent' }
         & Pick<WasUnlinkedEvent, 'id' | 'createdAt'>
-        & { unlinkedBy?: Maybe<Pick<Issue, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { unlinkedBy?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'UnpinnedEvent' }
         & Pick<UnpinnedEvent, 'id' | 'createdAt'>
-        & { component?: Maybe<Pick<Component, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'UnlinkEvent' }
         & Pick<UnlinkEvent, 'id' | 'createdAt'>
-        & { removedLinkedIssue?: Maybe<Pick<Issue, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { removedLinkedIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'AddedArtifactEvent' }
         & Pick<AddedArtifactEvent, 'id' | 'createdAt'>
@@ -6101,21 +6101,25 @@ export const GetAllTimelineItemsDocument = gql`
             ... on MarkedAsDuplicateEvent {
               originalIssue {
                 id
+                title
               }
             }
             ... on LinkEvent {
               linkedIssue {
                 id
+                title
               }
             }
             ... on PinnedEvent {
               component {
                 id
+                name
               }
             }
             ... on ReferencedByIssueEvent {
               mentionedAt {
                 id
+                title
               }
               mentionedInComment {
                 id
@@ -6128,6 +6132,7 @@ export const GetAllTimelineItemsDocument = gql`
             ... on RemovedFromComponentEvent {
               removedComponent {
                 id
+                name
               }
             }
             ... on ReferencedByOtherEvent {
@@ -6141,6 +6146,7 @@ export const GetAllTimelineItemsDocument = gql`
             ... on RemovedFromLocationEvent {
               removedLocation {
                 id
+                name
               }
             }
             ... on StartDateChangedEvent {
@@ -6164,26 +6170,31 @@ export const GetAllTimelineItemsDocument = gql`
             ... on WasLinkedEvent {
               linkedBy {
                 id
+                title
               }
             }
             ... on UnmarkedAsDuplicateEvent {
               issue {
                 id
+                title
               }
             }
             ... on WasUnlinkedEvent {
               unlinkedBy {
                 id
+                title
               }
             }
             ... on UnpinnedEvent {
               component {
                 id
+                name
               }
             }
             ... on UnlinkEvent {
               removedLinkedIssue {
                 id
+                title
               }
             }
             ... on AddedArtifactEvent {

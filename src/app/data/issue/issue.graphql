@@ -239,22 +239,26 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on MarkedAsDuplicateEvent {
               originalIssue {
-                id
+                id,
+                title
               }
             }
             ... on LinkEvent {
               linkedIssue {
-                id
+                id,
+                title
               }
             }
             ... on PinnedEvent {
               component {
-                id
+                id,
+                name
               }
             }
             ... on ReferencedByIssueEvent {
               mentionedAt {
-                id
+                id,
+                title
               }
               mentionedInComment {
                 id
@@ -266,7 +270,8 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on RemovedFromComponentEvent {
               removedComponent {
-                id
+                id,
+                name
               }
             }
             ... on ReferencedByOtherEvent {
@@ -279,7 +284,8 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on RemovedFromLocationEvent {
               removedLocation {
-                id
+                id,
+                name
               }
             }
             ... on StartDateChangedEvent {
@@ -302,27 +308,32 @@ query getAllTimelineItems($input: ID!) {
             }
             ...on WasLinkedEvent {
               linkedBy{
-                id
+                id,
+                title
               }
             }
             ...on UnmarkedAsDuplicateEvent {
               issue{
-                id
+                id,
+                title
               }
             }
             ... on WasUnlinkedEvent {
               unlinkedBy {
-                id
+                id,
+                title
               }
             }
             ... on UnpinnedEvent {
               component {
-                id
+                id,
+                name
               }
             }
             ... on UnlinkEvent {
               removedLinkedIssue {
-                id
+                id,
+                title
               }
             }
             ... on AddedArtifactEvent {

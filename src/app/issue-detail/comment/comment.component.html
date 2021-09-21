@@ -1,0 +1,53 @@
+<div class="issue-content">
+
+  <!--Part 3: Issue body-->
+  <div class="Box Box--condensed issue-body-box">
+
+    <!--Part 3.1: Header-->
+    <div class="Box-header d-flex flex-items-center">
+
+      <!--Text-->
+      <h3 class="Box-title overflow-hidden flex-auto">
+        <i><b>{{comment.createdBy.displayName}}</b></i>&nbsp;commented
+        <time [dateTime]="comment.createdAt" [title]="this.timeFormatter.formatTime(comment.createdAt)">
+          {{this.timeFormatter.formatTimeDifference(comment.createdAt)}}
+        </time>
+        <small>
+          &sdot;&nbsp;{{comment.editedBy.nodes[0].displayName}} edited
+          <time [dateTime]="comment.lastEditedAt" [title]="this.timeFormatter.formatTime(comment.lastEditedAt)">
+            {{this.timeFormatter.formatTimeDifference(comment.lastEditedAt)}}
+          </time>
+        </small>
+      </h3>
+
+      <!--Edit-->
+      <button mat-flat-button (click)="this.editBody=!this.editBody">Edit</button>
+    </div>
+
+    <!--Part 3.2: Description-->
+    <div *ngIf="!this.editBody" class="Box-body">
+      <div style="margin-left: 15px">
+        <app-markdown-preview [displayedCode]="comment.body"></app-markdown-preview>
+      </div>
+    </div>
+
+
+
+    <!--Part 3.3: Editing-->
+    <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
+
+      <!--Text-->
+      <app-markdown-editor #bodyEdit [code]="comment.body"></app-markdown-editor>
+
+      <div class="edit-body-buttons">
+
+        <!--Cancel-->
+        <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
+
+        <!--Save-->
+        <button mat-raised-button color="primary" (click)="editComment(bodyEdit.code)">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+

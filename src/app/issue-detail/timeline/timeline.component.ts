@@ -6,6 +6,8 @@ import {Observable, Subscription} from 'rxjs';
 import {IssueStoreService} from '@app/data/issue/issue-store.service';
 import {TimeFormatter} from "@app/issue-detail/TimeFormatter";
 import {LabelStoreService} from '@app/data/label/label-store.service';
+import {Router} from '@angular/router';
+import {Location} from 'graphql';
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
@@ -19,9 +21,11 @@ export class TimelineComponent implements OnInit {
   public timelineItems$: Observable<GetAllTimelineItemsQuery>;
   public timelineItemsSub: Subscription;
   @Input() issueId: string;
+  @Input() projectID: string;
 
   constructor(private issueStoreService: IssueStoreService,
-              public labelStore: LabelStoreService) { }
+              public labelStore: LabelStoreService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.requestTimelineItems();
@@ -55,17 +59,9 @@ export class TimelineComponent implements OnInit {
    */
   selfAssigned(assignedEvent): boolean{
     if (assignedEvent.createdBy.id === assignedEvent.removedAssignee?.id){
-      /*console.log(timelineItem.__typename);
-      console.log("Creator: " + timelineItem.createdBy.id );
-      console.log("Assignee: " + timelineItem.assignee.id);
-      console.log("Self assigned");*/
       return true;
     }
     else if (assignedEvent.createdBy.id === assignedEvent.assignee?.id){
-      /*console.log(timelineItem.__typename);
-      console.log("Creator: " + timelineItem.createdBy.id );
-      console.log("Assignee: " + timelineItem.assignee.id);
-      console.log("Self assigned");*/
       return true;
     }
     return false;
@@ -82,6 +78,27 @@ export class TimelineComponent implements OnInit {
     return true;
   }
 
+  goToComponentDetails(component){
+    this.router.navigate(['projects', this.projectID, 'component', component.id]);
+  }
+
+  goToLocationDetails(location){
+    // Location is component
+    if (location.__typename === 'Component'){
+      this.router.navigate(['projects', this.projectID, 'component', location.id]);
+    }
+    // Location is interface
+    this.router.navigate(['projects', this.projectID, 'interface', location.id]);
+  }
+
+  goToIssueDetails(issue){
+    this.router.navigate(['projects', this.projectID, 'issues', issue.id]);
+  }
+
+  /**
+   * Checks if event is caused from within this issue or from another issue
+   * @param eventElement
+   */
   externOrIntern(eventElement: string){
     let intern;
     switch (eventElement){
