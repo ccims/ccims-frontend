@@ -131,27 +131,11 @@
       </div>
     </div>
 
+
+
     <div class="timeline-panel" *ngSwitchCase="'IssueComment'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> commented
-        <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
-          </time>
-          <br>
-        </small>
-        <div>
-          <p>{{timelineItem.body}}</p>
-        </div>
-        <small class="text-muted">
-          <p>
-            {{timelineItem.editedBy.nodes[0].displayName}} edited
-            <time [dateTime]="timelineItem.lastEditedAt" [title]="this.timeFormatter.formatTime(timelineItem.lastEditedAt)">
-              {{this.timeFormatter.formatTimeDifference(timelineItem.lastEditedAt)}}
-            </time>
-          </p>
-        </small>
+        <app-comment [comment]="timelineItem"></app-comment>
       </div>
     </div>
 

@@ -58,6 +58,7 @@ import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-edi
 import {MarkdownModule} from 'ngx-markdown';
 import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
 import { TimelineComponent } from './issue-detail/timeline/timeline.component';
+import { CommentComponent } from './issue-detail/comment/comment.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -100,7 +101,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     QueryButtonDirective,
     MarkdownEditorComponent,
     MarkdownPreviewComponent,
-    TimelineComponent
+    TimelineComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

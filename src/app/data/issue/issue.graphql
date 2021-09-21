@@ -150,7 +150,23 @@ mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
 
 mutation UpdateComment($input: UpdateCommentInput!) {
   updateComment(input: $input){
-    clientMutationID
+    clientMutationID,
+    comment {
+          id
+          createdBy {
+            id
+            displayName
+          }
+          createdAt
+          body
+          lastEditedAt
+          editedBy {
+            nodes {
+              id
+              displayName
+            }
+          }
+        }
   }
 }
 

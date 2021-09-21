@@ -4915,7 +4915,16 @@ export type UpdateCommentMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCommentMutation = { updateComment?: Maybe<Pick<UpdateCommentPayload, 'clientMutationID'>> };
+export type UpdateCommentMutation = { updateComment?: Maybe<(
+    Pick<UpdateCommentPayload, 'clientMutationID'>
+    & { comment?: Maybe<(
+      Pick<Issue, 'id' | 'createdAt' | 'body' | 'lastEditedAt'>
+      & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, editedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
+    ) | (
+      Pick<IssueComment, 'id' | 'createdAt' | 'body' | 'lastEditedAt'>
+      & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, editedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
+    )> }
+  )> };
 
 export type GetAllTimelineItemsQueryVariables = Exact<{
   input: Scalars['ID'];
@@ -5991,6 +6000,22 @@ export const UpdateCommentDocument = gql`
     mutation UpdateComment($input: UpdateCommentInput!) {
   updateComment(input: $input) {
     clientMutationID
+    comment {
+      id
+      createdBy {
+        id
+        displayName
+      }
+      createdAt
+      body
+      lastEditedAt
+      editedBy {
+        nodes {
+          id
+          displayName
+        }
+      }
+    }
   }
 }
     `;
