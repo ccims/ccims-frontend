@@ -1,4 +1,14 @@
-import { NodeType, NodeId, decodeNodeId, ListId, decodeListId, ListParams, ListType, ListDescriptor, NodeDescriptor } from './id';
+import {
+  NodeType,
+  NodeId,
+  decodeNodeId,
+  ListId,
+  decodeListId,
+  ListParams,
+  ListType,
+  ListDescriptor,
+  CURRENT_USER_NODE
+} from './id';
 import { QueriesService } from './queries/queries.service';
 import { PageInfo } from '../../generated/graphql-dgql';
 import { NodeCache } from './query';
@@ -15,6 +25,9 @@ const nodeQueries: NodeQueries = {
   [NodeType.Project]: (i, id) => i.q.projects.getProject(id).then(data => data.node),
   [NodeType.Component]: (i, id) => i.q.components.getComponent(id).then(data => data.node),
   [NodeType.Issue]: (i, id) => i.q.issues.getIssueHeader(id).then(data => data.node),
+  [NodeType.User]: (i, id) => id === CURRENT_USER_NODE.id
+    ? i.q.users.currentUser().then(data => data.currentUser)
+    : Promise.reject(new Error('not implemented'))
 };
 
 export const queryNode = (q: QueriesService) => async <T>(nodeId: NodeId): Promise<T> => {

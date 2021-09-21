@@ -44,6 +44,9 @@ export function getRawId(id: NodeId): string {
 export const ROOT_NODE = { type: NodeType.Root, id: '' };
 export const ROOT_NODE_ID = encodeNodeId(ROOT_NODE);
 
+export const CURRENT_USER_NODE = { type: NodeType.User, id: 'self' };
+export const CURRENT_USER_NODE_ID = encodeNodeId(CURRENT_USER_NODE);
+
 export enum ListType {
   Projects,
   Components,

@@ -6,6 +6,12 @@ import { CreateIssueInput } from '../../generated/graphql-dgql';
 export class Mutations {
   constructor(private qs: QueriesService, private nc: NodeCache, private invalidateLists: (id: ListId) => void) {}
 
+  invalidateNode(id: NodeId) {
+    if (this.nc.nodes.has(id)) {
+      this.nc.getNode(id).loadDebounced();
+    }
+  }
+
   createIssue(issue: CreateIssueInput) {
     return this.qs.issues.mutCreateIssue(issue).then(data => {
       for (const id of issue.components) {
@@ -21,6 +27,52 @@ export class Mutations {
       }
 
       return data.createIssue.issue;
+    });
+  }
+
+  closeIssue(id: string, issue: NodeId) {
+    return this.qs.issues.mutCloseIssue(id, getRawId(issue)).then(() => {
+      this.invalidateNode(issue);
+    });
+  }
+
+  reopenIssue(id: string, issue: NodeId) {
+    return this.qs.issues.mutReopenIssue(id, getRawId(issue)).then(() => {
+      this.invalidateNode(issue);
+    });
+  }
+
+  renameIssueTitle(id: string, issue: NodeId, title: string) {
+    return this.qs.issues.mutRenameIssueTitle(id, getRawId(issue), title).then(() => {
+      const issueNode = decodeNodeId(issue);
+      this.invalidateNode(issue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+    });
+  }
+
+  addIssueComment(id: string, issue: NodeId, commentBody: string) {
+    return this.qs.issues.mutAddIssueComment(id, getRawId(issue), commentBody).then(() => {
+      const issueNode = decodeNodeId(issue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+    });
+  }
+
+  /**
+   * Updates the issue comment.
+   *
+   * @param id - mutation id
+   * @param comment - either an issue ID or a comment ID. Pass an issue ID to edit the issue body
+   * @param commentBody - plain text body
+   */
+  updateIssueComment(id: string, comment: NodeId, commentBody: string) {
+    return this.qs.issues.mutUpdateIssueComment(id, getRawId(comment), commentBody).then(() => {
+      this.invalidateNode(comment);
+    });
+  }
+
+  deleteIssueComment(id: string, comment: NodeId) {
+    return this.qs.issues.mutDeleteIssueComment(id, getRawId(comment)).then(() => {
+      this.invalidateNode(comment);
     });
   }
 

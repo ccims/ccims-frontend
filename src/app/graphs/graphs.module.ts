@@ -41,7 +41,7 @@ import { UserItemComponent } from '@app/components/user-item/user-item.component
 import { IssueIconComponent } from '@app/components/issue-icon/issue-icon.component';
 import { IssueSidebarComponent } from '@app/issue-detail/issue-sidebar.component';
 import { CacheNodeComponent } from '@app/components/cache-node.component';
-import { IssueTimelineComponent } from '@app/issue-detail/issue-timeline.component';
+import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here

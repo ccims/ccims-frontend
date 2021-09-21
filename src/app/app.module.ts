@@ -62,7 +62,7 @@ import { CommentComponent } from './issue-detail/comment/comment.component';
 import { NodeDetailsPageComponent } from '@app/node-details-page/node-details-page.component';
 import { TextDisplayComponent } from '@app/text-display/text-display.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { IssueTimelineComponent } from '@app/issue-detail/issue-timeline.component';
+import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
 import { LinkedIssueItemComponent } from '@app/issue-detail/linked-issue-item.component';
 
 registerLocaleData(en);
@@ -110,7 +110,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     TimelineComponent,
     CommentComponent,
     TextDisplayComponent,
-    IssueTimelineComponent,
+    IssueContentsComponent,
     LinkedIssueItemComponent
   ],
   imports: [

@@ -1,12 +1,12 @@
 <mat-expansion-panel (opened)="didOpen()">
     <mat-expansion-panel-header>
-        <mat-panel-title class="linked-issue-components">
+        <mat-panel-title>
+            {{issueStub.title}}
+        </mat-panel-title>
+        <mat-panel-description class="linked-issue-components">
             <span
                 class="linked-issue-component"
                 *ngFor="let component of issueStub.components.nodes">{{component.name}}</span>
-        </mat-panel-title>
-        <mat-panel-description>
-            {{issueStub.title}}
         </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="body-loading" *ngIf="fullIssue?.loading">

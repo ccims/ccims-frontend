@@ -1,4 +1,4 @@
-<div class="issue-timeline" *ngIf="issue$?.current as issue">
+<div class="issue-contents" *ngIf="issue$?.current as issue">
     <!--Part 3: Issue body-->
     <div class="timeline-item issue-body">
         <div class="item-box">
@@ -10,6 +10,8 @@
                     <app-user-item [short]="true" [user]="issue.createdBy"></app-user-item> commented
                     <time [dateTime]="issue.createdAt"
                           [title]="this.formatTime(issue.createdAt)">{{this.formatIssueOpenTime()}}</time>
+                    <!-- TODO: show more details about edits (make that into a component?) -->
+                    <span class="item-edited" *ngIf="issue.lastEditedAt"> · edited</span>
                 </h3>
 
                 <!--Edit-->
@@ -37,9 +39,9 @@
 
                     <!--Cancel-->
                     <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
-
+                    &nbsp;
                     <!--Save-->
-                    <button mat-raised-button color="primary" (click)="this.editIssueBody(bodyEdit.code)">Save</button>
+                    <button mat-raised-button color="primary" [class.spinner]="savingBody" (click)="this.editIssueBody(bodyEdit.code)">Save</button>
                 </div>
             </div>
         </div>
@@ -71,51 +73,30 @@
         </div>
     </div>
 
-    <!--Part 5: Issue Comments-->
-    <div *ngFor="let comment of (issue.issueComments?.nodes || [])" class="TimelineItem issue-comment">
-        <div class="Box Box--condensed">
-
-            <!--Comment header-->
-            <div class="Box-header d-flex flex-items-center">
-
-                <!--Text-->
-                <h3 class="Box-title overflow-hidden flex-auto">
-                    <i><b>{{comment.createdBy.displayName}}</b></i>&nbsp;commented
-                    <time [dateTime]="comment.createdAt"
-                          [title]="this.formatTime(comment.createdAt)">{{this.formatTimeDifference(comment.createdAt)}}</time>
-                </h3>
-
-                <!--Delete-->
-                <!--button mat-flat-button (click)="deleteComment(comment.id)">Delete</button-->
-            </div>
-
-            <!--Comment body-->
-            <div class="Box-body">
-                {{comment.body}}
-            </div>
-        </div>
-    </div>
+    <app-timeline [issueId]="issueId" [projectID]="projectId"></app-timeline>
 
     <mat-divider></mat-divider>
 
     <!--Part 6: Comment creation box-->
-    <div class="Box Box--condensed issue-body-box comment-box-container">
-        <div class="Box-header d-flex flex-items-center">
-            <h3 class="Box-title overflow-hidden flex-auto">
-                Comment this issue as <b>{{issue.createdBy.displayName}}</b>
-            </h3>
-        </div>
-        <div class="Box-body clear">
-            <textarea class="comment-text-area" matInput #comment></textarea>
-            <div class="comment-buttons">
-                <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue
-                </button>
-                <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen
-                    Issue
-                </button>
-                <button mat-raised-button color="primary" style="margin-left: 6px"
-                        (click)="this.commentIssue(comment.value)">Comment
-                </button>
+    <div class="timeline-item comment-form">
+        <div class="item-box">
+            <div class="item-header">
+                <h3 class="item-title">
+                    Comment this issue as <app-user-item [user]="currentUser$.current" [short]="true"></app-user-item>
+                </h3>
+            </div>
+            <div class="item-body">
+                <app-markdown-editor #comment></app-markdown-editor>
+                <div class="comment-buttons">
+                    <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue
+                    </button>
+                    <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen
+                        Issue
+                    </button>
+                    &nbsp;
+                    <button mat-raised-button color="primary" [class.spinner]="savingComment" (click)="this.commentIssue(comment.code)">Comment
+                    </button>
+                </div>
             </div>
         </div>
     </div>

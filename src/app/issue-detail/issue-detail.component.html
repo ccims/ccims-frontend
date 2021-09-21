@@ -2,12 +2,20 @@
 <div class="issue-details" #issueContainer *ngIf="issue$?.current as issue">
   <header class="issue-header">
     <div class="issue-title">
+      <!-- TODO: use app-text-display component for this -->
       <h1 class="title-text">
         {{issue.title}}
       </h1>
+      <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.title">
       <div class="title-actions" *ngIf="userCanEditIssue">
-        <button mat-flat-button class="title-edit-button" color="primary">
+        <button mat-flat-button class="title-edit-button" color="primary" (click)="beginEditingTitle()" *ngIf="!this.editTitle">
           Edit
+        </button>
+        <button mat-flat-button *ngIf="this.editTitle" (click)="this.finishEditingTitle()">
+          Cancel
+        </button>
+        <button mat-flat-button *ngIf="this.editTitle" (click)="this.finishEditingTitle(true)" [class.spinner]="savingTitle" color="accent">
+          Save
         </button>
       </div>
     </div>
@@ -32,12 +40,12 @@
       </div>
     </div>
   </header>
-  <div class="issue-contents">
-    <app-issue-timeline
-        class="issue-timeline"
+  <div class="issue-page">
+    <app-issue-contents
+        class="issue-contents"
         [issue$]="issue$"
         [issueId]="issueId"
-        [projectId]="projectId"></app-issue-timeline>
+        [projectId]="projectId"></app-issue-contents>
     <app-issue-sidebar
         class="issue-sidebar"
         [issue$]="issue$"
@@ -45,58 +53,3 @@
         [projectId]="projectId"></app-issue-sidebar>
   </div>
 </div>
-
-<div class="aaa" *ngIf="issue$?.current as issue">
-  <!--Part 2: Header-->
-  <section class="clear">
-    <div id="issue-header" class="issue-header">
-
-      <!--Part 2.1: Title-->
-      <div>
-
-        <!--Title while being edited-->
-        <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.title">
-
-        <!--Title while not being edited-->
-        <h1 #title *ngIf="!this.editTitle" id="issue-heading">
-          {{issue.title}}
-        </h1>
-      </div>
-
-      <!--Part 2.2: Title editing buttons-->
-      <div id="issue-action">
-
-        <!--Edit-->
-        <button mat-flat-button *ngIf="!this.editTitle" color="primary" (click)="this.editIssueTitle()">Edit</button>
-
-        <!--Cancel-->
-        <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle()">Cancel</button>
-
-        <!--Save-->
-        <button mat-flat-button *ngIf="this.editTitle" (click)="this.editIssueTitle(true)" color="accent">Save</button>
-      </div>
-    </div>
-
-    <!--Part 2.3: Issue state-->
-    <div id="issue-state">
-
-      <!--Whether the issue is open-->
-      <span *ngIf="issue.isOpen" class="customLabelOpen ">&nbsp;Open&nbsp;</span>
-
-      <!--Whether the issue is closed-->
-      <span *ngIf="!issue.isOpen" class="customLabelClosed ">&nbsp;Closed&nbsp;</span>
-
-      <!--User who has opened the issue-->
-      <a class="author text-bold link-gray">&nbsp;{{issue.createdBy.username}} </a>&nbsp;opened this issue&nbsp;
-
-      <!--Number of days the issue has been open-->
-      <time [dateTime]="issue.createdAt"
-            [title]="this.timeFormatter.formatTime(issue.createdAt)">{{this.formatIssueOpenTime()}}</time>
-
-      <!--Number of comments regarding the issue-->
-      &nbsp;&sdot;&nbsp;{{this.timeFormatter.pluralize(issue.issueComments?.nodes?.length + 1, 'comment')}}
-    </div>
-    <mat-divider style="margin-top:20px;"></mat-divider>
-  </section>
-</div>
-
