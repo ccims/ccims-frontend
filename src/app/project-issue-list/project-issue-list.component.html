@@ -1,4 +1,4 @@
-<div class="margin-left-top p-3">
+<div class="margin-left-top">
     <div *ngIf="(project$ | async) as project">
         <app-project-header [projectId]="projectId" [projectName]="project$.current.name"></app-project-header>
     </div>
