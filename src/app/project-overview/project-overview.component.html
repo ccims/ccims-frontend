@@ -6,11 +6,9 @@
                     <img src="https://github.com/github.png" />
                 </div>
 
-                <div>
-                    <div class="content">
-                        <p class="title">{{project.current.name}}</p>
-                        <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
-                    </div>
+                <div class="content">
+                    <p class="title">{{project.current.name}}</p>
+                    <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
                 </div>
 
                 <!-- delete project button -->
@@ -19,34 +17,12 @@
                     <button id="button" mat-raised-button (click)="deleteProject()"
                         color="warn"> Delete </button>
                 </div>
-
-                <!-- Description editing buttons-->
-                <div id="description-edit">
-
-                    <!--Edit-->
-                    <button id="button" mat-raised-button *ngIf="!this.editDesctiption" color="primary"
-                        (click)="this.editProjectDescription()">Edit</button>
-
-                    <!--Cancel-->
-                    <button id="button" mat-raised-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription()">Cancel</button>
-
-                    <!--Save-->
-                    <button id="button" mat-raised-button *ngIf="this.editDesctiption" (click)="this.editProjectDescription(true)"
-                        color="accent">Save</button>
-                </div>
-
             </div>
 
-            <div class="d-flex text-sm-left">
-                <mat-form-field floatLabel="always" appearance="outline" class="pagefill">
-                    <mat-label>Description</mat-label>
-
-                    <!-- automatically resizing text field -->
-                    <textarea id="textarea" [ngModel]="project.current.description" matInput cdkTextareaAutosize
-                        #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="50"
-                        style="overflow:hidden" readonly></textarea>
-                </mat-form-field>
-            </div>
+            <app-text-display [text]="description"
+                              [onEditFinished]="projectNameEdited"
+                              placeholder="No project description!"
+                              labelText="Project description"></app-text-display>
         </div>
     </ng-template>
 </app-query-component>

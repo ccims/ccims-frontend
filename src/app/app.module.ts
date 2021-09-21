@@ -57,6 +57,8 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
 import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-editor.component';
 import {MarkdownModule} from 'ngx-markdown';
 import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
+import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
+import {TextDisplayComponent} from '@app/text-display/text-display.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -97,8 +99,10 @@ const toasterConfig: Partial<GlobalConfig> = {
     QueryBodyDirective,
     NodeDetailsComponent,
     QueryButtonDirective,
+    NodeDetailsPageComponent,
     MarkdownEditorComponent,
-    MarkdownPreviewComponent
+    MarkdownPreviewComponent,
+    TextDisplayComponent
   ],
   imports: [
     BrowserModule,
