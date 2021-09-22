@@ -247,7 +247,15 @@ query getAllTimelineItems($input: ID!) {
             ... on LinkEvent {
               linkedIssue {
                 id,
-                title
+                title,
+                category,
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on PinnedEvent {

@@ -4984,7 +4984,10 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'LinkEvent' }
         & Pick<LinkEvent, 'id' | 'createdAt'>
-        & { linkedIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { linkedIssue?: Maybe<(
+          Pick<Issue, 'id' | 'title' | 'category' | 'isOpen'>
+          & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+        )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'PinnedEvent' }
         & Pick<PinnedEvent, 'id' | 'createdAt'>
@@ -6115,6 +6118,14 @@ export const GetAllTimelineItemsDocument = gql`
               linkedIssue {
                 id
                 title
+                category
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on PinnedEvent {

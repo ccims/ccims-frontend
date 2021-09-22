@@ -170,7 +170,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.linkedIssue; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> linked issue to issue
-          <a (click)="goToIssueDetails(timelineItem.linkedIssue)">{{timelineItem.linkedIssue.title}}</a>
+            <app-issue-item [issue]="timelineItem.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> linked issue to <a>deleted</a>
