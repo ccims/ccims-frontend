@@ -37,8 +37,8 @@ export class TimelineComponent implements OnInit {
 
     this.timelineItemsSub = this.timelineItems$.subscribe(timeline => {
 
-      console.log('komplette timeline:');
-      console.log(JSON.stringify(timeline));
+      // console.log('komplette timeline:');
+      // console.log(JSON.stringify(timeline));
 
       this.timelineItems = [];
 
@@ -67,139 +67,17 @@ export class TimelineComponent implements OnInit {
     return false;
   }
 
-  /**
-   * Checks for null
-   * @param eventElement
-   */
-  notNull(eventElement): boolean{
-    if (!eventElement){
-      return false;
-    }
-    return true;
-  }
 
   goToComponentDetails(component){
     this.router.navigate(['projects', this.projectID, 'component', component.id]);
   }
 
   goToLocationDetails(location){
-    // Location is component
     if (location.__typename === 'Component'){
       this.router.navigate(['projects', this.projectID, 'component', location.id]);
     }
-    // Location is interface
-    this.router.navigate(['projects', this.projectID, 'interface', location.id]);
-  }
-
-  goToIssueDetails(issue){
-    this.router.navigate(['projects', this.projectID, 'issues', issue.id]);
-  }
-
-  /**
-   * Checks if event is caused from within this issue or from another issue
-   * @param eventElement
-   */
-  externOrIntern(eventElement: string){
-    let intern;
-    switch (eventElement){
-      case 'AddedToComponentEvent':
-        intern = true;
-        break;
-      case 'RemovedFromComponentEvent':
-        intern = true;
-        break;
-      case 'AddedToLocationEvent':
-        intern = true;
-        break;
-      case 'RemovedFromLocationEvent':
-        intern = true;
-        break;
-      case 'ClosedEvent':
-        intern = true;
-        break;
-      case 'ReopenedEvent':
-        intern = true;
-        break;
-      case 'AssignedEvent':
-        intern = true;
-        break;
-      case 'UnassignedEvent':
-        intern = true;
-        break;
-      case 'CategoryChangedEvent':
-        intern = true;
-        break;
-      case 'DueDateChangedEvent':
-        intern = true;
-        break;
-      case 'EstimatedTimeChangedEvent':
-        intern = true;
-        break;
-      case 'LabelledEvent':
-        intern = true;
-        break;
-      case 'UnlabelledEvent':
-        intern = true;
-        break;
-      case 'IssueComment':
-        intern = true;
-        break;
-      case 'DeletedIssueComment':
-        intern = true;
-        break;
-      case 'MarkedAsDuplicateEvent':
-        intern = true;
-        break;
-      case 'UnmarkedAsDuplicateEvent':
-        intern = true;
-        break;
-      case 'LinkEvent':
-        intern = true;
-        break;
-      case 'UnlinkEvent':
-        intern = true;
-        break;
-      case 'PinnedEvent':
-        intern = true;
-        break;
-      case 'UnpinnedEvent':
-        intern = true;
-        break;
-      case 'ReferencedByIssueEvent':
-        intern = false;
-        break;
-      case 'ReferencedByOtherEvent':
-        intern = false;
-        break;
-      case 'StartDateChangedEvent':
-        intern = true;
-        break;
-      case 'PriorityChangedEvent':
-        intern = true;
-        break;
-      case 'RenamedTitleEvent':
-        intern = true;
-        break;
-      case 'WasLinkedEvent':
-        intern = false;
-        break;
-      case 'WasUnlinkedEvent':
-        intern = false;
-        break;
-      case 'AddedArtifactEvent':
-        intern = true;
-        break;
-      case 'RemovedArtifactEvent':
-        intern = true;
-        break;
-      case 'AddedNonFunctionalConstraintEvent':
-        intern = true;
-        break;
-      case 'RemovedNonFunctionalConstraintEvent':
-        intern = true;
-        break;
+    else {
+      this.router.navigate(['projects', this.projectID, 'interface', location.id]);
     }
-
-    return {'timeline-inverted': intern};
   }
 }

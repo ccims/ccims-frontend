@@ -152,7 +152,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.originalIssue; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of
-          <a (click)="goToIssueDetails(timelineItem.originalIssue)">{{timelineItem.originalIssue.title}}</a>
+          <app-issue-item [issue]="timelineItem.originalIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of <a>deleted</a>
@@ -170,7 +170,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.linkedIssue; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> linked issue to issue
-          <a (click)="goToIssueDetails(timelineItem.linkedIssue)">{{timelineItem.linkedIssue.title}}</a>
+            <app-issue-item [issue]="timelineItem.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> linked issue to <a>deleted</a>
@@ -206,7 +206,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.mentionedAt; else isNull">
           This issue was referenced by issue
-          <a (click)="goToIssueDetails(timelineItem.mentionedAt)">{{timelineItem.mentionedAt.title}}</a>
+          <app-issue-item [issue]="timelineItem.mentionedAt" [interactive]="true" [projectId]="projectID"></app-issue-item>
           in comment <a>{{timelineItem.mentionedInComment?.id}}</a>
           by <a>{{timelineItem.createdBy?.displayName}}</a>
         </div>
@@ -381,7 +381,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.linkedBy; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> linked issue
-          <a (click)="goToIssueDetails(timelineItem.linkedBy)">{{timelineItem.linkedBy.title}}</a>
+          <app-issue-item [issue]="timelineItem.linkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
           to this issue
         </div>
         <ng-template #isNull>
@@ -414,7 +414,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.unlinkedBy; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue
-          <a (click)="goToIssueDetails(timelineItem.unlinkedBy)">{{timelineItem.unlinkedBy.title}}</a>
+          <app-issue-item [issue]="timelineItem.unlinkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue <a>deleted</a>
@@ -450,7 +450,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.removedLinkedIssue; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue
-          <a (click)="goToIssueDetails(timelineItem.removedLinkedIssue)">{{timelineItem.removedLinkedIssue.title}}</a>
+          <app-issue-item [issue]="timelineItem.removedLinkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue <a>deleted</a>
