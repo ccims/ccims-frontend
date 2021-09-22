@@ -24,7 +24,6 @@ export class TimelineComponent implements OnInit {
   @Input() projectID: string;
 
   constructor(private issueStoreService: IssueStoreService,
-              public labelStore: LabelStoreService,
               private router: Router) { }
 
   ngOnInit(): void {

@@ -115,10 +115,7 @@
         <div *ngIf="!!timelineItem.label; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> added Label
           <span style="display: inline-block">
-           <span class="issue-label"
-                 [ngStyle]="{'background-color': timelineItem.label.color, 'color': this.labelStore.lightOrDark(timelineItem.label.color)}">
-              {{timelineItem.label.name}}
-           </span>
+            <app-issue-label [label]="timelineItem.label"></app-issue-label>
           </span>
         </div>
         <ng-template #isNull>
@@ -359,10 +356,7 @@
         <div *ngIf="!!timelineItem.removedLabel; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> removed label
           <span style="display: inline-block">
-           <span class="issue-label"
-                 [ngStyle]="{'background-color': timelineItem.removedLabel.color, 'color': this.labelStore.lightOrDark(timelineItem.removedLabel.color)}">
-              {{timelineItem.removedLabel.name}}
-           </span>
+            <app-issue-label [label]="timelineItem.removedLabel"></app-issue-label>
           </span>
         </div>
         <ng-template #isNull>

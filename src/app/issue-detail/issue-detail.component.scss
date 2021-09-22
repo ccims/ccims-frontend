@@ -42,6 +42,19 @@
       margin-right: 16px;
       flex: 1;
     }
+
+    .title-input {
+      flex: 1;
+      margin-right: 16px;
+
+      ::ng-deep .mat-form-field-wrapper {
+        padding-bottom: 0;
+
+        .mat-form-field-infix {
+          border-top-width: 0.5em;
+        }
+      }
+    }
   }
 
   .issue-subheading {

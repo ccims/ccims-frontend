@@ -1,51 +1,6 @@
 <div class="issue-contents" *ngIf="issue$?.current as issue">
     <!--Part 3: Issue body-->
-    <div class="timeline-item issue-body">
-        <div class="item-box">
-            <!--Part 3.1: Header-->
-            <div class="item-header">
-
-                <!--Text-->
-                <h3 class="item-title">
-                    <app-user-item [short]="true" [user]="issue.createdBy"></app-user-item> commented
-                    <time [dateTime]="issue.createdAt"
-                          [title]="this.formatTime(issue.createdAt)">{{this.formatIssueOpenTime()}}</time>
-                    <!-- TODO: show more details about edits (make that into a component?) -->
-                    <span class="item-edited" *ngIf="issue.lastEditedAt"> · edited</span>
-                </h3>
-
-                <!--Edit-->
-                <button
-                    *ngIf="!this.editBody"
-                    class="item-edit"
-                    mat-flat-button
-                    (click)="this.editBody=!this.editBody">
-                    Edit
-                </button>
-            </div>
-
-            <!--Part 3.2: Description-->
-            <div *ngIf="!this.editBody" class="item-body">
-                <app-markdown-preview [displayedCode]="issue.body"></app-markdown-preview>
-            </div>
-
-            <!--Part 3.3: Editing-->
-            <div *ngIf="this.editBody" class="item-body is-editing" [ngStyle]="{minHeight: (this.editBody) ? '280px' : 'auto'}">
-
-                <!--Text-->
-                <app-markdown-editor #bodyEdit [code]="issue.body"></app-markdown-editor>
-
-                <div class="edit-body-buttons">
-
-                    <!--Cancel-->
-                    <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
-                    &nbsp;
-                    <!--Save-->
-                    <button mat-raised-button color="primary" [class.spinner]="savingBody" (click)="this.editIssueBody(bodyEdit.code)">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <app-comment class="issue-body" [commentId]="issue$.id" [comment]="issue"></app-comment>
 
     <!--Part 4: Linked issues-->
     <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">

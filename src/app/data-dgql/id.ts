@@ -13,7 +13,8 @@ export enum NodeType {
   Label,
   Project,
   Artifact,
-  User
+  User,
+  IssueComment
 }
 
 export function nodeTypeFromTypename(typename: string) {

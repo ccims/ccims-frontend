@@ -67,28 +67,6 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Edits the description of the current issue.
-   *
-   * @param {string} body - The new description of the current issue.
-   *
-   * TODO: Implement the edittIssueBody mutation that's to be used
-   * to edit the issue's description (in ccims-frontend and in ccims-backed-gql).
-   */
-  public editIssueBody(body: string): void {
-    this.savingBody = true;
-    this.dataService.mutations.updateIssueComment(
-      Math.random().toString(),
-      this.issue$.id,
-      body
-    ).then(() => {
-      // only exit if successful
-      this.editBody = false;
-    }).finally(() => {
-      this.savingBody = false;
-    });
-  }
-
-  /**
    * Adds a comment to the current issue.
    *
    * @param commentBody - Comment to be added.

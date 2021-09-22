@@ -2,21 +2,25 @@
 <div class="issue-details" #issueContainer *ngIf="issue$?.current as issue">
   <header class="issue-header">
     <div class="issue-title">
-      <!-- TODO: use app-text-display component for this -->
-      <h1 class="title-text">
+      <h1 class="title-text" *ngIf="!this.editTitle">
         {{issue.title}}
       </h1>
-      <input #titleInput class="title-input" *ngIf="this.editTitle" mat-input [value]="issue.title">
+      <mat-form-field class="title-input" *ngIf="this.editTitle" appearance="outline">
+        <input matInput #titleInput class="title-input" [value]="issue.title" autofocus />
+      </mat-form-field>
       <div class="title-actions" *ngIf="userCanEditIssue">
         <button mat-flat-button class="title-edit-button" color="primary" (click)="beginEditingTitle()" *ngIf="!this.editTitle">
           Edit
         </button>
-        <button mat-flat-button *ngIf="this.editTitle" (click)="this.finishEditingTitle()">
-          Cancel
-        </button>
-        <button mat-flat-button *ngIf="this.editTitle" (click)="this.finishEditingTitle(true)" [class.spinner]="savingTitle" color="accent">
-          Save
-        </button>
+        <ng-container *ngIf="this.editTitle">
+          <button mat-flat-button (click)="this.finishEditingTitle()">
+            Cancel
+          </button>
+          &nbsp;
+          <button mat-flat-button (click)="this.finishEditingTitle(true)" [class.spinner]="savingTitle" color="accent">
+            Save
+          </button>
+        </ng-container>
       </div>
     </div>
     <div class="issue-subheading">
