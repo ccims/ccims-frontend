@@ -57,6 +57,8 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
 import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-editor.component';
 import {MarkdownModule} from 'ngx-markdown';
 import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
+import { TimelineComponent } from './issue-detail/timeline/timeline.component';
+import { CommentComponent } from './issue-detail/comment/comment.component';
 import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
 import {TextDisplayComponent} from '@app/text-display/text-display.component';
 
@@ -102,6 +104,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     NodeDetailsPageComponent,
     MarkdownEditorComponent,
     MarkdownPreviewComponent,
+    TimelineComponent,
+    CommentComponent,
     TextDisplayComponent
   ],
   imports: [

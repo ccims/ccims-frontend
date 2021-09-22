@@ -4915,7 +4915,151 @@ export type UpdateCommentMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCommentMutation = { updateComment?: Maybe<Pick<UpdateCommentPayload, 'clientMutationID'>> };
+export type UpdateCommentMutation = { updateComment?: Maybe<(
+    Pick<UpdateCommentPayload, 'clientMutationID'>
+    & { comment?: Maybe<(
+      Pick<Issue, 'id' | 'createdAt' | 'body' | 'lastEditedAt'>
+      & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, editedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
+    ) | (
+      Pick<IssueComment, 'id' | 'createdAt' | 'body' | 'lastEditedAt'>
+      & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>, editedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'displayName'> | Pick<ImsUser, 'id' | 'displayName'>>>> }> }
+    )> }
+  )> };
+
+export type GetAllTimelineItemsQueryVariables = Exact<{
+  input: Scalars['ID'];
+}>;
+
+
+export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes?: Maybe<Array<Maybe<(
+        { __typename: 'AddedToComponentEvent' }
+        & Pick<AddedToComponentEvent, 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, component?: Maybe<Pick<Component, 'id' | 'name'>> }
+      ) | (
+        { __typename: 'AddedToLocationEvent' }
+        & Pick<AddedToLocationEvent, 'id' | 'createdAt'>
+        & { location?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'ClosedEvent' }
+        & Pick<ClosedEvent, 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'AssignedEvent' }
+        & Pick<AssignedEvent, 'id' | 'createdAt'>
+        & { assignee?: Maybe<Pick<CcimsUser, 'id'> | Pick<ImsUser, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'CategoryChangedEvent' }
+        & Pick<CategoryChangedEvent, 'oldCategory' | 'newCategory' | 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'DueDateChangedEvent' }
+        & Pick<DueDateChangedEvent, 'oldDueDate' | 'newDueDate' | 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'DeletedIssueComment' }
+        & Pick<DeletedIssueComment, 'deletedAt' | 'id' | 'createdAt'>
+        & { deletedBy?: Maybe<Pick<CcimsUser, 'id'> | Pick<ImsUser, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'EstimatedTimeChangedEvent' }
+        & Pick<EstimatedTimeChangedEvent, 'oldEstimatedTime' | 'newEstimatedTime' | 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'LabelledEvent' }
+        & Pick<LabelledEvent, 'id' | 'createdAt'>
+        & { label?: Maybe<Pick<Label, 'id' | 'name' | 'color'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'IssueComment' }
+        & Pick<IssueComment, 'body' | 'lastEditedAt' | 'id' | 'createdAt'>
+        & { editedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'MarkedAsDuplicateEvent' }
+        & Pick<MarkedAsDuplicateEvent, 'id' | 'createdAt'>
+        & { originalIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'LinkEvent' }
+        & Pick<LinkEvent, 'id' | 'createdAt'>
+        & { linkedIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'PinnedEvent' }
+        & Pick<PinnedEvent, 'id' | 'createdAt'>
+        & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'ReferencedByIssueEvent' }
+        & Pick<ReferencedByIssueEvent, 'id' | 'createdAt'>
+        & { mentionedAt?: Maybe<Pick<Issue, 'id' | 'title'>>, mentionedInComment?: Maybe<Pick<IssueComment, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'PriorityChangedEvent' }
+        & Pick<PriorityChangedEvent, 'oldPriority' | 'newPriority' | 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'RemovedFromComponentEvent' }
+        & Pick<RemovedFromComponentEvent, 'id' | 'createdAt'>
+        & { removedComponent?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'ReferencedByOtherEvent' }
+        & Pick<ReferencedByOtherEvent, 'source' | 'sourceURL' | 'id' | 'createdAt'>
+        & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'RemovedFromLocationEvent' }
+        & Pick<RemovedFromLocationEvent, 'id' | 'createdAt'>
+        & { removedLocation?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'ReopenedEvent' }
+        & Pick<ReopenedEvent, 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'StartDateChangedEvent' }
+        & Pick<StartDateChangedEvent, 'oldStartDate' | 'newStartDate' | 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'RenamedTitleEvent' }
+        & Pick<RenamedTitleEvent, 'oldTitle' | 'newTitle' | 'id' | 'createdAt'>
+        & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'UnassignedEvent' }
+        & Pick<UnassignedEvent, 'id' | 'createdAt'>
+        & { removedAssignee?: Maybe<Pick<CcimsUser, 'id'> | Pick<ImsUser, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'UnlabelledEvent' }
+        & Pick<UnlabelledEvent, 'id' | 'createdAt'>
+        & { removedLabel?: Maybe<Pick<Label, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'WasLinkedEvent' }
+        & Pick<WasLinkedEvent, 'id' | 'createdAt'>
+        & { linkedBy?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'UnmarkedAsDuplicateEvent' }
+        & Pick<UnmarkedAsDuplicateEvent, 'id' | 'createdAt'>
+        & { issue: Pick<Issue, 'id' | 'title'>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'WasUnlinkedEvent' }
+        & Pick<WasUnlinkedEvent, 'id' | 'createdAt'>
+        & { unlinkedBy?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'UnpinnedEvent' }
+        & Pick<UnpinnedEvent, 'id' | 'createdAt'>
+        & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'UnlinkEvent' }
+        & Pick<UnlinkEvent, 'id' | 'createdAt'>
+        & { removedLinkedIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'AddedArtifactEvent' }
+        & Pick<AddedArtifactEvent, 'id' | 'createdAt'>
+        & { artifact?: Maybe<Pick<Artifact, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'RemovedArtifactEvent' }
+        & Pick<RemovedArtifactEvent, 'id' | 'createdAt'>
+        & { removedArtifact?: Maybe<Pick<Artifact, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'AddedNonFunctionalConstraintEvent' }
+        & Pick<AddedNonFunctionalConstraintEvent, 'id' | 'createdAt'>
+        & { nonFunctionalConstraint?: Maybe<Pick<NonFunctionalConstraint, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      ) | (
+        { __typename: 'RemovedNonFunctionalConstraintEvent' }
+        & Pick<RemovedNonFunctionalConstraintEvent, 'id' | 'createdAt'>
+        & { removedNonFunctionalConstraint?: Maybe<Pick<NonFunctionalConstraint, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+      )>>> }> }> };
 
 export type GetLabelsQueryVariables = Exact<{
   projectId: Scalars['ID'];
@@ -5856,6 +6000,22 @@ export const UpdateCommentDocument = gql`
     mutation UpdateComment($input: UpdateCommentInput!) {
   updateComment(input: $input) {
     clientMutationID
+    comment {
+      id
+      createdBy {
+        id
+        displayName
+      }
+      createdAt
+      body
+      lastEditedAt
+      editedBy {
+        nodes {
+          id
+          displayName
+        }
+      }
+    }
   }
 }
     `;
@@ -5865,6 +6025,211 @@ export const UpdateCommentDocument = gql`
   })
   export class UpdateCommentGQL extends Apollo.Mutation<UpdateCommentMutation, UpdateCommentMutationVariables> {
     document = UpdateCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const GetAllTimelineItemsDocument = gql`
+    query getAllTimelineItems($input: ID!) {
+  node(id: $input) {
+    ... on Issue {
+      timeline {
+        nodes {
+          __typename
+          ... on IssueTimelineItem {
+            id
+            createdBy {
+              id
+              username
+              displayName
+            }
+            createdAt
+            ... on AddedToComponentEvent {
+              component {
+                id
+                name
+              }
+            }
+            ... on AddedToLocationEvent {
+              location {
+                id
+                name
+              }
+            }
+            ... on AssignedEvent {
+              assignee {
+                id
+              }
+            }
+            ... on CategoryChangedEvent {
+              oldCategory
+              newCategory
+            }
+            ... on DueDateChangedEvent {
+              oldDueDate
+              newDueDate
+            }
+            ... on DeletedIssueComment {
+              deletedBy {
+                id
+              }
+              deletedAt
+            }
+            ... on EstimatedTimeChangedEvent {
+              oldEstimatedTime
+              newEstimatedTime
+            }
+            ... on LabelledEvent {
+              label {
+                id
+                name
+                color
+              }
+            }
+            ... on IssueComment {
+              body
+              lastEditedAt
+              editedBy {
+                nodes {
+                  id
+                  username
+                  displayName
+                }
+              }
+            }
+            ... on MarkedAsDuplicateEvent {
+              originalIssue {
+                id
+                title
+              }
+            }
+            ... on LinkEvent {
+              linkedIssue {
+                id
+                title
+              }
+            }
+            ... on PinnedEvent {
+              component {
+                id
+                name
+              }
+            }
+            ... on ReferencedByIssueEvent {
+              mentionedAt {
+                id
+                title
+              }
+              mentionedInComment {
+                id
+              }
+            }
+            ... on PriorityChangedEvent {
+              oldPriority
+              newPriority
+            }
+            ... on RemovedFromComponentEvent {
+              removedComponent {
+                id
+                name
+              }
+            }
+            ... on ReferencedByOtherEvent {
+              component {
+                id
+                name
+              }
+              source
+              sourceURL
+            }
+            ... on RemovedFromLocationEvent {
+              removedLocation {
+                id
+                name
+              }
+            }
+            ... on StartDateChangedEvent {
+              oldStartDate
+              newStartDate
+            }
+            ... on RenamedTitleEvent {
+              oldTitle
+              newTitle
+            }
+            ... on UnassignedEvent {
+              removedAssignee {
+                id
+              }
+            }
+            ... on UnlabelledEvent {
+              removedLabel {
+                id
+              }
+            }
+            ... on WasLinkedEvent {
+              linkedBy {
+                id
+                title
+              }
+            }
+            ... on UnmarkedAsDuplicateEvent {
+              issue {
+                id
+                title
+              }
+            }
+            ... on WasUnlinkedEvent {
+              unlinkedBy {
+                id
+                title
+              }
+            }
+            ... on UnpinnedEvent {
+              component {
+                id
+                name
+              }
+            }
+            ... on UnlinkEvent {
+              removedLinkedIssue {
+                id
+                title
+              }
+            }
+            ... on AddedArtifactEvent {
+              artifact {
+                id
+              }
+            }
+            ... on RemovedArtifactEvent {
+              removedArtifact {
+                id
+              }
+            }
+            ... on AddedNonFunctionalConstraintEvent {
+              nonFunctionalConstraint {
+                id
+              }
+            }
+            ... on RemovedNonFunctionalConstraintEvent {
+              removedNonFunctionalConstraint {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllTimelineItemsGQL extends Apollo.Query<GetAllTimelineItemsQuery, GetAllTimelineItemsQueryVariables> {
+    document = GetAllTimelineItemsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
