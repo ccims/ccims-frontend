@@ -241,7 +241,14 @@ query getAllTimelineItems($input: ID!) {
             ... on MarkedAsDuplicateEvent {
               originalIssue {
                 id,
-                title
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on LinkEvent {
@@ -267,7 +274,15 @@ query getAllTimelineItems($input: ID!) {
             ... on ReferencedByIssueEvent {
               mentionedAt {
                 id,
-                title
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
               }
               mentionedInComment {
                 id
@@ -318,19 +333,43 @@ query getAllTimelineItems($input: ID!) {
             ...on WasLinkedEvent {
               linkedBy{
                 id,
-                title
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
               }
             }
             ...on UnmarkedAsDuplicateEvent {
               issue{
                 id,
-                title
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on WasUnlinkedEvent {
               unlinkedBy {
                 id,
-                title
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on UnpinnedEvent {
@@ -342,7 +381,15 @@ query getAllTimelineItems($input: ID!) {
             ... on UnlinkEvent {
               removedLinkedIssue {
                 id,
-                title
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on AddedArtifactEvent {

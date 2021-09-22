@@ -4980,7 +4980,10 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'MarkedAsDuplicateEvent' }
         & Pick<MarkedAsDuplicateEvent, 'id' | 'createdAt'>
-        & { originalIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { originalIssue?: Maybe<(
+          Pick<Issue, 'id' | 'category' | 'isOpen'>
+          & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+        )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'LinkEvent' }
         & Pick<LinkEvent, 'id' | 'createdAt'>
@@ -4995,7 +4998,10 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'ReferencedByIssueEvent' }
         & Pick<ReferencedByIssueEvent, 'id' | 'createdAt'>
-        & { mentionedAt?: Maybe<Pick<Issue, 'id' | 'title'>>, mentionedInComment?: Maybe<Pick<IssueComment, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { mentionedAt?: Maybe<(
+          Pick<Issue, 'id' | 'title' | 'category' | 'isOpen'>
+          & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+        )>, mentionedInComment?: Maybe<Pick<IssueComment, 'id'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'PriorityChangedEvent' }
         & Pick<PriorityChangedEvent, 'oldPriority' | 'newPriority' | 'id' | 'createdAt'>
@@ -5035,15 +5041,24 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'WasLinkedEvent' }
         & Pick<WasLinkedEvent, 'id' | 'createdAt'>
-        & { linkedBy?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { linkedBy?: Maybe<(
+          Pick<Issue, 'id' | 'title' | 'category' | 'isOpen'>
+          & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+        )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'UnmarkedAsDuplicateEvent' }
         & Pick<UnmarkedAsDuplicateEvent, 'id' | 'createdAt'>
-        & { issue: Pick<Issue, 'id' | 'title'>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { issue: (
+          Pick<Issue, 'id' | 'title' | 'category' | 'isOpen'>
+          & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+        ), createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'WasUnlinkedEvent' }
         & Pick<WasUnlinkedEvent, 'id' | 'createdAt'>
-        & { unlinkedBy?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { unlinkedBy?: Maybe<(
+          Pick<Issue, 'id' | 'title' | 'category' | 'isOpen'>
+          & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+        )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'UnpinnedEvent' }
         & Pick<UnpinnedEvent, 'id' | 'createdAt'>
@@ -5051,7 +5066,10 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'UnlinkEvent' }
         & Pick<UnlinkEvent, 'id' | 'createdAt'>
-        & { removedLinkedIssue?: Maybe<Pick<Issue, 'id' | 'title'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { removedLinkedIssue?: Maybe<(
+          Pick<Issue, 'id' | 'title' | 'category' | 'isOpen'>
+          & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
+        )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'AddedArtifactEvent' }
         & Pick<AddedArtifactEvent, 'id' | 'createdAt'>
@@ -6111,7 +6129,14 @@ export const GetAllTimelineItemsDocument = gql`
             ... on MarkedAsDuplicateEvent {
               originalIssue {
                 id
-                title
+                category
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on LinkEvent {
@@ -6138,6 +6163,14 @@ export const GetAllTimelineItemsDocument = gql`
               mentionedAt {
                 id
                 title
+                category
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
               mentionedInComment {
                 id
@@ -6189,18 +6222,42 @@ export const GetAllTimelineItemsDocument = gql`
               linkedBy {
                 id
                 title
+                category
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on UnmarkedAsDuplicateEvent {
               issue {
                 id
                 title
+                category
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on WasUnlinkedEvent {
               unlinkedBy {
                 id
                 title
+                category
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on UnpinnedEvent {
@@ -6213,6 +6270,14 @@ export const GetAllTimelineItemsDocument = gql`
               removedLinkedIssue {
                 id
                 title
+                category
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
               }
             }
             ... on AddedArtifactEvent {
