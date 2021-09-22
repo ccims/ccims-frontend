@@ -10,7 +10,7 @@
     </mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="unclassified" matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true"
                       (change)="updateSelectedCategories()">
-      <b class="unclassified-issue-icon">?</b>
+      <mat-icon class="unclassified-icon">help</mat-icon>
     </mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="showRelations" matTooltp="Issue Relations" class="slide-toggle" [checked]="true"
                       (change)="setRelationVisibility()">
