@@ -84,11 +84,15 @@ export class TimelineComponent implements OnInit {
 
   goToLocationDetails(location){
     // Location is component
+    console.log("location.__typename:");
+    console.log(location.__typename);
     if (location.__typename === 'Component'){
+      console.log("Geschafft");
       this.router.navigate(['projects', this.projectID, 'component', location.id]);
     }
-    // Location is interface
-    this.router.navigate(['projects', this.projectID, 'interface', location.id]);
+    else {
+      this.router.navigate(['projects', this.projectID, 'interface', location.id]);
+    }
   }
 
   goToIssueDetails(issue){

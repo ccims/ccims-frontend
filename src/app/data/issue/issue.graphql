@@ -192,6 +192,7 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on AddedToLocationEvent {
               location {
+                __typename,
                 id,
                 name
               }

@@ -4938,7 +4938,13 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
       ) | (
         { __typename: 'AddedToLocationEvent' }
         & Pick<AddedToLocationEvent, 'id' | 'createdAt'>
-        & { location?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+        & { location?: Maybe<(
+          { __typename: 'Component' }
+          & Pick<Component, 'id' | 'name'>
+        ) | (
+          { __typename: 'ComponentInterface' }
+          & Pick<ComponentInterface, 'id' | 'name'>
+        )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
         { __typename: 'ClosedEvent' }
         & Pick<ClosedEvent, 'id' | 'createdAt'>
@@ -6053,6 +6059,7 @@ export const GetAllTimelineItemsDocument = gql`
             }
             ... on AddedToLocationEvent {
               location {
+                __typename
                 id
                 name
               }
