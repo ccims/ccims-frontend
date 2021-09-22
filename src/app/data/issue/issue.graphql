@@ -241,6 +241,7 @@ query getAllTimelineItems($input: ID!) {
             ... on MarkedAsDuplicateEvent {
               originalIssue {
                 id,
+                title,
                 category,
                 linksToIssues{
                   totalCount
