@@ -18,11 +18,11 @@
       <mat-icon class="bug-report-icon">bug_report</mat-icon>
     </mat-slide-toggle>
 
-    <!--Unclassified Issues toggle-->
-    <mat-slide-toggle title="Unclassified Issues" [(ngModel)]="unclassified" 
-                      matTooltip="Unclassified Issues" class="slide-toggle" 
-                      [checked]="true" (change)="updateSelectedCategories()">
-      <b class="unclassified-issue-icon">?</b>
+      <!--Unclassified Issues toggle-->
+    <mat-slide-toggle title="Unclassified Issues" [(ngModel)]="unclassified"
+                      matTooltip="Unclassified Issues" class="slide-toggle"
+                        [checked]="true" (change)="updateSelectedCategories()">
+      <mat-icon class="unclassified-icon">help</mat-icon>
     </mat-slide-toggle>
 
     <!--Issue Relations toggle-->
