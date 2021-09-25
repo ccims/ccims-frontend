@@ -1,27 +1,46 @@
+<!--Create Project dialog-->
 <h1 mat-dialog-title>Create Project</h1>
+
+<!--Contents-->
 <div mat-dialog-content>
+
   <form>
+
+    <!--Project Name input field-->
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Name</mat-label>
       <input #name required matInput [formControl]="nameValidator">
-      <mat-error *ngIf="nameValidator.invalid">Invalid project name</mat-error>
+      <mat-error *ngIf="nameValidator.invalid">
+        Invalid project name
+      </mat-error>
     </mat-form-field>
 
+    <!--Project Description input field-->
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Description</mat-label>
       <textarea style="height: 200px;" #description matInput [formControl]="descriptionValidator"></textarea>
       <mat-error *ngIf="nameValidator.invalid">Invalid project description</mat-error>
     </mat-form-field>
 
+    <!--Save Failed error message-->
     <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon
               nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
   </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+
+<!--Actions-->
+<div mat-dialog-actions class="actions" style="justify-content: flex-end;">
+
+  <!--Cancel button-->
+  <button mat-raised-button color="warn" (click)="onNoClick()">
+    Cancel
+  </button>
+  
+  <!--Create button-->
   <button mat-raised-button color="success" [class.spinner]="loading"
-          [disabled]="loading || nameValidator.invalid || descriptionValidator.invalid"
-          (click)="onOkClick(name.value, description.value)">Create
+  [disabled]="loading || nameValidator.invalid || descriptionValidator.invalid"
+  (click)="onOkClick(name.value, description.value)">
+    Create
   </button>
 </div>
 
