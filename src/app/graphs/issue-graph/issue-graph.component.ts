@@ -508,7 +508,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const zoomTransformAsString = localStorage.getItem(`zoomTransform_${this.projectStorageKey}`);
     // Only set the bounding box to the optimized bounding box for the graph when creating the first component
     const firstComponent = this.graphData.components.size === 1 ? true : false;
-    console.log(firstComponent);
+
     // Set the bounding box to the bounding box of the last session or to the optimized bounding box if there wasnt a last session
     if ((JSON.parse(previousBoundingBoxAsString) !== null) && (JSON.parse(zoomTransformAsString) !== null) && this.graphFirstRender
       && !this.redrawByCloseOfComponentDetails && !firstComponent) {
@@ -720,6 +720,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       if (node.type === NodeType.Component) {
         contextMenuType = NodeDetailsType.Component;
       }
+
 
       if (node.type === NodeType.Interface) {
         contextMenuType = NodeDetailsType.Interface;
