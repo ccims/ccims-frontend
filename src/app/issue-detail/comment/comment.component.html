@@ -1,13 +1,13 @@
 <div class="issue-content">
 
   <!--Part 3: Issue body-->
-  <div class="Box Box--condensed issue-body-box">
+  <div class="issue-body-box">
 
     <!--Part 3.1: Header-->
-    <div class="Box-header d-flex flex-items-center">
+    <div class="issue-header-box">
 
       <!--Text-->
-      <h3 class="Box-title overflow-hidden flex-auto">
+      <h3 class="issue-header-title">
         <i><b>{{comment.createdBy.displayName}}</b></i>&nbsp;commented
         <time [dateTime]="comment.createdAt" [title]="this.timeFormatter.formatTime(comment.createdAt)">
           {{this.timeFormatter.formatTimeDifference(comment.createdAt)}}
@@ -21,11 +21,13 @@
       </h3>
 
       <!--Edit-->
-      <button mat-flat-button (click)="this.editBody=!this.editBody">Edit</button>
+      <button mat-icon-button color="primary" class="edit-comment-button" (click)="this.editBody=!this.editBody">
+        <mat-icon>edit</mat-icon>
+      </button>
     </div>
 
     <!--Part 3.2: Description-->
-    <div *ngIf="!this.editBody" class="Box-body">
+    <div *ngIf="!this.editBody" class="issue-body">
       <div style="margin-left: 15px">
         <app-markdown-preview [displayedCode]="comment.body"></app-markdown-preview>
       </div>
@@ -34,7 +36,7 @@
 
 
     <!--Part 3.3: Editing-->
-    <div *ngIf="this.editBody" class="Box-body" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
+    <div *ngIf="this.editBody" class="issue-body clear" [ngStyle]="{'height': (this.editBody) ? '280px' : 'auto'}">
 
       <!--Text-->
       <app-markdown-editor #bodyEdit [code]="comment.body"></app-markdown-editor>

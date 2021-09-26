@@ -1,9 +1,8 @@
-@import 'https://github.githubassets.com/assets/frameworks-ade8c0b2824918a1541c3ba74047219e.css';
-
-#issue-state, #issue-header{
+#issue-state, #issue-header {
   display: flex;
   text-align: center;
 }
+
 .issue-header {
   margin-top: 15px;
   margin-left: 5px;
@@ -13,15 +12,18 @@
   display: inline;
   margin-right: 8px;
 }
+
 #issue-action {
   margin-left: auto;
 }
+
 .issue-comment {
   margin-left: 0;
-    // The Timeline
-    &::before {
-      left: 16px;
-    }
+  // The Timeline
+  &::before {
+    left: 16px;
+  }
+
   display: block;
 }
 
@@ -29,21 +31,48 @@
   &::before {
     z-index: -1;
   }
+
   visibility: visible;
   margin-left: 6%;
 }
+
+.edit-comment-button{
+  margin: 8px;
+}
+
 .issue-body-box {
   margin-top: 15px;
+  border: lightgray 1px solid;
+  border-radius: 5px;
+  background: white;
 }
+
+.issue-body {
+  margin: 12px;
+}
+
+.issue-header-box {
+  display: flex;
+  align-items: center;
+  border-bottom: lightgray 1px solid;
+}
+
+.issue-header-title {
+  margin: 8px 12px 8px 12px;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
 .issue-body-box-edit {
   margin-top: 15px;
   padding-bottom: 50px;
 }
-.edit-body-buttons{
+
+.edit-body-buttons {
   float: right;
-margin-top: 5px;
-margin-bottom: 3px;
-height: 50px;
+  margin-top: 5px;
+  margin-bottom: 3px;
+  height: 50px;
 }
 
 .customLabelOpen {
@@ -54,6 +83,7 @@ height: 50px;
   border-width: 1px;
   font-size: 12px;
 }
+
 .customLabelClosed {
   background-color: rgb(255, 94, 0);
   border-radius: 60px;
@@ -63,9 +93,11 @@ height: 50px;
   font-size: 12px;
   color: white;
 }
+
 .container-xl {
   margin-left: 10%;
   margin-right: 10%;
+  margin-bottom: 12px;
 }
 
 .issue-side-bar {
@@ -76,21 +108,25 @@ height: 50px;
 
   margin-top: 15px;
 }
+
 .issue-side-bar-row {
   margin: 8px 0;
 }
+
 .clear:after {
   clear: both;
   content: "";
   display: table;
 }
+
 .issue-content {
-  float:left;
+  float: left;
   width: 70%;
 }
+
 .comment-text-area {
   width: 100%;
-  height:auto;
+  height: auto;
   min-height: 200px;
   margin-bottom: 5px;
   margin-right: 5px;
@@ -98,48 +134,60 @@ height: 50px;
   border-width: 1px;
   background-color: #fafafa;
 }
+
 .new-comment-box {
   position: relative;
   margin-bottom: 5px;
 }
+
 .comment-buttons {
-float: right;
-margin-top: 5px;
-margin-bottom: 3px;
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 3px;
 }
+
 .comment-buttons2 {
   position: absolute;
   right: 0px;
 }
+
 app-issue-settings-container {
   position: absolute;
 }
+
 .comment-box-container {
-margin-bottom: 15px;
+  margin-bottom: 15px;
 }
-.title-input{
+
+.title-input {
   width: 100%;
   max-width: 80%;
 }
-.linked-issues-container{
+
+.linked-issues-container {
   width: 100%;
   text-align: center;
 }
+
 h3 {
   margin-bottom: 8px;
   margin-top: 15px;
 }
+
 .linked-issue-p {
   margin-top: 2px;
   margin-bottom: 2px;
 }
+
 .centered-headline {
   text-align: center;
 }
+
 .LinkedIssuesItem {
   &::before {
     z-index: -1;
   }
+
   visibility: visible;
   margin-left: 2%;
 }
