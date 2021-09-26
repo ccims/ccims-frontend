@@ -18,13 +18,15 @@
     <!--Project Description input field-->
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea style="height: 200px;" #description matInput [formControl]="descriptionValidator"></textarea>
+      <textarea style="height: 200px;" 
+                #description matInput [formControl]="descriptionValidator"></textarea>
       <mat-error *ngIf="nameValidator.invalid">Invalid project description</mat-error>
     </mat-form-field>
 
     <!--Save Failed error message-->
-    <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon
-              nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
+    <nz-alert *ngIf="this.saveFailed" class="error-message" 
+              nzType="error" nzMessage="Something went wrong" 
+              nzShowIcon nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
   </form>
 </div>
 
@@ -38,8 +40,8 @@
   
   <!--Create button-->
   <button mat-raised-button color="success" [class.spinner]="loading"
-  [disabled]="loading || nameValidator.invalid || descriptionValidator.invalid"
-  (click)="onOkClick(name.value, description.value)">
+          [disabled]="loading || nameValidator.invalid || descriptionValidator.invalid"
+          (click)="onOkClick(name.value, description.value)">
     Create
   </button>
 </div>
