@@ -1,34 +1,62 @@
+<!--Graph page controls-->
 <div class="container">
+
+  <!--Controls-->
   <div class="controls">
-    <mat-slide-toggle [(ngModel)]="featureRequests" matTooltip="Feature Requests" class="slide-toggle" [checked]="true"
-                      (change)="updateSelectedCategories()">
+
+    <!--Feature Requests toggle-->
+    <mat-slide-toggle title="Feature Requests" [(ngModel)]="featureRequests" 
+                      matTooltip="Feature Requests" class="slide-toggle" 
+                      [checked]="true" (change)="updateSelectedCategories()">
       <mat-icon class="feature-request-icon">emoji_objects</mat-icon>
     </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="bug" matTooltip="Bug Reports" class="slide-toggle" [checked]="true"
-                      (change)="updateSelectedCategories()">
+
+    <!--Bug Reports toggle-->
+    <mat-slide-toggle title="Bug Reports" [(ngModel)]="bug" 
+                      matTooltip="Bug Reports" class="slide-toggle" 
+                      [checked]="true" (change)="updateSelectedCategories()">
       <mat-icon class="bug-report-icon">bug_report</mat-icon>
     </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="unclassified" matTooltip="Unclassified Issues" class="slide-toggle" [checked]="true"
-                      (change)="updateSelectedCategories()">
+
+    <!--Unclassified Issues toggle-->
+    <mat-slide-toggle title="Unclassified Issues" [(ngModel)]="unclassified" 
+                      matTooltip="Unclassified Issues" class="slide-toggle" 
+                      [checked]="true" (change)="updateSelectedCategories()">
       <b class="unclassified-issue-icon">?</b>
     </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="showRelations" matTooltp="Issue Relations" class="slide-toggle" [checked]="true"
-                      (change)="setRelationVisibility()">
+
+    <!--Issue Relations toggle-->
+    <mat-slide-toggle title="Issue Relations" [(ngModel)]="showRelations" 
+                      matTooltp="Issue Relations" class="slide-toggle" 
+                      [checked]="true" (change)="setRelationVisibility()">
       <mat-icon class="relation-edge-icon" svgIcon="relation-edge"></mat-icon>
     </mat-slide-toggle>
-    <button mat-icon-button title="Fit graph into view" (click)="this.issueGraph.fitGraphInView()"
+
+    <!--Center Focus button-->
+    <button mat-icon-button title="Fit Graph Into View" 
+            (click)="this.issueGraph.fitGraphInView()"
             style=" margin-left: 20px">
       <mat-icon>center_focus_strong</mat-icon>
     </button>
-    <button mat-icon-button title="Layout graph" (click)="this.layoutGraph()"
+
+    <!--Dashboard button-->
+    <button mat-icon-button title="Layout Graph" 
+            (click)="this.layoutGraph()"
             style=" margin-left: 20px">
       <mat-icon>dashboard</mat-icon>
     </button>
-    <app-label-search #labelSearch></app-label-search>
-    <button mat-fab title="Create new Component" color="primary" class="create-component-button"
+
+    <!--Search Label field-->
+    <app-label-search title="Label Search" #labelSearch></app-label-search>
+
+    <!--Create New Component button-->
+    <button mat-fab title="Create New Component" color="primary" 
+            class="create-component-button"
             (click)="this.issueGraph.openCreateComponentDialog()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
+
+  <!--?-->
   <app-issue-graph [projectId]="projectId"></app-issue-graph>
 </div>

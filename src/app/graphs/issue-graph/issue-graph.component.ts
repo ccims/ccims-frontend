@@ -534,7 +534,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-
   /**
    * Adds the issue folders with counts for each IssueCategory (currently 3)
    * to the component or interface represented by node. The first methods call
@@ -590,107 +589,199 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Method gets triggered after an edge gets created,
+   * it can either be of type provider or consumer.
+   * @param  {DraggedEdge} edge - Edge that is handled.
+   */
   private onCreateEdge = (edge: DraggedEdge) => {
+
     const graph: GraphEditor = this.graphWrapper.nativeElement;
-    const createdFromExisting = edge.createdFrom != null;
-    if (createdFromExisting) {
-      // only allow delete or dropping at the same node
+    const sourceNode = graph.getNode(edge.source);
+
+    // case: edge created from an existing edge
+    // => allows deletion or dropping at the same node
+    if (edge.createdFrom != null) {
       const original = graph.getEdge(edge.createdFrom);
       edge.validTargets.clear();
       edge.validTargets.add(original.target.toString());
       return edge;
     }
-    const sourceNode = graph.getNode(edge.source);
+
+    // case: edge originates from a component
     if (sourceNode.type === NodeType.Component) {
-      // update edge properties
+
+      // updates edge properties (no drag handles)
       edge.type = NodeType.Interface;
-      edge.dragHandles = []; // no drag handles
-      // update valid targets
+      edge.dragHandles = [];
+
+      // updates valid targets
       edge.validTargets.clear();
-      // allow only interfaces as targets
+      
+      // updates marker at the end of the edge
+      edge.markerEnd = {
+        template: "interface-connector-initial",
+        relativeRotation: 0,
+        absoluteRotation: 0
+      };
+      
+      // allows only interfaces as targets
       graph.nodeList.forEach((node) => {
         if (node.type === NodeType.Interface) {
           edge.validTargets.add(node.id.toString());
         }
       });
-      // allow only new targets
+
+      // allows only new targets
       graph.getEdgesBySource(sourceNode.id).forEach((existingEdge) => {
         edge.validTargets.delete(existingEdge.target.toString());
       });
     }
+    
     return edge;
   }
-
+  
+  /**
+   * Method gets triggered after an edge gets dragged
+   * and its target is changed:
+   * ex. consumer edge gets moved away from the provider edge.
+   * @param  {DraggedEdge} edge - Edge that is handled.
+   * @param  {Node} sourceNode - Source of the handled edge.
+   * @param  {Node} targetNode - Target of the handled edge.
+   * @returns {DraggedEdge} Edge that is handled.
+   */
   private onDraggedEdgeTargetChanged = (
     edge: DraggedEdge,
     sourceNode: Node,
     targetNode: Node
   ) => {
+
+    // case: edge originates from a component
     if (sourceNode.type === NodeType.Component) {
+
+      // case: target of edge is an interface
+      // => handles edge as of type consumer
       if (targetNode?.type === NodeType.Interface) {
+
+        // updates edge properties (default drag handle)
         edge.type = NodeType.InterfaceConsumer;
+        delete edge.dragHandles;
+
+        // updates marker at the end of the edge
         edge.markerEnd = {
           template: NodeType.InterfaceConsumer,
           relativeRotation: 0,
         };
-        delete edge.dragHandles; // default drag handle
-      } else {
-        // target was null/create a new interface
+      }
+      
+      // case: target of edge is not an interface (aka. null)
+      // => handles edge as of type provider
+      else {
+
+        // updates edge properties (no drag handles)
         edge.type = NodeType.Interface;
+        edge.dragHandles = [];
+
+        // updates marker at the end of the edge
         delete edge.markerEnd;
-        edge.dragHandles = []; // no drag handles
       }
     }
+
     return edge;
   }
 
+  /**
+   * Method gets triggered after an edge gets added.
+   * @param  {CustomEvent} event - Event that is handled.
+   */
   private onEdgeAdd = (event: CustomEvent) => {
+
+    const edge: Edge = event.detail.edge;
+
+    // case: source of event is the API
     if (event.detail.eventSource === 'API') {
       return;
     }
-    const edge: Edge = event.detail.edge;
+
+    // case: edge of type interface consumer
     if (edge.type === NodeType.InterfaceConsumer) {
-      event.preventDefault(); // cancel edge creation
-      // and then update the graph via the api
+
+      // cancels edge creation
+      event.preventDefault();
+
+      // updates the graph via the API
       const sourceNode = this.graph.getNode(edge.source);
       const targetNode = this.graph.getNode(edge.target);
+
+      // case: edge has source and target
+      // => adds edge of type interface provider
       if (sourceNode != null && targetNode != null) {
-        console.log('Add comp to interface');
         this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
   }
 
+  /**
+   * Method gets triggered after an edge gets dropped.
+   * @param  {CustomEvent} event - Event that is handled.
+   */
   private onEdgeDrop = (event: CustomEvent) => {
+
+    const edge: DraggedEdge = event.detail.edge;
+
+    // case: source of event is the API
     if (event.detail.eventSource === 'API') {
       return;
     }
-    const edge: DraggedEdge = event.detail.edge;
+    
+    // case: edge created from an existing edge
     if (edge.createdFrom != null) {
       return;
     }
+
+    // case: edge of type interface
+    // => opens the interface creation dialog
     if (edge.type === NodeType.Interface) {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
   }
 
+  /**
+   * Method gets triggered after an edge gets removed.
+   * @param  {CustomEvent} event - Event that is handled.
+   */
   private onEdgeRemove = (event: CustomEvent) => {
+
+    const edge: Edge = event.detail.edge;
+
+    // case: source of event is the API
     if (event.detail.eventSource === 'API') {
       return;
     }
-    const edge: Edge = event.detail.edge;
+
+    // case: edge of type interface consumer
     if (edge.type === NodeType.InterfaceConsumer) {
-      event.preventDefault(); // cancel edge deletion
-      // and then update the graph via the api
+
+      // cancels edge deletion
+      event.preventDefault();
+
+      // updates the graph via the API
       const graph: GraphEditor = this.graphWrapper.nativeElement;
       const sourceNode = graph.getNode(edge.source);
       const targetNode = graph.getNode(edge.target);
+
+      // case: edge has source and target
+      // => removes edge of type interface provider
       if (sourceNode != null && targetNode != null) {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
   }
 
+  /**
+   * Method gets triggered after a node is clicked.
+   * @param  {CustomEvent} event - Event that is handled.
+   */
   private onNodeClick = (event: CustomEvent) => {
     // console.log(event.detail.node.x, event.detail.node.y);
     // return;
@@ -723,7 +814,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       if (node.type === NodeType.Component) {
         contextMenuType = NodeDetailsType.Component;
       }
-
 
       if (node.type === NodeType.Interface) {
         contextMenuType = NodeDetailsType.Interface;
@@ -797,6 +887,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
     }
+    
     console.log('Clicked on another type of node:', node.type);
   }
 
