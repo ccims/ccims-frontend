@@ -96,6 +96,13 @@
           user-select: none;
         }
 
+        .interface-name {
+          font-size: 8pt;
+          font-family: 'Arial Narrow', Arial, sans-serif;
+          word-break: break-word;
+          user-select: none;
+        }
+
         .edge-group.issue-relation {
           opacity: 0.7;
         }
@@ -149,23 +156,43 @@
         <path id="icon-feature"
               d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z">
         </path>
+
+        <!--Containers to group SVG elements-->
+
+        <!--Component container-->
         <g id="component" data-template-type="node">
-          <rect width="100" height="60" rx="10" ry="10" x="-50" y="-30" data-link-handles="edges"></rect>
-          <text class="component-name text" data-content="title" data-click="title" dominant-baseline="middle"
-                text-anchor="middle" data-width="90" data-height="38" text-overflow="hidden"></text>
+          <rect width="100" height="60" rx="10" ry="10" 
+                x="-50" y="-30" data-link-handles="edges"></rect>
+          <text class="component-name text" data-content="title" 
+                data-click="title" dominant-baseline="middle"
+                text-anchor="middle" data-width="90" 
+                data-height="38" text-overflow="hidden"></text>
           <!--<text class="text" data-content="description" x="-40" y="5" width="80" height="30"></text>-->
           <title data-content="title"></title>
         </g>
+
+        <!--? container-->
         <clipPath id="clip1">
           <rect x="5" y="5" width="57" height="90"/>
         </clipPath>
+
+        <!--Interface container-->
         <g id="interface" data-template-type="node">
           <circle cx="0" cy="0" r="7"></circle>
+          <text class="interface-name text" data-content="title" 
+                data-click="title" dominant-baseline="middle"
+                text-anchor="middle" data-width="90" 
+                data-height="38" y="20" text-overflow="hidden"></text>
+          <title data-content="title"></title>
         </g>
+
+        <!--? container-->
         <g id="issue-group-container" data-template-type="node">
           <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
           <use href="#icon-folder" class="dropzone" stroke="black" fill="white" x="-19" y="-15"></use>
         </g>
+
+        <!--Unclassified container-->
         <g id="UNCLASSIFIED" data-template-type="node">
           <!--first entry for link handle calculation only-->
           <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
@@ -174,6 +201,8 @@
           <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
           <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
         </g>
+
+        <!--Feature Request container-->
         <g id="FEATURE_REQUEST" data-template-type="node">
           <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
           <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
@@ -181,6 +210,8 @@
           <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
           <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
         </g>
+
+        <!--Bug container-->
         <g id="BUG" data-template-type="node">
           <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
           <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>
@@ -188,9 +219,13 @@
           <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>
           <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>
         </g>
+
+        <!--Arrow container-->
         <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">
           <path d="M -9 -4 L 0 0 L -9 4 z"/>
         </g>
+
+        <!--Interface Connector container-->
         <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">
           <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z"/>
         </g>
