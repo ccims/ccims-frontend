@@ -177,6 +177,7 @@
         </clipPath>
 
         <!--Interface container-->
+        <!--aka. Interface Provision Edge-->
         <g id="interface" data-template-type="node">
           <circle cx="0" cy="0" r="7"></circle>
           <text class="interface-name text" data-content="title" 
@@ -186,7 +187,7 @@
           <title data-content="title"></title>
         </g>
 
-        <!--? container-->
+        <!--Issue Group container-->
         <g id="issue-group-container" data-template-type="node">
           <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>
           <use href="#icon-folder" class="dropzone" stroke="black" fill="white" x="-19" y="-15"></use>
@@ -221,13 +222,25 @@
         </g>
 
         <!--Arrow container-->
+        <!--aka. Issue Relation Edge-->
         <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">
           <path d="M -9 -4 L 0 0 L -9 4 z"/>
         </g>
 
-        <!--Interface Connector container-->
+        <!--Interface (Consumption) Connector container-->
+        <!--aka. Interface Consumption Edge-->
         <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">
           <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z"/>
+        </g>
+
+        <!--Interface (Provision) Connector container-->
+        <!--aka. Interface Provision Edge (before being created)-->
+        <g id="interface-connector-initial" data-template-type="marker" data-line-attachement-point="-1 0">
+          <circle cx="0" cy="0" r="3"></circle>
+          <text class="interface-name text" dominant-baseline="middle"
+                text-anchor="middle" data-width="90" 
+                data-height="38" y="20" text-overflow="hidden"
+                fill="red">Create Interface / Connect</text>
         </g>
       </defs>
     </svg>

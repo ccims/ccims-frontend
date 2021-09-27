@@ -590,34 +590,55 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Draws an edge originating from the component,
+   * it can either be of type provision edge of consumption edge.
+   * @param  {DraggedEdge} edge represents the edge
+   */
   private onCreateEdge = (edge: DraggedEdge) => {
+    console.log('onCreateEdge function has been initiated!');
     const graph: GraphEditor = this.graphWrapper.nativeElement;
-    const createdFromExisting = edge.createdFrom != null;
-    if (createdFromExisting) {
-      // only allow delete or dropping at the same node
+    const sourceNode = graph.getNode(edge.source);
+
+    //case: edge created from an existing edge
+    // => allows deletion or dropping at the same node
+    if (edge.createdFrom != null) {
       const original = graph.getEdge(edge.createdFrom);
       edge.validTargets.clear();
       edge.validTargets.add(original.target.toString());
       return edge;
     }
-    const sourceNode = graph.getNode(edge.source);
+
+    //case: edge originates from a component
     if (sourceNode.type === NodeType.Component) {
+
       // update edge properties
-      edge.type = NodeType.Interface;
+      edge.type = NodeType.Interface; // of type interface
       edge.dragHandles = []; // no drag handles
+
       // update valid targets
       edge.validTargets.clear();
+      
+      // update marker at the end of the edge
+      edge.markerEnd = {
+        template: "interface-connector-initial",
+        relativeRotation: 0,
+        absoluteRotation: 0
+      };
+      
       // allow only interfaces as targets
       graph.nodeList.forEach((node) => {
         if (node.type === NodeType.Interface) {
           edge.validTargets.add(node.id.toString());
         }
       });
+
       // allow only new targets
       graph.getEdgesBySource(sourceNode.id).forEach((existingEdge) => {
         edge.validTargets.delete(existingEdge.target.toString());
       });
     }
+    
     return edge;
   }
 
@@ -626,6 +647,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     sourceNode: Node,
     targetNode: Node
   ) => {
+    console.log('onDraggedEdgeTargetChanged function has been initiated!');
     if (sourceNode.type === NodeType.Component) {
       if (targetNode?.type === NodeType.Interface) {
         edge.type = NodeType.InterfaceConsumer;
@@ -645,6 +667,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private onEdgeAdd = (event: CustomEvent) => {
+    console.log('onEdgeAdd function has been initiated!');
     if (event.detail.eventSource === 'API') {
       return;
     }
@@ -662,6 +685,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private onEdgeDrop = (event: CustomEvent) => {
+    console.log('onEdgeDrop function has been initiated!');
     if (event.detail.eventSource === 'API') {
       return;
     }
@@ -671,10 +695,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (edge.type === NodeType.Interface) {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
+      return;
     }
   }
 
   private onEdgeRemove = (event: CustomEvent) => {
+    console.log('onEdgeRemove function has been initiated!');
     if (event.detail.eventSource === 'API') {
       return;
     }
