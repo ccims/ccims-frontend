@@ -1,5 +1,5 @@
 <div class="timeline-item">
-  <div class="item-box">
+  <div class="item-box" *ngIf="comment$.hasData && comment$.current as comment">
     <!--Part 1: Header-->
     <div class="item-header">
       <!--Text-->

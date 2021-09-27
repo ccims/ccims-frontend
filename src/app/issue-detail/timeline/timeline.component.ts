@@ -1,18 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
 import { Router } from '@angular/router';
 import { IssueTimelineItem } from '../../../generated/graphql-dgql';
 import { DataList } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { encodeListId, ListType, NodeType } from '@app/data-dgql/id';
+import { encodeListId, encodeNodeId, ListType, NodeType } from '@app/data-dgql/id';
 
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, OnDestroy {
 
   // Provides time format functions
   public timeFormatter = new TimeFormatter();
@@ -40,6 +40,10 @@ export class TimelineComponent implements OnInit {
     this.timelineItemsSub = this.timelineItems$.subscribe();
   }
 
+  ngOnDestroy() {
+    this.timelineItemsSub?.unsubscribe();
+  }
+
   /**
    * Checks if user self assigned this issue for text representation
    * @param timelineItem
@@ -54,6 +58,9 @@ export class TimelineComponent implements OnInit {
     return false;
   }
 
+  makeCommentId(node) {
+    return encodeNodeId({ type: NodeType.IssueComment, id: node.id });
+  }
 
   goToComponentDetails(component){
     this.router.navigate(['projects', this.projectID, 'component', component.id]);

@@ -12,6 +12,10 @@ export class Mutations {
     }
   }
 
+  updateNode<T>(id: NodeId, data: unknown) {
+    this.nc.getNode(id).insertResult(data);
+  }
+
   createIssue(issue: CreateIssueInput) {
     return this.qs.issues.mutCreateIssue(issue).then(data => {
       for (const id of issue.components) {
@@ -69,14 +73,21 @@ export class Mutations {
    * @param commentBody - plain text body
    */
   updateIssueComment(id: string, comment: NodeId, commentBody: string) {
-    return this.qs.issues.mutUpdateIssueComment(id, getRawId(comment), commentBody).then(() => {
-      this.invalidateNode(comment);
+    return this.qs.issues.mutUpdateIssueComment(id, getRawId(comment), commentBody).then(data => {
+      if (decodeNodeId(comment).type === NodeType.Issue) {
+        // this is actually an issue. we can't use the result data because it's incomplete
+        this.invalidateNode(comment);
+      } else {
+        // update comment with result
+        this.updateNode(comment, data.updateComment.comment);
+      }
     });
   }
 
   deleteIssueComment(id: string, comment: NodeId) {
     return this.qs.issues.mutDeleteIssueComment(id, getRawId(comment)).then(() => {
       this.invalidateNode(comment);
+      // FIXME: may need to invalidate timeline as well..
     });
   }
 

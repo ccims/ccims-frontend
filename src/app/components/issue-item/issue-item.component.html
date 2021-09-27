@@ -6,7 +6,7 @@
   <app-issue-icon class="issue-icon" [issue]="issue"></app-issue-icon>
   {{issue.title}}
 </span>
-<div class="linked-issue-locations" *ngIf="!!issue.locations?.totalCount">
+<div class="linked-issue-locations" *ngIf="extended && !!issue.locations?.totalCount">
   <span class="inner-item" *ngFor="let component of issue.locations.nodes">
     {{component.name}}
   </span>
