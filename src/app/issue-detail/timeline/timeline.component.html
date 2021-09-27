@@ -2,13 +2,13 @@
 
 <!------ Include the above in your HEAD tag ---------->
 
-<div *ngIf="(timelineItems$ | async)">
+<div *ngIf="timelineItems$.hasData">
   <div class="container">
     <div class="page-header">
     </div>
 
 <ul class="timeline">
-  <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.__typename" class="timeline-inverted">
+  <li *ngFor="let timelineItem of timelineItems$.currentItems" [ngSwitch]="timelineItem.__typename" class="timeline-inverted">
     <!-- Icons in the timeline -->
     <div class="timeline-badge" *ngSwitchCase="'AddedToComponentEvent'"><mat-icon>add</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedFromComponentEvent'"><mat-icon>remove</mat-icon></div>

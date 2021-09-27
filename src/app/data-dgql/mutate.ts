@@ -32,13 +32,17 @@ export class Mutations {
 
   closeIssue(id: string, issue: NodeId) {
     return this.qs.issues.mutCloseIssue(id, getRawId(issue)).then(() => {
+      const issueNode = decodeNodeId(issue);
       this.invalidateNode(issue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
     });
   }
 
   reopenIssue(id: string, issue: NodeId) {
     return this.qs.issues.mutReopenIssue(id, getRawId(issue)).then(() => {
+      const issueNode = decodeNodeId(issue);
       this.invalidateNode(issue);
+      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
     });
   }
 

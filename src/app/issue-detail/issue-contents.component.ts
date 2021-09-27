@@ -68,18 +68,16 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
 
   /**
    * Adds a comment to the current issue.
-   *
-   * @param commentBody - Comment to be added.
    */
-  public commentIssue(commentBody: string): void {
+  public commentIssue(): void {
     this.savingComment = true;
     this.dataService.mutations.addIssueComment(
       Math.random().toString(),
       this.issue$.id,
-      commentBody
+      this.commentEditor.code
     ).then(() => {
       // only clear if successful
-      // TODO: clear comment box
+      this.commentEditor.code = '';
     }).finally(() => {
       this.savingComment = false;
     });
