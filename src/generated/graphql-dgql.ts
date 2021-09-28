@@ -4896,6 +4896,18 @@ export type FReactionsStubFragment = (
   )>>> }
 );
 
+type FComment_Issue_Fragment = (
+  Pick<Issue, 'body' | 'createdAt' | 'lastEditedAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, reactions?: Maybe<FReactionsStubFragment> }
+);
+
+type FComment_IssueComment_Fragment = (
+  Pick<IssueComment, 'body' | 'createdAt' | 'lastEditedAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, reactions?: Maybe<FReactionsStubFragment> }
+);
+
+export type FCommentFragment = FComment_Issue_Fragment | FComment_IssueComment_Fragment;
+
 type FTimelineItem_AddedToComponentEvent_Fragment = (
   Pick<AddedToComponentEvent, 'id' | 'createdAt'>
   & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
@@ -4942,8 +4954,9 @@ type FTimelineItem_LabelledEvent_Fragment = (
 );
 
 type FTimelineItem_IssueComment_Fragment = (
-  Pick<IssueComment, 'body' | 'currentUserCanEdit' | 'lastEditedAt' | 'id' | 'createdAt'>
-  & { reactions?: Maybe<FReactionsStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+  Pick<IssueComment, 'id' | 'createdAt'>
+  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
+  & FComment_IssueComment_Fragment
 );
 
 type FTimelineItem_MarkedAsDuplicateEvent_Fragment = (
@@ -5195,6 +5208,64 @@ export type ListIssueAssigneesQuery = { node?: Maybe<{ assignees?: Maybe<(
       & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
     )> }> };
 
+export type MutCreateIssueMutationVariables = Exact<{
+  issue: CreateIssueInput;
+}>;
+
+
+export type MutCreateIssueMutation = { createIssue?: Maybe<{ issue?: Maybe<FIssueStubFragment> }> };
+
+export type MutRenameIssueTitleMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  title: Scalars['String'];
+}>;
+
+
+export type MutRenameIssueTitleMutation = { renameIssueTitle?: Maybe<{ event?: Maybe<FTimelineItem_RenamedTitleEvent_Fragment> }> };
+
+export type MutCloseIssueMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+}>;
+
+
+export type MutCloseIssueMutation = { closeIssue?: Maybe<{ event?: Maybe<FTimelineItem_ClosedEvent_Fragment> }> };
+
+export type MutReopenIssueMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+}>;
+
+
+export type MutReopenIssueMutation = { reopenIssue?: Maybe<{ event?: Maybe<FTimelineItem_ReopenedEvent_Fragment> }> };
+
+export type MutAddIssueCommentMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  body: Scalars['String'];
+}>;
+
+
+export type MutAddIssueCommentMutation = { addIssueComment?: Maybe<{ comment?: Maybe<FComment_IssueComment_Fragment> }> };
+
+export type MutUpdateIssueCommentMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  comment: Scalars['ID'];
+  body: Scalars['String'];
+}>;
+
+
+export type MutUpdateIssueCommentMutation = { updateComment?: Maybe<{ comment?: Maybe<FComment_Issue_Fragment | FComment_IssueComment_Fragment> }> };
+
+export type MutDeleteIssueCommentMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  comment: Scalars['ID'];
+}>;
+
+
+export type MutDeleteIssueCommentMutation = { deleteIssueComment?: Maybe<{ event?: Maybe<FTimelineItem_DeletedIssueComment_Fragment> }> };
+
 export type MutAddIssueLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   issue: Scalars['ID'];
@@ -5320,6 +5391,11 @@ export type SearchUsersQueryVariables = Exact<{
 
 
 export type SearchUsersQuery = { searchUser: Array<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> };
+
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = { currentUser?: Maybe<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> };
 
 export const FInterfaceStubFragmentDoc = gql`
     fragment fInterfaceStub on ComponentInterface {
@@ -5512,6 +5588,21 @@ export const FReactionsStubFragmentDoc = gql`
   }
 }
     ${AllPageInfoFragmentDoc}`;
+export const FCommentFragmentDoc = gql`
+    fragment fComment on Comment {
+  body
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  lastEditedAt
+  reactions(first: 10) {
+    ...fReactionsStub
+  }
+}
+    ${FReactionsStubFragmentDoc}`;
 export const FArtifactStubFragmentDoc = gql`
     fragment fArtifactStub on Artifact {
   id
@@ -5598,12 +5689,7 @@ export const FTimelineItemFragmentDoc = gql`
     }
   }
   ... on IssueComment {
-    body
-    currentUserCanEdit
-    lastEditedAt
-    reactions(first: 10) {
-      ...fReactionsStub
-    }
+    ...fComment
   }
   ... on MarkedAsDuplicateEvent {
     originalIssue {
@@ -5721,7 +5807,7 @@ export const FTimelineItemFragmentDoc = gql`
   }
 }
     ${FLabelStubFragmentDoc}
-${FReactionsStubFragmentDoc}
+${FCommentFragmentDoc}
 ${FIssueStubFragmentDoc}
 ${FArtifactStubFragmentDoc}
 ${FNonFunctionalConstraintStubFragmentDoc}`;
@@ -6336,6 +6422,146 @@ export const ListIssueAssigneesDocument = gql`
       super(apollo);
     }
   }
+export const MutCreateIssueDocument = gql`
+    mutation MutCreateIssue($issue: CreateIssueInput!) {
+  createIssue(input: $issue) {
+    issue {
+      ...fIssueStub
+    }
+  }
+}
+    ${FIssueStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutCreateIssueGQL extends Apollo.Mutation<MutCreateIssueMutation, MutCreateIssueMutationVariables> {
+    document = MutCreateIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutRenameIssueTitleDocument = gql`
+    mutation MutRenameIssueTitle($id: String, $issue: ID!, $title: String!) {
+  renameIssueTitle(input: {clientMutationID: $id, issue: $issue, newTitle: $title}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutRenameIssueTitleGQL extends Apollo.Mutation<MutRenameIssueTitleMutation, MutRenameIssueTitleMutationVariables> {
+    document = MutRenameIssueTitleDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutCloseIssueDocument = gql`
+    mutation MutCloseIssue($id: String, $issue: ID!) {
+  closeIssue(input: {clientMutationID: $id, issue: $issue}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutCloseIssueGQL extends Apollo.Mutation<MutCloseIssueMutation, MutCloseIssueMutationVariables> {
+    document = MutCloseIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutReopenIssueDocument = gql`
+    mutation MutReopenIssue($id: String, $issue: ID!) {
+  reopenIssue(input: {clientMutationID: $id, issue: $issue}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutReopenIssueGQL extends Apollo.Mutation<MutReopenIssueMutation, MutReopenIssueMutationVariables> {
+    document = MutReopenIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutAddIssueCommentDocument = gql`
+    mutation MutAddIssueComment($id: String, $issue: ID!, $body: String!) {
+  addIssueComment(input: {clientMutationID: $id, issue: $issue, body: $body}) {
+    comment {
+      ...fComment
+    }
+  }
+}
+    ${FCommentFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutAddIssueCommentGQL extends Apollo.Mutation<MutAddIssueCommentMutation, MutAddIssueCommentMutationVariables> {
+    document = MutAddIssueCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutUpdateIssueCommentDocument = gql`
+    mutation MutUpdateIssueComment($id: String, $comment: ID!, $body: String!) {
+  updateComment(input: {clientMutationID: $id, comment: $comment, body: $body}) {
+    comment {
+      ...fComment
+    }
+  }
+}
+    ${FCommentFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutUpdateIssueCommentGQL extends Apollo.Mutation<MutUpdateIssueCommentMutation, MutUpdateIssueCommentMutationVariables> {
+    document = MutUpdateIssueCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutDeleteIssueCommentDocument = gql`
+    mutation MutDeleteIssueComment($id: String, $comment: ID!) {
+  deleteIssueComment(input: {clientMutationID: $id, issueComment: $comment}) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+    ${FTimelineItemFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutDeleteIssueCommentGQL extends Apollo.Mutation<MutDeleteIssueCommentMutation, MutDeleteIssueCommentMutationVariables> {
+    document = MutDeleteIssueCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const MutAddIssueLabelDocument = gql`
     mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
   addLabelToIssue(input: {clientMutationID: $id, issue: $issue, label: $label}) {
@@ -6598,6 +6824,24 @@ export const SearchUsersDocument = gql`
   })
   export class SearchUsersGQL extends Apollo.Query<SearchUsersQuery, SearchUsersQueryVariables> {
     document = SearchUsersDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CurrentUserDocument = gql`
+    query CurrentUser {
+  currentUser {
+    ...fUserStub
+  }
+}
+    ${FUserStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CurrentUserGQL extends Apollo.Query<CurrentUserQuery, CurrentUserQueryVariables> {
+    document = CurrentUserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

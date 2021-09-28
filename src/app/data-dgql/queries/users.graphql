@@ -9,3 +9,9 @@ query SearchUsers($query: String!) {
     ...fUserStub
   }
 }
+
+query CurrentUser {
+  currentUser {
+    ...fUserStub
+  }
+}

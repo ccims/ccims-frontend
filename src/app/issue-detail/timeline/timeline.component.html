@@ -2,13 +2,13 @@
 
 <!------ Include the above in your HEAD tag ---------->
 
-<div *ngIf="(timelineItems$ | async)">
+<div *ngIf="timelineItems$.hasData">
   <div class="container">
     <div class="page-header">
     </div>
 
 <ul class="timeline">
-  <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.__typename" class="timeline-inverted">
+  <li *ngFor="let timelineItem of timelineItems$.currentItems" [ngSwitch]="timelineItem.__typename" class="timeline-inverted">
     <!-- Icons in the timeline -->
     <div class="timeline-badge" *ngSwitchCase="'AddedToComponentEvent'"><mat-icon>add</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedFromComponentEvent'"><mat-icon>remove</mat-icon></div>
@@ -46,7 +46,7 @@
     <!-- Contents of timeline items -->
 
     <div class="commentContainer" *ngSwitchCase="'IssueComment'">
-      <app-comment [comment]="timelineItem"></app-comment>
+      <app-comment [commentId]="makeCommentId(timelineItem)"></app-comment>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ClosedEvent'">
@@ -115,10 +115,7 @@
         <div *ngIf="!!timelineItem.label; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> added Label
           <span style="display: inline-block">
-           <span class="issue-label"
-                 [ngStyle]="{'background-color': timelineItem.label.color, 'color': this.labelStore.lightOrDark(timelineItem.label.color)}">
-              {{timelineItem.label.name}}
-           </span>
+            <app-issue-label [label]="timelineItem.label"></app-issue-label>
           </span>
         </div>
         <ng-template #isNull>
@@ -359,10 +356,7 @@
         <div *ngIf="!!timelineItem.removedLabel; else isNull">
           <a>{{timelineItem.createdBy.displayName}}</a> removed label
           <span style="display: inline-block">
-           <span class="issue-label"
-                 [ngStyle]="{'background-color': timelineItem.removedLabel.color, 'color': this.labelStore.lightOrDark(timelineItem.removedLabel.color)}">
-              {{timelineItem.removedLabel.name}}
-           </span>
+            <app-issue-label [label]="timelineItem.removedLabel"></app-issue-label>
           </span>
         </div>
         <ng-template #isNull>

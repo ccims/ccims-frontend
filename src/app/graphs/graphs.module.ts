@@ -39,6 +39,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IssueItemComponent } from '@app/components/issue-item/issue-item.component';
 import { UserItemComponent } from '@app/components/user-item/user-item.component';
 import { IssueIconComponent } from '@app/components/issue-icon/issue-icon.component';
+import { IssueSidebarComponent } from '@app/issue-detail/issue-sidebar.component';
+import { CacheNodeComponent } from '@app/components/cache-node.component';
+import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -52,7 +55,7 @@ import { IssueIconComponent } from '@app/components/issue-icon/issue-icon.compon
     LabelSearchComponent,
     ProjectIssueListComponent,
     ProjectMembersComponent,
-    AddProjectMemberDialogComponent, CursorPaginatorComponent, SetEditorComponent, ItemDirective, IssueLabelComponent, SetEditorDialogComponent, IssueItemComponent, UserItemComponent, IssueIconComponent],
+    AddProjectMemberDialogComponent, CursorPaginatorComponent, SetEditorComponent, ItemDirective, IssueLabelComponent, SetEditorDialogComponent, IssueItemComponent, UserItemComponent, IssueIconComponent, IssueSidebarComponent, CacheNodeComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -97,7 +100,9 @@ import { IssueIconComponent } from '@app/components/issue-icon/issue-icon.compon
     IssueLabelComponent,
     IssueItemComponent,
     UserItemComponent,
-    IssueIconComponent
+    IssueIconComponent,
+    IssueSidebarComponent,
+    CursorPaginatorComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

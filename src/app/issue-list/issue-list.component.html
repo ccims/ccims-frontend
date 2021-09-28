@@ -35,9 +35,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Labels</th>
         <td mat-cell style="text-align: left;" *matCellDef="let element">
           <div style="float: left;" *ngFor="let label of element.labels.nodes">
-            <span class="issue-label"
-                  [ngStyle]="{'background-color': label.color,'color':this.lightOrDark(label.color)}">{{label.name}}
-            </span>
+            <app-issue-label [label]="label"></app-issue-label>
           </div>
         </td>
       </ng-container>

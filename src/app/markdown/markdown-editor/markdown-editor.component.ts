@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-markdown-editor',
@@ -8,15 +8,15 @@ import {Component, Input, OnInit} from '@angular/core';
 /**
  * This component contains a monaco markdown editor with syntax highlighting
  */
-export class MarkdownEditorComponent implements OnInit {
+export class MarkdownEditorComponent {
 
   editorOptions = {theme: 'vs', language: 'markdown'};
   // This code is displayed in the editor
   @Input() code: string;
+  @Output() codeChange = new EventEmitter<string>();
 
-  constructor() { }
-
-  ngOnInit(): void {
+  codeDidChange() {
+    this.codeChange.emit(this.code);
   }
 
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  CurrentUserGQL,
   SearchUsersGQL
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
@@ -10,6 +11,7 @@ import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/ut
 export class UsersService {
   constructor(
     private qSearchUsers: SearchUsersGQL,
+    private qCurrentUser: CurrentUserGQL,
   ) {}
 
   searchUsers(filter: string | { username: string }) {
@@ -28,5 +30,9 @@ export class UsersService {
     }
 
     return promisifyApolloFetch(this.qSearchUsers.fetch({ query })).then(data => data.searchUser);
+  }
+
+  currentUser() {
+    return promisifyApolloFetch(this.qCurrentUser.fetch());
   }
 }

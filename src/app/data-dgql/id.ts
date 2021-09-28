@@ -13,7 +13,8 @@ export enum NodeType {
   Label,
   Project,
   Artifact,
-  User
+  User,
+  IssueComment
 }
 
 export function nodeTypeFromTypename(typename: string) {
@@ -37,8 +38,15 @@ export function encodeNodeId(nd: NodeDescriptor): NodeId {
   return NodeType[nd.type] + '/' + nd.id;
 }
 
+export function getRawId(id: NodeId): string {
+  return decodeNodeId(id).id;
+}
+
 export const ROOT_NODE = { type: NodeType.Root, id: '' };
 export const ROOT_NODE_ID = encodeNodeId(ROOT_NODE);
+
+export const CURRENT_USER_NODE = { type: NodeType.User, id: 'self' };
+export const CURRENT_USER_NODE_ID = encodeNodeId(CURRENT_USER_NODE);
 
 export enum ListType {
   Projects,

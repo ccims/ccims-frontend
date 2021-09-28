@@ -1,30 +1,28 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {
-  GetAllTimelineItemsQuery
-} from '../../../generated/graphql';
-import {Observable, Subscription} from 'rxjs';
-import {IssueStoreService} from '@app/data/issue/issue-store.service';
-import {TimeFormatter} from "@app/issue-detail/TimeFormatter";
-import {LabelStoreService} from '@app/data/label/label-store.service';
-import {Router} from '@angular/router';
-import {Location} from 'graphql';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
+import { Router } from '@angular/router';
+import { IssueTimelineItem } from '../../../generated/graphql-dgql';
+import { DataList } from '@app/data-dgql/query';
+import DataService from '@app/data-dgql';
+import { encodeListId, encodeNodeId, ListType, NodeType } from '@app/data-dgql/id';
+
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, OnDestroy {
 
   // Provides time format functions
   public timeFormatter = new TimeFormatter();
   timelineItems = [];
-  public timelineItems$: Observable<GetAllTimelineItemsQuery>;
+  public timelineItems$: DataList<IssueTimelineItem, unknown>;
   public timelineItemsSub: Subscription;
   @Input() issueId: string;
   @Input() projectID: string;
 
-  constructor(private issueStoreService: IssueStoreService,
-              public labelStore: LabelStoreService,
+  constructor(private dataService: DataService,
               private router: Router) { }
 
   ngOnInit(): void {
@@ -33,24 +31,17 @@ export class TimelineComponent implements OnInit {
 
   requestTimelineItems(): void {
     // Get observeable with all timelineitems for current issue
-    this.timelineItems$ = this.issueStoreService.getAllTimelineItems(this.issueId);
+    this.timelineItems$ = this.dataService.getList(encodeListId({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.TimelineItems
+    }));
+    this.timelineItems$.count = 99999; // FIXME?
 
-    this.timelineItemsSub = this.timelineItems$.subscribe(timeline => {
+    this.timelineItemsSub = this.timelineItems$.subscribe();
+  }
 
-      // console.log('komplette timeline:');
-      // console.log(JSON.stringify(timeline));
-
-      this.timelineItems = [];
-
-      // Add every event from the timeline to timelineItems array
-      timeline.node.timeline.nodes.forEach(event => {
-        this.timelineItems.push(event);
-        console.log(JSON.stringify(event));
-        if (event.__typename === 'IssueComment'){
-        }
-      });
-    });
-
+  ngOnDestroy() {
+    this.timelineItemsSub?.unsubscribe();
   }
 
   /**
@@ -67,6 +58,9 @@ export class TimelineComponent implements OnInit {
     return false;
   }
 
+  makeCommentId(node) {
+    return encodeNodeId({ type: NodeType.IssueComment, id: node.id });
+  }
 
   goToComponentDetails(component){
     this.router.navigate(['projects', this.projectID, 'component', component.id]);

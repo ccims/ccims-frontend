@@ -1,11 +1,13 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {IssueStoreService} from '@app/data/issue/issue-store.service';
-import {CreateIssueInput, GetComponentQuery, IssueCategory, LinkIssueInput} from '../../../generated/graphql';
-import {ProjectStoreService} from '@app/data/project/project-store.service';
-import {UserNotifyService} from '@app/user-notify/user-notify.service';
-import {CCIMSValidators} from '@app/utils/validators';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, Validators } from '@angular/forms';
+import { IssueCategory } from '../../../generated/graphql';
+import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import { CCIMSValidators } from '@app/utils/validators';
+import { CreateIssueInput } from '../../../generated/graphql-dgql';
+import { encodeNodeId, getRawId, NodeType } from '@app/data-dgql/id';
+import DataService from '@app/data-dgql';
+import { LocalIssueData } from '@app/issue-detail/issue-sidebar.component';
 
 @Component({
   selector: 'app-create-issue-dialog',
@@ -17,37 +19,35 @@ import {CCIMSValidators} from '@app/utils/validators';
  *
  */
 export class CreateIssueDialogComponent implements OnInit {
-  @Input() title: string;
-  @Input() body: string;
+  @ViewChild('body') body;
 
-  public loading: boolean;
-  public saveFailed: boolean;
+  public loading = false;
+  public saveFailed = false;
 
   constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>,
-              private issueStoreService: IssueStoreService,
-              private fb: FormBuilder,
+              private dataService: DataService,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private projectStore: ProjectStoreService,
-              private notify: UserNotifyService) {
-    this.loading = false;
-    this.prepareLinkableIssues();
-  }
+              private notify: UserNotifyService) {}
 
   // create form controls for the form fields
-  validationTitle = new FormControl('', [CCIMSValidators.nameValidator, Validators.required]);
-  // validationBody = new FormControl('', [CCIMSValidators.contentValidator, Validators.required]);
-  validationCategory = new FormControl('', [Validators.required]);
-  issuesLoaded = false;
-  selectedIssues: any = [];
-  linkableProjectIssues: any = [];
+  title = new FormControl('', [CCIMSValidators.nameValidator, Validators.required]);
+  category = new FormControl('', [Validators.required]);
 
-  selectableComponentInterfaces = []; // this.data.component.node.interfaces.nodes;
-  selectedInterfaces = [];
-  selectedAssignees = [];
-  assignees = [{id: '0', name: 'user'}, {id: '2', name: 'zweiter User'}, {id: '3', name: 'dritter User'}];
+  public issueData: LocalIssueData = {
+    components: [],
+    locations: [],
+    labels: [],
+    assignees: [],
+    linksToIssues: [],
+  };
 
   ngOnInit(): void {
-    this.validationCategory.setValue('UNCLASSIFIED');
+    this.category.setValue(IssueCategory.Unclassified);
+
+    for (const componentId of this.data.components) {
+      this.issueData.components.push(componentId);
+      this.issueData.locations.push(componentId);
+    }
   }
 
   onNoClick(): void {
@@ -58,92 +58,43 @@ export class CreateIssueDialogComponent implements OnInit {
     this.saveFailed = false;
   }
 
-  onOkClick(title: string, body: string, category: IssueCategory, selectedLabels: string[]): void {
-    this.loading = true;
-    // set properties for create issue mutation
-    const issueInput: CreateIssueInput = {
-      title,
-      components: [this.data.id],
-      body,
-      category,
-      assignees: ['0'],
-      labels: selectedLabels,
-      locations: this.selectedInterfaces.concat(this.data.component.node.id)
+  onCreate() {
+    const issueData: CreateIssueInput = {
+      title: this.title.value,
+      body: this.body.code,
+      category: this.category.value,
+      clientMutationID: Math.random().toString(36),
+      components: this.issueData.components.map(getRawId),
+      locations: this.issueData.locations.map(getRawId),
+      labels: this.issueData.labels.map(getRawId),
+      assignees: this.issueData.assignees.map(getRawId),
     };
-
     this.loading = true;
+    this.saveFailed = false;
+    this.dataService.mutations.createIssue(issueData).then(async result => {
+      const issueId = encodeNodeId({ type: NodeType.Issue, id: result.id });
+      const promises = [];
+      for (const linked of this.issueData.linksToIssues) {
+        promises.push(this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch(err => {
+          this.notify.notifyError('Failed to link issue!', err);
+          // aborting on this error would cause weird non-recoverable state so we won't rethrow it
+        }));
+      }
+      await Promise.all(promises);
 
-    // create issue mutation
-    this.issueStoreService.create(issueInput).subscribe(({data}) => {
-      // link the created issue to all selected issues
-      this.selectedIssues.forEach(issueId => {
-        const issueInput: LinkIssueInput = {
-          issue: data.createIssue.issue.id,
-          issueToLink: issueId
-        };
-
-        this.issueStoreService.link(issueInput).subscribe(({data}) => {
-        }, (error) => {
-          this.notify.notifyError('Failed to link issue!', error);
-          this.loading = false;
-          this.saveFailed = true;
-        });
-      });
-      this.loading = false;
-      this.dialogRef.close(data);
-    }, (error) => {
-      this.notify.notifyError('Failed to create issue!', error);
-      this.loading = false;
+      this.dialogRef.close(true);
+    }).catch(err => {
+      this.notify.notifyError('Failed to create issue!', err);
       this.saveFailed = true;
-    });
-  }
-
-  /**
-   * this method changes the format of the issues and interfaces
-   * the component name is added to the issue and interface information so that the linkable issues and interfaces
-   * can be displayed in a list, ordered by the corresponding component name
-   */
-  private prepareLinkableIssues() {
-    this.projectStore.getFullProject(this.data.projectId).subscribe(project => {
-      const projectComponents = project.node.components.edges;
-      projectComponents.forEach(component => {
-        const currentComponentName = component.node.name;
-        const currentComponentIssueArray = component.node.issues.nodes;
-        currentComponentIssueArray.forEach(issue => {
-          const tempIssue = {
-            id: issue.id,
-            title: issue.title,
-            component: currentComponentName
-          };
-          this.linkableProjectIssues.push(tempIssue);
-        });
-      });
-      // All Interfaces
-      const projectInterfaces = project.node.interfaces.nodes;
-      projectInterfaces.forEach(projectInterface => {
-        const currentInterfaceName = projectInterface.name;
-        const currentComponentIssueArray = projectInterface.issuesOnLocation.nodes;
-        currentComponentIssueArray.forEach(issue => {
-          const tempIssue = {
-            id: issue.id,
-            title: issue.title,
-            component: 'Interface: ' + currentInterfaceName
-          };
-          this.linkableProjectIssues.push(tempIssue);
-        });
-      });
-
-      this.issuesLoaded = true;
+    }).finally(() => {
+      this.loading = false;
     });
   }
 }
 
 // interface that defines what data is injected to the dialog
 export interface DialogData {
-  user: string;
-  name: string;
-  id: string;
-  category: string;
-  component: GetComponentQuery;
+  /** Initial state of the issue's component list. */
+  components: string[];
   projectId: string;
 }

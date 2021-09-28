@@ -1,0 +1,116 @@
+<div class="issue-sidebar-row">
+    <app-set-editor
+        [makeFilter]="makeComponentFilter"
+        [scoreKeys]="['name']"
+        [listSet]="componentList"
+        [listAll]="allComponentsList"
+        [hydrate]="componentListPromise"
+        [applyChangeset]="applyComponentChangeset">
+        <span title>Components</span>
+        <span if-empty>No components assigned</span>
+        <ng-container *appItem="let item">
+            <div>{{item.name}}</div>
+        </ng-container>
+    </app-set-editor>
+</div>
+<mat-divider></mat-divider>
+
+<div class="issue-sidebar-row">
+    <app-set-editor
+        [makeFilter]="makeLocationFilter"
+        [scoreKeys]="['name']"
+        [listSet]="locationList"
+        [listAll]="allLocationsList"
+        [hydrate]="locationListPromise"
+        [applyChangeset]="applyLocationChangeset">
+        <span title>Locations</span>
+        <span if-empty>No locations assigned</span>
+        <ng-container *appItem="let item">
+            <div *ngIf="item.__typename === 'Component'">
+                {{item.name}}
+            </div>
+            <div *ngIf="item.__typename === 'ComponentInterface'">
+          <span class="location-containing-component-name" *ngIf="!!item.component">
+            {{item.component.name}} ›
+          </span>
+                {{item.name}}
+            </div>
+        </ng-container>
+    </app-set-editor>
+</div>
+<mat-divider></mat-divider>
+
+<div class="issue-sidebar-row">
+    <app-set-editor
+        [makeFilter]="makeLabelFilter"
+        [scoreKeys]="['name']"
+        [listSet]="labelList"
+        [listAll]="allLabelsList"
+        [hydrate]="labelListPromise"
+        [applyChangeset]="applyLabelChangeset">
+        <span title>Labels</span>
+        <span if-empty>No labels assigned</span>
+        <ng-container *appItem="let item">
+            <app-issue-label [label]="item"></app-issue-label>
+        </ng-container>
+    </app-set-editor>
+</div>
+<mat-divider></mat-divider>
+
+<div class="issue-sidebar-row">
+    <app-set-editor
+        [makeFilter]="makeUserFilter"
+        [scoreKeys]="['username', 'displayName']"
+        [emptySuggestionsLabel]="'Search for a user to see results'"
+        [listSet]="assigneeList"
+        [listAll]="allAssigneeCandidatesList"
+        [hydrate]="assigneeListPromise"
+        [applyChangeset]="applyAssigneeChangeset">
+        <span title>Assignees</span>
+        <span if-empty>No one</span>
+        <div *appItem="let item">
+            <app-user-item [user]="item"></app-user-item>
+        </div>
+    </app-set-editor>
+</div>
+<mat-divider></mat-divider>
+
+<div class="issue-sidebar-row">
+    <app-set-editor
+        [makeFilter]="makeIssueFilter"
+        [scoreKeys]="['title']"
+        [listSet]="linkedIssueList"
+        [listAll]="allLinkedIssuesList"
+        [hydrate]="linkedIssueListPromise"
+        [applyChangeset]="applyLinkedIssueChangeset">
+        <span title>Linked Issues</span>
+        <span if-empty>No issues linked</span>
+        <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
+            <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
+        </div>
+    </app-set-editor>
+</div>
+<mat-divider></mat-divider>
+
+<div class="issue-sidebar-row" *ngIf="!localIssue">
+    <app-set-editor
+        [makeFilter]="makeIssueFilter"
+        [scoreKeys]="['title']"
+        [listSet]="linkedByIssueList"
+        [editable]="false"
+        [hydrate]="linkedByIssueListPromise"
+        [applyChangeset]="null">
+        <span title>Linked By Issues</span>
+        <span if-empty>No issues link to this issue</span>
+        <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
+            <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
+        </div>
+    </app-set-editor>
+</div>
+<mat-divider></mat-divider>
+
+<div class="issue-sidebar-row">
+    <mat-label><b>Interfaces, Artefacts & NFR</b></mat-label>
+    unimplemented
+    <br>
+</div>

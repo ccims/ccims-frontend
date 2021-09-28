@@ -233,6 +233,22 @@ fragment fReactionsStub on ReactionGroupPage {
   }
 }
 
+fragment fComment on Comment {
+  body
+  createdAt
+  createdBy {
+    id
+    username
+    displayName
+  }
+  # TODO broken on backend; uncomment when fixed
+  # currentUserCanEdit
+  lastEditedAt
+  reactions(first: 10) {
+    ...fReactionsStub
+  }
+}
+
 fragment fTimelineItem on IssueTimelineItem {
   id
   createdAt
@@ -286,12 +302,7 @@ fragment fTimelineItem on IssueTimelineItem {
     }
   }
   ...on IssueComment {
-    body
-    currentUserCanEdit
-    lastEditedAt
-    reactions(first: 10) {
-      ...fReactionsStub
-    }
+    ...fComment
   }
   ...on MarkedAsDuplicateEvent {
     originalIssue {
@@ -615,6 +626,83 @@ query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy
           }
         }
       }
+    }
+  }
+}
+
+mutation MutCreateIssue($issue: CreateIssueInput!) {
+  createIssue(input: $issue) {
+    issue {
+      ...fIssueStub
+    }
+  }
+}
+
+mutation MutRenameIssueTitle($id: String, $issue: ID!, $title: String!) {
+  renameIssueTitle(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    newTitle: $title
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutCloseIssue($id: String, $issue: ID!) {
+  closeIssue(input: {
+    clientMutationID: $id,
+    issue: $issue
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutReopenIssue($id: String, $issue: ID!) {
+  reopenIssue(input: {
+    clientMutationID: $id,
+    issue: $issue
+  }) {
+    event {
+      ...fTimelineItem
+    }
+  }
+}
+
+mutation MutAddIssueComment($id: String, $issue: ID!, $body: String!) {
+  addIssueComment(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    body: $body
+  }) {
+    comment {
+      ...fComment
+    }
+  }
+}
+
+mutation MutUpdateIssueComment($id: String, $comment: ID!, $body: String!) {
+  updateComment(input: {
+    clientMutationID: $id,
+    comment: $comment,
+    body: $body
+  }) {
+    comment {
+      ...fComment
+    }
+  }
+}
+
+mutation MutDeleteIssueComment($id: String, $comment: ID!) {
+  deleteIssueComment(input: {
+    clientMutationID: $id,
+    issueComment: $comment
+  }) {
+    event {
+      ...fTimelineItem
     }
   }
 }

@@ -135,36 +135,14 @@ export class IssueListComponent implements OnInit, OnDestroy {
   // opens a create issue dialog
   onAddClick() {
     // TODO don't do this here. we want this component to be reusable as a list
-    const createIssueDialogRef = this.dialog.open(CreateIssueDialogComponent,
+    this.dialog.open(CreateIssueDialogComponent,
       {
         data: {
-          user: 'Component', name: this.component$.current.name, id: this.component$.current.id,
-          component: { node: this.component$.current }, projectId: this.projectId
+          projectId: this.projectId,
+          components: [this.component$.id],
         },
-        width: '40%'
+        width: '600px'
       });
-    createIssueDialogRef.afterClosed().subscribe(issueData => {
-      if (issueData) {
-        // after dialog is closed and a new issue is created, the table needs to be updated to show the new issue
-        this.updateTable();
-      }
-    });
   }
-
-  // updates the issue table after a new issue was created
-  private updateTable(): void {
-    this.list$.invalidate();
-    this.list$.loadDebounced();
-  }
-
-  /**
-   * determines the needed text color for a label
-   * @param color background color of the label
-   * @returns black or white depending on the param color
-   */
-  public lightOrDark(color) {
-    return this.labelStoreService.lightOrDark(color);
-  }
-
 }
 

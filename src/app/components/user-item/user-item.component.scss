@@ -1,8 +1,11 @@
 .display-name {
-  font-weight: bold;
+  font-weight: 500;
 }
 .username {
   &.has-display-name {
     opacity: 0.7;
+  }
+  &:not(.has-display-name) {
+    font-weight: 500;
   }
 }

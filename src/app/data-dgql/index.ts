@@ -31,7 +31,8 @@ export default class DataService {
     const lists = this.lists.get(id);
     for (const list of lists) {
       if (list.subscriberCount) {
-        list.invalidate();
+        // invalidating the list causes layout changes we might not want (e.g. emptying a list)
+        // list.invalidate();
         list.loadDebounced();
       }
     }

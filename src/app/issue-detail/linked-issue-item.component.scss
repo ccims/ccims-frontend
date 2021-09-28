@@ -1,0 +1,25 @@
+.linked-issue-components {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .linked-issue-component {
+    &::after {
+      content: ',';
+      margin-right: 0.3em;
+    }
+    &:last-child::after {
+      content: none;
+    }
+  }
+}
+
+.body-loading {
+  min-height: 56px; // some sort of body height so that the animation doesn't glitch out *too* badly
+  text-align: center;
+  opacity: 0.7;
+}
+
+.issue-buttons {
+  text-align: right;
+  margin-top: 8px;
+}

@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class IssueItemComponent {
   @Input() projectId: string;
   @Input() issue: Issue;
+  /** Whether to show extended info, such as locations */
+  @Input() extended = false;
   @Input() interactive = false;
 
   constructor(private router: Router) {}

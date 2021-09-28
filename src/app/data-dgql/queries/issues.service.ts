@@ -29,9 +29,16 @@ import {
   MutUnlinkIssueGQL,
   ListIssueAssigneesGQL,
   ListIssueParticipantsGQL,
-  UserFilter, MutAddIssueAssigneeGQL, MutRemoveIssueAssigneeGQL,
+  UserFilter,
+  MutAddIssueAssigneeGQL,
+  MutRemoveIssueAssigneeGQL,
+  MutCreateIssueGQL,
+  MutRenameIssueTitleGQL,
+  MutAddIssueCommentGQL,
+  MutDeleteIssueCommentGQL, MutUpdateIssueCommentGQL, MutCloseIssueGQL, MutReopenIssueGQL,
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
+import { CreateIssueInput } from '../../../generated/graphql';
 
 type IssueListParams = QueryListParams<IssueFilter>;
 
@@ -56,6 +63,13 @@ export class IssuesService {
     private qListIssueComponents: ListIssueComponentsGQL,
     private qListIssueParticipants: ListIssueParticipantsGQL,
     private qListIssueAssignees: ListIssueAssigneesGQL,
+    private qMutCreateIssue: MutCreateIssueGQL,
+    private qMutRenameIssueTitle: MutRenameIssueTitleGQL,
+    private qMutCloseIssue: MutCloseIssueGQL,
+    private qMutReopenIssue: MutReopenIssueGQL,
+    private qMutAddIssueComment: MutAddIssueCommentGQL,
+    private qMutUpdateIssueComment: MutUpdateIssueCommentGQL,
+    private qMutDeleteIssueComment: MutDeleteIssueCommentGQL,
     private qMutAddIssueLabel: MutAddIssueLabelGQL,
     private qMutRemoveIssueLabel: MutRemoveIssueLabelGQL,
     private qMutAddIssueComponent: MutAddIssueToComponentGQL,
@@ -130,6 +144,34 @@ export class IssuesService {
 
   listIssueAssignees(issue: string, list: QueryListParams<UserFilter>) {
     return promisifyApolloFetch(this.qListIssueAssignees.fetch({ issue, ...list }));
+  }
+
+  mutCreateIssue(issue: CreateIssueInput) {
+    return promisifyApolloFetch(this.qMutCreateIssue.mutate({ issue }));
+  }
+
+  mutRenameIssueTitle(id: string, issue: string, title: string) {
+    return promisifyApolloFetch(this.qMutRenameIssueTitle.mutate({ id, issue, title }));
+  }
+
+  mutCloseIssue(id: string, issue: string) {
+    return promisifyApolloFetch(this.qMutCloseIssue.mutate({ id, issue }));
+  }
+
+  mutReopenIssue(id: string, issue: string) {
+    return promisifyApolloFetch(this.qMutReopenIssue.mutate({ id, issue }));
+  }
+
+  mutAddIssueComment(id: string, issue: string, body: string) {
+    return promisifyApolloFetch(this.qMutAddIssueComment.mutate({ id, issue, body }));
+  }
+
+  mutUpdateIssueComment(id: string, comment: string, body: string) {
+    return promisifyApolloFetch(this.qMutUpdateIssueComment.mutate({ id, comment, body }));
+  }
+
+  mutDeleteIssueComment(id: string, comment: string) {
+    return promisifyApolloFetch(this.qMutDeleteIssueComment.mutate({ id, comment }));
   }
 
   mutAddIssueLabel(id: string, issue: string, label: string) {

@@ -12,7 +12,7 @@ export interface SetMultiSource {
   /** A static list of source lists. */
   staticSources: ListId[];
   /** A list of nodes that will be passed to listFromNode. */
-  sourceNodes?: ListId;
+  sourceNodes?: ListId | NodeId[];
   /** Maps nodes from sourceNodes to lists from which items will be sourced. */
   listFromNode?: (n: NodeId) => ListId;
 }
@@ -21,8 +21,9 @@ export interface SetMultiSource {
  * This is an internal component used to load data from multiple sources and through a layer of indirection (also see SetMultiSource).
  */
 class MultiSourceList<T, F> {
-  public sourceNodeList: DataList<{ __typename: string }, unknown>;
-  public sourceNodeListSub: Subscription;
+  public sourceNodeList?: DataList<{ __typename: string }, unknown>;
+  public sourceNodeListSub?: Subscription;
+  public staticSourceNodeList?: NodeId[];
   public sources: Map<string, DataList<T, F>> = new Map();
   public sourceSubs: Map<string, Subscription> = new Map();
   public limit = 10;
@@ -31,9 +32,11 @@ class MultiSourceList<T, F> {
   public query = '';
 
   constructor(public spec: SetMultiSource, public scoreKeys: string[], private dataService: DataService) {
-    if (spec.sourceNodes) {
+    if (typeof spec.sourceNodes === 'string') {
       this.sourceNodeList = dataService.getList(spec.sourceNodes);
       this.sourceNodeListSub = this.sourceNodeList.subscribe(() => this.update());
+    } else if (Array.isArray(spec.sourceNodes)) {
+      this.staticSourceNodeList = spec.sourceNodes;
     }
     this.update();
   }
@@ -46,6 +49,9 @@ class MultiSourceList<T, F> {
     const newSourceSet = new Set<ListId>();
     for (const [id, node] of this.sourceNodeList?.current?.entries() || []) {
       const nodeId = encodeNodeId({ type: nodeTypeFromTypename(node.__typename), id });
+      newSourceSet.add(this.spec.listFromNode(nodeId));
+    }
+    for (const nodeId of this.staticSourceNodeList || []) {
       newSourceSet.add(this.spec.listFromNode(nodeId));
     }
     for (const source of this.spec.staticSources) {
@@ -138,7 +144,7 @@ class MultiSourceList<T, F> {
 
 export interface SetEditorDialogData<T, F> {
   title: string;
-  listSet: ListId;
+  listSet: ListId | string[];
   listAll: ListId | SetMultiSource;
   applyChangeset: (add: string[], del: string[]) => Promise<void>;
   itemTemplate: TemplateRef<unknown>;
@@ -154,6 +160,8 @@ export interface SetEditorDialogData<T, F> {
   styleUrls: ['./set-editor-dialog.component.scss']
 })
 export class SetEditorDialogComponent<T extends { id: string }, F> implements OnInit, OnDestroy {
+  public isLocalSet = false;
+  public localSet = [];
   public listSet$: DataList<T, F>;
   public listAll: MultiSourceList<T, F>;
   private listSetSub: Subscription;
@@ -169,40 +177,58 @@ export class SetEditorDialogComponent<T extends { id: string }, F> implements On
   ) {}
 
   ngOnInit() {
-    this.listSet$ = this.dataService.getList(this.data.listSet);
+    if (Array.isArray(this.data.listSet)) {
+      this.isLocalSet = true;
+      this.localSet = [...this.data.listSet];
+    } else {
+      this.listSet$ = this.dataService.getList(this.data.listSet);
+    }
     this.listAll = typeof this.data.listAll === 'string'
       ? MultiSourceList.fromSingleList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService)
       : new MultiSourceList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService);
-    this.listSetSub = this.listSet$.subscribe();
 
-    this.listSet$.interactive = true;
-
-    // TODO: is this a reasonable heuristic for the listSet count? we need to cover >= results from listAll
-    this.listSet$.count = 10;
+    if (this.listSet$) {
+      this.listSetSub = this.listSet$?.subscribe();
+      // TODO: is this a reasonable heuristic for the listSet count? we need to cover >= results from listAll
+      this.listSet$.count = 10;
+      this.listSet$.interactive = true;
+    }
   }
 
   searchQueryDidChange() {
-    this.listSet$.filter = this.data.makeFilter(this.searchQuery);
-    this.listAll.setFilter(this.searchQuery, this.listSet$.filter);
+    if (this.listSet$) {
+      this.listSet$.filter = this.data.makeFilter(this.searchQuery);
+    }
+    this.listAll.setFilter(this.searchQuery, this.data.makeFilter(this.searchQuery));
+  }
+
+  getNodeId(item) {
+    const type = nodeTypeFromTypename(item.__typename);
+    return encodeNodeId({ type, id: item.id });
   }
 
   isInSet(item): boolean {
-    if (this.additions.has(item.id)) {
+    const id = this.getNodeId(item);
+    if (this.additions.has(id)) {
       return true;
     }
-    if (this.deletions.has(item.id)) {
+    if (this.deletions.has(id)) {
       return false;
+    }
+    if (this.isLocalSet) {
+      return this.localSet.includes(id);
     }
     return this.listSet$.current?.has(item.id) || false;
   }
 
   toggleInSet(item): void {
+    const id = this.getNodeId(item);
     if (this.isInSet(item)) {
-      this.additions.delete(item.id);
-      this.deletions.add(item.id);
+      this.additions.delete(id);
+      this.deletions.add(id);
     } else {
-      this.deletions.delete(item.id);
-      this.additions.add(item.id);
+      this.deletions.delete(id);
+      this.additions.add(id);
     }
   }
 
