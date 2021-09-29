@@ -5,16 +5,13 @@
                        [(ngModel)]="this.selectedLabels"
                        [ngModelOptions]="{standalone: true}" placeholder="Select Labels">
                 <ng-option *ngFor="let label of this.componentLabels" [value]="label.id">
-      <span style="display: inline-block">
-        <span class="issue-label"
-              [ngStyle]="{'background-color': label.color, 'color': this.labelStore.lightOrDark(label.color)}">
-          {{label.name}}
-        </span>
-      </span>
+                    <span style="line-height: 1.2em; min-height: 1.2em; max-height: 1.2em">
+                        <app-issue-label [label]="label"></app-issue-label>
+                    </span>
                 </ng-option>
             </ng-select>
-            <button mat-raised-button color="accent" class="new-label-button" (click)="this.onNewLabelClick()">
-                New Label
+            <button mat-icon-button color="primary" class="new-label-button" (click)="this.onNewLabelClick()">
+                <mat-icon>add</mat-icon>
             </button>
         </div>
     </ng-template>

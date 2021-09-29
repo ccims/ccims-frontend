@@ -1,23 +1,19 @@
-@import 'src/styles/issue-label';
-
 .text-left {
   text-align: left;
 }
+
 .mat-row:hover {
-  -webkit-box-shadow: inset 0px 0px 43px -17px rgba(201,195,201,1);
-  -moz-box-shadow: inset 0px 0px 43px -17px rgba(201,195,201,1);
-  box-shadow: inset 0px 0px 43px -17px rgba(201,195,201,1);
-cursor: pointer;
+  -webkit-box-shadow: inset 0px 0px 43px -17px rgba(201, 195, 201, 1);
+  -moz-box-shadow: inset 0px 0px 43px -17px rgba(201, 195, 201, 1);
+  box-shadow: inset 0px 0px 43px -17px rgba(201, 195, 201, 1);
+  cursor: pointer;
 }
-.button-add {
-  margin-top: 8px;
-  float: left;
-}
+
 .table-container {
-  // max-height: 500px;
   overflow: auto;
 }
-.label-div {
+
+.label-div  {
   background-color: rgb(5, 66, 5);
   margin: 1px;
   float: left;
