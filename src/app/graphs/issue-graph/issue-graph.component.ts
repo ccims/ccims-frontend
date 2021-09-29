@@ -100,7 +100,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private componentActionsOverlay: componentContextMenuComponent.ComponentContextMenuComponent;
   private componentActionsOverlayId: number | string;
 
-  // The component details page moves the graph sometimes a bit, so dont move back when closing the component details page
+  // The component details page moves the graph sometimes a bit,
+  // so dont move back when closing the component details page
   private redrawByCloseOfComponentDetails = false;
 
   /**
@@ -626,11 +627,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * @param  {GraphEditor} graph
-   * @param  {GraphEditor} minimap
+   * Adds event listeners to a given GraphEditor instance.
+   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
+   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
    */
   private manageEventListeners(graph: GraphEditor, minimap: GraphEditor) {
-    // setup node click behaviour
+
+    // applies functionality for when a node is clicked
     graph.addEventListener('nodeclick', this.onNodeClick);
 
     graph.addEventListener('nodepositionchange', (e: CustomEvent) => {
@@ -709,6 +712,205 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Method gets triggered after a node is clicked.
+   * @param  {CustomEvent} event - Event that is handled.
+   */
+   private onNodeClick = (event: CustomEvent) => {
+
+    // cancels node selection
+    event.preventDefault();
+
+    const node: Node = event.detail.node;
+
+    if (this.componentActionsOverlay && this.componentActionsOverlay.data.nodeId === node.id) {
+      this.closeComponentActions();
+      return;
+    }
+
+    this.closeComponentActions();
+
+    // doesn't allow the view of the graph to change after the Details page has been closed
+    this.redrawByCloseOfComponentDetails = true;
+
+    let contextMenuType: NodeDetailsType = null;
+
+    if (this.isHandset) {
+
+      // case: node of type Component
+      // => opens View Component page
+      if (node.type === issueGraphNodes.NodeType.Component) {
+        this.router.navigate(['./component/', node.id], {relativeTo: this.activatedRoute.parent});
+        return;
+      }
+
+      // case: node of type Interface
+      // => opens View Interface page
+      if (node.type === issueGraphNodes.NodeType.Interface) {
+        this.router.navigate(['./interface/', node.id], {relativeTo: this.activatedRoute.parent});
+        return;
+      }
+    } else {
+
+      // sets the context menu type
+      contextMenuType = this.nodeClickSetContextMenuType(node, contextMenuType);
+
+      // case: context menu has a type
+      // => handles zooming
+      if (contextMenuType != null) {
+        this.NodeClickContextMenuHasType(node, event, contextMenuType);
+        return;
+      }
+    }
+
+    // case: clicked issue folder
+    // => determines issue count, opens corresponding issue page
+    if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
+
+      // reference to the GraphEditor instance of the graph, the root ID and the root node
+      const graph: GraphEditor = this.graphWrapper.nativeElement;
+      const rootId = graph.groupingManager.getTreeRootOf(node.id);
+      const rootNode = graph.getNode(rootId);
+
+      // case: only one issue inside the clicked issue folder
+      // => opens Issue Details page
+      if (node.issueCount == 1) {
+        this.nodeClickOneIssue(rootId, rootNode, node);
+        return;
+      } 
+      
+      // case: many issues inside the clicked issue folder
+      // => opens Component Issues / Interface Issues page
+      else {
+        this.nodeClickManyIssues(rootNode);
+        return;
+      }
+    }
+    
+    // EXCEPTION: another type of node is clicked
+    console.log('Clicked on another type of node:', node.type);
+  }
+
+  /**
+   * Sets the context menu type.
+   * @param  {Node} node - Node that is handled.
+   * @param  {NodeDetailsType} contextMenuType Type of the context menu that is handled.
+   */
+  private nodeClickSetContextMenuType(node: Node, contextMenuType: NodeDetailsType) {
+    
+    // case: node of type Component
+    // => sets the context menu type as Component
+    if (node.type === issueGraphNodes.NodeType.Component) {
+      contextMenuType = NodeDetailsType.Component;
+    }
+
+    // case: node of type Interface
+    // => sets the context menu type as Interface
+    if (node.type === issueGraphNodes.NodeType.Interface) {
+      contextMenuType = NodeDetailsType.Interface;
+    }
+
+    return contextMenuType;
+  }
+
+  /**
+   * Handles zooming of the graph
+   * aka. case in which the context menu has a type.
+   * @param  {Node} node - Node that is handled.
+   * @param  {CustomEvent<any>} event - Event that is handled.
+   * @param  {NodeDetailsType} contextMenuType - Type of the context menu that is handled.
+   */
+  private NodeClickContextMenuHasType(node: Node, event: CustomEvent<any>, contextMenuType: NodeDetailsType) {
+
+    // current zoom transform of the graph
+    const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
+
+    // case: zoomed
+    if (x >= 0 && y >= 0) {
+      this.componentActionsOverlayId = node.id;
+
+      // cancels click event that would otherwise close it again
+      event.detail.sourceEvent.stopImmediatePropagation();
+
+      this.componentActionsOverlay =
+        this.componentContextMenuService.open(
+          this.graphWrapper.nativeElement,
+          x,
+          y,
+          this.projectId,
+          node.id.toString(),
+          contextMenuType,
+          this);
+
+      // makes sure the context menu is visible if it extends over the right / bottom edge
+      const visible = this.graph.currentViewWindow;
+      const scale = this.graph.currentZoomTransform.k;
+      // FIXME: this isn't ideal, as the padding is somewhat dependent on the aspect ratio
+      const padding = 85 / scale;
+      const edgeX = visible.width * scale;
+      const edgeY = visible.height * scale;
+      const moveX = Math.max(0, this.componentActionsOverlay.width + x - edgeX) / scale;
+      const moveY = Math.max(0, this.componentActionsOverlay.height + y - edgeY) / scale;
+
+      // case: zooming
+      if (moveX || moveY) {
+        this.graph.zoomToBox({
+          x: visible.x + moveX + padding, y: visible.y + moveY + padding,
+          width: visible.width - 2 * padding, height: visible.height - 2 * padding
+        });
+      }
+    }
+  }
+
+  /**
+   * Handles the case in which the clicked issue folder contains only one issues.
+   * @param  {Node} rootNode - Root node that is handled.
+   * @param  {string} rootId - Root id that is handled.
+   * @param  {Node} node - Clicked node that is handled.
+   */
+  private nodeClickOneIssue(rootId: string, rootNode: Node, node: Node) {
+
+    // case: root node of type Component
+    // => handles a single component issue, opens its Issue Details page
+    if (rootNode.type === issueGraphNodes.NodeType.Component) {
+      this.componentStoreService.getFullComponent(rootId).subscribe(component => {
+        const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
+        this.router.navigate(['./', 'issues', currentIssueId], { relativeTo: this.activatedRoute.parent });
+      });
+    } 
+    
+    // case: root node of type Interface
+    // => handles a single interface issue, opens its Issue Details page
+    else if (rootNode.type === issueGraphNodes.NodeType.Interface) {
+      this.interfaceStoreService.getInterface(rootId).subscribe(interfaceComponent => {
+        const currentIssueId = this.extractIssueId(interfaceComponent.node.issuesOnLocation.nodes, node.type);
+        this.router.navigate(['./', 'issues', currentIssueId], { relativeTo: this.activatedRoute.parent });
+      });
+    }
+  }
+
+  /**
+   * Handles the case in which the clicked issue folder contains many issues.
+   * @param  {Node} rootNode - Root node that is handled.
+   */
+  private nodeClickManyIssues(rootNode: Node) {
+
+    // case: root node of type Component
+    // => handles many component issues, opens their Component Issues page
+    if (rootNode.type === issueGraphNodes.NodeType.Component) {
+      this.router.navigate(['./component/', rootNode.id], { relativeTo: this.activatedRoute.parent });
+    }
+
+    // case: root node of type Interface
+    // => handles many interface issues, opens their Interface Issues page
+    if (rootNode.type === issueGraphNodes.NodeType.Interface) {
+      this.router.navigate(['./interface/', rootNode.id], { relativeTo: this.activatedRoute.parent });
+    }
+  }
+  
+  /**
+   * @param  {boolean=true} reload
+   */
   private closeComponentActions(reload: boolean = true): boolean {
     if (this.componentActionsOverlay) {
       if (reload) {
@@ -929,119 +1131,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.graph.addEdge(edge);
       }
     }
-  }
-
-  /**
-   * Method gets triggered after a node is clicked.
-   * @param  {CustomEvent} event - Event that is handled.
-   */
-  private onNodeClick = (event: CustomEvent) => {
-    // console.log(event.detail.node.x, event.detail.node.y);
-    // return;
-
-    event.preventDefault(); // prevent node selection
-    const node: Node = event.detail.node;
-
-    if (this.componentActionsOverlay && this.componentActionsOverlay.data.nodeId === node.id) {
-      this.closeComponentActions();
-      return;
-    }
-
-    this.closeComponentActions();
-
-    // Dont change the view of the graph after the details page has been closed
-    this.redrawByCloseOfComponentDetails = true;
-    let contextMenuType: NodeDetailsType = null;
-
-    if (this.isHandset) {
-      if (node.type === issueGraphNodes.NodeType.Component) {
-        this.router.navigate(['./component/', node.id], {relativeTo: this.activatedRoute.parent});
-        return;
-      }
-
-      if (node.type === issueGraphNodes.NodeType.Interface) {
-        this.router.navigate(['./interface/', node.id], {relativeTo: this.activatedRoute.parent});
-        return;
-      }
-    } else {
-      if (node.type === issueGraphNodes.NodeType.Component) {
-        contextMenuType = NodeDetailsType.Component;
-      }
-
-      if (node.type === issueGraphNodes.NodeType.Interface) {
-        contextMenuType = NodeDetailsType.Interface;
-      }
-
-      if (contextMenuType != null) {
-        const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
-        if (x >= 0 && y >= 0) {
-          this.componentActionsOverlayId = node.id;
-          event.detail.sourceEvent.stopImmediatePropagation(); // Cancel click event that would otherwise close it again
-
-          this.componentActionsOverlay =
-            this.componentContextMenuService.open(
-              this.graphWrapper.nativeElement,
-              x,
-              y,
-              this.projectId,
-              node.id.toString(),
-              contextMenuType,
-              this);
-
-          // Make sure that context menu is visible if it extends over right or bottom edge
-          const visible = this.graph.currentViewWindow;
-          const scale = this.graph.currentZoomTransform.k;
-          const padding = 85 / scale; // FIXME: This isn't ideal, as the padding is somewhat dependent on the aspect ratio
-          const edgeX = visible.width * scale;
-          const edgeY = visible.height * scale;
-          const moveX = Math.max(0, this.componentActionsOverlay.width + x - edgeX) / scale;
-          const moveY = Math.max(0, this.componentActionsOverlay.height + y - edgeY) / scale;
-          if (moveX || moveY) {
-            this.graph.zoomToBox({
-              x: visible.x + moveX + padding, y: visible.y + moveY + padding,
-              width: visible.width - 2 * padding, height: visible.height - 2 * padding
-            });
-          }
-        }
-
-        return;
-      }
-    }
-
-    // if the clicked node in the graph is a issue folder, the issue count for the folder has to be determined
-    if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
-      const graph: GraphEditor = this.graphWrapper.nativeElement;
-      const rootId = graph.groupingManager.getTreeRootOf(node.id);
-      const rootNode = graph.getNode(rootId);
-
-      // if there is only one issue inside the clicked folder the graph leads the user directly to the issue details view
-      if (node.issueCount < 2 && node.issueCount > 0) {
-        if (rootNode.type === issueGraphNodes.NodeType.Component) {
-          this.componentStoreService.getFullComponent(rootId).subscribe(component => {
-            const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
-            this.router.navigate(['./', 'issues', currentIssueId], {relativeTo: this.activatedRoute.parent});
-          });
-        } else if (rootNode.type === issueGraphNodes.NodeType.Interface) {
-          this.interfaceStoreService.getInterface(rootId).subscribe(interfaceComponent => {
-            const currentIssueId = this.extractIssueId(interfaceComponent.node.issuesOnLocation.nodes, node.type);
-            this.router.navigate(['./', 'issues', currentIssueId], {relativeTo: this.activatedRoute.parent});
-          });
-        }
-        return;
-      } else {
-        if (rootNode.type === issueGraphNodes.NodeType.Component) {
-          this.router.navigate(['./component/', rootNode.id], {relativeTo: this.activatedRoute.parent});
-        }
-
-        if (rootNode.type === issueGraphNodes.NodeType.Interface) {
-          this.router.navigate(['./interface/', rootNode.id], {relativeTo: this.activatedRoute.parent});
-        }
-
-        return;
-      }
-    }
-    
-    console.log('Clicked on another type of node:', node.type);
   }
 
   calculateBoundingBox(): Rect {
