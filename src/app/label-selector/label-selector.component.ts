@@ -1,12 +1,13 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {LabelStoreService} from '@app/data/label/label-store.service';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {CreateLabelMutation, GetComponentQuery} from '../../generated/graphql';
-import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {CreateLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-label-dialog.component';
 import {MatDialog, MatDialogRef, MatDialogState} from '@angular/material/dialog';
 import {QueryComponent} from '@app/utils/query-component/query.component';
+import DataService from '@app/data-dgql';
+import {encodeListId, ListType, NodeType} from '@app/data-dgql/id';
+import {Label} from '../../generated/graphql-dgql';
 
 @Component({
   selector: 'app-label-selector-component',
@@ -22,19 +23,24 @@ export class LabelSelectorComponent implements AfterViewInit {
   @ViewChild('labelSelector') labelSelector: NgSelectComponent;
 
   component: GetComponentQuery;
-  componentLabels = [];
+  componentLabels: Array<Label> = [];
   dialogRef: MatDialogRef<CreateLabelDialogComponent, CreateLabelMutation>;
 
-  constructor(public labelStore: LabelStoreService,
-              private componentStoreService: ComponentStoreService,
+  constructor(private dataService: DataService,
               private notify: UserNotifyService,
               private dialog: MatDialog) {
   }
 
   ngAfterViewInit() {
-    this.query.listenTo(this.componentStoreService.getComponentLabels(this.componentId)).subscribe(labels => {
-      this.componentLabels = labels.node.labels.nodes;
-    }, error => this.notify.notifyError('Failed to get component labels!', error));
+    const dataList = this.dataService.getList(encodeListId({
+      type: ListType.Labels,
+      node: {type: NodeType.Component, id: this.componentId}
+    }));
+    this.query.listenTo(dataList).subscribe(labels => {
+      for (const label of labels.values()) {
+        this.componentLabels.push(label as Label);
+      }
+    });
   }
 
   closeDialog(): void {
@@ -55,7 +61,7 @@ export class LabelSelectorComponent implements AfterViewInit {
     this.dialogRef = this.dialog.open(CreateLabelDialogComponent, {data: {componentId: this.componentId}});
     this.dialogRef.afterClosed().subscribe((created) => {
         if (created) {
-          this.componentLabels.push(created.createLabel.label);
+          this.componentLabels.push(created.createLabel.label as Label);
           this.labelSelector.select({value: created.createLabel.label.id});
         }
       }
