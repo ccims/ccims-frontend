@@ -313,7 +313,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
    * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
    */
-   private manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
+  private manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
     
     // calculation for link handles
     const linkHandleCalculation = (
@@ -426,7 +426,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Manages the edge drag behaviour of given GraphEditor instance.
    * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
    */
-   private manageDragBehaviour(graph: GraphEditor) {
+  private manageDragBehaviour(graph: GraphEditor) {
 
     // applies functionality for when an edge is created
     graph.onCreateDraggedEdge = this.onCreateEdge;
@@ -449,7 +449,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * it can either be of type provider or consumer.
    * @param  {DraggedEdge} edge - Edge that is handled.
    */
-   private onCreateEdge = (edge: DraggedEdge) => {
+  private onCreateEdge = (edge: DraggedEdge) => {
 
     const graph: GraphEditor = this.graphWrapper.nativeElement;
     const sourceNode = graph.getNode(edge.source);
@@ -673,7 +673,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Manages the dynamic template registry of given GraphEditor instance.
    * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
    */
-   private manageDynamicTemplateRegistry(graph: GraphEditor) {
+  private manageDynamicTemplateRegistry(graph: GraphEditor) {
     graph.dynamicTemplateRegistry.addDynamicTemplate('issue-group-container', {
       renderInitialTemplate(
         g,
@@ -789,7 +789,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Method gets triggered after a node is clicked.
    * @param  {CustomEvent} event - Event that is handled.
    */
-   private onNodeClick = (event: CustomEvent) => {
+  private onNodeClick = (event: CustomEvent) => {
 
     // cancels node selection
     event.preventDefault();
@@ -1033,7 +1033,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Method gets triggered when the minimap renders.
    * @param  {GraphEditor} minimap - Minimap that is handled.
    */
-   private onMinimapRender(minimap: GraphEditor): EventListenerOrEventListenerObject {
+  private onMinimapRender(minimap: GraphEditor): EventListenerOrEventListenerObject {
     return (event: CustomEvent) => {
 
       // case: renders the minimap completely
@@ -1110,7 +1110,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Resets graph state. Called at start of draw(). Enables logic in draw()
    * to assume a 'blank sheet' state avoiding complex updating logic.
    */
-   resetGraph() {
+  resetGraph() {
     this.graph.edgeList = [];
     this.graph.nodeList = [];
     this.issueGroupParents = [];
@@ -1122,7 +1122,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param  {string} id - Id of component that is handled.
    * @param  {Rect} boundingBox - Bounding box of the component that is handled.
    */
-   findIdealComponentPosition(id: string, boundingBox: Rect): Point {
+  findIdealComponentPosition(id: string, boundingBox: Rect): Point {
 
     // saved position
     const saved = this.savedPositions.nodes[id];
@@ -1382,7 +1382,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // ...
   
 
-  
+
   /**
    * Sets --show-relations css variable to initial or none. It is the value
    * of the display attribute of the edges. If we set it to none the edges disappear.
