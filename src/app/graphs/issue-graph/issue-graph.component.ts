@@ -132,6 +132,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // used in the drawGraph method true on first draw and after component creation, effects a zoom to bounding box
   private zoomOnRedraw = true;
 
+
+
+  // ...
+
+
+
   /**
    * Gets reference to the MICO GraphEditor instance of the graph and initializes it.
    */
@@ -165,6 +171,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.next();
     this.closeComponentActions();
   }
+
+
+
+  // initGraph
+
+
 
   /**
    * 1) Sets up a subscription for node positions
@@ -595,6 +607,37 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Opens the interface creation dialog. If the user actually creates the interface 
+   * it is added to the providing component at the posititon
+   * where the dragegd edge was dropped by the user (before opening the interface creation dialog).
+   * @param offeredById - Id of the comonent that will provide the interface.
+   * @param position - Position of the interface.
+   */
+  private addInterfaceToComponent(offeredById: string, position: issueGraphNodes.Position) {
+
+    // interface data
+    const data: CreateInterfaceData = {
+      position,
+      offeredById
+    };
+
+    // interface dialog reference
+    const createInterfaceDialogRef = this.dialog.open(CreateInterfaceDialogComponent, {
+      data
+    });
+
+    // subscribes ...
+    createInterfaceDialogRef.afterClosed().subscribe((interfaceId) => {
+      this.savedPositions.nodes[interfaceId] = {
+        x: position.x,
+        y: position.y
+      };
+      this.savePositionsSubject.next();
+      this.reload$.next(null);
+    });
+  }
+
+  /**
    * Method gets triggered after an edge gets removed.
    * @param  {CustomEvent} event - Event that is handled.
    */
@@ -920,6 +963,20 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Extracts the id of an issue in a given issue list.
+   * @param issueList - Ids of the issues that are handled.
+   * @param category - Category of issues that are handled.
+   * @returns Id of the first issue (in the issue list) with matching category.
+   */
+  private extractIssueId(issueList, category: string): string {
+    for (const issue of issueList) {
+      if (issue.category === category) {
+        return issue.id;
+      }
+    }
+  }
+
+  /**
    * Handles the case in which the clicked issue folder contains many issues.
    * @param  {Node} rootNode - Root node that is handled.
    */
@@ -1003,79 +1060,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  /**
-   * Creates the node groups necessary for the display of issue folders
-   * attached to node. Node represents a component or interface
-   * node. Node itself gets an issue group of IssueGroupContainerParentBehaviour.
-   * We add an issueGroupContainerNode with IssueGroupContainerBehaviour to it.
-   * This corresponds to the 4 'Grouping Manager' object on the upper two levels in the graph_structure_documentation.png.
-   * @param node represents a node which can have issue folders attached. Currently components or
-   * interfaces.
-   */
-  private addIssueGroupContainer(node: issueGraphNodes.IssueNode) {
-    const gm = this.graph.groupingManager;
-    gm.markAsTreeRoot(node.id);
-    const issueGroupContainerNode = issueGraphNodes.createIssueGroupContainerNode(node);
-    const initialPosition = this.savedPositions.issueGroups[issueGroupContainerNode.id];
-    gm.setGroupBehaviourOf(
-      node.id,
-      new IssueGroupContainerParentBehaviour(initialPosition)
-    );
-    // the issueGroupContainerNode has no visual representation but contains the visible issue folders
-    node.issueGroupContainer = issueGroupContainerNode;
-    this.graph.addNode(issueGroupContainerNode);
-    gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
-    gm.setGroupBehaviourOf(
-      issueGroupContainerNode.id,
-      new IssueGroupContainerBehaviour()
-    );
-    this.issueGroupParents.push(node);
-  }
 
-  /**
-   * Resets graph state. Called at start of draw(). Enables logic in draw()
-   * to assume a 'blank sheet' state avoiding complex updating logic.
-   */
-  resetGraph() {
-    this.graph.edgeList = [];
-    this.graph.nodeList = [];
-    this.issueGroupParents = [];
-    this.graph.groupingManager.clearAllGroups();
-  }
 
-  /**
-   * Create and add edge between node representing component to node representing the interface itself
-   * @param node represents interface in graph
-   */
-  connectToOfferingComponent(node: issueGraphNodes.InterfaceNode) {
-    this.graph.addEdge(issueGraphNodes.createInterfaceProvisionEdge(node.offeredById, node.id));
-  }
+  // drawGaph 
 
-  /**
-   * Add an edge from each connected component to the interface.
-   * @param interfaceNode visualized by lollipop notation
-   */
-  connectConsumingComponents(interfaceNode: issueGraphNodes.InterfaceNode) {
-    for (const consumerId of this.graphData.interfaces.get(interfaceNode.id).consumedBy) {
-      this.graph.addEdge(issueGraphNodes.createConsumptionEdge(consumerId, interfaceNode.id));
-    }
-  }
 
-  findIdealComponentPosition(id: string, boundingBox: Rect): Point {
-    const saved = this.savedPositions.nodes[id];
-    if (saved) {
-      return saved;
-    }
-
-    const point = {x: 0, y: 0};
-    if (boundingBox) {
-      point.x = boundingBox.x + boundingBox.width + 60;
-      point.y = boundingBox.y + boundingBox.height / 2;
-    }
-
-    this.savedPositions.nodes[id] = point;
-    return point;
-  }
 
   /**
    * Responsible for drawing the graph based on this.graphData.
@@ -1118,6 +1107,150 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Resets graph state. Called at start of draw(). Enables logic in draw()
+   * to assume a 'blank sheet' state avoiding complex updating logic.
+   */
+   resetGraph() {
+    this.graph.edgeList = [];
+    this.graph.nodeList = [];
+    this.issueGroupParents = [];
+    this.graph.groupingManager.clearAllGroups();
+  }
+
+  /**
+   * Finds the ideal component position if none is saved.
+   * @param  {string} id - Id of component that is handled.
+   * @param  {Rect} boundingBox - Bounding box of the component that is handled.
+   */
+   findIdealComponentPosition(id: string, boundingBox: Rect): Point {
+
+    // saved position
+    const saved = this.savedPositions.nodes[id];
+
+    // case: there is a saved position
+    // => return it
+    if (saved) {
+      return saved;
+    }
+
+    // calculates the ideal position
+    const point = {x: 0, y: 0};
+    if (boundingBox) {
+      point.x = boundingBox.x + boundingBox.width + 60;
+      point.y = boundingBox.y + boundingBox.height / 2;
+    }
+
+    // saves the ideal position
+    this.savedPositions.nodes[id] = point;
+
+    return point;
+  }
+
+  /**
+   * Creates and adds an edge between the node representing a component
+   * an the node representing the interface itself.
+   * @param node - Interface that is handled.
+   */
+  connectToOfferingComponent(node: issueGraphNodes.InterfaceNode) {
+    this.graph.addEdge(issueGraphNodes.createInterfaceProvisionEdge(node.offeredById, node.id));
+  }
+
+  /**
+   * Adds an edge from each connected component to the interface.
+   * @param interfaceNode - Interface (visualized by lollipop notation) that is handled.
+   */
+  connectConsumingComponents(interfaceNode: issueGraphNodes.InterfaceNode) {
+    for (const consumerId of this.graphData.interfaces.get(interfaceNode.id).consumedBy) {
+      this.graph.addEdge(issueGraphNodes.createConsumptionEdge(consumerId, interfaceNode.id));
+    }
+  }
+
+  /**
+   * Adds the issue folders with counts for each IssueCategory (currently 3)
+   * to the component or interface represented by node. The first methods call
+   * sets up invisible nodes in the graph to make the folders display properly.
+   * The second method takes care of actually adding the visible folders with
+   * the correct counts.
+   * @param node - Interface / component that is handled.
+   */
+  private addIssueFolders(node: issueGraphNodes.IssueNode) {
+    this.addIssueGroupContainer(node);
+    this.addIssueFolderNodes(node);
+  }
+
+  /**
+   * Creates the node groups necessary for displaying issue folders attached to a node.
+   * A Node represents a component or an interface.
+   * It also gets an issue group of IssueGroupContainerParentBehaviour,
+   * issueGroupContainerNode with IssueGroupContainerBehaviour gets added to it.
+   * This corresponds to the 4 'Grouping Manager' object
+   * on the upper two levels in the graph_structure_documentation.png.
+   * @param node - Node (component or interface) which can have issue folders attached.
+   */
+  private addIssueGroupContainer(node: issueGraphNodes.IssueNode) {
+    const gm = this.graph.groupingManager;
+    gm.markAsTreeRoot(node.id);
+    const issueGroupContainerNode = issueGraphNodes.createIssueGroupContainerNode(node);
+    const initialPosition = this.savedPositions.issueGroups[issueGroupContainerNode.id];
+    gm.setGroupBehaviourOf(
+      node.id,
+      new IssueGroupContainerParentBehaviour(initialPosition)
+    );
+
+    // the issueGroupContainerNode has no visual representation but contains the visible issue folders
+    node.issueGroupContainer = issueGroupContainerNode;
+    this.graph.addNode(issueGroupContainerNode);
+    gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
+    gm.setGroupBehaviourOf(
+      issueGroupContainerNode.id,
+      new IssueGroupContainerBehaviour()
+    );
+    this.issueGroupParents.push(node);
+  }
+
+  /**
+   * This method presumes that node has the 4 'Grouping Manager Objects'
+   * depicted on the the upper levels in the graph_structure_documentation.png.
+   * correctly setup.
+   * @param node Interface / component that is handled.
+   */
+  private addIssueFolderNodes(node: issueGraphNodes.IssueNode) {
+    // get mapping from IssueCategory to number for the component or interface represented by node
+    const issueCounts = this.graphData.graphLocations.get(node.id).issues;
+    // iterate over issue categories and create a node if there is at least one issue of it
+    Object.keys(IssueCategory).forEach(key => {
+      const issueCategory = IssueCategory[key];
+      if (issueCounts.has(issueCategory)) {
+        const count = issueCounts.get(issueCategory);
+        // only show folders for issue categories with at least one issue
+        if (count > 0) {
+          const issueFolderNode = issueGraphNodes.createIssueFolderNode(node, issueCategory, count.toString());
+          this.graph.addNode(issueFolderNode);
+          this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
+        }
+      }
+    });
+  }
+
+  /**
+   * Draws folder relations originating from the issue folder represented by node.
+   * @param node - Issue folder (for issues of a certain type) that is handled.
+   */
+  private drawFolderRelations(node: issueGraphNodes.IssueNode) {
+    // @ts-ignore
+    const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
+      (id: string) => this.graph.getNode(id));
+    for (const folderNode of folderNodes) {
+      const relatedFolders = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
+      for (const relatedFolder of relatedFolders) {
+        const [issueNodeId, category] = relatedFolder;
+        const edge = issueGraphNodes.createRelationEdge(folderNode.id, issueGraphNodes.getIssueFolderId(issueNodeId, category));
+        this.graph.addEdge(edge);
+      }
+    }
+  }
+
+  /**
    * Sets the view and the bounding box of the graph to how it was when the user left the graph with the help of localStorage.
    * When theres no previous session available set the view to the optimized bounding box for the graph.
    */
@@ -1155,66 +1288,30 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Adds the issue folders with counts for each IssueCategory (currently 3)
-   * to the component or interface represented by node. The first methods call
-   * sets up invisible nodes in the graph to make the folders display properly.
-   * The second method takes care of actually adding the visible folders with
-   * the correct counts.
-   * @param node represents interface or component
+   * Fits the graph into view.
    */
-  private addIssueFolders(node: issueGraphNodes.IssueNode) {
-    this.addIssueGroupContainer(node);
-    this.addIssueFolderNodes(node);
-  }
+  fitGraphInView(): void {
 
-  /**
-   * This method presumes that node has the 4 'Grouping Manager Objects'
-   * depicted on the the upper levels in the graph_structure_documentation.png.
-   * correctly setup.
-   * @param node represents interface or component
-   */
-  private addIssueFolderNodes(node: issueGraphNodes.IssueNode) {
-    // get mapping from IssueCategory to number for the component or interface represented by node
-    const issueCounts = this.graphData.graphLocations.get(node.id).issues;
-    // iterate over issue categories and create a node if there is at least one issue of it
-    Object.keys(IssueCategory).forEach(key => {
-      const issueCategory = IssueCategory[key];
-      if (issueCounts.has(issueCategory)) {
-        const count = issueCounts.get(issueCategory);
-        // only show folders for issue categories with at least one issue
-        if (count > 0) {
-          const issueFolderNode = issueGraphNodes.createIssueFolderNode(node, issueCategory, count.toString());
-          this.graph.addNode(issueFolderNode);
-          this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
-        }
-      }
-    });
-  }
+    // calculates the bounding box of the view
+    const rect = this.calculateBoundingBox();
 
-  /**
-   * Draws folder relations originating from the issue folder represented by node.
-   * @param node representing an issue folder for issues of a certain type
-   */
-  private drawFolderRelations(node: issueGraphNodes.IssueNode) {
-    // @ts-ignore
-    const folderNodes: IssueFolderNode[] = Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
-      (id: string) => this.graph.getNode(id));
-    for (const folderNode of folderNodes) {
-      const relatedFolders = this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
-      for (const relatedFolder of relatedFolders) {
-        const [issueNodeId, category] = relatedFolder;
-        const edge = issueGraphNodes.createRelationEdge(folderNode.id, issueGraphNodes.getIssueFolderId(issueNodeId, category));
-        this.graph.addEdge(edge);
-      }
+    // case: bounding box is calculated
+    // => zoom to bounding box
+    if (rect) {
+      this.graph.zoomToBox(rect);
     }
   }
 
+  /**
+   * Calculates the bounding box of the view.
+   * @returns The calculated bounding box.
+   */
   calculateBoundingBox(): Rect {
     const componentSize = {width: 100, height: 60};
     const interfaceSize = {width: 14, height: 14};
     const issueContainerSize = {width: 40, height: 30};
 
-    // Calculate bounding box
+    // calculates bounding box
     let rect = null;
     for (const node of this.graph.nodeList) {
       let size;
@@ -1224,7 +1321,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         size = interfaceSize;
       } else if (node.type === issueGraphNodes.NodeType.IssueGroupContainer) {
         if (node.issueGroupNodeIds.size === 0) {
-          // Ignore empty issue group containers
+          // irrelevant for empty issue group containers
           continue;
         }
 
@@ -1250,6 +1347,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     return rect ? {x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin} : null;
   }
 
+  /**
+   * Handles the layour graph.
+   */
   layoutGraph(): void {
     const nodes = new Map<string | number, LayoutNode>();
 
@@ -1277,46 +1377,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     this.savePositionsSubject.next();
   }
 
-  fitGraphInView(): void {
-    const rect = this.calculateBoundingBox();
 
-    if (rect) {
-      this.graph.zoomToBox(rect);
-    }
-  }
 
-  /**
-   * Opens interface creation dialog. If the user actually creates the interface it
-   * is added to component (offeredById) at posititon.
-   * @param offeredById id of the comonent offering the would be interface
-   * @param position of the interface of the would be interface. Its the position
-   * where the user dropped the edge he dragged from the component.
-   */
-  private addInterfaceToComponent(offeredById: string, position: issueGraphNodes.Position) {
-    const data: CreateInterfaceData = {
-      position,
-      offeredById
-    };
+  // ...
+  
 
-    const createInterfaceDialogRef = this.dialog.open(CreateInterfaceDialogComponent, {
-      data
-    });
-
-    createInterfaceDialogRef.afterClosed().subscribe((interfaceId) => {
-      this.savedPositions.nodes[interfaceId] = {
-        x: position.x,
-        y: position.y
-      };
-      this.savePositionsSubject.next();
-      this.reload$.next(null);
-    });
-  }
-
+  
   /**
    * Sets --show-relations css variable to initial or none. It is the value
    * of the display attribute of the edges. If we set it to none the edges disappear.
-   * @param showRelations boolean derived from the setting of the switch slider for relation edges
-   * above the graph
+   * @param showRelations - Boolean derived from the setting of the switch slider for relation edges above the graph.
    */
   setRelationVisibility(showRelations: boolean) {
     this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
@@ -1335,16 +1405,4 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  /**
-   * @param issueList contains ids of issues
-   * @param category category of issue e.g. bug
-   * @returns id of first issue of category in issue list
-   */
-  private extractIssueId(issueList, category: string): string {
-    for (const issue of issueList) {
-      if (issue.category === category) {
-        return issue.id;
-      }
-    }
-  }
 }
