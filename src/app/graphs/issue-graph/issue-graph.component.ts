@@ -65,7 +65,19 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() projectId: string;
 
   readonly zeroPosition = {x: 0, y: 0};
-  private isHandset = false;
+
+  // ?
+  private componentActionsOverlay: componentContextMenuComponent.ComponentContextMenuComponent;
+
+  // ?
+  private componentActionsOverlayId: number | string;
+
+
+
+  // ?
+  private destroy$ = new ReplaySubject(1);
+
+
 
   // reference to the GraphEditor instance of the graph
   private graph: GraphEditor;
@@ -74,35 +86,51 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // that is needed in order to create nodes and edges in the grapheditor to visualize the project
   public graphData: GraphData;
 
+  // ?
+  private graphFirstRender = true;
+
   // indicates whether graph is initialized
   private graphInitialized = false;
-  
-  // used in the drawGraph method true on first draw and after component creation, effects a zoom to bounding box
-  private zoomOnRedraw = true;
+
+
+
+  // ?
+  private isHandset = false;
 
   // contains nodes representing interfaces and components which utilize node groups for display of issue folders
   private issueGroupParents: Node[] = [];
+  
 
-  private savePositionsSubject = new Subject<null>();
-  private savedPositions: Positions = {nodes: {}, issueGroups: {}};
-
-  private destroy$ = new ReplaySubject(1);
-
-  // see the IssueGraphControlsComponents ngAfterViewInit for how it is used
-  public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
-  private reloadOnMouseUp = false;
 
   // local storage key for positions of graph elements
   private projectStorageKey: string;
 
-  private graphFirstRender = true;
 
-  private componentActionsOverlay: componentContextMenuComponent.ComponentContextMenuComponent;
-  private componentActionsOverlayId: number | string;
 
   // The component details page moves the graph sometimes a bit,
   // so dont move back when closing the component details page
   private redrawByCloseOfComponentDetails = false;
+
+  // when a new graph state arrives it is passed to the graph
+  // and a graph redraw is issued
+  // (check IssueGraphControlsComponents ngAfterViewInit for more information) 
+  public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
+
+  // ?
+  private reloadOnMouseUp = false;
+
+
+
+  // ?
+  private savedPositions: Positions = {nodes: {}, issueGroups: {}};
+
+  // ?
+  private savePositionsSubject = new Subject<null>();
+
+
+
+  // used in the drawGraph method true on first draw and after component creation, effects a zoom to bounding box
+  private zoomOnRedraw = true;
 
   /**
    * Gets reference to the MICO GraphEditor instance of the graph and initializes it.
@@ -139,11 +167,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Initializes graph. It sets up a subscription on observable for
-   * node positions. It registers class setters with the graph editor
-   * that apply css classes based on the edge and node types. It sets
-   * up the link handle calculation. Additionally it registers
-   * various callback function as event listeners on the graph.
+   * 1) Sets up a subscription for node positions
+   * 2) and initializes the graph.
+   * Also manages:
+   * 3) class setters with the graph editor
+   * that apply css classes based on the edge and node types,
+   * 4) the link handle calculation,
+   * 5) the edge drag behaviour,
+   * 6) the dynamic template registry.
+   * 7) and various event listeners on the graph.
    */
   initGraph() {
 
@@ -636,12 +668,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // applies functionality for when a node is clicked
     graph.addEventListener('nodeclick', this.onNodeClick);
 
+    // applies functionality for when the position of a node is changed
     graph.addEventListener('nodepositionchange', (e: CustomEvent) => {
       if (this.closeComponentActions(false)) {
         this.reloadOnMouseUp = true;
       }
     });
 
+    // ?
+    // TODO: document and extract
     graph.addEventListener('nodedragend', (event: CustomEvent) => {
       const node = event.detail.node;
       if (node.type === issueGraphNodes.NodeType.IssueGroupContainer) {
@@ -661,6 +696,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
+    // applies functionality for when a node is added to the minimap
     graph.addEventListener('nodeadd', (event: CustomEvent) => {
       if (event.detail.node.type === issueGraphNodes.NodeType.IssueGroupContainer) {
         return;
@@ -669,6 +705,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       minimap.addNode(node);
     });
 
+    // applies functionality for when a node is removed from the minimap
     graph.addEventListener('noderemove', (event: CustomEvent) => {
       const node = event.detail.node;
       if (event.detail.node.type !== issueGraphNodes.NodeType.IssueGroupContainer) {
@@ -676,30 +713,23 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
+    // applies functionality for when an edge is added to the minimap
     graph.addEventListener('edgeadd', (event: CustomEvent) => {
       minimap.addEdge(event.detail.edge);
     });
 
+    // applies functionality for when an edge is removed from the minimap
     graph.addEventListener('edgeremove', (event: CustomEvent) => {
       minimap.removeEdge(event.detail.edge);
     });
 
-    graph.addEventListener('render', (event: CustomEvent) => {
-      if (event.detail.rendered === 'complete') {
-        minimap.completeRender();
-        minimap.zoomToBoundingBox();
-      } else if (event.detail.rendered === 'text') {
-        // ignore for minimap
-      } else if (event.detail.rendered === 'classes') {
-        minimap.updateNodeClasses();
-      } else if (event.detail.rendered === 'positions') {
-        minimap.updateGraphPositions();
-        minimap.zoomToBoundingBox();
-      }
-    });
+    // applies functionality for when the minimap is rendered
+    graph.addEventListener('render', this.onMinimapRender(minimap));
 
+    // ?
     graph.addEventListener('click', (e) => this.closeComponentActions());
 
+    // applies functionality for when the zoom is changed
     graph.addEventListener('zoomchange', (event: CustomEvent) => {
       this.currentVisibleArea = event.detail.currentViewWindow;
       if (!this.componentActionsOverlay) {
@@ -735,7 +765,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     let contextMenuType: NodeDetailsType = null;
 
-    if (this.isHandset) {
+    if (event.detail.sourceEvent.shiftKey || this.isHandset) {
 
       // case: node of type Component
       // => opens View Component page
@@ -788,7 +818,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     
     // EXCEPTION: another type of node is clicked
-    console.log('Clicked on another type of node:', node.type);
+    console.log('Clicked on another type of node: ', node.type);
   }
 
   /**
@@ -909,14 +939,22 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
   /**
+   * Closes all component actions
+   * for ex. when component is moved, page is reloaded or new page is loaded.
    * @param  {boolean=true} reload
    */
   private closeComponentActions(reload: boolean = true): boolean {
+
+    // case: there are actions to close
     if (this.componentActionsOverlay) {
+
+      // case: redraw of the graph needed 
+      // => issues redraw ?
       if (reload) {
         this.reload();
       }
 
+      // cancels component actions
       this.componentActionsOverlay.close();
       this.componentActionsOverlay = null;
       this.componentActionsOverlayId = null;
@@ -925,6 +963,44 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return false;
+  }
+  
+  /**
+   * Issues a redraw of the graph. ?
+   */
+  public reload(): void {
+    this.reload$.next(null);
+  }
+
+  /**
+   * Method gets triggered when the minimap renders.
+   * @param  {GraphEditor} minimap - Minimap that is handled.
+   */
+   private onMinimapRender(minimap: GraphEditor): EventListenerOrEventListenerObject {
+    return (event: CustomEvent) => {
+
+      // case: renders the minimap completely
+      if (event.detail.rendered === 'complete') {
+        minimap.completeRender();
+        minimap.zoomToBoundingBox();
+      }
+      
+      // case: renders texts
+      else if (event.detail.rendered === 'text') {
+        // irrelevant for the minimap
+      }
+      
+      // case: renders node classes
+      else if (event.detail.rendered === 'classes') {
+        minimap.updateNodeClasses();
+      }
+      
+      // case: renders node positions
+      else if (event.detail.rendered === 'positions') {
+        minimap.updateGraphPositions();
+        minimap.zoomToBoundingBox();
+      }
+    };
   }
 
   /**
@@ -1244,10 +1320,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   setRelationVisibility(showRelations: boolean) {
     this.graph.getSVG().style('--show-relations', showRelations ? 'initial' : 'none');
-  }
-
-  public reload(): void {
-    this.reload$.next(null);
   }
 
   /**
