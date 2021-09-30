@@ -142,16 +142,21 @@ class MultiSourceList<T, F> {
   }
 }
 
+export type ItemOps = 'none' | 'edit' | 'create-edit' | 'create-edit-delete';
+
 export interface SetEditorDialogData<T, F> {
   title: string;
   listSet: ListId | string[];
   listAll: ListId | SetMultiSource;
-  applyChangeset: (add: string[], del: string[]) => Promise<void>;
+  applyChangeset: (add: NodeId[], del: NodeId[]) => Promise<void>;
   itemTemplate: TemplateRef<unknown>;
   makeFilter: (query: string) => F;
   scoreKeys: string[];
   emptySuggestionsLabel: string;
   emptyResultsLabel: string;
+  createItem?: () => Promise<NodeId | null | undefined>;
+  editItem?: ({ id: NodeId, preview: T }) => void;
+  deleteItem?: ({ id: NodeId, preview: T }) => void;
 }
 
 @Component({
@@ -159,14 +164,14 @@ export interface SetEditorDialogData<T, F> {
   templateUrl: './set-editor-dialog.component.html',
   styleUrls: ['./set-editor-dialog.component.scss']
 })
-export class SetEditorDialogComponent<T extends { id: string }, F> implements OnInit, OnDestroy {
+export class SetEditorDialogComponent<T extends { id: string, __typename: string }, F> implements OnInit, OnDestroy {
   public isLocalSet = false;
   public localSet = [];
   public listSet$: DataList<T, F>;
   public listAll: MultiSourceList<T, F>;
   private listSetSub: Subscription;
-  private additions: Set<string> = new Set();
-  private deletions: Set<string> = new Set();
+  private additions: Set<NodeId> = new Set();
+  private deletions: Set<NodeId> = new Set();
   public searchQuery = '';
 
   constructor(
@@ -242,6 +247,14 @@ export class SetEditorDialogComponent<T extends { id: string }, F> implements On
       this.dialogRef.close(null);
     }).catch(error => {
       this.notifyService.notifyError('Failed to apply changes', error);
+    });
+  }
+
+  createItem() {
+    this.data.createItem().then(node => {
+      if (node) {
+        this.additions.add(node);
+      }
     });
   }
 

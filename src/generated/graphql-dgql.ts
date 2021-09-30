@@ -5356,6 +5356,54 @@ export type MutUnlinkIssueMutationVariables = Exact<{
 
 export type MutUnlinkIssueMutation = { unlinkIssue?: Maybe<{ event?: Maybe<FTimelineItem_UnlinkEvent_Fragment> }> };
 
+export type MutCreateLabelMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  color: Scalars['Color'];
+  components: Array<Scalars['ID']>;
+}>;
+
+
+export type MutCreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<FLabelStubFragment> }> };
+
+export type MutUpdateLabelMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  label: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['Color']>;
+}>;
+
+
+export type MutUpdateLabelMutation = { updateLabel?: Maybe<{ label?: Maybe<FLabelStubFragment> }> };
+
+export type MutAddLabelToComponentMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  label: Scalars['ID'];
+  component: Scalars['ID'];
+}>;
+
+
+export type MutAddLabelToComponentMutation = { addLabelToComponent?: Maybe<Pick<AddLabelToComponentPayload, 'clientMutationID'>> };
+
+export type MutRemoveLabelFromComponentMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  label: Scalars['ID'];
+  component: Scalars['ID'];
+}>;
+
+
+export type MutRemoveLabelFromComponentMutation = { removeLabelFromComponent?: Maybe<Pick<RemoveLabelFromComponentPayload, 'clientMutationID'>> };
+
+export type MutDeleteLabelMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  label: Scalars['ID'];
+}>;
+
+
+export type MutDeleteLabelMutation = { deleteLabel?: Maybe<Pick<DeleteLabelPayload, 'clientMutationID'>> };
+
 export type FProjectStubFragment = Pick<Project, 'id' | 'name' | 'description'>;
 
 export type ListProjectsQueryVariables = Exact<{
@@ -6757,6 +6805,100 @@ export const MutUnlinkIssueDocument = gql`
   })
   export class MutUnlinkIssueGQL extends Apollo.Mutation<MutUnlinkIssueMutation, MutUnlinkIssueMutationVariables> {
     document = MutUnlinkIssueDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutCreateLabelDocument = gql`
+    mutation MutCreateLabel($id: String, $name: String!, $description: String, $color: Color!, $components: [ID!]!) {
+  createLabel(input: {clientMutationID: $id, components: $components, name: $name, description: $description, color: $color}) {
+    label {
+      ...fLabelStub
+    }
+  }
+}
+    ${FLabelStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutCreateLabelGQL extends Apollo.Mutation<MutCreateLabelMutation, MutCreateLabelMutationVariables> {
+    document = MutCreateLabelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutUpdateLabelDocument = gql`
+    mutation MutUpdateLabel($id: String, $label: ID!, $name: String, $description: String, $color: Color) {
+  updateLabel(input: {clientMutationID: $id, label: $label, name: $name, description: $description, color: $color}) {
+    label {
+      ...fLabelStub
+    }
+  }
+}
+    ${FLabelStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutUpdateLabelGQL extends Apollo.Mutation<MutUpdateLabelMutation, MutUpdateLabelMutationVariables> {
+    document = MutUpdateLabelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutAddLabelToComponentDocument = gql`
+    mutation MutAddLabelToComponent($id: String, $label: ID!, $component: ID!) {
+  addLabelToComponent(input: {clientMutationID: $id, label: $label, component: $component}) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutAddLabelToComponentGQL extends Apollo.Mutation<MutAddLabelToComponentMutation, MutAddLabelToComponentMutationVariables> {
+    document = MutAddLabelToComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutRemoveLabelFromComponentDocument = gql`
+    mutation MutRemoveLabelFromComponent($id: String, $label: ID!, $component: ID!) {
+  removeLabelFromComponent(input: {clientMutationID: $id, label: $label, component: $component}) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutRemoveLabelFromComponentGQL extends Apollo.Mutation<MutRemoveLabelFromComponentMutation, MutRemoveLabelFromComponentMutationVariables> {
+    document = MutRemoveLabelFromComponentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutDeleteLabelDocument = gql`
+    mutation MutDeleteLabel($id: String, $label: ID!) {
+  deleteLabel(input: {clientMutationID: $id, label: $label}) {
+    clientMutationID
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutDeleteLabelGQL extends Apollo.Mutation<MutDeleteLabelMutation, MutDeleteLabelMutationVariables> {
+    document = MutDeleteLabelDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

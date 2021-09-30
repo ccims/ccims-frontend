@@ -12,6 +12,8 @@ import {
 import { decodeNodeId, encodeListId, encodeNodeId, ListId, ListType, NodeId, NodeType, ROOT_NODE } from '@app/data-dgql/id';
 import { SetMultiSource } from '@app/components/set-editor/set-editor-dialog.component';
 import DataService from '@app/data-dgql';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateLabelDialogComponent } from '@app/dialogs/create-label-dialog/create-label-dialog.component';
 
 type MaybeLocalList<T> = ListId | T[];
 export type LocalIssueData = {
@@ -36,7 +38,7 @@ export class IssueSidebarComponent implements OnInit {
   @Input() localIssue: LocalIssueData;
   @Output() localIssueChange = new EventEmitter<LocalIssueData>();
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private dialogService: MatDialog) {}
 
   public componentList: MaybeLocalList<string>;
   public locationList: MaybeLocalList<string>;
@@ -252,5 +254,28 @@ export class IssueSidebarComponent implements OnInit {
     for (const id of remove) {
       await this.dataService.mutations.unlinkIssue(mutId, issue, id);
     }
+  }
+
+  onCreateLabel = (): Promise<NodeId | null> => {
+    return new Promise(resolve => {
+      this.dialogService.open(CreateLabelDialogComponent, {
+        width: '400px',
+        data: {
+          projectId: encodeNodeId({ type: NodeType.Project, id: this.projectId })
+        }
+      }).afterClosed().subscribe(created => {
+        if (created) {
+          resolve(encodeNodeId({ type: NodeType.Label, id: created.id }));
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+  onEditLabel({ id, preview }) {
+
+  }
+  onDeleteLabel({ id, preview }) {
+
   }
 }
