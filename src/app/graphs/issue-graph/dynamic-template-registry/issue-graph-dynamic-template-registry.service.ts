@@ -19,9 +19,6 @@ export class IssueGraphDynamicTemplateRegistryService {
    * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
    */
   manageDynamicTemplateRegistry(graph: GraphEditor) {
-
-    console.log('manageDynamicTemplateRegistry method activated');
-
     graph.dynamicTemplateRegistry.addDynamicTemplate('issue-group-container', {
       renderInitialTemplate(
         g,

@@ -23,8 +23,6 @@ export class IssueGraphClassSettersService {
    */
   manageClassSetters(graph: GraphEditor, minimap: GraphEditor) {
 
-    console.log('manageClassSetters method activated');
-
     // node class setter
     const nodeClassSetter = (className: string, node: Node) => {
       if (className === node.type) {

@@ -20,8 +20,6 @@ export class IssueGraphLinkHandlesService {
    * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
-    
-    console.log('manageLinkHandles method activated');
 
     // calculation for link handles
     const linkHandleCalculation = (
