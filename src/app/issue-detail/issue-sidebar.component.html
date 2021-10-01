@@ -47,7 +47,11 @@
         [listSet]="labelList"
         [listAll]="allLabelsList"
         [hydrate]="labelListPromise"
-        [applyChangeset]="applyLabelChangeset">
+        [applyChangeset]="applyLabelChangeset"
+        itemOps="create-edit-delete"
+        [createItem]="onCreateLabel"
+        (editItem)="onEditLabel($event)"
+        (deleteItem)="onDeleteLabel($event)">
         <span title>Labels</span>
         <span if-empty>No labels assigned</span>
         <ng-container *appItem="let item">
@@ -61,7 +65,7 @@
     <app-set-editor
         [makeFilter]="makeUserFilter"
         [scoreKeys]="['username', 'displayName']"
-        [emptySuggestionsLabel]="'Search for a user to see results'"
+        emptySuggestionsLabel="Search for a user to see results"
         [listSet]="assigneeList"
         [listAll]="allAssigneeCandidatesList"
         [hydrate]="assigneeListPromise"

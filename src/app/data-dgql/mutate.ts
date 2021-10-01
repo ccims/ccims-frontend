@@ -1,10 +1,10 @@
 import { NodeCache } from '@app/data-dgql/query';
 import { QueriesService } from '@app/data-dgql/queries/queries.service';
-import { decodeNodeId, encodeListId, getRawId, ListId, ListType, NodeId, NodeType } from '@app/data-dgql/id';
+import { decodeNodeId, getRawId, ListDescriptor, ListType, NodeId, NodeType } from '@app/data-dgql/id';
 import { CreateIssueInput } from '../../generated/graphql-dgql';
 
 export class Mutations {
-  constructor(private qs: QueriesService, private nc: NodeCache, private invalidateLists: (id: ListId) => void) {}
+  constructor(private qs: QueriesService, private nc: NodeCache, private invalidateLists: (id: ListType | ListDescriptor) => void) {}
 
   invalidateNode(id: NodeId) {
     if (this.nc.nodes.has(id)) {
@@ -20,14 +20,14 @@ export class Mutations {
     return this.qs.issues.mutCreateIssue(issue).then(data => {
       for (const id of issue.components) {
         const component = { type: NodeType.Component, id };
-        this.invalidateLists(encodeListId({ node: component, type: ListType.Issues }));
+        this.invalidateLists({ node: component, type: ListType.Issues });
       }
       for (const id of issue.locations) {
         // we have no idea if this is a component or an interface, so let's try both
         const component = { type: NodeType.Component, id };
         const cInterface = { type: NodeType.ComponentInterface, id };
-        this.invalidateLists(encodeListId({ node: component, type: ListType.IssuesOnLocation }));
-        this.invalidateLists(encodeListId({ node: cInterface, type: ListType.IssuesOnLocation }));
+        this.invalidateLists({ node: component, type: ListType.IssuesOnLocation });
+        this.invalidateLists({ node: cInterface, type: ListType.IssuesOnLocation });
       }
 
       return data.createIssue.issue;
@@ -38,7 +38,7 @@ export class Mutations {
     return this.qs.issues.mutCloseIssue(id, getRawId(issue)).then(() => {
       const issueNode = decodeNodeId(issue);
       this.invalidateNode(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
   }
 
@@ -46,7 +46,7 @@ export class Mutations {
     return this.qs.issues.mutReopenIssue(id, getRawId(issue)).then(() => {
       const issueNode = decodeNodeId(issue);
       this.invalidateNode(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
   }
 
@@ -54,14 +54,14 @@ export class Mutations {
     return this.qs.issues.mutRenameIssueTitle(id, getRawId(issue), title).then(() => {
       const issueNode = decodeNodeId(issue);
       this.invalidateNode(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
   }
 
   addIssueComment(id: string, issue: NodeId, commentBody: string) {
     return this.qs.issues.mutAddIssueComment(id, getRawId(issue), commentBody).then(() => {
       const issueNode = decodeNodeId(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
   }
 
@@ -96,15 +96,15 @@ export class Mutations {
       // while we do have the new timeline item, there's currently no way in the API to just append it to the end,
       // so we'll just invalidate lists
       const issueNode = decodeNodeId(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Labels }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.Labels });
     });
   }
   removeIssueLabel(id: string, issue: NodeId, label: NodeId) {
     return this.qs.issues.mutRemoveIssueLabel(id, getRawId(issue), getRawId(label)).then(() => {
       const issueNode = decodeNodeId(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Labels }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.Labels });
     });
   }
 
@@ -112,21 +112,21 @@ export class Mutations {
     return this.qs.issues.mutAddIssueComponent(id, getRawId(issue), getRawId(component)).then(() => {
       const issueNode = decodeNodeId(issue);
       const componentNode = decodeNodeId(component);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Components }));
-      this.invalidateLists(encodeListId({ node: componentNode, type: ListType.Issues }));
-      this.invalidateLists(encodeListId({ node: componentNode, type: ListType.IssuesOnLocation }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.Components });
+      this.invalidateLists({ node: componentNode, type: ListType.Issues });
+      this.invalidateLists({ node: componentNode, type: ListType.IssuesOnLocation });
     });
   }
   removeIssueComponent(id: string, issue: NodeId, component: NodeId) {
     return this.qs.issues.mutRemoveIssueComponent(id, getRawId(issue), getRawId(component)).then(() => {
       const issueNode = decodeNodeId(issue);
       const componentNode = decodeNodeId(component);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Components }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.IssueLocations }));
-      this.invalidateLists(encodeListId({ node: componentNode, type: ListType.Issues }));
-      this.invalidateLists(encodeListId({ node: componentNode, type: ListType.IssuesOnLocation }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.Components });
+      this.invalidateLists({ node: issueNode, type: ListType.IssueLocations });
+      this.invalidateLists({ node: componentNode, type: ListType.Issues });
+      this.invalidateLists({ node: componentNode, type: ListType.IssuesOnLocation });
     });
   }
 
@@ -134,37 +134,37 @@ export class Mutations {
     return this.qs.issues.mutAddIssueLocation(id, getRawId(issue), getRawId(location)).then(() => {
       const issueNode = decodeNodeId(issue);
       const locationNode = decodeNodeId(location);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Components }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.IssueLocations }));
-      this.invalidateLists(encodeListId({ node: locationNode, type: ListType.Issues }));
-      this.invalidateLists(encodeListId({ node: locationNode, type: ListType.IssuesOnLocation }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.Components });
+      this.invalidateLists({ node: issueNode, type: ListType.IssueLocations });
+      this.invalidateLists({ node: locationNode, type: ListType.Issues });
+      this.invalidateLists({ node: locationNode, type: ListType.IssuesOnLocation });
     });
   }
   removeIssueLocation(id: string, issue: NodeId, location: NodeId) {
     return this.qs.issues.mutRemoveIssueLocation(id, getRawId(issue), getRawId(location)).then(() => {
       const issueNode = decodeNodeId(issue);
       const locationNode = decodeNodeId(location);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.IssueLocations }));
-      this.invalidateLists(encodeListId({ node: locationNode, type: ListType.Issues }));
-      this.invalidateLists(encodeListId({ node: locationNode, type: ListType.IssuesOnLocation }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.IssueLocations });
+      this.invalidateLists({ node: locationNode, type: ListType.Issues });
+      this.invalidateLists({ node: locationNode, type: ListType.IssuesOnLocation });
     });
   }
 
   addIssueAssignee(id: string, issue: NodeId, assignee: NodeId) {
     return this.qs.issues.mutAddIssueAssignee(id, getRawId(issue), getRawId(assignee)).then(() => {
       const issueNode = decodeNodeId(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Assignees }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Participants }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists({ node: issueNode, type: ListType.Assignees });
+      this.invalidateLists({ node: issueNode, type: ListType.Participants });
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
   }
   removeIssueAssignee(id: string, issue: NodeId, assignee: NodeId) {
     return this.qs.issues.mutRemoveIssueAssignee(id, getRawId(issue), getRawId(assignee)).then(() => {
       const issueNode = decodeNodeId(issue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.Assignees }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
+      this.invalidateLists({ node: issueNode, type: ListType.Assignees });
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
   }
 
@@ -172,20 +172,53 @@ export class Mutations {
     return this.qs.issues.mutLinkIssue(id, getRawId(issue), getRawId(linkedIssue)).then(() => {
       const issueNode = decodeNodeId(issue);
       const linkedNode = decodeNodeId(linkedIssue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.LinkedIssues }));
-      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.LinkedByIssues }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.LinkedIssues });
+      this.invalidateLists({ node: linkedNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: linkedNode, type: ListType.LinkedByIssues });
     });
   }
   unlinkIssue(id: string, issue: NodeId, linkedIssue: NodeId) {
     return this.qs.issues.mutUnlinkIssue(id, getRawId(issue), getRawId(linkedIssue)).then(() => {
       const issueNode = decodeNodeId(issue);
       const linkedNode = decodeNodeId(linkedIssue);
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: issueNode, type: ListType.LinkedIssues }));
-      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.TimelineItems }));
-      this.invalidateLists(encodeListId({ node: linkedNode, type: ListType.LinkedByIssues }));
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: issueNode, type: ListType.LinkedIssues });
+      this.invalidateLists({ node: linkedNode, type: ListType.TimelineItems });
+      this.invalidateLists({ node: linkedNode, type: ListType.LinkedByIssues });
+    });
+  }
+
+  createLabel(id: string, components: NodeId[], name: string, color: string, description?: string) {
+    return this.qs.issues.mutCreateLabel(id, components.map(getRawId), name, color, description).then(data => {
+      for (const component of components) {
+        const componentNode = decodeNodeId(component);
+        this.invalidateLists({ node: componentNode, type: ListType.Labels });
+      }
+      return data.createLabel.label;
+    });
+  }
+  updateLabel(id: string, label: NodeId, name?: string, color?: string, description?: string) {
+    return this.qs.issues.mutUpdateLabel(id, getRawId(label), name, color, description).then(() => {
+      this.invalidateNode(label);
+    });
+  }
+  addLabelToComponent(id: string, label: NodeId, component: NodeId) {
+    return this.qs.issues.mutAddLabelToComponent(id, getRawId(label), getRawId(component)).then(() => {
+      const componentNode = decodeNodeId(component);
+      this.invalidateLists({ node: componentNode, type: ListType.Labels });
+    });
+  }
+  removeLabelFromComponent(id: string, label: NodeId, component: NodeId) {
+    return this.qs.issues.mutRemoveLabelFromComponent(id, getRawId(label), getRawId(component)).then(() => {
+      // invalidate all label lists because the label might've been in an issue
+      this.invalidateLists(ListType.Labels);
+    });
+  }
+  deleteLabel(id: string, label: NodeId) {
+    return this.qs.issues.mutDeleteLabel(id, getRawId(label)).then(() => {
+      // invalidate all label lists because the label might've been in an issue
+      this.invalidateLists(ListType.Labels);
     });
   }
 }
