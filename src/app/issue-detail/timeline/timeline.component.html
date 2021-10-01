@@ -14,8 +14,8 @@
     <div class="timeline-badge" *ngSwitchCase="'RemovedFromComponentEvent'"><mat-icon>remove</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'AddedToLocationEvent'"><mat-icon>add</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedFromLocationEvent'"><mat-icon>remove</mat-icon></div>
-    <div class="timeline-badge" *ngSwitchCase="'ClosedEvent'"><mat-icon>task_alt</mat-icon></div>
-    <div class="timeline-badge" *ngSwitchCase="'ReopenedEvent'"><mat-icon>add_task</mat-icon></div>
+    <div class="timeline-badge closed" *ngSwitchCase="'ClosedEvent'"><mat-icon>task_alt</mat-icon></div>
+    <div class="timeline-badge reopened" *ngSwitchCase="'ReopenedEvent'"><mat-icon>add_task</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'AssignedEvent'"><mat-icon>person_add</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'UnassignedEvent'"><mat-icon>person_remove</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'CategoryChangedEvent'"><mat-icon>category</mat-icon></div>
@@ -69,10 +69,12 @@
           </div>
           <ng-template #notSelfAssigned>
             <a>{{timelineItem.createdBy.displayName}}</a> assigned this issue to <a>{{timelineItem.assignee.displayName}}</a>
+            <br>
           </ng-template>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> assigned this issue to <a>deleted</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> assigned this issue to deleted User
+          <br>
         </ng-template>
         <small class="text-muted">
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
@@ -224,12 +226,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromComponentEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component
-          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
+        <div *ngIf="!!timelineItem.removedComponent; else isNull">
+          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from component
+          <span class="component-box" (click)="goToComponentDetails(timelineItem.removedComponent)">
+              <span style="margin: 5px">
+                <a class="component-text">{{timelineItem.removedComponent.name}}</a>
+              </span>
+            </span>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component <a>deleted</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from deleted component
+          <br>
         </ng-template>
         <small class="text-muted">
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
@@ -260,11 +267,25 @@
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromLocationEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.removedLocation; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location
-          <a (click)="goToLocationDetails(timelineItem.removedLocation)">{{timelineItem.removedLocation.name}}</a>
+          <span *ngIf="timelineItem.removedLocation.__typename==='Component'; else locationIsInterface">
+            <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location
+            <span class="component-box" (click)="goToLocationDetails(timelineItem.removedLocation)">
+              <span style="margin: 5px">
+                <a class="component-text">{{timelineItem.removedLocation.name}}</a>
+              </span>
+            </span>
+          </span>
+          <ng-template #locationIsInterface>
+            <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location
+            <span class="dot"></span>
+            <a style="color: black" (click)="goToLocationDetails(timelineItem.removedLocation)">
+              {{timelineItem.removedLocation.name}}
+            </a>
+          </ng-template>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location <a>deleted</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from deleted location
+          <br>
         </ng-template>
         <small class="text-muted">
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
@@ -503,7 +524,11 @@
         <div class="timeline-body">
           <div *ngIf="!!timelineItem.component; else isNull">
             <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component
-            <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
+            <span class="component-box" (click)="goToComponentDetails(timelineItem.component)">
+              <span style="margin: 5px">
+                <a class="component-text">{{timelineItem.component.name}}</a>
+              </span>
+            </span>
           </div>
           <ng-template #isNull>
             <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component <a>deleted</a>
@@ -557,11 +582,25 @@
     <div class="timeline-panel" *ngSwitchCase="'AddedToLocationEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.location; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location
-          <a (click)="goToLocationDetails(timelineItem.location)">{{timelineItem.location.name}}</a>
+          <span *ngIf="timelineItem.location.__typename==='Component'; else locationIsInterface">
+            <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location
+            <span class="component-box" (click)="goToLocationDetails(timelineItem.location)">
+              <span style="margin: 5px">
+                <a class="component-text">{{timelineItem.location.name}}</a>
+              </span>
+            </span>
+          </span>
+          <ng-template #locationIsInterface>
+            <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location
+            <span class="dot"></span>
+            <a style="color: black" (click)="goToLocationDetails(timelineItem.location)">
+              {{timelineItem.location.name}}
+            </a>
+          </ng-template>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location <a>deleted</a>
+          <a>{{timelineItem.createdBy.displayName}}</a> added this issue to deleted location
+          <br>
         </ng-template>
         <small class="text-muted">
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
