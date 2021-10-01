@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class CacheNodeComponent implements OnInit, OnDestroy {
   @Input() node: NodeId;
+  @Input() lazy = true;
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
 
   node$: DataNode<unknown>;
@@ -23,9 +24,8 @@ export class CacheNodeComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    // TODO: make lazy
     this.node$ = this.dataService.getNode(this.node);
-    this.nodeSub = this.node$.subscribe();
+    this.nodeSub = this.lazy ? this.node$.subscribeLazy() : this.node$.subscribe();
   }
   ngOnDestroy() {
     this.nodeSub.unsubscribe();

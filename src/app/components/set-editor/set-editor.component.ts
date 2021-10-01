@@ -99,7 +99,7 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
     this.listSetSub?.unsubscribe();
   }
 
-  private onDialogApplyChangeset = (additions: string[], deletions: string[]): Promise<void> => {
+  private onDialogApplyChangeset = (additions: NodeId[], deletions: NodeId[]): Promise<void> => {
     return this.applyChangeset(additions, deletions);
   }
 

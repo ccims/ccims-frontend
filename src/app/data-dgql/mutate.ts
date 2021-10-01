@@ -201,16 +201,22 @@ export class Mutations {
   updateLabel(id: string, label: NodeId, name?: string, color?: string, description?: string) {
     return this.qs.issues.mutUpdateLabel(id, getRawId(label), name, color, description).then(() => {
       this.invalidateNode(label);
+      // invalidate all label lists because the label might've been loaded directly from a list elsewhere
+      this.invalidateLists(ListType.Labels);
     });
   }
   addLabelToComponent(id: string, label: NodeId, component: NodeId) {
     return this.qs.issues.mutAddLabelToComponent(id, getRawId(label), getRawId(component)).then(() => {
+      const labelNode = decodeNodeId(label);
       const componentNode = decodeNodeId(component);
+      this.invalidateLists({ node: labelNode, type: ListType.Components });
       this.invalidateLists({ node: componentNode, type: ListType.Labels });
     });
   }
   removeLabelFromComponent(id: string, label: NodeId, component: NodeId) {
     return this.qs.issues.mutRemoveLabelFromComponent(id, getRawId(label), getRawId(component)).then(() => {
+      const labelNode = decodeNodeId(label);
+      this.invalidateLists({ node: labelNode, type: ListType.Components });
       // invalidate all label lists because the label might've been in an issue
       this.invalidateLists(ListType.Labels);
     });

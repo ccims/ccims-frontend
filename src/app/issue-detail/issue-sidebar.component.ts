@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DataNode, HydrateList } from '@app/data-dgql/query';
 import {
   Component as QComponent,
@@ -9,11 +9,13 @@ import {
   LabelFilter,
   User, UserFilter
 } from '../../generated/graphql-dgql';
-import { decodeNodeId, encodeListId, encodeNodeId, ListId, ListType, NodeId, NodeType, ROOT_NODE } from '@app/data-dgql/id';
+import { decodeNodeId, encodeListId, encodeNodeId, getRawId, ListId, ListType, NodeId, NodeType, ROOT_NODE } from '@app/data-dgql/id';
 import { SetMultiSource } from '@app/components/set-editor/set-editor-dialog.component';
 import DataService from '@app/data-dgql';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateLabelDialogComponent } from '@app/dialogs/create-label-dialog/create-label-dialog.component';
+import { CreateEditLabelDialogComponent } from '@app/dialogs/create-label-dialog/create-edit-label-dialog.component';
+import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
+import { UserNotifyService } from '@app/user-notify/user-notify.service';
 
 type MaybeLocalList<T> = ListId | T[];
 export type LocalIssueData = {
@@ -38,7 +40,9 @@ export class IssueSidebarComponent implements OnInit {
   @Input() localIssue: LocalIssueData;
   @Output() localIssueChange = new EventEmitter<LocalIssueData>();
 
-  constructor(private dataService: DataService, private dialogService: MatDialog) {}
+  @ViewChild('componentSet') componentSetEditor;
+
+  constructor(private dataService: DataService, private dialogService: MatDialog, private notify: UserNotifyService) {}
 
   public componentList: MaybeLocalList<string>;
   public locationList: MaybeLocalList<string>;
@@ -258,24 +262,64 @@ export class IssueSidebarComponent implements OnInit {
 
   onCreateLabel = (): Promise<NodeId | null> => {
     return new Promise(resolve => {
-      this.dialogService.open(CreateLabelDialogComponent, {
+      this.dialogService.open(CreateEditLabelDialogComponent, {
         width: '400px',
         data: {
           projectId: encodeNodeId({ type: NodeType.Project, id: this.projectId })
         }
       }).afterClosed().subscribe(created => {
         if (created) {
-          resolve(encodeNodeId({ type: NodeType.Label, id: created.id }));
+          const labelComponents = created.components.nodes.map(c => c.id);
+          let hasOverlap = false;
+          if (Array.isArray(this.componentList)) {
+            for (const componentId of this.componentList) {
+              if (labelComponents.includes(getRawId(componentId))) {
+                hasOverlap = true;
+                break;
+              }
+            }
+          } else {
+            for (const item of this.componentSetEditor.listSet$.currentItems) {
+              if (labelComponents.includes(item.id)) {
+                hasOverlap = true;
+                break;
+              }
+            }
+          }
+
+          if (hasOverlap) {
+            resolve(encodeNodeId({ type: NodeType.Label, id: created.id }));
+          } else {
+            this.notify.notifyInfo('New label could not be added to issue because it does not appear to have any components in common.');
+            resolve(null);
+          }
         } else {
           resolve(null);
         }
       });
     });
   }
-  onEditLabel({ id, preview }) {
-
+  onEditLabel({ id }) {
+    this.dialogService.open(CreateEditLabelDialogComponent, {
+      width: '400px',
+      data: {
+        editExisting: id,
+        projectId: encodeNodeId({ type: NodeType.Project, id: this.projectId })
+      }
+    });
   }
   onDeleteLabel({ id, preview }) {
-
+    this.dialogService.open(RemoveDialogComponent, {
+      data: {
+        title: 'Delete label',
+        messages: [
+          `Are you sure you want to delete the label “${preview.name}”?`
+        ]
+      }
+    }).afterClosed().subscribe(shouldDelete => {
+      if (shouldDelete) {
+        this.dataService.mutations.deleteLabel(Math.random().toString(), id);
+      }
+    });
   }
 }

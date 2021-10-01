@@ -5208,6 +5208,35 @@ export type ListIssueAssigneesQuery = { node?: Maybe<{ assignees?: Maybe<(
       & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
     )> }> };
 
+export type GetLabelQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetLabelQuery = { node?: Maybe<(
+    Pick<Label, 'id' | 'description' | 'createdAt'>
+    & { components?: Maybe<(
+      Pick<ComponentPage, 'totalCount'>
+      & { nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
+    )>, createdBy?: Maybe<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> }
+    & FLabelStubFragment
+  )> };
+
+export type ListLabelComponentsQueryVariables = Exact<{
+  label: Scalars['ID'];
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  filterBy?: Maybe<ComponentFilter>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ListLabelComponentsQuery = { node?: Maybe<{ components?: Maybe<(
+      Pick<ComponentPage, 'totalCount'>
+      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
+    )> }> };
+
 export type MutCreateIssueMutationVariables = Exact<{
   issue: CreateIssueInput;
 }>;
@@ -5365,7 +5394,13 @@ export type MutCreateLabelMutationVariables = Exact<{
 }>;
 
 
-export type MutCreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<FLabelStubFragment> }> };
+export type MutCreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<(
+      { components?: Maybe<(
+        Pick<ComponentPage, 'totalCount'>
+        & { nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
+      )> }
+      & FLabelStubFragment
+    )> }> };
 
 export type MutUpdateLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -6470,6 +6505,71 @@ export const ListIssueAssigneesDocument = gql`
       super(apollo);
     }
   }
+export const GetLabelDocument = gql`
+    query GetLabel($id: ID!) {
+  node(id: $id) {
+    ... on Label {
+      id
+      ...fLabelStub
+      description
+      components(first: 10) {
+        totalCount
+        nodes {
+          ...fComponentStub
+        }
+      }
+      createdBy {
+        ...fUserStub
+      }
+      createdAt
+    }
+  }
+}
+    ${FLabelStubFragmentDoc}
+${FComponentStubFragmentDoc}
+${FUserStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetLabelGQL extends Apollo.Query<GetLabelQuery, GetLabelQueryVariables> {
+    document = GetLabelDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ListLabelComponentsDocument = gql`
+    query ListLabelComponents($label: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+  node(id: $label) {
+    ... on Label {
+      components(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ... on Component {
+            ...fComponentStub
+          }
+        }
+      }
+    }
+  }
+}
+    ${AllPageInfoFragmentDoc}
+${FComponentStubFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ListLabelComponentsGQL extends Apollo.Query<ListLabelComponentsQuery, ListLabelComponentsQueryVariables> {
+    document = ListLabelComponentsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const MutCreateIssueDocument = gql`
     mutation MutCreateIssue($issue: CreateIssueInput!) {
   createIssue(input: $issue) {
@@ -6815,10 +6915,17 @@ export const MutCreateLabelDocument = gql`
   createLabel(input: {clientMutationID: $id, components: $components, name: $name, description: $description, color: $color}) {
     label {
       ...fLabelStub
+      components {
+        totalCount
+        nodes {
+          ...fComponentStub
+        }
+      }
     }
   }
 }
-    ${FLabelStubFragmentDoc}`;
+    ${FLabelStubFragmentDoc}
+${FComponentStubFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

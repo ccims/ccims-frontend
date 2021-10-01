@@ -1,10 +1,17 @@
-<h1 mat-dialog-title>Create a new label</h1>
+<h1 mat-dialog-title>
+  <ng-container *ngIf="data.editExisting">
+    Update label
+  </ng-container>
+  <ng-container *ngIf="!data.editExisting">
+    Create a new label
+  </ng-container>
+</h1>
 <div mat-dialog-content>
   <app-set-editor
       class="component-selector"
       [makeFilter]="makeComponentFilter"
       [scoreKeys]="['name']"
-      [listSet]="componentIds"
+      [listSet]="componentList"
       [listAll]="allComponentsList"
       [applyChangeset]="applyComponentChangeset">
     <span title>Components</span>
@@ -44,7 +51,12 @@
 <div mat-dialog-actions class="actions">
   <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">Cancel</button>
   <button mat-raised-button color="success" [disabled]="loading || validationLabelName.invalid"
-          (click)="this.onConfirmCreateLabelClick(labelName.value, labelDescription.value)">
-    Create
+          (click)="this.onConfirmClick(labelName.value, labelDescription.value)">
+    <ng-container *ngIf="data.editExisting">
+      Apply
+    </ng-container>
+    <ng-container *ngIf="!data.editExisting">
+      Create
+    </ng-container>
   </button>
 </div>
