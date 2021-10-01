@@ -54,7 +54,6 @@
         Issue was closed by <a>{{timelineItem.createdBy.displayName}}</a>
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -76,7 +75,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> assigned this issue to <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -89,7 +87,6 @@
         <a>{{timelineItem.createdBy.displayName}}</a> changed due date from <a>{{timelineItem.oldDueDate}}</a>
         to <a>{{timelineItem.newDueDate}}</a><br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -102,7 +99,6 @@
         <a>{{timelineItem.createdBy.displayName}}</a> changed time estimate from <a>{{timelineItem.oldEstimatedTime}}</a>
         to <a>{{timelineItem.newEstimatedTime}}</a><br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -122,7 +118,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> added Label <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -137,7 +132,6 @@
         by <a>{{timelineItem.createdBy.displayName}}</a>
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -155,7 +149,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -173,7 +166,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> linked issue to <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -191,7 +183,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> pinned issue on <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -211,7 +202,6 @@
           This issue was referenced by issue <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -225,7 +215,6 @@
         to <a>{{timelineItem.newPriority}}</a>
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -243,7 +232,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -262,7 +250,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> referenced this issue in component <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -280,7 +267,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -293,7 +279,6 @@
         <a>{{timelineItem.createdBy.displayName}}</a> reopened issue
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -307,7 +292,6 @@
         to <a>{{timelineItem.newStartDate}}</a>
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -321,7 +305,6 @@
         to <a>{{timelineItem.newTitle}}</a>
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -343,7 +326,6 @@
           </ng-template>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -363,7 +345,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> removed label <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -383,7 +364,6 @@
           to this issue
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -396,7 +376,6 @@
         <a>{{timelineItem.createdBy.displayName}}</a> unmarked this issue as duplicate
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -414,7 +393,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -432,7 +410,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> unpinned this issue in <a>deleted component</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -450,7 +427,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -467,7 +443,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> added artifact <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -484,7 +459,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> removed artifact <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -501,7 +475,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> added non functional constraint <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -519,7 +492,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> removed non functional constraint <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -537,7 +509,6 @@
             <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component <a>deleted</a>
           </ng-template>
           <small class="text-muted" style="margin-left: 5px">
-            <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
             <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
               {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
             </time>
@@ -551,7 +522,6 @@
         to <a>{{timelineItem.newCategory}}</a>
         <br>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
@@ -569,7 +539,6 @@
           <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location <a>deleted</a>
         </ng-template>
         <small class="text-muted">
-          <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
           </time>
