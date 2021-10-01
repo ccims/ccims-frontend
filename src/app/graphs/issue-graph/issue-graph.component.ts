@@ -365,7 +365,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // updates marker at the end of the edge
         edge.markerEnd = {
-          template: issueGraphNodes.NodeType.InterfaceConsumer,
+          template: 'interface-connector',
           relativeRotation: 0,
         };
       }
