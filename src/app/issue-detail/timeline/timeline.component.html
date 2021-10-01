@@ -46,7 +46,7 @@
     <!-- Contents of timeline items -->
 
     <div class="commentContainer" *ngSwitchCase="'IssueComment'">
-      <app-comment [commentId]="makeCommentId(timelineItem)"></app-comment>
+      <app-comment [commentId]="makeCommentId(timelineItem)" [issueId]="issueId"></app-comment>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ClosedEvent'">
@@ -133,7 +133,7 @@
 
     <div class="timeline-panel" *ngSwitchCase="'DeletedIssueComment'">
       <div class="timeline-body">
-        <a>{{timelineItem.deletedBy.displayName}}</a> deleted comment <a>{{timelineItem.id}}</a>
+        <a>{{timelineItem.deletedBy?.displayName}}</a> deleted comment <a>{{timelineItem.id}}</a>
         by <a>{{timelineItem.createdBy.displayName}}</a>
         <br>
         <small class="text-muted">

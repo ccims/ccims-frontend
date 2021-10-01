@@ -37,7 +37,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
     }));
     this.timelineItems$.count = 99999; // FIXME?
 
-    this.timelineItemsSub = this.timelineItems$.subscribe();
+    this.timelineItemsSub = this.timelineItems$.subscribe((elements) => {
+      console.log(elements.values());
+    });
   }
 
   ngOnDestroy() {

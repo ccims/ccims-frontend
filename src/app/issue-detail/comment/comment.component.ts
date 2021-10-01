@@ -20,6 +20,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   public savingBody = false;
 
   @Input() commentId: NodeId;
+  @Input() issueId: NodeId;
   comment$: DataNode<IssueComment>;
   commentSub: Subscription;
 
@@ -51,6 +52,22 @@ export class CommentComponent implements OnInit, OnDestroy {
       this.editBody = false;
     }).finally(() => {
       this.savingBody = false;
+    });
+  }
+
+  /**
+   * Deletes the current comment.
+   */
+  public deleteComment(): void {
+    this.dataService.mutations.deleteIssueComment(
+      Math.random().toString(),
+      encodeNodeId( {type: NodeType.Issue, id: this.issueId}),
+      // use given id or guess
+      this.commentId || encodeNodeId({ type: NodeType.IssueComment, id: this.commentId })
+    ).then(() => {
+      console.log("then");
+    }).finally(() => {
+      console.log("finally");
     });
   }
 
