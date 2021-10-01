@@ -60,6 +60,12 @@ export class CommentComponent implements OnInit, OnDestroy {
    * Deletes the current comment.
    */
   public deleteComment(): void {
+    // Alert for confirmation
+    const confirmed = confirm('Are you sure you want to delete this?');
+    if (!confirmed) {
+      return;
+    }
+    // User confirmed deletion
     this.dataService.mutations.deleteIssueComment(
       Math.random().toString(),
       encodeNodeId( {type: NodeType.Issue, id: this.issueId}),
