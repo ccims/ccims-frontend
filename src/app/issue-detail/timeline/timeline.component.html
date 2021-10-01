@@ -518,8 +518,33 @@
 
     <div class="timeline-panel" *ngSwitchCase="'CategoryChangedEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> changed category from <a>{{timelineItem.oldCategory}}</a>
-        to <a>{{timelineItem.newCategory}}</a>
+        <a>{{timelineItem.createdBy.displayName}}</a>
+        changed category from
+        <span *ngIf="timelineItem.oldCategory === 'UNCLASSIFIED'" class="categoryBox">
+          <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
+          Uncategorized
+        </span>
+        <span *ngIf="timelineItem.oldCategory === 'BUG'" class="categoryBox">
+          <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
+          Bug
+        </span>
+        <span *ngIf="timelineItem.oldCategory === 'FEATURE'" class="categoryBox">
+          <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
+          Bug
+        </span>
+        &nbsp;to&nbsp;
+        <span *ngIf="timelineItem.newCategory === 'UNCLASSIFIED'" class="categoryBox">
+          <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
+          Uncategorized
+        </span>
+        <span *ngIf="timelineItem.newCategory === 'BUG'" class="categoryBox">
+          <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
+          Bug
+        </span>
+        <span *ngIf="timelineItem.newCategory === 'FEATURE'" class="categoryBox">
+          <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
+          Bug
+        </span>
         <br>
         <small class="text-muted">
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
