@@ -1,9 +1,7 @@
 import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import * as dynamicTemplate from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
 import {DraggedEdge, Edge, Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 import {Rect} from '@ustutt/grapheditor-webcomponent/lib/util';
 import {BehaviorSubject, ReplaySubject, Subject} from 'rxjs';
@@ -649,30 +647,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // case: clicked issue folder
     // => determines issue count, opens corresponding issue page
-    if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
-
-      // reference to the GraphEditor instance of the graph, the root ID and the root node
-      const graph: GraphEditor = this.graphWrapper.nativeElement;
-      const rootId = graph.groupingManager.getTreeRootOf(node.id);
-      const rootNode = graph.getNode(rootId);
-
-      // case: only one issue inside the clicked issue folder
-      // => opens Issue Details page
-      if (node.issueCount == 1) {
-        this.nodeClickOneIssue(rootId, rootNode, node);
-        return;
-      } 
-      
-      // case: many issues inside the clicked issue folder
-      // => opens Component Issues / Interface Issues page
-      else {
-        this.nodeClickManyIssues(rootNode);
-        return;
-      }
-    }
-    
-    // EXCEPTION: another type of node is clicked
-    console.log('Clicked on another type of node: ', node.type);
+    this.nodeClickIssueFolder(node);
   }
 
   /**
@@ -742,6 +717,39 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
           x: visible.x + moveX + padding, y: visible.y + moveY + padding,
           width: visible.width - 2 * padding, height: visible.height - 2 * padding
         });
+      }
+    }
+  }
+
+  /**
+   * Handles the case in which an issue folder is clicked.
+   * Determines the number of issues in the issue folder
+   * and opens the corresponding issue page.
+   * @param  {Node} node - Issue folder that is handled.
+   */
+  private nodeClickIssueFolder(node: Node) {
+
+    // case: clicked issue folder
+    // => determines issue count, opens corresponding issue page
+    if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
+
+      // reference to the GraphEditor instance of the graph, the root ID and the root node
+      const graph: GraphEditor = this.graphWrapper.nativeElement;
+      const rootId = graph.groupingManager.getTreeRootOf(node.id);
+      const rootNode = graph.getNode(rootId);
+
+      // case: only one issue inside the clicked issue folder
+      // => opens Issue Details page
+      if (node.issueCount == 1) {
+        this.nodeClickOneIssue(rootId, rootNode, node);
+        return;
+      }
+
+      // case: many issues inside the clicked issue folder
+      // => opens Component Issues / Interface Issues page
+      else {
+        this.nodeClickManyIssues(rootNode);
+        return;
       }
     }
   }
