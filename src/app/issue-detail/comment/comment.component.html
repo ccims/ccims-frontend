@@ -18,17 +18,21 @@
 
       <!--Edit-->
       <button
-          *ngIf="!this.editBody"
-          class="item-edit"
-          mat-flat-button
-          (click)="this.editBody=!this.editBody">
-        Edit
-      </button>
-      <button
+        *ngIf="!this.editBody"
         class="item-edit"
+        color="warn"
         mat-flat-button
         (click)="this.deleteComment()">
         Delete
+      </button>
+      <button
+          *ngIf="!this.editBody"
+          class="item-edit"
+          style="margin-left: 6px"
+          color="primary"
+          mat-flat-button
+          (click)="this.editBody=!this.editBody">
+        Edit
       </button>
     </div>
 
@@ -46,7 +50,14 @@
         <!--Cancel-->
         <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>
         <!--Save-->
-        <button mat-raised-button color="primary" [class.spinner]="savingBody" (click)="editComment(bodyEdit.code)">Save</button>
+        <button
+          mat-raised-button
+          style="margin-left: 6px"
+          color="accent"
+          [class.spinner]="savingBody"
+          (click)="editComment(bodyEdit.code)">
+          Save
+        </button>
       </div>
     </div>
   </div>

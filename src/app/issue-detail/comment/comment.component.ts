@@ -64,11 +64,7 @@ export class CommentComponent implements OnInit, OnDestroy {
       encodeNodeId( {type: NodeType.Issue, id: this.issueId}),
       // use given id or guess
       this.commentId || encodeNodeId({ type: NodeType.IssueComment, id: this.commentId })
-    ).then(() => {
-      console.log("then");
-    }).finally(() => {
-      console.log("finally");
-    });
+    );
   }
 
 }

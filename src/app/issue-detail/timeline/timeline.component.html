@@ -133,8 +133,7 @@
 
     <div class="timeline-panel" *ngSwitchCase="'DeletedIssueComment'">
       <div class="timeline-body">
-        <a>{{timelineItem.deletedBy?.displayName}}</a> deleted comment <a>{{timelineItem.id}}</a>
-        by <a>{{timelineItem.createdBy.displayName}}</a>
+        <a>{{timelineItem.deletedBy?.displayName}}</a> deleted comment by <a>{{timelineItem.createdBy.displayName}}</a>
         <br>
         <small class="text-muted">
           <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">

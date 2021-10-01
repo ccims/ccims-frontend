@@ -1,6 +1,6 @@
 <div class="issue-contents" *ngIf="issue$?.current as issue">
     <!--Part 3: Issue body-->
-    <app-comment class="issue-body" [commentId]="issue$.id" [comment]="issue"></app-comment>
+    <app-comment class="issue-body" [commentId]="issue$.id"></app-comment>
 
     <!--Part 4: Linked issues-->
     <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">
@@ -48,8 +48,7 @@
                     <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen
                         Issue
                     </button>
-                    &nbsp;
-                    <button mat-raised-button color="primary" [class.spinner]="savingComment" (click)="this.commentIssue()">Comment
+                    <button mat-raised-button color="primary" style="margin-left: 6px" [class.spinner]="savingComment" (click)="this.commentIssue()">Comment
                     </button>
                 </div>
             </div>
