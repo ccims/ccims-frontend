@@ -1,13 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {CreateLabelInput, CreateLabelMutation} from '../../../generated/graphql';
-import {LabelStoreService} from '@app/data/label/label-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {CCIMSValidators} from '@app/utils/validators';
+import { decodeNodeId, encodeListId, ListId, ListType, NodeId } from '@app/data-dgql/id';
+import DataService from '@app/data-dgql';
+import { ComponentFilter, Label } from '../../../generated/graphql-dgql';
 
 export interface CreateLabelDialogData {
-  componentId: string;
+  projectId: NodeId;
 }
 
 @Component({
@@ -18,17 +19,41 @@ export interface CreateLabelDialogData {
 export class CreateLabelDialogComponent implements OnInit {
   validationLabelName = new FormControl('', [Validators.required, Validators.maxLength(30)]);
   validationLabelDescription = new FormControl('', CCIMSValidators.contentValidator);
-  color = '#d31111'; // The default color for the label color picker
+  color = '#000000';
   loading = false;
 
-  constructor(private dialog: MatDialogRef<CreateLabelDialogComponent, CreateLabelMutation>,
-              private labelStore: LabelStoreService,
+  componentIds = [];
+  allComponentsList: ListId;
+
+  constructor(private dialog: MatDialogRef<CreateLabelDialogComponent, Label>,
+              private dataService: DataService,
               @Inject(MAT_DIALOG_DATA) private data: CreateLabelDialogData,
               private notify: UserNotifyService) {
   }
 
   ngOnInit() {
     this.randomizeColor();
+
+    this.allComponentsList = encodeListId({
+      node: decodeNodeId(this.data.projectId),
+      type: ListType.Components
+    });
+  }
+
+  makeComponentFilter(search): ComponentFilter {
+    return { name: search };
+  }
+  applyComponentChangeset = async (additions: NodeId[], deletions: NodeId[]) => {
+    for (const item of additions) {
+      if (!this.componentIds.includes(item)) {
+        this.componentIds.push(item);
+      }
+    }
+    for (const item of deletions) {
+      if (this.componentIds.includes(item)) {
+        this.componentIds.splice(this.componentIds.indexOf(item), 1);
+      }
+    }
   }
 
   onLabelCancelClick(): void {
@@ -36,21 +61,19 @@ export class CreateLabelDialogComponent implements OnInit {
   }
 
   onConfirmCreateLabelClick(name: string, description?: string) {
-    const input: CreateLabelInput = {
-      name,
-      color: this.color,
-      components: [this.data.componentId],
-      description
-    };
-
     this.loading = true;
-    this.labelStore.createLabel(input).subscribe(({data}) => {
-      this.loading = false;
-      this.dialog.close(data);
-    }, (error) => {
+    this.dataService.mutations.createLabel(
+      Math.random().toString(),
+      this.componentIds,
+      name,
+      this.color,
+      description
+    ).then(created => {
+      this.dialog.close(created as Label);
+    }).catch((error) => {
       this.notify.notifyError('Failed to create label!', error);
+    }).finally(() => {
       this.loading = false;
-      this.dialog.close(null);
     });
   }
 

@@ -35,7 +35,13 @@ import {
   MutCreateIssueGQL,
   MutRenameIssueTitleGQL,
   MutAddIssueCommentGQL,
-  MutDeleteIssueCommentGQL, MutUpdateIssueCommentGQL, MutCloseIssueGQL, MutReopenIssueGQL,
+  MutDeleteIssueCommentGQL,
+  MutUpdateIssueCommentGQL,
+  MutCloseIssueGQL,
+  MutReopenIssueGQL,
+  MutCreateLabelGQL,
+  MutDeleteLabelGQL,
+  MutUpdateLabelGQL, MutAddLabelToComponentGQL, MutRemoveLabelFromComponentGQL,
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
 import { CreateIssueInput } from '../../../generated/graphql';
@@ -79,7 +85,12 @@ export class IssuesService {
     private qMutAddIssueAssignee: MutAddIssueAssigneeGQL,
     private qMutRemoveIssueAssignee: MutRemoveIssueAssigneeGQL,
     private qMutLinkIssue: MutLinkIssueGQL,
-    private qMutUnlinkIssue: MutUnlinkIssueGQL
+    private qMutUnlinkIssue: MutUnlinkIssueGQL,
+    private qMutCreateLabel: MutCreateLabelGQL,
+    private qMutUpdateLabel: MutUpdateLabelGQL,
+    private qMutAddLabelToComponent: MutAddLabelToComponentGQL,
+    private qMutRemoveLabelFromComponent: MutRemoveLabelFromComponentGQL,
+    private qMutDeleteLabel: MutDeleteLabelGQL,
   ) {}
 
   listProjectIssues(project: string, list: IssueListParams) {
@@ -212,5 +223,21 @@ export class IssuesService {
 
   mutUnlinkIssue(id: string, issue: string, link: string) {
     return promisifyApolloFetch(this.qMutUnlinkIssue.mutate({ id, issue, link }));
+  }
+
+  mutCreateLabel(id: string, components: string[], name: string, color: string, description?: string) {
+    return promisifyApolloFetch(this.qMutCreateLabel.mutate({ id, components, name, description, color }));
+  }
+  mutUpdateLabel(id: string, label: string, name?: string, color?: string, description?: string) {
+    return promisifyApolloFetch(this.qMutUpdateLabel.mutate({ id, label, name, description, color }));
+  }
+  mutAddLabelToComponent(id: string, label: string, component: string) {
+    return promisifyApolloFetch(this.qMutAddLabelToComponent.mutate({ id, label, component }));
+  }
+  mutRemoveLabelFromComponent(id: string, label: string, component: string) {
+    return promisifyApolloFetch(this.qMutRemoveLabelFromComponent.mutate({ id, label, component }));
+  }
+  mutDeleteLabel(id: string, label: string) {
+    return promisifyApolloFetch(this.qMutDeleteLabel.mutate({ id, label }));
   }
 }

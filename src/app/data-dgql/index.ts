@@ -1,4 +1,4 @@
-import { NodeId, ListId } from './id';
+import { NodeId, ListId, ListDescriptor, ListType, encodeListId, decodeListId } from './id';
 import { Injectable } from '@angular/core';
 import { QueriesService } from './queries/queries.service';
 import { DataNode, DataList, NodeCache } from './query';
@@ -23,17 +23,30 @@ export default class DataService {
     return this.nodes.getNode(id);
   }
 
-  /** Invalidates all lists with the given ID. */
-  invalidateLists(id: ListId) {
-    if (!this.lists.has(id)) {
-      return;
-    }
-    const lists = this.lists.get(id);
-    for (const list of lists) {
-      if (list.subscriberCount) {
-        // invalidating the list causes layout changes we might not want (e.g. emptying a list)
-        // list.invalidate();
-        list.loadDebounced();
+  /** Invalidates all lists with the given descriptor or list type. */
+  invalidateLists(selector: ListDescriptor | ListType) {
+    if (typeof selector === 'object') {
+      const id = encodeListId(selector);
+      if (!this.lists.has(id)) {
+        return;
+      }
+      const lists = this.lists.get(id);
+      for (const list of lists) {
+        if (list.subscriberCount) {
+          // invalidating the list causes layout changes we might not want (e.g. emptying a list)
+          // list.invalidate();
+          list.loadDebounced();
+        }
+      }
+    } else {
+      for (const [id, lists] of this.lists) {
+        if (decodeListId(id).type === selector) {
+          for (const list of lists) {
+            if (list.subscriberCount) {
+              list.loadDebounced();
+            }
+          }
+        }
       }
     }
   }

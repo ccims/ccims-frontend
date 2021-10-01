@@ -1,5 +1,19 @@
 <h1 mat-dialog-title>Create a new label</h1>
 <div mat-dialog-content>
+  <app-set-editor
+      class="component-selector"
+      [makeFilter]="makeComponentFilter"
+      [scoreKeys]="['name']"
+      [listSet]="componentIds"
+      [listAll]="allComponentsList"
+      [applyChangeset]="applyComponentChangeset">
+    <span title>Components</span>
+    <span if-empty>Assign the label to a component</span>
+    <ng-container *appItem="let item">
+      <div>{{item.name}}</div>
+    </ng-container>
+  </app-set-editor>
+
   <mat-form-field class="new-label-input" appearance="outline">
     <mat-label>Label Name</mat-label>
     <input #labelName required matInput [formControl]="validationLabelName">

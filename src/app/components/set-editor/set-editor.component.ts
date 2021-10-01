@@ -1,22 +1,24 @@
 import {
   Component,
   ContentChild,
-  ElementRef,
+  ElementRef, EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
+  OnInit, Output,
   SimpleChanges,
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { decodeNodeId, encodeNodeId, ListId, NodeId, NodeType } from '@app/data-dgql/id';
+import { ListId, NodeId } from '@app/data-dgql/id';
 import { DataList, HydrateList } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import { Subscription } from 'rxjs';
 import { ItemDirective } from '@app/components/item.directive';
 import { MatDialog } from '@angular/material/dialog';
 import { SetEditorDialogComponent, SetEditorDialogData, SetMultiSource } from './set-editor-dialog.component';
+
+type ItemOps = 'none' | 'edit' | 'create-edit' | 'create-edit-delete';
 
 /**
  * The set editor displays and edits a list like in the issue detail sidebar.
@@ -45,6 +47,12 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   @Input() emptySuggestionsLabel = 'No suggestions';
   /** Set to override the “no results” text in the dialog. Appears when there is a search query. */
   @Input() emptyResultsLabel = 'No results';
+  /** Additional operations available from the set editor. */
+  @Input() itemOps: ItemOps = 'none';
+
+  @Input() createItem: () => Promise<NodeId | null | undefined>;
+  @Output() editItem = new EventEmitter<{ id: NodeId, preview: T }>();
+  @Output() deleteItem = new EventEmitter<{ id: NodeId, preview: T }>();
 
   @ViewChild('titleText') titleText: ElementRef<HTMLElement>;
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
@@ -91,9 +99,13 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
     this.listSetSub?.unsubscribe();
   }
 
-  private onDialogApplyChangeset = (additions: NodeId[], deletions: NodeId[]) => {
+  private onDialogApplyChangeset = (additions: string[], deletions: string[]): Promise<void> => {
     return this.applyChangeset(additions, deletions);
   }
+
+  private onDialogCreateItem = () => this.createItem();
+  private onDialogEditItem = (item) => this.editItem.emit(item);
+  private onDialogDeleteItem = (item) => this.deleteItem.emit(item);
 
   beginEditing() {
     this.dialogService.open<SetEditorDialogComponent<T, F>>(SetEditorDialogComponent, {
@@ -107,7 +119,10 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
         makeFilter: this.makeFilter,
         scoreKeys: this.scoreKeys,
         emptySuggestionsLabel: this.emptySuggestionsLabel,
-        emptyResultsLabel: this.emptyResultsLabel
+        emptyResultsLabel: this.emptyResultsLabel,
+        createItem: this.itemOps.includes('create') ? this.onDialogCreateItem : null,
+        editItem: this.itemOps.includes('edit') ? this.onDialogEditItem : null,
+        deleteItem: this.itemOps.includes('delete') ? this.onDialogDeleteItem : null
       } as SetEditorDialogData<T, F>
     });
   }

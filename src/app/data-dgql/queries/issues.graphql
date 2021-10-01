@@ -826,3 +826,56 @@ mutation MutUnlinkIssue($id: String, $issue: ID!, $link: ID!) {
     }
   }
 }
+
+mutation MutCreateLabel($id: String, $name: String!, $description: String, $color: Color!, $components: [ID!]!) {
+  createLabel(input: {
+    clientMutationID: $id,
+    components: $components,
+    name: $name,
+    description: $description,
+    color: $color
+  }) {
+    label {
+      ...fLabelStub
+    }
+  }
+}
+mutation MutUpdateLabel($id: String, $label: ID!, $name: String, $description: String, $color: Color) {
+  updateLabel(input: {
+    clientMutationID: $id,
+    label: $label,
+    name: $name,
+    description: $description,
+    color: $color
+  }) {
+    label {
+      ...fLabelStub
+    }
+  }
+}
+mutation MutAddLabelToComponent($id: String, $label: ID!, $component: ID!) {
+  addLabelToComponent(input: {
+    clientMutationID: $id,
+    label: $label,
+    component: $component
+  }) {
+    clientMutationID
+  }
+}
+mutation MutRemoveLabelFromComponent($id: String, $label: ID!, $component: ID!) {
+  removeLabelFromComponent(input: {
+    clientMutationID: $id,
+    label: $label,
+    component: $component
+  }) {
+    clientMutationID
+  }
+}
+mutation MutDeleteLabel($id: String, $label: ID!) {
+  deleteLabel(input: {
+    clientMutationID: $id,
+    label: $label
+  }) {
+    clientMutationID
+  }
+}
