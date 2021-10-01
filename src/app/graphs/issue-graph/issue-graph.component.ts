@@ -24,6 +24,9 @@ import * as componentContextMenuComponent from '@app/graphs/component-context-me
 import {NodeDetailsType} from '@app/node-details/node-details.component';
 import {doGraphLayout, LayoutNode} from '@app/graphs/automatic-layout';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import { IssueGraphClassSettersService } from './class-setters/issue-graph-class-setters.service';
+import { IssueGraphLinkHandlesService } from './link-handles/issue-graph-link-handles.service';
+import { IssueGraphDynamicTemplateRegistryService } from './dynamic-template-registry/issue-graph-dynamic-template-registry.service';
 
 interface Positions {
   nodes: { [prop: string]: Point; };
@@ -52,7 +55,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
               private componentStoreService: ComponentStoreService,
               private interfaceStoreService: InterfaceStoreService,
               private componentContextMenuService: componentContextMenuComponent.ComponentContextMenuService,
-              private breakPointObserver: BreakpointObserver) {
+              private breakPointObserver: BreakpointObserver,
+              private issueGraphClassSettersService: IssueGraphClassSettersService,
+              private issueGraphLinkHandlesService: IssueGraphLinkHandlesService,
+              private issueGraphDynamicTemplateRegistryService: IssueGraphDynamicTemplateRegistryService) {
   }
 
   // references the graph template
@@ -210,16 +216,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const minimap: GraphEditor = this.minimap.nativeElement;
 
     // 3) manages the node / edge class setters
-    this.manageClassSetters(graph, minimap);
+    this.issueGraphClassSettersService.manageClassSetters(graph, minimap);
 
     // 4) manages the edge link handles
-    this.manageLinkHandles(graph, minimap);
+    this.issueGraphLinkHandlesService.manageLinkHandles(graph, minimap);
 
     // 5) manages the edge drag behaviour
     this.manageDragBehaviour(graph);
 
     // 6) manages the dynamic template registry
-    this.manageDynamicTemplateRegistry(graph);
+    this.issueGraphDynamicTemplateRegistryService.manageDynamicTemplateRegistry(graph);
 
     // 7) manages the event listeners
     this.manageEventListeners(graph, minimap);
@@ -257,169 +263,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
           localStorage.setItem(this.projectStorageKey, newData);
         }
       });
-  }
-
-  /**
-   * Manages node / edge class setters so that node / edge classes 
-   * of given GraphEditor instances match their corresponding class names.
-   * The setters return true if the class name is applied to the corresponding node / edge.
-   * They are called on all nodes, pairs of edges and class names.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
-   */
-  private manageClassSetters(graph: GraphEditor, minimap: GraphEditor) {
-
-    // node class setter
-    const nodeClassSetter = (className: string, node: Node) => {
-      if (className === node.type) {
-        return true;
-      }
-      return false;
-    };
-
-    // applies noce class setter
-    graph.setNodeClass = nodeClassSetter;
-    minimap.setNodeClass = nodeClassSetter;
-
-    // edge class setter
-    const edgeClassSetter = (
-      className: string,
-      edge: Edge,
-      sourceNode: Node,
-      targetNode: Node
-    ) => {
-      if (className === edge.type) {
-        return true;
-      }
-      if (className === 'related-to' && edge.type === 'relatedTo') {
-        return true;
-      }
-      if (className === 'issue-relation' &&
-        (edge.type === 'relatedTo' ||
-          edge.type === 'duplicate' ||
-          edge.type === 'dependency')) {
-        return true;
-      }
-      return false;
-    };
-
-    // applies edge class setter
-    graph.setEdgeClass = edgeClassSetter;
-    minimap.setEdgeClass = edgeClassSetter;
-  }
-
-  /**
-   * Manages calculation of the link handles of given GraphEditor instances.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
-   */
-  private manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
-    
-    // calculation for link handles
-    const linkHandleCalculation = (
-      edge: Edge | DraggedEdge,
-      sourceHandles: LinkHandle[],
-      source: Node,
-      targetHandles: LinkHandle[],
-      target: Node
-    ) => {
-
-      // handles at the source / target of a given edge
-      const handles = {
-        sourceHandles,
-        targetHandles,
-      };
-
-      // case: source of edge has allowed anchors
-      // => calculates source handles
-      if (source?.allowedAnchors != null) {
-        this.calculateSourceHandles(source, handles, sourceHandles);
-      }
-
-      // case: target of edge has allowed anchors
-      // => calculates target handles
-      if (target?.allowedAnchors != null) {
-        this.calculateTargetHandles(target, handles, targetHandles);
-      }
-
-      return handles;
-    };
-
-    // applies calculaiton for link handles
-    graph.calculateLinkHandlesForEdge = linkHandleCalculation;
-    minimap.calculateLinkHandlesForEdge = linkHandleCalculation;
-  }
-
-  /**
-   * Calculates the source handles of a given edge.
-   * @param  {Node} source - Source of the edge that is handled.
-   * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
-   * @param  {LinkHandle[]} sourceHandles - Source handles of the edge.
-   */
-  private calculateSourceHandles(source: Node, 
-    handles: { sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]; }, 
-    sourceHandles: LinkHandle[]) {
-
-    handles.sourceHandles = sourceHandles.filter((linkHandle) => {
-
-      // case: X coordinate of link handle further than the Y coordinate
-      if (Math.abs(linkHandle.x) > Math.abs(linkHandle.y)) {
-        if (linkHandle.x > 0 && source.allowedAnchors.has('right')) {
-          return true;
-        }
-        if (linkHandle.x < 0 && source.allowedAnchors.has('left')) {
-          return true;
-        }
-      } 
-      
-      // case: X coordinate of link handle as close as / closer than the Y coordinate
-      else {
-        if (linkHandle.y > 0 && source.allowedAnchors.has('bottom')) {
-          return true;
-        }
-        if (linkHandle.y < 0 && source.allowedAnchors.has('top')) {
-          return true;
-        }
-      }
-
-      return false;
-    });
-  }
-
-  /**
-   * Calculates the target handles of a given edge.
-   * @param  {Node} target - Target of the edge that is handled.
-   * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
-   * @param  {LinkHandle[]} targetHandles - Target handles of the edge.
-   */
-  private calculateTargetHandles(target: Node, 
-    handles: { sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]; }, 
-    targetHandles: LinkHandle[]) {
-
-    handles.targetHandles = targetHandles.filter((linkHandle) => {
-
-      // case: X coordinate of link handle further than the Y coordinate
-      if (Math.abs(linkHandle.x) > Math.abs(linkHandle.y)) {
-        if (linkHandle.x > 0 && target.allowedAnchors.has('right')) {
-          return true;
-        }
-        if (linkHandle.x < 0 && target.allowedAnchors.has('left')) {
-          return true;
-        }
-      } 
-      
-      // case: X coordinate of link handle as close as / closer than the Y coordinate
-      else {
-        if (linkHandle.y > 0 && target.allowedAnchors.has('bottom')) {
-          return true;
-        }
-        if (linkHandle.y < 0 && target.allowedAnchors.has('top')) {
-          return true;
-        }
-      }
-      
-      return false;
-    });
   }
 
   /**
@@ -667,38 +510,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
-  }
-
-  /**
-   * Manages the dynamic template registry of given GraphEditor instance.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   */
-  private manageDynamicTemplateRegistry(graph: GraphEditor) {
-    graph.dynamicTemplateRegistry.addDynamicTemplate('issue-group-container', {
-      renderInitialTemplate(
-        g,
-        grapheditor: GraphEditor,
-        context: dynamicTemplate.DynamicTemplateContext<Node>
-      ): void {
-        // template is empty
-        g.append('circle')
-          .attr('x', 0)
-          .attr('y', 0)
-          .attr('r', 1)
-          .style('opacity', 0);
-      },
-      updateTemplate(
-        g,
-        grapheditor: GraphEditor,
-        context: dynamicTemplate.DynamicTemplateContext<Node>
-      ): void {
-        // template is empty
-      },
-      getLinkHandles(g, grapheditor: GraphEditor): LinkHandle[] {
-        // template has no link handles
-        return [];
-      },
-    } as dynamicTemplate.DynamicNodeTemplate);
   }
 
   /**
