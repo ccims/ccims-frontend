@@ -17,8 +17,9 @@
       </h3>
 
       <!--Edit-->
+      <!-- Delete button is only for comments and not for issue description displayed -->
       <button
-        *ngIf="!this.editBody"
+        *ngIf="!this.editBody && !this.isIssueBody"
         class="item-edit"
         color="warn"
         mat-flat-button

@@ -46,7 +46,7 @@
     <!-- Contents of timeline items -->
 
     <div class="commentContainer" *ngSwitchCase="'IssueComment'">
-      <app-comment [commentId]="makeCommentId(timelineItem)" [issueId]="issueId"></app-comment>
+      <app-comment [commentId]="makeCommentId(timelineItem)" [issueId]="issueId" [isIssueBody]="false"></app-comment>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ClosedEvent'">

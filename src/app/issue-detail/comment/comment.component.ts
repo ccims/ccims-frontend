@@ -19,6 +19,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   public editBody = false;
   public savingBody = false;
 
+  @Input() isIssueBody: boolean;
   @Input() commentId: NodeId;
   @Input() issueId: NodeId;
   comment$: DataNode<IssueComment>;
