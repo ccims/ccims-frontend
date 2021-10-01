@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/c
 import {CreateLabelMutation, GetComponentQuery} from '../../generated/graphql';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
-import {CreateLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-label-dialog.component';
+import {CreateEditLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-edit-label-dialog.component';
 import {MatDialog, MatDialogRef, MatDialogState} from '@angular/material/dialog';
 import {QueryComponent} from '@app/utils/query-component/query.component';
 import DataService from '@app/data-dgql';
@@ -24,7 +24,7 @@ export class LabelSelectorComponent implements AfterViewInit {
 
   component: GetComponentQuery;
   componentLabels: Array<Label> = [];
-  dialogRef: MatDialogRef<CreateLabelDialogComponent, CreateLabelMutation>;
+  dialogRef: MatDialogRef<CreateEditLabelDialogComponent, CreateLabelMutation>;
 
   constructor(private dataService: DataService,
               private notify: UserNotifyService,
@@ -58,7 +58,7 @@ export class LabelSelectorComponent implements AfterViewInit {
   }
 
   onNewLabelClick(): void {
-    this.dialogRef = this.dialog.open(CreateLabelDialogComponent, {data: {componentId: this.componentId}});
+    this.dialogRef = this.dialog.open(CreateEditLabelDialogComponent, {data: {componentId: this.componentId}});
     this.dialogRef.afterClosed().subscribe((created) => {
         if (created) {
           this.componentLabels.push(created.createLabel.label as Label);

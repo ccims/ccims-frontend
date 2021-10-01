@@ -27,7 +27,7 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.comment$ = this.dataService.getNode(this.commentId);
-    this.commentSub = this.comment$.subscribe();
+    this.commentSub = this.comment$.subscribeLazy();
   }
 
   ngOnDestroy() {

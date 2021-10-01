@@ -27,7 +27,8 @@ const nodeQueries: NodeQueries = {
   [NodeType.Issue]: (i, id) => i.q.issues.getIssueHeader(id).then(data => data.node),
   [NodeType.User]: (i, id) => id === CURRENT_USER_NODE.id
     ? i.q.users.currentUser().then(data => data.currentUser)
-    : Promise.reject(new Error('not implemented'))
+    : Promise.reject(new Error('not implemented')),
+  [NodeType.Label]: (i, id) => i.q.issues.getLabel(id).then(data => data.node)
 };
 
 export const queryNode = (q: QueriesService) => async <T>(nodeId: NodeId): Promise<T> => {
@@ -89,6 +90,11 @@ const listQueries: ListQueries = {
       items: i.c.insertNodes(data.node.components.nodes),
     })),
     [NodeType.Issue]: (i, list, params) => i.q.issues.listIssueComponents(list.node.id, listParams(params)).then(data => ({
+      totalCount: data.node.components.totalCount,
+      pageInfo: data.node.components.pageInfo,
+      items: i.c.insertNodes(data.node.components.nodes),
+    })),
+    [NodeType.Label]: (i, list, params) => i.q.issues.listLabelComponents(list.node.id, listParams(params)).then(data => ({
       totalCount: data.node.components.totalCount,
       pageInfo: data.node.components.pageInfo,
       items: i.c.insertNodes(data.node.components.nodes),

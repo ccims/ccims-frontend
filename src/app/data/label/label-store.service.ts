@@ -81,7 +81,7 @@ export class LabelStoreService {
       b = color & 255;
     }
 
-    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+    // HSP (Hue-Sat-Perceived-brightness) equation from http://alienryderflex.com/hsp.html
     hsp = Math.sqrt(
       0.299 * (r * r) +
       0.587 * (g * g) +
@@ -89,7 +89,8 @@ export class LabelStoreService {
     );
 
     // Using the HSP value, determine whether the color is light or dark
-    if (hsp > 127.5) {
+    // Compare against gamma-adjusted tipping point
+    if (hsp > Math.sqrt(0.5) * 255) {
       return 'black';
     } else {
       return 'white';

@@ -630,6 +630,50 @@ query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy
   }
 }
 
+query GetLabel($id: ID!) {
+  node(id: $id) {
+    ...on Label {
+      id
+      ...fLabelStub
+      description
+      components(first: 10) {
+        totalCount
+        nodes {
+          ...fComponentStub
+        }
+      }
+      createdBy {
+        ...fUserStub
+      }
+      createdAt
+    }
+  }
+}
+
+query ListLabelComponents($label: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+  node(id: $label) {
+    ...on Label {
+      components(
+        after: $after,
+        before: $before,
+        filterBy: $filterBy,
+        first: $first,
+        last: $last
+      ) {
+        totalCount
+        pageInfo {
+          ...allPageInfo
+        }
+        nodes {
+          ...on Component {
+            ...fComponentStub
+          }
+        }
+      }
+    }
+  }
+}
+
 mutation MutCreateIssue($issue: CreateIssueInput!) {
   createIssue(input: $issue) {
     issue {
@@ -837,6 +881,12 @@ mutation MutCreateLabel($id: String, $name: String!, $description: String, $colo
   }) {
     label {
       ...fLabelStub
+      components {
+        totalCount
+        nodes {
+          ...fComponentStub
+        }
+      }
     }
   }
 }

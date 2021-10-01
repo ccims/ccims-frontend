@@ -8,8 +8,6 @@ const CACHE_FAST_DEBOUNCE_TIME_MS = 200;
 const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS = 500;
 const CACHE_STALE_TIME_MS = 5000;
 
-// TODO: passive subscribers
-
 /**
  * A declarative query.
  *
@@ -49,6 +47,7 @@ export class DataQuery<T, R, P> extends Observable<T> {
   protected stateLock = 0;
   protected loadTimeout = null;
   protected hydrated = false;
+  protected isNextSubLazy = false;
 
   /** If true, will prolong debounce time a bit. */
   interactive = false;
@@ -59,7 +58,10 @@ export class DataQuery<T, R, P> extends Observable<T> {
    * @param map maps returned data from the query R to usable data T
    */
   constructor(id: QueryNodeId, query: (id: QueryNodeId, p: P) => Promise<R>, map: (r: R) => T) {
-    super(subscriber => this.addSubscriber(subscriber));
+    super(subscriber => {
+      this.addSubscriber(subscriber, this.isNextSubLazy);
+      this.isNextSubLazy = false;
+    });
     this.id = id;
     this.innerQueryFn = query;
     this.innerMapFn = map;
@@ -148,15 +150,14 @@ export class DataQuery<T, R, P> extends Observable<T> {
     this.emitUpdateToAllSubscribers();
   }
 
-  protected addSubscriber(subscriber: Subscriber<T>) {
+  protected addSubscriber(subscriber: Subscriber<T>, lazy: boolean) {
     this.subscribers.add(subscriber);
     if (this.current !== undefined) {
       // data is available right now! emit current state
       subscriber.next(this.current);
     }
 
-    if (!this.hydrated) {
-      // TODO: don't call if passive
+    if (!this.hydrated && (!lazy || !this.hasData)) {
       this.loadIfNeeded();
     }
 
@@ -165,6 +166,12 @@ export class DataQuery<T, R, P> extends Observable<T> {
         this.subscribers.delete(subscriber);
       },
     };
+  }
+
+  /** Will subscribe to the data, but not cause a reload unless there is no data. */
+  subscribeLazy(...args) {
+    this.isNextSubLazy = true;
+    return this.subscribe(...args);
   }
 
   emitUpdateToAllSubscribers() {
