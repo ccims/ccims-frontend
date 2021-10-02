@@ -8,7 +8,7 @@
         <time [dateTime]="comment.createdAt" [title]="this.timeFormatter.formatTime(comment.createdAt)">
           {{this.timeFormatter.formatTimeDifference(comment.createdAt)}}
         </time>
-        <span class="item-edited" *ngIf="comment.lastEditedAt">
+        <span class="item-edited" *ngIf="comment.lastEditedAt !== comment.createdAt">
           &sdot;<app-user-item [short]="true" [user]="comment.editedBy?.nodes[0]"></app-user-item> edited
           <time [dateTime]="comment.lastEditedAt" [title]="this.timeFormatter.formatTime(comment.lastEditedAt)">
             {{this.timeFormatter.formatTimeDifference(comment.lastEditedAt)}}

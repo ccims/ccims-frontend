@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 /**
- * Allows a user to register for an account with Gropius
+ * Allows the user to register for a Gropius account.
  */
 @Component({
   selector: 'app-register',
@@ -35,9 +35,62 @@ export class RegisterComponent {
   }
 
   /**
-   * Given data needed for account creation, carries out creation by issuing a mutation
-   * to the backend. If successfull the user is redirected to /login
-   * @param value data from register form
+   * Checks with backend to ensure that entered username is valid.
+   * A username is invalid when its taken or contains symbols like '*', etc.
+   * @param control - Username that is handled.
+   * @returns Observable emitting values indicating error when string entered in
+   * control is not a valid username. Emits null when username is valid
+   */
+  userNameAsyncValidator = (control: FormControl) =>
+   new Observable((observer: Observer<ValidationErrors | null>) => {
+     this.userAvailablyQuery.fetch({username: control.value}).subscribe(({data}) => {
+
+       // case: username already taken
+       // => marks event as error
+       if (!data.checkUsername) {
+         // returns `{error: true}` to mark event as an error
+         observer.next({error: true, duplicated: true});
+       } else {
+         observer.next(null);
+       }
+       observer.complete();
+     }, (error) => {
+       this.notify.notifyError('Failed to verify user name!', error);
+     });
+   });
+
+  /**
+   * Checks that the password in the Confirm Password field 
+   * matches the password in the Password field.
+   * @param control Password that is handled.
+   */
+  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
+
+    // case: no password given
+    if (!control.value) {
+      return {error: true, required: true};
+    }
+    
+    // case: password does not match
+    else if (control.value !== this.validateForm.controls.password.value) {
+      return {confirm: true, error: true};
+    }
+    return {};
+  };
+
+  /**
+   * Recalculates the value and validation status of the password confirmation field.
+   * This is triggered whenever the user changes the password in the register form.
+   */
+  validateConfirmPassword(): void {
+    setTimeout(() => this.validateForm.controls.confirm.updateValueAndValidity());
+  }
+
+  /**
+   * Given data needed for account creation
+   * and carries out the creation by issuing a mutation to the backend. 
+   * If successfull, the user is redirected to the Login page.
+   * @param value - Data (from the register form) that is handled.
    */
   submitForm(value: { username: string; email: string; password: string; confirm: string }): void {
     for (const key of Object.keys(this.validateForm.controls)) {
@@ -59,8 +112,8 @@ export class RegisterComponent {
   }
 
   /**
-   * Resets form fields and marks all controls as pristine
-   * @param e event effecting form reset
+   * Resets form fields and marks all controls as pristine.
+   * @param e - Event affecting the form reset.
    */
   resetForm(e: MouseEvent): void {
     e.preventDefault();
@@ -70,48 +123,13 @@ export class RegisterComponent {
       this.validateForm.controls[key].updateValueAndValidity();
     }
   }
-
+  
   /**
-   * Recalculate value and validation status of password confirmation field.
-   * This is triggered whenever the user changes the password in the register form.
+   * Loads the login page.
+   * @param e - Event affecting the form reset.
    */
-  validateConfirmPassword(): void {
-    setTimeout(() => this.validateForm.controls.confirm.updateValueAndValidity());
+  backToLogin(e: MouseEvent): void {
+    e.preventDefault();
+    this.router.navigate(['login']);
   }
-
-  /**
-   * Checks with backend to make sure username entered is valid.
-   * A username is invalid when its taken or contains ssymbols like '*'
-   * @param control whoose value is to be a valid username.
-   * @returns observable emitting values indicating error when string entered in
-   * control is not a valid username. Emits null when username is valid
-   */
-  userNameAsyncValidator = (control: FormControl) =>
-    new Observable((observer: Observer<ValidationErrors | null>) => {
-      this.userAvailablyQuery.fetch({username: control.value}).subscribe(({data}) => {
-        if (!data.checkUsername) {
-          // you have to return `{error: true}` to mark it as an error event
-          observer.next({error: true, duplicated: true});
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, (error) => {
-        this.notify.notifyError('Failed to verify user name!', error);
-      });
-    });
-
-  /**
-   * Checks that password in "Confirm Password" field matches password in other
-   * password field.
-   * @param control whooses value is to match the other password form fields value
-   */
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return {error: true, required: true};
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return {confirm: true, error: true};
-    }
-    return {};
-  };
 }
