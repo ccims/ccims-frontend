@@ -131,33 +131,31 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
   public onDeleteClick(): void {
     const affected: string[] = [];
     if (this.nodeType === NodeDetailsType.Component) {
-      this.deleteQuery.listenTo(this.componentStoreService.getComponentInterfaces(this.nodeId))
-        .subscribe(interfaces => {
-          for (const i of interfaces.node.interfaces.nodes) {
-            let affectedInterface = 'Interface "' + i.name + '" will be deleted';
-            if (i.consumedBy.nodes.length > 0) {
-              affectedInterface += ', which will affect the following component(s):';
-            }
-
-            affected.push(affectedInterface);
-            for (const component of i.consumedBy.nodes) {
-              affected.push(' ' + component.name);
-            }
+      this.deleteQuery.listenTo(this.componentStoreService.getComponentInterfaces(this.nodeId), interfaces => {
+        for (const i of interfaces.node.interfaces.nodes) {
+          let affectedInterface = 'Interface "' + i.name + '" will be deleted';
+          if (i.consumedBy.nodes.length > 0) {
+            affectedInterface += ', which will affect the following component(s):';
           }
 
-          this.showDeleteDialog(affected);
-        });
+          affected.push(affectedInterface);
+          for (const component of i.consumedBy.nodes) {
+            affected.push(' ' + component.name);
+          }
+        }
+
+        this.showDeleteDialog(affected);
+      });
     } else if (this.nodeType === NodeDetailsType.Interface) {
-      this.deleteQuery.listenTo(this.interfaceStoreService.getConsumingComponents(this.nodeId))
-        .subscribe(components => {
-          affected.push('Deleting this interface will affect the following component(s):');
-          affected.push(' ' + components.node.component.name);
-          for (const c of components.node.consumedBy.nodes) {
-            affected.push(' ' + c.name);
-          }
+      this.deleteQuery.listenTo(this.interfaceStoreService.getConsumingComponents(this.nodeId), components => {
+        affected.push('Deleting this interface will affect the following component(s):');
+        affected.push(' ' + components.node.component.name);
+        for (const c of components.node.consumedBy.nodes) {
+          affected.push(' ' + c.name);
+        }
 
-          this.showDeleteDialog(affected);
-        });
+        this.showDeleteDialog(affected);
+      });
     }
   }
 
@@ -174,8 +172,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
         });
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
         if (deleteData) {
-          this.deleteQuery.listenTo(this.componentStoreService.deleteComponent(this.nodeId)).subscribe(
-            () => {
+          this.deleteQuery.listenTo(this.componentStoreService.deleteComponent(this.nodeId), () => {
               this.notify.notifyInfo('Successfully deleted component \"' + this.component.node.name + '\""');
               if (this.callback) {
                 this.callback(true);
@@ -197,7 +194,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
         // dialog returns if the deleting was successful
         if (deleteData) {
-          this.deleteQuery.listenTo(this.interfaceStoreService.delete(this.nodeId)).subscribe(() => {
+          this.deleteQuery.listenTo(this.interfaceStoreService.delete(this.nodeId), () => {
             this.notify.notifyInfo('Successfully deleted interface \"' + this.interface.node.name + '\"');
             if (this.callback) {
               this.callback(true);
@@ -244,7 +241,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     };
 
 
-    this.updateQuery.listenTo(this.componentStoreService.updateComponent(input)).subscribe(() => {
+    this.updateQuery.listenTo(this.componentStoreService.updateComponent(input), () => {
       this.editMode = false;
       if (this.callback) {
         this.callback(false);
@@ -259,7 +256,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
       description: this.interface.node.description
     };
 
-    this.updateQuery.listenTo(this.interfaceStoreService.update(MutationinputData)).subscribe(() => {
+    this.updateQuery.listenTo(this.interfaceStoreService.update(MutationinputData), () => {
       this.editMode = false;
       if (this.callback) {
         this.callback(false);

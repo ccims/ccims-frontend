@@ -69,15 +69,15 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
     return this.queryState === QueryComponentState.Ready;
   }
 
-  public listenTo<T>(query: Observable<T>, before?: (value: T) => void, error?: (error: any) => void): Observable<T> {
+  public listenTo<T>(query: Observable<T>, success?: (value: T) => void, error?: (error: any) => void): void {
     this.queryState = QueryComponentState.Loading;
     this.changeDetector.detectChanges();
     this.subscription?.unsubscribe();
     this.updateButton();
 
     this.subscription = query.subscribe((value: T) => {
-      if (before) {
-        before(value);
+      if (success) {
+        success(value);
 
         if (this.queryState === QueryComponentState.Error) {
           return;
@@ -95,8 +95,6 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
       this.setError();
       this.notify.notifyError(this.errorMessage, err);
     });
-
-    return query;
   }
 
   public setError(): void {

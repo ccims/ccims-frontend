@@ -20,12 +20,11 @@ import {QueryComponent} from '@app/utils/query-component/query.component';
   templateUrl: './project-overview.component.html',
   styleUrls: ['./project-overview.component.scss']
 })
-export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProjectOverviewComponent implements OnInit, AfterViewInit {
   @ViewChild(QueryComponent) queryComponent: QueryComponent;
 
   public projectId: string;
   public project: DataNode<Project>;
-  private projectSub: Subscription;
   description = '';
 
   constructor(private dataService: DataService,
@@ -43,11 +42,7 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    this.projectSub = this.queryComponent.listenTo(this.project).subscribe(project => this.description = project.description);
-  }
-
-  ngOnDestroy() {
-    this.projectSub.unsubscribe();
+    this.queryComponent.listenTo(this.project, project => this.description = project.description);
   }
 
   projectNameEdited(saved: boolean): void {
