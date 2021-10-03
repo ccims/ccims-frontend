@@ -63,12 +63,16 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.editMode = false;
 
-    let listType = NodeType.Component;
-    if (this.nodeType === NodeDetailsType.Interface) {
-      listType = NodeType.ComponentInterface;
+    if (this.nodeType === NodeDetailsType.Component) {
+      this.issueListId = encodeListId({node: {type: NodeType.Component, id: this.nodeId}, type: ListType.Issues});
+    } else {
+      this.issueListId = encodeListId({
+        node: {type: NodeType.ComponentInterface, id: this.nodeId},
+        type: ListType.IssuesOnLocation
+      });
     }
 
-    this.issueListId = encodeListId({node: {type: listType, id: this.nodeId}, type: ListType.Issues});
+
     this.validationIMS.setValue('?');
     this.validationUrl.setValue('?');
   }
