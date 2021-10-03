@@ -8,7 +8,7 @@
     </div>
 
 <ul class="timeline">
-  <li *ngFor="let timelineItem of timelineItems$.currentItems" [ngSwitch]="timelineItem.__typename" class="timeline-inverted">
+  <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.type" class="timeline-inverted">
     <!-- Icons in the timeline -->
     <div class="timeline-badge" *ngSwitchCase="'AddedToComponentEvent'"><mat-icon>add</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedFromComponentEvent'"><mat-icon>remove</mat-icon></div>
@@ -46,17 +46,17 @@
     <!-- Contents of timeline items -->
 
     <div class="commentContainer" *ngSwitchCase="'IssueComment'">
-      <app-comment [commentId]="makeCommentId(timelineItem)"></app-comment>
+      <app-comment [commentId]="makeCommentId(timelineItem.item)"></app-comment>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ClosedEvent'">
       <div class="timeline-body">
-        Issue was closed by <a>{{timelineItem.createdBy.displayName}}</a>
+        Issue was closed by <a>{{timelineItem.item.createdBy.displayName}}</a>
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -64,21 +64,21 @@
 
     <div class="timeline-panel" *ngSwitchCase="'AssignedEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.assignee; else isNull">
-          <div *ngIf="selfAssigned(timelineItem); else notSelfAssigned">
-            <a>{{timelineItem.createdBy.displayName}}</a> self-assigned this issue
+        <div *ngIf="!!timelineItem.item.assignee; else isNull">
+          <div *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned">
+            <a>{{timelineItem.item.createdBy.displayName}}</a> self-assigned this issue
           </div>
           <ng-template #notSelfAssigned>
-            <a>{{timelineItem.createdBy.displayName}}</a> assigned this issue to <a>{{timelineItem.assignee.displayName}}</a>
+            <a>{{timelineItem.item.createdBy.displayName}}</a> assigned this issue to <a>{{timelineItem.item.assignee.displayName}}</a>
           </ng-template>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> assigned this issue to <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> assigned this issue to <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -86,12 +86,12 @@
 
     <div class="timeline-panel" *ngSwitchCase="'DueDateChangedEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> changed due date from <a>{{timelineItem.oldDueDate}}</a>
-        to <a>{{timelineItem.newDueDate}}</a><br>
+        <a>{{timelineItem.item.createdBy.displayName}}</a> changed due date from <a>{{timelineItem.item.oldDueDate}}</a>
+        to <a>{{timelineItem.item.newDueDate}}</a><br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -99,12 +99,12 @@
 
     <div class="timeline-panel" *ngSwitchCase="'EstimatedTimeChangedEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> changed time estimate from <a>{{timelineItem.oldEstimatedTime}}</a>
-        to <a>{{timelineItem.newEstimatedTime}}</a><br>
+        <a>{{timelineItem.item.createdBy.displayName}}</a> changed time estimate from <a>{{timelineItem.item.oldEstimatedTime}}</a>
+        to <a>{{timelineItem.item.newEstimatedTime}}</a><br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -112,19 +112,29 @@
 
     <div class="timeline-panel" *ngSwitchCase="'LabelledEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.label; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> added Label
-          <span style="display: inline-block">
-            <app-issue-label [label]="timelineItem.label"></app-issue-label>
+        <div *ngIf="timelineItem.isCoalesced; else singleLabel">
+          <a>{{timelineItem.user}}</a> added Labels
+          <span style="display: inline-block" *ngFor="let node of timelineItem.item">
+            <app-issue-label [label]="node.label"></app-issue-label>
           </span>
         </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> added Label <a>deleted</a>
+
+        <ng-template #singleLabel>
+          <div *ngIf="!!timelineItem.item.label; else isNull">
+            <a>{{timelineItem.item.createdBy.displayName}}</a> added Label
+            <span style="display: inline-block">
+              <app-issue-label [label]="timelineItem.item.label"></app-issue-label>
+            </span>
+          </div>
+          <ng-template #isNull>
+            <a>{{timelineItem.user}}</a> added Label <a>deleted</a>
+          </ng-template>
         </ng-template>
+
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.time)}}
           </time>
         </small>
       </div>
@@ -133,13 +143,13 @@
 
     <div class="timeline-panel" *ngSwitchCase="'DeletedIssueComment'">
       <div class="timeline-body">
-        <a>{{timelineItem.deletedBy.displayName}}</a> deleted comment <a>{{timelineItem.id}}</a>
-        by <a>{{timelineItem.createdBy.displayName}}</a>
+        <a>{{timelineItem.item.deletedBy.displayName}}</a> deleted comment <a>{{timelineItem.item.id}}</a>
+        by <a>{{timelineItem.item.createdBy.displayName}}</a>
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -147,17 +157,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'MarkedAsDuplicateEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.originalIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of
-          <app-issue-item [issue]="timelineItem.originalIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
+        <div *ngIf="!!timelineItem.item.originalIssue; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> marked issue as duplicate of
+          <app-issue-item [issue]="timelineItem.item.originalIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> marked issue as duplicate of <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> marked issue as duplicate of <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -165,17 +175,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'LinkEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.linkedIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> linked issue to issue
-            <app-issue-item [issue]="timelineItem.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
+        <div *ngIf="!!timelineItem.item.item.linkedIssue; else isNull">
+          <a>{{timelineItem.item.item.createdBy.displayName}}</a> linked issue to issue
+            <app-issue-item [issue]="timelineItem.item.item.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> linked issue to <a>deleted</a>
+          <a>{{timelineItem.item.item.createdBy.displayName}}</a> linked issue to <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -183,17 +193,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> pinned issue on component
-          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
+        <div *ngIf="!!timelineItem.item.component; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> pinned issue on component
+          <a (click)="goToComponentDetails(timelineItem.item.component)">{{timelineItem.item.component.name}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> pinned issue on <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> pinned issue on <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -201,19 +211,19 @@
 
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByIssueEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.mentionedAt; else isNull">
+        <div *ngIf="!!timelineItem.item.mentionedAt; else isNull">
           This issue was referenced by issue
-          <app-issue-item [issue]="timelineItem.mentionedAt" [interactive]="true" [projectId]="projectID"></app-issue-item>
-          in comment <a>{{timelineItem.mentionedInComment?.id}}</a>
-          by <a>{{timelineItem.createdBy?.displayName}}</a>
+          <app-issue-item [issue]="timelineItem.item.mentionedAt" [interactive]="true" [projectId]="projectID"></app-issue-item>
+          in comment <a>{{timelineItem.item.mentionedInComment?.id}}</a>
+          by <a>{{timelineItem.item.createdBy?.displayName}}</a>
         </div>
         <ng-template #isNull>
           This issue was referenced by issue <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -221,13 +231,13 @@
 
     <div class="timeline-panel" *ngSwitchCase="'PriorityChangedEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> changed priority from <a>{{timelineItem.oldPriority}}</a>
-        to <a>{{timelineItem.newPriority}}</a>
+        <a>{{timelineItem.item.createdBy.displayName}}</a> changed priority from <a>{{timelineItem.item.oldPriority}}</a>
+        to <a>{{timelineItem.item.newPriority}}</a>
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -235,17 +245,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromComponentEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component
-          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
+        <div *ngIf="!!timelineItem.item.component; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed issue from component
+          <a (click)="goToComponentDetails(timelineItem.item.component)">{{timelineItem.item.component.name}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed issue from component <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed issue from component <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -253,18 +263,18 @@
 
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByOtherEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> referenced this issue in component
-          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
-          with <a href="{{timelineItem.sourceURL}}">{{timelineItem.source}}</a>
+        <div *ngIf="!!timelineItem.item.component; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> referenced this issue in component
+          <a (click)="goToComponentDetails(timelineItem.item.component)">{{timelineItem.item.component.name}}</a>
+          with <a href="{{timelineItem.item.sourceURL}}">{{timelineItem.item.source}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> referenced this issue in component <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> referenced this issue in component <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -272,17 +282,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromLocationEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.removedLocation; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location
-          <a (click)="goToLocationDetails(timelineItem.removedLocation)">{{timelineItem.removedLocation.name}}</a>
+        <div *ngIf="!!timelineItem.item.removedLocation; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed this issue from location
+          <a (click)="goToLocationDetails(timelineItem.item.removedLocation)">{{timelineItem.item.removedLocation.name}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed this issue from location <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed this issue from location <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -290,12 +300,12 @@
 
     <div class="timeline-panel" *ngSwitchCase="'ReopenedEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> reopened issue
+        <a>{{timelineItem.item.createdBy.displayName}}</a> reopened issue
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -303,13 +313,13 @@
 
     <div class="timeline-panel" *ngSwitchCase="'StartDateChangedEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> changed start date from <a>{{timelineItem.oldStartDate}}</a>
-        to <a>{{timelineItem.newStartDate}}</a>
+        <a>{{timelineItem.item.createdBy.displayName}}</a> changed start date from <a>{{timelineItem.item.oldStartDate}}</a>
+        to <a>{{timelineItem.item.newStartDate}}</a>
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -317,13 +327,13 @@
 
     <div class="timeline-panel" *ngSwitchCase="'RenamedTitleEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> changed title of issue from <a>{{timelineItem.oldTitle}}</a>
-        to <a>{{timelineItem.newTitle}}</a>
+        <a>{{timelineItem.item.createdBy.displayName}}</a> changed title of issue from <a>{{timelineItem.item.oldTitle}}</a>
+        to <a>{{timelineItem.item.newTitle}}</a>
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -331,21 +341,21 @@
 
     <div class="timeline-panel" *ngSwitchCase="'UnassignedEvent'">
       <div class="timeline-body">
-        <div *ngIf="selfAssigned(timelineItem); else notSelfAssigned">
-          <a>{{timelineItem.createdBy.displayName}}</a> self-unassigned
+        <div *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> self-unassigned
         </div>
         <ng-template #notSelfAssigned>
-          <div *ngIf="!!timelineItem.removedAssignee; else isNull">
-            <a>{{timelineItem.createdBy.displayName}}</a> unassigned <a>{{timelineItem.removedAssignee.displayName}}</a>
+          <div *ngIf="!!timelineItem.item.removedAssignee; else isNull">
+            <a>{{timelineItem.item.createdBy.displayName}}</a> unassigned <a>{{timelineItem.item.removedAssignee.displayName}}</a>
           </div>
           <ng-template #isNull>
-            <a>{{timelineItem.createdBy.displayName}}</a> unassigned <a>deleted User</a>
+            <a>{{timelineItem.item.createdBy.displayName}}</a> unassigned <a>deleted User</a>
           </ng-template>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -353,39 +363,49 @@
 
     <div class="timeline-panel" *ngSwitchCase="'UnlabelledEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.removedLabel; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed label
-          <span style="display: inline-block">
-            <app-issue-label [label]="timelineItem.removedLabel"></app-issue-label>
+        <div *ngIf="timelineItem.isCoalesced; else singleLabel">
+          <a>{{timelineItem.user}}</a> removed Labels
+          <span style="display: inline-block" *ngFor="let node of timelineItem.item">
+            <app-issue-label [label]="node.removedLabel"></app-issue-label>
           </span>
         </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed label <a>deleted</a>
+
+        <ng-template #singleLabel>
+          <div *ngIf="!!timelineItem.item.removedLabel; else isNull">
+            <a>{{timelineItem.item.createdBy.displayName}}</a> removed Label
+            <span style="display: inline-block">
+              <app-issue-label [label]="timelineItem.item.removedLabel"></app-issue-label>
+            </span>
+          </div>
+          <ng-template #isNull>
+            <a>{{timelineItem.user}}</a> removed Label <a>deleted</a>
+          </ng-template>
         </ng-template>
+
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.time)}}
           </time>
         </small>
       </div>
     </div>
-
+    
     <div class="timeline-panel" *ngSwitchCase="'WasLinkedEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.linkedBy; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> linked issue
-          <app-issue-item [issue]="timelineItem.linkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
+        <div *ngIf="!!timelineItem.item.linkedBy; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> linked issue
+          <app-issue-item [issue]="timelineItem.item.linkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
           to this issue
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> linked issue <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> linked issue <a>deleted</a>
           to this issue
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -393,12 +413,12 @@
 
     <div class="timeline-panel" *ngSwitchCase="'UnmarkedAsDuplicateEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> unmarked this issue as duplicate
+        <a>{{timelineItem.item.createdBy.displayName}}</a> unmarked this issue as duplicate
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -406,17 +426,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'WasUnlinkedEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.unlinkedBy; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue
-          <app-issue-item [issue]="timelineItem.unlinkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
+        <div *ngIf="!!timelineItem.item.unlinkedBy; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> unlinked this issue in issue
+          <app-issue-item [issue]="timelineItem.item.unlinkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> unlinked this issue in issue <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> unlinked this issue in issue <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -424,17 +444,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.component; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> unpinned this issue in
-          <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
+        <div *ngIf="!!timelineItem.item.component; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> unpinned this issue in
+          <a (click)="goToComponentDetails(timelineItem.item.component)">{{timelineItem.item.component.name}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> unpinned this issue in <a>deleted component</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> unpinned this issue in <a>deleted component</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -442,17 +462,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'UnlinkEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue
-          <app-issue-item [issue]="timelineItem.removedLinkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
+        <div *ngIf="!!timelineItem.item.removedLinkedIssue; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed link to issue
+          <app-issue-item [issue]="timelineItem.item.removedLinkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed link to issue <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed link to issue <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -460,16 +480,16 @@
 
     <div class="timeline-panel" *ngSwitchCase="'AddedArtifactEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> added artifact <a>{{timelineItem.artifact.id}}</a>
+        <div *ngIf="!!timelineItem.item.removedLinkedIssue; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added artifact <a>{{timelineItem.item.artifact.id}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> added artifact <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added artifact <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -477,16 +497,16 @@
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedArtifactEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed artifact <a>{{timelineItem.removedArtifact.id}}</a>
+        <div *ngIf="!!timelineItem.item.removedLinkedIssue; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed artifact <a>{{timelineItem.item.removedArtifact.id}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed artifact <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed artifact <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -494,16 +514,16 @@
 
     <div class="timeline-panel" *ngSwitchCase="'AddedNonFunctionalConstraintEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.nonFunctionalConstraint; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> added non functional constraint <a>{{timelineItem.nonFunctionalConstraint.id}}</a>
+        <div *ngIf="!!timelineItem.item.nonFunctionalConstraint; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added non functional constraint <a>{{timelineItem.item.nonFunctionalConstraint.id}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> added non functional constraint <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added non functional constraint <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -512,16 +532,16 @@
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedNonFunctionalConstraintEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.removedNonFunctionalConstraint; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> removed non functional constraint <a>{{timelineItem.removedNonFunctionalConstraint.id}}</a>
+        <div *ngIf="!!timelineItem.item.removedNonFunctionalConstraint; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed non functional constraint <a>{{timelineItem.item.removedNonFunctionalConstraint.id}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> removed non functional constraint <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed non functional constraint <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -529,17 +549,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'AddedToComponentEvent'">
         <div class="timeline-body">
-          <div *ngIf="!!timelineItem.component; else isNull">
-            <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component
-            <a (click)="goToComponentDetails(timelineItem.component)">{{timelineItem.component.name}}</a>
+          <div *ngIf="!!timelineItem.item.component; else isNull">
+            <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to component
+            <a (click)="goToComponentDetails(timelineItem.item.component)">{{timelineItem.item.component.name}}</a>
           </div>
           <ng-template #isNull>
-            <a>{{timelineItem.createdBy.displayName}}</a> added this issue to component <a>deleted</a>
+            <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to component <a>deleted</a>
           </ng-template>
           <small class="text-muted" style="margin-left: 5px">
             <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
-            <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-              {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+            <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+              {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
             </time>
           </small>
         </div>
@@ -547,13 +567,13 @@
 
     <div class="timeline-panel" *ngSwitchCase="'CategoryChangedEvent'">
       <div class="timeline-body">
-        <a>{{timelineItem.createdBy.displayName}}</a> changed category from <a>{{timelineItem.oldCategory}}</a>
-        to <a>{{timelineItem.newCategory}}</a>
+        <a>{{timelineItem.item.createdBy.displayName}}</a> changed category from <a>{{timelineItem.item.oldCategory}}</a>
+        to <a>{{timelineItem.item.newCategory}}</a>
         <br>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-left: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
@@ -561,17 +581,17 @@
 
     <div class="timeline-panel" *ngSwitchCase="'AddedToLocationEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.location; else isNull">
-          <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location
-          <a (click)="goToLocationDetails(timelineItem.location)">{{timelineItem.location.name}}</a>
+        <div *ngIf="!!timelineItem.item.location; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to location
+          <a (click)="goToLocationDetails(timelineItem.item.location)">{{timelineItem.item.location.name}}</a>
         </div>
         <ng-template #isNull>
-          <a>{{timelineItem.createdBy.displayName}}</a> added this issue to location <a>deleted</a>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to location <a>deleted</a>
         </ng-template>
         <small class="text-muted">
           <i class="glyphicon glyphicon-time" style="margin-right: 2px"></i>
-          <time [dateTime]="timelineItem.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.createdAt)}}
+          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
           </time>
         </small>
       </div>
