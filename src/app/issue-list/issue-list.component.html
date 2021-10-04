@@ -1,15 +1,15 @@
 <div matSort matSortActive="category">
-    <div style="display: flex; align-items: flex-start">
-        <mat-form-field appearance="outline" style="flex: 1 1 auto; margin-left: 4px">
-            <mat-label>Filter</mat-label>
-            <input [formControl]="this.validationFilter" matInput (keyup)="applyFilter($event.target.value)">
-        </mat-form-field>
+  <div style="display: flex; align-items: flex-start">
+    <mat-form-field appearance="outline" style="flex: 1 1 auto; margin-left: 4px">
+      <mat-label>Filter</mat-label>
+      <input [formControl]="this.validationFilter" matInput (keyup)="applyFilter($event.target.value)">
+    </mat-form-field>
 
-        <button mat-raised-button *ngIf="this.canCreateNewIssue" color="primary"
-                (click)="this.onAddClick()" title="Create a new issue" style="margin: 4px 8px 0 8px; height: 50px">
-            Create issue
-        </button>
-    </div>
+    <button mat-raised-button *ngIf="this.canCreateNewIssue" color="primary"
+            (click)="this.onAddClick()" title="Create a new issue" style="margin: 4px 8px 0 8px; height: 50px">
+      Create issue
+    </button>
+  </div>
 
   <div class="table-container mat-elevation-z8"
        *ngIf="list$.hasData">
@@ -46,7 +46,13 @@
       <!-- category Column -->
       <ng-container matColumnDef="category">
         <th mat-header-cell mat-sort-header *matHeaderCellDef> Category</th>
-        <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.category}} </td>
+        <td mat-cell style="text-align: left" *matCellDef="let element">
+          <div style="display: flex; align-items: center">
+            <mat-icon [svgIcon]="this.formatCategoryIcon(element.category)" style="margin-right: 4px">
+            </mat-icon>
+            {{this.formatCategoryDescription(element.category)}}
+          </div>
+        </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay" (click)="this.clickedOnRow(rowData)"></tr>
