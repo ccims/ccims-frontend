@@ -1,28 +1,21 @@
 <app-query-component errorMessage="Failed to load project information">
-    <ng-template appQueryBody>
-        <div class="project-overview-container">
-            <div class="project-title-row">
-                <div class="box">
-                    <img src="https://github.com/github.png" />
-                </div>
+  <ng-template appQueryBody>
+    <div class="project-overview-container">
+      <div class="delete-button-container">
+        <app-project-header [projectName]="project.current.name" [projectId]="project.current.id">
+        </app-project-header>
+        <span style="flex: 1 1 auto"></span>
 
-                <div class="content">
-                    <p class="title">{{project.current.name}}</p>
-                    <div class="sub-sub-title">Project ID: {{project.current.id}}</div>
-                </div>
-
-                <!-- delete project button -->
-                <div class="delete-button-container">
-
-                    <button id="button" mat-raised-button (click)="deleteProject()"
-                        color="warn"> Delete </button>
-                </div>
-            </div>
-
-            <app-text-display [text]="description"
-                              [onEditFinished]="projectNameEdited"
-                              placeholder="No project description!"
-                              labelText="Project description"></app-text-display>
-        </div>
-    </ng-template>
+        <!-- delete project button -->
+        <button id="button" mat-raised-button (click)="deleteProject()" color="warn">
+          Delete
+        </button>
+      </div>
+      
+      <app-text-display [text]="description"
+                        [onEditFinished]="projectNameEdited"
+                        placeholder="No project description!"
+                        labelText="Project description"></app-text-display>
+    </div>
+  </ng-template>
 </app-query-component>

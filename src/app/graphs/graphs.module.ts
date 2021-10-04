@@ -21,8 +21,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { IssueListComponent } from '@app/issue-list/issue-list.component';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatSortModule } from '@angular/material/sort';
 import { LabelSearchComponent } from './label-search/label-search.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -42,6 +42,7 @@ import { IssueIconComponent } from '@app/components/issue-icon/issue-icon.compon
 import { MatMenuModule } from '@angular/material/menu';
 import { IssueSidebarComponent } from '@app/issue-detail/issue-sidebar.component';
 import { CacheNodeComponent } from '@app/components/cache-node.component';
+import { ProjectHeaderComponent } from '@app/project-header/project-header.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -50,12 +51,26 @@ import { CacheNodeComponent } from '@app/components/cache-node.component';
  * @class GraphsModule
  */
 @NgModule({
-  declarations: [IssueGraphComponent, IssueGraphControlsComponent,
+  declarations: [
+    IssueGraphComponent,
+    IssueGraphControlsComponent,
     IssueListComponent,
     LabelSearchComponent,
     ProjectIssueListComponent,
     ProjectMembersComponent,
-    AddProjectMemberDialogComponent, CursorPaginatorComponent, SetEditorComponent, ItemDirective, IssueLabelComponent, SetEditorDialogComponent, IssueItemComponent, UserItemComponent, IssueIconComponent, IssueSidebarComponent, CacheNodeComponent],
+    AddProjectMemberDialogComponent,
+    CursorPaginatorComponent,
+    SetEditorComponent,
+    ItemDirective,
+    IssueLabelComponent,
+    SetEditorDialogComponent,
+    IssueItemComponent,
+    UserItemComponent,
+    IssueIconComponent,
+    IssueSidebarComponent,
+    CacheNodeComponent,
+    ProjectHeaderComponent
+  ],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -103,13 +118,15 @@ import { CacheNodeComponent } from '@app/components/cache-node.component';
     UserItemComponent,
     IssueIconComponent,
     IssueSidebarComponent,
-    CursorPaginatorComponent
+    CursorPaginatorComponent,
+    ProjectHeaderComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
   ]
 })
-export class GraphsModule { }
+export class GraphsModule {
+}
