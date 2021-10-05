@@ -5,6 +5,9 @@ import DataService from '@app/data-dgql';
 import { encodeNodeId, NodeId, NodeType } from '@app/data-dgql/id';
 import { DataNode } from '@app/data-dgql/query';
 import { Subscription } from 'rxjs';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 @Component({
   selector: 'app-comment',
@@ -25,7 +28,9 @@ export class CommentComponent implements OnInit, OnDestroy {
   comment$: DataNode<IssueComment>;
   commentSub: Subscription;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService,
+              private dialog: MatDialog,
+              private notify: UserNotifyService) {}
 
   ngOnInit() {
     this.comment$ = this.dataService.getNode(this.commentId);
@@ -60,18 +65,29 @@ export class CommentComponent implements OnInit, OnDestroy {
    * Deletes the current comment.
    */
   public deleteComment(): void {
-    // Alert for confirmation
-    const confirmed = confirm('Are you sure you want to delete this?');
-    if (!confirmed) {
-      return;
-    }
-    // User confirmed deletion
-    this.dataService.mutations.deleteIssueComment(
-      Math.random().toString(),
-      encodeNodeId( {type: NodeType.Issue, id: this.issueId}),
-      // use given id or guess
-      this.commentId || encodeNodeId({ type: NodeType.IssueComment, id: this.commentId })
-    );
-  }
 
+    const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
+      {
+        data: {
+          title: 'Really delete comment ?',
+          messages: ['Are you sure you want to delete this comment ?',
+            'This action cannot be undone!']
+        }
+      });
+
+    confirmDeleteDialogRef.afterClosed().subscribe(del => {
+      if (del) {
+        // User confirmed deletion
+        this.dataService.mutations.deleteIssueComment(
+          Math.random().toString(),
+          encodeNodeId({type: NodeType.Issue, id: this.issueId}),
+          // use given id or guess
+          this.commentId || encodeNodeId({type: NodeType.IssueComment, id: this.commentId})
+        ).then(() => {
+          this.notify.notifyInfo('Successfully deleted comment');
+        });
+      }
+    },
+      error => this.notify.notifyError('Failed to delete project!', error));
+  }
 }
