@@ -172,9 +172,9 @@
 
     <div class="timeline-panel" *ngSwitchCase="'LinkEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.item.linkedIssue; else isNull">
-          <a>{{timelineItem.item.item.createdBy.displayName}}</a> linked this issue to issue
-            <app-issue-item [issue]="timelineItem.item.item.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
+        <div *ngIf="!!timelineItem.item.linkedIssue; else isNull">
+          <a>{{timelineItem.item.createdBy.displayName}}</a> linked this issue to issue
+            <app-issue-item [issue]="timelineItem.item.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.item.item.createdBy.displayName}}</a> linked this issue to deleted issue
