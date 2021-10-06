@@ -84,10 +84,10 @@ export class Mutations {
     });
   }
 
-  deleteIssueComment(id: string, comment: NodeId) {
+  deleteIssueComment(id: string, issue: NodeId, comment: NodeId) {
     return this.qs.issues.mutDeleteIssueComment(id, getRawId(comment)).then(() => {
-      this.invalidateNode(comment);
-      // FIXME: may need to invalidate timeline as well..
+      const issueNode = decodeNodeId(issue);
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
   }
 

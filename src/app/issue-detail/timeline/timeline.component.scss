@@ -88,25 +88,16 @@
     }
   }
 }
-
-.timeline-badge.primary {
-  background-color: #2e6da4 !important;
-}
-
-.timeline-badge.success {
-  background-color: #3f903f !important;
-}
-
 .timeline-badge.warning {
   background-color: #f0ad4e !important;
 }
 
-.timeline-badge.danger {
-  background-color: #d9534f !important;
+.timeline-badge.closed {
+  background-color: #ff0036 !important;
 }
 
-.timeline-badge.info {
-  background-color: #5bc0de !important;
+.timeline-badge.reopened {
+  background-color: #00ba39 !important;
 }
 
 .timeline-title {
@@ -122,3 +113,40 @@
 .timeline-body > p + p {
   margin-top: 5px;
 }
+
+.categoryIcon {
+  vertical-align: middle;
+  margin-bottom: 3px;
+}
+
+.categoryBox {
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 2px 2px 2px 2px;
+  align-items: center;
+}
+
+.component-box {
+  background-color: rgb(9, 109, 217, 0.5);
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 5px 5px 5px 5px;
+  text-align: center;
+
+  .component-text {
+    font-size: 11pt;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    color: black;
+  }
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+
+
