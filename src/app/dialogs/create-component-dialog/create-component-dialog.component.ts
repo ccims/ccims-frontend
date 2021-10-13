@@ -2,9 +2,7 @@ import {Component, Inject, Input, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {CreateComponentInput, ImsType} from 'src/generated/graphql';
-import {AuthenticationService} from '@app/auth/authentication.service';
 import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
-import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {CCIMSValidators} from '@app/utils/validators';
 import {QueryComponent} from '@app/utils/query-component/query.component';
@@ -48,9 +46,7 @@ export class CreateComponentDialogComponent {
       repositoryURL: url
     };
 
-    this.queryComponent.listenTo(this.componentStore.createComponent(input)).subscribe(() => {
-      this.dialogRef.close();
-    });
+    this.queryComponent.listenTo(this.componentStore.createComponent(input), () => this.dialogRef.close());
   }
 
   checkImsType(returnFromSelect: string): ImsType {

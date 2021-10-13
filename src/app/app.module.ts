@@ -44,8 +44,6 @@ import {CreateIssueDialogComponent} from './dialogs/create-issue-dialog/create-i
 import {NgSelectModule} from '@ng-select/ng-select';
 import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {ColorPickerModule} from 'ngx-color-picker';
-import {IssueSettingsContainerComponent} from './issue-settings-container/issue-settings-container.component';
-import {LabelSelectorComponent} from '@app/label-selector/label-selector.component';
 import {CreateEditLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-edit-label-dialog.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RemoveProjectMemberComponentComponent} from './dialogs/remove-project-member-component/remove-project-member-component.component';
@@ -64,6 +62,7 @@ import { TextDisplayComponent } from '@app/text-display/text-display.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
 import { LinkedIssueItemComponent } from '@app/issue-detail/linked-issue-item.component';
+import {ProjectHeaderComponent} from '@app/project-header/project-header.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -95,8 +94,6 @@ const toasterConfig: Partial<GlobalConfig> = {
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
     CreateIssueDialogComponent,
-    IssueSettingsContainerComponent,
-    LabelSelectorComponent,
     CreateEditLabelDialogComponent,
     RemoveProjectMemberComponentComponent,
     ComponentContextMenuComponent,

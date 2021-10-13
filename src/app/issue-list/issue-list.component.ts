@@ -1,17 +1,17 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, MatSortable } from '@angular/material/sort';
-import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
-import { LabelStoreService } from '@app/data/label/label-store.service';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort, MatSortable} from '@angular/material/sort';
+import {CreateIssueDialogComponent} from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {FormControl} from '@angular/forms';
+import {LabelStoreService} from '@app/data/label/label-store.service';
 import DataService from '@app/data-dgql';
-import { decodeListId, encodeNodeId, NodeType } from '@app/data-dgql/id';
-import { DataList, DataNode } from '@app/data-dgql/query';
-import { Component as IComponent, Issue } from '../../generated/graphql-dgql';
+import {decodeListId, encodeNodeId, NodeType} from '@app/data-dgql/id';
+import {DataList, DataNode} from '@app/data-dgql/query';
+import {Component as IComponent, Issue, IssueCategory} from '../../generated/graphql-dgql';
 
 /**
  * This component displays a sortable and filterable list of issues in a table view
@@ -45,7 +45,34 @@ export class IssueListComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private router: Router,
     private dataService: DataService
-  ) {}
+  ) {
+  }
+
+  formatCategoryIcon(category: IssueCategory): string {
+    switch (category) {
+      case IssueCategory.Bug:
+        return 'issue-bug';
+      case IssueCategory.FeatureRequest:
+        return 'issue-feature';
+      case IssueCategory.Unclassified:
+        return 'issue-uncategorized';
+    }
+
+    return 'issue-uncategorized';
+  }
+
+  formatCategoryDescription(category: IssueCategory): string {
+    switch (category) {
+      case IssueCategory.Bug:
+        return 'Bug';
+      case IssueCategory.FeatureRequest:
+        return 'Feature request';
+      case IssueCategory.Unclassified:
+        return 'Unclassified';
+    }
+
+    return 'Unknown';
+  }
 
   ngOnInit(): void {
     if (decodeListId(this.listId).node.type === NodeType.Component) {
@@ -59,7 +86,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
     this.list$.count = 25;
     this.listSub = this.list$.subscribe(data => {
       this.dataSource = new MatTableDataSource<any>(data ? [...data.values()] : []);
-      this.sort.sort(({ id: 'category', start: 'asc' }) as MatSortable);
+      this.sort.sort(({id: 'category', start: 'asc'}) as MatSortable);
       this.dataSource.sort = this.sort;
       // TODO use bespoke pagination/sorting/filtering
       // this.dataSource.paginator = this.paginator;
