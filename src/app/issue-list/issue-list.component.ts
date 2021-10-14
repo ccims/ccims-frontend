@@ -9,9 +9,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {FormControl} from '@angular/forms';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import DataService from '@app/data-dgql';
-import {decodeListId, encodeNodeId, NodeType} from '@app/data-dgql/id';
+import {decodeListId, encodeListId, encodeNodeId, ListId, ListType, NodeType} from '@app/data-dgql/id';
 import {DataList, DataNode} from '@app/data-dgql/query';
-import {Component as IComponent, Issue, IssueCategory} from '../../generated/graphql-dgql';
+import {Component as IComponent, Issue, IssueCategory, IssueFilter} from '../../generated/graphql-dgql';
 
 /**
  * This component displays a sortable and filterable list of issues in a table view
@@ -26,11 +26,12 @@ export class IssueListComponent implements OnInit, OnDestroy {
   @Input() listId: string;
   @Input() projectId: string;
   public queryParamFilter = '';
-  public list$?: DataList<Issue, unknown>;
+  public list$?: DataList<Issue, IssueFilter>;
   private listSub?: Subscription;
   public component$?: DataNode<IComponent>;
   private componentSub?: Subscription;
   public canCreateNewIssue = false; // TODO remove this; use proper logic
+  public allLabelsList: ListId;
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
   searchIssuesDataArray: any;
@@ -82,6 +83,11 @@ export class IssueListComponent implements OnInit, OnDestroy {
       this.componentSub = this.component$.subscribe();
     }
 
+    this.allLabelsList = encodeListId({
+      node: { type: NodeType.Project, id: this.projectId },
+      type: ListType.Labels
+    });
+
     this.list$ = this.dataService.getList(this.listId);
     this.list$.count = 25;
     this.listSub = this.list$.subscribe(data => {
@@ -117,10 +123,8 @@ export class IssueListComponent implements OnInit, OnDestroy {
     return returnedFilter;
   }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(filter: IssueFilter) {
+    this.list$.filter = filter;
   }
 
   clickedOnRow(row: any) {

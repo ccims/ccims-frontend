@@ -1,0 +1,68 @@
+<div class="filter-box">
+    <div class="search-box">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search</mat-label>
+            <input matInput [(ngModel)]="searchQuery" (keyup)="update()" />
+        </mat-form-field>
+        <button mat-button class="pred-add" (click)="addPredicateAfter(-1)" *ngIf="!activePredicates.length">
+            <mat-icon>filter_list</mat-icon>
+        </button>
+    </div>
+
+    <div class="filter-predicates" *ngIf="activePredicates.length">
+        <div class="filter-title">
+            Filter
+        </div>
+        <div class="filter-predicate" *ngFor="let id of activePredicates; index as idx">
+            <div class="predicate-type">
+                <mat-form-field appearance="outline" class="predicate-type-selector">
+                    <mat-select [value]="id" (selectionChange)="setPredicateType(idx, $event.value)">
+                        <mat-option *ngFor="let type of getRemainingTypes(idx)" [value]="type">
+                            {{predicates[type].label}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="predicate-value" [ngSwitch]="predicates[id].type">
+
+                <!-- FILTER VALUES -->
+
+                <ng-container *ngSwitchCase="'bool'">
+                    <mat-button-toggle-group class="bool-value" [(ngModel)]="predicateValues[id]" (ngModelChange)="update()">
+                        <mat-button-toggle [value]="true">
+                            Yes
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="false">
+                            No
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </ng-container>
+                <ng-container *ngSwitchCase="'labels'">
+                    <app-set-editor
+                        [listSet]="predicateValues[id]"
+                        [listAll]="allLabelsList"
+                        [scoreKeys]="['name']"
+                        [makeFilter]="makeLabelFilter"
+                        [applyChangeset]="applyLabelsChangeset">
+                        <span title>Labels</span>
+                        <span if-empty>No labels selected</span>
+                        <ng-container *appItem="let item">
+                            <app-issue-label [label]="item"></app-issue-label>
+                        </ng-container>
+                    </app-set-editor>
+                </ng-container>
+
+                <!-- -------------------- -->
+
+            </div>
+            <div class="predicate-mgmt">
+                <button mat-button class="pred-remove" (click)="removePredicateAt(idx)">
+                    <mat-icon>remove</mat-icon>
+                </button>
+                <button mat-button class="pred-add" (click)="addPredicateAfter(idx)" *ngIf="activePredicates.length < predicateCount">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
