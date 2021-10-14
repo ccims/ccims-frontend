@@ -5,7 +5,7 @@ import { IssueCategory } from '../../../generated/graphql';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
 import { CCIMSValidators } from '@app/utils/validators';
 import { CreateIssueInput } from '../../../generated/graphql-dgql';
-import { encodeNodeId, getRawId, NodeType } from '@app/data-dgql/id';
+import { decodeListId, encodeNodeId, getRawId, NodeType } from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
 import { LocalIssueData } from '@app/issue-detail/issue-sidebar.component';
 
@@ -45,7 +45,10 @@ export class CreateIssueDialogComponent implements OnInit {
     this.category.setValue(IssueCategory.Unclassified);
 
     for (const componentId of this.data.components) {
-      this.issueData.components.push(componentId);
+      if (decodeListId(componentId).node.type === NodeType.Component) {
+        this.issueData.components.push(componentId);
+      }
+      
       this.issueData.locations.push(componentId);
     }
   }

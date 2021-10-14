@@ -11,7 +11,7 @@ import {LabelStoreService} from '@app/data/label/label-store.service';
 import DataService from '@app/data-dgql';
 import {decodeListId, encodeNodeId, NodeType} from '@app/data-dgql/id';
 import {DataList, DataNode} from '@app/data-dgql/query';
-import {Component as IComponent, Issue, IssueCategory} from '../../generated/graphql-dgql';
+import {Component as IComponent, ComponentInterface as IComponentInterface, Issue, IssueCategory} from '../../generated/graphql-dgql';
 
 /**
  * This component displays a sortable and filterable list of issues in a table view
@@ -28,8 +28,13 @@ export class IssueListComponent implements OnInit, OnDestroy {
   public queryParamFilter = '';
   public list$?: DataList<Issue, unknown>;
   private listSub?: Subscription;
+
   public component$?: DataNode<IComponent>;
   private componentSub?: Subscription;
+  
+  public componentInterface$?: DataNode<IComponentInterface>;
+  private componentInterfaceSub?: Subscription;
+  
   public canCreateNewIssue = false; // TODO remove this; use proper logic
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
@@ -80,6 +85,10 @@ export class IssueListComponent implements OnInit, OnDestroy {
       this.canCreateNewIssue = true;
       this.component$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
       this.componentSub = this.component$.subscribe();
+    } else if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
+      this.canCreateNewIssue = true;
+      this.componentInterface$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
+      this.componentInterfaceSub = this.componentInterface$.subscribe();
     }
 
     this.list$ = this.dataService.getList(this.listId);
@@ -99,6 +108,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.listSub.unsubscribe();
     this.componentSub?.unsubscribe();
+    this.componentInterfaceSub?.unsubscribe();
   }
 
   // if the query param filter is set, the list shows only issues, that belong to the given keyword
@@ -161,15 +171,34 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   // opens a create issue dialog
   onAddClick() {
+
     // TODO don't do this here. we want this component to be reusable as a list
-    this.dialog.open(CreateIssueDialogComponent,
-      {
-        data: {
-          projectId: this.projectId,
-          components: [this.component$.id],
-        },
-        width: '600px'
-      });
+    if (decodeListId(this.listId).node.type === NodeType.Component) {
+      console.log('This is a component');
+
+      this.dialog.open(CreateIssueDialogComponent,
+        {
+          data: {
+            projectId: this.projectId,
+            components: [this.component$.id]
+          },
+          width: '600px'
+        });
+
+    } else if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
+      console.log('This is an interface');
+
+      this.dialog.open(CreateIssueDialogComponent,
+        {
+          data: {
+            projectId: this.projectId,
+            // components: [this.componentInterface$.id]
+          },
+          width: '600px'
+        });
+
+    }
+
   }
 }
 
