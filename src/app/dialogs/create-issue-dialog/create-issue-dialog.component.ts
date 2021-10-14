@@ -5,7 +5,7 @@ import { IssueCategory } from '../../../generated/graphql';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
 import { CCIMSValidators } from '@app/utils/validators';
 import { CreateIssueInput } from '../../../generated/graphql-dgql';
-import { decodeListId, encodeNodeId, getRawId, NodeType } from '@app/data-dgql/id';
+import { encodeNodeId, getRawId, NodeType } from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
 import { LocalIssueData } from '@app/issue-detail/issue-sidebar.component';
 
@@ -15,8 +15,7 @@ import { LocalIssueData } from '@app/issue-detail/issue-sidebar.component';
   styleUrls: ['./create-issue-dialog.component.scss']
 })
 /**
- * This component opens a dialog for the issue creation
- *
+ * This component opens a dialog for the issue creation.
  */
 export class CreateIssueDialogComponent implements OnInit {
   @ViewChild('body') body;
@@ -27,9 +26,11 @@ export class CreateIssueDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<CreateIssueDialogComponent>,
               private dataService: DataService,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private notify: UserNotifyService) {}
+              private notify: UserNotifyService
+  ) {
+  }
 
-  // create form controls for the form fields
+  // form controls for the form fields
   title = new FormControl('', [CCIMSValidators.nameValidator, Validators.required]);
   category = new FormControl('', [Validators.required]);
 
@@ -44,11 +45,24 @@ export class CreateIssueDialogComponent implements OnInit {
   ngOnInit(): void {
     this.category.setValue(IssueCategory.Unclassified);
 
+    // updates items to be selected
+    this.updateSelectedItems();
+  }
+
+  /**
+   * Updates items to be selected in the Create Issue page,
+   * including 1) components and 2) locations.
+   */
+  private updateSelectedItems() {
+
+    // updates components
     for (const componentId of this.data.components) {
-      if (decodeListId(componentId).node.type === NodeType.Component) {
-        this.issueData.components.push(componentId);
-      }
-      
+      this.issueData.components.push(componentId);
+      this.issueData.locations.push(componentId);
+    }
+
+    // updates locations
+    for (const componentId of this.data.locations) {
       this.issueData.locations.push(componentId);
     }
   }
@@ -95,9 +109,13 @@ export class CreateIssueDialogComponent implements OnInit {
   }
 }
 
-// interface that defines what data is injected to the dialog
+/**
+ * Interface that defines what data is injected to the dialog.
+ */
 export interface DialogData {
-  /** Initial state of the issue's component list. */
-  components: string[];
   projectId: string;
+  // initial state of the issue's component list
+  components: string[];
+  // initial state of the issue's location list
+  locations: string[];
 }

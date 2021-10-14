@@ -3,19 +3,19 @@
 
   <div style="display: flex; align-items: flex-start">
 
-    <!--1. Filter field-->
+    <!--1) Filter field-->
     <mat-form-field appearance="outline" style="flex: 1 1 auto; margin-left: 4px">
       <mat-label>Filter</mat-label>
       <input [formControl]="this.validationFilter" matInput (keyup)="applyFilter($event.target.value)">
     </mat-form-field>
 
-    <!--2. Create Issue button-->
+    <!--2) Create Issue button-->
     <button mat-raised-button *ngIf="this.canCreateNewIssue" color="primary"
             (click)="this.onAddClick()" title="Create a new issue" 
             style="margin: 4px 8px 0 8px; height: 50px">Create Issue</button>
   </div>
 
-  <!--3. Issues of the given component / interface-->
+  <!--3) Issues of the given component / interface-->
   <div class="table-container mat-elevation-z8" *ngIf="list$.hasData">
     <table mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource"
            aria-label="This table shows all issues of the given component or interface.">
