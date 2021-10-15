@@ -11,7 +11,7 @@ import {LabelStoreService} from '@app/data/label/label-store.service';
 import DataService from '@app/data-dgql';
 import {decodeListId, encodeListId, encodeNodeId, ListId, ListType, NodeType} from '@app/data-dgql/id';
 import {DataList, DataNode} from '@app/data-dgql/query';
-import {Component as IComponent, Issue, IssueCategory, IssueFilter} from '../../generated/graphql-dgql';
+import { Component as IComponent, ComponentInterface, Issue, IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
 
 /**
  * This component displays a sortable and filterable list of issues in a table view
@@ -76,6 +76,11 @@ export class IssueListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.allLabelsList = encodeListId({
+      node: decodeListId(this.listId).node,
+      type: ListType.Labels
+    });
+
     if (decodeListId(this.listId).node.type === NodeType.Component) {
       // FIXME remove this / needed for + button
       this.canCreateNewIssue = true;
@@ -83,10 +88,16 @@ export class IssueListComponent implements OnInit, OnDestroy {
       this.componentSub = this.component$.subscribe();
     }
 
-    this.allLabelsList = encodeListId({
-      node: { type: NodeType.Project, id: this.projectId },
-      type: ListType.Labels
-    });
+    // FIXME: a hack to fix the labels list on interfaces
+    if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
+      const interfaceNode = this.dataService.getNode<ComponentInterface>(encodeNodeId(decodeListId(this.listId).node));
+      interfaceNode.dataAsPromise().then(data => {
+        this.allLabelsList = encodeListId({
+          node: { type: NodeType.Component, id: data.component.id },
+          type: ListType.Labels
+        });
+      });
+    }
 
     this.list$ = this.dataService.getList(this.listId);
     this.list$.count = 25;

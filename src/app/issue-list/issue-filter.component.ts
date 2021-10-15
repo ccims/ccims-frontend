@@ -1,18 +1,84 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IssueFilter, LabelFilter } from '../../generated/graphql-dgql';
-import { decodeNodeId, ListId } from '@app/data-dgql/id';
+import { IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
+import { decodeNodeId, encodeListId, ListId, ListType, NodeType, ROOT_NODE } from '@app/data-dgql/id';
+
+const listAllIssues = (self: IssueFilterComponent) => encodeListId({
+  node: { type: NodeType.Project, id: self.projectId },
+  type: ListType.Issues
+});
 
 const PREDICATES = {
   isOpen: { type: 'bool', label: 'Is open' },
   isDuplicate: { type: 'bool', label: 'Is duplicate' },
-  labels: { type: 'labels', label: 'Labels' },
+  category: {
+    type: 'enum',
+    label: 'Category',
+    options: [
+      [IssueCategory.Unclassified, 'Unclassified'],
+      [IssueCategory.Bug, 'Bug'],
+      [IssueCategory.FeatureRequest, 'Feature Request']
+    ]
+  },
+  labels: {
+    type: 'ids',
+    label: 'Labels',
+    dataType: 'label',
+    scoreKeys: ['name'],
+    listAll: (self: IssueFilterComponent) => self.allLabelsList,
+    makeFilter: (query: string) => ({ name: query }),
+    ifEmpty: 'No labels selected',
+  },
+  linksIssues: { type: 'bool', label: 'Has linked issues' },
+  linkedIssues: {
+    type: 'ids',
+    label: 'Linked issues',
+    dataType: 'issue',
+    scoreKeys: ['title'],
+    listAll: listAllIssues,
+    makeFilter: (query: string) => ({ title: query }),
+    ifEmpty: 'No issues selected',
+  },
+  isLinkedByIssues: { type: 'bool', label: 'Is linked by issues' },
+  linkedByIssues: {
+    type: 'ids',
+    label: 'Linked by issues',
+    dataType: 'issue',
+    scoreKeys: ['title'],
+    listAll: listAllIssues,
+    makeFilter: (query: string) => ({ title: query }),
+    ifEmpty: 'No issues selected',
+  },
+  participants: {
+    type: 'ids',
+    label: 'Participants',
+    dataType: 'user',
+    scoreKeys: ['username', 'displayName'],
+    listAll: () => encodeListId({ node: ROOT_NODE, type: ListType.SearchUsers }),
+    makeFilter: (query: string) => ({ username: query }),
+    ifEmpty: 'No users selected',
+  },
+  locations: {
+    type: 'ids',
+    label: 'Locations',
+    dataType: 'location',
+    scoreKeys: ['name'],
+    listAll: (self: IssueFilterComponent) => ({
+      staticSources: [
+        encodeListId({ node: { type: NodeType.Project, id: self.projectId }, type: ListType.Components }),
+        encodeListId({ node: { type: NodeType.Project, id: self.projectId }, type: ListType.ComponentInterfaces }),
+      ]
+    }),
+    makeFilter: (query: string) => ({ title: query }),
+    ifEmpty: 'No locations selected',
+  },
 };
 
 function getDefaultForType(type: string) {
   switch (type) {
     case 'bool':
       return true;
-    case 'labels':
+    case 'enum':
+    case 'ids':
       return [];
     default:
       throw new Error(`unknown type ${type}`);
@@ -21,7 +87,7 @@ function getDefaultForType(type: string) {
 
 function convertValueForFilter(type: string, value: any) {
   switch (type) {
-    case 'labels':
+    case 'ids':
       return value.map(item => decodeNodeId(item).id);
     default:
       return value;
@@ -34,6 +100,7 @@ function convertValueForFilter(type: string, value: any) {
   styleUrls: ['./issue-filter.component.scss']
 })
 export class IssueFilterComponent {
+  @Input() projectId: string;
   @Input() allLabelsList: ListId;
   @Output() filterChange = new EventEmitter<IssueFilter>();
 
@@ -86,17 +153,26 @@ export class IssueFilterComponent {
     this.update();
   }
 
-  applyLabelsChangeset = async (added, removed) => {
-    for (const item of added) {
-      this.predicateValues.labels.push(item);
+  setInEnumArray(array, item, inArray) {
+    if (inArray && !array.includes(item)) {
+      array.push(item);
     }
-    for (const item of removed) {
-      this.predicateValues.labels.splice(this.predicateValues.labels.indexOf(item), 1);
+    if (!inArray && array.includes(item)) {
+      array.splice(array.indexOf(item), 1);
     }
     this.update();
   }
-  makeLabelFilter(search): LabelFilter {
-    return { name: search };
+
+  applyIdChangeset(id) {
+    return async (added, removed) => {
+      for (const item of added) {
+        this.predicateValues[id].push(item);
+      }
+      for (const item of removed) {
+        this.predicateValues[id].splice(this.predicateValues[id].indexOf(item), 1);
+      }
+      this.update();
+    };
   }
 
   buildFilter(): IssueFilter {
@@ -107,7 +183,6 @@ export class IssueFilterComponent {
     for (const id of this.activePredicates) {
       filter[id] = convertValueForFilter(PREDICATES[id].type, this.predicateValues[id]);
     }
-    console.log('[DBG] built filter', filter);
     return filter;
   }
 

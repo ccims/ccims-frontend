@@ -37,17 +37,41 @@
                         </mat-button-toggle>
                     </mat-button-toggle-group>
                 </ng-container>
-                <ng-container *ngSwitchCase="'labels'">
+                <ng-container *ngSwitchCase="'enum'">
+                    <mat-button-toggle-group class="enum-value" multiple>
+                        <mat-button-toggle
+                            *ngFor="let entry of predicates[id].options"
+                            [checked]="predicateValues[id].includes(entry[0])"
+                            (change)="setInEnumArray(predicateValues[id], entry[0], $event.source.checked)"
+                            [value]="entry[0]">
+                            {{entry[1]}}
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </ng-container>
+                <ng-container *ngSwitchCase="'ids'">
                     <app-set-editor
                         [listSet]="predicateValues[id]"
-                        [listAll]="allLabelsList"
-                        [scoreKeys]="['name']"
-                        [makeFilter]="makeLabelFilter"
-                        [applyChangeset]="applyLabelsChangeset">
-                        <span title>Labels</span>
-                        <span if-empty>No labels selected</span>
-                        <ng-container *appItem="let item">
-                            <app-issue-label [label]="item"></app-issue-label>
+                        [listAll]="predicates[id].listAll(this)"
+                        [scoreKeys]="predicates[id].scoreKeys"
+                        [makeFilter]="predicates[id].makeFilter"
+                        [applyChangeset]="applyIdChangeset(id)">
+                        <span title>{{predicates[id].label}}</span>
+                        <span if-empty>{{predicates[id].ifEmpty}}</span>
+                        <ng-container *appItem="let item" [ngSwitch]="predicates[id].dataType">
+                            <app-issue-label *ngSwitchCase="'label'" [label]="item"></app-issue-label>
+                            <app-issue-item *ngSwitchCase="'issue'" [projectId]="projectId" [issue]="item"></app-issue-item>
+                            <app-user-item *ngSwitchCase="'user'" [user]="item"></app-user-item>
+                            <ng-container *ngSwitchCase="'location'">
+                                <div *ngIf="item.__typename === 'Component'">
+                                    {{item.name}}
+                                </div>
+                                <div *ngIf="item.__typename === 'ComponentInterface'">
+                                    <span class="location-containing-component-name" *ngIf="!!item.component">
+                                        {{item.component.name}} ›
+                                    </span>
+                                    {{item.name}}
+                                </div>
+                            </ng-container>
                         </ng-container>
                     </app-set-editor>
                 </ng-container>
