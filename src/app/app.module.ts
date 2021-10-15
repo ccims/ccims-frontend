@@ -63,6 +63,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
 import { LinkedIssueItemComponent } from '@app/issue-detail/linked-issue-item.component';
 import {ProjectHeaderComponent} from '@app/project-header/project-header.component';
+import { SettingsDialogComponent } from './dialogs/settings-dialog/settings-dialog.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -90,6 +91,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     FrameComponent,
     RegisterComponent,
     CreateProjectDialogComponent,
+    SettingsDialogComponent,
     RemoveDialogComponent,
     CreateComponentDialogComponent,
     CreateInterfaceDialogComponent,
