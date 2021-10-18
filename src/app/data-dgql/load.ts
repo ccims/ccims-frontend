@@ -24,7 +24,6 @@ type NodeQueries = {
 const nodeQueries: NodeQueries = {
   [NodeType.Project]: (i, id) => i.q.projects.getProject(id).then(data => data.node),
   [NodeType.Component]: (i, id) => i.q.components.getComponent(id).then(data => data.node),
-  [NodeType.ComponentInterface]: (i, id) => i.q.components.getInterface(id).then(data => data.node),
   [NodeType.Issue]: (i, id) => i.q.issues.getIssueHeader(id).then(data => data.node),
   [NodeType.User]: (i, id) => id === CURRENT_USER_NODE.id
     ? i.q.users.currentUser().then(data => data.currentUser)

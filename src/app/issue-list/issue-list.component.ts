@@ -9,9 +9,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {FormControl} from '@angular/forms';
 import {LabelStoreService} from '@app/data/label/label-store.service';
 import DataService from '@app/data-dgql';
-import {decodeListId, encodeListId, encodeNodeId, ListId, ListType, NodeType} from '@app/data-dgql/id';
+import {decodeListId, encodeNodeId, NodeType} from '@app/data-dgql/id';
 import {DataList, DataNode} from '@app/data-dgql/query';
-import { Component as IComponent, ComponentInterface, Issue, IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
+import {Component as IComponent, Issue, IssueCategory} from '../../generated/graphql-dgql';
 
 /**
  * This component displays a sortable and filterable list of issues in a table view
@@ -26,12 +26,11 @@ export class IssueListComponent implements OnInit, OnDestroy {
   @Input() listId: string;
   @Input() projectId: string;
   public queryParamFilter = '';
-  public list$?: DataList<Issue, IssueFilter>;
+  public list$?: DataList<Issue, unknown>;
   private listSub?: Subscription;
   public component$?: DataNode<IComponent>;
   private componentSub?: Subscription;
   public canCreateNewIssue = false; // TODO remove this; use proper logic
-  public allLabelsList: ListId;
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
   searchIssuesDataArray: any;
@@ -76,27 +75,11 @@ export class IssueListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.allLabelsList = encodeListId({
-      node: decodeListId(this.listId).node,
-      type: ListType.Labels
-    });
-
     if (decodeListId(this.listId).node.type === NodeType.Component) {
       // FIXME remove this / needed for + button
       this.canCreateNewIssue = true;
       this.component$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
       this.componentSub = this.component$.subscribe();
-    }
-
-    // FIXME: a hack to fix the labels list on interfaces
-    if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
-      const interfaceNode = this.dataService.getNode<ComponentInterface>(encodeNodeId(decodeListId(this.listId).node));
-      interfaceNode.dataAsPromise().then(data => {
-        this.allLabelsList = encodeListId({
-          node: { type: NodeType.Component, id: data.component.id },
-          type: ListType.Labels
-        });
-      });
     }
 
     this.list$ = this.dataService.getList(this.listId);
@@ -134,8 +117,10 @@ export class IssueListComponent implements OnInit, OnDestroy {
     return returnedFilter;
   }
 
-  applyFilter(filter: IssueFilter) {
-    this.list$.filter = filter;
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   clickedOnRow(row: any) {
