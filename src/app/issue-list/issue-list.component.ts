@@ -8,9 +8,9 @@ import {CreateIssueDialogComponent} from '@app/dialogs/create-issue-dialog/creat
 import {MatDialog} from '@angular/material/dialog';
 import {FormControl} from '@angular/forms';
 import DataService from '@app/data-dgql';
-import {decodeListId, encodeNodeId, NodeType} from '@app/data-dgql/id';
+import {decodeListId, encodeListId, encodeNodeId, ListId, ListType, NodeType} from '@app/data-dgql/id';
 import {DataList, DataNode} from '@app/data-dgql/query';
-import {Component as IComponent, ComponentInterface as IComponentInterface, Issue, IssueCategory} from '../../generated/graphql-dgql';
+import { Component as IComponent, ComponentInterface, Issue, IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 
 /**
@@ -27,7 +27,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
   @Input() listId: string;
   @Input() projectId: string;
   public queryParamFilter = '';
-  public list$?: DataList<Issue, unknown>;
+  public list$?: DataList<Issue, IssueFilter>;
   private listSub?: Subscription;
 
   // component that is observed
@@ -35,7 +35,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
   private componentSub?: Subscription;
   
   // interface that is obesrved
-  public componentInterface$?: DataNode<IComponentInterface>;
+  public componentInterface$?: DataNode<ComponentInterface>;
   private componentInterfaceSub?: Subscription;
 
   // provider of the interface that is observed
@@ -44,6 +44,8 @@ export class IssueListComponent implements OnInit, OnDestroy {
   // determines whether one can create new issues from a given component / interface page
   // FIXME remove and use proper logic instead
   public canCreateNewIssue = false;
+
+  public allLabelsList: ListId;
 
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['title', 'author', 'assignees', 'labels', 'category'];
@@ -96,15 +98,16 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    // case: node is a component
+    this.allLabelsList = encodeListId({
+      node: decodeListId(this.listId).node,
+      type: ListType.Labels
+    });
+
     if (decodeListId(this.listId).node.type === NodeType.Component) {
       this.canCreateNewIssue = true;
       this.component$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
       this.componentSub = this.component$.subscribe();
-    }
-
-    // case: node is an interface
-    else if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
+    } else if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
       this.canCreateNewIssue = true;
       this.componentInterface$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
       this.componentInterfaceSub = this.componentInterface$.subscribe();
@@ -113,6 +116,17 @@ export class IssueListComponent implements OnInit, OnDestroy {
         {
           this.componentInterfaceProvider = "Component/" + data.node.component.id;
         });
+    }
+
+    // FIXME: a hack to fix the labels list on interfaces
+    if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
+      const interfaceNode = this.dataService.getNode<ComponentInterface>(encodeNodeId(decodeListId(this.listId).node));
+      interfaceNode.dataAsPromise().then(data => {
+        this.allLabelsList = encodeListId({
+          node: { type: NodeType.Component, id: data.component.id },
+          type: ListType.Labels
+        });
+      });
     }
 
     this.list$ = this.dataService.getList(this.listId);
@@ -160,20 +174,13 @@ export class IssueListComponent implements OnInit, OnDestroy {
       });
     return returnedFilter;
   }
-
+  
   /**
    * Applies a given filter.
-   * @param  {string} filterValue - Given filter to be applied.
+   * @param  {IssueFilter} filter - Given filter to be applied.
    */
-  applyFilter(filterValue: string) {
-
-    // removes whitespace
-    filterValue = filterValue.trim();
-
-    // MatTableDataSource defaults to lowercase matches
-    filterValue = filterValue.toLowerCase();
-
-    this.dataSource.filter = filterValue;
+  applyFilter(filter: IssueFilter) {
+    this.list$.filter = filter;
   }
 
   /**

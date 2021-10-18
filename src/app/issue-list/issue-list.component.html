@@ -1,18 +1,19 @@
 <!--Component / Interface Issues information displayed on a specific Component / Interface page-->
 <div matSort matSortActive="category">
 
-  <div style="display: flex; align-items: flex-start">
+  <!--1) Filter field-->
+  <app-issue-filter
+      [projectId]="projectId"
+      [allLabelsList]="allLabelsList"
+      (filterChange)="applyFilter($event)">
+  </app-issue-filter>
 
-    <!--1) Filter field-->
-    <mat-form-field appearance="outline" style="flex: 1 1 auto; margin-left: 4px">
-      <mat-label>Filter</mat-label>
-      <input [formControl]="this.validationFilter" matInput (keyup)="applyFilter($event.target.value)">
-    </mat-form-field>
-
-    <!--2) Create Issue button-->
-    <button mat-raised-button *ngIf="this.canCreateNewIssue" color="primary"
-            (click)="this.onAddClick()" title="Create a new issue" 
-            style="margin: 4px 8px 0 8px; height: 50px">Create Issue</button>
+  <!--2) Create Issue button-->
+  <div style="display: flex; justify-content: flex-end">
+      <button mat-raised-button *ngIf="this.canCreateNewIssue" color="primary"
+              (click)="this.onAddClick()" title="Create a new issue" style="margin: 4px 8px 0 8px; height: 50px">
+          Create issue
+      </button>
   </div>
 
   <!--3) Issues of the given component / interface-->
