@@ -9,9 +9,9 @@
   </app-issue-filter>
 
   <!--2) Create Issue button-->
-  <div style="display: flex; justify-content: flex-end">
+  <div style="display: flex; justify-content: flex-start">
       <button mat-raised-button *ngIf="this.canCreateNewIssue" color="primary"
-              (click)="this.onAddClick()" title="Create a new issue" style="margin: 4px 8px 0 8px; height: 50px">
+              (click)="this.onAddClick()" title="Create a new issue" style="margin: 4px 8px 16px 8px; height: 50px">
           Create issue
       </button>
   </div>
