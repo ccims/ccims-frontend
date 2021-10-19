@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
+  GetBasicComponentQuery,
   GetComponentQuery,
   GetInterfaceQuery,
   UpdateComponentInput,
@@ -38,7 +39,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
 
   Type = NodeDetailsType;
   issueListId: string;
-  component: GetComponentQuery;
+  component: GetBasicComponentQuery;
   interface: GetInterfaceQuery;
   saveFailed: boolean;
   editMode: boolean;
