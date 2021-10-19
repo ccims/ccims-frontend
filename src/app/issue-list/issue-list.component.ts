@@ -11,7 +11,6 @@ import DataService from '@app/data-dgql';
 import {decodeListId, encodeListId, encodeNodeId, ListId, ListType, NodeType} from '@app/data-dgql/id';
 import {DataList, DataNode} from '@app/data-dgql/query';
 import { Component as IComponent, ComponentInterface, Issue, IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
-import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 
 /**
  * This component shows all issues for a given component / interface.
@@ -59,8 +58,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private router: Router,
-    private dataService: DataService,
-    private interfaceStoreService: InterfaceStoreService
+    private dataService: DataService
   ) {
   }
   
@@ -112,9 +110,9 @@ export class IssueListComponent implements OnInit, OnDestroy {
       this.componentInterface$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
       this.componentInterfaceSub = this.componentInterface$.subscribe();
 
-      this.interfaceStoreService.getInterface(decodeListId(this.listId).node.id).subscribe(data => 
+      this.componentInterface$.dataAsPromise().then(data =>
         {
-          this.componentInterfaceProvider = "Component/" + data.node.component.id;
+          this.componentInterfaceProvider = "Component/" + data.component.id;
         });
     }
 
