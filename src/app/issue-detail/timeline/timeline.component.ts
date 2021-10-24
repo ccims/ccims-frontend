@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {IssueTimelineItem} from '../../../generated/graphql-dgql';
 import {DataList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import {encodeListId, encodeNodeId, ListType, NodeType} from '@app/data-dgql/id';
+import { ListType, NodeId, NodeType } from '@app/data-dgql/id';
 
 export interface CoalescedTimelineItem {
   user: string;
@@ -40,11 +40,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   requestTimelineItems(): void {
-    // Get observeable with all timelineitems for current issue
-    this.timelineItems$ = this.dataService.getList(encodeListId({
+    // Get observable with all timeline items for current issue
+    this.timelineItems$ = this.dataService.getList({
       node: {type: NodeType.Issue, id: this.issueId},
       type: ListType.TimelineItems
-    }));
+    });
     this.timelineItems$.count = 99999; // FIXME?
 
     this.timelineItemsSub = this.timelineItems$.subscribe(value => {
@@ -143,7 +143,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   /**
    * Checks if user self assigned this issue for text representation
-   * @param timelineItem
+   * @param assignedEvent
    */
   selfAssigned(assignedEvent): boolean {
     if (assignedEvent.createdBy.id === assignedEvent.removedAssignee?.id) {
@@ -154,8 +154,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  makeCommentId(node) {
-    return encodeNodeId({type: NodeType.IssueComment, id: node.id});
+  makeCommentId(node): NodeId {
+    return {type: NodeType.IssueComment, id: node.id};
   }
 
   goToComponentDetails(component) {

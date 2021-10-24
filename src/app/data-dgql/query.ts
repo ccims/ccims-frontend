@@ -1,5 +1,13 @@
 import { Observable, Subscriber } from 'rxjs';
-import { encodeNodeId, ListId, ListParams, NodeId, nodeTypeFromTypename, QueryNodeId } from './id';
+import {
+  decodeNodeId,
+  encodeNodeId,
+  ListId,
+  ListParams,
+  NodeId,
+  NodeIdEnc,
+  nodeTypeFromTypename,
+} from './id';
 import { QueriesService } from './queries/queries.service';
 import { ListResult, queryList, queryNode } from './load';
 import { PageInfo } from '../../generated/graphql-dgql';
@@ -15,8 +23,8 @@ const CACHE_STALE_TIME_MS = 5000;
  * @typeParam R - type returned by innerQueryFn
  * @typeParam P - parameter type for innerQueryFn
  */
-export class DataQuery<T, R, P> extends Observable<T> {
-  id: QueryNodeId;
+export class DataQuery<I, T, R, P> extends Observable<T> {
+  id: I;
   loading = false; // TODO: maybe make this value observable too?
   protected currentData?: T;
   protected lastLoadTime = 0;
@@ -42,7 +50,7 @@ export class DataQuery<T, R, P> extends Observable<T> {
   }
 
   protected subscribers: Set<Subscriber<T>> = new Set();
-  protected innerQueryFn: (id: QueryNodeId, p: P) => Promise<R>;
+  protected innerQueryFn: (id: I, p: P) => Promise<R>;
   protected innerMapFn: (r: R) => T;
   protected stateLock = 0;
   protected loadTimeout = null;
@@ -57,7 +65,7 @@ export class DataQuery<T, R, P> extends Observable<T> {
    * @param query the inner query function
    * @param map maps returned data from the query R to usable data T
    */
-  constructor(id: QueryNodeId, query: (id: QueryNodeId, p: P) => Promise<R>, map: (r: R) => T) {
+  constructor(id: I, query: (id: I, p: P) => Promise<R>, map: (r: R) => T) {
     super(subscriber => {
       this.addSubscriber(subscriber, this.isNextSubLazy);
       this.isNextSubLazy = false;
@@ -201,7 +209,7 @@ const identity = id => id;
 /**
  * A cacheable node with no parameters.
  */
-export class DataNode<T> extends DataQuery<T, T, void> {
+export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
   constructor(queries: QueriesService, id: NodeId) {
     super(id, queryNode(queries), identity);
   }
@@ -220,7 +228,7 @@ export class DataNode<T> extends DataQuery<T, T, void> {
 /**
  * Loads a list of items. Note that the Map is making use of ordered keys.
  */
-export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, ListParams<F>> {
+export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListResult<T>, ListParams<F>> {
   private pCursor?: NodeId;
   private pCount = 10;
   private pFilter?: F;
@@ -305,7 +313,8 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
   }
 
   get firstPageItemId(): NodeId | null {
-    return this.current ? this.current.keys().next()?.value || null : null;
+    const firstKey = this.current ? this.current.keys().next()?.value || null : null;
+    return firstKey ? decodeNodeId(firstKey) : null;
   }
 
   get lastPageItemId(): NodeId | null {
@@ -313,7 +322,11 @@ export class DataList<T, F> extends DataQuery<Map<NodeId, T>, ListResult<T>, Lis
       return;
     }
     const keys = [...this.current.keys()];
-    return keys[keys.length - 1] || null;
+    return keys[keys.length - 1] ? decodeNodeId(keys[keys.length - 1]) : null;
+  }
+
+  currentHasNode(key: NodeId): boolean {
+    return this.current?.has(encodeNodeId(key));
   }
 
   get hasPrevPage() {
@@ -374,19 +387,21 @@ export type HydrateList<T> = {
 
 export class NodeCache {
   // TODO: garbage collection?
-  nodes: Map<NodeId, DataNode<unknown>> = new Map();
+  nodes: Map<NodeIdEnc, DataNode<unknown>> = new Map();
 
   constructor(private queries: QueriesService) {}
 
   private createNode(id: NodeId) {
-    this.nodes.set(id, new DataNode(this.queries, id));
+    const encodedId = encodeNodeId(id);
+    this.nodes.set(encodedId, new DataNode(this.queries, id));
   }
 
   getNode<T>(id: NodeId): DataNode<T> {
-    if (!this.nodes.has(id)) {
+    const encodedId = encodeNodeId(id);
+    if (!this.nodes.has(encodedId)) {
       this.createNode(id);
     }
-    return this.nodes.get(id) as DataNode<T>;
+    return this.nodes.get(encodedId) as DataNode<T>;
   }
 
   /**
@@ -395,7 +410,7 @@ export class NodeCache {
    * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
    * Nodes without an ID will be ignored.
    */
-  insertNodes<T extends { id?: string, __typename?: string }>(nodes: T[]) {
+  insertNodes<T extends { id?: string, __typename?: string }>(nodes: T[]): Map<NodeIdEnc, T> {
     const map = new Map();
 
     for (const node of nodes) {
@@ -403,14 +418,15 @@ export class NodeCache {
         continue;
       }
       const type = nodeTypeFromTypename(node.__typename);
-      const dataNode: DataNode<T> = this.getNode(encodeNodeId({ type, id: node.id }));
+      const id = { type, id: node.id };
+      const dataNode: DataNode<T> = this.getNode(id);
       if (!dataNode.hasData) {
         // FIXME: different queries load different amounts of data, simple overwriting doesn't work
         //  S1: distinguish between nodes and "partial nodes"?
         //  S2: deep merge data?
         dataNode.insertResult(node);
       }
-      map.set(node.id, node);
+      map.set(encodeNodeId(id), node);
     }
 
     return map;

@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Issue } from '../../generated/graphql-dgql';
 import { DataNode } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { encodeNodeId, NodeType } from '@app/data-dgql/id';
+import { NodeType } from '@app/data-dgql/id';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -29,10 +29,10 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
 
   didOpen() {
     if (!this.fullIssue) {
-      this.fullIssue = this.dataService.getNode(encodeNodeId({
+      this.fullIssue = this.dataService.getNode({
         type: NodeType.Issue,
         id: this.issueStub.id
-      }));
+      });
       this.fullIssueSub = this.fullIssue.subscribe();
     }
   }

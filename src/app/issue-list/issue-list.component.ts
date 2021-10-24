@@ -1,15 +1,15 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort, MatSortable} from '@angular/material/sort';
-import {CreateIssueDialogComponent} from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
-import {FormControl} from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, MatSortable } from '@angular/material/sort';
+import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 import DataService from '@app/data-dgql';
-import {decodeListId, encodeListId, encodeNodeId, ListId, ListType, NodeType} from '@app/data-dgql/id';
-import {DataList, DataNode} from '@app/data-dgql/query';
+import { ListId, ListType, NodeId, NodeType } from '@app/data-dgql/id';
+import { DataList, DataNode } from '@app/data-dgql/query';
 import { Component as IComponent, ComponentInterface, Issue, IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
 
 /**
@@ -23,7 +23,7 @@ import { Component as IComponent, ComponentInterface, Issue, IssueCategory, Issu
   styleUrls: ['./issue-list.component.scss']
 })
 export class IssueListComponent implements OnInit, OnDestroy {
-  @Input() listId: string;
+  @Input() listId: ListId;
   @Input() projectId: string;
   public queryParamFilter = '';
   public list$?: DataList<Issue, IssueFilter>;
@@ -32,14 +32,14 @@ export class IssueListComponent implements OnInit, OnDestroy {
   // component that is observed
   public component$?: DataNode<IComponent>;
   private componentSub?: Subscription;
-  
-  // interface that is obesrved
+
+  // interface that is observed
   public componentInterface$?: DataNode<ComponentInterface>;
   private componentInterfaceSub?: Subscription;
 
   // provider of the interface that is observed
-  public componentInterfaceProvider: string;
-  
+  public componentInterfaceProvider: NodeId;
+
   // determines whether one can create new issues from a given component / interface page
   // FIXME remove and use proper logic instead
   public canCreateNewIssue = false;
@@ -61,10 +61,10 @@ export class IssueListComponent implements OnInit, OnDestroy {
     private dataService: DataService
   ) {
   }
-  
+
   /**
    * Determines issue icon depending on the given category.
-   * @param  {IssueCategory} category - The given issue category.
+   * @param category - The given issue category.
    * @returns Issue icon id.
    */
   formatCategoryIcon(category: IssueCategory): string {
@@ -80,7 +80,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   /**
    * Determines issue description depending on the given categiry.
-   * @param  {IssueCategory} category - The given issue category.
+   * @param category - The given issue category.
    * @returns Issue description.
    */
   formatCategoryDescription(category: IssueCategory): string {
@@ -96,34 +96,33 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.allLabelsList = encodeListId({
-      node: decodeListId(this.listId).node,
+    this.allLabelsList = {
+      node: this.listId.node,
       type: ListType.Labels
-    });
+    };
 
-    if (decodeListId(this.listId).node.type === NodeType.Component) {
+    if (this.listId.node.type === NodeType.Component) {
       this.canCreateNewIssue = true;
-      this.component$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
+      this.component$ = this.dataService.getNode(this.listId.node);
       this.componentSub = this.component$.subscribe();
-    } else if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
+    } else if (this.listId.node.type === NodeType.ComponentInterface) {
       this.canCreateNewIssue = true;
-      this.componentInterface$ = this.dataService.getNode(encodeNodeId(decodeListId(this.listId).node));
+      this.componentInterface$ = this.dataService.getNode(this.listId.node);
       this.componentInterfaceSub = this.componentInterface$.subscribe();
 
-      this.componentInterface$.dataAsPromise().then(data =>
-        {
-          this.componentInterfaceProvider = "Component/" + data.component.id;
-        });
+      this.componentInterface$.dataAsPromise().then(data => {
+        this.componentInterfaceProvider = { type: NodeType.Component, id: data.component.id };
+      });
     }
 
     // FIXME: a hack to fix the labels list on interfaces
-    if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
-      const interfaceNode = this.dataService.getNode<ComponentInterface>(encodeNodeId(decodeListId(this.listId).node));
+    if (this.listId.node.type === NodeType.ComponentInterface) {
+      const interfaceNode = this.dataService.getNode<ComponentInterface>(this.listId.node);
       interfaceNode.dataAsPromise().then(data => {
-        this.allLabelsList = encodeListId({
+        this.allLabelsList = {
           node: { type: NodeType.Component, id: data.component.id },
           type: ListType.Labels
-        });
+        };
       });
     }
 
@@ -131,7 +130,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
     this.list$.count = 25;
     this.listSub = this.list$.subscribe(data => {
       this.dataSource = new MatTableDataSource<any>(data ? [...data.values()] : []);
-      this.sort.sort(({id: 'category', start: 'asc'}) as MatSortable);
+      this.sort.sort(({ id: 'category', start: 'asc' }) as MatSortable);
       this.dataSource.sort = this.sort;
       // FIXME use bespoke pagination/sorting/filtering
       // this.dataSource.paginator = this.paginator;
@@ -162,9 +161,9 @@ export class IssueListComponent implements OnInit, OnDestroy {
         if (params.filter) {
           this.queryParamFilter = params.filter;
           returnedFilter = params.filter;
-        } 
-        
-        // case: query param filter is not set
+        }
+
+          // case: query param filter is not set
         // => shows all issues
         else {
           returnedFilter = '';
@@ -172,10 +171,10 @@ export class IssueListComponent implements OnInit, OnDestroy {
       });
     return returnedFilter;
   }
-  
+
   /**
    * Applies a given filter.
-   * @param  {IssueFilter} filter - Given filter to be applied.
+   * @param filter - Given filter to be applied.
    */
   applyFilter(filter: IssueFilter) {
     this.list$.filter = filter;
@@ -184,7 +183,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
   /**
    * Gets activated when an issue is clicked.
    * Navigates the user to the corresponding issue page.
-   * @param  {any} row - Issue that is clicked.
+   * @param row - Issue that is clicked.
    */
   clickedOnRow(row: any) {
     this.router.navigate(['/projects', this.projectId, 'issues', row.id]);
@@ -222,7 +221,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
       // adds the author
       additionalSearchString += ' ' + issue.createdBy.displayName;
-      
+
       issue.search = additionalSearchString;
     }
   }
@@ -239,7 +238,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
     // FIXME move functionality so that the component can be reusable as a list
 
     // case: node is a component
-    if (decodeListId(this.listId).node.type === NodeType.Component) {
+    if (this.listId.node.type === NodeType.Component) {
       this.dialog.open(CreateIssueDialogComponent,
         {
           data: {
@@ -248,10 +247,10 @@ export class IssueListComponent implements OnInit, OnDestroy {
           },
           width: '600px'
         });
-    } 
-    
+    }
+
     // case: node is an interface
-    else if (decodeListId(this.listId).node.type === NodeType.ComponentInterface) {
+    else if (this.listId.node.type === NodeType.ComponentInterface) {
       this.dialog.open(CreateIssueDialogComponent,
         {
           data: {
@@ -263,6 +262,6 @@ export class IssueListComponent implements OnInit, OnDestroy {
         });
     }
   }
-  
+
 }
 

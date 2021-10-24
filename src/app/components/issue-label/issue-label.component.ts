@@ -18,6 +18,9 @@ export class IssueLabelComponent {
    * @param color - Background color of a label.
    */
   public textIsDark(color) {
+    if (!color) {
+      return false;
+    }
     return this.labelStoreService.lightOrDark(color) === 'black';
   }
 }

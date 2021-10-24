@@ -1,4 +1,4 @@
-import { NodeId, ListId, ListDescriptor, ListType, encodeListId, decodeListId } from './id';
+import { NodeId, ListId, ListType, encodeListId, decodeListId, ListIdEnc } from './id';
 import { Injectable } from '@angular/core';
 import { QueriesService } from './queries/queries.service';
 import { DataNode, DataList, NodeCache } from './query';
@@ -9,7 +9,7 @@ import { Mutations } from '@app/data-dgql/mutate';
 })
 export default class DataService {
   nodes: NodeCache;
-  lists: Map<ListId, Set<DataList<unknown, unknown>>> = new Map();
+  lists: Map<ListIdEnc, Set<DataList<unknown, unknown>>> = new Map();
   mutations: Mutations;
 
   constructor(
@@ -24,7 +24,7 @@ export default class DataService {
   }
 
   /** Invalidates all lists with the given descriptor or list type. */
-  invalidateLists(selector: ListDescriptor | ListType) {
+  invalidateLists(selector: ListId | ListType) {
     if (typeof selector === 'object') {
       const id = encodeListId(selector);
       if (!this.lists.has(id)) {
@@ -52,11 +52,12 @@ export default class DataService {
   }
 
   getList<T, F>(id: ListId): DataList<T, F> {
+    const encodedId = encodeListId(id);
     const list = new DataList<T, F>(this.queries, this.nodes, id);
-    if (!this.lists.has(id)) {
-      this.lists.set(id, new Set());
+    if (!this.lists.has(encodedId)) {
+      this.lists.set(encodedId, new Set());
     }
-    this.lists.get(id).add(list);
+    this.lists.get(encodedId).add(list);
     return list;
   }
 }

@@ -3,14 +3,14 @@ import {FormControl, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {CCIMSValidators} from '@app/utils/validators';
-import { decodeNodeId, encodeListId, getRawId, ListId, ListType, NodeId } from '@app/data-dgql/id';
+import { encodeNodeId, ListId, ListType, NodeId } from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
 import { ComponentFilter, Label } from '../../../generated/graphql-dgql';
 
 export interface CreateLabelDialogData {
   projectId: NodeId;
   /** If set, will edit an existing label instead of creating a new one. */
-  editExisting?: NodeId
+  editExisting?: NodeId;
 }
 
 @Component({
@@ -35,10 +35,10 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
   ngOnInit() {
     if (this.data.editExisting) {
-      this.componentList = encodeListId({
-        node: decodeNodeId(this.data.editExisting),
+      this.componentList = {
+        node: this.data.editExisting,
         type: ListType.Components
-      });
+      };
 
       this.loading = true;
       const node = this.dataService.getNode<Label>(this.data.editExisting);
@@ -59,10 +59,10 @@ export class CreateEditLabelDialogComponent implements OnInit {
       this.randomizeColor();
     }
 
-    this.allComponentsList = encodeListId({
-      node: decodeNodeId(this.data.projectId),
+    this.allComponentsList = {
+      node: this.data.projectId,
       type: ListType.Components
-    });
+    };
   }
 
   makeComponentFilter(search): ComponentFilter {
@@ -70,14 +70,17 @@ export class CreateEditLabelDialogComponent implements OnInit {
   }
   applyComponentChangeset = async (additions: NodeId[], deletions: NodeId[]) => {
     if (Array.isArray(this.componentList)) {
+      const keySet = new Set(this.componentList.map(id => encodeNodeId(id)));
       for (const item of additions) {
-        if (!this.componentList.includes(item)) {
+        if (!keySet.has(encodeNodeId(item))) {
           this.componentList.push(item);
+          keySet.add(encodeNodeId(item));
         }
       }
       for (const item of deletions) {
-        if (this.componentList.includes(item)) {
+        if (keySet.has(encodeNodeId(item))) {
           this.componentList.splice(this.componentList.indexOf(item), 1);
+          keySet.delete(encodeNodeId(item));
         }
       }
     } else {
@@ -106,7 +109,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
         description
       ).then(() => {
         this.dialog.close({
-          id: getRawId(this.data.editExisting),
+          id: this.data.editExisting.id,
           name,
           color: this.color,
           description

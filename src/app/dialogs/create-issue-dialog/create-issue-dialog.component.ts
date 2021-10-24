@@ -5,7 +5,7 @@ import { IssueCategory } from '../../../generated/graphql';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
 import { CCIMSValidators } from '@app/utils/validators';
 import { CreateIssueInput } from '../../../generated/graphql-dgql';
-import { encodeNodeId, getRawId, NodeType } from '@app/data-dgql/id';
+import { NodeId, NodeType } from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
 import { LocalIssueData } from '@app/issue-detail/issue-sidebar.component';
 
@@ -81,15 +81,15 @@ export class CreateIssueDialogComponent implements OnInit {
       body: this.body.code,
       category: this.category.value,
       clientMutationID: Math.random().toString(36),
-      components: this.issueData.components.map(getRawId),
-      locations: this.issueData.locations.map(getRawId),
-      labels: this.issueData.labels.map(getRawId),
-      assignees: this.issueData.assignees.map(getRawId),
+      components: this.issueData.components.map(node => node.id),
+      locations: this.issueData.locations.map(node => node.id),
+      labels: this.issueData.labels.map(node => node.id),
+      assignees: this.issueData.assignees.map(node => node.id),
     };
     this.loading = true;
     this.saveFailed = false;
     this.dataService.mutations.createIssue(issueData).then(async result => {
-      const issueId = encodeNodeId({ type: NodeType.Issue, id: result.id });
+      const issueId = { type: NodeType.Issue, id: result.id };
       const promises = [];
       for (const linked of this.issueData.linksToIssues) {
         promises.push(this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch(err => {
@@ -115,7 +115,7 @@ export class CreateIssueDialogComponent implements OnInit {
 export interface DialogData {
   projectId: string;
   // initial state of the issue's component list
-  components: string[];
+  components: NodeId[];
   // initial state of the issue's location list
-  locations: string[];
+  locations: NodeId[];
 }
