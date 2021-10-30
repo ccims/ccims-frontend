@@ -1,3 +1,4 @@
 <ng-container *ngIf="nodeType !== null">
-    <app-node-details [projectId]="this.projectId" [nodeType]="this.nodeType" [nodeId]="this.nodeId"></app-node-details>
+  <app-node-details [projectId]="this.projectId" [nodeType]="this.nodeType" [nodeId]="this.nodeId"
+                    [callback]="onNodeUpdate"></app-node-details>
 </ng-container>
