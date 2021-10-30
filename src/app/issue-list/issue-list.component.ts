@@ -64,17 +64,17 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   /**
    * Determines issue icon depending on the given category.
-   * @param category - The given issue category.
+   * @param issue - The given issue.
    * @returns Issue icon id.
    */
-  formatCategoryIcon(category: IssueCategory): string {
-    switch (category) {
+  formatCategoryIcon(issue: Issue): string {
+    switch (issue.category) {
       case IssueCategory.Bug:
-        return 'issue-bug';
+        return issue.isOpen ? 'issue-bug' : 'issue-bug-closed';
       case IssueCategory.FeatureRequest:
-        return 'issue-feature';
+        return issue.isOpen ? 'issue-feature' : 'issue-feature-closed';
       case IssueCategory.Unclassified:
-        return 'issue-uncategorized';
+        return issue.isOpen ? 'issue-uncategorized' : 'issue-uncategorized-closed';
     }
   }
 

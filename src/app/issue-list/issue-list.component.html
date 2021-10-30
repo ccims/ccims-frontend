@@ -59,7 +59,7 @@
             scope="Category column.">Category</th>
         <td mat-cell style="text-align: left" *matCellDef="let element">
           <div style="display: flex; align-items: center">
-            <mat-icon [svgIcon]="this.formatCategoryIcon(element.category)" style="margin-right: 4px">
+            <mat-icon [svgIcon]="this.formatCategoryIcon(element)" style="margin-right: 4px">
             </mat-icon>
             {{this.formatCategoryDescription(element.category)}}
           </div>
