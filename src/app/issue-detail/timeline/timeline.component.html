@@ -120,15 +120,10 @@
         </div>
 
         <ng-template #singleLabel>
-          <div *ngIf="!!timelineItem.item.label; else isNull">
-            <a>{{timelineItem.item.createdBy.displayName}}</a> added label
-            <span style="display: inline-block">
-              <app-issue-label [label]="timelineItem.item.label"></app-issue-label>
-            </span>
-          </div>
-          <ng-template #isNull>
-            <a>{{timelineItem.user}}</a> added deleted label
-          </ng-template>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added label
+          <span style="display: inline-block">
+            <app-issue-label [label]="timelineItem.item.label"></app-issue-label>
+          </span>
         </ng-template>
 
         <small class="text-muted">
@@ -389,15 +384,10 @@
         </div>
 
         <ng-template #singleLabel>
-          <div *ngIf="!!timelineItem.item.removedLabel; else isNull">
-            <a>{{timelineItem.item.createdBy.displayName}}</a> removed label
-            <span style="display: inline-block">
-              <app-issue-label [label]="timelineItem.item.removedLabel"></app-issue-label>
-            </span>
-          </div>
-          <ng-template #isNull>
-            <a>{{timelineItem.user}}</a> removed deleted label
-          </ng-template>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> removed label
+          <span style="display: inline-block">
+            <app-issue-label [label]="timelineItem.item.removedLabel"></app-issue-label>
+          </span>
         </ng-template>
 
         <small class="text-muted">
