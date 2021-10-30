@@ -32,7 +32,9 @@
 
 </div>
 <div mat-dialog-actions class="actions">
-  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)">
+    Cancel
+  </button>
   <button mat-raised-button color="success" [class.spinner]="loading"
           [disabled]="loading || title.invalid || category.invalid"
           (click)="onCreate()">Create
