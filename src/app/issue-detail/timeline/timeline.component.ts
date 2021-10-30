@@ -30,6 +30,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
       ['UnlabelledEvent', (item) => {
         return !!item.removedLabel;
       }],
+      ['AddedToComponentEvent', (item) => {
+        return !!item.component;
+      }],
+      ['RemovedFromComponentEvent', (item) => {
+        return !!item.removedComponent;
+      }]
     ]
   );
 

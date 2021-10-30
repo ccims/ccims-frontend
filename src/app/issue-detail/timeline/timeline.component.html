@@ -112,7 +112,7 @@
 
     <div class="timeline-panel" *ngSwitchCase="'LabelledEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.isCoalesced; else singleLabel">
+        <div *ngIf="timelineItem.isCoalesced; else singleLabel">
           <a>{{timelineItem.user}}</a> added labels
           <span style="display: inline-block" *ngFor="let node of timelineItem.item">
             <app-issue-label [label]="node.label"></app-issue-label>
@@ -240,18 +240,26 @@
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromComponentEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.removedComponent; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed this issue from component
+        <div *ngIf="timelineItem.isCoalesced; else singleComponent">
+          <a>{{timelineItem.user}}</a> removed this issue from components
+          <ng-container *ngFor="let component of timelineItem.item">
+            <span class="component-box" (click)="goToComponentDetails(component.removedComponent)" style="margin-right: 2px">
+              <span style="margin: 5px">
+                <a class="component-text">{{component.removedComponent.name}}</a>
+              </span>
+            </span>
+          </ng-container>
+        </div>
+
+        <ng-template #singleComponent>
+          <a>{{timelineItem.user}}</a> removed this issue from component
           <span class="component-box" (click)="goToComponentDetails(timelineItem.item.removedComponent)">
             <span style="margin: 5px">
               <a class="component-text">{{timelineItem.item.removedComponent.name}}</a>
             </span>
           </span>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed this issue from deleted component
-          <br>
         </ng-template>
+
         <small class="text-muted">
           <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
             {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
@@ -376,7 +384,7 @@
 
     <div class="timeline-panel" *ngSwitchCase="'UnlabelledEvent'">
       <div class="timeline-body">
-        <div *ngIf="!!timelineItem.isCoalesced; else singleLabel">
+        <div *ngIf="timelineItem.isCoalesced; else singleLabel">
           <a>{{timelineItem.user}}</a> removed labels
           <span style="display: inline-block" *ngFor="let node of timelineItem.item">
             <app-issue-label [label]="node.removedLabel"></app-issue-label>
@@ -556,26 +564,35 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedToComponentEvent'">
-        <div class="timeline-body">
-          <div *ngIf="!!timelineItem.item.component; else isNull">
-            <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to component
-            <span class="component-box" (click)="goToComponentDetails(timelineItem.item.component)">
+      <div class="timeline-body">
+        <div *ngIf="timelineItem.isCoalesced; else singleComponent">
+          <a>{{timelineItem.user}}</a> added this issue to components
+          <ng-container *ngFor="let component of timelineItem.item">
+            <span class="component-box" (click)="goToComponentDetails(component.component)" style="margin-right: 2px">
               <span style="margin: 5px">
-                <a class="component-text">{{timelineItem.item.component.name}}</a>
+                <a class="component-text">{{component.component.name}}</a>
               </span>
             </span>
-          </div>
-          <ng-template #isNull>
-            <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to deleted component
-            <br>
-          </ng-template>
-          <small class="text-muted" style="margin-left: 5px">
-            <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-              {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-            </time>
-          </small>
+          </ng-container>
         </div>
+
+        <ng-template #singleComponent>
+          <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to component
+          <span class="component-box" (click)="goToComponentDetails(timelineItem.item.component)">
+            <span style="margin: 5px">
+              <a class="component-text">{{timelineItem.item.component.name}}</a>
+            </span>
+          </span>
+        </ng-template>
+
+        <small class="text-muted" style="margin-left: 5px">
+          <time [dateTime]="timelineItem.item.createdAt"
+                [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
+            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
+          </time>
+        </small>
       </div>
+    </div>
 
     <div class="timeline-panel" *ngSwitchCase="'CategoryChangedEvent'">
       <div class="timeline-body">
