@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IssueComment } from '../../../generated/graphql-dgql';
 import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
 import DataService from '@app/data-dgql';
-import { encodeNodeId, NodeId, NodeType } from '@app/data-dgql/id';
+import { NodeId } from '@app/data-dgql/id';
 import { DataNode } from '@app/data-dgql/query';
 import { Subscription } from 'rxjs';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
@@ -50,8 +50,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.savingBody = true;
     this.dataService.mutations.updateIssueComment(
       Math.random().toString(),
-      // use given id or guess
-      this.commentId || encodeNodeId({ type: NodeType.IssueComment, id: this.commentId }),
+      this.commentId,
       body
     ).then(() => {
       // only exit if successful
@@ -80,9 +79,8 @@ export class CommentComponent implements OnInit, OnDestroy {
         // User confirmed deletion
         this.dataService.mutations.deleteIssueComment(
           Math.random().toString(),
-          encodeNodeId({type: NodeType.Issue, id: this.issueId}),
-          // use given id or guess
-          this.commentId || encodeNodeId({type: NodeType.IssueComment, id: this.commentId})
+          this.issueId,
+          this.commentId
         ).then(() => {
           this.notify.notifyInfo('Successfully deleted comment');
         });

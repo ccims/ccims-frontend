@@ -30,7 +30,7 @@
                 ...
             </div>
         </ng-container>
-        <div class="items-empty" *ngIf="isLocalSet ? !listSet.length : (!listSet$.totalCount && !listSet$.loading)">
+        <div class="items-empty" *ngIf="isLocalSet ? !getListSetLength() : (!listSet$.totalCount && !listSet$.loading)">
             <ng-content select="[if-empty]"></ng-content>
         </div>
     </div>
