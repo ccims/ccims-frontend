@@ -3,7 +3,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {CCIMSValidators} from '@app/utils/validators';
-import { encodeNodeId, ListId, ListType, NodeId } from '@app/data-dgql/id';
+import {encodeNodeId, ListId, ListType, NodeId} from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
 import { ComponentFilter, Label } from '../../../generated/graphql-dgql';
 
@@ -11,6 +11,8 @@ export interface CreateLabelDialogData {
   projectId: NodeId;
   /** If set, will edit an existing label instead of creating a new one. */
   editExisting?: NodeId;
+  /** If set, will select all components of this issue */
+  issueId?: NodeId[];
 }
 
 @Component({
@@ -57,6 +59,10 @@ export class CreateEditLabelDialogComponent implements OnInit {
       });
     } else {
       this.randomizeColor();
+
+      if (this.data.issueId) {
+        this.componentList = this.data.issueId;
+      }
     }
 
     this.allComponentsList = {

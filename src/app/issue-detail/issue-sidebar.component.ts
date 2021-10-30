@@ -270,7 +270,10 @@ export class IssueSidebarComponent implements OnInit {
       this.dialogService.open(CreateEditLabelDialogComponent, {
         width: '400px',
         data: {
-          projectId: { type: NodeType.Project, id: this.projectId }
+          projectId: { type: NodeType.Project, id: this.projectId },
+          issueId: this.issue$?.current.components.nodes.map(c => {
+            return {type: NodeType.Component, id: c.id};
+          })
         }
       }).afterClosed().subscribe(created => {
         if (created) {

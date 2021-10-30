@@ -13,7 +13,8 @@
       [scoreKeys]="['name']"
       [listSet]="componentList"
       [listAll]="allComponentsList"
-      [applyChangeset]="applyComponentChangeset">
+      [applyChangeset]="applyComponentChangeset"
+      #list>
     <span title>Components</span>
     <span if-empty style="color: red">Assign the label to a component</span>
     <ng-container *appItem="let item">
@@ -51,7 +52,7 @@
 <div mat-dialog-actions class="actions">
   <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">Cancel</button>
   <button mat-raised-button color="success"
-          [disabled]="loading || validationLabelName.invalid || componentList.length === 0"
+          [disabled]="loading || validationLabelName.invalid || list.getListSetLength() === 0"
           (click)="this.onConfirmClick(labelName.value, labelDescription.value)">
     <ng-container *ngIf="data.editExisting">
       Apply
