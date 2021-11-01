@@ -1,11 +1,9 @@
 import {
   NodeType,
   NodeId,
-  decodeNodeId,
-  decodeListId,
   ListParams,
   ListType,
-  CURRENT_USER_NODE, NodeIdEnc, ListIdEnc, ListId
+  CURRENT_USER_NODE, NodeIdEnc, ListId
 } from './id';
 import { QueriesService } from './queries/queries.service';
 import { PageInfo } from '../../generated/graphql-dgql';
