@@ -45,6 +45,7 @@ import { CacheNodeComponent } from '@app/components/cache-node.component';
 import { ProjectHeaderComponent } from '@app/project-header/project-header.component';
 import { IssueFilterComponent } from '@app/issue-list/issue-filter.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -107,7 +108,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     NgOptionHighlightModule,
     MatCheckboxModule,
     MatMenuModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTooltipModule
   ],
   exports: [
     CdkTableModule,

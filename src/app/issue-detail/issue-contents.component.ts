@@ -22,7 +22,6 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
   public currentUserSub: Subscription;
 
   public editBody = false;
-  public savingBody = false;
   public savingComment = false;
   @ViewChild('comment') commentEditor;
 

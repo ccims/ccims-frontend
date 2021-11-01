@@ -69,7 +69,3 @@ export interface AppState {
   project?: GetBasicProjectQuery;
 }
 
-export function isNonNull<T>(value: T): value is NonNullable<T> {
-  return value != null;
-}
-

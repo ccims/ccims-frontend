@@ -1,25 +1,7 @@
 @import '~@angular/material/theming';
 @import 'variables';
+@import 'src/styles/spinner';
 
-@keyframes spinner {
-  to {transform: rotate(360deg);}
-}
-
-.spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  border-top-color: #000000;
-  animation: spinner .8s linear infinite;
-}
 span[matLine] {
   padding-left: 16px;
 }
@@ -47,7 +29,7 @@ margin-right: auto;
 
 
 .mat-nav-list-padding-removed{
-  padding-top: 0px;
+  padding-top: 0;
 }
 .floating-button{
 float: right;
@@ -62,7 +44,7 @@ margin-bottom: 5px;
 .list-h2{
   max-width: 50%;
   float: left;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .graph-icon {
