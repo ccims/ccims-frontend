@@ -15,13 +15,29 @@ export interface CoalescedTimelineItem {
   time: string;
 }
 
+type ItemFilterFunction = (IssueTimelineItem) => boolean;
+
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnInit, OnDestroy {
-  static readonly COALESCABLE_EVENTS = new Set(['LabelledEvent', 'UnlabelledEvent']);
+  static readonly COALESCABLE_EVENTS: Map<string, ItemFilterFunction> = new Map([
+      ['LabelledEvent', (item) => {
+        return !!item.label;
+      }],
+      ['UnlabelledEvent', (item) => {
+        return !!item.removedLabel;
+      }],
+      ['AddedToComponentEvent', (item) => {
+        return !!item.component;
+      }],
+      ['RemovedFromComponentEvent', (item) => {
+        return !!item.removedComponent;
+      }]
+    ]
+  );
 
   // Provides time format functions
   public timeFormatter = new TimeFormatter();
@@ -86,10 +102,21 @@ export class TimelineComponent implements OnInit, OnDestroy {
         coalesceList = [];
       }
     };
+    const pushSingleItem = (timelineItem: IssueTimelineItem, filter: ItemFilterFunction | undefined) => {
+      if (!filter || filter(timelineItem)) {
+        coalesced.push({
+          type: (timelineItem as any).__typename,
+          isCoalesced: false,
+          item: timelineItem,
+          user: timelineItem.createdBy.displayName,
+          time: timelineItem.createdAt
+        });
+      }
+    };
 
     for (const timelineItem of items.values()) {
       const itemType = (timelineItem as any).__typename;
-      const createdBy = timelineItem.createdBy.displayName;
+      const filter = TimelineComponent.COALESCABLE_EVENTS.get(itemType);
       let stopCoalescing = false;
 
       if (coalescingType) {
@@ -101,35 +128,23 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
       if (coalescingType !== itemType || stopCoalescing) {
         finishCoalescing();
-
-        if (TimelineComponent.COALESCABLE_EVENTS.has(itemType)) {
+        if (filter && filter(timelineItem)) {
           coalescingType = itemType;
           coalesceList.push(timelineItem);
         } else {
           coalescingType = null;
-          coalesced.push({
-            type: itemType,
-            isCoalesced: false,
-            item: timelineItem,
-            user: createdBy,
-            time: timelineItem.createdAt
-          });
+          pushSingleItem(timelineItem, filter);
         }
 
         continue;
       } else if (coalescingType == null) {
-        coalesced.push({
-          type: itemType,
-          isCoalesced: false,
-          item: timelineItem,
-          user: createdBy,
-          time: timelineItem.createdAt
-        });
-
+        pushSingleItem(timelineItem, filter);
         continue;
       }
 
-      coalesceList.push(timelineItem);
+      if (filter(timelineItem)) {
+        coalesceList.push(timelineItem);
+      }
     }
 
     // Add remaining items
