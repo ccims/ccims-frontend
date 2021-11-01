@@ -1,14 +1,21 @@
+<!--Create issue dialog-->
 <h1 mat-dialog-title>Create Issue</h1>
+
+<!--1. Content-->
 <div mat-dialog-content>
   <form>
+
+    <!--1.1. Issue title-->
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Title</mat-label>
       <input matInput [formControl]="title" required>
       <mat-error *ngIf="title.invalid">Invalid issue title</mat-error>
     </mat-form-field>
 
+    <!--1.2. Issue description-->
     <app-markdown-editor #body></app-markdown-editor>
 
+    <!--1.3. Issue category-->
     <mat-button-toggle-group class="category-selector" [formControl]="category" required>
       <mat-button-toggle value="UNCLASSIFIED">
         <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
@@ -24,18 +31,25 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
 
+    <!--1.4. Issue data-->
     <app-issue-sidebar [(localIssue)]="issueData" [projectId]="data.projectId"></app-issue-sidebar>
 
+    <!--Save failed error message-->
     <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon
               nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>
   </form>
 
 </div>
+
+<!--2. Actions-->
 <div mat-dialog-actions class="actions">
+
+  <!--2.1. Cancel button, stops the issue creation process-->
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+
+  <!--2.2. Create button, finishes the issue creation process-->
   <button mat-raised-button color="success" [class.spinner]="loading"
           [disabled]="loading || title.invalid || category.invalid"
           (click)="onCreate()">Create
   </button>
-
 </div>
