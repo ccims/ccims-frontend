@@ -1,54 +1,5 @@
-@keyframes spinner {
-  to {transform: rotate(360deg);}
-}
+@import 'src/styles/dialog';
 
-.spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  border-top-color: #000000;
-  animation: spinner .8s linear infinite;
-}
 .dialog-wrapper {
   max-width: 600px;
-
 }
-.error-div {
-background-color: #FF692C;
-border-radius: 2px;
-height: 25px;
-text-align: center;
-//animation-name: error-display;
-//animation-duration: .5s;
-opacity: .8;
-animation: fadeIn .7s;
-}
-.error-message {
-  margin-bottom: 24px;
-}
-@keyframes error-display {
-  from { transform: translatey(-25px)}
-  to   { transform: translateX(0px) }
-}
-@keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:.8;}
-}
-.stretch {
-  width: 100%;
-}
-
-.mat-success {
-  background-color: green;
-  color: #fff;
-}
-
-

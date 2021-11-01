@@ -3,7 +3,7 @@ import {
   CurrentUserGQL,
   SearchUsersGQL
 } from 'src/generated/graphql-dgql';
-import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
+import { promisifyApolloFetch } from '@app/data-dgql/queries/util';
 
 @Injectable({
   providedIn: 'root'

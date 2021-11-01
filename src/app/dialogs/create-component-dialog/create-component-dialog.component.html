@@ -10,7 +10,7 @@
 
             <mat-form-field class="stretch" appearance="outline">
                 <mat-label>Repository-URL</mat-label>
-                <input readonly="false" #url required matInput [formControl]="validationUrl">
+                <input #url required matInput [formControl]="validationUrl">
                 <mat-error *ngIf="validationUrl.invalid">Enter a valid URL</mat-error>
             </mat-form-field>
 
