@@ -3,6 +3,7 @@
 @import '~ngx-toastr/toastr';
 @import 'styles/variables.scss';
 @import "~@ng-select/ng-select/themes/material.theme.css";
+@import '~ng-zorro-antd/ng-zorro-antd.css';
 @include mat-core();
 
 @include angular-material-theme($theme);
