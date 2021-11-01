@@ -45,11 +45,9 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {ColorPickerModule} from 'ngx-color-picker';
 import {CreateEditLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-edit-label-dialog.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RemoveProjectMemberComponentComponent} from './dialogs/remove-project-member-component/remove-project-member-component.component';
 import {PortalModule} from '@angular/cdk/portal';
 import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
-import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
 import {NodeDetailsComponent} from '@app/node-details/node-details.component';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
 import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-editor.component';
@@ -96,10 +94,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     CreateEditLabelDialogComponent,
     RemoveProjectMemberComponentComponent,
     ComponentContextMenuComponent,
-    QueryComponent,
-    QueryBodyDirective,
     NodeDetailsComponent,
-    QueryButtonDirective,
     NodeDetailsPageComponent,
     MarkdownEditorComponent,
     MarkdownPreviewComponent,
@@ -137,7 +132,6 @@ const toasterConfig: Partial<GlobalConfig> = {
     NgOptionHighlightModule,
     ColorPickerModule,
     MatExpansionModule,
-    MatProgressSpinnerModule,
     PortalModule,
     MonacoEditorModule.forRoot(),
     MarkdownModule.forRoot(),
