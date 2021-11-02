@@ -172,16 +172,4 @@ export class TimelineComponent implements OnInit, OnDestroy {
   makeCommentId(node): NodeId {
     return {type: NodeType.IssueComment, id: node.id};
   }
-
-  goToComponentDetails(component) {
-    this.router.navigate(['projects', this.projectID, 'component', component.id]);
-  }
-
-  goToLocationDetails(location) {
-    if (location.__typename === 'Component') {
-      this.router.navigate(['projects', this.projectID, 'component', location.id]);
-    } else {
-      this.router.navigate(['projects', this.projectID, 'interface', location.id]);
-    }
-  }
 }
