@@ -60,6 +60,10 @@ import { TextDisplayComponent } from '@app/text-display/text-display.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
 import { LinkedIssueItemComponent } from '@app/issue-detail/linked-issue-item.component';
+import {
+  TimelineItemComponent,
+  TimelineSingleItemDirective, TimelineCoalescedItemsDirective
+} from '@app/issue-detail/timeline/coalesced/timeline-item.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -102,7 +106,10 @@ const toasterConfig: Partial<GlobalConfig> = {
     CommentComponent,
     TextDisplayComponent,
     IssueContentsComponent,
-    LinkedIssueItemComponent
+    LinkedIssueItemComponent,
+    TimelineItemComponent,
+    TimelineSingleItemDirective,
+    TimelineCoalescedItemsDirective
   ],
   imports: [
     BrowserModule,
