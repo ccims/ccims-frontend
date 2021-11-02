@@ -26,7 +26,9 @@ import {
   UpdateCommentInput,
   UpdateCommentGQL,
   GetAllTimelineItemsGQL,
-  GetAllTimelineItemsQuery
+  GetAllTimelineItemsQuery,
+  ChangeIssueCategoryGQL,
+  ChangeIssueCategoryInput
 } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 /**
@@ -43,7 +45,9 @@ export class IssueStoreService {
               private commentIssueMutation: CommentIssueGQL, private deleteIssueCommentMutation: DeleteIssueCommentGQL,
               private unlinkIssueMutation: UnlinkIssueGQL,
               private closeIssueMutation: CloseIssueGQL, private reopenIssueMutation: ReopenIssueGQL,
-              private renameIssueMutation: RenameIssueTitleGQL, private addIssueToLocationMutation: AddIssueToLocationGQL,
+              private renameIssueMutation: RenameIssueTitleGQL, 
+              private changeIssueCategoryMutation: ChangeIssueCategoryGQL,
+              private addIssueToLocationMutation: AddIssueToLocationGQL,
               private removeIssueFromLocationMutation: RemoveIssueFromLocationGQL,
               private updateCommentMutation: UpdateCommentGQL,
               private getAllTimelineItemsQuery: GetAllTimelineItemsGQL) {
@@ -79,6 +83,10 @@ export class IssueStoreService {
 
   rename(renameInput: RenameIssueTitleInput) {
     return this.renameIssueMutation.mutate({input: renameInput});
+  }
+
+  changeIssueCategory(changeIssueCategoryInput: ChangeIssueCategoryInput) {
+    return this.changeIssueCategoryMutation.mutate({input: changeIssueCategoryInput});
   }
 
   addToLocation(addLocationInput: AddIssueToLocationInput) {

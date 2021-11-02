@@ -41,7 +41,7 @@ import {
   MutReopenIssueGQL,
   MutCreateLabelGQL,
   MutDeleteLabelGQL,
-  MutUpdateLabelGQL, MutAddLabelToComponentGQL, MutRemoveLabelFromComponentGQL, ListLabelComponentsGQL, GetLabelGQL,
+  MutUpdateLabelGQL, MutAddLabelToComponentGQL, MutRemoveLabelFromComponentGQL, ListLabelComponentsGQL, GetLabelGQL, MutChangeIssueCategoryGQL, IssueCategory,
 } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
 import { CreateIssueInput } from '../../../generated/graphql';
@@ -73,6 +73,7 @@ export class IssuesService {
     private qListLabelComponents: ListLabelComponentsGQL,
     private qMutCreateIssue: MutCreateIssueGQL,
     private qMutRenameIssueTitle: MutRenameIssueTitleGQL,
+    private qMutChangeIssueCategory: MutChangeIssueCategoryGQL,
     private qMutCloseIssue: MutCloseIssueGQL,
     private qMutReopenIssue: MutReopenIssueGQL,
     private qMutAddIssueComment: MutAddIssueCommentGQL,
@@ -173,6 +174,10 @@ export class IssuesService {
 
   mutRenameIssueTitle(id: string, issue: string, title: string) {
     return promisifyApolloFetch(this.qMutRenameIssueTitle.mutate({ id, issue, title }));
+  }
+
+  mutChangeIssueCategory(id: string, issue: string, category: IssueCategory) {
+    return promisifyApolloFetch(this.qMutChangeIssueCategory.mutate({ id, issue, category}));
   }
 
   mutCloseIssue(id: string, issue: string) {

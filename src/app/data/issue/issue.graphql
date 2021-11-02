@@ -136,6 +136,17 @@ mutation RenameIssueTitle($input: RenameIssueTitleInput!) {
   }
 }
 
+mutation ChangeIssueCategory($input: ChangeIssueCategoryInput!){
+  changeIssueCategory(input: $input) {
+    clientMutationID,
+    event {
+      id,
+      oldCategory,
+      newCategory
+    }
+  }
+}
+
 mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
   removeIssueFromLocation(input: $input){
     clientMutationID

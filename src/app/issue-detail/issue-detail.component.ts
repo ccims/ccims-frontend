@@ -7,7 +7,6 @@ import { DataNode } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
 import { FormControl, Validators } from '@angular/forms';
-import { IssueCategory } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-issue-detail',
@@ -51,12 +50,6 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
     this.issue$ = this.dataService.getNode(issueNodeId);
     this.issueSub = this.issue$.subscribe();
-
-    // sets up the issue category
-    this.issue$.dataAsPromise().then(data =>
-      {
-        this.category.setValue(data.category);
-      });
   }
 
   ngOnDestroy() {
@@ -68,19 +61,36 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       return this.timeFormatter.formatTimeDifference(this.issue$.current.createdAt);
     }
   }
+  
+  /**
+   * Begins the editing process in which:
+   * 1) the issue title and 
+   * 2) the issue category can be changed.
+   */
+  beginEditing() {
 
-  beginEditingTitle() {
+    // marks the issue as editable
     this.editTitle = true;
+
+    // sets up the issue category
+    this.issue$.dataAsPromise().then(data =>
+      {
+        this.category.setValue(data.category);
+      });
   }
 
   /**
-   * Edits the title of the current issue.
-   *
+   * Finishes the editing process in which:
+   * 1) the issue title and 
+   * 2) the issue category can be changed.
    * @param save - Boolean that indicates whether to save the new title.
    */
-  public finishEditingTitle(save?: boolean): void {
-    // case: the new title is to be saved
+  public finishEditing(save?: boolean): void {
+
+    // case: the new title and category will be saved
     if (save) {
+
+      // saves the new title
       this.savingTitle = true;
       this.dataService.mutations.renameIssueTitle(
         Math.random().toString(),
@@ -92,8 +102,18 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       }).finally(() => {
         this.savingTitle = false;
       });
-    } else {
-      // case: the new title is not to be saved
+
+      // saves the new category
+      console.log("The selected category: " + this.category.value);
+      this.dataService.mutations.changeIssueCategory(
+        Math.random().toString(),
+        this.issue$.id,
+        this.category.value
+      );
+    } 
+    
+    // case: the new title and category won't be saved
+    else {
       this.editTitle = !this.editTitle;
     }
   }

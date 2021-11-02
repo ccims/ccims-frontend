@@ -1,7 +1,7 @@
 import { NodeCache } from '@app/data-dgql/query';
 import { QueriesService } from '@app/data-dgql/queries/queries.service';
 import { decodeNodeId, getRawId, ListDescriptor, ListType, NodeId, NodeType } from '@app/data-dgql/id';
-import { CreateIssueInput } from '../../generated/graphql-dgql';
+import { CreateIssueInput, IssueCategory } from '../../generated/graphql-dgql';
 
 export class Mutations {
   constructor(private qs: QueriesService, private nc: NodeCache, private invalidateLists: (id: ListType | ListDescriptor) => void) {}
@@ -56,6 +56,14 @@ export class Mutations {
       this.invalidateNode(issue);
       this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
     });
+  }
+
+  changeIssueCategory(id: string, issue: NodeId, category: IssueCategory) {
+    return this.qs.issues.mutChangeIssueCategory(id, getRawId(issue), category).then(() => {
+      const issueNode = decodeNodeId(issue);
+      this.invalidateNode(issue);
+      this.invalidateLists({ node: issueNode, type: ListType.TimelineItems });
+    })
   }
 
   addIssueComment(id: string, issue: NodeId, commentBody: string) {

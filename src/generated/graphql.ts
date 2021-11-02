@@ -4896,6 +4896,16 @@ export type RenameIssueTitleMutationVariables = Exact<{
 
 export type RenameIssueTitleMutation = { renameIssueTitle?: Maybe<Pick<RenameIssueTitlePayload, 'clientMutationID'>> };
 
+export type ChangeIssueCategoryMutationVariables = Exact<{
+  input: ChangeIssueCategoryInput;
+}>;
+
+
+export type ChangeIssueCategoryMutation = { changeIssueCategory?: Maybe<(
+    Pick<ChangeIssueCategoryPayload, 'clientMutationID'>
+    & { event?: Maybe<Pick<CategoryChangedEvent, 'id' | 'oldCategory' | 'newCategory'>> }
+  )> };
+
 export type RemoveIssueFromLocationMutationVariables = Exact<{
   input: RemoveIssueFromLocationInput;
 }>;
@@ -4981,7 +4991,7 @@ export type GetAllTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<{ nodes
         { __typename: 'MarkedAsDuplicateEvent' }
         & Pick<MarkedAsDuplicateEvent, 'id' | 'createdAt'>
         & { originalIssue?: Maybe<(
-          Pick<Issue, 'id' | 'category' | 'isOpen'>
+          Pick<Issue, 'id' | 'title' | 'category' | 'isOpen'>
           & { linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
         )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
       ) | (
@@ -5987,6 +5997,29 @@ export const RenameIssueTitleDocument = gql`
       super(apollo);
     }
   }
+export const ChangeIssueCategoryDocument = gql`
+    mutation ChangeIssueCategory($input: ChangeIssueCategoryInput!) {
+  changeIssueCategory(input: $input) {
+    clientMutationID
+    event {
+      id
+      oldCategory
+      newCategory
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangeIssueCategoryGQL extends Apollo.Mutation<ChangeIssueCategoryMutation, ChangeIssueCategoryMutationVariables> {
+    document = ChangeIssueCategoryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const RemoveIssueFromLocationDocument = gql`
     mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
   removeIssueFromLocation(input: $input) {
@@ -6129,6 +6162,7 @@ export const GetAllTimelineItemsDocument = gql`
             ... on MarkedAsDuplicateEvent {
               originalIssue {
                 id
+                title
                 category
                 linksToIssues {
                   totalCount

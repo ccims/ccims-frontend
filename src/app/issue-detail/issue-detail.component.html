@@ -20,21 +20,21 @@
       <div class="title-actions" *ngIf="userCanEditIssue">
 
         <!--Edit button-->
-        <button mat-flat-button class="title-edit-button" color="primary" (click)="beginEditingTitle()" *ngIf="!this.editTitle">
+        <button mat-flat-button class="title-edit-button" color="primary" (click)="beginEditing()" *ngIf="!this.editTitle">
           Edit
         </button>
 
         <ng-container *ngIf="this.editTitle">
 
           <!--Cancel button (in edit mode)-->
-          <button mat-flat-button (click)="this.finishEditingTitle()">
+          <button mat-flat-button (click)="this.finishEditing()">
             Cancel
           </button>
           
           &nbsp;
 
           <!--Save button (in edit mode)-->
-          <button mat-flat-button (click)="this.finishEditingTitle(true)" [class.spinner]="savingTitle" color="accent">
+          <button mat-flat-button (click)="this.finishEditing(true)" [class.spinner]="savingTitle" color="accent">
             Save
           </button>
         </ng-container>

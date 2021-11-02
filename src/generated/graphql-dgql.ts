@@ -5253,6 +5253,18 @@ export type MutRenameIssueTitleMutationVariables = Exact<{
 
 export type MutRenameIssueTitleMutation = { renameIssueTitle?: Maybe<{ event?: Maybe<FTimelineItem_RenamedTitleEvent_Fragment> }> };
 
+export type MutChangeIssueCategoryMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+  issue: Scalars['ID'];
+  category: IssueCategory;
+}>;
+
+
+export type MutChangeIssueCategoryMutation = { changeIssueCategory?: Maybe<(
+    Pick<ChangeIssueCategoryPayload, 'clientMutationID'>
+    & { event?: Maybe<Pick<CategoryChangedEvent, 'id' | 'oldCategory' | 'newCategory'>> }
+  )> };
+
 export type MutCloseIssueMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   issue: Scalars['ID'];
@@ -6605,6 +6617,29 @@ export const MutRenameIssueTitleDocument = gql`
   })
   export class MutRenameIssueTitleGQL extends Apollo.Mutation<MutRenameIssueTitleMutation, MutRenameIssueTitleMutationVariables> {
     document = MutRenameIssueTitleDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MutChangeIssueCategoryDocument = gql`
+    mutation MutChangeIssueCategory($id: String, $issue: ID!, $category: IssueCategory!) {
+  changeIssueCategory(input: {clientMutationID: $id, issue: $issue, newCategory: $category}) {
+    clientMutationID
+    event {
+      id
+      oldCategory
+      newCategory
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MutChangeIssueCategoryGQL extends Apollo.Mutation<MutChangeIssueCategoryMutation, MutChangeIssueCategoryMutationVariables> {
+    document = MutChangeIssueCategoryDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
