@@ -269,10 +269,18 @@
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
           <a>{{timelineItem.user}}</a> removed this issue from location
-          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.removedLocation"></app-issue-location>
+          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.removedLocation">
+          </app-issue-location>
+        </ng-template>
+
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> removed this issue from locations
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-location [projectId]="projectID" [location]="item.removedLocation">
+            </app-issue-location>
+          </ng-container>
         </ng-template>
       </app-timeline-item>
-
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ReopenedEvent'">
@@ -565,6 +573,13 @@
         <ng-template appSingleTimelineItem>
             <a>{{timelineItem.user}}</a> added this issue to location
             <app-issue-location [projectId]="projectID" [location]="timelineItem.item.location"></app-issue-location>
+        </ng-template>
+
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> added this issue to locations
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-location [projectId]="projectID" [location]="item.location"></app-issue-location>
+          </ng-container>
         </ng-template>
       </app-timeline-item>
     </div>

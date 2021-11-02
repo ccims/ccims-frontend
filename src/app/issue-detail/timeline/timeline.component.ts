@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {IssueTimelineItem} from '../../../generated/graphql-dgql';
 import {DataList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { ListType, NodeId, NodeType } from '@app/data-dgql/id';
+import {ListType, NodeId, NodeType} from '@app/data-dgql/id';
 
 export interface CoalescedTimelineItem {
   user: string;
@@ -35,6 +35,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
       }],
       ['RemovedFromComponentEvent', (item) => {
         return !!item.removedComponent;
+      }],
+      ['AddedToLocationEvent', (item) => {
+        return !!item.location;
+      }],
+      ['RemovedFromLocationEvent', (item) => {
+        return !!item.removedLocation;
       }]
     ]
   );
