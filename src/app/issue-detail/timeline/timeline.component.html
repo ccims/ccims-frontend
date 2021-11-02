@@ -1,8 +1,8 @@
 
 
 <!------ Include the above in your HEAD tag ---------->
-
-<div *ngIf="timelineItems$.hasData">
+<app-query-component errorMessage="Failed to load timeline items">
+<ng-template appQueryBody>
   <div class="container">
     <div class="page-header">
     </div>
@@ -160,21 +160,20 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'LinkEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.linkedIssue; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> linked this issue to issue
-            <app-issue-item [issue]="timelineItem.item.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.item.createdBy.displayName}}</a> linked this issue to deleted issue
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> linked this issue to issue
+          <app-issue-item [issue]="timelineItem.item.linkedIssue" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> linked this issue to issues
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-item [issue]="item.linkedIssue" [interactive]="true" [projectId]="projectID">
+            </app-issue-item>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
@@ -428,21 +427,21 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnlinkEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed link to issue
-          <app-issue-item [issue]="timelineItem.item.removedLinkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed link to deleted issue
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> removed link to issue
+          <app-issue-item [issue]="timelineItem.item.removedLinkedIssue" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> removed links to issues
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-item [issue]="item.removedLinkedIssue" [interactive]="true" [projectId]="projectID">
+            </app-issue-item>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedArtifactEvent'">
@@ -586,5 +585,5 @@
   </li>
 </ul>
   </div>
-</div>
-
+</ng-template>
+</app-query-component>

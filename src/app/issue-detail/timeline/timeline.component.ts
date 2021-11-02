@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {TimeFormatter} from '@app/issue-detail/TimeFormatter';
 import {Router} from '@angular/router';
@@ -6,6 +6,7 @@ import {IssueTimelineItem} from '../../../generated/graphql-dgql';
 import {DataList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import {ListType, NodeId, NodeType} from '@app/data-dgql/id';
+import {QueryComponent} from '@app/utils/query-component/query.component';
 
 export interface CoalescedTimelineItem {
   user: string;
@@ -22,7 +23,7 @@ type ItemFilterFunction = (IssueTimelineItem) => boolean;
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit, OnDestroy {
+export class TimelineComponent implements AfterViewInit {
   static readonly COALESCABLE_EVENTS: Map<string, ItemFilterFunction> = new Map([
       ['LabelledEvent', (item) => {
         return !!item.label;
@@ -41,6 +42,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
       }],
       ['RemovedFromLocationEvent', (item) => {
         return !!item.removedLocation;
+      }],
+      ['LinkEvent', (item) => {
+        return !!item.linkedIssue;
+      }],
+      ['UnlinkEvent', (item) => {
+        return !!item.removedLinkedIssue;
       }]
     ]
   );
@@ -49,15 +56,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
   public timeFormatter = new TimeFormatter();
   timelineItems: Array<CoalescedTimelineItem> = [];
   public timelineItems$: DataList<IssueTimelineItem, unknown>;
-  public timelineItemsSub: Subscription;
   @Input() issueId: string;
   @Input() projectID: string;
+  @ViewChild(QueryComponent) query: QueryComponent;
 
   constructor(private dataService: DataService,
               private router: Router) {
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.requestTimelineItems();
   }
 
@@ -69,7 +76,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     });
     this.timelineItems$.count = 99999; // FIXME?
 
-    this.timelineItemsSub = this.timelineItems$.subscribe(value => {
+    this.query.listenTo(this.timelineItems$, value => {
       this.prepareTimelineItems(value);
     });
   }
@@ -156,10 +163,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     // Add remaining items
     finishCoalescing();
     this.timelineItems = coalesced;
-  }
-
-  ngOnDestroy() {
-    this.timelineItemsSub?.unsubscribe();
   }
 
   /**
