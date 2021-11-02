@@ -45,10 +45,11 @@
     <div class="issue-category">
 
       <!--Issue category buttons (in edit mode)-->
-      <mat-button-toggle-group class="category-selector" *ngIf="this.editTitle">
+      <mat-button-toggle-group class="category-selector" *ngIf="this.editTitle" 
+                               [formControl]="category" required>
         <mat-button-toggle value="UNCLASSIFIED">
           <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
-          Uncategorized
+          Unclassified
         </mat-button-toggle>
         <mat-button-toggle value="BUG">
           <mat-icon [svgIcon]="'issue-bug'"></mat-icon>

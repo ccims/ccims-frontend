@@ -43,6 +43,7 @@ export class CreateIssueDialogComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    // sets up the issue category as Unclassified
     this.category.setValue(IssueCategory.Unclassified);
 
     // updates items to be selected

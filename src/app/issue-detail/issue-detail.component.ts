@@ -6,6 +6,8 @@ import { encodeNodeId, NodeType } from '@app/data-dgql/id';
 import { DataNode } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
+import { FormControl, Validators } from '@angular/forms';
+import { IssueCategory } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-issue-detail',
@@ -33,15 +35,28 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   public issue$: DataNode<Issue>;
   public issueSub: Subscription;
 
-  constructor(private dataService: DataService, public activatedRoute: ActivatedRoute) {}
+  constructor(private dataService: DataService, 
+              public activatedRoute: ActivatedRoute
+  ) {
+  }
+
+  // form controls for the form fields
+  category = new FormControl('', [Validators.required]);
 
   ngOnInit(): void {
+    
     this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
     const issueNodeId = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
 
     this.issue$ = this.dataService.getNode(issueNodeId);
     this.issueSub = this.issue$.subscribe();
+
+    // sets up the issue category
+    this.issue$.dataAsPromise().then(data =>
+      {
+        this.category.setValue(data.category);
+      });
   }
 
   ngOnDestroy() {
