@@ -1,0 +1,433 @@
+mutation CreateIssue($input: CreateIssueInput!) {
+  createIssue(input: $input){
+    issue {
+      id
+      title
+    }
+  }
+}
+
+mutation LinkIssue($input: LinkIssueInput!) {
+  linkIssue(input: $input){
+    issue{
+      id
+    }
+  }
+}
+
+mutation UnlinkIssue($input: UnlinkIssueInput!) {
+  unlinkIssue(input: $input){
+    issue{
+      id
+    }
+  }
+}
+
+query GetIssue($id: ID!) {
+  node(id: $id) {
+    ...on Issue {
+      id
+      title
+      body
+      bodyRendered
+      isOpen
+      createdAt
+      locations{
+        nodes{
+          id
+          name
+        }
+      }
+      linkedByIssues{
+        nodes{
+          id
+          title
+        }
+      }
+      linksToIssues{
+        nodes{
+          title
+          id
+          body
+        }
+      }
+      createdBy{
+        id
+        displayName
+        username
+      }
+      issueComments{
+        nodes{
+          id
+          issue{
+            id
+          }
+          body
+          bodyRendered
+          createdBy{
+            id
+            username
+            displayName
+          }
+          createdAt
+        }
+      }
+      labels{
+        nodes{
+          name
+          id
+          color
+        }
+      }
+      assignees{
+        nodes{
+          id
+          displayName
+        }
+      }
+    }
+  }
+}
+
+mutation CommentIssue($input: AddIssueCommentInput!) {
+  addIssueComment(input: $input){
+    comment {
+      id
+      body
+      createdBy{
+        id
+        username
+        displayName
+      }
+      createdAt
+    }
+  }
+}
+
+mutation DeleteIssueComment($input: DeleteIssueCommentInput!) {
+  deleteIssueComment(input: $input){
+    deletedComment {
+      id
+      createdBy{
+        id
+        username
+        displayName
+      }
+      createdAt
+    }
+  }
+}
+
+mutation CloseIssue($input: CloseIssueInput!) {
+  closeIssue(input: $input){
+    clientMutationID
+  }
+}
+
+mutation ReopenIssue($input: ReopenIssueInput!) {
+  reopenIssue(input: $input){
+    clientMutationID
+  }
+}
+
+mutation RenameIssueTitle($input: RenameIssueTitleInput!) {
+  renameIssueTitle(input: $input){
+    clientMutationID
+  }
+}
+
+mutation ChangeIssueCategory($input: ChangeIssueCategoryInput!){
+  changeIssueCategory(input: $input) {
+    clientMutationID,
+    event {
+      id,
+      oldCategory,
+      newCategory
+    }
+  }
+}
+
+mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
+  removeIssueFromLocation(input: $input){
+    clientMutationID
+  }
+}
+
+mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
+  addIssueToLocation(input: $input){
+    clientMutationID
+  }
+}
+
+mutation UpdateComment($input: UpdateCommentInput!) {
+  updateComment(input: $input){
+    clientMutationID,
+    comment {
+          id
+          createdBy {
+            id
+            displayName
+          }
+          createdAt
+          body
+          lastEditedAt
+          editedBy {
+            nodes {
+              id
+              displayName
+            }
+          }
+        }
+  }
+}
+
+query getAllTimelineItems($input: ID!) {
+  node(id: $input) {
+    ... on Issue {
+      timeline {
+        nodes {
+          __typename
+          ... on IssueTimelineItem {
+            id
+            createdBy {
+              id
+              username
+              displayName
+            }
+            createdAt
+            ... on AddedToComponentEvent {
+              component {
+                id,
+                name
+              }
+            }
+            ... on AddedToLocationEvent {
+              location {
+                __typename,
+                id,
+                name
+              }
+            }
+            ... on AssignedEvent {
+              assignee {
+                id
+              }
+            }
+            ... on CategoryChangedEvent {
+              oldCategory
+              newCategory
+            }
+            ... on DueDateChangedEvent {
+              oldDueDate
+              newDueDate
+            }
+            ... on DeletedIssueComment {
+              deletedBy {
+                id
+              }
+              deletedAt
+            }
+            ... on EstimatedTimeChangedEvent {
+              oldEstimatedTime
+              newEstimatedTime
+            }
+            ... on LabelledEvent {
+              label {
+                id,
+                name,
+                color
+              }
+            }
+            ... on IssueComment {
+              body
+              lastEditedAt
+              editedBy {
+                nodes {
+                  id
+                  username
+                  displayName
+                }
+              }
+            }
+            ... on MarkedAsDuplicateEvent {
+              originalIssue {
+                id,
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
+              }
+            }
+            ... on LinkEvent {
+              linkedIssue {
+                id,
+                title,
+                category,
+                linksToIssues {
+                  totalCount
+                }
+                linkedByIssues {
+                  totalCount
+                }
+                isOpen
+              }
+            }
+            ... on PinnedEvent {
+              component {
+                id,
+                name
+              }
+            }
+            ... on ReferencedByIssueEvent {
+              mentionedAt {
+                id,
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
+              }
+              mentionedInComment {
+                id
+              }
+            }
+            ... on PriorityChangedEvent {
+              oldPriority
+              newPriority
+            }
+            ... on RemovedFromComponentEvent {
+              removedComponent {
+                id,
+                name
+              }
+            }
+            ... on ReferencedByOtherEvent {
+              component {
+                id
+                name
+              }
+              source
+              sourceURL
+            }
+            ... on RemovedFromLocationEvent {
+              removedLocation {
+                id,
+                name
+              }
+            }
+            ... on StartDateChangedEvent {
+              oldStartDate
+              newStartDate
+            }
+            ... on RenamedTitleEvent {
+              oldTitle
+              newTitle
+            }
+            ... on UnassignedEvent {
+              removedAssignee {
+                id
+              }
+            }
+            ... on UnlabelledEvent {
+              removedLabel {
+                id
+              }
+            }
+            ...on WasLinkedEvent {
+              linkedBy{
+                id,
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
+              }
+            }
+            ...on UnmarkedAsDuplicateEvent {
+              issue{
+                id,
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
+              }
+            }
+            ... on WasUnlinkedEvent {
+              unlinkedBy {
+                id,
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
+              }
+            }
+            ... on UnpinnedEvent {
+              component {
+                id,
+                name
+              }
+            }
+            ... on UnlinkEvent {
+              removedLinkedIssue {
+                id,
+                title,
+                category,
+                linksToIssues{
+                  totalCount
+                }
+                linkedByIssues{
+                  totalCount
+                }
+                isOpen
+              }
+            }
+            ... on AddedArtifactEvent {
+              artifact {
+                id
+              }
+            }
+            ... on RemovedArtifactEvent {
+              removedArtifact {
+                id
+              }
+            }
+            ... on AddedNonFunctionalConstraintEvent {
+              nonFunctionalConstraint {
+                id
+              }
+            }
+            ... on RemovedNonFunctionalConstraintEvent {
+              removedNonFunctionalConstraint {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -694,6 +694,21 @@ mutation MutRenameIssueTitle($id: String, $issue: ID!, $title: String!) {
   }
 }
 
+mutation MutChangeIssueCategory($id: String, $issue: ID!, $category: IssueCategory!){
+  changeIssueCategory(input: {
+    clientMutationID: $id,
+    issue: $issue,
+    newCategory: $category
+  }) {
+    clientMutationID,
+    event {
+      id,
+      oldCategory,
+      newCategory
+    }
+  }
+}
+
 mutation MutCloseIssue($id: String, $issue: ID!) {
   closeIssue(input: {
     clientMutationID: $id,
