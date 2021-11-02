@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { encodeListId, encodeNodeId, ListId, ListType, NodeType } from '@app/data-dgql/id';
+import { ListId, ListType, NodeType } from '@app/data-dgql/id';
 import { DataNode } from '@app/data-dgql/query';
 import { Project } from '../../generated/graphql-dgql';
 import DataService from '@app/data-dgql';
@@ -19,8 +19,8 @@ export class ProjectIssueListComponent implements OnInit {
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
     const node = { type: NodeType.Project, id: this.projectId };
-    this.project$ = this.dataService.getNode(encodeNodeId(node));
-    this.issueListId = encodeListId({ node, type: ListType.Issues });
+    this.project$ = this.dataService.getNode(node);
+    this.issueListId = { node, type: ListType.Issues };
   }
 
 }

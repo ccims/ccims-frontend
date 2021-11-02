@@ -1,13 +1,9 @@
 import {
   NodeType,
   NodeId,
-  decodeNodeId,
-  ListId,
-  decodeListId,
   ListParams,
   ListType,
-  ListDescriptor,
-  CURRENT_USER_NODE
+  CURRENT_USER_NODE, NodeIdEnc, ListId
 } from './id';
 import { QueriesService } from './queries/queries.service';
 import { PageInfo } from '../../generated/graphql-dgql';
@@ -24,6 +20,7 @@ type NodeQueries = {
 const nodeQueries: NodeQueries = {
   [NodeType.Project]: (i, id) => i.q.projects.getProject(id).then(data => data.node),
   [NodeType.Component]: (i, id) => i.q.components.getComponent(id).then(data => data.node),
+  [NodeType.ComponentInterface]: (i, id) => i.q.components.getInterface(id).then(data => data.node),
   [NodeType.Issue]: (i, id) => i.q.issues.getIssueHeader(id).then(data => data.node),
   [NodeType.User]: (i, id) => id === CURRENT_USER_NODE.id
     ? i.q.users.currentUser().then(data => data.currentUser)
@@ -32,7 +29,7 @@ const nodeQueries: NodeQueries = {
 };
 
 export const queryNode = (q: QueriesService) => async <T>(nodeId: NodeId): Promise<T> => {
-  const { type, id } = decodeNodeId(nodeId);
+  const { type, id } = nodeId;
 
   if (!nodeQueries[type]) {
     throw new Error(`${NodeType[type]} cannot be loaded directly`);
@@ -52,9 +49,9 @@ function listParams<F>(params: ListParams<F>) {
   }
   if (params.cursor) {
     if (params.forward) {
-      output.after = params.cursor;
+      output.after = params.cursor.id;
     } else {
-      output.before = params.cursor;
+      output.before = params.cursor.id;
     }
   }
   if (params.filter) {
@@ -70,7 +67,7 @@ type ListQueryInput = {
 
 type ListQueries = {
   [listType: number]: {
-    [nodeType: number]: (i: ListQueryInput, listId: ListDescriptor, params: ListParams<unknown>) => Promise<ListResult<unknown>>,
+    [nodeType: number]: (i: ListQueryInput, listId: ListId, params: ListParams<unknown>) => Promise<ListResult<unknown>>,
   },
 };
 
@@ -211,14 +208,14 @@ const listQueries: ListQueries = {
 export type ListResult<T> = {
   totalCount: number,
   pageInfo: PageInfo,
-  items: Map<NodeId, T>,
+  items: Map<NodeIdEnc, T>,
 };
 
 export const queryList = (q: QueriesService, c: NodeCache) => async <T, F>(
   listId: ListId,
   params: ListParams<F>
 ): Promise<ListResult<T>> => {
-  const { node, type } = decodeListId(listId);
+  const { node, type } = listId;
 
   if (!listQueries[type] || !listQueries[type][node.type]) {
     throw new Error(`${NodeType[node.type]} has no list ${ListType[type]}`);

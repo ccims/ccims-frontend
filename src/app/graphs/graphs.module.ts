@@ -43,6 +43,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { IssueSidebarComponent } from '@app/issue-detail/issue-sidebar.component';
 import { CacheNodeComponent } from '@app/components/cache-node.component';
 import { ProjectHeaderComponent } from '@app/project-header/project-header.component';
+import { IssueFilterComponent } from '@app/issue-list/issue-filter.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -69,7 +72,8 @@ import { ProjectHeaderComponent } from '@app/project-header/project-header.compo
     IssueIconComponent,
     IssueSidebarComponent,
     CacheNodeComponent,
-    ProjectHeaderComponent
+    ProjectHeaderComponent,
+    IssueFilterComponent
   ],
   imports: [
     CommonModule,
@@ -103,7 +107,9 @@ import { ProjectHeaderComponent } from '@app/project-header/project-header.compo
     NgSelectModule,
     NgOptionHighlightModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    MatButtonToggleModule,
+    MatTooltipModule
   ],
   exports: [
     CdkTableModule,

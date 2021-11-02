@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataList, DataNode } from '@app/data-dgql/query';
-import { AddIssueCommentInput, CloseIssueInput, Issue, ReopenIssueInput, UpdateCommentInput } from '../../generated/graphql';
+import { Issue } from '../../generated/graphql';
 import { Subscription } from 'rxjs';
 import DataService from '@app/data-dgql';
-import {CURRENT_USER_NODE_ID, decodeNodeId, encodeListId, getRawId, ListType, NodeId, NodeType} from '@app/data-dgql/id';
+import { CURRENT_USER_NODE, ListType, NodeType } from '@app/data-dgql/id';
 import { User } from '../../generated/graphql-dgql';
 
 @Component({
@@ -22,33 +22,25 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
   public currentUserSub: Subscription;
 
   public editBody = false;
-  public savingBody = false;
   public savingComment = false;
   @ViewChild('comment') commentEditor;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.linkedIssues$ = this.dataService.getList(encodeListId({
+    this.linkedIssues$ = this.dataService.getList({
       node: { type: NodeType.Issue, id: this.issueId },
       type: ListType.LinkedIssues
-    }));
+    });
     this.linkedIssueSub = this.linkedIssues$.subscribe();
 
-    this.currentUser$ = this.dataService.getNode(CURRENT_USER_NODE_ID);
+    this.currentUser$ = this.dataService.getNode(CURRENT_USER_NODE);
     this.currentUserSub = this.currentUser$.subscribe();
   }
 
   ngOnDestroy() {
     this.linkedIssueSub.unsubscribe();
     this.currentUserSub.unsubscribe();
-  }
-
-  formatTime(a: any) {
-    return 'TODO';
-  }
-  formatIssueOpenTime() {
-    return 'TODO';
   }
 
   /**

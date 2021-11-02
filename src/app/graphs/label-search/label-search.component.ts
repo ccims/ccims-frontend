@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { concat, of, Subject, Observable, BehaviorSubject } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { FilterLabel, isFilterLabel, LabelStoreService } from '../../data/label/label-store.service';

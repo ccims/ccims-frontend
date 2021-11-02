@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -7,8 +7,7 @@ import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.co
 import {DataNode} from '@app/data-dgql/query';
 import {Project} from '../../generated/graphql-dgql';
 import DataService from '@app/data-dgql';
-import {encodeNodeId, NodeType} from '@app/data-dgql/id';
-import {Subscription} from 'rxjs';
+import {NodeType} from '@app/data-dgql/id';
 import {QueryComponent} from '@app/utils/query-component/query.component';
 
 /**
@@ -38,7 +37,7 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
-    this.project = this.dataService.getNode(encodeNodeId({type: NodeType.Project, id: this.projectId}));
+    this.project = this.dataService.getNode({type: NodeType.Project, id: this.projectId});
   }
 
   ngAfterViewInit() {

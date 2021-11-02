@@ -99,6 +99,14 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
     this.listSetSub?.unsubscribe();
   }
 
+  /** This method is needed to satisfy static type checking bounds */
+  getListSetLength(): number {
+    if (this.isLocalSet) {
+      return (this.listSet as NodeId[]).length;
+    }
+    throw new Error('bad state');
+  }
+
   private onDialogApplyChangeset = (additions: NodeId[], deletions: NodeId[]): Promise<void> => {
     return this.applyChangeset(additions, deletions);
   }

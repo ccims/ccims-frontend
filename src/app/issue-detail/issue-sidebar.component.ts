@@ -9,7 +9,7 @@ import {
   LabelFilter,
   User, UserFilter
 } from '../../generated/graphql-dgql';
-import { decodeNodeId, encodeListId, encodeNodeId, getRawId, ListId, ListType, NodeId, NodeType, ROOT_NODE } from '@app/data-dgql/id';
+import { encodeNodeId, ListId, ListType, NodeId, NodeType, ROOT_NODE } from '@app/data-dgql/id';
 import { SetMultiSource } from '@app/components/set-editor/set-editor-dialog.component';
 import DataService from '@app/data-dgql';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,12 +44,12 @@ export class IssueSidebarComponent implements OnInit {
 
   constructor(private dataService: DataService, private dialogService: MatDialog, private notify: UserNotifyService) {}
 
-  public componentList: MaybeLocalList<string>;
-  public locationList: MaybeLocalList<string>;
-  public labelList: MaybeLocalList<string>;
-  public linkedIssueList: MaybeLocalList<string>;
-  public linkedByIssueList: MaybeLocalList<string>;
-  public assigneeList: MaybeLocalList<string>;
+  public componentList: MaybeLocalList<NodeId>;
+  public locationList: MaybeLocalList<NodeId>;
+  public labelList: MaybeLocalList<NodeId>;
+  public linkedIssueList: MaybeLocalList<NodeId>;
+  public linkedByIssueList: MaybeLocalList<NodeId>;
+  public assigneeList: MaybeLocalList<NodeId>;
 
   public allComponentsList: ListId;
   public allLocationsList: SetMultiSource;
@@ -66,30 +66,30 @@ export class IssueSidebarComponent implements OnInit {
 
   ngOnInit() {
     if (this.issueId) {
-      this.componentList = encodeListId({
+      this.componentList = {
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.Components
-      });
-      this.locationList = encodeListId({
+      };
+      this.locationList = {
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.IssueLocations
-      });
-      this.labelList = encodeListId({
+      };
+      this.labelList = {
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.Labels
-      });
-      this.assigneeList = encodeListId({
+      };
+      this.assigneeList = {
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.Assignees
-      });
-      this.linkedIssueList = encodeListId({
+      };
+      this.linkedIssueList = {
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.LinkedIssues
-      });
-      this.linkedByIssueList = encodeListId({
+      };
+      this.linkedByIssueList = {
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.LinkedByIssues
-      });
+      };
     } else if (this.localIssue) {
       this.componentList = this.localIssue.components;
       this.locationList = this.localIssue.locations;
@@ -99,50 +99,50 @@ export class IssueSidebarComponent implements OnInit {
       this.linkedByIssueList = [];
     }
 
-    const projectComponents = encodeListId({
+    const projectComponents = {
       node: { type: NodeType.Project, id: this.projectId },
       type: ListType.Components
-    });
-    const projectInterfaces = encodeListId({
+    };
+    const projectInterfaces = {
       node: { type: NodeType.Project, id: this.projectId },
       type: ListType.ComponentInterfaces
-    });
+    };
 
     this.allComponentsList = projectComponents;
     this.allLocationsList = {
       staticSources: [projectComponents, projectInterfaces],
     };
     this.allLabelsList = {
-      staticSources: this.issueId ? [encodeListId({
+      staticSources: this.issueId ? [{
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.Labels
-      })] : [],
+      }] : [],
       // source labels from labels of issue components
-      sourceNodes: this.issueId ? encodeListId({
+      sourceNodes: this.issueId ? ({
         node: { type: NodeType.Issue, id: this.issueId },
         type: ListType.Components,
       }) : (this.localIssue.components || []),
-      listFromNode: node => encodeListId({
-        node: decodeNodeId(node),
+      listFromNode: node => ({
+        node,
         type: ListType.Labels
       })
     };
     this.allAssigneeCandidatesList = {
       staticSources: [
-        this.issueId && encodeListId({
+        this.issueId && {
           node: { type: NodeType.Issue, id: this.issueId },
           type: ListType.Assignees
-        }),
-        encodeListId({
+        },
+        {
           node: ROOT_NODE,
           type: ListType.SearchUsers
-        })
+        }
       ].filter(x => x),
     };
-    this.allLinkedIssuesList = encodeListId({
+    this.allLinkedIssuesList = {
       node: { type: NodeType.Project, id: this.projectId },
       type: ListType.Issues
-    });
+    };
 
     this.componentListPromise = this.issue$?.dataAsPromise().then(data => data.components);
     this.locationListPromise = this.issue$?.dataAsPromise().then(data => data.locations);
@@ -171,15 +171,20 @@ export class IssueSidebarComponent implements OnInit {
 
   applyLocalChangeset(key: keyof LocalIssueData, add: NodeId[], remove: NodeId[]) {
     const set = this.localIssue[key];
+    const keySet = new Set([...set].map(id => encodeNodeId(id)));
 
     for (const id of add) {
-      if (!set.includes(id)) {
+      const encId = encodeNodeId(id);
+      if (!keySet.has(encId)) {
         set.push(id);
+        keySet.add(encId);
       }
     }
     for (const id of remove) {
-      if (set.includes(id)) {
+      const encId = encodeNodeId(id);
+      if (keySet.has(encId)) {
         set.splice(set.indexOf(id), 1);
+        keySet.delete(encId);
       }
     }
 
@@ -192,7 +197,7 @@ export class IssueSidebarComponent implements OnInit {
     }
 
     const mutId = Math.random().toString();
-    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    const issue = { type: NodeType.Issue, id: this.issueId };
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueComponent(mutId, issue, id);
@@ -207,7 +212,7 @@ export class IssueSidebarComponent implements OnInit {
     }
 
     const mutId = Math.random().toString();
-    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    const issue = { type: NodeType.Issue, id: this.issueId };
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueLocation(mutId, issue, id);
@@ -221,7 +226,7 @@ export class IssueSidebarComponent implements OnInit {
       return this.applyLocalChangeset('labels', add, remove);
     }
     const mutId = Math.random().toString();
-    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    const issue = { type: NodeType.Issue, id: this.issueId };
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueLabel(mutId, issue, id);
@@ -235,7 +240,7 @@ export class IssueSidebarComponent implements OnInit {
       return this.applyLocalChangeset('assignees', add, remove);
     }
     const mutId = Math.random().toString();
-    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    const issue = { type: NodeType.Issue, id: this.issueId };
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueAssignee(mutId, issue, id);
@@ -250,7 +255,7 @@ export class IssueSidebarComponent implements OnInit {
     }
 
     const mutId = Math.random().toString();
-    const issue = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    const issue = { type: NodeType.Issue, id: this.issueId };
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.linkIssue(mutId, issue, id);
@@ -265,7 +270,10 @@ export class IssueSidebarComponent implements OnInit {
       this.dialogService.open(CreateEditLabelDialogComponent, {
         width: '400px',
         data: {
-          projectId: encodeNodeId({ type: NodeType.Project, id: this.projectId })
+          projectId: { type: NodeType.Project, id: this.projectId },
+          issueId: this.issue$?.current.components.nodes.map(c => {
+            return {type: NodeType.Component, id: c.id};
+          })
         }
       }).afterClosed().subscribe(created => {
         if (created) {
@@ -273,7 +281,7 @@ export class IssueSidebarComponent implements OnInit {
           let hasOverlap = false;
           if (Array.isArray(this.componentList)) {
             for (const componentId of this.componentList) {
-              if (labelComponents.includes(getRawId(componentId))) {
+              if (labelComponents.includes(componentId.id)) {
                 hasOverlap = true;
                 break;
               }
@@ -288,7 +296,7 @@ export class IssueSidebarComponent implements OnInit {
           }
 
           if (hasOverlap) {
-            resolve(encodeNodeId({ type: NodeType.Label, id: created.id }));
+            resolve({ type: NodeType.Label, id: created.id });
           } else {
             this.notify.notifyInfo('New label could not be added to issue because it does not appear to have any components in common.');
             resolve(null);
@@ -304,7 +312,7 @@ export class IssueSidebarComponent implements OnInit {
       width: '400px',
       data: {
         editExisting: id,
-        projectId: encodeNodeId({ type: NodeType.Project, id: this.projectId })
+        projectId: { type: NodeType.Project, id: this.projectId }
       }
     });
   }

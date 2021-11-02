@@ -33,6 +33,10 @@ export class RemoveDialogComponent implements OnInit {
 
 export interface DialogData {
   title: string;
+  /** The list of lines shown in the dialog. If a line starts with a space, the line will be indented */
   messages: Array<string>;
+  /** If set, shows a text box that forces the user to type the specified text before being able to click the confirm button */
   verificationName?: string;
+  /** If set, shows this text as the text in the confirm button. If not set, button shows 'Delete' */
+  confirmButtonText?: string;
 }

@@ -3,7 +3,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {CreateProjectDialogComponent} from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
 import {Project} from 'src/generated/graphql';
 import {ProjectStoreService} from '../data/project/project-store.service';
-import {demoProject} from '@app/evaluation/demo-project';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 /**
@@ -22,8 +21,7 @@ export class ProjectListComponent implements OnInit {
   projects: Pick<Project, 'id' | 'name'>[] = [];
   loading: boolean;
 
-  constructor(private projectMockService: demoProject,
-              private projectStore: ProjectStoreService,
+  constructor(private projectStore: ProjectStoreService,
               private dialog: MatDialog,
               private notify: UserNotifyService) {
   }

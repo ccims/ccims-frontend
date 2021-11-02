@@ -1,12 +1,13 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
+  GetBasicComponentQuery,
   GetComponentQuery,
   GetInterfaceQuery,
   UpdateComponentInput,
   UpdateComponentInterfaceInput
 } from '../../generated/graphql';
 import {FormControl, Validators} from '@angular/forms';
-import {encodeListId, ListType, NodeType} from '@app/data-dgql/id';
+import { ListId, ListType, NodeType } from '@app/data-dgql/id';
 import {Router} from '@angular/router';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
@@ -37,8 +38,8 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('updateQuery') updateQuery: QueryComponent;
 
   Type = NodeDetailsType;
-  issueListId: string;
-  component: GetComponentQuery;
+  issueListId: ListId;
+  component: GetBasicComponentQuery;
   interface: GetInterfaceQuery;
   saveFailed: boolean;
   editMode: boolean;
@@ -64,12 +65,12 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     this.editMode = false;
 
     if (this.nodeType === NodeDetailsType.Component) {
-      this.issueListId = encodeListId({node: {type: NodeType.Component, id: this.nodeId}, type: ListType.Issues});
+      this.issueListId = {node: {type: NodeType.Component, id: this.nodeId}, type: ListType.Issues};
     } else {
-      this.issueListId = encodeListId({
+      this.issueListId = {
         node: {type: NodeType.ComponentInterface, id: this.nodeId},
         type: ListType.IssuesOnLocation
-      });
+      };
     }
 
 
