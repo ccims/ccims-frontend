@@ -18,32 +18,41 @@ import { FormControl, Validators } from '@angular/forms';
  * It also lets the user edit properties of an issue.
  */
 export class IssueDetailComponent implements OnInit, OnDestroy {
+
+  // current project id
   public projectId: string;
+
+  // current issue id
   public issueId: string;
 
-  public editTitle = false;
-  public savingTitle = false;
-  @ViewChild('titleInput') inputTitle: ElementRef;
+  // mark whether the current issue is editable
+  public issueEditable = false;
 
-  // Provides functions for time formatting
+  // mark whether changes to the current issue are being saved,
+  // used for the loading spinner of the Save button
+  public savingChanges = false;
+
+  // provides functions for time formatting
   public timeFormatter = new TimeFormatter();
 
-  // TODO: replace this with issue$.current?.userCanEditIssue in HTML once that works
+  // FIXME: replace with issue$.current?.userCanEditIssue in HTML once that works
   public userCanEditIssue = true;
 
   public issue$: DataNode<Issue>;
   public issueSub: Subscription;
+
+  // new title of the current issue
+  @ViewChild('titleInput') inputTitle: ElementRef;
+
+  // new category of the current issue
+  category = new FormControl('', [Validators.required]);
 
   constructor(private dataService: DataService, 
               public activatedRoute: ActivatedRoute
   ) {
   }
 
-  // form controls for the form fields
-  category = new FormControl('', [Validators.required]);
-
   ngOnInit(): void {
-    
     this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
     const issueNodeId = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
@@ -70,7 +79,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   beginEditing() {
 
     // marks the issue as editable
-    this.editTitle = true;
+    this.issueEditable = true;
 
     // sets up the issue category
     this.issue$.dataAsPromise().then(data =>
@@ -87,34 +96,45 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
    */
   public finishEditing(save?: boolean): void {
 
-    // case: the new title and category will be saved
+    // case: the new changes are to be saved
     if (save) {
 
-      // saves the new title
-      this.savingTitle = true;
-      this.dataService.mutations.renameIssueTitle(
-        Math.random().toString(),
-        this.issue$.id,
-        this.inputTitle.nativeElement.value
-      ).then(() => {
-        // only leave edit mode if successful
-        this.editTitle = false;
-      }).finally(() => {
-        this.savingTitle = false;
-      });
+      // marks the saving process as started
+      this.savingChanges = true;
 
-      // saves the new category
-      console.log("The selected category: " + this.category.value);
-      this.dataService.mutations.changeIssueCategory(
-        Math.random().toString(),
-        this.issue$.id,
-        this.category.value
-      );
-    } 
+      // saves all changes
+      this.saveChanges();
+    }
     
-    // case: the new title and category won't be saved
+    // case: the new changes are not to be saved
     else {
-      this.editTitle = !this.editTitle;
+      this.issueEditable = false;
     }
   }
+
+  /**
+   * Saves all changes to the current issue.
+   */
+  private saveChanges() {
+
+    // 1) saves the new title
+    this.dataService.mutations.renameIssueTitle(
+      Math.random().toString(),
+      this.issue$.id,
+      this.inputTitle.nativeElement.value
+    );
+
+    // 2) saves the new category
+    this.dataService.mutations.changeIssueCategory(
+      Math.random().toString(),
+      this.issue$.id,
+      this.category.value
+    ).then(() => {
+      // marks the issue as uneditable
+      this.issueEditable = false;
+    }).finally(() => {
+      // marks the saving process as finished
+      this.savingChanges = false;
+    });
+  } 
 }

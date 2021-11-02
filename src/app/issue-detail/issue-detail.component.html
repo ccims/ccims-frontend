@@ -8,23 +8,24 @@
     <div class="issue-title">
 
       <!--Issue title-->
-      <h1 class="title-text" *ngIf="!this.editTitle">
+      <h1 class="title-text" *ngIf="!this.issueEditable">
         {{issue.title}}
       </h1>
 
       <!--Issue title input field (in edit mode)-->
-      <mat-form-field class="title-input" *ngIf="this.editTitle" appearance="outline">
+      <mat-form-field class="title-input" *ngIf="this.issueEditable" appearance="outline">
         <input matInput #titleInput class="title-input" [value]="issue.title" autofocus />
       </mat-form-field>
 
       <div class="title-actions" *ngIf="userCanEditIssue">
 
         <!--Edit button-->
-        <button mat-flat-button class="title-edit-button" color="primary" (click)="beginEditing()" *ngIf="!this.editTitle">
+        <button mat-flat-button class="title-edit-button" color="primary" 
+                (click)="beginEditing()" *ngIf="!this.issueEditable">
           Edit
         </button>
 
-        <ng-container *ngIf="this.editTitle">
+        <ng-container *ngIf="this.issueEditable">
 
           <!--Cancel button (in edit mode)-->
           <button mat-flat-button (click)="this.finishEditing()">
@@ -34,7 +35,8 @@
           &nbsp;
 
           <!--Save button (in edit mode)-->
-          <button mat-flat-button (click)="this.finishEditing(true)" [class.spinner]="savingTitle" color="accent">
+          <button mat-flat-button (click)="this.finishEditing(true)" 
+                  [class.spinner]="savingChanges" color="accent">
             Save
           </button>
         </ng-container>
@@ -45,7 +47,7 @@
     <div class="issue-category">
 
       <!--Issue category buttons (in edit mode)-->
-      <mat-button-toggle-group class="category-selector" *ngIf="this.editTitle" 
+      <mat-button-toggle-group class="category-selector" *ngIf="this.issueEditable" 
                                [formControl]="category" required>
         <mat-button-toggle value="UNCLASSIFIED">
           <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
