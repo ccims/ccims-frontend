@@ -1,21 +1,8 @@
-.text-left {
-  text-align: left;
-}
-
 .mat-row:hover {
-  -webkit-box-shadow: inset 0px 0px 43px -17px rgba(201, 195, 201, 1);
-  -moz-box-shadow: inset 0px 0px 43px -17px rgba(201, 195, 201, 1);
-  box-shadow: inset 0px 0px 43px -17px rgba(201, 195, 201, 1);
+  box-shadow: inset 0 0 43px -17px rgba(201, 195, 201, 1);
   cursor: pointer;
 }
 
 .table-container {
   overflow: auto;
-}
-
-.label-div  {
-  background-color: rgb(5, 66, 5);
-  margin: 1px;
-  float: left;
-  color: white;
 }

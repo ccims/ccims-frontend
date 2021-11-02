@@ -1,5 +1,5 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NodeDetailsType} from '@app/node-details/node-details.component';
 
 @Component({
@@ -12,7 +12,8 @@ export class NodeDetailsPageComponent implements OnInit {
   projectId: string = null;
 
   constructor(private route: ActivatedRoute,
-              private changeDetector: ChangeDetectorRef) {
+              private changeDetector: ChangeDetectorRef,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -28,5 +29,11 @@ export class NodeDetailsPageComponent implements OnInit {
       this.nodeType = NodeDetailsType.Interface;
     }
     this.changeDetector.detectChanges();
+  }
+
+  onNodeUpdate(deleted: boolean): void {
+    if (deleted) {
+      this.router.navigate(['/projects/' + this.projectId + '/graph']);
+    }
   }
 }

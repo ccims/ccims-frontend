@@ -39,7 +39,6 @@
               }
             ],
             "styles": [
-              "src/theme.less",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {

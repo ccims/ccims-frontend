@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
-import { decodeNodeId, encodeListId, ListId, ListType, NodeType, ROOT_NODE } from '@app/data-dgql/id';
+import { ListId, ListType, NodeType, ROOT_NODE } from '@app/data-dgql/id';
 
-const listAllIssues = (self: IssueFilterComponent) => encodeListId({
+const listAllIssues = (self: IssueFilterComponent) => ({
   node: { type: NodeType.Project, id: self.projectId },
   type: ListType.Issues
 });
@@ -53,7 +53,7 @@ const PREDICATES = {
     label: 'Participants',
     dataType: 'user',
     scoreKeys: ['username', 'displayName'],
-    listAll: () => encodeListId({ node: ROOT_NODE, type: ListType.SearchUsers }),
+    listAll: () => ({ node: ROOT_NODE, type: ListType.SearchUsers }),
     makeFilter: (query: string) => ({ username: query }),
     ifEmpty: 'No users selected',
   },
@@ -64,8 +64,8 @@ const PREDICATES = {
     scoreKeys: ['name'],
     listAll: (self: IssueFilterComponent) => ({
       staticSources: [
-        encodeListId({ node: { type: NodeType.Project, id: self.projectId }, type: ListType.Components }),
-        encodeListId({ node: { type: NodeType.Project, id: self.projectId }, type: ListType.ComponentInterfaces }),
+        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.Components },
+        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.ComponentInterfaces },
       ]
     }),
     makeFilter: (query: string) => ({ title: query }),
@@ -88,7 +88,7 @@ function getDefaultForType(type: string) {
 function convertValueForFilter(type: string, value: any) {
   switch (type) {
     case 'ids':
-      return value.map(item => decodeNodeId(item).id);
+      return value.map(item => item.id);
     default:
       return value;
   }

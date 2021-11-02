@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {IssueTimelineItem} from '../../../generated/graphql-dgql';
 import {DataList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import {encodeListId, encodeNodeId, ListType, NodeType} from '@app/data-dgql/id';
+import { ListType, NodeId, NodeType } from '@app/data-dgql/id';
 
 export interface CoalescedTimelineItem {
   user: string;
@@ -15,13 +15,29 @@ export interface CoalescedTimelineItem {
   time: string;
 }
 
+type ItemFilterFunction = (IssueTimelineItem) => boolean;
+
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnInit, OnDestroy {
-  static readonly COALESCABLE_EVENTS = new Set(['LabelledEvent', 'UnlabelledEvent']);
+  static readonly COALESCABLE_EVENTS: Map<string, ItemFilterFunction> = new Map([
+      ['LabelledEvent', (item) => {
+        return !!item.label;
+      }],
+      ['UnlabelledEvent', (item) => {
+        return !!item.removedLabel;
+      }],
+      ['AddedToComponentEvent', (item) => {
+        return !!item.component;
+      }],
+      ['RemovedFromComponentEvent', (item) => {
+        return !!item.removedComponent;
+      }]
+    ]
+  );
 
   // Provides time format functions
   public timeFormatter = new TimeFormatter();
@@ -40,11 +56,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   requestTimelineItems(): void {
-    // Get observeable with all timelineitems for current issue
-    this.timelineItems$ = this.dataService.getList(encodeListId({
+    // Get observable with all timeline items for current issue
+    this.timelineItems$ = this.dataService.getList({
       node: {type: NodeType.Issue, id: this.issueId},
       type: ListType.TimelineItems
-    }));
+    });
     this.timelineItems$.count = 99999; // FIXME?
 
     this.timelineItemsSub = this.timelineItems$.subscribe(value => {
@@ -86,10 +102,21 @@ export class TimelineComponent implements OnInit, OnDestroy {
         coalesceList = [];
       }
     };
+    const pushSingleItem = (timelineItem: IssueTimelineItem, filter: ItemFilterFunction | undefined) => {
+      if (!filter || filter(timelineItem)) {
+        coalesced.push({
+          type: (timelineItem as any).__typename,
+          isCoalesced: false,
+          item: timelineItem,
+          user: timelineItem.createdBy.displayName,
+          time: timelineItem.createdAt
+        });
+      }
+    };
 
     for (const timelineItem of items.values()) {
       const itemType = (timelineItem as any).__typename;
-      const createdBy = timelineItem.createdBy.displayName;
+      const filter = TimelineComponent.COALESCABLE_EVENTS.get(itemType);
       let stopCoalescing = false;
 
       if (coalescingType) {
@@ -101,35 +128,23 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
       if (coalescingType !== itemType || stopCoalescing) {
         finishCoalescing();
-
-        if (TimelineComponent.COALESCABLE_EVENTS.has(itemType)) {
+        if (filter && filter(timelineItem)) {
           coalescingType = itemType;
           coalesceList.push(timelineItem);
         } else {
           coalescingType = null;
-          coalesced.push({
-            type: itemType,
-            isCoalesced: false,
-            item: timelineItem,
-            user: createdBy,
-            time: timelineItem.createdAt
-          });
+          pushSingleItem(timelineItem, filter);
         }
 
         continue;
       } else if (coalescingType == null) {
-        coalesced.push({
-          type: itemType,
-          isCoalesced: false,
-          item: timelineItem,
-          user: createdBy,
-          time: timelineItem.createdAt
-        });
-
+        pushSingleItem(timelineItem, filter);
         continue;
       }
 
-      coalesceList.push(timelineItem);
+      if (filter(timelineItem)) {
+        coalesceList.push(timelineItem);
+      }
     }
 
     // Add remaining items
@@ -143,7 +158,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   /**
    * Checks if user self assigned this issue for text representation
-   * @param timelineItem
+   * @param assignedEvent
    */
   selfAssigned(assignedEvent): boolean {
     if (assignedEvent.createdBy.id === assignedEvent.removedAssignee?.id) {
@@ -154,8 +169,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  makeCommentId(node) {
-    return encodeNodeId({type: NodeType.IssueComment, id: node.id});
+  makeCommentId(node): NodeId {
+    return {type: NodeType.IssueComment, id: node.id};
   }
 
   goToComponentDetails(component) {

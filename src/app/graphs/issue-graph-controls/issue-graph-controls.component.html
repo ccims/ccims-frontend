@@ -5,15 +5,15 @@
   <div class="controls">
 
     <!--Feature Requests toggle-->
-    <mat-slide-toggle title="Feature Requests" [(ngModel)]="featureRequests" 
-                      matTooltip="Feature Requests" class="slide-toggle" 
+    <mat-slide-toggle title="Feature Requests" [(ngModel)]="featureRequests"
+                      matTooltip="Feature Requests" class="slide-toggle"
                       [checked]="true" (change)="updateSelectedCategories()">
       <mat-icon class="feature-request-icon">emoji_objects</mat-icon>
     </mat-slide-toggle>
 
     <!--Bug Reports toggle-->
-    <mat-slide-toggle title="Bug Reports" [(ngModel)]="bug" 
-                      matTooltip="Bug Reports" class="slide-toggle" 
+    <mat-slide-toggle title="Bug Reports" [(ngModel)]="bug"
+                      matTooltip="Bug Reports" class="slide-toggle"
                       [checked]="true" (change)="updateSelectedCategories()">
       <mat-icon class="bug-report-icon">bug_report</mat-icon>
     </mat-slide-toggle>
@@ -26,21 +26,21 @@
     </mat-slide-toggle>
 
     <!--Issue Relations toggle-->
-    <mat-slide-toggle title="Issue Relations" [(ngModel)]="showRelations" 
-                      matTooltp="Issue Relations" class="slide-toggle" 
+    <mat-slide-toggle title="Issue Relations" [(ngModel)]="showRelations"
+                      matTooltip="Issue Relations" class="slide-toggle"
                       [checked]="true" (change)="setRelationVisibility()">
       <mat-icon class="relation-edge-icon" svgIcon="relation-edge"></mat-icon>
     </mat-slide-toggle>
 
     <!--Center Focus button-->
-    <button mat-icon-button title="Fit Graph Into View" 
+    <button mat-icon-button title="Fit Graph Into View"
             (click)="this.issueGraph.fitGraphInView()"
             style=" margin-left: 20px">
       <mat-icon>center_focus_strong</mat-icon>
     </button>
 
     <!--Dashboard button-->
-    <button mat-icon-button title="Layout Graph" 
+    <button mat-icon-button title="Layout Graph"
             (click)="this.layoutGraph()"
             style=" margin-left: 20px">
       <mat-icon>dashboard</mat-icon>
@@ -50,7 +50,7 @@
     <app-label-search title="Label Search" #labelSearch></app-label-search>
 
     <!--Create New Component button-->
-    <button mat-fab title="Create New Component" color="primary" 
+    <button mat-fab title="Create New Component" color="primary"
             class="create-component-button"
             (click)="this.issueGraph.openCreateComponentDialog()">
       <mat-icon>add</mat-icon>

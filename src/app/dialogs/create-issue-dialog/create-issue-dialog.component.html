@@ -45,7 +45,9 @@
 <div mat-dialog-actions class="actions">
 
   <!--2.1. Cancel button, stops the issue creation process-->
-  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)">
+    Cancel
+  </button>
 
   <!--2.2. Create button, finishes the issue creation process-->
   <button mat-raised-button color="success" [class.spinner]="loading"

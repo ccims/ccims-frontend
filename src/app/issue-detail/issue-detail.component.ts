@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { ActivatedRoute } from '@angular/router';
 import { Issue } from 'src/generated/graphql-dgql';
 import { Subscription } from 'rxjs';
-import { encodeNodeId, NodeType } from '@app/data-dgql/id';
+import { NodeType } from '@app/data-dgql/id';
 import { DataNode } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
@@ -55,7 +55,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
-    const issueNodeId = encodeNodeId({ type: NodeType.Issue, id: this.issueId });
+    const issueNodeId = { type: NodeType.Issue, id: this.issueId };
 
     this.issue$ = this.dataService.getNode(issueNodeId);
     this.issueSub = this.issue$.subscribe();
