@@ -9,6 +9,9 @@ import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.comp
 })
 export class ProfileSettingsDialogComponent implements OnInit {
 
+  hide = true;
+  updatePasswordFieldsShown = false;
+
   constructor(public dialogRef: MatDialogRef<SettingsDialogComponent, boolean>, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -20,4 +23,18 @@ export class ProfileSettingsDialogComponent implements OnInit {
     this.dialog.open(SettingsDialogComponent);
   }
 
+  //TODO
+  public changePassword() {
+    this.updatePasswordFieldsShown = true;
+  }
+
+  //TODO
+  public cancel() {
+    this.updatePasswordFieldsShown = false;
+  }
+
+  //TODO
+  public updatePassword() {
+    this.updatePasswordFieldsShown = false;
+  }
 }
