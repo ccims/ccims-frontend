@@ -1,3 +1,6 @@
+<!--Issue data, shown in the Create Issue dialog-->
+
+<!--1. Issue components-->
 <div class="issue-sidebar-row">
     <app-set-editor
         #componentSet
@@ -14,8 +17,10 @@
         </ng-container>
     </app-set-editor>
 </div>
+
 <mat-divider></mat-divider>
 
+<!--2. Issue locations aka. components, interfaces-->
 <div class="issue-sidebar-row">
     <app-set-editor
         [makeFilter]="makeLocationFilter"
@@ -39,8 +44,10 @@
         </ng-container>
     </app-set-editor>
 </div>
+
 <mat-divider></mat-divider>
 
+<!--3. Issue labels-->
 <div class="issue-sidebar-row">
     <app-set-editor
         [makeFilter]="makeLabelFilter"
@@ -60,8 +67,10 @@
         </ng-container>
     </app-set-editor>
 </div>
+
 <mat-divider></mat-divider>
 
+<!--4. Issue assignees-->
 <div class="issue-sidebar-row">
     <app-set-editor
         [makeFilter]="makeUserFilter"
@@ -78,8 +87,10 @@
         </div>
     </app-set-editor>
 </div>
+
 <mat-divider></mat-divider>
 
+<!--5. Issues the current issue is linked to-->
 <div class="issue-sidebar-row">
     <app-set-editor
         [makeFilter]="makeIssueFilter"
@@ -95,8 +106,10 @@
         </div>
     </app-set-editor>
 </div>
+
 <mat-divider></mat-divider>
 
+<!--6. Issues the current issue is linked by-->
 <div class="issue-sidebar-row" *ngIf="!localIssue">
     <app-set-editor
         [makeFilter]="makeIssueFilter"
@@ -112,10 +125,12 @@
         </div>
     </app-set-editor>
 </div>
+
 <mat-divider></mat-divider>
 
+<!--7. Issue interfaces, artefacts and NFR-->
 <div class="issue-sidebar-row">
-    <mat-label><b>Interfaces, Artefacts & NFR</b></mat-label>
+    <mat-label><strong>Interfaces, Artefacts & NFR</strong></mat-label>
     unimplemented
     <br>
 </div>

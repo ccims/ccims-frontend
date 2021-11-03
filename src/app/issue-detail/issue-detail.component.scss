@@ -1,6 +1,19 @@
 @import 'src/styles/variables.scss';
 @import 'src/styles/spinner';
 
+.category-selector {
+  width: 100%;
+  margin-bottom: 8px;
+
+  mat-button-toggle {
+    width: 100%;
+
+    ::ng-deep &.mat-button-toggle-checked {
+      font-weight: 600;
+    }
+  }
+}
+
 .issue-details {
   padding: 16px;
 
@@ -56,6 +69,12 @@
         }
       }
     }
+  }
+
+  .issue-category {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
   }
 
   .issue-subheading {

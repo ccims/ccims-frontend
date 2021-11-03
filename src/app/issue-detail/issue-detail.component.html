@@ -1,29 +1,73 @@
 <!--Current issue details-->
 <div class="issue-details" *ngIf="issue$?.current as issue">
+
+  <!--1. Issue header-->
   <header class="issue-header">
+
+    <!--1.1. Issue header: title-->
     <div class="issue-title">
-      <h1 class="title-text" *ngIf="!this.editTitle">
+
+      <!--Issue title-->
+      <h1 class="title-text" *ngIf="!this.issueEditable">
         {{issue.title}}
       </h1>
-      <mat-form-field class="title-input" *ngIf="this.editTitle" appearance="outline">
+
+      <!--Issue title input field (in edit mode)-->
+      <mat-form-field class="title-input" *ngIf="this.issueEditable" appearance="outline">
         <input matInput #titleInput class="title-input" [value]="issue.title" autofocus />
       </mat-form-field>
+
       <div class="title-actions" *ngIf="userCanEditIssue">
-        <button mat-flat-button class="title-edit-button" color="primary" (click)="beginEditingTitle()" *ngIf="!this.editTitle">
+
+        <!--Edit button-->
+        <button mat-flat-button class="title-edit-button" color="primary" 
+                (click)="beginEditing()" *ngIf="!this.issueEditable">
           Edit
         </button>
-        <ng-container *ngIf="this.editTitle">
-          <button mat-flat-button (click)="this.finishEditingTitle()">
+
+        <ng-container *ngIf="this.issueEditable">
+
+          <!--Cancel button (in edit mode)-->
+          <button mat-flat-button (click)="this.finishEditing()">
             Cancel
           </button>
+          
           &nbsp;
-          <button mat-flat-button (click)="this.finishEditingTitle(true)" [class.spinner]="savingTitle" color="accent">
+
+          <!--Save button (in edit mode)-->
+          <button mat-flat-button (click)="this.finishEditing(true)" 
+                  [class.spinner]="savingChanges" color="accent">
             Save
           </button>
         </ng-container>
       </div>
     </div>
+
+    <!--1.2. Issue header: category-->
+    <div class="issue-category">
+
+      <!--Issue category buttons (in edit mode)-->
+      <mat-button-toggle-group class="category-selector" *ngIf="this.issueEditable" 
+                               [formControl]="category" required>
+        <mat-button-toggle value="UNCLASSIFIED">
+          <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
+          Unclassified
+        </mat-button-toggle>
+        <mat-button-toggle value="BUG">
+          <mat-icon [svgIcon]="'issue-bug'"></mat-icon>
+          Bug
+        </mat-button-toggle>
+        <mat-button-toggle value="FEATURE_REQUEST">
+          <mat-icon [svgIcon]="'issue-feature'"></mat-icon>
+          Feature Request
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <!--1.3. Issue header: subheading-->
     <div class="issue-subheading">
+
+      <!--Issue category and status-->
       <div [ngClass]="['issue-status', issue.isOpen ? 'is-open' : 'is-closed']">
         <app-issue-icon class="status-icon" [issue]="issue"></app-issue-icon>
         <span class="status-label">
@@ -31,6 +75,8 @@
           <ng-container *ngIf="!issue.isOpen">Closed</ng-container>
         </span>
       </div>
+
+      <!--Issue info about the user and date-->
       <div class="issue-opened">
         <app-user-item [noDisplay]="true" [user]="issue.createdBy"></app-user-item>
         opened this issue
@@ -39,11 +85,15 @@
           {{this.formatIssueOpenTime()}}
         </time>
       </div>
+
+      <!--Issue comments-->
       <div class="issue-stats">
         &nbsp;&sdot; {{this.timeFormatter.pluralize(issue.issueComments?.totalCount + 1, 'comment')}}
       </div>
     </div>
   </header>
+
+  <!--2. Issue contents-->
   <div class="issue-page">
     <app-issue-contents
         class="issue-contents"

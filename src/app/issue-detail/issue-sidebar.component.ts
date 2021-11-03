@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateEditLabelDialogComponent } from '@app/dialogs/create-label-dialog/create-edit-label-dialog.component';
 import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import { LabelPage } from 'src/generated/graphql';
 
 type MaybeLocalList<T> = ListId | T[];
 export type LocalIssueData = {
@@ -59,7 +60,7 @@ export class IssueSidebarComponent implements OnInit {
 
   public componentListPromise?: Promise<HydrateList<QComponent>>;
   public locationListPromise?: Promise<HydrateList<IssueLocation>>;
-  public labelListPromise?: Promise<HydrateList<Issue>>;
+  public labelListPromise?: Promise<HydrateList<Issue> | LabelPage>;
   public linkedIssueListPromise?: Promise<HydrateList<Issue>>;
   public linkedByIssueListPromise?: Promise<HydrateList<Issue>>;
   public assigneeListPromise?: Promise<HydrateList<User>>;
