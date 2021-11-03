@@ -63,6 +63,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
 import { LinkedIssueItemComponent } from '@app/issue-detail/linked-issue-item.component';
 import { SettingsDialogComponent } from '@app/dialogs/settings-dialog/settings-dialog.component';
+import { ProfileSettingsDialogComponent } from './dialogs/profile-settings-dialog/profile-settings-dialog.component';
+import { AccessTokenDialogComponent } from './dialogs/access-token-dialog/access-token-dialog.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -109,7 +111,9 @@ const toasterConfig: Partial<GlobalConfig> = {
     TextDisplayComponent,
     IssueContentsComponent,
     LinkedIssueItemComponent,
-    SettingsDialogComponent
+    SettingsDialogComponent,
+    ProfileSettingsDialogComponent,
+    AccessTokenDialogComponent
   ],
   imports: [
     BrowserModule,

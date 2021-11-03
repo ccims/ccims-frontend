@@ -30,14 +30,13 @@ export class TopToolbarComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog,) { }
-
+  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog) { }
+  
   public handleClick() {
     this.menuClick.emit();
   }
 
   public openSettingsDialog() {
     this.dialog.open(SettingsDialogComponent);
-    console.log('setting dialog');
   }
 }

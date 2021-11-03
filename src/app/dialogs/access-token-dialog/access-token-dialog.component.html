@@ -1,0 +1,40 @@
+<div class="dialog">
+
+    <button mat-button color="primary" class="new-item-button" (click)="goBackToSettings()">
+        <mat-icon>arrow_back_ios</mat-icon>
+        Back
+    </button>
+
+    <h1 mat-dialog-title style="text-align: center;">Personal access tokens</h1>
+    Generate a personal access token for quicker access ...
+
+    <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Note</mat-label>
+          <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                 placeholder="Ex. what will this token be used for?">
+        </mat-form-field>
+      </form>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Expitarion</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option value="option1">7 days</mat-option>
+          <mat-option value="option2">30 days</mat-option>
+          <mat-option value="option3">60 days</mat-option>
+          <mat-option value="option4">90 days</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+
+      
+    <button mat-button [color]="'primary'" (click)="generateToken()">
+        Generate Token
+    </button>
+
+      <button mat-button [mat-dialog-close]="null">
+        Cancel
+    </button>
+
+</div>

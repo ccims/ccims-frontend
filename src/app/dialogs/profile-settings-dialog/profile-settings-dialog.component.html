@@ -1,0 +1,24 @@
+<div class="dialog">
+
+    <button mat-button color="primary" class="new-item-button" (click)="goBackToSettings()">
+        <mat-icon>arrow_back_ios</mat-icon>
+        Back
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">Profile Settings</h1>
+    <app-text-display [text]="DisplayName" [onEditFinished]="displayNameEdited" placeholder="Display Name"
+        labelText="Display Name"></app-text-display>
+
+    <app-text-display [text]="Username" [onEditFinished]="usernameEdited" placeholder="Username" labelText="Username">
+    </app-text-display>
+
+    <app-text-display [text]="Email" [onEditFinished]="emailEdited" placeholder="email@email.com" labelText="Email">
+    </app-text-display>
+    <app-text-display [text]="UserID" [onEditFinished]="idEdited" placeholder="User ID" labelText="User ID">
+    </app-text-display>
+
+    <button mat-button color="primary" class="new-item-button" (click)="changePassword()">
+        Change Password
+    </button>
+
+
+</div>
