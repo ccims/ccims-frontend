@@ -50,64 +50,45 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ClosedEvent'">
-      <div class="timeline-body">
-        Issue was closed by <a>{{timelineItem.item.createdBy.displayName}}</a>
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>Issue was closed by <a>{{timelineItem.user}}</a></ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AssignedEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.assignee; else isNull">
-          <div *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned">
-            <a>{{timelineItem.item.createdBy.displayName}}</a> self-assigned this issue
-          </div>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.assignee">
+        <ng-template appSingleTimelineItem>
+          <span *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned">
+            <a>{{timelineItem.user}}</a> self-assigned this issue
+          </span>
           <ng-template #notSelfAssigned>
-            <a>{{timelineItem.item.createdBy.displayName}}</a> assigned this issue to user <a>{{timelineItem.item.assignee.displayName}}</a>
-            <br>
+            <a>{{timelineItem.user}}</a> assigned this issue to user
+            <a>{{timelineItem.item.assignee.displayName}}</a>
           </ng-template>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> assigned this issue to deleted user
-          <br>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> assigned this issue to deleted user
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'DueDateChangedEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a> changed due date from {{timelineItem.item.oldDueDate}}
-        to {{timelineItem.item.newDueDate}}
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> changed due date from {{timelineItem.item.oldDueDate}}
+          to {{timelineItem.item.newDueDate}}
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'EstimatedTimeChangedEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a> changed the estimated time from {{timelineItem.item.oldEstimatedTime}}
-        to {{timelineItem.item.newEstimatedTime}}
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> changed the estimated time from {{timelineItem.item.oldEstimatedTime}}
+          to {{timelineItem.item.newEstimatedTime}}
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'LabelledEvent'">
@@ -128,35 +109,26 @@
       </app-timeline-item>
     </div>
 
-
     <div class="timeline-panel" *ngSwitchCase="'DeletedIssueComment'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.deletedBy?.displayName}}</a> deleted comment by <a>{{timelineItem.item.createdBy.displayName}}</a>
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.item.deletedBy?.displayName}}</a> deleted comment by <a>{{timelineItem.user}}</a>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'MarkedAsDuplicateEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.originalIssue; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> marked this issue as duplicate of issue
-          <app-issue-item [issue]="timelineItem.item.originalIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> marked this issue as duplicate of deleted issue
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.originalIssue">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> marked this issue as duplicate of issue
+          <app-issue-item [issue]="timelineItem.item.originalIssue" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> marked this issue as duplicate of deleted issue
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'LinkEvent'">
@@ -166,6 +138,7 @@
           <app-issue-item [issue]="timelineItem.item.linkedIssue" [interactive]="true" [projectId]="projectID">
           </app-issue-item>
         </ng-template>
+
         <ng-template appCoalescedTimelineItems>
           <a>{{timelineItem.user}}</a> linked this issue to issues
           <ng-container *ngFor="let item of timelineItem.item">
@@ -177,54 +150,39 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.component; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> pinned this issue on component
+      <app-timeline-item [timelineItem]="timelineItem" [checkDeletedFn]="!timelineItem.item.component">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> pinned this issue on component
           <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> pinned this issue on deleted component
-          <br>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> pinned this issue on deleted component
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByIssueEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.mentionedAt; else isNull">
+      <app-timeline-item [timelineItem]="timelineItem" [checkDeletedFn]="!timelineItem.item.mentionedAt">
+        <ng-template appSingleTimelineItem>
           This issue was referenced by issue
-          <app-issue-item [issue]="timelineItem.item.mentionedAt" [interactive]="true" [projectId]="projectID"></app-issue-item>
+          <app-issue-item [issue]="timelineItem.item.mentionedAt" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
           in comment <a>{{timelineItem.item.mentionedInComment?.id}}</a>
-          by <a>{{timelineItem.item.createdBy?.displayName}}</a>
-        </div>
-        <ng-template #isNull>
-          This issue was referenced by deleted issue
-          <br>
+          by <a>{{timelineItem.user}}</a>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>This issue was referenced by a deleted issue</ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'PriorityChangedEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a> changed priority from {{timelineItem.item.oldPriority}}
-        to {{timelineItem.item.newPriority}}
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> changed priority from {{timelineItem.item.oldPriority}}
+          to {{timelineItem.item.newPriority}}
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromComponentEvent'">
@@ -246,22 +204,17 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByOtherEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.component; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> referenced this issue in component
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.component">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> referenced this issue in component
           <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>
           with <a href="{{timelineItem.item.sourceURL}}">{{timelineItem.item.source}}</a>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> referenced this issue in deleted component
-          <br>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> referenced this issue in deleted component
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromLocationEvent'">
@@ -283,69 +236,50 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ReopenedEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a> reopened this issue
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem><a>{{timelineItem.user}}</a> reopened this issue</ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'StartDateChangedEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a> changed start date from {{timelineItem.item.oldStartDate}}
-        to {{timelineItem.item.newStartDate}}
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> changed start date from {{timelineItem.item.oldStartDate}}
+          to {{timelineItem.item.newStartDate}}
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'RenamedTitleEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a> changed title of this issue from {{timelineItem.item.oldTitle}}
-        to {{timelineItem.item.newTitle}}
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> changed title of this issue from {{timelineItem.item.oldTitle}}
+          to {{timelineItem.item.newTitle}}
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnassignedEvent'">
-      <div class="timeline-body">
-        <div *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> self-unassigned
-        </div>
-        <ng-template #notSelfAssigned>
-          <div *ngIf="!!timelineItem.item.removedAssignee; else isNull">
-            <a>{{timelineItem.item.createdBy.displayName}}</a> unassigned <a>{{timelineItem.item.removedAssignee.displayName}}</a>
-          </div>
-          <ng-template #isNull>
-            <a>{{timelineItem.item.createdBy.displayName}}</a> unassigned deleted User
-            <br>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedAssignee">
+        <ng-template appSingleTimelineItem>
+          <span *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned">
+            <a>{{timelineItem.user}}</a> self-unassigned
+          </span>
+          <ng-template #notSelfAssigned>
+            <a>{{timelineItem.user}}</a> unassigned <a>{{timelineItem.item.removedAssignee.displayName}}</a>
           </ng-template>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> unassigned deleted User
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnlabelledEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed label
+          <a>{{timelineItem.user}}</a> removed label
           <span style="display: inline-block">
             <app-issue-label [label]="timelineItem.item.removedLabel"></app-issue-label>
           </span>
@@ -361,69 +295,51 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'WasLinkedEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.linkedBy; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> linked issue
-          <app-issue-item [issue]="timelineItem.item.linkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.linkedBy">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> linked issue
+          <app-issue-item [issue]="timelineItem.item.linkedBy" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
           to this issue
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> linked deleted issue to this issue
-          <br>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> linked deleted issue to this issue
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnmarkedAsDuplicateEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a> unmarked this issue as duplicate
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem><a>{{timelineItem.user}}</a> unmarked this issue as duplicate</ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'WasUnlinkedEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.unlinkedBy; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> unlinked this issue in issue
-          <app-issue-item [issue]="timelineItem.item.unlinkedBy" [interactive]="true" [projectId]="projectID"></app-issue-item>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> unlinked this issue in deleted issue
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.unlinkedBy">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> unlinked this issue in issue
+          <app-issue-item [issue]="timelineItem.item.unlinkedBy" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> unlinked this issue in deleted issue
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnpinnedEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.component; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> unpinned this issue in component
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.component">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> unpinned this issue in component
           <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> unpinned this issue in deleted component
-          <br>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> unpinned this issue in deleted component
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnlinkEvent'">
@@ -445,72 +361,53 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedArtifactEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> added artifact <a>{{timelineItem.item.artifact.id}}</a>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> added deleted artifact
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedLinkedIssue">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> added artifact <a>{{timelineItem.item.artifact.id}}</a>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> added deleted artifact
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedArtifactEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed artifact <a>{{timelineItem.item.removedArtifact.id}}</a>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed deleted artifact
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedLinkedIssue">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> removed artifact <a>{{timelineItem.item.removedArtifact.id}}</a>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> removed deleted artifact
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedNonFunctionalConstraintEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.nonFunctionalConstraint; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> added non functional constraint <a>{{timelineItem.item.nonFunctionalConstraint.id}}</a>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> added deleted non functional constraint
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.nonFunctionalConstraint">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> added non functional constraint
+          <a>{{timelineItem.item.nonFunctionalConstraint.id}}</a>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> added deleted non functional constraint
+        </ng-template>
+      </app-timeline-item>
     </div>
 
-
     <div class="timeline-panel" *ngSwitchCase="'RemovedNonFunctionalConstraintEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.removedNonFunctionalConstraint; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed non functional constraint <a>{{timelineItem.item.removedNonFunctionalConstraint.id}}</a>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed deleted non functional constraint
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedNonFunctionalConstraint">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> removed non functional constraint
+          <a>{{timelineItem.item.removedNonFunctionalConstraint.id}}</a>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appTimelineItemDeleted>
+          <a>{{timelineItem.user}}</a> removed deleted non functional constraint
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedToComponentEvent'">
@@ -530,41 +427,37 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'CategoryChangedEvent'">
-      <div class="timeline-body">
-        <a>{{timelineItem.item.createdBy.displayName}}</a>
-        changed category from
-        <span *ngIf="timelineItem.item.oldCategory === 'UNCLASSIFIED'" class="categoryBox">
-          <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
-          Uncategorized
-        </span>
-        <span *ngIf="timelineItem.item.oldCategory === 'BUG'" class="categoryBox">
-          <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
-          Bug
-        </span>
-        <span *ngIf="timelineItem.item.oldCategory === 'FEATURE'" class="categoryBox">
-          <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
-          Bug
-        </span>
-        &nbsp;to&nbsp;
-        <span *ngIf="timelineItem.item.newCategory === 'UNCLASSIFIED'" class="categoryBox">
-          <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
-          Uncategorized
-        </span>
-        <span *ngIf="timelineItem.item.newCategory === 'BUG'" class="categoryBox">
-          <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
-          Bug
-        </span>
-        <span *ngIf="timelineItem.item.newCategory === 'FEATURE'" class="categoryBox">
-          <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
-          Bug
-        </span>
-        <br>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.item.createdBy.displayName}}</a>
+          changed category from
+          <span *ngIf="timelineItem.item.oldCategory === 'UNCLASSIFIED'" class="categoryBox">
+            <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
+            Uncategorized
+          </span>
+          <span *ngIf="timelineItem.item.oldCategory === 'BUG'" class="categoryBox">
+            <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
+            Bug
+          </span>
+          <span *ngIf="timelineItem.item.oldCategory === 'FEATURE'" class="categoryBox">
+            <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
+            Bug
+          </span>
+          &nbsp;to&nbsp;
+          <span *ngIf="timelineItem.item.newCategory === 'UNCLASSIFIED'" class="categoryBox">
+            <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
+            Uncategorized
+          </span>
+          <span *ngIf="timelineItem.item.newCategory === 'BUG'" class="categoryBox">
+            <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
+            Bug
+          </span>
+          <span *ngIf="timelineItem.item.newCategory === 'FEATURE'" class="categoryBox">
+            <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
+            Bug
+          </span>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedToLocationEvent'">

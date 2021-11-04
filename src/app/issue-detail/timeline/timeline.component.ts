@@ -1,8 +1,12 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
 import {TimeFormatter} from '@app/issue-detail/TimeFormatter';
 import {Router} from '@angular/router';
-import {IssueTimelineItem} from '../../../generated/graphql-dgql';
+import {
+  AssignedEvent,
+  IssueTimelineItem,
+  MarkedAsDuplicateEvent,
+  ReferencedByIssueEvent, UnassignedEvent, WasLinkedEvent
+} from '../../../generated/graphql-dgql';
 import {DataList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import {ListType, NodeId, NodeType} from '@app/data-dgql/id';
@@ -94,7 +98,7 @@ export class TimelineComponent implements AfterViewInit {
 
       const firstItem: any = coalesceList[0];
       const itemType = firstItem.__typename;
-      const createdBy = firstItem.createdBy.displayName;
+      const createdBy = firstItem.createdBy.displayName; // FIXME: Check for deleted user
       if (coalesceList.length > 1) {
         coalesced.push({
           type: itemType,
@@ -121,7 +125,7 @@ export class TimelineComponent implements AfterViewInit {
           type: (timelineItem as any).__typename,
           isCoalesced: false,
           item: timelineItem,
-          user: timelineItem.createdBy.displayName,
+          user: timelineItem.createdBy.displayName, // FIXME: Check for deleted user
           time: timelineItem.createdAt
         });
       }

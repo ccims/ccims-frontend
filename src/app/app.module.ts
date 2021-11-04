@@ -50,22 +50,24 @@ import {PortalModule} from '@angular/cdk/portal';
 import {ComponentContextMenuComponent} from '@app/graphs/component-context-menu/component-context-menu.component';
 import {NodeDetailsComponent} from '@app/node-details/node-details.component';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
-import { MarkdownEditorComponent } from './markdown/markdown-editor/markdown-editor.component';
+import {MarkdownEditorComponent} from './markdown/markdown-editor/markdown-editor.component';
 import {MarkdownModule} from 'ngx-markdown';
-import { MarkdownPreviewComponent } from './markdown/markdown-preview/markdown-preview.component';
-import { TimelineComponent } from './issue-detail/timeline/timeline.component';
-import { CommentComponent } from './issue-detail/comment/comment.component';
-import { NodeDetailsPageComponent } from '@app/node-details-page/node-details-page.component';
-import { TextDisplayComponent } from '@app/text-display/text-display.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { IssueContentsComponent } from '@app/issue-detail/issue-contents.component';
-import { LinkedIssueItemComponent } from '@app/issue-detail/linked-issue-item.component';
-import { SettingsDialogComponent } from '@app/dialogs/settings-dialog/settings-dialog.component';
-import { ProfileSettingsDialogComponent } from './dialogs/profile-settings-dialog/profile-settings-dialog.component';
-import { AccessTokenDialogComponent } from './dialogs/access-token-dialog/access-token-dialog.component';
+import {MarkdownPreviewComponent} from './markdown/markdown-preview/markdown-preview.component';
+import {TimelineComponent} from './issue-detail/timeline/timeline.component';
+import {CommentComponent} from './issue-detail/comment/comment.component';
+import {NodeDetailsPageComponent} from '@app/node-details-page/node-details-page.component';
+import {TextDisplayComponent} from '@app/text-display/text-display.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {IssueContentsComponent} from '@app/issue-detail/issue-contents.component';
+import {LinkedIssueItemComponent} from '@app/issue-detail/linked-issue-item.component';
+import {SettingsDialogComponent} from '@app/dialogs/settings-dialog/settings-dialog.component';
+import {ProfileSettingsDialogComponent} from './dialogs/profile-settings-dialog/profile-settings-dialog.component';
+import {AccessTokenDialogComponent} from './dialogs/access-token-dialog/access-token-dialog.component';
 import {
+  TimelineCoalescedItemsDirective,
   TimelineItemComponent,
-  TimelineSingleItemDirective, TimelineCoalescedItemsDirective
+  TimelineItemDeletedDirective,
+  TimelineSingleItemDirective
 } from '@app/issue-detail/timeline/coalesced/timeline-item.component';
 
 registerLocaleData(en);
@@ -79,7 +81,6 @@ const toasterConfig: Partial<GlobalConfig> = {
   maxOpened: 4,
   autoDismiss: true
 };
-
 
 
 @NgModule({
@@ -115,7 +116,8 @@ const toasterConfig: Partial<GlobalConfig> = {
     AccessTokenDialogComponent,
     TimelineItemComponent,
     TimelineSingleItemDirective,
-    TimelineCoalescedItemsDirective
+    TimelineCoalescedItemsDirective,
+    TimelineItemDeletedDirective
   ],
   imports: [
     BrowserModule,
