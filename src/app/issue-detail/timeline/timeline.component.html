@@ -429,33 +429,11 @@
     <div class="timeline-panel" *ngSwitchCase="'CategoryChangedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
-          <a>{{timelineItem.item.createdBy.displayName}}</a>
+          <a>{{timelineItem.user}}</a>
           changed category from
-          <span *ngIf="timelineItem.item.oldCategory === 'UNCLASSIFIED'" class="categoryBox">
-            <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
-            Uncategorized
-          </span>
-          <span *ngIf="timelineItem.item.oldCategory === 'BUG'" class="categoryBox">
-            <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
-            Bug
-          </span>
-          <span *ngIf="timelineItem.item.oldCategory === 'FEATURE'" class="categoryBox">
-            <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
-            Bug
-          </span>
+          <app-issue-category [category]="timelineItem.item.oldCategory"></app-issue-category>
           &nbsp;to&nbsp;
-          <span *ngIf="timelineItem.item.newCategory === 'UNCLASSIFIED'" class="categoryBox">
-            <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
-            Uncategorized
-          </span>
-          <span *ngIf="timelineItem.item.newCategory === 'BUG'" class="categoryBox">
-            <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
-            Bug
-          </span>
-          <span *ngIf="timelineItem.item.newCategory === 'FEATURE'" class="categoryBox">
-            <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
-            Bug
-          </span>
+          <app-issue-category [category]="timelineItem.item.newCategory"></app-issue-category>
         </ng-template>
       </app-timeline-item>
     </div>
