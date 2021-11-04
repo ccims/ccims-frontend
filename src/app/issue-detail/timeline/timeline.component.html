@@ -535,28 +535,28 @@
         changed category from
         <span *ngIf="timelineItem.item.oldCategory === 'UNCLASSIFIED'" class="categoryBox">
           <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
-          Uncategorized
+          Unclassified
         </span>
         <span *ngIf="timelineItem.item.oldCategory === 'BUG'" class="categoryBox">
           <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
           Bug
         </span>
-        <span *ngIf="timelineItem.item.oldCategory === 'FEATURE'" class="categoryBox">
+        <span *ngIf="timelineItem.item.oldCategory === 'FEATURE_REQUEST'" class="categoryBox">
           <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
-          Bug
+          Feature Request
         </span>
         &nbsp;to&nbsp;
         <span *ngIf="timelineItem.item.newCategory === 'UNCLASSIFIED'" class="categoryBox">
           <mat-icon [svgIcon]="'issue-uncategorized'" class="categoryIcon"></mat-icon>
-          Uncategorized
+          Unclassified
         </span>
         <span *ngIf="timelineItem.item.newCategory === 'BUG'" class="categoryBox">
           <mat-icon [svgIcon]="'issue-bug'" class="categoryIcon"></mat-icon>
           Bug
         </span>
-        <span *ngIf="timelineItem.item.newCategory === 'FEATURE'" class="categoryBox">
+        <span *ngIf="timelineItem.item.newCategory === 'FEATURE_REQUEST'" class="categoryBox">
           <mat-icon [svgIcon]="'issue-feature'" class="categoryIcon"></mat-icon>
-          Bug
+          Feature Request
         </span>
         <br>
         <small class="text-muted">
