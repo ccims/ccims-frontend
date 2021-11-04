@@ -1,0 +1,16 @@
+<ng-container [ngSwitch]="category">
+  <span *ngSwitchCase="'UNCLASSIFIED'" class="category-box">
+    <mat-icon [svgIcon]="'issue-uncategorized'" class="category-icon"></mat-icon>
+    Uncategorized
+  </span>
+
+  <span *ngSwitchCase="'BUG'" class="category-box">
+    <mat-icon [svgIcon]="'issue-bug'" class="category-icon"></mat-icon>
+    Bug
+  </span>
+
+  <span *ngSwitchCase="'FEATURE_REQUEST'" class="category-box">
+    <mat-icon [svgIcon]="'issue-feature'" class="category-icon"></mat-icon>
+    Feature Request
+  </span>
+</ng-container>

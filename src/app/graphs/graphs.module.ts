@@ -49,6 +49,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
 import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
 import {IssueLocationComponent} from '@app/components/issue-location/issue-location.component';
+import {IssueCategoryComponent} from '@app/components/issue-category/issue-category.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -80,7 +81,8 @@ import {IssueLocationComponent} from '@app/components/issue-location/issue-locat
     QueryComponent,
     QueryBodyDirective,
     QueryButtonDirective,
-    IssueLocationComponent
+    IssueLocationComponent,
+    IssueCategoryComponent
   ],
   imports: [
     CommonModule,
@@ -137,7 +139,8 @@ import {IssueLocationComponent} from '@app/components/issue-location/issue-locat
     QueryComponent,
     QueryBodyDirective,
     QueryButtonDirective,
-    IssueLocationComponent
+    IssueLocationComponent,
+    IssueCategoryComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

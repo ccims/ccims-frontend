@@ -101,6 +101,14 @@ export class TimelineComponent implements AfterViewInit {
     let coalesceList = new Array<IssueTimelineItem>();
     let coalesced: Array<CoalescedTimelineItem> = [];
 
+    const userName = (item: IssueTimelineItem) => {
+      if (item.createdBy) {
+        return item.createdBy.displayName;
+      }
+
+      return 'Deleted User';
+    };
+
     /**
      * Adds items from the coalesce list {@link coalesceList} 
      * to a list containing all coalesced timeline items {@link coalesced}
@@ -173,6 +181,8 @@ export class TimelineComponent implements AfterViewInit {
 
     const firstItem: any = coalesceList[0];
     const itemType = firstItem.__typename;
+    // FIXME: use instead
+    // const createdBy = userName(firstItem);
     const createdBy = firstItem.createdBy.displayName;
 
     // case: the coalesce list has more than one item
@@ -217,6 +227,8 @@ export class TimelineComponent implements AfterViewInit {
           type: (timelineItem as any).__typename,
           isCoalesced: false,
           item: timelineItem,
+          // FIXME: use instead
+          // user: userName(timelineItem),
           user: timelineItem.createdBy.displayName,
           time: timelineItem.createdAt
         });

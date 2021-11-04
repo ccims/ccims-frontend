@@ -18,15 +18,31 @@ export class TimelineCoalescedItemsDirective {
   }
 }
 
+@Directive({
+  selector: '[appTimelineItemDeleted]'
+})
+export class TimelineItemDeletedDirective {
+  constructor(public template: TemplateRef<unknown>) {
+  }
+}
+
 @Component({
   selector: 'app-timeline-item',
   templateUrl: './timeline-item.component.html',
   styleUrls: ['../timeline.component.scss']
 })
 export class TimelineItemComponent implements AfterViewInit {
+  /** The timeline item to show */
   @Input() timelineItem: CoalescedTimelineItem;
+  /** If this option is set to true, the template with the `appTimelineItemDeleted` directive is shown */
+  @Input() showDeleted = false;
+
+  /** The content to be shown if the timeline item was not coalesced */
   @ContentChild(TimelineSingleItemDirective) timelineItemContent: TimelineSingleItemDirective;
+  /** The content to be shown if the timeline item was coalesced */
   @ContentChild(TimelineCoalescedItemsDirective) timelineItemsContent: TimelineCoalescedItemsDirective;
+  /** The content to be shown if the timeline item contains deleted data */
+  @ContentChild(TimelineItemDeletedDirective) timelineItemDeletedContent: TimelineItemDeletedDirective;
 
   timeFormatter: TimeFormatter = new TimeFormatter();
   activeItemContent: TemplateRef<unknown> = null;
@@ -35,11 +51,14 @@ export class TimelineItemComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.timelineItem.isCoalesced && this.timelineItemsContent) {
+    if (this.showDeleted) {
+      this.activeItemContent = this.timelineItemDeletedContent.template;
+    } else if (this.timelineItem.isCoalesced && this.timelineItemsContent) {
       this.activeItemContent = this.timelineItemsContent.template;
     } else if (!this.timelineItem.isCoalesced) {
       this.activeItemContent = this.timelineItemContent.template;
     }
+
     this.changeDetector.detectChanges();
   }
 }

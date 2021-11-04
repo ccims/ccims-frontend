@@ -7,9 +7,9 @@
 </ng-container>
 
 <ng-template #locationIsInterface>
-  <span style="margin: 1px">
+  <span class="interface-box" (click)="goToLocationDetails()">
     <span class="dot"></span>
-    <a style="color: black" (click)="goToLocationDetails()" [title]="'Interface &quot;' + location.name + '&quot;'">
+    <a class="component-text" [title]="'Interface &quot;' + location.name + '&quot;'">
       {{location.name}}
     </a>
   </span>
