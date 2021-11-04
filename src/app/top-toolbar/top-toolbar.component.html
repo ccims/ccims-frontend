@@ -11,7 +11,7 @@
   <span class="toolbar-spacer"></span>
   <!--This div makes the setting and account icon stay together - mat-toolbar has justify-content set-->
   <div>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+    <button (click)="openSettingsDialog()" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
             title="Settings">
       <mat-icon>settings</mat-icon>
     </button>
