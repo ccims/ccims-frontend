@@ -11,6 +11,7 @@ export class ProfileSettingsDialogComponent implements OnInit {
 
   hide = true;
   updatePasswordFieldsShown = false;
+  description = '';
 
   constructor(public dialogRef: MatDialogRef<SettingsDialogComponent, boolean>, private dialog: MatDialog) { }
 
@@ -36,5 +37,13 @@ export class ProfileSettingsDialogComponent implements OnInit {
   //TODO
   public updatePassword() {
     this.updatePasswordFieldsShown = false;
+  }
+
+  projectNameEdited(saved: boolean): void {
+    if (!saved) {
+      return;
+    }
+
+    alert('TODO: Save');
   }
 }
