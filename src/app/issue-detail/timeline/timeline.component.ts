@@ -1,12 +1,7 @@
 import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
 import {TimeFormatter} from '@app/issue-detail/TimeFormatter';
 import {Router} from '@angular/router';
-import {
-  AssignedEvent,
-  IssueTimelineItem,
-  MarkedAsDuplicateEvent,
-  ReferencedByIssueEvent, UnassignedEvent, WasLinkedEvent
-} from '../../../generated/graphql-dgql';
+import {IssueTimelineItem} from '../../../generated/graphql-dgql';
 import {DataList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
 import {ListType, NodeId, NodeType} from '@app/data-dgql/id';
@@ -90,6 +85,14 @@ export class TimelineComponent implements AfterViewInit {
     let coalesceList = new Array<IssueTimelineItem>();
     const coalesced: Array<CoalescedTimelineItem> = [];
 
+    const userName = (item: IssueTimelineItem) => {
+      if (item.createdBy) {
+        return item.createdBy.displayName;
+      }
+
+      return 'Deleted User';
+    };
+
     // This function adds items from the coalesce list into a coalesced timeline item
     const finishCoalescing = () => {
       if (coalesceList.length === 0) {
@@ -98,7 +101,7 @@ export class TimelineComponent implements AfterViewInit {
 
       const firstItem: any = coalesceList[0];
       const itemType = firstItem.__typename;
-      const createdBy = firstItem.createdBy.displayName; // FIXME: Check for deleted user
+      const createdBy = userName(firstItem);
       if (coalesceList.length > 1) {
         coalesced.push({
           type: itemType,
@@ -119,13 +122,14 @@ export class TimelineComponent implements AfterViewInit {
         coalesceList = [];
       }
     };
+
     const pushSingleItem = (timelineItem: IssueTimelineItem, filter: ItemFilterFunction | undefined) => {
       if (!filter || filter(timelineItem)) {
         coalesced.push({
           type: (timelineItem as any).__typename,
           isCoalesced: false,
           item: timelineItem,
-          user: timelineItem.createdBy.displayName, // FIXME: Check for deleted user
+          user: userName(timelineItem),
           time: timelineItem.createdAt
         });
       }
