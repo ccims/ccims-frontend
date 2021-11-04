@@ -21,4 +21,8 @@ export class AccessTokenDialogComponent implements OnInit {
     this.dialog.open(SettingsDialogComponent);
   }
 
+  public generateToken() {
+    //TODO
+  }
+
 }

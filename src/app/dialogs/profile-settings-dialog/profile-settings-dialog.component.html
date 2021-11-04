@@ -5,13 +5,13 @@
         Back
     </button>
     <h1 mat-dialog-title style="text-align: center;">Profile Settings</h1>
-    <app-text-display [text]="DisplayName" [onEditFinished]="displayNameEdited" placeholder="Display Name"
+    <app-text-display placeholder="Display Name"
         labelText="Display Name"></app-text-display>
 
-    <app-text-display [text]="Username" [onEditFinished]="usernameEdited" placeholder="Username" labelText="Username">
+    <app-text-display placeholder="Username" labelText="Username">
     </app-text-display>
 
-    <app-text-display [text]="Email" [onEditFinished]="emailEdited" placeholder="email@email.com" labelText="Email">
+    <app-text-display placeholder="email@email.com" labelText="Email">
     </app-text-display>
 
     <button mat-button color="primary" class="new-item-button" (click)="changePassword()">
