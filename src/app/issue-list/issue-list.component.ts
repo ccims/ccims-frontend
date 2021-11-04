@@ -1,16 +1,23 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, MatSortable } from '@angular/material/sort';
-import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort, MatSortable} from '@angular/material/sort';
+import {CreateIssueDialogComponent} from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {FormControl} from '@angular/forms';
 import DataService from '@app/data-dgql';
-import { ListId, ListType, NodeId, NodeType } from '@app/data-dgql/id';
-import { DataList, DataNode } from '@app/data-dgql/query';
-import { Component as IComponent, ComponentInterface, Issue, IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
+import {ListId, ListType, NodeId, NodeType} from '@app/data-dgql/id';
+import {DataList, DataNode} from '@app/data-dgql/query';
+import {
+  Component as IComponent,
+  ComponentInterface,
+  Issue,
+  IssueCategory,
+  IssueFilter
+} from '../../generated/graphql-dgql';
+import {QueryComponent} from '@app/utils/query-component/query.component';
 
 /**
  * This component shows all issues for a given component / interface.
@@ -22,12 +29,11 @@ import { Component as IComponent, ComponentInterface, Issue, IssueCategory, Issu
   templateUrl: './issue-list.component.html',
   styleUrls: ['./issue-list.component.scss']
 })
-export class IssueListComponent implements OnInit, OnDestroy {
+export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() listId: ListId;
   @Input() projectId: string;
   public queryParamFilter = '';
   public list$?: DataList<Issue, IssueFilter>;
-  private listSub?: Subscription;
 
   // component that is observed
   public component$?: DataNode<IComponent>;
@@ -53,6 +59,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(QueryComponent) query: QueryComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -111,7 +118,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
       this.componentInterfaceSub = this.componentInterface$.subscribe();
 
       this.componentInterface$.dataAsPromise().then(data => {
-        this.componentInterfaceProvider = { type: NodeType.Component, id: data.component.id };
+        this.componentInterfaceProvider = {type: NodeType.Component, id: data.component.id};
       });
     }
 
@@ -120,7 +127,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
       const interfaceNode = this.dataService.getNode<ComponentInterface>(this.listId.node);
       interfaceNode.dataAsPromise().then(data => {
         this.allLabelsList = {
-          node: { type: NodeType.Component, id: data.component.id },
+          node: {type: NodeType.Component, id: data.component.id},
           type: ListType.Labels
         };
       });
@@ -128,9 +135,12 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
     this.list$ = this.dataService.getList(this.listId);
     this.list$.count = 25;
-    this.listSub = this.list$.subscribe(data => {
+  }
+
+  ngAfterViewInit() {
+    this.query.listenTo(this.list$, data => {
       this.dataSource = new MatTableDataSource<any>(data ? [...data.values()] : []);
-      this.sort.sort(({ id: 'category', start: 'asc' }) as MatSortable);
+      this.sort.sort(({id: 'category', start: 'asc'}) as MatSortable);
       this.dataSource.sort = this.sort;
       // FIXME use bespoke pagination/sorting/filtering
       // this.dataSource.paginator = this.paginator;
@@ -141,7 +151,6 @@ export class IssueListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listSub.unsubscribe();
     this.componentSub?.unsubscribe();
     this.componentInterfaceSub?.unsubscribe();
   }
