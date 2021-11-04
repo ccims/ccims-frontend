@@ -46,6 +46,9 @@ import { ProjectHeaderComponent } from '@app/project-header/project-header.compo
 import { IssueFilterComponent } from '@app/issue-list/issue-filter.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
+import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
+import {IssueLocationComponent} from '@app/components/issue-location/issue-location.component';
 
 /**
  * The IssueGraphComponent and IssueGraphControlsComponent form their own module declared here
@@ -73,7 +76,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     IssueSidebarComponent,
     CacheNodeComponent,
     ProjectHeaderComponent,
-    IssueFilterComponent
+    IssueFilterComponent,
+    QueryComponent,
+    QueryBodyDirective,
+    QueryButtonDirective,
+    IssueLocationComponent
   ],
   imports: [
     CommonModule,
@@ -109,7 +116,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCheckboxModule,
     MatMenuModule,
     MatButtonToggleModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     CdkTableModule,
@@ -125,7 +133,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     IssueIconComponent,
     IssueSidebarComponent,
     CursorPaginatorComponent,
-    ProjectHeaderComponent
+    ProjectHeaderComponent,
+    QueryComponent,
+    QueryBodyDirective,
+    QueryButtonDirective,
+    IssueLocationComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

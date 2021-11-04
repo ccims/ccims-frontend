@@ -1,8 +1,8 @@
 
 
 <!------ Include the above in your HEAD tag ---------->
-
-<div *ngIf="timelineItems$.hasData">
+<app-query-component errorMessage="Failed to load timeline items">
+<ng-template appQueryBody>
   <div class="container">
     <div class="page-header">
     </div>
@@ -111,27 +111,21 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'LabelledEvent'">
-      <div class="timeline-body">
-        <div *ngIf="timelineItem.isCoalesced; else singleLabel">
-          <a>{{timelineItem.user}}</a> added labels
-          <span style="display: inline-block" *ngFor="let node of timelineItem.item">
-            <app-issue-label [label]="node.label"></app-issue-label>
-          </span>
-        </div>
-
-        <ng-template #singleLabel>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> added label
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> added label
           <span style="display: inline-block">
             <app-issue-label [label]="timelineItem.item.label"></app-issue-label>
           </span>
         </ng-template>
 
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.time)}}
-          </time>
-        </small>
-      </div>
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> added labels
+          <span style="display: inline-block" *ngFor="let node of timelineItem.item">
+            <app-issue-label [label]="node.label"></app-issue-label>
+          </span>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
 
@@ -166,32 +160,27 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'LinkEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.linkedIssue; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> linked this issue to issue
-            <app-issue-item [issue]="timelineItem.item.linkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.item.createdBy.displayName}}</a> linked this issue to deleted issue
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> linked this issue to issue
+          <app-issue-item [issue]="timelineItem.item.linkedIssue" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> linked this issue to issues
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-item [issue]="item.linkedIssue" [interactive]="true" [projectId]="projectID">
+            </app-issue-item>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.item.component; else isNull">
           <a>{{timelineItem.item.createdBy.displayName}}</a> pinned this issue on component
-          <span class="component-box" (click)="goToComponentDetails(timelineItem.item.component)">
-            <span style="margin: 5px">
-              <a class="component-text">{{timelineItem.item.component.name}}</a>
-            </span>
-          </span>
+          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.item.createdBy.displayName}}</a> pinned this issue on deleted component
@@ -239,44 +228,28 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromComponentEvent'">
-      <div class="timeline-body">
-        <div *ngIf="timelineItem.isCoalesced; else singleComponent">
-          <a>{{timelineItem.user}}</a> removed this issue from components
-          <ng-container *ngFor="let component of timelineItem.item">
-            <span class="component-box" (click)="goToComponentDetails(component.removedComponent)" style="margin-right: 2px">
-              <span style="margin: 5px">
-                <a class="component-text">{{component.removedComponent.name}}</a>
-              </span>
-            </span>
-          </ng-container>
-        </div>
-
-        <ng-template #singleComponent>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
           <a>{{timelineItem.user}}</a> removed this issue from component
-          <span class="component-box" (click)="goToComponentDetails(timelineItem.item.removedComponent)">
-            <span style="margin: 5px">
-              <a class="component-text">{{timelineItem.item.removedComponent.name}}</a>
-            </span>
-          </span>
+          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.removedComponent">
+          </app-issue-location>
         </ng-template>
 
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> removed this issue from components
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-location [projectId]="projectID" [location]="item.removedComponent">
+            </app-issue-location>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByOtherEvent'">
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.item.component; else isNull">
           <a>{{timelineItem.item.createdBy.displayName}}</a> referenced this issue in component
-          <span class="component-box" (click)="goToComponentDetails(timelineItem.item.component)">
-            <span style="margin: 5px">
-              <a class="component-text">{{timelineItem.item.component.name}}</a>
-            </span>
-          </span>
+          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>
           with <a href="{{timelineItem.item.sourceURL}}">{{timelineItem.item.source}}</a>
         </div>
         <ng-template #isNull>
@@ -292,34 +265,21 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromLocationEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.removedLocation; else isNull">
-          <span *ngIf="timelineItem.item.removedLocation.__typename==='Component'; else locationIsInterface">
-            <a>{{timelineItem.item.createdBy.displayName}}</a> removed this issue from location
-            <span class="component-box" (click)="goToLocationDetails(timelineItem.item.removedLocation)">
-              <span style="margin: 5px">
-                <a class="component-text">{{timelineItem.item.removedLocation.name}}</a>
-              </span>
-            </span>
-          </span>
-          <ng-template #locationIsInterface>
-            <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to location
-            <span class="dot"></span>
-            <a style="color: black" (click)="goToLocationDetails(timelineItem.item.removedLocation)">
-              {{timelineItem.item.removedLocation.name}}
-            </a>
-          </ng-template>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed this issue from deleted location
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> removed this issue from location
+          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.removedLocation">
+          </app-issue-location>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> removed this issue from locations
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-location [projectId]="projectID" [location]="item.removedLocation">
+            </app-issue-location>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'ReopenedEvent'">
@@ -383,27 +343,21 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnlabelledEvent'">
-      <div class="timeline-body">
-        <div *ngIf="timelineItem.isCoalesced; else singleLabel">
-          <a>{{timelineItem.user}}</a> removed labels
-          <span style="display: inline-block" *ngFor="let node of timelineItem.item">
-            <app-issue-label [label]="node.removedLabel"></app-issue-label>
-          </span>
-        </div>
-
-        <ng-template #singleLabel>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
           <a>{{timelineItem.item.createdBy.displayName}}</a> removed label
           <span style="display: inline-block">
             <app-issue-label [label]="timelineItem.item.removedLabel"></app-issue-label>
           </span>
         </ng-template>
 
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.time)}}
-          </time>
-        </small>
-      </div>
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> removed labels
+          <span style="display: inline-block" *ngFor="let node of timelineItem.item">
+            <app-issue-label [label]="node.removedLabel"></app-issue-label>
+          </span>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'WasLinkedEvent'">
@@ -458,11 +412,7 @@
       <div class="timeline-body">
         <div *ngIf="!!timelineItem.item.component; else isNull">
           <a>{{timelineItem.item.createdBy.displayName}}</a> unpinned this issue in component
-          <span class="component-box" (click)="goToComponentDetails(timelineItem.item.component)">
-            <span style="margin: 5px">
-              <a class="component-text">{{timelineItem.item.component.name}}</a>
-            </span>
-          </span>
+          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>
         </div>
         <ng-template #isNull>
           <a>{{timelineItem.item.createdBy.displayName}}</a> unpinned this issue in deleted component
@@ -477,21 +427,21 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'UnlinkEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.removedLinkedIssue; else isNull">
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed link to issue
-          <app-issue-item [issue]="timelineItem.item.removedLinkedIssue" [interactive]="true" [projectId]="projectID"></app-issue-item>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> removed link to deleted issue
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> removed link to issue
+          <app-issue-item [issue]="timelineItem.item.removedLinkedIssue" [interactive]="true" [projectId]="projectID">
+          </app-issue-item>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> removed links to issues
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-item [issue]="item.removedLinkedIssue" [interactive]="true" [projectId]="projectID">
+            </app-issue-item>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedArtifactEvent'">
@@ -564,34 +514,19 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedToComponentEvent'">
-      <div class="timeline-body">
-        <div *ngIf="timelineItem.isCoalesced; else singleComponent">
-          <a>{{timelineItem.user}}</a> added this issue to components
-          <ng-container *ngFor="let component of timelineItem.item">
-            <span class="component-box" (click)="goToComponentDetails(component.component)" style="margin-right: 2px">
-              <span style="margin: 5px">
-                <a class="component-text">{{component.component.name}}</a>
-              </span>
-            </span>
-          </ng-container>
-        </div>
-
-        <ng-template #singleComponent>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to component
-          <span class="component-box" (click)="goToComponentDetails(timelineItem.item.component)">
-            <span style="margin: 5px">
-              <a class="component-text">{{timelineItem.item.component.name}}</a>
-            </span>
-          </span>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+          <a>{{timelineItem.user}}</a> added this issue to component
+          <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>
         </ng-template>
 
-        <small class="text-muted" style="margin-left: 5px">
-          <time [dateTime]="timelineItem.item.createdAt"
-                [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> added this issue to components
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-location [projectId]="projectID" [location]="item.component"></app-issue-location>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'CategoryChangedEvent'">
@@ -633,37 +568,22 @@
     </div>
 
     <div class="timeline-panel" *ngSwitchCase="'AddedToLocationEvent'">
-      <div class="timeline-body">
-        <div *ngIf="!!timelineItem.item.location; else isNull">
-          <span *ngIf="timelineItem.item.location.__typename==='Component'; else locationIsInterface">
-            <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to location
-            <span class="component-box" (click)="goToLocationDetails(timelineItem.item.location)">
-              <span style="margin: 5px">
-                <a class="component-text">{{timelineItem.item.location.name}}</a>
-              </span>
-            </span>
-          </span>
-          <ng-template #locationIsInterface>
-            <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to location
-            <span class="dot"></span>
-            <a style="color: black" (click)="goToLocationDetails(timelineItem.item.location)">
-              {{timelineItem.item.location.name}}
-            </a>
-          </ng-template>
-        </div>
-        <ng-template #isNull>
-          <a>{{timelineItem.item.createdBy.displayName}}</a> added this issue to deleted location
-          <br>
+      <app-timeline-item [timelineItem]="timelineItem">
+        <ng-template appSingleTimelineItem>
+            <a>{{timelineItem.user}}</a> added this issue to location
+            <app-issue-location [projectId]="projectID" [location]="timelineItem.item.location"></app-issue-location>
         </ng-template>
-        <small class="text-muted">
-          <time [dateTime]="timelineItem.item.createdAt" [title]="this.timeFormatter.formatTime(timelineItem.item.createdAt)">
-            {{this.timeFormatter.formatTimeDifference(timelineItem.item.createdAt)}}
-          </time>
-        </small>
-      </div>
+
+        <ng-template appCoalescedTimelineItems>
+          <a>{{timelineItem.user}}</a> added this issue to locations
+          <ng-container *ngFor="let item of timelineItem.item">
+            <app-issue-location [projectId]="projectID" [location]="item.location"></app-issue-location>
+          </ng-container>
+        </ng-template>
+      </app-timeline-item>
     </div>
   </li>
 </ul>
   </div>
-</div>
-
+</ng-template>
+</app-query-component>
