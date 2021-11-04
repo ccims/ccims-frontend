@@ -101,14 +101,6 @@ export class TimelineComponent implements AfterViewInit {
     let coalesceList = new Array<IssueTimelineItem>();
     let coalesced: Array<CoalescedTimelineItem> = [];
 
-    const userName = (item: IssueTimelineItem) => {
-      if (item.createdBy) {
-        return item.createdBy.displayName;
-      }
-
-      return 'Deleted User';
-    };
-
     /**
      * Adds items from the coalesce list {@link coalesceList} 
      * to a list containing all coalesced timeline items {@link coalesced}
@@ -171,6 +163,23 @@ export class TimelineComponent implements AfterViewInit {
   }
 
   /**
+   * Returns the name of the user
+   * that created a given timeline item (aka. timeline event)
+   * or just "Deleted User" in case the user no longer exists.
+   * @param  {IssueTimelineItem} item - The given timeline item.
+   * @returns - Name of the timeline item creator.
+   */
+  private userName(item: IssueTimelineItem) {
+
+    // case: the timeline item's creator's name can be retrieved
+    if (item.createdBy) {
+      return item.createdBy.displayName;
+    }
+
+    return 'Deleted User';
+  };
+
+  /**
    * Adds items from a given coalesce list
    * to a given list containing all coalesced timeline items.
    * @param  {IssueTimelineItem[]} coalesceList - The given coalesce list.
@@ -181,9 +190,7 @@ export class TimelineComponent implements AfterViewInit {
 
     const firstItem: any = coalesceList[0];
     const itemType = firstItem.__typename;
-    // FIXME: use instead
-    // const createdBy = userName(firstItem);
-    const createdBy = firstItem.createdBy.displayName;
+    const createdBy = this.userName(firstItem);
 
     // case: the coalesce list has more than one item
     if (coalesceList.length > 1) {
@@ -227,9 +234,7 @@ export class TimelineComponent implements AfterViewInit {
           type: (timelineItem as any).__typename,
           isCoalesced: false,
           item: timelineItem,
-          // FIXME: use instead
-          // user: userName(timelineItem),
-          user: timelineItem.createdBy.displayName,
+          user: this.userName(timelineItem),
           time: timelineItem.createdAt
         });
       }
