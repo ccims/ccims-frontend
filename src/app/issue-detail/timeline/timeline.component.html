@@ -1,4 +1,4 @@
-
+<!--Timeline of a given issue showing all its events-->
 
 <!------ Include the above in your HEAD tag ---------->
 <app-query-component errorMessage="Failed to load timeline items">
@@ -9,7 +9,7 @@
 
 <ul class="timeline">
   <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.type" class="timeline-inverted">
-    <!-- Icons in the timeline -->
+    <!--Icons used in the timeline-->
     <div class="timeline-badge" *ngSwitchCase="'AddedToComponentEvent'"><mat-icon>add</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedFromComponentEvent'"><mat-icon>remove</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'AddedToLocationEvent'"><mat-icon>add</mat-icon></div>
@@ -42,19 +42,21 @@
     <div class="timeline-badge" *ngSwitchCase="'AddedNonFunctionalConstraintEvent'"><mat-icon>border_style</mat-icon></div>
     <div class="timeline-badge" *ngSwitchCase="'RemovedNonFunctionalConstraintEvent'"><mat-icon>border_style </mat-icon></div>
 
+    <!--Timeline events-->
 
-    <!-- Contents of timeline items -->
-
+    <!--1. Event: issue comment is added-->
     <div class="commentContainer" *ngSwitchCase="'IssueComment'">
       <app-comment [commentId]="makeCommentId(timelineItem.item)" [issueId]="issueId" [isIssueBody]="false"></app-comment>
     </div>
 
+    <!--2. Event: issue is closed-->
     <div class="timeline-panel" *ngSwitchCase="'ClosedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>Issue was closed by <a>{{timelineItem.user}}</a></ng-template>
       </app-timeline-item>
     </div>
 
+    <!--3. Event: issue is assigned-->
     <div class="timeline-panel" *ngSwitchCase="'AssignedEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.assignee">
         <ng-template appSingleTimelineItem>
@@ -73,6 +75,7 @@
       </app-timeline-item>
     </div>
 
+    <!--4. Event: issue date is changed-->
     <div class="timeline-panel" *ngSwitchCase="'DueDateChangedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -82,6 +85,7 @@
       </app-timeline-item>
     </div>
 
+    <!--5. Event: issue estimated time changed-->
     <div class="timeline-panel" *ngSwitchCase="'EstimatedTimeChangedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -91,6 +95,7 @@
       </app-timeline-item>
     </div>
 
+    <!--6. Event: issue is labelled-->
     <div class="timeline-panel" *ngSwitchCase="'LabelledEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -109,6 +114,7 @@
       </app-timeline-item>
     </div>
 
+    <!--7. Event: issue comment is deleted-->
     <div class="timeline-panel" *ngSwitchCase="'DeletedIssueComment'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -117,6 +123,7 @@
       </app-timeline-item>
     </div>
 
+    <!--8. Event: issue is marked ad duplicate-->
     <div class="timeline-panel" *ngSwitchCase="'MarkedAsDuplicateEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.originalIssue">
         <ng-template appSingleTimelineItem>
@@ -131,6 +138,7 @@
       </app-timeline-item>
     </div>
 
+    <!--9. Event: issue is linked to another issue-->
     <div class="timeline-panel" *ngSwitchCase="'LinkEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -149,6 +157,7 @@
       </app-timeline-item>
     </div>
 
+    <!--10. Event: issue is pinnned on a (dleeted) component-->
     <div class="timeline-panel" *ngSwitchCase="'PinnedEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [checkDeletedFn]="!timelineItem.item.component">
         <ng-template appSingleTimelineItem>
@@ -162,6 +171,7 @@
       </app-timeline-item>
     </div>
 
+    <!--11. Event: issue is referenced by another (deleted) issue-->
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByIssueEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [checkDeletedFn]="!timelineItem.item.mentionedAt">
         <ng-template appSingleTimelineItem>
@@ -176,6 +186,7 @@
       </app-timeline-item>
     </div>
 
+    <!--12. Event: issue's priority is changed-->
     <div class="timeline-panel" *ngSwitchCase="'PriorityChangedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -185,6 +196,7 @@
       </app-timeline-item>
     </div>
 
+    <!--13. Event: issue is removed from a component / components-->
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromComponentEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -203,6 +215,7 @@
       </app-timeline-item>
     </div>
 
+    <!--14. Event: issue is referenced in a (deleted) component-->
     <div class="timeline-panel" *ngSwitchCase="'ReferencedByOtherEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.component">
         <ng-template appSingleTimelineItem>
@@ -217,6 +230,7 @@
       </app-timeline-item>
     </div>
 
+    <!--15. Event: issue is removed from a location / locations-->
     <div class="timeline-panel" *ngSwitchCase="'RemovedFromLocationEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -235,12 +249,14 @@
       </app-timeline-item>
     </div>
 
+    <!--16. Event: issue is reopened-->
     <div class="timeline-panel" *ngSwitchCase="'ReopenedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem><a>{{timelineItem.user}}</a> reopened this issue</ng-template>
       </app-timeline-item>
     </div>
 
+    <!--17. Event: issue's start date is changed-->
     <div class="timeline-panel" *ngSwitchCase="'StartDateChangedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -250,6 +266,7 @@
       </app-timeline-item>
     </div>
 
+    <!--18. Event: issue's title is renamed-->
     <div class="timeline-panel" *ngSwitchCase="'RenamedTitleEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -259,6 +276,7 @@
       </app-timeline-item>
     </div>
 
+    <!--19. Event: issue is unassigned-->
     <div class="timeline-panel" *ngSwitchCase="'UnassignedEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedAssignee">
         <ng-template appSingleTimelineItem>
@@ -276,6 +294,7 @@
       </app-timeline-item>
     </div>
 
+    <!--20. Event: issue is unlabelled-->
     <div class="timeline-panel" *ngSwitchCase="'UnlabelledEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -294,6 +313,7 @@
       </app-timeline-item>
     </div>
 
+    <!--21. Event: issue was linked by another (deleted) issue-->
     <div class="timeline-panel" *ngSwitchCase="'WasLinkedEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.linkedBy">
         <ng-template appSingleTimelineItem>
@@ -309,12 +329,14 @@
       </app-timeline-item>
     </div>
 
+    <!--22. Event: issue is unmarked as a duplicate-->
     <div class="timeline-panel" *ngSwitchCase="'UnmarkedAsDuplicateEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem><a>{{timelineItem.user}}</a> unmarked this issue as duplicate</ng-template>
       </app-timeline-item>
     </div>
 
+    <!--23. Event: issue is unlinked by another (deleted) issue-->
     <div class="timeline-panel" *ngSwitchCase="'WasUnlinkedEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.unlinkedBy">
         <ng-template appSingleTimelineItem>
@@ -329,6 +351,7 @@
       </app-timeline-item>
     </div>
 
+    <!--24. Event: issue is unpinned in a (deleted) component-->
     <div class="timeline-panel" *ngSwitchCase="'UnpinnedEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.component">
         <ng-template appSingleTimelineItem>
@@ -342,6 +365,7 @@
       </app-timeline-item>
     </div>
 
+    <!--25. Event: issue is unlinked to another issue / issues-->
     <div class="timeline-panel" *ngSwitchCase="'UnlinkEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -360,6 +384,7 @@
       </app-timeline-item>
     </div>
 
+    <!--26. Event: issue has (deleted) artifacts added-->
     <div class="timeline-panel" *ngSwitchCase="'AddedArtifactEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedLinkedIssue">
         <ng-template appSingleTimelineItem>
@@ -372,6 +397,7 @@
       </app-timeline-item>
     </div>
 
+    <!--27. Event: issue has (deleted) artifacts removed-->
     <div class="timeline-panel" *ngSwitchCase="'RemovedArtifactEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedLinkedIssue">
         <ng-template appSingleTimelineItem>
@@ -384,19 +410,20 @@
       </app-timeline-item>
     </div>
 
+    <!--28. Event: issue has a (deleted) non functional constraint added-->
     <div class="timeline-panel" *ngSwitchCase="'AddedNonFunctionalConstraintEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.nonFunctionalConstraint">
         <ng-template appSingleTimelineItem>
           <a>{{timelineItem.user}}</a> added non functional constraint
           <a>{{timelineItem.item.nonFunctionalConstraint.id}}</a>
         </ng-template>
-
         <ng-template appTimelineItemDeleted>
           <a>{{timelineItem.user}}</a> added deleted non functional constraint
         </ng-template>
       </app-timeline-item>
     </div>
 
+    <!--29. Event: issue has a (deleted) non functional constraint removed-->
     <div class="timeline-panel" *ngSwitchCase="'RemovedNonFunctionalConstraintEvent'">
       <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedNonFunctionalConstraint">
         <ng-template appSingleTimelineItem>
@@ -410,6 +437,7 @@
       </app-timeline-item>
     </div>
 
+    <!--30. Event: issue is added to a component / components-->
     <div class="timeline-panel" *ngSwitchCase="'AddedToComponentEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -426,6 +454,7 @@
       </app-timeline-item>
     </div>
 
+    <!--31. Event: issue's category is changed-->
     <div class="timeline-panel" *ngSwitchCase="'CategoryChangedEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -438,6 +467,7 @@
       </app-timeline-item>
     </div>
 
+    <!--32. Event: issue is added to a location / locations-->
     <div class="timeline-panel" *ngSwitchCase="'AddedToLocationEvent'">
       <app-timeline-item [timelineItem]="timelineItem">
         <ng-template appSingleTimelineItem>
@@ -453,6 +483,7 @@
         </ng-template>
       </app-timeline-item>
     </div>
+    
   </li>
 </ul>
   </div>

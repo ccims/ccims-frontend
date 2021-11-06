@@ -22,6 +22,10 @@ type ItemFilterFunction = (IssueTimelineItem) => boolean;
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
+/**
+ * This component shows the full timeline 
+ * with all its timeline events for a given issue.
+ */
 export class TimelineComponent implements AfterViewInit {
   static readonly COALESCABLE_EVENTS: Map<string, ItemFilterFunction> = new Map([
       ['LabelledEvent', (item) => {
@@ -51,7 +55,7 @@ export class TimelineComponent implements AfterViewInit {
     ]
   );
 
-  // Provides time format functions
+  // provides time format functionality
   public timeFormatter = new TimeFormatter();
   timelineItems: Array<CoalescedTimelineItem> = [];
   public timelineItems$: DataList<IssueTimelineItem, unknown>;
@@ -67,71 +71,51 @@ export class TimelineComponent implements AfterViewInit {
     this.requestTimelineItems();
   }
 
+  /**
+   * Retrieves all timeline items (aka. timeline events) for the current issue.
+   */
   requestTimelineItems(): void {
-    // Get observable with all timeline items for current issue
+
+    // gets an observable with all timeline items for thecurrent issue
     this.timelineItems$ = this.dataService.getList({
       node: {type: NodeType.Issue, id: this.issueId},
       type: ListType.TimelineItems
     });
-    this.timelineItems$.count = 99999; // FIXME?
+
+    //FIXME: decide on the count
+    this.timelineItems$.count = 99999;
 
     this.query.listenTo(this.timelineItems$, value => {
       this.prepareTimelineItems(value);
     });
   }
 
+  /**
+   * Prepares the timeline items (aka. the timeline events).
+   * @param  {Map<string, IssueTimelineItem>} items - Timeline items to prepare.
+   */
   prepareTimelineItems(items: Map<string, IssueTimelineItem>): void {
+
     let coalescingType = null;
     let coalesceList = new Array<IssueTimelineItem>();
-    const coalesced: Array<CoalescedTimelineItem> = [];
+    let coalesced: Array<CoalescedTimelineItem> = [];
 
-    const userName = (item: IssueTimelineItem) => {
-      if (item.createdBy) {
-        return item.createdBy.displayName;
-      }
-
-      return 'Deleted User';
-    };
-
-    // This function adds items from the coalesce list into a coalesced timeline item
+    /**
+     * Adds items from the coalesce list {@link coalesceList} 
+     * to a list containing all coalesced timeline items {@link coalesced}
+     * in case the coalesce list is not empty.
+     */
     const finishCoalescing = () => {
+
+      // case: the coalesce list is empty
       if (coalesceList.length === 0) {
         return;
       }
 
-      const firstItem: any = coalesceList[0];
-      const itemType = firstItem.__typename;
-      const createdBy = userName(firstItem);
-      if (coalesceList.length > 1) {
-        coalesced.push({
-          type: itemType,
-          isCoalesced: true,
-          item: coalesceList,
-          user: createdBy,
-          time: coalesceList[0].createdAt
-        });
+      // case: the coalesce list is not empty
+      else {
+        coalesced = this.addCoalesceItems(coalesceList, coalesced);
         coalesceList = [];
-      } else if (coalesceList.length === 1) {
-        coalesced.push({
-          type: itemType,
-          isCoalesced: false,
-          item: coalesceList[0],
-          user: createdBy,
-          time: coalesceList[0].createdAt
-        });
-        coalesceList = [];
-      }
-    };
-
-    const pushSingleItem = (timelineItem: IssueTimelineItem, filter: ItemFilterFunction | undefined) => {
-      if (!filter || filter(timelineItem)) {
-        coalesced.push({
-          type: (timelineItem as any).__typename,
-          isCoalesced: false,
-          item: timelineItem,
-          user: userName(timelineItem),
-          time: timelineItem.createdAt
-        });
       }
     };
 
@@ -140,26 +124,30 @@ export class TimelineComponent implements AfterViewInit {
       const filter = TimelineComponent.COALESCABLE_EVENTS.get(itemType);
       let stopCoalescing = false;
 
-      if (coalescingType) {
-        // Stop coalescing if user differs or the current item was added 60 seconds after the first one
-        const firstItem = coalesceList[0];
-        stopCoalescing = firstItem.createdBy.id !== timelineItem.createdBy.id ||
-          Math.abs(Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)) > 60000;
-      }
+      // decides whether to stop coalescing
+      stopCoalescing = this.stopCoalescing(coalescingType, coalesceList, stopCoalescing, timelineItem);
 
+      // case: the coalescing type equals the current item type
+      // or coalescing should stop
       if (coalescingType !== itemType || stopCoalescing) {
+
+        // adds remaining items
         finishCoalescing();
+
         if (filter && filter(timelineItem)) {
           coalescingType = itemType;
           coalesceList.push(timelineItem);
         } else {
           coalescingType = null;
-          pushSingleItem(timelineItem, filter);
+          coalesced = this.addSingleCoalesceItem(timelineItem, filter, coalesced);
         }
 
         continue;
-      } else if (coalescingType == null) {
-        pushSingleItem(timelineItem, filter);
+      } 
+      
+      // case: the coalescing type is null
+      else if (coalescingType == null) {
+        coalesced = this.addSingleCoalesceItem(timelineItem, filter, coalesced);
         continue;
       }
 
@@ -168,24 +156,130 @@ export class TimelineComponent implements AfterViewInit {
       }
     }
 
-    // Add remaining items
+    // adds remaining items
     finishCoalescing();
     this.timelineItems = coalesced;
   }
 
   /**
-   * Checks if user self assigned this issue for text representation
-   * @param assignedEvent
+   * Returns the name of the user
+   * that created a given timeline item (aka. timeline event)
+   * or just "Deleted User" in case the user no longer exists.
+   * @param  {IssueTimelineItem} item - The given timeline item.
+   * @returns - Name of the timeline item creator.
+   */
+  private userName(item: IssueTimelineItem) {
+
+    // case: the timeline item's creator's name can be retrieved
+    if (item.createdBy) {
+      return item.createdBy.displayName;
+    }
+
+    return 'Deleted User';
+  };
+
+  /**
+   * Adds items from a given coalesce list
+   * to a given list containing all coalesced timeline items.
+   * @param  {IssueTimelineItem[]} coalesceList - The given coalesce list.
+   * @param  {CoalescedTimelineItem[]} coalesced - The given list containing all coalesced timeline items.
+   * @returns The given list containing all coalesced timeline items.
+   */
+   private addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]) {
+
+    const firstItem: any = coalesceList[0];
+    const itemType = firstItem.__typename;
+    const createdBy = this.userName(firstItem);
+
+    // case: the coalesce list has more than one item
+    if (coalesceList.length > 1) {
+      coalesced.push({
+        type: itemType,
+        isCoalesced: true,
+        item: coalesceList,
+        user: createdBy,
+        time: coalesceList[0].createdAt
+      });
+    } 
+    
+    // case: the coalesce list has only one item
+    else if (coalesceList.length === 1) {
+      coalesced.push({
+        type: itemType,
+        isCoalesced: false,
+        item: coalesceList[0],
+        user: createdBy,
+        time: coalesceList[0].createdAt
+      });
+    }
+
+    // returns the list containing all coalesced timeline items
+    return coalesced;
+  }
+
+  /**
+   * Adds a single item to a list containing all coalesced timeline items.
+   * @param  {IssueTimelineItem} timelineItem - The given item.
+   * @param  {ItemFilterFunction|undefined} filter - Filter used on the given item.
+   * @returns The given list containing all coalesced timeline items.
+   */
+   private addSingleCoalesceItem(
+    timelineItem: IssueTimelineItem, 
+    filter: ItemFilterFunction | undefined,
+    coalesced: CoalescedTimelineItem[]) {
+    
+      if (!filter || filter(timelineItem)) {
+        coalesced.push({
+          type: (timelineItem as any).__typename,
+          isCoalesced: false,
+          item: timelineItem,
+          user: this.userName(timelineItem),
+          time: timelineItem.createdAt
+        });
+      }
+
+      // returns the list containing all coalesced timeline items
+      return coalesced;
+  }
+
+  /**
+   * Stops the coalescing process in case
+   * a) the user differs or
+   * b) the current item was already added 
+   * 60 seconds after the first one added.
+   * @param  {any} coalescingType - Coalescing type handled.
+   * @param  {IssueTimelineItem[]} coalesceList - Coalesce list handled.
+   * @param  {boolean} stopCoalescing - Value that determines whether the coalescing should stop.
+   * @param  {IssueTimelineItem} timelineItem - Timeline item handled.
+   * @returns The value that determines whether the coalescing should stop.
+   */
+   private stopCoalescing(coalescingType: any, coalesceList: IssueTimelineItem[], stopCoalescing: boolean, timelineItem: IssueTimelineItem) {
+    
+    if (coalescingType) {
+      const firstItem = coalesceList[0];
+      stopCoalescing = firstItem.createdBy.id !== timelineItem.createdBy.id ||
+        Math.abs(Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)) > 60000;
+    }
+    
+    return stopCoalescing;
+  }
+
+  /**
+   * Checks if the user self-assigned this issue for text representation.
+   * @param assignedEvent - Assigned event handled.
    */
   selfAssigned(assignedEvent): boolean {
+    
     if (assignedEvent.createdBy.id === assignedEvent.removedAssignee?.id) {
       return true;
-    } else if (assignedEvent.createdBy.id === assignedEvent.assignee?.id) {
-      return true;
-    }
+    } 
+
     return false;
   }
 
+  /**
+   * Handles the id for a given node...
+   */
   makeCommentId(node): NodeId {
     return {type: NodeType.IssueComment, id: node.id};
   }
