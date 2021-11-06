@@ -96,7 +96,6 @@ export class TimelineComponent implements AfterViewInit {
    */
   prepareTimelineItems(items: Map<string, IssueTimelineItem>): void {
 
-    // FIXME: handle the coalesing type
     let coalescingType = null;
     let coalesceList = new Array<IssueTimelineItem>();
     let coalesced: Array<CoalescedTimelineItem> = [];
