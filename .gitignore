@@ -5,6 +5,8 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
+# Only exists if compodoc was run
+/documentation
 
 # dependencies
 /node_modules
