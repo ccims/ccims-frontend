@@ -27,8 +27,17 @@ export function nodeTypeFromTypename(typename: string) {
   return NodeType[typename] || null;
 }
 
+/**
+ * Uniquely identifies a node.
+ */
 export interface NodeId {
+  /**
+   * The type of this node.
+   */
   type: NodeType;
+  /**
+   * The ID of this node. This is the same as the node ID in the API.
+   */
   id: string;
 }
 
@@ -65,8 +74,17 @@ export enum ListType {
   LinkedByIssues
 }
 
+/**
+ * Uniquely identifies a list of items.
+ */
 export interface ListId {
+  /**
+   * The parent node.
+   */
   node: NodeId;
+  /**
+   * The type of list.
+   */
   type: ListType;
 }
 

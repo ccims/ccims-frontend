@@ -6,7 +6,7 @@ import { DataNode } from '@app/data-dgql/query';
 import { Subscription } from 'rxjs';
 
 /**
- * Loads data for a node from the cache.
+ * Loads data for a node from the cache or from the API.
  */
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,7 +14,9 @@ import { Subscription } from 'rxjs';
   template: '<ng-container *ngIf="node$.hasData"><ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: node$.current }"></ng-container></ng-container>'
 })
 export class CacheNodeComponent implements OnInit, OnDestroy {
+  /** The node that will be loaded. */
   @Input() node: NodeId;
+  /** If true, this component will subscribe to the node lazily (i.e. it will not fetch new data if data is cached already) */
   @Input() lazy = true;
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
 

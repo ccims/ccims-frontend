@@ -1,6 +1,6 @@
 <span
     class="inner-label"
     [ngStyle]="{ backgroundColor: label?.color }"
-    [ngClass]="textIsDark(label?.color) ? 'is-dark-text' : ''">
+    [ngClass]="labelIsDark(label?.color) ? 'is-dark-text' : ''">
     {{label?.name}}
 </span>

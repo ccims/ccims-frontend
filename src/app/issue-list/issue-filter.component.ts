@@ -94,22 +94,31 @@ function convertValueForFilter(type: string, value: any) {
   }
 }
 
+/**
+ * Edits an IssueFilter object.
+ */
 @Component({
   selector: 'app-issue-filter',
   templateUrl: './issue-filter.component.html',
   styleUrls: ['./issue-filter.component.scss']
 })
 export class IssueFilterComponent {
+  /** Raw project ID. */
   @Input() projectId: string;
+  /** The list from which to source labels in the label picker. */
   @Input() allLabelsList: ListId;
+  /** Emitted every time the filter is changed. */
   @Output() filterChange = new EventEmitter<IssueFilter>();
 
   // constants as class properties because angular
   predicates = PREDICATES;
   predicateCount = Object.keys(PREDICATES).length;
 
+  /** The names of currently active predicates. */
   activePredicates: string[] = [];
+  /** The values of currently active predicates. */
   predicateValues: { [key: string]: any } = {};
+  /** Current search query. */
   searchQuery = '';
 
   /**

@@ -17,28 +17,63 @@ const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS = 500;
 const CACHE_STALE_TIME_MS = 5000;
 
 /**
- * A declarative query.
+ * A piece of observable data.
+ *
+ * DataQuery is a stateful interface for interacting with an API object.
+ * Instead of calling a function to make an API request, DataQuery lets you declare the ID (like an endpoint) and
+ * request parameters (in {@link #params}) of the data you want, and will automatically load the data when needed.
+ * Data can then be accessed synchronously with the {@link #current} property.
+ *
+ * Upon adding a subscriber with [#subscribe]{@link Observable#subscribe}, data will loaded from the API and stored in the
+ * cache. Subsequent viewers can then immediately access the cached data.
+ *
+ * - To check if data is loaded, use {@link #hasData},
+ *   and to check if data is still loading, use {@link #loading}.
+ * - To (re-)load the data from the API, use {@link #load}.
+ *   This happens automatically upon subscription after a sufficient delay (see debounce time constants).
+ * - To add a subscriber without triggering this behavior, use {@link #subscribeLazy}, which will
+ *   only make an API request if the data is not cached.
+ * - To invalidate (i.e. delete) the cached data, use {@link #invalidate}.
+ * - If you only need the data right now and don't want to deal with subscriptions, use {@link #dataAsPromise}
+ *   to access it as a promise that will either return cached data or load new data.
+ *
+ * When done using a DataQuery subscription, it *must* be manually destroyed by calling
+ * [`sub.unsubscribe()`]{@link Subscription#unsubscribe} on the Subscription object returned by
+ * [subscribe]{@link Observable#subscribe}, as it may leak memory otherwise.
+ *
+ * See {@link DataNode} and {@link DataList} for the two main types of data that use DataQuery.
  *
  * @typeParam T - type of data accessible via .current
  * @typeParam R - type returned by innerQueryFn
  * @typeParam P - parameter type for innerQueryFn
  */
-export class DataQuery<I, T, R, P> extends Observable<T> {
+export abstract class DataQuery<I, T, R, P> extends Observable<T> {
+  /** The ID of this data. */
   id: I;
   loading = false; // TODO: maybe make this value observable too?
+  /** @ignore */
   protected currentData?: T;
+  /** @ignore */
   protected lastLoadTime = 0;
+  /** @ignore */
   protected pSetParamsNoUpdate = false;
 
+  /** Returns true if data is currently available. */
   get hasData(): boolean {
     return this.currentData !== undefined;
   }
 
+  /** The currently loaded data. */
   get current(): T {
     return this.currentData;
   }
 
+  /** @ignore */
   protected currentQueryParams?: P;
+  /**
+   * Parameters that will be passed to the request.
+   * Changing this property will automatically trigger a load.
+   */
   get params(): P | undefined {
     return this.currentQueryParams;
   }
@@ -49,18 +84,28 @@ export class DataQuery<I, T, R, P> extends Observable<T> {
     }
   }
 
+  /** @ignore */
   protected subscribers: Set<Subscriber<T>> = new Set();
+  /** @ignore */
   protected innerQueryFn: (id: I, p: P) => Promise<R>;
+  /** @ignore */
   protected innerMapFn: (r: R) => T;
+  /** @ignore */
   protected stateLock = 0;
+  /** @ignore */
   protected loadTimeout = null;
+  /** @ignore */
   protected hydrated = false;
+  /** @ignore */
   protected isNextSubLazy = false;
 
   /** If true, will prolong debounce time a bit. */
   interactive = false;
 
   /**
+   * @ignore
+   * Creates a new DataQuery (you should never need to use this directly)
+   *
    * @param id an identifier for the data being loaded
    * @param query the inner query function
    * @param map maps returned data from the query R to usable data T
@@ -75,7 +120,21 @@ export class DataQuery<I, T, R, P> extends Observable<T> {
     this.innerMapFn = map;
   }
 
-  public dataAsPromise(): Promise<T> {
+  /**
+   * Returns the data as a promise, without having to create a subscription.
+   *
+   * If cached data is available, this will return the data immediately; otherwise, this will
+   * load the data with an API request.
+   *
+   * #### Example
+   * ```ts
+   * const node = dataService.getNode(someNodeId);
+   * node.dataAsPromise().then(data => {
+   *   console.log('node data:', data);
+   * }).catch(error => console.error('oh no'));
+   * ```
+   */
+  dataAsPromise(): Promise<T> {
     if (this.hasData) {
       return Promise.resolve(this.current);
     }
@@ -90,6 +149,7 @@ export class DataQuery<I, T, R, P> extends Observable<T> {
     });
   }
 
+  /** @ignore */
   private loadImpl(fut: Promise<R>) {
     clearTimeout(this.loadTimeout);
     this.loadTimeout = null;
@@ -122,7 +182,10 @@ export class DataQuery<I, T, R, P> extends Observable<T> {
     this.loadImpl(this.innerQueryFn(this.id, this.currentQueryParams));
   }
 
-  /** Use when data has not yet been loaded but is available from elsewhere. */
+  /**
+   * @internal
+   * Use when data has not yet been loaded but is available from elsewhere.
+   */
   hydrateRaw(preparedData: Promise<R>) {
     if (this.hasData) {
       return; // don't need hydration
@@ -158,6 +221,7 @@ export class DataQuery<I, T, R, P> extends Observable<T> {
     this.emitUpdateToAllSubscribers();
   }
 
+  /** @ignore */
   protected addSubscriber(subscriber: Subscriber<T>, lazy: boolean) {
     this.subscribers.add(subscriber);
     if (this.current !== undefined) {
@@ -176,40 +240,85 @@ export class DataQuery<I, T, R, P> extends Observable<T> {
     };
   }
 
-  /** Will subscribe to the data, but not cause a reload unless there is no data. */
+  /**
+   * Will subscribe to the data, but not cause a reload unless there is no data.
+   * @param args passed verbatim to [#subscribe]{@link Observable#subscribe}
+   */
   subscribeLazy(...args) {
     this.isNextSubLazy = true;
     return this.subscribe(...args);
   }
 
+  /** @ignore */
   emitUpdateToAllSubscribers() {
     for (const sub of this.subscribers) {
       sub.next(this.current);
     }
   }
 
+  /** @ignore */
   emitErrorToAllSubscribers(error: unknown) {
     for (const sub of this.subscribers) {
       sub.error(error);
     }
   }
 
+  /** @ignore */
   insertResult(result: R) {
     this.currentData = this.innerMapFn(result);
     this.emitUpdateToAllSubscribers();
   }
 
+  /** Returns the number of subscribers for this data. */
   get subscriberCount(): number {
     return this.subscribers.size;
   }
 }
 
+/** ignore */
 const identity = id => id;
 
 /**
  * A cacheable node with no parameters.
+ *
+ * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataNode.
+ *
+ * #### Example
+ * ```html
+ * <div class="example-component">
+ *   Is it loading? {{thing$.loading ? 'yes' : 'no'}}
+ *   Is the thing loaded? {{thing$.hasData ? 'yes' : 'no'}}
+ *   <div *ngIf="thing$.current as thing">
+ *     Thing data: {{thing.something}}
+ *   </div>
+ * </div>
+ * ```
+ * ```ts
+ * class ExampleComponent implements OnInit, OnDestroy {
+ *   @Input() thingId: NodeId;
+ *
+ *   public thing$: DataNode<Thing>;
+ *   public thingSub: Subscription; // subscription to thing$
+ *
+ *   constructor(private dataService: DataService) {}}
+ *
+ *   ngOnInit() {
+ *     // obtain the DataNode from the data service
+ *     this.thing$ = this.dataService.getNode(this.thingId);
+ *
+ *     // subscribe to indicate that we want some data
+ *     this.thingSub = this.thing$.subscribe();
+ *   }
+ *
+ *   ngOnDestroy() {
+ *     // remember to unsubscribe!!
+ *     this.thingSub.unsubscribe();
+ *   }
+ * }
+ * ```
  */
 export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
+  /** @ignore */
   constructor(queries: QueriesService, id: NodeId) {
     super(id, queryNode(queries), identity);
   }
@@ -226,18 +335,76 @@ export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
 }
 
 /**
- * Loads a list of items. Note that the Map is making use of ordered keys.
+ * Provides a view into list of items.
+ *
+ * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataList.
+ *
+ * - To access list items, use {@link #currentItems}.
+ * - If you need the IDs as well, use {@link #current} (note that the Map is ordered).
+ *
+ * The current view is defined by following properties:
+ *
+ * - {@link #cursor}: the current NodeId cursor (see API documentation for details)
+ * - {@link #count}: number of items to load
+ * - {@link #forward}: if true, will load items after the cursor. If false, will load items before.
+ * - {@link #filter}: filter object (type parameter F)
+ *
+ * Changing any of these properties will reload the list (debounced).
+ *
+ * @typeParam T - list item type
+ * @typeParam F - list filter type
+ *
+ * #### Example
+ * ```html
+ * <div class="example-component">
+ *   <div *ngFor="let thing of things$.currentItems">
+ *     a thing! {{thing.something}}
+ *   </div>
+ * </div>
+ * ```
+ * ```ts
+ * class ExampleComponent implements OnInit, OnDestroy {
+ *   @Input() thingsListId: ListId;
+ *
+ *   things$: DataList<Thing, unknown>; // filter type unknown because we're not using here
+ *   thingsSub: Subscription;
+ *
+ *   constructor(private dataService: DataService) {}}
+ *
+ *   ngOnInit() {
+ *     // obtain a list view from the data service
+ *     this.things$ = this.dataService.getList(this.thingsListId);
+ *
+ *     // subscribe to the list to indicate that we want some data
+ *     this.thingsSub = this.things$.subscribe();
+ *   }
+ *
+ *   ngOnDestroy() {
+ *     // remember to unsubscribe!!
+ *     this.thingsSub.unsubscribe();
+ *   }
+ * }
+ * ```
  */
 export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListResult<T>, ListParams<F>> {
+  /** @ignore */
   private pCursor?: NodeId;
+  /** @ignore */
   private pCount = 10;
+  /** @ignore */
   private pFilter?: F;
+  /** @ignore */
   private pForward = true;
+  /** @ignore */
   private pageInfo?: PageInfo;
+  /** @ignore */
   private pTotalCount?: number;
+  /** @ignore */
   private previouslyHadPageContents = false;
+  /** @ignore */
   private pNodes: NodeCache;
 
+  /** @ignore */
   constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
     super(id, queryList(queries, nodes), result => {
       this.pageInfo = result.pageInfo;
@@ -260,6 +427,10 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     this.pSetParamsNoUpdate = false;
   }
 
+  /**
+   * @internal
+   * Updates the `params` value from list parameters
+   */
   setParams() {
     this.params = {
       cursor: this.pCursor,
@@ -269,10 +440,12 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     };
   }
 
+  /** Returns the total number of items. Null if not loaded. */
   get totalCount() {
     return this.pTotalCount;
   }
 
+  /** Returns the currently loaded items in an array. */
   get currentItems(): T[] {
     if (!this.hasData) {
       return [];
@@ -280,6 +453,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     return [...this.current.values()];
   }
 
+  /** Current list filter object. */
   get filter(): F | undefined {
     return this.pFilter;
   }
@@ -288,6 +462,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     this.setParams();
   }
 
+  /** The current pagination cursor (a node relative to which items will be loaded). Nullable. */
   get cursor(): NodeId {
     return this.pCursor;
   }
@@ -296,6 +471,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     this.setParams();
   }
 
+  /** The max amount of items to be loaded. */
   get count(): number {
     return this.pCount;
   }
@@ -304,6 +480,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     this.setParams();
   }
 
+  /** Whether to load items after the cursor (true), or items before the cursor (false). */
   get forward(): boolean {
     return this.pForward;
   }
@@ -312,11 +489,13 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     this.setParams();
   }
 
+  /** Returns the node ID of the first item on the current page. */
   get firstPageItemId(): NodeId | null {
     const firstKey = this.current ? this.current.keys().next()?.value || null : null;
     return firstKey ? decodeNodeId(firstKey) : null;
   }
 
+  /** Returns the node ID of the last item on the current page. */
   get lastPageItemId(): NodeId | null {
     if (!this.current) {
       return;
@@ -325,6 +504,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     return keys[keys.length - 1] ? decodeNodeId(keys[keys.length - 1]) : null;
   }
 
+  /** Returns true if the current result contains the given node. */
   currentHasNode(key: NodeId): boolean {
     return this.current?.has(encodeNodeId(key));
   }
@@ -336,6 +516,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     return !this.pageInfo || this.pageInfo.hasNextPage;
   }
 
+  /** Moves the view to the first page. */
   firstPage() {
     this.cursor = null;
     this.forward = true;
@@ -344,6 +525,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     return true;
   }
 
+  /** Moves the view to the previous page. */
   prevPage() {
     if (this.pageInfo && !this.pageInfo.hasPreviousPage) {
       return false;
@@ -354,6 +536,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     return true;
   }
 
+  /** Moves the view to the next page. */
   nextPage() {
     if (this.pageInfo && !this.pageInfo.hasNextPage) {
       return false;
@@ -365,9 +548,13 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
   }
 
   /**
-   * Hydrates this list with initial data in the API format (e.g. loaded from a node request).
-   * @param type NodeType of the list (implementation detail! ideally this would not be part of this API)
+   * Hydrates this list with initial data in the API format
+   *
+   * If you've already got data from the API that contains the first page of this list, you can use
+   * this method to insert that data directly and avoid triggering a redundant API request.
+   *
    * @param data a promise that returns the API data
+   * @typeParam IdT - equivalent to T
    */
   hydrateInitial<IdT extends T & { id: string, __typename: string }>(data: Promise<HydrateList<IdT>>) {
     this.hydrateRaw(data.then(value => ({
@@ -378,6 +565,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
   }
 }
 
+/** List hydration object (constructing this manually shouldn't be necessary as it mirrors the structure of GQL objects) */
 export type HydrateList<T> = {
   totalCount: number,
   pageInfo: PageInfo,
@@ -385,8 +573,9 @@ export type HydrateList<T> = {
   nodes?: (T | null)[]
 };
 
+/** Keeps a cache of DataNodes such that each NodeId has at most one associated DataNode. */
 export class NodeCache {
-  // TODO: garbage collection?
+  // TODO: garbage collection? (nodes with zero subscribers)
   nodes: Map<NodeIdEnc, DataNode<unknown>> = new Map();
 
   constructor(private queries: QueriesService) {}
@@ -396,6 +585,7 @@ export class NodeCache {
     this.nodes.set(encodedId, new DataNode(this.queries, id));
   }
 
+  /** Returns the DataNode for the given NodeId. */
   getNode<T>(id: NodeId): DataNode<T> {
     const encodedId = encodeNodeId(id);
     if (!this.nodes.has(encodedId)) {
@@ -421,7 +611,7 @@ export class NodeCache {
       const id = { type, id: node.id };
       const dataNode: DataNode<T> = this.getNode(id);
       if (!dataNode.hasData) {
-        // FIXME: different queries load different amounts of data, simple overwriting doesn't work
+        // FIXME: different queries load different amounts of data, simple overwriting doesn't always have the desired effect
         //  S1: distinguish between nodes and "partial nodes"?
         //  S2: deep merge data?
         dataNode.insertResult(node);
