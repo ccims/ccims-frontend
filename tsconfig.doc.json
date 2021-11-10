@@ -1,0 +1,4 @@
+{
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/test.ts", "src/styles.css", "src/polyfills.ts", "src/main.ts", "src/index.html","src/**/*.spec.ts"]
+}
