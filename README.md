@@ -17,6 +17,9 @@ of the primary components of the app.
 | Apollo GraphQL Client Setup | [GraphQLModule](src/app/graphql.module.ts) |
 | Type Definitions for Data from Backend <br /> Helper Objects for Queries & Mutations <br /> All of this is *output of code generator* | [generated](src/generated)
 
+## Documentation generation
+The documentation is generated with [Compodoc](https://github.com/compodoc/compodoc). Run `npm run compodoc`for a documentation server. Navigate to `http://localhost:6060/`. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in [tsconfig.doc.json](tsconfig.doc.json).
+
 ## Codegeneration from .graphql files
 The app uses GraphQL instead of REST to communicate with the backend. The graphql files are in the
 [data folder](src/app/data) and subdivided by entities they pertain to e.g. [label](src/app/data/label/label.graphql) <br />
