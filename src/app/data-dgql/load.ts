@@ -17,6 +17,7 @@ type NodeQueries = {
   [nodeType: number]: (i: NodeQueryInput, id: string) => Promise<unknown>,
 };
 
+/** Types of nodes that can be loaded directly. */
 const nodeQueries: NodeQueries = {
   [NodeType.Project]: (i, id) => i.q.projects.getProject(id).then(data => data.node),
   [NodeType.Component]: (i, id) => i.q.components.getComponent(id).then(data => data.node),
@@ -28,6 +29,7 @@ const nodeQueries: NodeQueries = {
   [NodeType.Label]: (i, id) => i.q.issues.getLabel(id).then(data => data.node)
 };
 
+/** Loads a node. */
 export const queryNode = (q: QueriesService) => async <T>(nodeId: NodeId): Promise<T> => {
   const { type, id } = nodeId;
 

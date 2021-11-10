@@ -21,7 +21,12 @@ import { SetEditorDialogComponent, SetEditorDialogData, SetMultiSource } from '.
 type ItemOps = 'none' | 'edit' | 'create-edit' | 'create-edit-delete';
 
 /**
- * The set editor displays and edits a list like in the issue detail sidebar.
+ * The set editor displays and edits a list of items (used in the issue detail sidebar).
+ *
+ * - The list of selected items {@link listSet} may be either a local array of IDs or a {@link ListId}.
+ * - When editing, items may be selected from a list of all available items {@link #listAll}.
+ * - The list of items may be searched using a search box ({@link #makeFilter} and {@link #scoreKeys}).
+ * - Upon closing the edit dialog, a changeset of additions and deletions is passed to a callback ({@link #applyChangeset}).
  */
 @Component({
   selector: 'app-set-editor',
@@ -29,8 +34,6 @@ type ItemOps = 'none' | 'edit' | 'create-edit' | 'create-edit-delete';
   styleUrls: ['./set-editor.component.scss']
 })
 export class SetEditorComponent<T extends { id: string, __typename: string }, F> implements OnInit, OnChanges, OnDestroy {
-  /** Pass a HydrateList object to load the listSet with existing data instead of sending a request to the server. */
-  @Input() hydrate: Promise<HydrateList<T>>;
   /** The list that contains all nodes that are part of the set. string[] is treated as local state. */
   @Input() listSet: ListId | NodeId[];
   /** The list of all possible items. Should be a superset of listSet, as otherwise the user may not be able to deselect items. */
@@ -47,25 +50,40 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   @Input() emptySuggestionsLabel = 'No suggestions';
   /** Set to override the “no results” text in the dialog. Appears when there is a search query. */
   @Input() emptyResultsLabel = 'No results';
+  /** Pass a HydrateList object to load the listSet with existing data instead of sending a request to the server. */
+  @Input() hydrate: Promise<HydrateList<T>>;
   /** Additional operations available from the set editor. */
   @Input() itemOps: ItemOps = 'none';
 
+  /** Callback to create a new item (enabled using itemOps). If the promise returns a node ID, it will be added to the set. */
   @Input() createItem: () => Promise<NodeId | null | undefined>;
+  /** Callback to edit an item. */
   @Output() editItem = new EventEmitter<{ id: NodeId, preview: T }>();
+  /** Callback to delete an item. */
   @Output() deleteItem = new EventEmitter<{ id: NodeId, preview: T }>();
 
+  /** @ignore */
   @ViewChild('titleText') titleText: ElementRef<HTMLElement>;
+  /** @ignore */
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
 
+  /** @ignore */
   public listSet$: DataList<T, unknown>;
-  public isLocalSet = false;
+  /** @ignore */
   private listSetSub: Subscription;
+
+  /**
+   * @ignore
+   * If true, the listSet$ variable is null and listSet contains an array of node IDs.
+   */
+  public isLocalSet = false;
 
   constructor(
     private dataService: DataService,
     private dialogService: MatDialog
   ) {}
 
+  /** @ignore */
   reloadListSet() {
     if (Array.isArray(this.listSet)) {
       this.isLocalSet = true;
@@ -99,7 +117,10 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
     this.listSetSub?.unsubscribe();
   }
 
-  /** This method is needed to satisfy static type checking bounds */
+  /**
+   * @ignore
+   * This method is needed to satisfy static type checking bounds
+   */
   getListSetLength(): number {
     if (this.isLocalSet) {
       return (this.listSet as NodeId[]).length;
@@ -107,14 +128,22 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
     throw new Error('bad state');
   }
 
+  /** @ignore */
   private onDialogApplyChangeset = (additions: NodeId[], deletions: NodeId[]): Promise<void> => {
     return this.applyChangeset(additions, deletions);
   }
 
+  /** @ignore */
   private onDialogCreateItem = () => this.createItem();
+  /** @ignore */
   private onDialogEditItem = (item) => this.editItem.emit(item);
+  /** @ignore */
   private onDialogDeleteItem = (item) => this.deleteItem.emit(item);
 
+  /**
+   * @internal
+   * Opens the editor dialog.
+   */
   beginEditing() {
     this.dialogService.open<SetEditorDialogComponent<T, F>>(SetEditorDialogComponent, {
       width: '400px',

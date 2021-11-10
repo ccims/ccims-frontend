@@ -1,13 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { Label } from 'src/generated/graphql-dgql';
 
+/**
+ * Renders an issue label.
+ */
 @Component({
   selector: 'app-issue-label',
   templateUrl: './issue-label.component.html',
   styleUrls: ['./issue-label.component.scss']
 })
 export class IssueLabelComponent {
-
+  /** The label to display. Nullable. Should have properties `name` and `color`. */
   @Input() label: Label;
 
   /**
@@ -59,7 +62,7 @@ export class IssueLabelComponent {
    *
    * @param color - Background color of a label.
    */
-  public textIsDark(color) {
+  public labelIsDark(color) {
     if (!color) {
       return false;
     }

@@ -17,7 +17,12 @@ import DataService from '@app/data-dgql';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
 import { quickScore } from 'quick-score';
 
-/** This interface is used to source items from multiple sources in the set editor. */
+/**
+ * This interface is used to source items from multiple sources in the set editor.
+ *
+ * staticSources specifies lists whose items will always be loaded.
+ * sourceNodes specifies a list of nodes whose the sub-items will be loaded (e.g. a list of components whose labels will be loaded).
+ */
 export interface SetMultiSource {
   /** A static list of source lists. */
   staticSources: ListId[];
@@ -36,8 +41,10 @@ class MultiSourceList<T, F> {
   public staticSourceNodeList?: NodeId[];
   public sources: Map<ListIdEnc, DataList<T, F>> = new Map();
   public sourceSubs: Map<ListIdEnc, Subscription> = new Map();
+  /** Max number of items in results. */
   public limit = 10;
   public results?: T[];
+  /** If true, there are more than `limit` items in the source data. */
   public hasMore = false;
   public query = '';
 
@@ -55,6 +62,7 @@ class MultiSourceList<T, F> {
     return new this<T, F>({ staticSources: [list] }, scoreKeys, dataService);
   }
 
+  /** Updates lists. */
   update() {
     const newSourceSet = new Set<ListIdEnc>();
     for (const [id, node] of this.sourceNodeList?.current?.entries() || []) {
@@ -85,6 +93,7 @@ class MultiSourceList<T, F> {
     }
   }
 
+  /** Sets a filter on all lists. */
   setFilter(query: string, filter: F) {
     this.query = query;
     for (const source of this.sources.values()) {
@@ -92,6 +101,7 @@ class MultiSourceList<T, F> {
     }
   }
 
+  /** Scores an item for ranking in results. */
   score(item: T) {
     const matchStrings = [];
     for (const key of this.scoreKeys) {
@@ -110,6 +120,7 @@ class MultiSourceList<T, F> {
     return quickScore(matchStrings.join(' '), this.query);
   }
 
+  /** Updates the results array from loaded data. */
   updateResults() {
     const seenItems = new Set();
     const items = [];
@@ -133,6 +144,7 @@ class MultiSourceList<T, F> {
     this.results = items;
   }
 
+  /** If true, something is loading somewhere. */
   isLoading() {
     if (this.sourceNodeList?.loading) {
       return true;
@@ -146,6 +158,7 @@ class MultiSourceList<T, F> {
     return false;
   }
 
+  /** Unsubscribes from all subscriptions. This object should no longer be used afterwards. */
   unsubscribe() {
     this.sourceNodeListSub?.unsubscribe();
     this.sourceSubs.forEach(sub => sub.unsubscribe());
@@ -169,6 +182,7 @@ export interface SetEditorDialogData<T, F> {
   deleteItem?: ({ id: NodeId, preview: T }) => void;
 }
 
+/** This is an internal component used in the set editor. */
 @Component({
   selector: 'app-set-editor-dialog',
   templateUrl: './set-editor-dialog.component.html',
