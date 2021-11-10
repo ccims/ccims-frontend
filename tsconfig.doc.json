@@ -1,10 +1,6 @@
 {
   "include": ["src/**/*.ts"],
-  "exclude": ["src/test.ts",
-    "src/styles.css",
-    "src/polyfills.ts",
-    "src/main.ts",
-    "src/index.html",
+  "exclude": [
     "src/**/*.spec.ts",
     "src/generated/public-graphql.ts",
     "src/generated/graphql.ts",
