@@ -1,9 +1,21 @@
+/**
+ * This class contains functionality for time formatting which is needed for correct time representation
+ */
 export class TimeFormatter{
 
+  /**
+   * E.g. converts (2021-10-01T19:44:04.813Z) to
+   * (Fri Oct 01 2021 21:44:04 GMT+0200 (Mitteleuropäische Sommerzeit))
+   * @param time
+   */
   formatTime(time: string): string {
     return new Date(Date.parse(time)).toString();
   }
 
+  /**
+   * E.g. converts (2021-11-02T12:27:58.192Z) to (8 days ago)
+   * @param dateString
+   */
   formatTimeDifference(dateString: string): string {
     const pastTimeMs = Date.parse(dateString);
     const nowMs = Date.now();
@@ -30,6 +42,11 @@ export class TimeFormatter{
     return 'just now';
   }
 
+  /**
+   * Change singular form of a word into pluralized form if necessary.
+   * @param n number of entities
+   * @param singular singular form of the word
+   */
   pluralize(n: number, singular: string): string {
     return (n === 1 ? n + ' ' + singular : n + ' ' + singular + 's');
   }

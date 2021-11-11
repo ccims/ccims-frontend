@@ -16,6 +16,9 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {QueryComponent} from '@app/utils/query-component/query.component';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 
+/**
+ * A node in the graph is either a component or an interface.
+ */
 export enum NodeDetailsType {
   Component,
   Interface
@@ -23,14 +26,27 @@ export enum NodeDetailsType {
 
 export declare type NodeUpdatedCallbackFn = (nodeDeleted: boolean) => void;
 
+/**
+ * This component shows details of nodes or interfaces when clicking on them in the graph.
+ */
 @Component({
   selector: 'app-node-details',
   templateUrl: './node-details.component.html',
   styleUrls: ['./node-details.component.scss']
 })
 export class NodeDetailsComponent implements OnInit, AfterViewInit {
+
+  /**
+   * The project that contains the node
+   */
   @Input() projectId: string;
+  /**
+   * Id of the node
+   */
   @Input() nodeId: string;
+  /**
+   * Either component or interface
+   */
   @Input() nodeType: NodeDetailsType;
   @Input() callback?: NodeUpdatedCallbackFn;
   @ViewChild('nodeQuery') nodeQuery: QueryComponent;
