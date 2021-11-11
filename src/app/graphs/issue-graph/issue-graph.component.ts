@@ -26,8 +26,13 @@ import { IssueGraphClassSettersService } from './class-setters/issue-graph-class
 import { IssueGraphLinkHandlesService } from './link-handles/issue-graph-link-handles.service';
 import { IssueGraphDynamicTemplateRegistryService } from './dynamic-template-registry/issue-graph-dynamic-template-registry.service';
 
+/**
+ * Interface specifying the content of the graph component local storage
+ */
 interface Positions {
+  /** Positions of the nodes as the user arranged them */
   nodes: { [prop: string]: Point; };
+  /** Positions (north, south, east, west) of the issue groups */
   issueGroups: { [node: string]: string };
 }
 
@@ -70,18 +75,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   readonly zeroPosition = {x: 0, y: 0};
 
-  // ?
-  private componentActionsOverlay: componentContextMenuComponent.ComponentContextMenuComponent;
-
-  // ?
-  private componentActionsOverlayId: number | string;
-
-
-
-  // ?
+  private componentContextMenu: componentContextMenuComponent.ComponentContextMenuComponent;
+  private componentContextMenuNodeId: number | string;
   private destroy$ = new ReplaySubject(1);
-
-
 
   // reference to the GraphEditor instance of the graph
   private graph: GraphEditor;
@@ -89,27 +85,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   // contains all data about the projects interfaces, components, issues and their relations
   // that is needed in order to create nodes and edges in the grapheditor to visualize the project
   public graphData: GraphData;
-
-  // ?
   private graphFirstRender = true;
 
   // indicates whether graph is initialized
   private graphInitialized = false;
-
-
-
-  // ?
   private isHandset = false;
 
   // contains nodes representing interfaces and components which utilize node groups for display of issue folders
   private issueGroupParents: Node[] = [];
-  
-
 
   // local storage key for positions of graph elements
   private projectStorageKey: string;
-
-
 
   // The component details page moves the graph sometimes a bit,
   // so dont move back when closing the component details page
@@ -117,30 +103,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // when a new graph state arrives it is passed to the graph
   // and a graph redraw is issued
-  // (check IssueGraphControlsComponents ngAfterViewInit for more information) 
+  // (check IssueGraphControlsComponents ngAfterViewInit for more information)
   public reload$: BehaviorSubject<void> = new BehaviorSubject(null);
-
-  // ?
   private reloadOnMouseUp = false;
 
-
-
-  // ?
+  // Saved positions of the nodes and the issue groups
   private savedPositions: Positions = {nodes: {}, issueGroups: {}};
-
-  // ?
+  // Responsible for saving the node positions to local storage
   private savePositionsSubject = new Subject<null>();
-
-
 
   // used in the drawGraph method true on first draw and after component creation, effects a zoom to bounding box
   private zoomOnRedraw = true;
-
-
-
-  // ...
-
-
 
   /**
    * Gets reference to the MICO GraphEditor instance of the graph and initializes it.
@@ -163,24 +136,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Cancels all subscriptions on component destruction.
    */
   ngOnDestroy() {
-
     // saves the current zoom details of the graph for when the user comes back to the graph
-    localStorage.setItem(`zoomTransform_${this.projectStorageKey}`, 
+    localStorage.setItem(`zoomTransform_${this.projectStorageKey}`,
       JSON.stringify(this.graph.currentZoomTransform));
 
     // saves the current bounding box of the graph for when the user comes back to the graph
-    localStorage.setItem(`zoomBoundingBox_${this.projectStorageKey}`, 
+    localStorage.setItem(`zoomBoundingBox_${this.projectStorageKey}`,
       JSON.stringify(this.graph.currentViewWindow));
 
     this.destroy$.next();
     this.closeComponentActions();
   }
-
-
-
-  // initGraph
-
-
 
   /**
    * 1) Sets up a subscription for node positions
@@ -194,7 +160,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * 7) and various event listeners on the graph.
    */
   initGraph() {
-
     // case: graph already initialized
     if (this.graphInitialized) {
       return;
@@ -205,7 +170,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // 1) subscribes to the subject emitting node positions
     this.subscribeToSubject();
-    
+
     // 2) initializes the graph
     this.graphInitialized = true;
 
@@ -230,11 +195,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-    * Loads positions of graph elements from the local storage.
-    * @returns Parsed positions
-    */
+   * Loads positions of graph elements from the local storage.
+   * @returns Parsed positions
+   */
   private loadSavedPositions(): Positions {
-
     // gets data from the local storage
     const data = localStorage.getItem(this.projectStorageKey);
 
@@ -265,22 +229,21 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Manages the edge drag behaviour of given GraphEditor instance.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
    */
   private manageDragBehaviour(graph: GraphEditor) {
-
     // applies functionality for when an edge is created
     graph.onCreateDraggedEdge = this.onCreateEdge;
-    
+
     // applies functionality for when an edge is dragged (and its target is changed)
     graph.onDraggedEdgeTargetChange = this.onDraggedEdgeTargetChanged;
-    
+
     // applies functionality for when an edge is added
     graph.addEventListener('edgeadd', this.onEdgeAdd);
-    
+
     // applies functionality for when an edge is removed
     graph.addEventListener('edgeremove', this.onEdgeRemove);
-    
+
     // applies functionality for when an edge is dropped
     graph.addEventListener('edgedrop', this.onEdgeDrop);
   }
@@ -288,10 +251,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Method gets triggered after an edge gets created,
    * it can either be of type provider or consumer.
-   * @param  {DraggedEdge} edge - Edge that is handled.
+   * @param edge Edge that is handled.
    */
   private onCreateEdge = (edge: DraggedEdge) => {
-
     const graph: GraphEditor = this.graphWrapper.nativeElement;
     const sourceNode = graph.getNode(edge.source);
 
@@ -306,21 +268,20 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // case: edge originates from a component
     if (sourceNode.type === issueGraphNodes.NodeType.Component) {
-
       // updates edge properties (no drag handles)
       edge.type = issueGraphNodes.NodeType.Interface;
       edge.dragHandles = [];
 
       // updates valid targets
       edge.validTargets.clear();
-      
+
       // updates marker at the end of the edge
       edge.markerEnd = {
-        template: "interface-connector-initial",
+        template: 'interface-connector-initial',
         relativeRotation: 0,
         absoluteRotation: 0
       };
-      
+
       // allows only interfaces as targets
       graph.nodeList.forEach((node) => {
         if (node.type === issueGraphNodes.NodeType.Interface) {
@@ -333,28 +294,26 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         edge.validTargets.delete(existingEdge.target.toString());
       });
     }
-    
+
     return edge;
   }
-  
+
   /**
    * Method gets triggered after an edge gets dragged
    * and its target is changed:
    * ex. consumer edge gets moved away from the provider edge.
-   * @param  {DraggedEdge} edge - Edge that is handled.
-   * @param  {Node} sourceNode - Source of the handled edge.
-   * @param  {Node} targetNode - Target of the handled edge.
-   * @returns {DraggedEdge} Edge that is handled.
+   * @param edge Edge that is handled.
+   * @param sourceNode Source of the handled edge.
+   * @param targetNode Target of the handled edge.
+   * @returns Edge that is handled.
    */
   private onDraggedEdgeTargetChanged = (
     edge: DraggedEdge,
     sourceNode: Node,
     targetNode: Node
   ) => {
-
     // case: edge originates from a component
     if (sourceNode.type === issueGraphNodes.NodeType.Component) {
-
       // case: target of edge is an interface
       // => handles edge as of type consumer
       if (targetNode?.type === issueGraphNodes.NodeType.Interface) {
@@ -369,11 +328,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
           relativeRotation: 0,
         };
       }
-      
       // case: target of edge is not an interface (aka. null)
       // => handles edge as of type provider
       else {
-
         // updates edge properties (no drag handles)
         edge.type = issueGraphNodes.NodeType.Interface;
         edge.dragHandles = [];
@@ -381,7 +338,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         // updates marker at the end of the edge
         // ? delete edge.markerEnd; ?
         edge.markerEnd = {
-          template: "interface-connector-initial",
+          template: 'interface-connector-initial',
           relativeRotation: 0,
           absoluteRotation: 0
         };
@@ -393,10 +350,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Method gets triggered after an edge gets added.
-   * @param  {CustomEvent} event - Event that is handled.
+   * @param event Event that is handled.
    */
   private onEdgeAdd = (event: CustomEvent) => {
-
     const edge: Edge = event.detail.edge;
 
     // case: source of event is the API
@@ -424,17 +380,16 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Method gets triggered after an edge gets dropped.
-   * @param  {CustomEvent} event - Event that is handled.
+   * @param event Event that is handled.
    */
   private onEdgeDrop = (event: CustomEvent) => {
-
     const edge: DraggedEdge = event.detail.edge;
 
     // case: source of event is the API
     if (event.detail.eventSource === 'API') {
       return;
     }
-    
+
     // case: edge created from an existing edge
     if (edge.createdFrom != null) {
       return;
@@ -448,14 +403,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Opens the interface creation dialog. If the user actually creates the interface 
-   * it is added to the providing component at the posititon
-   * where the dragegd edge was dropped by the user (before opening the interface creation dialog).
-   * @param offeredById - Id of the comonent that will provide the interface.
-   * @param position - Position of the interface.
+   * Opens the interface creation dialog. If the user actually creates the interface
+   * it is added to the providing component at the position
+   * where the dragged edge was dropped by the user (before opening the interface creation dialog).
+   * @param offeredById Id of the component that will provide the interface.
+   * @param position Position of the interface.
    */
   private addInterfaceToComponent(offeredById: string, position: issueGraphNodes.Position) {
-
     // interface data
     const data: CreateInterfaceData = {
       position,
@@ -480,10 +434,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Method gets triggered after an edge gets removed.
-   * @param  {CustomEvent} event - Event that is handled.
+   * @param event Event that is handled.
    */
   private onEdgeRemove = (event: CustomEvent) => {
-
     const edge: Edge = event.detail.edge;
 
     // case: source of event is the API
@@ -512,11 +465,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Adds event listeners to a given GraphEditor instance.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
+   * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
    */
   private manageEventListeners(graph: GraphEditor, minimap: GraphEditor) {
-
     // applies functionality for when a node is clicked
     graph.addEventListener('nodeclick', this.onNodeClick);
 
@@ -527,7 +479,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    // ?
     // TODO: document and extract
     graph.addEventListener('nodedragend', (event: CustomEvent) => {
       const node = event.detail.node;
@@ -578,47 +529,47 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // applies functionality for when the minimap is rendered
     graph.addEventListener('render', this.onMinimapRender(minimap));
 
-    // ?
+    // Close the component context menu when clicking anywhere in the graph
     graph.addEventListener('click', (e) => this.closeComponentActions());
 
     // applies functionality for when the zoom is changed
     graph.addEventListener('zoomchange', (event: CustomEvent) => {
       this.currentVisibleArea = event.detail.currentViewWindow;
-      if (!this.componentActionsOverlay) {
+      if (!this.componentContextMenu) {
         return;
       }
 
-      const node = this.graph.getNode(this.componentActionsOverlayId);
+      // Update component context menu position when zoom changed
+      const node = this.graph.getNode(this.componentContextMenuNodeId);
       const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
-      this.componentActionsOverlay.updatePosition(Math.max(x, 0), Math.max(y, 0));
+      this.componentContextMenu.updatePosition(Math.max(x, 0), Math.max(y, 0));
     });
   }
 
   /**
    * Method gets triggered after a node is clicked.
-   * @param  {CustomEvent} event - Event that is handled.
+   * @param event Event that is handled.
    */
   private onNodeClick = (event: CustomEvent) => {
-
     // cancels node selection
     event.preventDefault();
 
     const node: Node = event.detail.node;
 
-    if (this.componentActionsOverlay && this.componentActionsOverlay.data.nodeId === node.id) {
+    // Close existing context menu if the user clicked twice on the same node
+    if (this.componentContextMenu && this.componentContextMenu.data.nodeId === node.id) {
       this.closeComponentActions();
       return;
     }
 
+    // Close context menu if one is already open
     this.closeComponentActions();
 
     // doesn't allow the view of the graph to change after the Details page has been closed
     this.redrawByCloseOfComponentDetails = true;
 
-    let contextMenuType: NodeDetailsType = null;
-
+    // Open the details in a new page if a phone is used or if shift is pressed
     if (event.detail.sourceEvent.shiftKey || this.isHandset) {
-
       // case: node of type Component
       // => opens View Component page
       if (node.type === issueGraphNodes.NodeType.Component) {
@@ -633,14 +584,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
     } else {
-
       // sets the context menu type
-      contextMenuType = this.nodeClickSetContextMenuType(node, contextMenuType);
+      const contextMenuType = this.contextMenuTypeForNodeType(node);
 
       // case: context menu has a type
-      // => handles zooming
       if (contextMenuType != null) {
-        this.NodeClickContextMenuHasType(node, event, contextMenuType);
+        this.nodeClickContextMenuHasType(node, event, contextMenuType);
         return;
       }
     }
@@ -652,46 +601,42 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Sets the context menu type.
-   * @param  {Node} node - Node that is handled.
-   * @param  {NodeDetailsType} contextMenuType Type of the context menu that is handled.
+   * @param node Node that is handled.
    */
-  private nodeClickSetContextMenuType(node: Node, contextMenuType: NodeDetailsType) {
-    
+  private contextMenuTypeForNodeType(node: Node): NodeDetailsType {
     // case: node of type Component
     // => sets the context menu type as Component
     if (node.type === issueGraphNodes.NodeType.Component) {
-      contextMenuType = NodeDetailsType.Component;
+      return NodeDetailsType.Component;
     }
 
     // case: node of type Interface
     // => sets the context menu type as Interface
     if (node.type === issueGraphNodes.NodeType.Interface) {
-      contextMenuType = NodeDetailsType.Interface;
+      return NodeDetailsType.Interface;
     }
 
-    return contextMenuType;
+    return null;
   }
 
   /**
-   * Handles zooming of the graph
-   * aka. case in which the context menu has a type.
-   * @param  {Node} node - Node that is handled.
-   * @param  {CustomEvent<any>} event - Event that is handled.
-   * @param  {NodeDetailsType} contextMenuType - Type of the context menu that is handled.
+   * Open the component context menu
+   * @param node Node that is handled
+   * @param event Event that is handled
+   * @param contextMenuType Type of the context menu that is handled
    */
-  private NodeClickContextMenuHasType(node: Node, event: CustomEvent<any>, contextMenuType: NodeDetailsType) {
-
-    // current zoom transform of the graph
+  private nodeClickContextMenuHasType(node: Node, event: CustomEvent, contextMenuType: NodeDetailsType) {
+    // Transform the node graph coordinates to screen coordinates
     const [x, y] = this.graph.currentZoomTransform.apply([node.x, node.y]);
 
-    // case: zoomed
+    // Only open the dialog if it will fit into view
     if (x >= 0 && y >= 0) {
-      this.componentActionsOverlayId = node.id;
+      this.componentContextMenuNodeId = node.id;
 
-      // cancels click event that would otherwise close it again
+      // Cancel the click event that would otherwise close the dialog again
       event.detail.sourceEvent.stopImmediatePropagation();
 
-      this.componentActionsOverlay =
+      this.componentContextMenu =
         this.componentContextMenuService.open(
           this.graphWrapper.nativeElement,
           x,
@@ -701,17 +646,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
           contextMenuType,
           this);
 
-      // makes sure the context menu is visible if it extends over the right / bottom edge
+      // Make sure that the context menu is visible if it extends over the right/bottom edge
       const visible = this.graph.currentViewWindow;
       const scale = this.graph.currentZoomTransform.k;
       // FIXME: this isn't ideal, as the padding is somewhat dependent on the aspect ratio
       const padding = 85 / scale;
       const edgeX = visible.width * scale;
       const edgeY = visible.height * scale;
-      const moveX = Math.max(0, this.componentActionsOverlay.width + x - edgeX) / scale;
-      const moveY = Math.max(0, this.componentActionsOverlay.height + y - edgeY) / scale;
+      const moveX = Math.max(0, this.componentContextMenu.width + x - edgeX) / scale;
+      const moveY = Math.max(0, this.componentContextMenu.height + y - edgeY) / scale;
 
-      // case: zooming
+      // case: Zoom has to change to make overlay visible
       if (moveX || moveY) {
         this.graph.zoomToBox({
           x: visible.x + moveX + padding, y: visible.y + moveY + padding,
@@ -725,10 +670,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Handles the case in which an issue folder is clicked.
    * Determines the number of issues in the issue folder
    * and opens the corresponding issue page.
-   * @param  {Node} node - Issue folder that is handled.
+   * @param node Issue folder that is handled.
    */
   private nodeClickIssueFolder(node: Node) {
-
     // case: clicked issue folder
     // => determines issue count, opens corresponding issue page
     if (node.type === 'BUG' || node.type === 'UNCLASSIFIED' || node.type === 'FEATURE_REQUEST') {
@@ -740,7 +684,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // case: only one issue inside the clicked issue folder
       // => opens Issue Details page
-      if (node.issueCount == 1) {
+      if (node.issueCount === 1) {
         this.nodeClickOneIssue(rootId, rootNode, node);
         return;
       }
@@ -756,12 +700,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Handles the case in which the clicked issue folder contains only one issues.
-   * @param  {Node} rootNode - Root node that is handled.
-   * @param  {string} rootId - Root id that is handled.
-   * @param  {Node} node - Clicked node that is handled.
+   * @param rootNode Root node that is handled.
+   * @param rootId Root id that is handled.
+   * @param node Clicked node that is handled.
    */
   private nodeClickOneIssue(rootId: string, rootNode: Node, node: Node) {
-
     // case: root node of type Component
     // => handles a single component issue, opens its Issue Details page
     if (rootNode.type === issueGraphNodes.NodeType.Component) {
@@ -769,8 +712,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         const currentIssueId = this.extractIssueId(component.node.issues.nodes, node.type);
         this.router.navigate(['./', 'issues', currentIssueId], { relativeTo: this.activatedRoute.parent });
       });
-    } 
-    
+    }
+
     // case: root node of type Interface
     // => handles a single interface issue, opens its Issue Details page
     else if (rootNode.type === issueGraphNodes.NodeType.Interface) {
@@ -783,8 +726,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Extracts the id of an issue in a given issue list.
-   * @param issueList - Ids of the issues that are handled.
-   * @param category - Category of issues that are handled.
+   * @param issueList Ids of the issues that are handled.
+   * @param category Category of issues that are handled.
    * @returns Id of the first issue (in the issue list) with matching category.
    */
   private extractIssueId(issueList, category: string): string {
@@ -797,10 +740,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Handles the case in which the clicked issue folder contains many issues.
-   * @param  {Node} rootNode - Root node that is handled.
+   * @param rootNode Root node that is handled.
    */
   private nodeClickManyIssues(rootNode: Node) {
-
     // case: root node of type Component
     // => handles many component issues, opens their Component Issues page
     if (rootNode.type === issueGraphNodes.NodeType.Component) {
@@ -813,34 +755,31 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.router.navigate(['./interface/', rootNode.id], { relativeTo: this.activatedRoute.parent });
     }
   }
-  
+
   /**
-   * Closes all component actions
-   * for ex. when component is moved, page is reloaded or new page is loaded.
-   * @param  {boolean=true} reload
+   * Closes the component context menu, if one is open
+   * @param reload If true, reloads the graph if a context menu was closed
    */
   private closeComponentActions(reload: boolean = true): boolean {
-
     // case: there are actions to close
-    if (this.componentActionsOverlay) {
-
-      // case: redraw of the graph needed 
-      // => issues redraw ?
+    if (this.componentContextMenu) {
+      // case: redraw of the graph needed
+      // => issues redraw
       if (reload) {
         this.reload();
       }
 
       // cancels component actions
-      this.componentActionsOverlay.close();
-      this.componentActionsOverlay = null;
-      this.componentActionsOverlayId = null;
+      this.componentContextMenu.close();
+      this.componentContextMenu = null;
+      this.componentContextMenuNodeId = null;
 
       return true;
     }
 
     return false;
   }
-  
+
   /**
    * Issues a redraw of the graph. ?
    */
@@ -850,27 +789,26 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Method gets triggered when the minimap renders.
-   * @param  {GraphEditor} minimap - Minimap that is handled.
+   * @param minimap Minimap that is handled.
    */
   private onMinimapRender(minimap: GraphEditor): EventListenerOrEventListenerObject {
     return (event: CustomEvent) => {
-
       // case: renders the minimap completely
       if (event.detail.rendered === 'complete') {
         minimap.completeRender();
         minimap.zoomToBoundingBox();
       }
-      
+
       // case: renders texts
       else if (event.detail.rendered === 'text') {
         // irrelevant for the minimap
       }
-      
+
       // case: renders node classes
       else if (event.detail.rendered === 'classes') {
         minimap.updateNodeClasses();
       }
-      
+
       // case: renders node positions
       else if (event.detail.rendered === 'positions') {
         minimap.updateGraphPositions();
@@ -878,12 +816,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     };
   }
-
-
-
-  // drawGaph 
-
-
 
   /**
    * Responsible for drawing the graph based on this.graphData.
@@ -938,8 +870,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Finds the ideal component position if none is saved.
-   * @param  {string} id - Id of component that is handled.
-   * @param  {Rect} boundingBox - Bounding box of the component that is handled.
+   * @param id Id of component that is handled.
+   * @param boundingBox Bounding box of the component that is handled.
    */
   findIdealComponentPosition(id: string, boundingBox: Rect): Point {
 
@@ -1110,7 +1042,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Fits the graph into view.
    */
   fitGraphInView(): void {
-
     // calculates the bounding box of the view
     const rect = this.calculateBoundingBox();
 
@@ -1195,12 +1126,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.savePositionsSubject.next();
   }
-
-
-
-  // ...
-  
-
 
   /**
    * Sets --show-relations css variable to initial or none. It is the value
