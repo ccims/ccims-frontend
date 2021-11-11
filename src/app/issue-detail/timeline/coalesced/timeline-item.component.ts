@@ -2,6 +2,10 @@ import {AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, In
 import {CoalescedTimelineItem} from '@app/issue-detail/timeline/timeline.component';
 import {TimeFormatter} from '@app/issue-detail/TimeFormatter';
 
+/**
+ * This directive is used in conjunction with an `ng-template`.
+ * The content of the `ng-template` specifies the content of a timeline item, if it was *not* coalesced
+ */
 @Directive({
   selector: '[appSingleTimelineItem]'
 })
@@ -10,6 +14,10 @@ export class TimelineSingleItemDirective {
   }
 }
 
+/**
+ * This directive is used in conjunction with an `ng-template`.
+ * The content of the `ng-template` specifies the content of a timeline item, if it was coalesced
+ */
 @Directive({
   selector: '[appCoalescedTimelineItems]'
 })
@@ -18,6 +26,11 @@ export class TimelineCoalescedItemsDirective {
   }
 }
 
+/**
+ * This directive is used in conjunction with an `ng-template`.
+ * The content of the `ng-template` specifies the content of a timeline item, if the attribute `showDeleted` of the
+ * {@link TimelineItemComponent} is set to `true`.
+ */
 @Directive({
   selector: '[appTimelineItemDeleted]'
 })
@@ -26,6 +39,11 @@ export class TimelineItemDeletedDirective {
   }
 }
 
+/**
+ * This component provides an easy method to switch between the different possible content types of a timeline item,
+ * such as single, coalesced or deleted.
+ * Additionally, the formatted time is shown.
+ */
 @Component({
   selector: 'app-timeline-item',
   templateUrl: './timeline-item.component.html',
