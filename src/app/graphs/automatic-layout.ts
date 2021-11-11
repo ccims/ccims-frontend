@@ -55,7 +55,7 @@ class Vector {
 
   public distanceToLine(sourcePoint: Vector, targetPoint: Vector): number {
     const length = targetPoint.subtract(sourcePoint).length();
-    return Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.x) -
+    return Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) -
       (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)) / length;
   }
 
