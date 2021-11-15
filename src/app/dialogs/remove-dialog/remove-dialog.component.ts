@@ -2,6 +2,38 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormControl, ValidatorFn} from '@angular/forms';
 
+/**
+ * This component is a confirmation dialog for anything that involves deleting
+ *
+ * #### Example
+ * ```ts
+ * // ...
+ *
+ * constructor(private dialog: MatDialog, ...)
+ *
+ * // ...
+ *
+ * const dialogRef = this.dialog.open(RemoveDialogComponent,
+ * {
+ *   data: {
+ *     title: 'This is the title of the dialog',
+ *     messages: ['Every entry is a new line',
+ *                'This is the next line',
+ *                ' Lines beginning with a space will be indented'],
+ *     verificationName: 'In order for the user to be able to click the confirm button, this text has to be typed',
+ *     confirmButtonText: 'This is the text of the confirm button'
+ *   }
+ * });
+ *
+ * dialogRef.afterClosed().subscribe(confirm => {
+ *   if (confirm) {
+ *     console.log('Deleted!');
+ *   } else {
+ *     console.log('Not deleted!');
+ *   }
+ * });
+ * ```
+ */
 @Component({
   selector: 'app-remove-dialog',
   templateUrl: './remove-dialog.component.html',

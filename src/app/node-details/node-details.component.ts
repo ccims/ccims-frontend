@@ -15,9 +15,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {QueryComponent} from '@app/utils/query-component/query.component';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {CCIMSValidators} from '@app/utils/validators';
 
 /**
- * A node in the graph is either a component or an interface.
+ * A node shown in the details component can either be a component or an interface
  */
 export enum NodeDetailsType {
   Component,
@@ -27,7 +28,7 @@ export enum NodeDetailsType {
 export declare type NodeUpdatedCallbackFn = (nodeDeleted: boolean) => void;
 
 /**
- * This component shows details of nodes or interfaces when clicking on them in the graph.
+ * This component shows details of components or interfaces
  */
 @Component({
   selector: 'app-node-details',
@@ -48,27 +49,34 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
    * Either component or interface
    */
   @Input() nodeType: NodeDetailsType;
+  /**
+   * Function to be called if a node was updated or deleted
+   */
   @Input() callback?: NodeUpdatedCallbackFn;
+  /** @ignore */
   @ViewChild('nodeQuery') nodeQuery: QueryComponent;
+  /** @ignore */
   @ViewChild('deleteQuery') deleteQuery: QueryComponent;
+  /** @ignore */
   @ViewChild('updateQuery') updateQuery: QueryComponent;
 
+  /** @ignore */
   Type = NodeDetailsType;
+
   issueListId: ListId;
   component: GetBasicComponentQuery;
   interface: GetInterfaceQuery;
-  saveFailed: boolean;
   editMode: boolean;
   showName = false;
   placeholder = 'placeholder';
 
   // TODO: Validators
-  validationProvider = new FormControl('', [Validators.required]);
-  validationName = new FormControl('', [Validators.required]);
-  validationUrl = new FormControl('', [Validators.required]);
-  validationIMS = new FormControl('', [Validators.required]);
+  validationProvider = new FormControl('', [Validators.required, CCIMSValidators.urlValidator]);
+  validationName = new FormControl('', [Validators.required, CCIMSValidators.nameFormatValidator]);
+  validationUrl = new FormControl('', [Validators.required, CCIMSValidators.urlValidator]);
+  validationIMS = new FormControl('', [Validators.required, CCIMSValidators.urlValidator]);
   validationType = new FormControl('');
-  validationDescription = new FormControl('');
+  validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
   constructor(private router: Router,
               private componentStoreService: ComponentStoreService,
@@ -116,6 +124,9 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Get the name of the node, or an empty string if it has not been fetched yet
+   */
   public getNodeName(): string {
     if (!this.nodeQuery) {
       return '';
@@ -128,10 +139,16 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     return '';
   }
 
+  /**
+   * Get the type of the node as a formatted string
+   */
   public getNodeTypeString(): string {
     return (this.nodeType === NodeDetailsType.Interface ? 'Interface' : 'Component');
   }
 
+  /**
+   * Access the node
+   */
   public node(): GetComponentQuery | GetInterfaceQuery {
     if (this.nodeType === NodeDetailsType.Component) {
       return this.component;
@@ -151,6 +168,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
 
   public onDeleteClick(): void {
     const affected: string[] = [];
+    // Collect affected interfaces and components, then show the delete dialog
     if (this.nodeType === NodeDetailsType.Component) {
       this.deleteQuery.listenTo(this.componentStoreService.getComponentInterfaces(this.nodeId), interfaces => {
         for (const i of interfaces.node.interfaces.nodes) {
@@ -191,6 +209,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
             verificationName: this.component.node.name
           }
         });
+
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
         if (deleteData) {
           this.deleteQuery.listenTo(this.componentStoreService.deleteComponent(this.nodeId), () => {
@@ -212,6 +231,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
             verificationName: this.interface.node.name
           }
         });
+
       confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
         // dialog returns if the deleting was successful
         if (deleteData) {
@@ -260,7 +280,6 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
       name: this.component.node.name,
       description: this.component.node.description
     };
-
 
     this.updateQuery.listenTo(this.componentStoreService.updateComponent(input), () => {
       this.editMode = false;
