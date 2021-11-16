@@ -1,0 +1,869 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  ComponentContextMenuComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/graphs/component-context-menu/component-context-menu.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component manages the component context menu as well as its content</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>component-context-menu.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./component-context-menu.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="#height" >height</a>
+                            </li>
+                            <li>
+                                <a href="#nodeDetailsReady" >nodeDetailsReady</a>
+                            </li>
+                            <li>
+                                <a href="#width" >width</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#updatePosition" >updatePosition</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(data: <a href="../interfaces/ComponentContextMenuData.html" target="_self">ComponentContextMenuData</a>, changeDetector: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:134</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>data</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/ComponentContextMenuData.html" target="_self" >ComponentContextMenuData</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>changeDetector</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>close()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:175</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Close the context menu</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updatePosition"></a>
+                    <span class="name">
+                        <span ><b>updatePosition</b></span>
+                        <a href="#updatePosition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updatePosition(x: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, y: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:166</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Update the position of the context menu</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>x</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The X offset of the top left menu corner relative to the top left corner of the parent</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>y</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The Y offset of the top left menu corner relative to the top left corner of the parent</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ComponentContextMenuData.html" target="_self" >ComponentContextMenuData</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Inject(COMPONENT_CONTEXT_MENU_DATA)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="height"></a>
+                    <span class="name">
+                        <span ><b>height</b></span>
+                        <a href="#height"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>ComponentContextMenuComponent.LAST_HEIGHT</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:119</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Current height of the dialog</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nodeDetailsReady"></a>
+                    <span class="name">
+                        <span ><b>nodeDetailsReady</b></span>
+                        <a href="#nodeDetailsReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:121</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>True if the node details component is loaded</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="width"></a>
+                    <span class="name">
+                        <span ><b>width</b></span>
+                        <a href="#width"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>ComponentContextMenuComponent.LAST_WIDTH</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:117</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Current width of the dialog</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  Injectable,
+  InjectionToken,
+  Injector,
+  OnDestroy,
+  ViewChild
+} from &#x27;@angular/core&#x27;;
+import {ConnectedPosition, Overlay, OverlayRef} from &#x27;@angular/cdk/overlay&#x27;;
+import {ComponentPortal, PortalInjector} from &#x27;@angular/cdk/portal&#x27;;
+import {IssueGraphComponent} from &#x27;@app/graphs/issue-graph/issue-graph.component&#x27;;
+import {NodeDetailsComponent, NodeDetailsType, NodeUpdatedCallbackFn} from &#x27;@app/node-details/node-details.component&#x27;;
+
+/**
+ * Interface specifying the data required for the component context menu.
+ * Note that this should not be used directly, instead the ComponentContextMenuService should be used to open a context
+ * menu.
+ */
+interface ComponentContextMenuData {
+  /** Reference to the overlay used to display the context menu */
+  overlayRef: OverlayRef;
+  /** The position of the overlay */
+  position: ConnectedPosition;
+  /** The project id string */
+  projectId: string;
+  /** The node id string */
+  nodeId: string;
+  /** The type of node, either interface or component. Controls the content shown in the context menu */
+  type: NodeDetailsType;
+  /** A reference to the issue graph */
+  graph: IssueGraphComponent;
+}
+
+const COMPONENT_CONTEXT_MENU_DATA &#x3D; new InjectionToken&lt;ComponentContextMenuData&gt;(&#x27;COMPONENT_CONTEXT_MENU_DATA&#x27;);
+
+/**
+ * Use this service to create a {@link ComponentContextMenuComponent}.
+ */
+@Injectable({providedIn: &#x27;root&#x27;})
+export class ComponentContextMenuService {
+  constructor(private overlay: Overlay, private injector: Injector) {
+  }
+
+  /**
+   * Open a new component context menu
+   * @param parent The parent of the context menu
+   * @param x The X position relative to the top left corner of the parent
+   * @param y The Y position relative to the top left corner of the parent
+   * @param projectID The id of the project the node belongs to
+   * @param nodeID The id of the node
+   * @param nodeType The type of the node
+   * @param issueGraph A reference to the issue graph
+   * @return A reference to the context menu
+   */
+  open(parent: Element,
+       x: number, y: number,
+       projectID: string,
+       nodeID: string,
+       nodeType: NodeDetailsType,
+       issueGraph: IssueGraphComponent): ComponentContextMenuComponent {
+    const position &#x3D; this.overlay.position().flexibleConnectedTo(parent);
+    const pos: ConnectedPosition &#x3D; {
+      originX: &#x27;start&#x27;,
+      originY: &#x27;top&#x27;,
+      overlayX: &#x27;start&#x27;,
+      overlayY: &#x27;top&#x27;,
+      offsetX: x,
+      offsetY: y
+    };
+    position.withPositions([pos]);
+
+    const ref &#x3D; this.overlay.create({
+      minWidth: 400,
+      minHeight: 200,
+      positionStrategy: position
+    });
+
+    const map &#x3D; new WeakMap();
+    map.set(COMPONENT_CONTEXT_MENU_DATA, {
+      overlayRef: ref,
+      position: pos,
+      projectId: projectID,
+      nodeId: nodeID,
+      type: nodeType,
+      graph: issueGraph
+    });
+    const injector &#x3D; new PortalInjector(this.injector, map);
+    return ref.attach(new ComponentPortal(ComponentContextMenuComponent, null, injector)).instance;
+  }
+}
+
+/**
+ * This component manages the component context menu as well as its content
+ */
+@Component({
+  styleUrls: [&#x27;component-context-menu.component.scss&#x27;],
+  templateUrl: &#x27;./component-context-menu.component.html&#x27;
+})
+export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
+  /** @ignore */
+  private static MIN_WIDTH &#x3D; 700;
+  /** @ignore */
+  private static MIN_HEIGHT &#x3D; 400;
+  /** @ignore */
+  private static LAST_WIDTH &#x3D; ComponentContextMenuComponent.MIN_WIDTH;
+  /** @ignore */
+  private static LAST_HEIGHT &#x3D; ComponentContextMenuComponent.MIN_HEIGHT;
+  /** @ignore */
+  private resize &#x3D; false;
+
+  /** Current width of the dialog */
+  width &#x3D; ComponentContextMenuComponent.LAST_WIDTH;
+  /** Current height of the dialog */
+  height &#x3D; ComponentContextMenuComponent.LAST_HEIGHT;
+  /** True if the node details component is loaded */
+  nodeDetailsReady: boolean;
+
+  /** @ignore */
+  @ViewChild(&#x27;frame&#x27;) frame: ElementRef;
+
+  /** @ignore */
+  @ViewChild(&#x27;resizeCorner&#x27;) set resizeCorner(content: ElementRef) {
+    if (content) {
+      content.nativeElement.addEventListener(&#x27;mousedown&#x27;, () &#x3D;&gt; this.resize &#x3D; true);
+    }
+  }
+
+  /** @ignore */
+  @ViewChild(NodeDetailsComponent) nodeDetails: NodeDetailsComponent;
+
+  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData,
+              private changeDetector: ChangeDetectorRef) {
+  }
+
+  ngAfterViewInit() {
+    this.frame.nativeElement.style.minWidth &#x3D; ComponentContextMenuComponent.MIN_WIDTH + &#x27;px&#x27;;
+    this.frame.nativeElement.style.minHeight &#x3D; ComponentContextMenuComponent.MIN_HEIGHT + &#x27;px&#x27;;
+    this.nodeDetailsReady &#x3D; true;
+    this.changeDetector.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    // TODO: Save in local storage?
+    ComponentContextMenuComponent.LAST_WIDTH &#x3D; this.width;
+    ComponentContextMenuComponent.LAST_HEIGHT &#x3D; this.height;
+  }
+
+  /** @ignore */
+  detailsCallback: NodeUpdatedCallbackFn &#x3D; (nodeDeleted: boolean): void &#x3D;&gt; {
+    this.data.graph.reload();
+    if (nodeDeleted) {
+      this.close();
+    }
+  }
+
+  /**
+   * Update the position of the context menu
+   * @param x The X offset of the top left menu corner relative to the top left corner of the parent
+   * @param y The Y offset of the top left menu corner relative to the top left corner of the parent
+   */
+  updatePosition(x: number, y: number): void {
+    this.data.position.offsetX &#x3D; x;
+    this.data.position.offsetY &#x3D; y;
+    this.data.overlayRef.getConfig().positionStrategy.apply();
+  }
+
+  /**
+   * Close the context menu
+   */
+  close(): void {
+    this.data.overlayRef.dispose();
+  }
+
+  /** @ignore */
+  @HostListener(&#x27;window:mouseup&#x27;)
+  private onMouseUp() {
+    this.resize &#x3D; false;
+  }
+  
+  /** @ignore */
+  @HostListener(&#x27;window:mousemove&#x27;, [&#x27;$event&#x27;])
+  private onMouseMove(event: MouseEvent) {
+    if (!this.resize) {
+      return;
+    }
+
+    this.width &#x3D; Math.max(this.width + event.movementX, ComponentContextMenuComponent.MIN_WIDTH);
+    this.height &#x3D; Math.max(this.height + event.movementY, ComponentContextMenuComponent.MIN_HEIGHT);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div #frame class&#x3D;&quot;frame&quot; [style.width.px]&#x3D;&quot;width&quot; [style.height.px]&#x3D;&quot;height&quot;&gt;
+    &lt;div style&#x3D;&quot;height: calc(100% - 20px); overflow: hidden&quot;&gt;
+        &lt;div class&#x3D;&quot;node-title&quot; *ngIf&#x3D;&quot;nodeDetailsReady &amp;&amp; nodeDetails.getNodeName()&quot;&gt;
+            &lt;h1 style&#x3D;&quot;overflow: hidden;  text-overflow: ellipsis;&quot;&gt;{{this.nodeDetails.getNodeName()}}&lt;/h1&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;container&quot;&gt;
+            &lt;app-node-details [projectId]&#x3D;&quot;data.projectId&quot; [nodeId]&#x3D;&quot;data.nodeId&quot; [nodeType]&#x3D;&quot;data.type&quot;
+                              [callback]&#x3D;&quot;detailsCallback&quot;&gt;&lt;/app-node-details&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div style&#x3D;&quot;width: 100%; height: 20px; display: inline-block;&quot;&gt;
+        &lt;span style&#x3D;&quot;font-size: .8em&quot;&gt;{{this.data.nodeId}}&lt;/span&gt;
+        &lt;span #resizeCorner style&#x3D;&quot;position: absolute; bottom: 0; right: 4px; user-select: none&quot;&gt;
+            &lt;mat-icon svgIcon&#x3D;&quot;resize-corner&quot; style&#x3D;&quot;width: 10px; height: 10px; cursor: nwse-resize&quot;&gt;&lt;/mat-icon&gt;
+        &lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>component-context-menu.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;src/styles/variables&quot;;
+
+.frame {
+  padding: 24px;
+  background-color: $background-controls;
+  border-radius: 4px;
+  box-shadow: 0 11px 15px -7px rgb(0 0 0 / 20%), 0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%);
+}
+
+.node-title {
+  width: 100%;
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.container{
+  height: calc(100% - 50px);
+  overflow: auto;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div #frame class="frame" [style.width.px]="width" [style.height.px]="height">    <div style="height: calc(100% - 20px); overflow: hidden">        <div class="node-title" *ngIf="nodeDetailsReady && nodeDetails.getNodeName()">            <h1 style="overflow: hidden;  text-overflow: ellipsis;">{{this.nodeDetails.getNodeName()}}</h1>        </div>        <div class="container">            <app-node-details [projectId]="data.projectId" [nodeId]="data.nodeId" [nodeType]="data.type"                              [callback]="detailsCallback"></app-node-details>        </div>    </div>    <div style="width: 100%; height: 20px; display: inline-block;">        <span style="font-size: .8em">{{this.data.nodeId}}</span>        <span #resizeCorner style="position: absolute; bottom: 0; right: 4px; user-select: none">            <mat-icon svgIcon="resize-corner" style="width: 10px; height: 10px; cursor: nwse-resize"></mat-icon>        </span>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+    var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
+    var ACTUAL_COMPONENT = {'name': 'ComponentContextMenuComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ComponentContextMenuComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

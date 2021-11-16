@@ -1,0 +1,273 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content module">
+                   <div class="content-data">
+
+
+
+<ol class="breadcrumb">
+    <li>Modules</li>
+    <li >GraphQLModule</li>
+</ol>
+
+
+<ul class="nav nav-tabs" role="tablist">
+    <li  class="active" >
+        <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+    </li>
+    <li >
+        <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/graphql.module.ts</code>
+        </p>
+
+
+
+
+
+        <div class="container-fluid module">
+            <div class="row">
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {NgModule} from &#x27;@angular/core&#x27;;
+import {APOLLO_NAMED_OPTIONS, APOLLO_OPTIONS, NamedOptions} from &#x27;apollo-angular&#x27;;
+import {ApolloClientOptions, ApolloLink, InMemoryCache} from &#x27;@apollo/client/core&#x27;;
+import {HttpLink} from &#x27;apollo-angular/http&#x27;;
+import {setContext} from &#x27;@apollo/link-context&#x27;;
+import {onError} from &#x27;@apollo/client/link/error&#x27;;
+import {HttpClientModule} from &#x27;@angular/common/http&#x27;;
+import {AuthenticationService} from &#x27;./auth/authentication.service&#x27;;
+import {environment} from &#x27;@environments/environment&#x27;;
+import {IndividualConfig, ToastrModule, ToastrService} from &#x27;ngx-toastr&#x27;;
+import {DefaultOptions} from &#x27;@apollo/client/core/ApolloClient&#x27;;
+
+/**
+ * This modules purpose is to provide define functions returning configurations
+ * for the automatic creation of ApolloClients for graphql communication with the backend.
+ * The key functions are providePublicApollo and provideDefaultApollo. The apollo instance
+ * constructed from providePublicApollo is only used for registering.
+ */
+
+const defaultOptions: DefaultOptions &#x3D; {
+  query: {
+    fetchPolicy: &#x27;no-cache&#x27;,
+    errorPolicy: &#x27;all&#x27;,
+  }
+};
+
+/**
+ * Congiuration for network error toast on register page.
+ */
+const networkErrorToast: Partial&lt;IndividualConfig&gt; &#x3D; {
+  timeOut: 5000,
+  closeButton: true,
+  positionClass: &#x27;toast-top-center&#x27;,
+  enableHtml: true
+};
+
+const basic &#x3D; setContext((operation, context) &#x3D;&gt; ({
+  headers: {
+    Accept: &#x27;charset&#x3D;utf-8&#x27;
+  }
+}));
+
+export function createErrorLink(authService: AuthenticationService, toastr: ToastrService): ApolloLink {
+  const errorLink &#x3D; onError(({graphQLErrors, networkError, operation, forward}) &#x3D;&gt; {
+      if (graphQLErrors) {
+        const message &#x3D; graphQLErrors.map(err &#x3D;&gt; err.message).join(&#x27;&lt;br&gt;&#x27;);
+        console.log(&#x60;[Graphql errors]: ${message}&#x60;);
+        toastr.error(message, &#x27;GraphQL error&#x27;, networkErrorToast);
+      }
+
+      if (networkError) {
+        console.log(&#x60;[Network error]: ${networkError.name}\n${networkError.message}\n${networkError.stack}&#x60;);
+        // @ts-ignore
+        if (networkError.status &#x3D;&#x3D;&#x3D; 401) {
+          authService.logout();
+        } else {
+          toastr.error(networkError.message, &#x27;Server/Connection error&#x27;, networkErrorToast);
+        }
+      }
+    }
+  );
+  return errorLink;
+}
+
+/**
+ * Create Apollo instance where credentials from local storage are attached to requests
+ * @param httpLink
+ * @param authService
+ * @param toastr
+ */
+export function provideDefaultApollo(httpLink: HttpLink, authService: AuthenticationService,
+                                     toastr: ToastrService): ApolloClientOptions&lt;any&gt; {
+  const token &#x3D; localStorage.getItem(&#x27;token&#x27;);
+  const auth &#x3D; setContext((_, {headers}) &#x3D;&gt; {
+    // get the authentication token from local storage if it exists
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        Authorization: localStorage.getItem(&#x27;token&#x27;) ? &#x60;Bearer ${localStorage.getItem(&#x27;token&#x27;)}&#x60; : &#x27;&#x27;
+      }
+    };
+  });
+  const errorLink &#x3D; createErrorLink(authService, toastr);
+  const link &#x3D; ApolloLink.from([basic, errorLink, auth, httpLink.create({uri: environment.apiUrl})]);
+  const cache &#x3D; new InMemoryCache();
+  return {link, cache, defaultOptions};
+}
+
+/**
+ * Creates Apollo Client used for user registration with public endpoint. In contrast to
+ * provideDefaultApollo no token is attached to reqeusts.
+ * @param httpLink
+ * @param authService
+ * @param toastr
+ */
+export function providePublicApollo(httpLink: HttpLink, authService: AuthenticationService, toastr: ToastrService): NamedOptions {
+  const errorLink &#x3D; createErrorLink(authService, toastr);
+  const link &#x3D; ApolloLink.from([basic, errorLink, httpLink.create({uri: environment.signUpUrl})]);
+  const cache &#x3D; new InMemoryCache();
+  return {
+    publicClient: {
+      link,
+      cache,
+      defaultOptions
+    }
+  };
+}
+
+@NgModule({
+  imports: [
+    ToastrModule,
+  ],
+  exports: [
+    HttpClientModule
+  ],
+  providers: [
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: provideDefaultApollo,
+      deps: [HttpLink, AuthenticationService, ToastrService],
+    },
+    {
+      provide: APOLLO_NAMED_OPTIONS,
+      useFactory: providePublicApollo,
+      deps: [HttpLink, AuthenticationService, ToastrService],
+    }
+  ],
+})
+export class GraphQLModule {
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
+            var COMPODOC_CURRENT_PAGE_URL = 'GraphQLModule.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

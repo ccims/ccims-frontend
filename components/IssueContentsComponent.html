@@ -1,0 +1,987 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  IssueContentsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/issue-detail/issue-contents.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-issue-contents</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>issue-contents.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>issue-contents.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#commentEditor" >commentEditor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#currentUser$" >currentUser$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#currentUserSub" >currentUserSub</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#editBody" >editBody</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#linkedIssues$" >linkedIssues$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#linkedIssueSub" >linkedIssueSub</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#savingComment" >savingComment</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#closeIssue" >closeIssue</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#commentIssue" >commentIssue</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#reopenIssue" >reopenIssue</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#issue$" >issue$</a>
+                            </li>
+                            <li>
+                                <a href="#issueId" >issueId</a>
+                            </li>
+                            <li>
+                                <a href="#projectId" >projectId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="issue$"></a>
+                        <b>issue$</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/DataNode.html" target="_self" >DataNode&lt;Issue&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:15</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="issueId"></a>
+                        <b>issueId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:16</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectId"></a>
+                        <b>projectId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:17</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeIssue"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>closeIssue</b></span>
+                        <a href="#closeIssue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closeIssue()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:49</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Closes the current issue and refreshes its information.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="commentIssue"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>commentIssue</b></span>
+                        <a href="#commentIssue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>commentIssue()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:64</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds a comment to the current issue.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reopenIssue"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>reopenIssue</b></span>
+                        <a href="#reopenIssue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>reopenIssue()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:57</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reopens the closed current issue.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="commentEditor"></a>
+                    <span class="name">
+                        <span ><b>commentEditor</b></span>
+                        <a href="#commentEditor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;comment&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUser$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>currentUser$</b></span>
+                        <a href="#currentUser$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/User.html" target="_self" >DataNode&lt;User&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUserSub"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>currentUserSub</b></span>
+                        <a href="#currentUserSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editBody"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>editBody</b></span>
+                        <a href="#editBody"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="linkedIssues$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>linkedIssues$</b></span>
+                        <a href="#linkedIssues$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classess/DataList.html" target="_self" >DataList&lt;Issue | &gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="linkedIssueSub"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>linkedIssueSub</b></span>
+                        <a href="#linkedIssueSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="savingComment"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>savingComment</b></span>
+                        <a href="#savingComment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/issue-detail/issue-contents.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnDestroy, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
+import { DataList, DataNode } from &#x27;@app/data-dgql/query&#x27;;
+import { Issue } from &#x27;../../generated/graphql&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import DataService from &#x27;@app/data-dgql&#x27;;
+import { CURRENT_USER_NODE, ListType, NodeType } from &#x27;@app/data-dgql/id&#x27;;
+import { User } from &#x27;../../generated/graphql-dgql&#x27;;
+
+@Component({
+  selector: &#x27;app-issue-contents&#x27;,
+  templateUrl: &#x27;issue-contents.component.html&#x27;,
+  styleUrls: [&#x27;issue-contents.component.scss&#x27;]
+})
+export class IssueContentsComponent implements OnInit, OnDestroy {
+  @Input() issue$: DataNode&lt;Issue&gt;;
+  @Input() issueId: string;
+  @Input() projectId: string;
+
+  public linkedIssues$: DataList&lt;Issue, unknown&gt;;
+  public linkedIssueSub: Subscription;
+  public currentUser$: DataNode&lt;User&gt;;
+  public currentUserSub: Subscription;
+
+  public editBody &#x3D; false;
+  public savingComment &#x3D; false;
+  @ViewChild(&#x27;comment&#x27;) commentEditor;
+
+  constructor(private dataService: DataService) {}
+
+  ngOnInit() {
+    this.linkedIssues$ &#x3D; this.dataService.getList({
+      node: { type: NodeType.Issue, id: this.issueId },
+      type: ListType.LinkedIssues
+    });
+    this.linkedIssueSub &#x3D; this.linkedIssues$.subscribe();
+
+    this.currentUser$ &#x3D; this.dataService.getNode(CURRENT_USER_NODE);
+    this.currentUserSub &#x3D; this.currentUser$.subscribe();
+  }
+
+  ngOnDestroy() {
+    this.linkedIssueSub.unsubscribe();
+    this.currentUserSub.unsubscribe();
+  }
+
+  /**
+   * Closes the current issue and refreshes its information.
+   */
+  public closeIssue(): void {
+    this.dataService.mutations.closeIssue(Math.random().toString(), this.issue$.id);
+  }
+
+
+  /**
+   * Reopens the closed current issue.
+   */
+  public reopenIssue(): void {
+    this.dataService.mutations.reopenIssue(Math.random().toString(), this.issue$.id);
+  }
+
+  /**
+   * Adds a comment to the current issue.
+   */
+  public commentIssue(): void {
+    this.savingComment &#x3D; true;
+    this.dataService.mutations.addIssueComment(
+      Math.random().toString(),
+      this.issue$.id,
+      this.commentEditor.code
+    ).then(() &#x3D;&gt; {
+      // only clear if successful
+      this.commentEditor.code &#x3D; &#x27;&#x27;;
+    }).finally(() &#x3D;&gt; {
+      this.savingComment &#x3D; false;
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;issue-contents&quot; *ngIf&#x3D;&quot;issue$?.current as issue&quot;&gt;
+    &lt;!--Part 3: Issue body--&gt;
+    &lt;app-comment class&#x3D;&quot;issue-body&quot; [commentId]&#x3D;&quot;issue$.id&quot; [isIssueBody]&#x3D;&quot;true&quot;&gt;&lt;/app-comment&gt;
+
+    &lt;!--Part 4: Linked issues--&gt;
+    &lt;div *ngIf&#x3D;&quot;linkedIssues$.totalCount &gt; 0&quot; class&#x3D;&quot;timeline-item&quot;&gt;
+        &lt;div class&#x3D;&quot;item-box&quot;&gt;
+            &lt;div class&#x3D;&quot;item-header&quot;&gt;
+                &lt;mat-icon&gt;link&lt;/mat-icon&gt;
+                &lt;h3 class&#x3D;&quot;item-title&quot;&gt;
+                    &lt;b&gt;Linked Issues&lt;/b&gt;
+                &lt;/h3&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;item-body&quot;&gt;
+                &lt;div class&#x3D;&quot;linked-issues-container&quot;&gt;
+                    &lt;mat-accordion&gt;
+                        &lt;ng-container *ngFor&#x3D;&quot;let currentIssue of linkedIssues$.currentItems&quot;&gt;
+                            &lt;app-issue-detail-linked-issue-item [issueStub]&#x3D;&quot;currentIssue&quot; [projectId]&#x3D;&quot;projectId&quot;&gt;
+                            &lt;/app-issue-detail-linked-issue-item&gt;
+                        &lt;/ng-container&gt;
+                    &lt;/mat-accordion&gt;
+                &lt;/div&gt;
+                &lt;app-cursor-paginator
+                    *ngIf&#x3D;&quot;linkedIssues$.totalCount &gt; 10&quot;
+                    [list]&#x3D;&quot;linkedIssues$&quot;
+                    [pageSizes]&#x3D;&quot;[10]&quot;&gt;&lt;/app-cursor-paginator&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;app-timeline [issueId]&#x3D;&quot;issueId&quot; [projectID]&#x3D;&quot;projectId&quot;&gt;&lt;/app-timeline&gt;
+
+    &lt;mat-divider&gt;&lt;/mat-divider&gt;
+
+    &lt;!--Part 6: Comment creation box--&gt;
+    &lt;div class&#x3D;&quot;timeline-item comment-form&quot;&gt;
+        &lt;div class&#x3D;&quot;item-box&quot;&gt;
+            &lt;div class&#x3D;&quot;item-header&quot;&gt;
+                &lt;h3 class&#x3D;&quot;item-title&quot;&gt;
+                    Comment this issue as &lt;app-user-item [user]&#x3D;&quot;currentUser$.current&quot; [short]&#x3D;&quot;true&quot;&gt;&lt;/app-user-item&gt;
+                &lt;/h3&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;item-body&quot;&gt;
+                &lt;app-markdown-editor #comment&gt;&lt;/app-markdown-editor&gt;
+                &lt;div class&#x3D;&quot;comment-buttons&quot;&gt;
+                    &lt;button *ngIf&#x3D;&quot;issue.isOpen&quot; mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;this.closeIssue()&quot;&gt;Close Issue
+                    &lt;/button&gt;
+                    &lt;button *ngIf&#x3D;&quot;!issue.isOpen&quot; mat-raised-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;this.reopenIssue()&quot;&gt;Reopen
+                        Issue
+                    &lt;/button&gt;
+                    &lt;button mat-raised-button color&#x3D;&quot;primary&quot; style&#x3D;&quot;margin-left: 6px&quot; [class.spinner]&#x3D;&quot;savingComment&quot; (click)&#x3D;&quot;this.commentIssue()&quot;&gt;Comment
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>issue-contents.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/styles/spinner&#x27;;
+
+.timeline-item {
+  position: relative;
+  margin-left: 36px;
+  padding: 12px 0;
+
+  &amp;:first-child {
+    padding-top: 0;
+  }
+
+  &amp;::before {
+    content: &#x27;&#x27;;
+    position: absolute;
+    top: 0;
+    left: -1px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .item-box {
+    position: relative;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-left: -36px;
+
+    .item-header {
+      background: rgba(0, 0, 0, 0.06);
+      border-bottom: rgba(0, 0, 0, 0.1);
+      border-radius: 4px 4px 0 0;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 8px;
+        margin-left: -8px;
+      }
+
+      .item-title {
+        flex: 1;
+        margin: 0 16px 0 0;
+        overflow: hidden;
+        font-size: inherit;
+        font-weight: inherit;
+
+        .item-edited {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .item-body {
+      padding: 16px;
+
+      &amp;.is-editing {
+        padding: 8px;
+      }
+
+      .edit-body-buttons {
+        text-align: right;
+        margin-top: 5px;
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
+
+.comment-form {
+  padding-bottom: 0;
+
+  .comment-buttons {
+    text-align: right;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="issue-contents" *ngIf="issue$?.current as issue">    <!--Part 3: Issue body-->    <app-comment class="issue-body" [commentId]="issue$.id" [isIssueBody]="true"></app-comment>    <!--Part 4: Linked issues-->    <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">        <div class="item-box">            <div class="item-header">                <mat-icon>link</mat-icon>                <h3 class="item-title">                    <b>Linked Issues</b>                </h3>            </div>            <div class="item-body">                <div class="linked-issues-container">                    <mat-accordion>                        <ng-container *ngFor="let currentIssue of linkedIssues$.currentItems">                            <app-issue-detail-linked-issue-item [issueStub]="currentIssue" [projectId]="projectId">                            </app-issue-detail-linked-issue-item>                        </ng-container>                    </mat-accordion>                </div>                <app-cursor-paginator                    *ngIf="linkedIssues$.totalCount > 10"                    [list]="linkedIssues$"                    [pageSizes]="[10]"></app-cursor-paginator>            </div>        </div>    </div>    <app-timeline [issueId]="issueId" [projectID]="projectId"></app-timeline>    <mat-divider></mat-divider>    <!--Part 6: Comment creation box-->    <div class="timeline-item comment-form">        <div class="item-box">            <div class="item-header">                <h3 class="item-title">                    Comment this issue as <app-user-item [user]="currentUser$.current" [short]="true"></app-user-item>                </h3>            </div>            <div class="item-body">                <app-markdown-editor #comment></app-markdown-editor>                <div class="comment-buttons">                    <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue                    </button>                    <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen                        Issue                    </button>                    <button mat-raised-button color="primary" style="margin-left: 6px" [class.spinner]="savingComment" (click)="this.commentIssue()">Comment                    </button>                </div>            </div>        </div>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+    var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
+    var ACTUAL_COMPONENT = {'name': 'IssueContentsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'IssueContentsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

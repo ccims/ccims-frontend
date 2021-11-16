@@ -1,0 +1,1213 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li >LayoutNode</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/graphs/automatic-layout.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>This class is an abstract representation of a node in a graph</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#connectedTo" >connectedTo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fixed" >fixed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#id" >id</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MAX_DISTANCE_CONNECTED" >MAX_DISTANCE_CONNECTED</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MIN_DISTANCE_CONNECTED" >MIN_DISTANCE_CONNECTED</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MIN_DISTANCE_EDGE" >MIN_DISTANCE_EDGE</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#MIN_DISTANCE_NOT_CONNECTED" >MIN_DISTANCE_NOT_CONNECTED</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#padding" >padding</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#PADDING_COMPONENT" >PADDING_COMPONENT</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#PADDING_INTERFACE" >PADDING_INTERFACE</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#position" >position</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#calculateMovement" >calculateMovement</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#connectTo" >connectTo</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(id: string | number, positionX: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, positionY: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, nodeType: <a href="../undefineds/NodeType.html" target="_self">NodeType</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/graphs/automatic-layout.ts:173</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>id</td>
+                                                  
+                                                        <td>
+                                                                    <code>string | number</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>positionX</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>positionY</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>nodeType</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../miscellaneous/enumerations.html#NodeType" target="_self" >NodeType</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="connectedTo"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>connectedTo</b></span>
+                        <a href="#connectedTo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/LayoutNode.html" target="_self" >Set&lt;LayoutNode&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Set&lt;LayoutNode&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">src/app/graphs/automatic-layout.ts:170</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set of edges this node is connected to</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fixed"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>fixed</b></span>
+                        <a href="#fixed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">src/app/graphs/automatic-layout.ts:167</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>If true, this node will not move under any circumstance</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="id"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>id</b></span>
+                        <a href="#id"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | number</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">src/app/graphs/automatic-layout.ts:161</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Node id</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MAX_DISTANCE_CONNECTED"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MAX_DISTANCE_CONNECTED</b></span>
+                        <a href="#MAX_DISTANCE_CONNECTED"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>80</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">src/app/graphs/automatic-layout.ts:146</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The maximum spacing between two nodes if they are connected by an edge</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MIN_DISTANCE_CONNECTED"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MIN_DISTANCE_CONNECTED</b></span>
+                        <a href="#MIN_DISTANCE_CONNECTED"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>20</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/graphs/automatic-layout.ts:149</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The minimum spacing between two nodes if they are connected by an edge</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MIN_DISTANCE_EDGE"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MIN_DISTANCE_EDGE</b></span>
+                        <a href="#MIN_DISTANCE_EDGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>60</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="152" class="link-to-prism">src/app/graphs/automatic-layout.ts:152</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The minimum spacing between a node and an edge</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MIN_DISTANCE_NOT_CONNECTED"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>MIN_DISTANCE_NOT_CONNECTED</b></span>
+                        <a href="#MIN_DISTANCE_NOT_CONNECTED"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>80</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/graphs/automatic-layout.ts:143</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The minimum spacing between two nodes if they are not connected by an edge</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="padding"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>padding</b></span>
+                        <a href="#padding"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/graphs/automatic-layout.ts:173</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Padding to be added to this node</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PADDING_COMPONENT"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>PADDING_COMPONENT</b></span>
+                        <a href="#PADDING_COMPONENT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>50</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/graphs/automatic-layout.ts:155</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The padding around a component node</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PADDING_INTERFACE"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>PADDING_INTERFACE</b></span>
+                        <a href="#PADDING_INTERFACE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>5</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">src/app/graphs/automatic-layout.ts:158</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The padding around an interface node</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="position"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>position</b></span>
+                        <a href="#position"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Vector.html" target="_self" >Vector</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">src/app/graphs/automatic-layout.ts:164</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Position of this node</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calculateMovement"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>calculateMovement</b></span>
+                        <a href="#calculateMovement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calculateMovement(allNodes: <a href="../classes/LayoutNode.html" target="_self">Array&lt;LayoutNode&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">src/app/graphs/automatic-layout.ts:195</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Calculate the movement direction that this node should move in, based on all other nodes around it</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>allNodes</td>
+                                    <td>
+                                                <code><a href="../classes/LayoutNode.html" target="_self" >Array&lt;LayoutNode&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>All nodes, can include this node as well</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Vector.html" target="_self" >Vector</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The direction in which this node wants to travel</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="connectTo"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>connectTo</b></span>
+                        <a href="#connectTo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>connectTo(other: <a href="../classes/LayoutNode.html" target="_self">LayoutNode</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="186"
+                            class="link-to-prism">src/app/graphs/automatic-layout.ts:186</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create an edge between this node and another node.
+Does <strong>not</strong> create a connection from the other node to this node!</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>other</td>
+                                    <td>
+                                                <code><a href="../classes/LayoutNode.html" target="_self" >LayoutNode</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The other node</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {NodeType} from &#x27;@app/graphs/issue-graph/issue-graph-nodes&#x27;;
+
+/**
+ * A simple 2D vector class.
+ * The value of this vector is essentially immutable, every operation returns a new vector!
+ */
+class Vector {
+  public x: number;
+  public y: number;
+
+  /**
+   * Vector constructor
+   * @param x X component, 0 by default
+   * @param y Y component, 0 by default
+   */
+  constructor(x: number &#x3D; 0, y: number &#x3D; 0) {
+    this.x &#x3D; x;
+    this.y &#x3D; y;
+  }
+
+  /**
+   * Check if the vector pointing from &#x60;source&#x60; to &#x60;point&#x60; is pointing away more than 90 degrees to the vector pointing
+   * from the &#x60;source&#x60; to the &#x60;target&#x60;.
+   * @param source The source point, as a vector
+   * @param target The target point, as a vector
+   * @param point The point to check, as a vector
+   * @return dot(target - source, point - source) &lt; 0
+   */
+  public static isBehind(source: Vector, target: Vector, point: Vector): boolean {
+    const srcToTarget &#x3D; target.subtract(source);
+    const srcToPoint &#x3D; point.subtract(source);
+    return srcToTarget.dot(srcToPoint) &lt; 0 || srcToTarget.isZero();
+  }
+
+  /**
+   * Scale the vector
+   * @param factor The scalar
+   * @returns A new, scaled vector
+   */
+  public scale(factor: number): Vector {
+    return new Vector(this.x * factor, this.y * factor);
+  }
+
+  /**
+   * Length of the vector
+   */
+  public length(): number {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
+  /**
+   * Normalize the vector
+   * @returns A new, normalized vector
+   */
+  public normalize(): Vector {
+    return this.scale(1 / this.length());
+  }
+
+  /**
+   * Add this vector and another vector
+   * @param other The other vector
+   * @returns A new vector, the sum of this vector and the other vector
+   */
+  public add(other: Vector): Vector {
+    return new Vector(this.x + other.x, this.y + other.y);
+  }
+
+  /**
+   * Add another vector on *this* vector
+   * @param other The other vector
+   * @returns This vector
+   */
+  public addSelf(other: Vector): Vector {
+    this.x +&#x3D; other.x;
+    this.y +&#x3D; other.y;
+    return this;
+  }
+
+  /**
+   * Subtract this vector and another vector
+   * @param other The other vector
+   * @returns A new vector, the difference of this vector and the other vector
+   */
+  public subtract(other: Vector): Vector {
+    return new Vector(this.x - other.x, this.y - other.y);
+  }
+
+  /**
+   * Rotate this vector by 90 degrees in the clockwise direction
+   * @returns A new, rotated vector
+   */
+  public perpendicularClockwise(): Vector {
+    return new Vector(this.y, -this.x);
+  }
+
+  /**
+   * Rotate this vector by 90 degrees in the counter-clockwise direction
+   * @returns A new, rotated vector
+   */
+  public perpendicularCounterClockwise(): Vector {
+    return new Vector(-this.y, this.x);
+  }
+
+  /**
+   * Calculate the dot product
+   * @param other The other vector
+   * @returns dot(this, other)
+   */
+  public dot(other: Vector): number {
+    return this.x * other.x + this.y * other.y;
+  }
+
+  /**
+   * Calculate the distance of a point, as represented by this vector, to a line, as defined by two other points.
+   * Note that the length of the line is infinite, and that this function calculates the distance to this infinitely
+   * long line.
+   * If this is not desired, the {@link #isBehind} function can be used to determine if a point is outside the defined
+   * line segment.
+   * @param sourcePoint The source point of the line
+   * @param targetPoint The target point of the line
+   * @returns The distance to the infinitely long line
+   */
+  public distanceToLine(sourcePoint: Vector, targetPoint: Vector): number {
+    const length &#x3D; targetPoint.subtract(sourcePoint).length();
+    return Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) -
+      (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)) / length;
+  }
+
+  /**
+   * Check if both components of this vector are zero
+   * @returns True if it is zero
+   */
+  public isZero(): boolean {
+    return this.x &#x3D;&#x3D;&#x3D; 0 &amp;&amp; this.y &#x3D;&#x3D;&#x3D; 0;
+  }
+}
+
+/**
+ * This class is an abstract representation of a node in a graph
+ */
+export class LayoutNode {
+  /** The minimum spacing between two nodes if they are not connected by an edge */
+  static readonly MIN_DISTANCE_NOT_CONNECTED &#x3D; 80;
+
+  /** The maximum spacing between two nodes if they are connected by an edge */
+  static readonly MAX_DISTANCE_CONNECTED &#x3D; 80;
+
+  /** The minimum spacing between two nodes if they are connected by an edge */
+  static readonly MIN_DISTANCE_CONNECTED &#x3D; 20;
+
+  /** The minimum spacing between a node and an edge */
+  static readonly MIN_DISTANCE_EDGE &#x3D; 60;
+
+  /** The padding around a component node */
+  static readonly PADDING_COMPONENT &#x3D; 50;
+
+  /** The padding around an interface node */
+  static readonly PADDING_INTERFACE &#x3D; 5;
+
+  /** Node id */
+  readonly id: string | number;
+
+  /** Position of this node */
+  public position: Vector;
+
+  /** If true, this node will not move under any circumstance */
+  public fixed &#x3D; false;
+
+  /** Set of edges this node is connected to  */
+  private connectedTo: Set&lt;LayoutNode&gt; &#x3D; new Set&lt;LayoutNode&gt;();
+
+  /** Padding to be added to this node */
+  readonly padding: number;
+
+  constructor(id: string | number, positionX: number, positionY: number, nodeType: NodeType) {
+    this.id &#x3D; id;
+    this.padding &#x3D; nodeType &#x3D;&#x3D;&#x3D; NodeType.Component ? LayoutNode.PADDING_COMPONENT : LayoutNode.PADDING_INTERFACE;
+    this.position &#x3D; new Vector(positionX, positionY);
+  }
+
+  /**
+   * Create an edge between this node and another node.
+   * Does **not** create a connection from the other node to this node!
+   * @param other The other node
+   */
+  public connectTo(other: LayoutNode): void {
+    this.connectedTo.add(other);
+  }
+
+  /**
+   * Calculate the movement direction that this node should move in, based on all other nodes around it
+   * @param allNodes All nodes, can include this node as well
+   * @returns The direction in which this node wants to travel
+   */
+  public calculateMovement(allNodes: Array&lt;LayoutNode&gt;): Vector {
+    if (this.fixed) {
+      return new Vector();
+    }
+
+    // Total force acting on this node
+    const result &#x3D; new Vector();
+
+    // Keeps track of edges already visited
+    const otherNodesVisited &#x3D; new Set&lt;string | number&gt;();
+
+    for (const otherNode of allNodes) {
+      // Iterate over all other nodes
+      if (otherNode.id &#x3D;&#x3D;&#x3D; this.id) {
+        continue;
+      }
+
+      // If both nodes are at an identical position, add a small randomized offset to this nodes position
+      let towardsOther &#x3D; otherNode.position.subtract(this.position);
+      if (towardsOther.isZero()) {
+        this.position.x +&#x3D; Math.random() - .5;
+        this.position.y +&#x3D; Math.random() - .5;
+        towardsOther &#x3D; otherNode.position.subtract(this.position);
+      }
+
+      const pad &#x3D; this.padding + otherNode.padding;
+      const distance &#x3D; Math.max(1, towardsOther.length() - pad);
+      towardsOther &#x3D; towardsOther.scale(1 / distance);
+
+      // Move this node towards connected nodes, and away from non-connected nodes.
+      // Also make sure that a minimum spacing between nodes exists, regardless of connection.
+      let scale &#x3D; 0;
+      if (this.connectedTo.has(otherNode)) {
+        if (distance &lt; LayoutNode.MIN_DISTANCE_CONNECTED) {
+          // Connected nodes have a minimum distance to each other
+          scale &#x3D; -Math.max(LayoutNode.MIN_DISTANCE_CONNECTED - distance, 0);
+        } else {
+          // Node attracted to connected nodes
+          scale &#x3D; Math.max(distance - LayoutNode.MAX_DISTANCE_CONNECTED, 0);
+        }
+      } else {
+        // Node repelled by non-connected nodes
+        scale &#x3D; -Math.max(LayoutNode.MIN_DISTANCE_NOT_CONNECTED - distance, 0);
+      }
+
+      // Add this to the total force
+      result.addSelf(towardsOther.scale(scale));
+
+      // Now make this node repel from edges connecting nodes
+      for (const edgeNode of otherNode.connectedTo) {
+        // Ignore edges that were already visited
+        if (edgeNode.id &#x3D;&#x3D;&#x3D; this.id || (otherNodesVisited.has(otherNode.id) &amp;&amp; otherNodesVisited.has(edgeNode.id))) {
+          continue;
+        }
+
+        otherNodesVisited.add(edgeNode.id).add(otherNode.id);
+
+        // Check if this node is next to the edge connecting two nodes
+        if (Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
+          Vector.isBehind(edgeNode.position, otherNode.position, this.position)) {
+          continue;
+        }
+
+        // If this is the case, determine the distance of the node to the edge, and if necessary, add a force pointing
+        // away from the edge
+        const distanceToEdge &#x3D; Math.max(1, this.position.distanceToLine(otherNode.position, edgeNode.position) - pad);
+        if (distanceToEdge &lt; LayoutNode.MIN_DISTANCE_EDGE) {
+          const edge &#x3D; edgeNode.position.subtract(otherNode.position);
+          const point &#x3D; this.position.subtract(otherNode.position);
+          scale &#x3D; Math.max(LayoutNode.MIN_DISTANCE_EDGE - distanceToEdge, 0);
+
+          // Always point away from edge
+          if (edge.x * -point.y + edge.y * point.x &lt; 0) {
+            result.addSelf(edge.normalize().perpendicularCounterClockwise().scale(scale));
+          } else {
+            result.addSelf(edge.normalize().perpendicularClockwise().scale(scale));
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+}
+
+/**
+ * Automatically lay out the provided nodes.
+ * @param nodes All nodes that are to be laid-out
+ */
+export function doGraphLayout(nodes: Array&lt;LayoutNode&gt;): void {
+  if (nodes.length &#x3D;&#x3D;&#x3D; 0) {
+    return;
+  }
+
+  const directions &#x3D; new Array&lt;Vector&gt;(nodes.length);
+  // Fix an arbitrary node in place to prevent the graph from flying away
+  const firstNode &#x3D; nodes[0];
+  firstNode.fixed &#x3D; true;
+
+  // FIXME: This loop should stop early if no more (significant) changes happen
+  for (let v &#x3D; 0; v &lt; 4000; ++v) {
+    // Calculate all forces
+    for (let i &#x3D; 0; i &lt; nodes.length; ++i) {
+      const node &#x3D; nodes[i];
+      if (!node.fixed) {
+        directions[i] &#x3D; node.calculateMovement(nodes);
+      }
+    }
+
+    // Move nodes
+    for (let i &#x3D; 0; i &lt; nodes.length; ++i) {
+      const node &#x3D; nodes[i];
+      if (!node.fixed) {
+        node.position &#x3D; node.position.add(directions[i].scale(.1));
+      }
+    }
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'LayoutNode.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

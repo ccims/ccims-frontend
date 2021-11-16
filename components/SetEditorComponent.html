@@ -1,0 +1,1051 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  SetEditorComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/set-editor/set-editor.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>The set editor displays and edits a list of items (used in the issue detail sidebar).</p>
+<ul>
+<li>The list of selected items <a href="listSet">listSet</a> may be either a local array of IDs or a <a href="../interfaces/ListId.html">ListId</a>.</li>
+<li>When editing, items may be selected from a list of all available items <a href="#listAll">#listAll</a>.</li>
+<li>The list of items may be searched using a search box (<a href="#makeFilter">#makeFilter</a> and <a href="#scoreKeys">#scoreKeys</a>).</li>
+<li>Upon closing the edit dialog, a changeset of additions and deletions is passed to a callback (<a href="#applyChangeset">#applyChangeset</a>).</li>
+</ul>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-set-editor</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./set-editor.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./set-editor.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#beginEditing" >beginEditing</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyChangeset" >applyChangeset</a>
+                            </li>
+                            <li>
+                                <a href="#createItem" >createItem</a>
+                            </li>
+                            <li>
+                                <a href="#editable" >editable</a>
+                            </li>
+                            <li>
+                                <a href="#emptyResultsLabel" >emptyResultsLabel</a>
+                            </li>
+                            <li>
+                                <a href="#emptySuggestionsLabel" >emptySuggestionsLabel</a>
+                            </li>
+                            <li>
+                                <a href="#hydrate" >hydrate</a>
+                            </li>
+                            <li>
+                                <a href="#itemOps" >itemOps</a>
+                            </li>
+                            <li>
+                                <a href="#listAll" >listAll</a>
+                            </li>
+                            <li>
+                                <a href="#listSet" >listSet</a>
+                            </li>
+                            <li>
+                                <a href="#makeFilter" >makeFilter</a>
+                            </li>
+                            <li>
+                                <a href="#scoreKeys" >scoreKeys</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#deleteItem" >deleteItem</a>
+                            </li>
+                            <li>
+                                <a href="#editItem" >editItem</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, dialogService: MatDialog)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:79</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogService</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="applyChangeset"></a>
+                        <b>applyChangeset</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:42</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback for applying a changeset to the listSet.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="createItem"></a>
+                        <b>createItem</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:59</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback to create a new item (enabled using itemOps). If the promise returns a node ID, it will be added to the set.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="editable"></a>
+                        <b>editable</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:48</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Set editable to false to just display items in the set, without being able to edit them.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="emptyResultsLabel"></a>
+                        <b>emptyResultsLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;No results&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:52</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Set to override the “no results” text in the dialog. Appears when there is a search query.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="emptySuggestionsLabel"></a>
+                        <b>emptySuggestionsLabel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;No suggestions&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:50</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Set to override the “no results” text in the dialog. Appears only when there is no search query.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hydrate"></a>
+                        <b>hydrate</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#HydrateList" target="_self" >Promise&lt;HydrateList&lt;T&gt;&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:54</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Pass a HydrateList object to load the listSet with existing data instead of sending a request to the server.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="itemOps"></a>
+                        <b>itemOps</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ItemOps" target="_self" >ItemOps</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;none&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:56</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Additional operations available from the set editor.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="listAll"></a>
+                        <b>listAll</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ListId | SetMultiSource</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:40</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The list of all possible items. Should be a superset of listSet, as otherwise the user may not be able to deselect items.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="listSet"></a>
+                        <b>listSet</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ListId | NodeId[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:38</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The list that contains all nodes that are part of the set. string[] is treated as local state.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="makeFilter"></a>
+                        <b>makeFilter</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:44</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback for making a filter for the given search query.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="scoreKeys"></a>
+                        <b>scoreKeys</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:46</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Object keys used for scoring a search result. (e.g. &#39;title&#39;) Should correspond to fields searched in makeFilter.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deleteItem"></a>
+                        <b>deleteItem</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:63</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback to delete an item.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="editItem"></a>
+                        <b>editItem</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:61</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback to edit an item.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="beginEditing"></a>
+                    <span class="name">
+                        <span ><b>beginEditing</b></span>
+                        <a href="#beginEditing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>beginEditing()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:147</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Opens the editor dialog.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ContentChild,
+  ElementRef, EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit, Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
+} from &#x27;@angular/core&#x27;;
+import { ListId, NodeId } from &#x27;@app/data-dgql/id&#x27;;
+import { DataList, HydrateList } from &#x27;@app/data-dgql/query&#x27;;
+import DataService from &#x27;@app/data-dgql&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { ItemDirective } from &#x27;@app/components/item.directive&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import { SetEditorDialogComponent, SetEditorDialogData, SetMultiSource } from &#x27;./set-editor-dialog.component&#x27;;
+
+type ItemOps &#x3D; &#x27;none&#x27; | &#x27;edit&#x27; | &#x27;create-edit&#x27; | &#x27;create-edit-delete&#x27;;
+
+/**
+ * The set editor displays and edits a list of items (used in the issue detail sidebar).
+ *
+ * - The list of selected items {@link listSet} may be either a local array of IDs or a {@link ListId}.
+ * - When editing, items may be selected from a list of all available items {@link #listAll}.
+ * - The list of items may be searched using a search box ({@link #makeFilter} and {@link #scoreKeys}).
+ * - Upon closing the edit dialog, a changeset of additions and deletions is passed to a callback ({@link #applyChangeset}).
+ */
+@Component({
+  selector: &#x27;app-set-editor&#x27;,
+  templateUrl: &#x27;./set-editor.component.html&#x27;,
+  styleUrls: [&#x27;./set-editor.component.scss&#x27;]
+})
+export class SetEditorComponent&lt;T extends { id: string, __typename: string }, F&gt; implements OnInit, OnChanges, OnDestroy {
+  /** The list that contains all nodes that are part of the set. string[] is treated as local state. */
+  @Input() listSet: ListId | NodeId[];
+  /** The list of all possible items. Should be a superset of listSet, as otherwise the user may not be able to deselect items. */
+  @Input() listAll: ListId | SetMultiSource;
+  /** Callback for applying a changeset to the listSet. */
+  @Input() applyChangeset: (additions: NodeId[], deletions: NodeId[]) &#x3D;&gt; Promise&lt;void&gt;;
+  /** Callback for making a filter for the given search query. */
+  @Input() makeFilter: (searchQuery: string) &#x3D;&gt; F;
+  /** Object keys used for scoring a search result. (e.g. &#x27;title&#x27;) Should correspond to fields searched in makeFilter. */
+  @Input() scoreKeys: string[];
+  /** Set editable to false to just display items in the set, without being able to edit them. */
+  @Input() editable &#x3D; true;
+  /** Set to override the “no results” text in the dialog. Appears only when there is no search query. */
+  @Input() emptySuggestionsLabel &#x3D; &#x27;No suggestions&#x27;;
+  /** Set to override the “no results” text in the dialog. Appears when there is a search query. */
+  @Input() emptyResultsLabel &#x3D; &#x27;No results&#x27;;
+  /** Pass a HydrateList object to load the listSet with existing data instead of sending a request to the server. */
+  @Input() hydrate: Promise&lt;HydrateList&lt;T&gt;&gt;;
+  /** Additional operations available from the set editor. */
+  @Input() itemOps: ItemOps &#x3D; &#x27;none&#x27;;
+
+  /** Callback to create a new item (enabled using itemOps). If the promise returns a node ID, it will be added to the set. */
+  @Input() createItem: () &#x3D;&gt; Promise&lt;NodeId | null | undefined&gt;;
+  /** Callback to edit an item. */
+  @Output() editItem &#x3D; new EventEmitter&lt;{ id: NodeId, preview: T }&gt;();
+  /** Callback to delete an item. */
+  @Output() deleteItem &#x3D; new EventEmitter&lt;{ id: NodeId, preview: T }&gt;();
+
+  /** @ignore */
+  @ViewChild(&#x27;titleText&#x27;) titleText: ElementRef&lt;HTMLElement&gt;;
+  /** @ignore */
+  @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
+
+  /** @ignore */
+  public listSet$: DataList&lt;T, unknown&gt;;
+  /** @ignore */
+  private listSetSub: Subscription;
+
+  /**
+   * @ignore
+   * If true, the listSet$ variable is null and listSet contains an array of node IDs.
+   */
+  public isLocalSet &#x3D; false;
+
+  constructor(
+    private dataService: DataService,
+    private dialogService: MatDialog
+  ) {}
+
+  /** @ignore */
+  reloadListSet() {
+    if (Array.isArray(this.listSet)) {
+      this.isLocalSet &#x3D; true;
+      if (this.listSet$) {
+        this.listSetSub.unsubscribe();
+        this.listSet$ &#x3D; null;
+      }
+    } else {
+      this.isLocalSet &#x3D; false;
+      this.listSet$ &#x3D; this.dataService.getList(this.listSet);
+      this.listSetSub &#x3D; this.listSet$.subscribe();
+    }
+  }
+
+  ngOnInit() {
+    this.reloadListSet();
+    if (this.hydrate &amp;&amp; this.listSet$) {
+      this.listSet$.hydrateInitial(this.hydrate);
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.listSet) {
+      const newValue &#x3D; changes.listSet.currentValue;
+      if (this.isLocalSet !&#x3D;&#x3D; (typeof newValue !&#x3D;&#x3D; &#x27;string&#x27;)) {
+        this.reloadListSet();
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.listSetSub?.unsubscribe();
+  }
+
+  /**
+   * @ignore
+   * This method is needed to satisfy static type checking bounds
+   */
+  getListSetLength(): number {
+    if (this.isLocalSet) {
+      return (this.listSet as NodeId[]).length;
+    }
+    throw new Error(&#x27;bad state&#x27;);
+  }
+
+  /** @ignore */
+  private onDialogApplyChangeset &#x3D; (additions: NodeId[], deletions: NodeId[]): Promise&lt;void&gt; &#x3D;&gt; {
+    return this.applyChangeset(additions, deletions);
+  }
+
+  /** @ignore */
+  private onDialogCreateItem &#x3D; () &#x3D;&gt; this.createItem();
+  /** @ignore */
+  private onDialogEditItem &#x3D; (item) &#x3D;&gt; this.editItem.emit(item);
+  /** @ignore */
+  private onDialogDeleteItem &#x3D; (item) &#x3D;&gt; this.deleteItem.emit(item);
+
+  /**
+   * @internal
+   * Opens the editor dialog.
+   */
+  beginEditing() {
+    this.dialogService.open&lt;SetEditorDialogComponent&lt;T, F&gt;&gt;(SetEditorDialogComponent, {
+      width: &#x27;400px&#x27;,
+      data: {
+        title: this.titleText?.nativeElement.textContent || &#x27;&#x27;,
+        listSet: this.listSet,
+        listAll: this.listAll,
+        itemTemplate: this.itemTemplate,
+        applyChangeset: this.onDialogApplyChangeset,
+        makeFilter: this.makeFilter,
+        scoreKeys: this.scoreKeys,
+        emptySuggestionsLabel: this.emptySuggestionsLabel,
+        emptyResultsLabel: this.emptyResultsLabel,
+        createItem: this.itemOps.includes(&#x27;create&#x27;) ? this.onDialogCreateItem : null,
+        editItem: this.itemOps.includes(&#x27;edit&#x27;) ? this.onDialogEditItem : null,
+        deleteItem: this.itemOps.includes(&#x27;delete&#x27;) ? this.onDialogDeleteItem : null
+      } as SetEditorDialogData&lt;T, F&gt;
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;app-set-editor&quot;&gt;
+    &lt;div class&#x3D;&quot;set-editor-title&quot;&gt;
+        &lt;span class&#x3D;&quot;title-text-container&quot; #titleText&gt;
+            &lt;ng-content select&#x3D;&quot;[title]&quot;&gt;&lt;/ng-content&gt;
+        &lt;/span&gt;
+        &lt;button
+                *ngIf&#x3D;&quot;editable&quot;
+                mat-icon-button
+                class&#x3D;&quot;settings-button&quot;
+                aria-label&#x3D;&quot;Edit&quot;
+                (click)&#x3D;&quot;beginEditing()&quot;&gt;
+            &lt;mat-icon&gt;settings&lt;/mat-icon&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;set-editor-items&quot;&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;isLocalSet&quot;&gt;
+            &lt;ng-container *ngFor&#x3D;&quot;let itemId of listSet&quot;&gt;
+                &lt;span cache-node [node]&#x3D;&quot;itemId&quot;&gt;
+                    &lt;ng-container *appItem&#x3D;&quot;let item&quot;&gt;
+                        &lt;ng-container *ngTemplateOutlet&#x3D;&quot;itemTemplate; context: { $implicit: item, interactive: true }&quot;&gt;&lt;/ng-container&gt;
+                    &lt;/ng-container&gt;
+                &lt;/span&gt;
+            &lt;/ng-container&gt;
+        &lt;/ng-container&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;!isLocalSet&quot;&gt;
+            &lt;ng-container *ngFor&#x3D;&quot;let item of listSet$.currentItems&quot;&gt;
+                &lt;ng-container *ngTemplateOutlet&#x3D;&quot;itemTemplate; context: { $implicit: item, interactive: true }&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-container&gt;
+            &lt;div class&#x3D;&quot;more-items&quot; *ngIf&#x3D;&quot;listSet$.current?.size &lt; listSet$.totalCount&quot;&gt;
+                ...
+            &lt;/div&gt;
+        &lt;/ng-container&gt;
+        &lt;div class&#x3D;&quot;items-empty&quot; *ngIf&#x3D;&quot;isLocalSet ? !getListSetLength() : (!listSet$.totalCount &amp;&amp; !listSet$.loading)&quot;&gt;
+            &lt;ng-content select&#x3D;&quot;[if-empty]&quot;&gt;&lt;/ng-content&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./set-editor.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">:host {
+  display: block;
+}
+
+.app-set-editor {
+  .set-editor-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 36px;
+
+    .title-text-container {
+      font-weight: bold;
+      line-height: 1.5;
+    }
+  }
+
+  .items-empty {
+    opacity: 0.5;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="app-set-editor">    <div class="set-editor-title">        <span class="title-text-container" #titleText>            <ng-content select="[title]"></ng-content>        </span>        <button                *ngIf="editable"                mat-icon-button                class="settings-button"                aria-label="Edit"                (click)="beginEditing()">            <mat-icon>settings</mat-icon>        </button>    </div>    <div class="set-editor-items">        <ng-container *ngIf="isLocalSet">            <ng-container *ngFor="let itemId of listSet">                <span cache-node [node]="itemId">                    <ng-container *appItem="let item">                        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item, interactive: true }"></ng-container>                    </ng-container>                </span>            </ng-container>        </ng-container>        <ng-container *ngIf="!isLocalSet">            <ng-container *ngFor="let item of listSet$.currentItems">                <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item, interactive: true }"></ng-container>            </ng-container>            <div class="more-items" *ngIf="listSet$.current?.size < listSet$.totalCount">                ...            </div>        </ng-container>        <div class="items-empty" *ngIf="isLocalSet ? !getListSetLength() : (!listSet$.totalCount && !listSet$.loading)">            <ng-content select="[if-empty]"></ng-content>        </div>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+    var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
+    var ACTUAL_COMPONENT = {'name': 'SetEditorComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SetEditorComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

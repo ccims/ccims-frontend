@@ -1,0 +1,1811 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  IssueListComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/issue-list/issue-list.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component shows all issues for a given component / interface.
+It lets the user 1) filter through all the issues,
+2) create new issues and also 3) sort all issues in a separate table view.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-issue-list</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./issue-list.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./issue-list.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#allLabelsList" >allLabelsList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#canCreateNewIssue" >canCreateNewIssue</a>
+                            </li>
+                            <li>
+                                <a href="#columnsToDisplay" >columnsToDisplay</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#component$" >component$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#componentInterface$" >componentInterface$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#componentInterfaceProvider" >componentInterfaceProvider</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#componentInterfaceSub" >componentInterfaceSub</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#componentSub" >componentSub</a>
+                            </li>
+                            <li>
+                                <a href="#dataSource" >dataSource</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#list$" >list$</a>
+                            </li>
+                            <li>
+                                <a href="#paginator" >paginator</a>
+                            </li>
+                            <li>
+                                <a href="#query" >query</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#queryParamFilter" >queryParamFilter</a>
+                            </li>
+                            <li>
+                                <a href="#searchIssuesDataArray" >searchIssuesDataArray</a>
+                            </li>
+                            <li>
+                                <a href="#sort" >sort</a>
+                            </li>
+                            <li>
+                                <a href="#validationFilter" >validationFilter</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyFilter" >applyFilter</a>
+                            </li>
+                            <li>
+                                <a href="#clickedOnRow" >clickedOnRow</a>
+                            </li>
+                            <li>
+                                <a href="#formatCategoryDescription" >formatCategoryDescription</a>
+                            </li>
+                            <li>
+                                <a href="#formatCategoryIcon" >formatCategoryIcon</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getQueryParamFilter" >getQueryParamFilter</a>
+                            </li>
+                            <li>
+                                <a href="#onAddClick" >onAddClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#prepareIssueArray" >prepareIssueArray</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#listId" >listId</a>
+                            </li>
+                            <li>
+                                <a href="#projectId" >projectId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, dialog: MatDialog, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/issue-list/issue-list.component.ts:62</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="listId"></a>
+                        <b>listId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ListId.html" target="_self" >ListId</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/issue-list/issue-list.component.ts:33</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectId"></a>
+                        <b>projectId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/issue-list/issue-list.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyFilter"></a>
+                    <span class="name">
+                        <span ><b>applyFilter</b></span>
+                        <a href="#applyFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applyFilter(filter: IssueFilter)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">src/app/issue-list/issue-list.component.ts:188</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Applies a given filter.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filter</td>
+                                    <td>
+                                            <code>IssueFilter</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Given filter to be applied.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clickedOnRow"></a>
+                    <span class="name">
+                        <span ><b>clickedOnRow</b></span>
+                        <a href="#clickedOnRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clickedOnRow(row: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">src/app/issue-list/issue-list.component.ts:197</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Gets activated when an issue is clicked.
+Navigates the user to the corresponding issue page.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>row</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Issue that is clicked.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatCategoryDescription"></a>
+                    <span class="name">
+                        <span ><b>formatCategoryDescription</b></span>
+                        <a href="#formatCategoryDescription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatCategoryDescription(category: IssueCategory)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/app/issue-list/issue-list.component.ts:93</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Determines issue description depending on the given categiry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>category</td>
+                                    <td>
+                                            <code>IssueCategory</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>The given issue category.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Issue description.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatCategoryIcon"></a>
+                    <span class="name">
+                        <span ><b>formatCategoryIcon</b></span>
+                        <a href="#formatCategoryIcon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatCategoryIcon(issue: Issue)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">src/app/issue-list/issue-list.component.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Determines issue icon depending on the given category.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>issue</td>
+                                    <td>
+                                            <code>Issue</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>The given issue.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Issue icon id.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQueryParamFilter"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getQueryParamFilter</b></span>
+                        <a href="#getQueryParamFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getQueryParamFilter()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/app/issue-list/issue-list.component.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Gets the query param filter.
+If it is set, the issue list shows only issues that match the given keyword.
+Otherwise all issues are displayed.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onAddClick"></a>
+                    <span class="name">
+                        <span ><b>onAddClick</b></span>
+                        <a href="#onAddClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onAddClick()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="245"
+                            class="link-to-prism">src/app/issue-list/issue-list.component.ts:245</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Opens a Create Issue dialog.
+Also selects components and locations depending from which
+Component / Interface page the Create Issue dialog was initiated.
+ex. Interface I1 with Prvider Component C1 lead to an Interface Issue
+with components: Component C1 and locations: Component C1, Interface I1</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prepareIssueArray"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>prepareIssueArray</b></span>
+                        <a href="#prepareIssueArray"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>prepareIssueArray()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">src/app/issue-list/issue-list.component.ts:207</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Prepares the issue array for the filter function.
+For each issue a search string is defined.
+The search string contains assignees, labels, and the author.
+The filter funcion can search inside the string for keywords matching the given search string.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allLabelsList"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>allLabelsList</b></span>
+                        <a href="#allLabelsList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ListId.html" target="_self" >ListId</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/issue-list/issue-list.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canCreateNewIssue"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>canCreateNewIssue</b></span>
+                        <a href="#canCreateNewIssue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/issue-list/issue-list.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="columnsToDisplay"></a>
+                    <span class="name">
+                        <span ><b>columnsToDisplay</b></span>
+                        <a href="#columnsToDisplay"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;title&#x27;, &#x27;author&#x27;, &#x27;assignees&#x27;, &#x27;labels&#x27;, &#x27;category&#x27;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/issue-list/issue-list.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="component$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>component$</b></span>
+                        <a href="#component$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/DataNode.html" target="_self" >DataNode&lt;IComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/issue-list/issue-list.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="componentInterface$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>componentInterface$</b></span>
+                        <a href="#componentInterface$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/DataNode.html" target="_self" >DataNode&lt;ComponentInterface&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/issue-list/issue-list.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="componentInterfaceProvider"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>componentInterfaceProvider</b></span>
+                        <a href="#componentInterfaceProvider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/NodeId.html" target="_self" >NodeId</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/issue-list/issue-list.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="componentInterfaceSub"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>componentInterfaceSub</b></span>
+                        <a href="#componentInterfaceSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/issue-list/issue-list.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="componentSub"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>componentSub</b></span>
+                        <a href="#componentSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/issue-list/issue-list.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataSource"></a>
+                    <span class="name">
+                        <span ><b>dataSource</b></span>
+                        <a href="#dataSource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatTableDataSource&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/issue-list/issue-list.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="list$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>list$</b></span>
+                        <a href="#list$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classess/DataList.html" target="_self" >DataList&lt;Issue | IssueFilter&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/issue-list/issue-list.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="paginator"></a>
+                    <span class="name">
+                        <span ><b>paginator</b></span>
+                        <a href="#paginator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatPaginator</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatPaginator)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/issue-list/issue-list.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="query"></a>
+                    <span class="name">
+                        <span ><b>query</b></span>
+                        <a href="#query"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/QueryComponent.html" target="_self" >QueryComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(QueryComponent)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/issue-list/issue-list.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryParamFilter"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>queryParamFilter</b></span>
+                        <a href="#queryParamFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/issue-list/issue-list.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchIssuesDataArray"></a>
+                    <span class="name">
+                        <span ><b>searchIssuesDataArray</b></span>
+                        <a href="#searchIssuesDataArray"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/issue-list/issue-list.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sort"></a>
+                    <span class="name">
+                        <span ><b>sort</b></span>
+                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSort</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatSort)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/issue-list/issue-list.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validationFilter"></a>
+                    <span class="name">
+                        <span ><b>validationFilter</b></span>
+                        <a href="#validationFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new FormControl(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/issue-list/issue-list.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
+import {ActivatedRoute, Router} from &#x27;@angular/router&#x27;;
+import {Subscription} from &#x27;rxjs&#x27;;
+import {MatTableDataSource} from &#x27;@angular/material/table&#x27;;
+import {MatPaginator} from &#x27;@angular/material/paginator&#x27;;
+import {MatSort, MatSortable} from &#x27;@angular/material/sort&#x27;;
+import {CreateIssueDialogComponent} from &#x27;@app/dialogs/create-issue-dialog/create-issue-dialog.component&#x27;;
+import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
+import {FormControl} from &#x27;@angular/forms&#x27;;
+import DataService from &#x27;@app/data-dgql&#x27;;
+import {ListId, ListType, NodeId, NodeType} from &#x27;@app/data-dgql/id&#x27;;
+import {DataList, DataNode} from &#x27;@app/data-dgql/query&#x27;;
+import {
+  Component as IComponent,
+  ComponentInterface,
+  Issue,
+  IssueCategory,
+  IssueFilter
+} from &#x27;../../generated/graphql-dgql&#x27;;
+import {QueryComponent} from &#x27;@app/utils/query-component/query.component&#x27;;
+
+/**
+ * This component shows all issues for a given component / interface.
+ * It lets the user 1) filter through all the issues,
+ * 2) create new issues and also 3) sort all issues in a separate table view.
+ */
+@Component({
+  selector: &#x27;app-issue-list&#x27;,
+  templateUrl: &#x27;./issue-list.component.html&#x27;,
+  styleUrls: [&#x27;./issue-list.component.scss&#x27;]
+})
+export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() listId: ListId;
+  @Input() projectId: string;
+  public queryParamFilter &#x3D; &#x27;&#x27;;
+  public list$?: DataList&lt;Issue, IssueFilter&gt;;
+
+  // component that is observed
+  public component$?: DataNode&lt;IComponent&gt;;
+  private componentSub?: Subscription;
+
+  // interface that is observed
+  public componentInterface$?: DataNode&lt;ComponentInterface&gt;;
+  private componentInterfaceSub?: Subscription;
+
+  // provider of the interface that is observed
+  public componentInterfaceProvider: NodeId;
+
+  // determines whether one can create new issues from a given component / interface page
+  // FIXME remove and use proper logic instead
+  public canCreateNewIssue &#x3D; false;
+
+  public allLabelsList: ListId;
+
+  dataSource: MatTableDataSource&lt;any&gt;;
+  columnsToDisplay &#x3D; [&#x27;title&#x27;, &#x27;author&#x27;, &#x27;assignees&#x27;, &#x27;labels&#x27;, &#x27;category&#x27;];
+  searchIssuesDataArray: any;
+  validationFilter &#x3D; new FormControl(&#x27;&#x27;);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(QueryComponent) query: QueryComponent;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private router: Router,
+    private dataService: DataService
+  ) {
+  }
+
+  /**
+   * Determines issue icon depending on the given category.
+   * @param issue - The given issue.
+   * @returns Issue icon id.
+   */
+  formatCategoryIcon(issue: Issue): string {
+    switch (issue.category) {
+      case IssueCategory.Bug:
+        return issue.isOpen ? &#x27;issue-bug&#x27; : &#x27;issue-bug-closed&#x27;;
+      case IssueCategory.FeatureRequest:
+        return issue.isOpen ? &#x27;issue-feature&#x27; : &#x27;issue-feature-closed&#x27;;
+      case IssueCategory.Unclassified:
+        return issue.isOpen ? &#x27;issue-uncategorized&#x27; : &#x27;issue-uncategorized-closed&#x27;;
+    }
+  }
+
+  /**
+   * Determines issue description depending on the given categiry.
+   * @param category - The given issue category.
+   * @returns Issue description.
+   */
+  formatCategoryDescription(category: IssueCategory): string {
+    switch (category) {
+      case IssueCategory.Bug:
+        return &#x27;Bug&#x27;;
+      case IssueCategory.FeatureRequest:
+        return &#x27;Feature request&#x27;;
+      case IssueCategory.Unclassified:
+        return &#x27;Unclassified&#x27;;
+    }
+  }
+
+  ngOnInit(): void {
+
+    this.allLabelsList &#x3D; {
+      node: this.listId.node,
+      type: ListType.Labels
+    };
+
+    if (this.listId.node.type &#x3D;&#x3D;&#x3D; NodeType.Component) {
+      this.canCreateNewIssue &#x3D; true;
+      this.component$ &#x3D; this.dataService.getNode(this.listId.node);
+      this.componentSub &#x3D; this.component$.subscribe();
+    } else if (this.listId.node.type &#x3D;&#x3D;&#x3D; NodeType.ComponentInterface) {
+      this.canCreateNewIssue &#x3D; true;
+      this.componentInterface$ &#x3D; this.dataService.getNode(this.listId.node);
+      this.componentInterfaceSub &#x3D; this.componentInterface$.subscribe();
+
+      this.componentInterface$.dataAsPromise().then(data &#x3D;&gt; {
+        this.componentInterfaceProvider &#x3D; {type: NodeType.Component, id: data.component.id};
+      });
+    }
+
+    // FIXME: a hack to fix the labels list on interfaces
+    if (this.listId.node.type &#x3D;&#x3D;&#x3D; NodeType.ComponentInterface) {
+      const interfaceNode &#x3D; this.dataService.getNode&lt;ComponentInterface&gt;(this.listId.node);
+      interfaceNode.dataAsPromise().then(data &#x3D;&gt; {
+        this.allLabelsList &#x3D; {
+          node: {type: NodeType.Component, id: data.component.id},
+          type: ListType.Labels
+        };
+      });
+    }
+
+    this.list$ &#x3D; this.dataService.getList(this.listId);
+    this.list$.count &#x3D; 25;
+  }
+
+  ngAfterViewInit() {
+    this.query.listenTo(this.list$, data &#x3D;&gt; {
+      this.dataSource &#x3D; new MatTableDataSource&lt;any&gt;(data ? [...data.values()] : []);
+      this.sort.sort(({id: &#x27;category&#x27;, start: &#x27;asc&#x27;}) as MatSortable);
+      this.dataSource.sort &#x3D; this.sort;
+      // FIXME use bespoke pagination/sorting/filtering
+      // this.dataSource.paginator &#x3D; this.paginator;
+      this.dataSource.filter &#x3D; this.getQueryParamFilter();
+      this.validationFilter.setValue(this.getQueryParamFilter());
+      this.prepareIssueArray();
+    });
+  }
+
+  ngOnDestroy() {
+    this.componentSub?.unsubscribe();
+    this.componentInterfaceSub?.unsubscribe();
+  }
+
+  /**
+   * Gets the query param filter.
+   * If it is set, the issue list shows only issues that match the given keyword.
+   * Otherwise all issues are displayed.
+   */
+  private getQueryParamFilter(): string {
+    let returnedFilter &#x3D; &#x27;&#x27;;
+    this.activatedRoute.queryParams.subscribe(
+      params &#x3D;&gt; {
+
+        // case: query param filter is set
+        // &#x3D;&gt; shows only matching issues
+        if (params.filter) {
+          this.queryParamFilter &#x3D; params.filter;
+          returnedFilter &#x3D; params.filter;
+        }
+
+          // case: query param filter is not set
+        // &#x3D;&gt; shows all issues
+        else {
+          returnedFilter &#x3D; &#x27;&#x27;;
+        }
+      });
+    return returnedFilter;
+  }
+
+  /**
+   * Applies a given filter.
+   * @param filter - Given filter to be applied.
+   */
+  applyFilter(filter: IssueFilter) {
+    this.list$.filter &#x3D; filter;
+  }
+
+  /**
+   * Gets activated when an issue is clicked.
+   * Navigates the user to the corresponding issue page.
+   * @param row - Issue that is clicked.
+   */
+  clickedOnRow(row: any) {
+    this.router.navigate([&#x27;/projects&#x27;, this.projectId, &#x27;issues&#x27;, row.id]);
+  }
+
+  /**
+   * Prepares the issue array for the filter function.
+   * For each issue a search string is defined.
+   * The search string contains assignees, labels, and the author.
+   * The filter funcion can search inside the string for keywords matching the given search string.
+   */
+  private prepareIssueArray() {
+
+    // FIXME use API search
+    if (!this.list$.hasData) {
+      return;
+    }
+    this.searchIssuesDataArray &#x3D; [...this.list$.current.values()];
+    for (const issue of this.searchIssuesDataArray) {
+      let additionalSearchString &#x3D; &#x27;&#x27;;
+      issue.assigneesString &#x3D; &#x27;&#x27;;
+      issue.labelsString &#x3D; &#x27;&#x27;;
+
+      // adds all assignees
+      for (const assignee of issue.assignees.nodes) {
+        additionalSearchString +&#x3D; &#x27; &#x27; + assignee.displayName;
+        issue.assigneesString +&#x3D; &#x27; &#x27; + assignee.displayName;
+      }
+
+      // adds all labels
+      for (const label of issue.labels.nodes) {
+        additionalSearchString +&#x3D; &#x27; &#x27; + label.name;
+        issue.labelsString +&#x3D; &#x27; &#x27; + label.name;
+      }
+
+      // adds the author
+      additionalSearchString +&#x3D; &#x27; &#x27; + issue.createdBy.displayName;
+
+      issue.search &#x3D; additionalSearchString;
+    }
+  }
+
+  /**
+   * Opens a Create Issue dialog.
+   * Also selects components and locations depending from which
+   * Component / Interface page the Create Issue dialog was initiated.
+   * ex. Interface I1 with Prvider Component C1 lead to an Interface Issue
+   * with components: Component C1 and locations: Component C1, Interface I1
+   */
+  onAddClick() {
+
+    // FIXME move functionality so that the component can be reusable as a list
+
+    // case: node is a component
+    if (this.listId.node.type &#x3D;&#x3D;&#x3D; NodeType.Component) {
+      this.dialog.open(CreateIssueDialogComponent,
+        {
+          data: {
+            projectId: this.projectId,
+            components: [this.component$.id]
+          },
+          width: &#x27;600px&#x27;
+        });
+    }
+
+    // case: node is an interface
+    else if (this.listId.node.type &#x3D;&#x3D;&#x3D; NodeType.ComponentInterface) {
+      this.dialog.open(CreateIssueDialogComponent,
+        {
+          data: {
+            projectId: this.projectId,
+            components: [this.componentInterfaceProvider],
+            locations: [this.componentInterface$.id]
+          },
+          width: &#x27;600px&#x27;
+        });
+    }
+  }
+
+}
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!--Component / Interface Issues information displayed on a specific Component / Interface page--&gt;
+&lt;div matSort matSortActive&#x3D;&quot;category&quot;&gt;
+  &lt;app-query-component errorMessage&#x3D;&quot;Failed to load issues&quot;&gt;
+    &lt;ng-template appQueryBody&gt;
+      &lt;!--1) Filter field--&gt;
+      &lt;app-issue-filter
+        [projectId]&#x3D;&quot;projectId&quot;
+        [allLabelsList]&#x3D;&quot;allLabelsList&quot;
+        (filterChange)&#x3D;&quot;applyFilter($event)&quot;&gt;
+      &lt;/app-issue-filter&gt;
+
+      &lt;!--2) Create Issue button--&gt;
+      &lt;div style&#x3D;&quot;display: flex; justify-content: flex-start&quot;&gt;
+        &lt;button mat-raised-button *ngIf&#x3D;&quot;this.canCreateNewIssue&quot; color&#x3D;&quot;primary&quot;
+                (click)&#x3D;&quot;this.onAddClick()&quot; title&#x3D;&quot;Create a new issue&quot; style&#x3D;&quot;margin: 4px 8px 16px 8px; height: 50px&quot;&gt;
+          Create issue
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;!--3) Issues of the given component / interface--&gt;
+      &lt;div class&#x3D;&quot;table-container mat-elevation-z8&quot; *ngIf&#x3D;&quot;list$.hasData&quot;&gt;
+        &lt;table mat-table style&#x3D;&quot;width:100%; min-width: 50%;&quot; [dataSource]&#x3D;&quot;this.dataSource&quot;
+               aria-label&#x3D;&quot;This table shows all issues of the given component or interface.&quot;&gt;
+
+          &lt;!--Title column--&gt;
+          &lt;ng-container matColumnDef&#x3D;&quot;title&quot;&gt;
+            &lt;th mat-header-cell *matHeaderCellDef mat-sort-header
+                scope&#x3D;&quot;Title column.&quot;&gt;Title
+            &lt;/th&gt;
+            &lt;td mat-cell style&#x3D;&quot;text-align: left;&quot; *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.title}} &lt;/td&gt;
+          &lt;/ng-container&gt;
+
+          &lt;!--Author column--&gt;
+          &lt;ng-container matColumnDef&#x3D;&quot;author&quot;&gt;
+            &lt;th mat-header-cell *matHeaderCellDef mat-sort-header
+                scope&#x3D;&quot;Author column.&quot;&gt;Author
+            &lt;/th&gt;
+            &lt;td mat-cell style&#x3D;&quot;text-align: left;&quot; *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.createdBy.displayName}} &lt;/td&gt;
+          &lt;/ng-container&gt;
+
+          &lt;!--Assignees column--&gt;
+          &lt;ng-container matColumnDef&#x3D;&quot;assignees&quot;&gt;
+            &lt;th mat-header-cell *matHeaderCellDef mat-sort-header
+                scope&#x3D;&quot;Title column.&quot;&gt;Assignees
+            &lt;/th&gt;
+            &lt;td mat-cell style&#x3D;&quot;text-align: left;&quot; *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.assigneesString}} &lt;/td&gt;
+          &lt;/ng-container&gt;
+
+          &lt;!--Labels column--&gt;
+          &lt;ng-container matColumnDef&#x3D;&quot;labels&quot;&gt;
+            &lt;th mat-header-cell *matHeaderCellDef mat-sort-header
+                scope&#x3D;&quot;Labels column.&quot;&gt;Labels
+            &lt;/th&gt;
+            &lt;td mat-cell style&#x3D;&quot;text-align: left;&quot; *matCellDef&#x3D;&quot;let element&quot;&gt;
+              &lt;div style&#x3D;&quot;float: left;&quot; *ngFor&#x3D;&quot;let label of element.labels.nodes&quot;&gt;
+                &lt;app-issue-label [label]&#x3D;&quot;label&quot;&gt;&lt;/app-issue-label&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+          &lt;/ng-container&gt;
+
+          &lt;!--Category column--&gt;
+          &lt;ng-container matColumnDef&#x3D;&quot;category&quot;&gt;
+            &lt;th mat-header-cell mat-sort-header *matHeaderCellDef
+                scope&#x3D;&quot;Category column.&quot;&gt;Category
+            &lt;/th&gt;
+            &lt;td mat-cell style&#x3D;&quot;text-align: left&quot; *matCellDef&#x3D;&quot;let element&quot;&gt;
+              &lt;div style&#x3D;&quot;display: flex; align-items: center&quot;&gt;
+                &lt;mat-icon [svgIcon]&#x3D;&quot;this.formatCategoryIcon(element)&quot; style&#x3D;&quot;margin-right: 4px&quot;&gt;
+                &lt;/mat-icon&gt;
+                {{this.formatCategoryDescription(element.category)}}
+              &lt;/div&gt;
+            &lt;/td&gt;
+          &lt;/ng-container&gt;
+          &lt;tr mat-header-row *matHeaderRowDef&#x3D;&quot;columnsToDisplay&quot;&gt;&lt;/tr&gt;
+          &lt;tr mat-row *matRowDef&#x3D;&quot;let rowData; columns: columnsToDisplay&quot; (click)&#x3D;&quot;this.clickedOnRow(rowData)&quot;&gt;&lt;/tr&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+      
+      &lt;!--4. Paginator--&gt;
+      &lt;app-cursor-paginator [list]&#x3D;&quot;this.list$&quot; [pageSizes]&#x3D;&quot;[10, 25, 50, 100]&quot;&gt;&lt;/app-cursor-paginator&gt;
+    &lt;/ng-template&gt;
+  &lt;/app-query-component&gt;
+&lt;/div&gt;
+
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./issue-list.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.mat-row:hover {
+  box-shadow: inset 0 0 43px -17px rgba(201, 195, 201, 1);
+  cursor: pointer;
+}
+
+.table-container {
+  overflow: auto;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!--Component / Interface Issues information displayed on a specific Component / Interface page--><div matSort matSortActive="category">  <app-query-component errorMessage="Failed to load issues">    <ng-template appQueryBody>      <!--1) Filter field-->      <app-issue-filter        [projectId]="projectId"        [allLabelsList]="allLabelsList"        (filterChange)="applyFilter($event)">      </app-issue-filter>      <!--2) Create Issue button-->      <div style="display: flex; justify-content: flex-start">        <button mat-raised-button *ngIf="this.canCreateNewIssue" color="primary"                (click)="this.onAddClick()" title="Create a new issue" style="margin: 4px 8px 16px 8px; height: 50px">          Create issue        </button>      </div>      <!--3) Issues of the given component / interface-->      <div class="table-container mat-elevation-z8" *ngIf="list$.hasData">        <table mat-table style="width:100%; min-width: 50%;" [dataSource]="this.dataSource"               aria-label="This table shows all issues of the given component or interface.">          <!--Title column-->          <ng-container matColumnDef="title">            <th mat-header-cell *matHeaderCellDef mat-sort-header                scope="Title column.">Title            </th>            <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.title}} </td>          </ng-container>          <!--Author column-->          <ng-container matColumnDef="author">            <th mat-header-cell *matHeaderCellDef mat-sort-header                scope="Author column.">Author            </th>            <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.createdBy.displayName}} </td>          </ng-container>          <!--Assignees column-->          <ng-container matColumnDef="assignees">            <th mat-header-cell *matHeaderCellDef mat-sort-header                scope="Title column.">Assignees            </th>            <td mat-cell style="text-align: left;" *matCellDef="let element"> {{element.assigneesString}} </td>          </ng-container>          <!--Labels column-->          <ng-container matColumnDef="labels">            <th mat-header-cell *matHeaderCellDef mat-sort-header                scope="Labels column.">Labels            </th>            <td mat-cell style="text-align: left;" *matCellDef="let element">              <div style="float: left;" *ngFor="let label of element.labels.nodes">                <app-issue-label [label]="label"></app-issue-label>              </div>            </td>          </ng-container>          <!--Category column-->          <ng-container matColumnDef="category">            <th mat-header-cell mat-sort-header *matHeaderCellDef                scope="Category column.">Category            </th>            <td mat-cell style="text-align: left" *matCellDef="let element">              <div style="display: flex; align-items: center">                <mat-icon [svgIcon]="this.formatCategoryIcon(element)" style="margin-right: 4px">                </mat-icon>                {{this.formatCategoryDescription(element.category)}}              </div>            </td>          </ng-container>          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>          <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay" (click)="this.clickedOnRow(rowData)"></tr>        </table>      </div>            <!--4. Paginator-->      <app-cursor-paginator [list]="this.list$" [pageSizes]="[10, 25, 50, 100]"></app-cursor-paginator>    </ng-template>  </app-query-component></div></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+    var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
+    var ACTUAL_COMPONENT = {'name': 'IssueListComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'IssueListComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

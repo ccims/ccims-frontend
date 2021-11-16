@@ -1,0 +1,683 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  CoalescedTimelineItem</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/issue-detail/timeline/timeline.component.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>This interface may contain in contrast to a normal timeline item several events in one item.
+Timeline items are coalesced because they are performed in close succession.
+label 1 and label 2 are added to an issue at the same time.
+Instead of representing them as to individual items/events, they will be represented as one item in the timeline.</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#isCoalesced" 
+>
+                                            isCoalesced
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#item" 
+>
+                                            item
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#time" 
+>
+                                            time
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#type" 
+>
+                                            type
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#user" 
+>
+                                            user
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="isCoalesced"></a>
+                                        <span class="name "><b>isCoalesced</b>
+                                            <a href="#isCoalesced">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>isCoalesced:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="item"></a>
+                                        <span class="name "><b>item</b>
+                                            <a href="#item">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>item:     <code>Array&lt;IssueTimelineItem&gt; | IssueTimelineItem</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Array&lt;IssueTimelineItem&gt; | IssueTimelineItem</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="time"></a>
+                                        <span class="name "><b>time</b>
+                                            <a href="#time">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>time:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="user"></a>
+                                        <span class="name "><b>user</b>
+                                            <a href="#user">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>user:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {AfterViewInit, Component, Input, ViewChild} from &#x27;@angular/core&#x27;;
+import {TimeFormatter} from &#x27;@app/issue-detail/TimeFormatter&#x27;;
+import {Router} from &#x27;@angular/router&#x27;;
+import {IssueTimelineItem} from &#x27;../../../generated/graphql-dgql&#x27;;
+import {DataList} from &#x27;@app/data-dgql/query&#x27;;
+import DataService from &#x27;@app/data-dgql&#x27;;
+import {ListType, NodeId, NodeType} from &#x27;@app/data-dgql/id&#x27;;
+import {QueryComponent} from &#x27;@app/utils/query-component/query.component&#x27;;
+
+/**
+ * This interface may contain in contrast to a normal timeline item several events in one item.
+ * Timeline items are coalesced because they are performed in close succession.
+ * @example
+ * label 1 and label 2 are added to an issue at the same time.
+ * Instead of representing them as to individual items/events, they will be represented as one item in the timeline.
+ */
+export interface CoalescedTimelineItem {
+  user: string;
+  type: string;
+  isCoalesced: boolean;
+  item: Array&lt;IssueTimelineItem&gt; | IssueTimelineItem;
+  time: string;
+}
+
+
+type ItemFilterFunction &#x3D; (IssueTimelineItem) &#x3D;&gt; boolean;
+
+/**
+ * This component shows the full timeline
+ * with all its timeline events for a given issue.
+ */
+@Component({
+  selector: &#x27;app-timeline&#x27;,
+  templateUrl: &#x27;./timeline.component.html&#x27;,
+  styleUrls: [&#x27;./timeline.component.scss&#x27;]
+})
+export class TimelineComponent implements AfterViewInit {
+  /**
+   * Events which need to be coalesced
+   */
+  static readonly COALESCABLE_EVENTS: Map&lt;string, ItemFilterFunction&gt; &#x3D; new Map([
+      [&#x27;LabelledEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.label;
+      }],
+      [&#x27;UnlabelledEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.removedLabel;
+      }],
+      [&#x27;AddedToComponentEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.component;
+      }],
+      [&#x27;RemovedFromComponentEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.removedComponent;
+      }],
+      [&#x27;AddedToLocationEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.location;
+      }],
+      [&#x27;RemovedFromLocationEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.removedLocation;
+      }],
+      [&#x27;LinkEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.linkedIssue;
+      }],
+      [&#x27;UnlinkEvent&#x27;, (item) &#x3D;&gt; {
+        return !!item.removedLinkedIssue;
+      }]
+    ]
+  );
+
+  /**
+   * provides functionality for time formatting for correct representation
+   */
+  public timeFormatter &#x3D; new TimeFormatter();
+  /**
+   * Already coalesced items for timeline representation
+   */
+  timelineItems: Array&lt;CoalescedTimelineItem&gt; &#x3D; [];
+  /**
+   * Subscription for timelineitems
+   */
+  public timelineItems$: DataList&lt;IssueTimelineItem, unknown&gt;;
+  /**
+   * The id of the corresponding issue for which the timeline is shown
+   */
+  @Input() issueId: string;
+  /**
+   * The id of the project in which the issue is listed
+   */
+  @Input() projectID: string;
+  /**
+   * Component which is handling the query to the server
+   */
+  @ViewChild(QueryComponent) query: QueryComponent;
+
+  /**
+   * Service for handling API connection is required
+   * @param {DataService} dataService handling api connection
+   */
+  constructor(private dataService: DataService) {
+  }
+
+  ngAfterViewInit(): void {
+    this.requestTimelineItems();
+  }
+
+  /**
+   * Retrieves all timeline items (aka. timeline events) for the current issue.
+   * Use in ngAfterViewInit() lifecycle hook
+   */
+  requestTimelineItems(): void {
+
+    // gets an observable with all timeline items for thecurrent issue
+    this.timelineItems$ &#x3D; this.dataService.getList({
+      node: {type: NodeType.Issue, id: this.issueId},
+      type: ListType.TimelineItems
+    });
+
+    //FIXME: decide on the count
+    this.timelineItems$.count &#x3D; 99999;
+
+    this.query.listenTo(this.timelineItems$, value &#x3D;&gt; {
+      this.prepareTimelineItems(value);
+    });
+  }
+
+  /**
+   * Prepares the timeline items (aka. the timeline events).
+   * @param  {Map&lt;string, IssueTimelineItem&gt;} items - Timeline items to prepare.
+   */
+  prepareTimelineItems(items: Map&lt;string, IssueTimelineItem&gt;): void {
+
+    let coalescingType &#x3D; null;
+    let coalesceList &#x3D; new Array&lt;IssueTimelineItem&gt;();
+    let coalesced: Array&lt;CoalescedTimelineItem&gt; &#x3D; [];
+
+    /**
+     * Adds items from the coalesce list {@link coalesceList}
+     * to a list containing all coalesced timeline items {@link coalesced}
+     * in case the coalesce list is not empty.
+     */
+    const finishCoalescing &#x3D; () &#x3D;&gt; {
+
+      // case: the coalesce list is empty
+      if (coalesceList.length &#x3D;&#x3D;&#x3D; 0) {
+        return;
+      }
+
+      // case: the coalesce list is not empty
+      else {
+        coalesced &#x3D; this.addCoalesceItems(coalesceList, coalesced);
+        coalesceList &#x3D; [];
+      }
+    };
+
+    for (const timelineItem of items.values()) {
+      const itemType &#x3D; (timelineItem as any).__typename;
+      const filter &#x3D; TimelineComponent.COALESCABLE_EVENTS.get(itemType);
+      let stopCoalescing &#x3D; false;
+
+      // decides whether to stop coalescing
+      stopCoalescing &#x3D; this.stopCoalescing(coalescingType, coalesceList, stopCoalescing, timelineItem);
+
+      // case: the coalescing type equals the current item type
+      // or coalescing should stop
+      if (coalescingType !&#x3D;&#x3D; itemType || stopCoalescing) {
+
+        // adds remaining items
+        finishCoalescing();
+
+        if (filter &amp;&amp; filter(timelineItem)) {
+          coalescingType &#x3D; itemType;
+          coalesceList.push(timelineItem);
+        } else {
+          coalescingType &#x3D; null;
+          coalesced &#x3D; this.addSingleCoalesceItem(timelineItem, filter, coalesced);
+        }
+
+        continue;
+      }
+
+      // case: the coalescing type is null
+      else if (coalescingType &#x3D;&#x3D; null) {
+        coalesced &#x3D; this.addSingleCoalesceItem(timelineItem, filter, coalesced);
+        continue;
+      }
+
+      if (filter(timelineItem)) {
+        coalesceList.push(timelineItem);
+      }
+    }
+
+    // adds remaining items
+    finishCoalescing();
+    this.timelineItems &#x3D; coalesced;
+  }
+
+  /**
+   * Returns the name of the user
+   * that created a given timeline item (aka. timeline event)
+   * or just &quot;Deleted User&quot; in case the user no longer exists.
+   * @param  {IssueTimelineItem} item - The given timeline item.
+   * @returns - Name of the timeline item creator.
+   */
+  private userName(item: IssueTimelineItem) {
+
+    // case: the timeline item&#x27;s creator&#x27;s name can be retrieved
+    if (item.createdBy) {
+      return item.createdBy.displayName;
+    }
+
+    return &#x27;Deleted User&#x27;;
+  }
+
+  /**
+   * Adds items from a given coalesce list
+   * to a given list containing all coalesced timeline items.
+   * @param  {IssueTimelineItem[]} coalesceList  The given coalesce list.
+   * @param  {CoalescedTimelineItem[]} coalesced  The given list containing all coalesced timeline items.
+   * @returns The given list containing all coalesced timeline items.
+   */
+   private addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
+
+    const firstItem: any &#x3D; coalesceList[0];
+    const itemType &#x3D; firstItem.__typename;
+    const createdBy &#x3D; this.userName(firstItem);
+
+    // case: the coalesce list has more than one item
+    if (coalesceList.length &gt; 1) {
+      coalesced.push({
+        type: itemType,
+        isCoalesced: true,
+        item: coalesceList,
+        user: createdBy,
+        time: coalesceList[0].createdAt
+      });
+    }
+
+    // case: the coalesce list has only one item
+    else if (coalesceList.length &#x3D;&#x3D;&#x3D; 1) {
+      coalesced.push({
+        type: itemType,
+        isCoalesced: false,
+        item: coalesceList[0],
+        user: createdBy,
+        time: coalesceList[0].createdAt
+      });
+    }
+
+    // returns the list containing all coalesced timeline items
+    return coalesced;
+  }
+
+  /**
+   * Adds a single item to a list containing all coalesced timeline items.
+   * @param  {IssueTimelineItem} timelineItem - The given item.
+   * @param  {ItemFilterFunction|undefined} filter - Filter used on the given item.
+   * @returns The given list containing all coalesced timeline items.
+   */
+   private addSingleCoalesceItem(
+    timelineItem: IssueTimelineItem,
+    filter: ItemFilterFunction | undefined,
+    coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
+
+      if (!filter || filter(timelineItem)) {
+        coalesced.push({
+          type: (timelineItem as any).__typename,
+          isCoalesced: false,
+          item: timelineItem,
+          user: this.userName(timelineItem),
+          time: timelineItem.createdAt
+        });
+      }
+
+      // returns the list containing all coalesced timeline items
+      return coalesced;
+  }
+
+  /**
+   * Stops the coalescing process in case
+   * a) the user differs or
+   * b) the current item was already added
+   * 60 seconds after the first one added.
+   * @param  {any} coalescingType - Coalescing type handled.
+   * @param  {IssueTimelineItem[]} coalesceList - Coalesce list handled.
+   * @param  {boolean} stopCoalescing - Value that determines whether the coalescing should stop.
+   * @param  {IssueTimelineItem} timelineItem - Timeline item handled.
+   * @returns The value that determines whether the coalescing should stop.
+   */
+   private stopCoalescing(coalescingType: any, coalesceList: IssueTimelineItem[], stopCoalescing: boolean, timelineItem: IssueTimelineItem) {
+
+    if (coalescingType) {
+      const firstItem &#x3D; coalesceList[0];
+      stopCoalescing &#x3D; firstItem.createdBy.id !&#x3D;&#x3D; timelineItem.createdBy.id ||
+        Math.abs(Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)) &gt; 60000;
+    }
+
+    return stopCoalescing;
+  }
+
+  /**
+   * Checks if the user self-assigned this issue for text representation.
+   * @param assignedEvent - Assigned event handled.
+   */
+  selfAssigned(assignedEvent): boolean {
+
+    if (assignedEvent.createdBy.id &#x3D;&#x3D;&#x3D; assignedEvent.removedAssignee?.id) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Handles the id for a given node...
+   */
+  makeCommentId(node): NodeId {
+    return {type: NodeType.IssueComment, id: node.id};
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'CoalescedTimelineItem.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

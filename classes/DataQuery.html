@@ -1,0 +1,1556 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li >DataQuery</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/data-dgql/query.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A piece of observable data.</p>
+<p>DataQuery is a stateful interface for interacting with an API object.
+Instead of calling a function to make an API request, DataQuery lets you declare the ID (like an endpoint) and
+request parameters (in <a href="#params">#params</a>) of the data you want, and will automatically load the data when needed.
+Data can then be accessed synchronously with the <a href="#current">#current</a> property.</p>
+<p>Upon adding a subscriber with <a href="Observable#subscribe">#subscribe</a>, data will loaded from the API and stored in the
+cache. Subsequent viewers can then immediately access the cached data.</p>
+<ul>
+<li>To check if data is loaded, use <a href="#hasData">#hasData</a>,
+and to check if data is still loading, use <a href="#loading">#loading</a>.</li>
+<li>To (re-)load the data from the API, use <a href="#load">#load</a>.
+This happens automatically upon subscription after a sufficient delay (see debounce time constants).</li>
+<li>To add a subscriber without triggering this behavior, use <a href="#subscribeLazy">#subscribeLazy</a>, which will
+only make an API request if the data is not cached.</li>
+<li>To invalidate (i.e. delete) the cached data, use <a href="#invalidate">#invalidate</a>.</li>
+<li>If you only need the data right now and don&#39;t want to deal with subscriptions, use <a href="#dataAsPromise">#dataAsPromise</a>
+to access it as a promise that will either return cached data or load new data.</li>
+</ul>
+<p>When done using a DataQuery subscription, it <em>must</em> be manually destroyed by calling
+<a href="Subscription#unsubscribe"><code>sub.unsubscribe()</code></a> on the Subscription object returned by
+<a href="Observable#subscribe">subscribe</a>, as it may leak memory otherwise.</p>
+<p>See <a href="../classes/DataNode.html">DataNode</a> and <a href="../classess/DataList.html">DataList</a> for the two main types of data that use DataQuery.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                    <code>Observable</code>
+            </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#id" >id</a>
+                            </li>
+                            <li>
+                                <a href="#interactive" >interactive</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#dataAsPromise" >dataAsPromise</a>
+                            </li>
+                            <li>
+                                <a href="#hydrateRaw" >hydrateRaw</a>
+                            </li>
+                            <li>
+                                <a href="#invalidate" >invalidate</a>
+                            </li>
+                            <li>
+                                <a href="#load" >load</a>
+                            </li>
+                            <li>
+                                <a href="#loadDebounced" >loadDebounced</a>
+                            </li>
+                            <li>
+                                <a href="#loadIfNeeded" >loadIfNeeded</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeLazy" >subscribeLazy</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#hasData" >hasData</a>
+                                </li>
+                                <li>
+                                    <a href="#current" >current</a>
+                                </li>
+                                <li>
+                                    <a href="#params" >params</a>
+                                </li>
+                                <li>
+                                    <a href="#subscriberCount" >subscriberCount</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="id"></a>
+                    <span class="name">
+                        <span ><b>id</b></span>
+                        <a href="#id"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>I</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/data-dgql/query.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The ID of this data.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="interactive"></a>
+                    <span class="name">
+                        <span ><b>interactive</b></span>
+                        <a href="#interactive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/app/data-dgql/query.ts:103</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>If true, will prolong debounce time a bit.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/data-dgql/query.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataAsPromise"></a>
+                    <span class="name">
+                        <span ><b>dataAsPromise</b></span>
+                        <a href="#dataAsPromise"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>dataAsPromise()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/app/data-dgql/query.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the data as a promise, without having to create a subscription.</p>
+<p>If cached data is available, this will return the data immediately; otherwise, this will
+load the data with an API request.</p>
+<h4 id="example">Example</h4>
+<div><pre class="line-numbers"><code class="language-ts">const node = dataService.getNode(someNodeId);
+node.dataAsPromise().then(data =&gt; {
+  console.log(&#39;node data:&#39;, data);
+}).catch(error =&gt; console.error(&#39;oh no&#39;));</code></pre></div></div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;T&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hydrateRaw"></a>
+                    <span class="name">
+                        <span ><b>hydrateRaw</b></span>
+                        <a href="#hydrateRaw"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hydrateRaw(preparedData: Promise<R>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">src/app/data-dgql/query.ts:189</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Use when data has not yet been loaded but is available from elsewhere.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>preparedData</td>
+                                    <td>
+                                            <code>Promise&lt;R&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="invalidate"></a>
+                    <span class="name">
+                        <span ><b>invalidate</b></span>
+                        <a href="#invalidate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>invalidate()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">src/app/data-dgql/query.ts:219</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Deletes current data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="load"></a>
+                    <span class="name">
+                        <span ><b>load</b></span>
+                        <a href="#load"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>load()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/app/data-dgql/query.ts:180</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadDebounced"></a>
+                    <span class="name">
+                        <span ><b>loadDebounced</b></span>
+                        <a href="#loadDebounced"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadDebounced(interactive)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">src/app/data-dgql/query.ts:208</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads data after a short delay. Will debounce.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>interactive</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>this.interactive</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadIfNeeded"></a>
+                    <span class="name">
+                        <span ><b>loadIfNeeded</b></span>
+                        <a href="#loadIfNeeded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadIfNeeded()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">src/app/data-dgql/query.ts:198</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Will load data if it&#39;s stale or not present.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeLazy"></a>
+                    <span class="name">
+                        <span ><b>subscribeLazy</b></span>
+                        <a href="#subscribeLazy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeLazy(...args: any[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="247"
+                            class="link-to-prism">src/app/data-dgql/query.ts:247</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Will subscribe to the data, but not cause a reload unless there is no data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>args</td>
+                                    <td>
+                                            <code>any[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>passed verbatim to <a href="undefined">#subscribe</a></p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hasData"></a>
+                        <span class="name"><b>hasData</b><a href="#hasData"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>hasData()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/data-dgql/query.ts:62</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns true if data is currently available.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="current"></a>
+                        <span class="name"><b>current</b><a href="#current"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>current()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/data-dgql/query.ts:67</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The currently loaded data.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>T</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="params"></a>
+                        <span class="name"><b>params</b><a href="#params"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>params()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/data-dgql/query.ts:77</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Parameters that will be passed to the request.
+Changing this property will automatically trigger a load.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>P | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>params(p: P)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/data-dgql/query.ts:80</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>p</td>
+                                                    
+                                                            <td>
+                                                                        <code>P</code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subscriberCount"></a>
+                        <span class="name"><b>subscriberCount</b><a href="#subscriberCount"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>subscriberCount()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="273" class="link-to-prism">src/app/data-dgql/query.ts:273</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the number of subscribers for this data.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable, Subscriber } from &#x27;rxjs&#x27;;
+import {
+  decodeNodeId,
+  encodeNodeId,
+  ListId,
+  ListParams,
+  NodeId,
+  NodeIdEnc,
+  nodeTypeFromTypename,
+} from &#x27;./id&#x27;;
+import { QueriesService } from &#x27;./queries/queries.service&#x27;;
+import { ListResult, queryList, queryNode } from &#x27;./load&#x27;;
+import { PageInfo } from &#x27;../../generated/graphql-dgql&#x27;;
+
+const CACHE_FAST_DEBOUNCE_TIME_MS &#x3D; 200;
+const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS &#x3D; 500;
+const CACHE_STALE_TIME_MS &#x3D; 5000;
+
+/**
+ * A piece of observable data.
+ *
+ * DataQuery is a stateful interface for interacting with an API object.
+ * Instead of calling a function to make an API request, DataQuery lets you declare the ID (like an endpoint) and
+ * request parameters (in {@link #params}) of the data you want, and will automatically load the data when needed.
+ * Data can then be accessed synchronously with the {@link #current} property.
+ *
+ * Upon adding a subscriber with [#subscribe]{@link Observable#subscribe}, data will loaded from the API and stored in the
+ * cache. Subsequent viewers can then immediately access the cached data.
+ *
+ * - To check if data is loaded, use {@link #hasData},
+ *   and to check if data is still loading, use {@link #loading}.
+ * - To (re-)load the data from the API, use {@link #load}.
+ *   This happens automatically upon subscription after a sufficient delay (see debounce time constants).
+ * - To add a subscriber without triggering this behavior, use {@link #subscribeLazy}, which will
+ *   only make an API request if the data is not cached.
+ * - To invalidate (i.e. delete) the cached data, use {@link #invalidate}.
+ * - If you only need the data right now and don&#x27;t want to deal with subscriptions, use {@link #dataAsPromise}
+ *   to access it as a promise that will either return cached data or load new data.
+ *
+ * When done using a DataQuery subscription, it *must* be manually destroyed by calling
+ * [&#x60;sub.unsubscribe()&#x60;]{@link Subscription#unsubscribe} on the Subscription object returned by
+ * [subscribe]{@link Observable#subscribe}, as it may leak memory otherwise.
+ *
+ * See {@link DataNode} and {@link DataList} for the two main types of data that use DataQuery.
+ *
+ * @typeParam T - type of data accessible via .current
+ * @typeParam R - type returned by innerQueryFn
+ * @typeParam P - parameter type for innerQueryFn
+ */
+export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
+  /** The ID of this data. */
+  id: I;
+  loading &#x3D; false; // TODO: maybe make this value observable too?
+  /** @ignore */
+  protected currentData?: T;
+  /** @ignore */
+  protected lastLoadTime &#x3D; 0;
+  /** @ignore */
+  protected pSetParamsNoUpdate &#x3D; false;
+
+  /** Returns true if data is currently available. */
+  get hasData(): boolean {
+    return this.currentData !&#x3D;&#x3D; undefined;
+  }
+
+  /** The currently loaded data. */
+  get current(): T {
+    return this.currentData;
+  }
+
+  /** @ignore */
+  protected currentQueryParams?: P;
+  /**
+   * Parameters that will be passed to the request.
+   * Changing this property will automatically trigger a load.
+   */
+  get params(): P | undefined {
+    return this.currentQueryParams;
+  }
+  set params(p: P) {
+    this.currentQueryParams &#x3D; p;
+    if (!this.pSetParamsNoUpdate) {
+      this.loadDebounced();
+    }
+  }
+
+  /** @ignore */
+  protected subscribers: Set&lt;Subscriber&lt;T&gt;&gt; &#x3D; new Set();
+  /** @ignore */
+  protected innerQueryFn: (id: I, p: P) &#x3D;&gt; Promise&lt;R&gt;;
+  /** @ignore */
+  protected innerMapFn: (r: R) &#x3D;&gt; T;
+  /** @ignore */
+  protected stateLock &#x3D; 0;
+  /** @ignore */
+  protected loadTimeout &#x3D; null;
+  /** @ignore */
+  protected hydrated &#x3D; false;
+  /** @ignore */
+  protected isNextSubLazy &#x3D; false;
+
+  /** If true, will prolong debounce time a bit. */
+  interactive &#x3D; false;
+
+  /**
+   * @ignore
+   * Creates a new DataQuery (you should never need to use this directly)
+   *
+   * @param id an identifier for the data being loaded
+   * @param query the inner query function
+   * @param map maps returned data from the query R to usable data T
+   */
+  constructor(id: I, query: (id: I, p: P) &#x3D;&gt; Promise&lt;R&gt;, map: (r: R) &#x3D;&gt; T) {
+    super(subscriber &#x3D;&gt; {
+      this.addSubscriber(subscriber, this.isNextSubLazy);
+      this.isNextSubLazy &#x3D; false;
+    });
+    this.id &#x3D; id;
+    this.innerQueryFn &#x3D; query;
+    this.innerMapFn &#x3D; map;
+  }
+
+  /**
+   * Returns the data as a promise, without having to create a subscription.
+   *
+   * If cached data is available, this will return the data immediately; otherwise, this will
+   * load the data with an API request.
+   *
+   * #### Example
+   * &#x60;&#x60;&#x60;ts
+   * const node &#x3D; dataService.getNode(someNodeId);
+   * node.dataAsPromise().then(data &#x3D;&gt; {
+   *   console.log(&#x27;node data:&#x27;, data);
+   * }).catch(error &#x3D;&gt; console.error(&#x27;oh no&#x27;));
+   * &#x60;&#x60;&#x60;
+   */
+  dataAsPromise(): Promise&lt;T&gt; {
+    if (this.hasData) {
+      return Promise.resolve(this.current);
+    }
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      const sub &#x3D; this.subscribe(data &#x3D;&gt; {
+        resolve(data);
+        sub.unsubscribe();
+      }, error &#x3D;&gt; {
+        reject(error);
+        sub.unsubscribe();
+      });
+    });
+  }
+
+  /** @ignore */
+  private loadImpl(fut: Promise&lt;R&gt;) {
+    clearTimeout(this.loadTimeout);
+    this.loadTimeout &#x3D; null;
+    this.lastLoadTime &#x3D; Date.now();
+    this.loading &#x3D; true;
+
+    // if load is called twice; only the newest load call will have an effect
+    const stateLock &#x3D; ++this.stateLock;
+
+    fut.then(data &#x3D;&gt; {
+      if (stateLock !&#x3D;&#x3D; this.stateLock) {
+        return;
+      }
+      this.insertResult(data);
+      this.loading &#x3D; false;
+      this.hydrated &#x3D; false;
+    }).catch(error &#x3D;&gt; {
+      if (stateLock !&#x3D;&#x3D; this.stateLock) {
+        return;
+      }
+      this.emitErrorToAllSubscribers(error);
+      this.loading &#x3D; false;
+      this.hydrated &#x3D; false;
+    });
+  }
+
+  /** Loads data. */
+  load() {
+    this.hydrated &#x3D; false;
+    this.loadImpl(this.innerQueryFn(this.id, this.currentQueryParams));
+  }
+
+  /**
+   * @internal
+   * Use when data has not yet been loaded but is available from elsewhere.
+   */
+  hydrateRaw(preparedData: Promise&lt;R&gt;) {
+    if (this.hasData) {
+      return; // don&#x27;t need hydration
+    }
+    this.hydrated &#x3D; true;
+    this.loadImpl(preparedData);
+  }
+
+  /** Will load data if it&#x27;s stale or not present. */
+  loadIfNeeded() {
+    if (this.loading) {
+      return;
+    }
+    if (!this.hasData || Date.now() - this.lastLoadTime &gt; CACHE_STALE_TIME_MS) {
+      this.load();
+    }
+  }
+
+  /** Loads data after a short delay. Will debounce. */
+  loadDebounced(interactive &#x3D; this.interactive) {
+    if (this.loadTimeout) {
+      return;
+    }
+    this.loadTimeout &#x3D; setTimeout(() &#x3D;&gt; {
+      this.loadTimeout &#x3D; null;
+      this.load();
+    }, interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS);
+  }
+
+  /** Deletes current data. */
+  invalidate() {
+    this.currentData &#x3D; undefined;
+    this.emitUpdateToAllSubscribers();
+  }
+
+  /** @ignore */
+  protected addSubscriber(subscriber: Subscriber&lt;T&gt;, lazy: boolean) {
+    this.subscribers.add(subscriber);
+    if (this.current !&#x3D;&#x3D; undefined) {
+      // data is available right now! emit current state
+      subscriber.next(this.current);
+    }
+
+    if (!this.hydrated &amp;&amp; (!lazy || !this.hasData)) {
+      this.loadIfNeeded();
+    }
+
+    return {
+      unsubscribe: () &#x3D;&gt; {
+        this.subscribers.delete(subscriber);
+      },
+    };
+  }
+
+  /**
+   * Will subscribe to the data, but not cause a reload unless there is no data.
+   * @param args passed verbatim to [#subscribe]{@link Observable#subscribe}
+   */
+  subscribeLazy(...args) {
+    this.isNextSubLazy &#x3D; true;
+    return this.subscribe(...args);
+  }
+
+  /** @ignore */
+  emitUpdateToAllSubscribers() {
+    for (const sub of this.subscribers) {
+      sub.next(this.current);
+    }
+  }
+
+  /** @ignore */
+  emitErrorToAllSubscribers(error: unknown) {
+    for (const sub of this.subscribers) {
+      sub.error(error);
+    }
+  }
+
+  /** @ignore */
+  insertResult(result: R) {
+    this.currentData &#x3D; this.innerMapFn(result);
+    this.emitUpdateToAllSubscribers();
+  }
+
+  /** Returns the number of subscribers for this data. */
+  get subscriberCount(): number {
+    return this.subscribers.size;
+  }
+}
+
+/** ignore */
+const identity &#x3D; id &#x3D;&gt; id;
+
+/**
+ * A cacheable node with no parameters.
+ *
+ * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataNode.
+ *
+ * #### Example
+ * &#x60;&#x60;&#x60;html
+ * &lt;div class&#x3D;&quot;example-component&quot;&gt;
+ *   Is it loading? {{thing$.loading ? &#x27;yes&#x27; : &#x27;no&#x27;}}
+ *   Is the thing loaded? {{thing$.hasData ? &#x27;yes&#x27; : &#x27;no&#x27;}}
+ *   &lt;div *ngIf&#x3D;&quot;thing$.current as thing&quot;&gt;
+ *     Thing data: {{thing.something}}
+ *   &lt;/div&gt;
+ * &lt;/div&gt;
+ * &#x60;&#x60;&#x60;
+ * &#x60;&#x60;&#x60;ts
+ * class ExampleComponent implements OnInit, OnDestroy {
+ *   @Input() thingId: NodeId;
+ *
+ *   public thing$: DataNode&lt;Thing&gt;;
+ *   public thingSub: Subscription; // subscription to thing$
+ *
+ *   constructor(private dataService: DataService) {}}
+ *
+ *   ngOnInit() {
+ *     // obtain the DataNode from the data service
+ *     this.thing$ &#x3D; this.dataService.getNode(this.thingId);
+ *
+ *     // subscribe to indicate that we want some data
+ *     this.thingSub &#x3D; this.thing$.subscribe();
+ *   }
+ *
+ *   ngOnDestroy() {
+ *     // remember to unsubscribe!!
+ *     this.thingSub.unsubscribe();
+ *   }
+ * }
+ * &#x60;&#x60;&#x60;
+ */
+export class DataNode&lt;T&gt; extends DataQuery&lt;NodeId, T, T, void&gt; {
+  /** @ignore */
+  constructor(queries: QueriesService, id: NodeId) {
+    super(id, queryNode(queries), identity);
+  }
+
+  set params(p) {
+    throw new Error(&#x27;parameters not available on nodes&#x27;);
+  }
+
+  loadIfNeeded() {
+    if (!this.loading &amp;&amp; Date.now() - this.lastLoadTime &gt; CACHE_STALE_TIME_MS) {
+      this.load();
+    }
+  }
+}
+
+/**
+ * Provides a view into list of items.
+ *
+ * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataList.
+ *
+ * - To access list items, use {@link #currentItems}.
+ * - If you need the IDs as well, use {@link #current} (note that the Map is ordered).
+ *
+ * The current view is defined by following properties:
+ *
+ * - {@link #cursor}: the current NodeId cursor (see API documentation for details)
+ * - {@link #count}: number of items to load
+ * - {@link #forward}: if true, will load items after the cursor. If false, will load items before.
+ * - {@link #filter}: filter object (type parameter F)
+ *
+ * Changing any of these properties will reload the list (debounced).
+ *
+ * @typeParam T - list item type
+ * @typeParam F - list filter type
+ *
+ * #### Example
+ * &#x60;&#x60;&#x60;html
+ * &lt;div class&#x3D;&quot;example-component&quot;&gt;
+ *   &lt;div *ngFor&#x3D;&quot;let thing of things$.currentItems&quot;&gt;
+ *     a thing! {{thing.something}}
+ *   &lt;/div&gt;
+ * &lt;/div&gt;
+ * &#x60;&#x60;&#x60;
+ * &#x60;&#x60;&#x60;ts
+ * class ExampleComponent implements OnInit, OnDestroy {
+ *   @Input() thingsListId: ListId;
+ *
+ *   things$: DataList&lt;Thing, unknown&gt;; // filter type unknown because we&#x27;re not using here
+ *   thingsSub: Subscription;
+ *
+ *   constructor(private dataService: DataService) {}}
+ *
+ *   ngOnInit() {
+ *     // obtain a list view from the data service
+ *     this.things$ &#x3D; this.dataService.getList(this.thingsListId);
+ *
+ *     // subscribe to the list to indicate that we want some data
+ *     this.thingsSub &#x3D; this.things$.subscribe();
+ *   }
+ *
+ *   ngOnDestroy() {
+ *     // remember to unsubscribe!!
+ *     this.thingsSub.unsubscribe();
+ *   }
+ * }
+ * &#x60;&#x60;&#x60;
+ */
+export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc, T&gt;, ListResult&lt;T&gt;, ListParams&lt;F&gt;&gt; {
+  /** @ignore */
+  private pCursor?: NodeId;
+  /** @ignore */
+  private pCount &#x3D; 10;
+  /** @ignore */
+  private pFilter?: F;
+  /** @ignore */
+  private pForward &#x3D; true;
+  /** @ignore */
+  private pageInfo?: PageInfo;
+  /** @ignore */
+  private pTotalCount?: number;
+  /** @ignore */
+  private previouslyHadPageContents &#x3D; false;
+  /** @ignore */
+  private pNodes: NodeCache;
+
+  /** @ignore */
+  constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
+    super(id, queryList(queries, nodes), result &#x3D;&gt; {
+      this.pageInfo &#x3D; result.pageInfo;
+      this.pTotalCount &#x3D; result.totalCount;
+
+      // API *only* reports hasPreviousPage or hasNextPage correctly if we are navigating in that
+      // same direction. Hence, we need to amend pageInfo with prior knowledge.
+      if (this.forward) {
+        this.pageInfo.hasPreviousPage &#x3D; this.previouslyHadPageContents;
+      } else {
+        this.pageInfo.hasNextPage &#x3D; this.previouslyHadPageContents;
+      }
+      this.previouslyHadPageContents &#x3D; !!result.items.size;
+
+      return result.items;
+    });
+    this.pNodes &#x3D; nodes;
+    this.pSetParamsNoUpdate &#x3D; true;
+    this.setParams();
+    this.pSetParamsNoUpdate &#x3D; false;
+  }
+
+  /**
+   * @internal
+   * Updates the &#x60;params&#x60; value from list parameters
+   */
+  setParams() {
+    this.params &#x3D; {
+      cursor: this.pCursor,
+      count: this.pCount,
+      forward: this.pForward,
+      filter: this.pFilter,
+    };
+  }
+
+  /** Returns the total number of items. Null if not loaded. */
+  get totalCount() {
+    return this.pTotalCount;
+  }
+
+  /** Returns the currently loaded items in an array. */
+  get currentItems(): T[] {
+    if (!this.hasData) {
+      return [];
+    }
+    return [...this.current.values()];
+  }
+
+  /** Current list filter object. */
+  get filter(): F | undefined {
+    return this.pFilter;
+  }
+  set filter(f: F) {
+    this.pFilter &#x3D; f;
+    this.setParams();
+  }
+
+  /** The current pagination cursor (a node relative to which items will be loaded). Nullable. */
+  get cursor(): NodeId {
+    return this.pCursor;
+  }
+  set cursor(c: NodeId) {
+    this.pCursor &#x3D; c;
+    this.setParams();
+  }
+
+  /** The max amount of items to be loaded. */
+  get count(): number {
+    return this.pCount;
+  }
+  set count(c: number) {
+    this.pCount &#x3D; c;
+    this.setParams();
+  }
+
+  /** Whether to load items after the cursor (true), or items before the cursor (false). */
+  get forward(): boolean {
+    return this.pForward;
+  }
+  set forward(f: boolean) {
+    this.pForward &#x3D; f;
+    this.setParams();
+  }
+
+  /** Returns the node ID of the first item on the current page. */
+  get firstPageItemId(): NodeId | null {
+    const firstKey &#x3D; this.current ? this.current.keys().next()?.value || null : null;
+    return firstKey ? decodeNodeId(firstKey) : null;
+  }
+
+  /** Returns the node ID of the last item on the current page. */
+  get lastPageItemId(): NodeId | null {
+    if (!this.current) {
+      return;
+    }
+    const keys &#x3D; [...this.current.keys()];
+    return keys[keys.length - 1] ? decodeNodeId(keys[keys.length - 1]) : null;
+  }
+
+  /** Returns true if the current result contains the given node. */
+  currentHasNode(key: NodeId): boolean {
+    return this.current?.has(encodeNodeId(key));
+  }
+
+  get hasPrevPage() {
+    return !this.pageInfo || this.pageInfo.hasPreviousPage;
+  }
+  get hasNextPage() {
+    return !this.pageInfo || this.pageInfo.hasNextPage;
+  }
+
+  /** Moves the view to the first page. */
+  firstPage() {
+    this.cursor &#x3D; null;
+    this.forward &#x3D; true;
+    this.previouslyHadPageContents &#x3D; false;
+    this.invalidate();
+    return true;
+  }
+
+  /** Moves the view to the previous page. */
+  prevPage() {
+    if (this.pageInfo &amp;&amp; !this.pageInfo.hasPreviousPage) {
+      return false;
+    }
+    this.cursor &#x3D; this.firstPageItemId;
+    this.forward &#x3D; false;
+    this.invalidate();
+    return true;
+  }
+
+  /** Moves the view to the next page. */
+  nextPage() {
+    if (this.pageInfo &amp;&amp; !this.pageInfo.hasNextPage) {
+      return false;
+    }
+    this.cursor &#x3D; this.lastPageItemId;
+    this.forward &#x3D; true;
+    this.invalidate();
+    return true;
+  }
+
+  /**
+   * Hydrates this list with initial data in the API format
+   *
+   * If you&#x27;ve already got data from the API that contains the first page of this list, you can use
+   * this method to insert that data directly and avoid triggering a redundant API request.
+   *
+   * @param data a promise that returns the API data
+   * @typeParam IdT - equivalent to T
+   */
+  hydrateInitial&lt;IdT extends T &amp; { id: string, __typename: string }&gt;(data: Promise&lt;HydrateList&lt;IdT&gt;&gt;) {
+    this.hydrateRaw(data.then(value &#x3D;&gt; ({
+      totalCount: value.totalCount,
+      pageInfo: value.pageInfo,
+      items: this.pNodes.insertNodes(value.nodes || [])
+    })));
+  }
+}
+
+/** List hydration object (constructing this manually shouldn&#x27;t be necessary as it mirrors the structure of GQL objects) */
+export type HydrateList&lt;T&gt; &#x3D; {
+  totalCount: number,
+  pageInfo: PageInfo,
+  /** This is nullable because it&#x27;s nullable in the GQL schema. In practice it should always exist */
+  nodes?: (T | null)[]
+};
+
+/** Keeps a cache of DataNodes such that each NodeId has at most one associated DataNode. */
+export class NodeCache {
+  // TODO: garbage collection? (nodes with zero subscribers)
+  nodes: Map&lt;NodeIdEnc, DataNode&lt;unknown&gt;&gt; &#x3D; new Map();
+
+  constructor(private queries: QueriesService) {}
+
+  private createNode(id: NodeId) {
+    const encodedId &#x3D; encodeNodeId(id);
+    this.nodes.set(encodedId, new DataNode(this.queries, id));
+  }
+
+  /** Returns the DataNode for the given NodeId. */
+  getNode&lt;T&gt;(id: NodeId): DataNode&lt;T&gt; {
+    const encodedId &#x3D; encodeNodeId(id);
+    if (!this.nodes.has(encodedId)) {
+      this.createNode(id);
+    }
+    return this.nodes.get(encodedId) as DataNode&lt;T&gt;;
+  }
+
+  /**
+   * Inserts nodes into the cache and returns them as a map (in the same order).
+   *
+   * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
+   * Nodes without an ID will be ignored.
+   */
+  insertNodes&lt;T extends { id?: string, __typename?: string }&gt;(nodes: T[]): Map&lt;NodeIdEnc, T&gt; {
+    const map &#x3D; new Map();
+
+    for (const node of nodes) {
+      if (!node?.id) {
+        continue;
+      }
+      const type &#x3D; nodeTypeFromTypename(node.__typename);
+      const id &#x3D; { type, id: node.id };
+      const dataNode: DataNode&lt;T&gt; &#x3D; this.getNode(id);
+      if (!dataNode.hasData) {
+        // FIXME: different queries load different amounts of data, simple overwriting doesn&#x27;t always have the desired effect
+        //  S1: distinguish between nodes and &quot;partial nodes&quot;?
+        //  S2: deep merge data?
+        dataNode.insertResult(node);
+      }
+      map.set(encodeNodeId(id), node);
+    }
+
+    return map;
+  }
+}
+
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'DataQuery.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

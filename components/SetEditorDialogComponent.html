@@ -1,0 +1,1517 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  SetEditorDialogComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/set-editor/set-editor-dialog.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This is an internal component used in the set editor.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-set-editor-dialog</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./set-editor-dialog.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./set-editor-dialog.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#additions" >additions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#deletions" >deletions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isLocalSet" >isLocalSet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#listAll" >listAll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#listSet$" >listSet$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#listSetSub" >listSetSub</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#localSet" >localSet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#searchQuery" >searchQuery</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#apply" >apply</a>
+                            </li>
+                            <li>
+                                <a href="#createItem" >createItem</a>
+                            </li>
+                            <li>
+                                <a href="#getEncodedId" >getEncodedId</a>
+                            </li>
+                            <li>
+                                <a href="#getNodeId" >getNodeId</a>
+                            </li>
+                            <li>
+                                <a href="#isInSet" >isInSet</a>
+                            </li>
+                            <li>
+                                <a href="#searchQueryDidChange" >searchQueryDidChange</a>
+                            </li>
+                            <li>
+                                <a href="#toggleInSet" >toggleInSet</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(dataService: <a href="../injectables/DataService.html" target="_self">DataService</a>, notifyService: <a href="../injectables/UserNotifyService.html" target="_self">UserNotifyService</a>, dialogRef: <a href="../components/SetEditorDialogComponent.html" target="_self">MatDialogRef&lt;SetEditorDialogComponent&lt;T, F&gt;&gt;</a>, data: SetEditorDialogData<T | F>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:199</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>dataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DataService.html" target="_self" >DataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>notifyService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserNotifyService.html" target="_self" >UserNotifyService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../components/SetEditorDialogComponent.html" target="_self" >MatDialogRef&lt;SetEditorDialogComponent&lt;T, F&gt;&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>data</td>
+                                                  
+                                                        <td>
+                                                                    <code>SetEditorDialogData&lt;T | F&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="apply"></a>
+                    <span class="name">
+                        <span ><b>apply</b></span>
+                        <a href="#apply"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>apply()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:268</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createItem"></a>
+                    <span class="name">
+                        <span ><b>createItem</b></span>
+                        <a href="#createItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createItem()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="281"
+                            class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:281</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEncodedId"></a>
+                    <span class="name">
+                        <span ><b>getEncodedId</b></span>
+                        <a href="#getEncodedId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEncodedId(item)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="239"
+                            class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:239</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/NodeId.html" target="_self" >NodeIdEnc</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNodeId"></a>
+                    <span class="name">
+                        <span ><b>getNodeId</b></span>
+                        <a href="#getNodeId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getNodeId(item)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="234"
+                            class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:234</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/NodeId.html" target="_self" >NodeId</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isInSet"></a>
+                    <span class="name">
+                        <span ><b>isInSet</b></span>
+                        <a href="#isInSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isInSet(item)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="243"
+                            class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:243</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchQueryDidChange"></a>
+                    <span class="name">
+                        <span ><b>searchQueryDidChange</b></span>
+                        <a href="#searchQueryDidChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>searchQueryDidChange()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:227</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleInSet"></a>
+                    <span class="name">
+                        <span ><b>toggleInSet</b></span>
+                        <a href="#toggleInSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleInSet(item)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="257"
+                            class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:257</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="additions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>additions</b></span>
+                        <a href="#additions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/NodeId.html" target="_self" >Set&lt;NodeIdEnc&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Set()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:197</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>SetEditorDialogData&lt;T | F&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Inject(MAT_DIALOG_DATA)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:205</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deletions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>deletions</b></span>
+                        <a href="#deletions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/NodeId.html" target="_self" >Set&lt;NodeIdEnc&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Set()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:198</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLocalSet"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>isLocalSet</b></span>
+                        <a href="#isLocalSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="192" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:192</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listAll"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>listAll</b></span>
+                        <a href="#listAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/MultiSourceList.html" target="_self" >MultiSourceList&lt;T | F&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="195" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listSet$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>listSet$</b></span>
+                        <a href="#listSet$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classess/DataList.html" target="_self" >DataList&lt;T | F&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="194" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:194</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listSetSub"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>listSetSub</b></span>
+                        <a href="#listSetSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="196" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="localSet"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>localSet</b></span>
+                        <a href="#localSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/NodeId.html" target="_self" >NodeIdEnc[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:193</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchQuery"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>searchQuery</b></span>
+                        <a href="#searchQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">src/app/components/set-editor/set-editor-dialog.component.ts:199</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnDestroy, OnInit, TemplateRef } from &#x27;@angular/core&#x27;;
+import { MAT_DIALOG_DATA, MatDialogRef } from &#x27;@angular/material/dialog&#x27;;
+import {
+  decodeListId,
+  decodeNodeId,
+  encodeListId,
+  encodeNodeId,
+  ListId,
+  ListIdEnc,
+  NodeId,
+  NodeIdEnc,
+  nodeTypeFromTypename
+} from &#x27;@app/data-dgql/id&#x27;;
+import { DataList } from &#x27;@app/data-dgql/query&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import DataService from &#x27;@app/data-dgql&#x27;;
+import { UserNotifyService } from &#x27;@app/user-notify/user-notify.service&#x27;;
+import { quickScore } from &#x27;quick-score&#x27;;
+
+/**
+ * This interface is used to source items from multiple sources in the set editor.
+ *
+ * staticSources specifies lists whose items will always be loaded.
+ * sourceNodes specifies a list of nodes whose the sub-items will be loaded (e.g. a list of components whose labels will be loaded).
+ */
+export interface SetMultiSource {
+  /** A static list of source lists. */
+  staticSources: ListId[];
+  /** A list of nodes that will be passed to listFromNode. */
+  sourceNodes?: ListId | NodeId[];
+  /** Maps nodes from sourceNodes to lists from which items will be sourced. */
+  listFromNode?: (n: NodeId) &#x3D;&gt; ListId;
+}
+
+/**
+ * This is an internal component used to load data from multiple sources and through a layer of indirection (also see SetMultiSource).
+ */
+class MultiSourceList&lt;T, F&gt; {
+  public sourceNodeList?: DataList&lt;{ __typename: string }, unknown&gt;;
+  public sourceNodeListSub?: Subscription;
+  public staticSourceNodeList?: NodeId[];
+  public sources: Map&lt;ListIdEnc, DataList&lt;T, F&gt;&gt; &#x3D; new Map();
+  public sourceSubs: Map&lt;ListIdEnc, Subscription&gt; &#x3D; new Map();
+  /** Max number of items in results. */
+  public limit &#x3D; 10;
+  public results?: T[];
+  /** If true, there are more than &#x60;limit&#x60; items in the source data. */
+  public hasMore &#x3D; false;
+  public query &#x3D; &#x27;&#x27;;
+
+  constructor(public spec: SetMultiSource, public scoreKeys: string[], private dataService: DataService) {
+    if (Array.isArray(spec.sourceNodes)) {
+      this.staticSourceNodeList &#x3D; spec.sourceNodes;
+    } else if (typeof spec.sourceNodes &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+      this.sourceNodeList &#x3D; dataService.getList(spec.sourceNodes);
+      this.sourceNodeListSub &#x3D; this.sourceNodeList.subscribe(() &#x3D;&gt; this.update());
+    }
+    this.update();
+  }
+
+  static fromSingleList&lt;T, F&gt;(list: ListId, scoreKeys: string[], dataService: DataService) {
+    return new this&lt;T, F&gt;({ staticSources: [list] }, scoreKeys, dataService);
+  }
+
+  /** Updates lists. */
+  update() {
+    const newSourceSet &#x3D; new Set&lt;ListIdEnc&gt;();
+    for (const [id, node] of this.sourceNodeList?.current?.entries() || []) {
+      const nodeId &#x3D; decodeNodeId(id);
+      newSourceSet.add(encodeListId(this.spec.listFromNode(nodeId)));
+    }
+    for (const nodeId of this.staticSourceNodeList || []) {
+      newSourceSet.add(encodeListId(this.spec.listFromNode(nodeId)));
+    }
+    for (const source of this.spec.staticSources) {
+      newSourceSet.add(encodeListId(source));
+    }
+
+    for (const source of newSourceSet) {
+      if (!this.sources.has(source)) {
+        const list &#x3D; this.dataService.getList&lt;T, F&gt;(decodeListId(source));
+        list.interactive &#x3D; true;
+        this.sources.set(source, list);
+        this.sourceSubs.set(source, list.subscribe(() &#x3D;&gt; this.updateResults()));
+      }
+    }
+    for (const source of [...this.sources.keys()]) {
+      if (!newSourceSet.has(source)) {
+        this.sourceSubs.get(source).unsubscribe();
+        this.sourceSubs.delete(source);
+        this.sources.delete(source);
+      }
+    }
+  }
+
+  /** Sets a filter on all lists. */
+  setFilter(query: string, filter: F) {
+    this.query &#x3D; query;
+    for (const source of this.sources.values()) {
+      source.filter &#x3D; filter;
+    }
+  }
+
+  /** Scores an item for ranking in results. */
+  score(item: T) {
+    const matchStrings &#x3D; [];
+    for (const key of this.scoreKeys) {
+      let cursor &#x3D; item;
+      for (const objKey of key.split(&#x27;.&#x27;)) {
+        cursor &#x3D; cursor[objKey];
+        if (!cursor) {
+          break;
+        }
+      }
+      if (cursor) {
+        matchStrings.push(cursor);
+      }
+    }
+
+    return quickScore(matchStrings.join(&#x27; &#x27;), this.query);
+  }
+
+  /** Updates the results array from loaded data. */
+  updateResults() {
+    const seenItems &#x3D; new Set();
+    const items &#x3D; [];
+    this.hasMore &#x3D; false;
+    for (const source of this.sources.values()) {
+      if (!source.hasData) {
+        continue;
+      }
+      for (const [id, item] of source.current.entries()) {
+        if (!seenItems.has(id)) {
+          seenItems.add(id);
+          items.push(item);
+        }
+      }
+      this.hasMore &#x3D; this.hasMore || (source.current.size &lt; source.totalCount);
+    }
+
+    items.sort((a, b) &#x3D;&gt; this.score(a) - this.score(b));
+    items.splice(this.limit);
+
+    this.results &#x3D; items;
+  }
+
+  /** If true, something is loading somewhere. */
+  isLoading() {
+    if (this.sourceNodeList?.loading) {
+      return true;
+    }
+    for (const source of this.sources.values()) {
+      if (source.loading) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /** Unsubscribes from all subscriptions. This object should no longer be used afterwards. */
+  unsubscribe() {
+    this.sourceNodeListSub?.unsubscribe();
+    this.sourceSubs.forEach(sub &#x3D;&gt; sub.unsubscribe());
+  }
+}
+
+export type ItemOps &#x3D; &#x27;none&#x27; | &#x27;edit&#x27; | &#x27;create-edit&#x27; | &#x27;create-edit-delete&#x27;;
+
+export interface SetEditorDialogData&lt;T, F&gt; {
+  title: string;
+  listSet: ListId | NodeId[];
+  listAll: ListId | SetMultiSource;
+  applyChangeset: (add: NodeId[], del: NodeId[]) &#x3D;&gt; Promise&lt;void&gt;;
+  itemTemplate: TemplateRef&lt;unknown&gt;;
+  makeFilter: (query: string) &#x3D;&gt; F;
+  scoreKeys: string[];
+  emptySuggestionsLabel: string;
+  emptyResultsLabel: string;
+  createItem?: () &#x3D;&gt; Promise&lt;NodeId | null | undefined&gt;;
+  editItem?: ({ id: NodeId, preview: T }) &#x3D;&gt; void;
+  deleteItem?: ({ id: NodeId, preview: T }) &#x3D;&gt; void;
+}
+
+/** This is an internal component used in the set editor. */
+@Component({
+  selector: &#x27;app-set-editor-dialog&#x27;,
+  templateUrl: &#x27;./set-editor-dialog.component.html&#x27;,
+  styleUrls: [&#x27;./set-editor-dialog.component.scss&#x27;]
+})
+export class SetEditorDialogComponent&lt;T extends { id: string, __typename: string }, F&gt; implements OnInit, OnDestroy {
+  public isLocalSet &#x3D; false;
+  public localSet: NodeIdEnc[] &#x3D; [];
+  public listSet$: DataList&lt;T, F&gt;;
+  public listAll: MultiSourceList&lt;T, F&gt;;
+  private listSetSub: Subscription;
+  private additions: Set&lt;NodeIdEnc&gt; &#x3D; new Set();
+  private deletions: Set&lt;NodeIdEnc&gt; &#x3D; new Set();
+  public searchQuery &#x3D; &#x27;&#x27;;
+
+  constructor(
+    private dataService: DataService,
+    private notifyService: UserNotifyService,
+    private dialogRef: MatDialogRef&lt;SetEditorDialogComponent&lt;T, F&gt;&gt;,
+    @Inject(MAT_DIALOG_DATA) public data: SetEditorDialogData&lt;T, F&gt;
+  ) {}
+
+  ngOnInit() {
+    if (Array.isArray(this.data.listSet)) {
+      this.isLocalSet &#x3D; true;
+      this.localSet &#x3D; [...this.data.listSet].map(id &#x3D;&gt; encodeNodeId(id));
+    } else {
+      this.listSet$ &#x3D; this.dataService.getList(this.data.listSet);
+    }
+    this.listAll &#x3D; (&#x27;staticSources&#x27; in this.data.listAll)
+      ? new MultiSourceList&lt;T, F&gt;(this.data.listAll, this.data.scoreKeys, this.dataService)
+      : MultiSourceList.fromSingleList&lt;T, F&gt;(this.data.listAll, this.data.scoreKeys, this.dataService);
+
+    if (this.listSet$) {
+      this.listSetSub &#x3D; this.listSet$?.subscribe();
+      // TODO: is this a reasonable heuristic for the listSet count? we need to cover &gt;&#x3D; results from listAll
+      this.listSet$.count &#x3D; 10;
+      this.listSet$.interactive &#x3D; true;
+    }
+  }
+
+  searchQueryDidChange() {
+    if (this.listSet$) {
+      this.listSet$.filter &#x3D; this.data.makeFilter(this.searchQuery);
+    }
+    this.listAll.setFilter(this.searchQuery, this.data.makeFilter(this.searchQuery));
+  }
+
+  getNodeId(item): NodeId {
+    const type &#x3D; nodeTypeFromTypename(item.__typename);
+    return { type, id: item.id };
+  }
+
+  getEncodedId(item): NodeIdEnc {
+    return encodeNodeId(this.getNodeId(item));
+  }
+
+  isInSet(item): boolean {
+    const id &#x3D; this.getEncodedId(item);
+    if (this.additions.has(id)) {
+      return true;
+    }
+    if (this.deletions.has(id)) {
+      return false;
+    }
+    if (this.isLocalSet) {
+      return this.localSet.includes(id);
+    }
+    return this.listSet$.current?.has(id) || false;
+  }
+
+  toggleInSet(item): void {
+    const id &#x3D; this.getEncodedId(item);
+    if (this.isInSet(item)) {
+      this.additions.delete(id);
+      this.deletions.add(id);
+    } else {
+      this.deletions.delete(id);
+      this.additions.add(id);
+    }
+  }
+
+  apply() {
+    if (this.additions.size + this.deletions.size &#x3D;&#x3D;&#x3D; 0) {
+      this.dialogRef.close(null);
+      return;
+    }
+
+    this.data.applyChangeset([...this.additions].map(decodeNodeId), [...this.deletions].map(decodeNodeId)).then(() &#x3D;&gt; {
+      this.dialogRef.close(null);
+    }).catch(error &#x3D;&gt; {
+      this.notifyService.notifyError(&#x27;Failed to apply changes&#x27;, error);
+    });
+  }
+
+  createItem() {
+    this.data.createItem().then(node &#x3D;&gt; {
+      if (node) {
+        this.additions.add(encodeNodeId(node));
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.listSetSub?.unsubscribe();
+    this.listAll.unsubscribe();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;set-editor-dialog&quot;&gt;
+    &lt;h2 mat-dialog-title&gt;{{data.title}}&lt;/h2&gt;
+    &lt;mat-dialog-content&gt;
+        &lt;div class&#x3D;&quot;dialog-search&quot;&gt;
+            &lt;mat-form-field class&#x3D;&quot;search-field&quot;&gt;
+                &lt;mat-label&gt;Search&lt;/mat-label&gt;
+                &lt;mat-icon matPrefix&gt;search&lt;/mat-icon&gt;
+                &lt;input
+                    matInput
+                    type&#x3D;&quot;search&quot;
+                    [(ngModel)]&#x3D;&quot;searchQuery&quot;
+                    (ngModelChange)&#x3D;&quot;searchQueryDidChange()&quot; /&gt;
+            &lt;/mat-form-field&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;dialog-items&quot;&gt;
+            &lt;ng-container *ngFor&#x3D;&quot;let item of (listAll.results || [])&quot;&gt;
+                &lt;div class&#x3D;&quot;selectable-item&quot;&gt;
+                    &lt;mat-checkbox
+                        class&#x3D;&quot;inner-checkbox&quot;
+                        [checked]&#x3D;&quot;isInSet(item)&quot;
+                        (change)&#x3D;&quot;toggleInSet(item)&quot;&gt;
+                        &lt;ng-container *ngTemplateOutlet&#x3D;&quot;data.itemTemplate; context: { $implicit: item, interactive: false }&quot;&gt;&lt;/ng-container&gt;
+                    &lt;/mat-checkbox&gt;
+
+                    &lt;ng-container *ngIf&#x3D;&quot;data.editItem || data.deleteItem&quot;&gt;
+                        &lt;mat-menu #itemMenu&gt;
+                            &lt;ng-template matMenuContent&gt;
+                                &lt;button
+                                    mat-menu-item
+                                    *ngIf&#x3D;&quot;data.editItem&quot;
+                                    (click)&#x3D;&quot;data.editItem({ id: getNodeId(item), preview: item })&quot;&gt;
+                                    Edit
+                                &lt;/button&gt;
+                                &lt;button
+                                    mat-menu-item
+                                    *ngIf&#x3D;&quot;data.deleteItem&quot;
+                                    (click)&#x3D;&quot;data.deleteItem({ id: getNodeId(item), preview: item })&quot;&gt;
+                                    Delete
+                                &lt;/button&gt;
+                            &lt;/ng-template&gt;
+                        &lt;/mat-menu&gt;
+                        &lt;button mat-icon-button [matMenuTriggerFor]&#x3D;&quot;itemMenu&quot;&gt;
+                            &lt;mat-icon&gt;more_vert&lt;/mat-icon&gt;
+                        &lt;/button&gt;
+                    &lt;/ng-container&gt;
+                &lt;/div&gt;
+            &lt;/ng-container&gt;
+            &lt;div class&#x3D;&quot;items-more&quot; *ngIf&#x3D;&quot;!listAll.isLoading() &amp;&amp; listAll.hasMore&quot;&gt;
+                &lt;div class&#x3D;&quot;more-dots&quot;&gt;
+                    &lt;span class&#x3D;&quot;dot&quot;&gt;&lt;/span&gt;
+                    &lt;span class&#x3D;&quot;dot&quot;&gt;&lt;/span&gt;
+                    &lt;span class&#x3D;&quot;dot&quot;&gt;&lt;/span&gt;
+                    &lt;span class&#x3D;&quot;dot&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                Use search to find more items
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;items-empty&quot; *ngIf&#x3D;&quot;!listAll.results?.length &amp;&amp; !listAll.isLoading()&quot;&gt;
+                &lt;ng-container *ngIf&#x3D;&quot;!!listAll.query; else noQueryEmptyResults&quot;&gt;
+                    {{data.emptyResultsLabel}}
+                &lt;/ng-container&gt;
+                &lt;ng-template #noQueryEmptyResults&gt;
+                    {{data.emptySuggestionsLabel}}
+                &lt;/ng-template&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;items-create&quot; *ngIf&#x3D;&quot;data.createItem&quot;&gt;
+                &lt;button mat-button color&#x3D;&quot;primary&quot; class&#x3D;&quot;new-item-button&quot; (click)&#x3D;&quot;createItem()&quot;&gt;
+                    &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+                    Create new
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/mat-dialog-content&gt;
+    &lt;mat-dialog-actions&gt;
+        &lt;button mat-button [mat-dialog-close]&#x3D;&quot;null&quot;&gt;
+            Cancel
+        &lt;/button&gt;
+        &lt;button mat-button [color]&#x3D;&quot;&#x27;primary&#x27;&quot; (click)&#x3D;&quot;apply()&quot;&gt;
+            Apply
+        &lt;/button&gt;
+    &lt;/mat-dialog-actions&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./set-editor-dialog.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.set-editor-dialog {
+  .dialog-search {
+    .search-field {
+      width: 100%;
+    }
+  }
+
+  .dialog-items {
+    margin-bottom: 16px;
+
+    .selectable-item {
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      display: flex;
+
+      &amp;:first-child {
+        border-top: none;
+      }
+
+      .inner-checkbox {
+        display: block;
+        flex: 1;
+        padding: 8px 16px;
+      }
+    }
+
+    .items-more {
+      text-align: center;
+      opacity: 0.7;
+      font-size: smaller;
+
+      .more-dots {
+        display: block;
+        margin-bottom: 4px;
+
+        .dot {
+          display: block;
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          background: currentColor;
+          margin: 0 auto 3px auto;
+
+          &amp;:nth-child(2) { opacity: 0.6; }
+          &amp;:nth-child(3) { opacity: 0.27; }
+          &amp;:nth-child(4) { opacity: 0.08; }
+        }
+      }
+    }
+
+    .items-empty {
+      text-align: center;
+      opacity: 0.5;
+    }
+
+    .items-create {
+      text-align: center;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="set-editor-dialog">    <h2 mat-dialog-title>{{data.title}}</h2>    <mat-dialog-content>        <div class="dialog-search">            <mat-form-field class="search-field">                <mat-label>Search</mat-label>                <mat-icon matPrefix>search</mat-icon>                <input                    matInput                    type="search"                    [(ngModel)]="searchQuery"                    (ngModelChange)="searchQueryDidChange()" />            </mat-form-field>        </div>        <div class="dialog-items">            <ng-container *ngFor="let item of (listAll.results || [])">                <div class="selectable-item">                    <mat-checkbox                        class="inner-checkbox"                        [checked]="isInSet(item)"                        (change)="toggleInSet(item)">                        <ng-container *ngTemplateOutlet="data.itemTemplate; context: { $implicit: item, interactive: false }"></ng-container>                    </mat-checkbox>                    <ng-container *ngIf="data.editItem || data.deleteItem">                        <mat-menu #itemMenu>                            <ng-template matMenuContent>                                <button                                    mat-menu-item                                    *ngIf="data.editItem"                                    (click)="data.editItem({ id: getNodeId(item), preview: item })">                                    Edit                                </button>                                <button                                    mat-menu-item                                    *ngIf="data.deleteItem"                                    (click)="data.deleteItem({ id: getNodeId(item), preview: item })">                                    Delete                                </button>                            </ng-template>                        </mat-menu>                        <button mat-icon-button [matMenuTriggerFor]="itemMenu">                            <mat-icon>more_vert</mat-icon>                        </button>                    </ng-container>                </div>            </ng-container>            <div class="items-more" *ngIf="!listAll.isLoading() && listAll.hasMore">                <div class="more-dots">                    <span class="dot"></span>                    <span class="dot"></span>                    <span class="dot"></span>                    <span class="dot"></span>                </div>                Use search to find more items            </div>            <div class="items-empty" *ngIf="!listAll.results?.length && !listAll.isLoading()">                <ng-container *ngIf="!!listAll.query; else noQueryEmptyResults">                    {{data.emptyResultsLabel}}                </ng-container>                <ng-template #noQueryEmptyResults>                    {{data.emptySuggestionsLabel}}                </ng-template>            </div>            <div class="items-create" *ngIf="data.createItem">                <button mat-button color="primary" class="new-item-button" (click)="createItem()">                    <mat-icon>add</mat-icon>                    Create new                </button>            </div>        </div>    </mat-dialog-content>    <mat-dialog-actions>        <button mat-button [mat-dialog-close]="null">            Cancel        </button>        <button mat-button [color]="\'primary\'" (click)="apply()">            Apply        </button>    </mat-dialog-actions></div></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+    var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
+    var ACTUAL_COMPONENT = {'name': 'SetEditorDialogComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SetEditorDialogComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

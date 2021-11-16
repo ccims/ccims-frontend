@@ -1,0 +1,1188 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  QueryComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/utils/query-component/query.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component is intended to be used in combination with an <code>Observable</code>.
+The component expects that either an <code>ng-template</code> or a <code>MatButton</code> is in the body and that the appropriate directive
+is used on it (<a href="../directives/QueryBodyDirective.html">QueryBodyDirective</a> with <code>ng-template</code>, <a href="../directives/QueryButtonDirective.html">QueryButtonDirective</a> with <code>button</code>).
+Once the appropriate function is called, the component subscribes to the observable, showing the user a loading
+indication and, if applicable, disables the <code>button</code>.
+Once the query finished, the content in the <code>ng-template</code> is shown or the button is enabled again.
+If the subscription yielded an error, a message is shown instead of the <code>ng-template</code>, or the button is re-enabled.
+Note that no verification has to be made if the query was successful, when using an <code>ng-template</code>.
+The content of the <code>ng-template</code> is only executed once the <a href="#queryState">#queryState</a> is <code>Ready</code>.</p>
+<h4 id="example-1-using-ng-template">Example 1: Using <code>ng-template</code></h4>
+<p>This example will show, instead of the content directly, a loading indicator as soon as the page is loaded.</p>
+<div><pre class="line-numbers"><code class="language-html">&lt;app-query-component errorMessage=&quot;This is the message shown if the query failed&quot;&gt;
+  &lt;ng-template appQueryBody&gt;
+    This will only be shown if the query was successful!
+    &lt;!-- &lt;div *ngIf=&quot;this.data&quot;&gt; Not required! --&gt;
+    Result is: {{this.data}}
+    &lt;!-- &lt;/div&gt; --&gt;
+  &lt;/ng-template&gt;
+&lt;/app-query-component&gt;</code></pre></div><div><pre class="line-numbers"><code class="language-ts">// ...
+
+&#64;ViewChild(QueryComponent) query: QueryComponent;
+
+// ...
+
+ngAfterViewInit() {
+  // Have to use ngAfterViewInit, otherwise query will be undefined!
+
+  this.query.listenTo(this.someObservable,
+    result =&gt; {
+      this.data = result;
+      console.log(&#39;Result callback&#39;);
+    },
+    error =&gt; {
+      console.log(&#39;Error callback&#39;);
+    }
+  );
+}</code></pre></div><h4 id="example-2-using-button">Example 2: Using <code>button</code></h4>
+<p>This example will subscribe to the observable as soon as the button is clicked.
+The button is disabled and a loading indicator is shown as long as the subscription has not yielded a result.</p>
+<div><pre class="line-numbers"><code class="language-html">&lt;app-query-component errorMessage=&quot;Failed to do something&quot;&gt;
+  &lt;button mat-raised-button (click)=&quot;this.onClick()&quot; appQueryButton&gt;
+    Do something that takes a while...
+  &lt;/button&gt;
+&lt;/app-query-component&gt;</code></pre></div><div><pre class="line-numbers"><code class="language-ts">// ...
+
+&#64;ViewChild(QueryComponent) query: QueryComponent;
+
+// ...
+
+onClick() {
+  this.query.listenTo(this.somethingThatTakesAWhile,
+    result =&gt; {
+      console.log(&#39;Result callback&#39;);
+    },
+    error =&gt; {
+      console.log(&#39;Error callback&#39;);
+    }
+  );
+}</code></pre></div>
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-query-component</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>query.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>query.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#body" >body</a>
+                            </li>
+                            <li>
+                                <a href="#button" >button</a>
+                            </li>
+                            <li>
+                                <a href="#buttonMode" >buttonMode</a>
+                            </li>
+                            <li>
+                                <a href="#queryState" >queryState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#subscription" >subscription</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#listenTo" >listenTo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ready" >ready</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setError" >setError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateButton" >updateButton</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(notify: <a href="../injectables/UserNotifyService.html" target="_self">UserNotifyService</a>, changeDetector: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">src/app/utils/query-component/query.component.ts:144</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>notify</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserNotifyService.html" target="_self" >UserNotifyService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>changeDetector</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="errorMessage"></a>
+                        <b>errorMessage</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Failed to run query!&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/utils/query-component/query.component.ts:134</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Error message to be shown if the subscription failed</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listenTo"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>listenTo</b></span>
+                        <a href="#listenTo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>listenTo(query: Observable<T>, success?: (value?: T) => void, error?: (error?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">src/app/utils/query-component/query.component.ts:173</a></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Subscribe the query component to the observable</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                            <code>Observable&lt;T&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The observable</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>success</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>The function to be called if the query was successful</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>error</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>The function to be called if the query had an error</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ready"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>ready</b></span>
+                        <a href="#ready"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ready()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/app/utils/query-component/query.component.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Quick way of checking if <code>this.query.queryState === QueryComponentState.Ready</code></p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setError"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setError</b></span>
+                        <a href="#setError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setError()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="206"
+                            class="link-to-prism">src/app/utils/query-component/query.component.ts:206</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Manually sets this query component to the error state.
+This may be useful if e.g. the query ran successfully, the contained data in it however is not valid.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateButton"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>updateButton</b></span>
+                        <a href="#updateButton"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateButton()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">src/app/utils/query-component/query.component.ts:212</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="body"></a>
+                    <span class="name">
+                        <span ><b>body</b></span>
+                        <a href="#body"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../directives/QueryBodyDirective.html" target="_self" >QueryBodyDirective</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ContentChild(QueryBodyDirective)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/utils/query-component/query.component.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="button"></a>
+                    <span class="name">
+                        <span ><b>button</b></span>
+                        <a href="#button"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../directives/QueryButtonDirective.html" target="_self" >QueryButtonDirective</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ContentChild(QueryButtonDirective)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">src/app/utils/query-component/query.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buttonMode"></a>
+                    <span class="name">
+                        <span ><b>buttonMode</b></span>
+                        <a href="#buttonMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">src/app/utils/query-component/query.component.ts:144</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>If true, a button is in the query body, not a template</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryState"></a>
+                    <span class="name">
+                        <span ><b>queryState</b></span>
+                        <a href="#queryState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/QueryComponent.html" target="_self" >QueryComponentState</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>QueryComponentState.Loading</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">src/app/utils/query-component/query.component.ts:141</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The current state of the query</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscription"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>subscription</b></span>
+                        <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/utils/query-component/query.component.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  Directive,
+  Input,
+  OnDestroy,
+  TemplateRef
+} from &#x27;@angular/core&#x27;;
+import {Observable, Subscription} from &#x27;rxjs&#x27;;
+import {UserNotifyService} from &#x27;@app/user-notify/user-notify.service&#x27;;
+import {MatButton} from &#x27;@angular/material/button&#x27;;
+
+/**
+ * The current state of the query
+ */
+export enum QueryComponentState {
+  /** The query was executed successfully */
+  Ready,
+  /** The query has not yet finished */
+  Loading,
+  /** The query returned an error */
+  Error
+}
+
+/**
+ * This directive is used on an &#x60;ng-template&#x60;, to indicate that the contents of it should be shown once
+ * the query finished successfully
+ */
+@Directive({
+  selector: &#x27;[appQueryBody]&#x27;
+})
+export class QueryBodyDirective {
+  constructor(public template: TemplateRef&lt;unknown&gt;) {
+  }
+}
+
+/**
+ * This directive is used on a &#x60;button&#x60;, to inidcate that the {@link QueryComponent} should manage the state of this
+ * button
+ */
+@Directive({
+  selector: &#x27;[appQueryButton]&#x27;
+})
+export class QueryButtonDirective {
+  constructor(public element: MatButton) {
+  }
+}
+
+/**
+ * This component is intended to be used in combination with an &#x60;Observable&#x60;.
+ * The component expects that either an &#x60;ng-template&#x60; or a &#x60;MatButton&#x60; is in the body and that the appropriate directive
+ * is used on it ({@link QueryBodyDirective} with &#x60;ng-template&#x60;, {@link QueryButtonDirective} with &#x60;button&#x60;).
+ * Once the appropriate function is called, the component subscribes to the observable, showing the user a loading
+ * indication and, if applicable, disables the &#x60;button&#x60;.
+ * Once the query finished, the content in the &#x60;ng-template&#x60; is shown or the button is enabled again.
+ * If the subscription yielded an error, a message is shown instead of the &#x60;ng-template&#x60;, or the button is re-enabled.
+ * Note that no verification has to be made if the query was successful, when using an &#x60;ng-template&#x60;.
+ * The content of the &#x60;ng-template&#x60; is only executed once the {@link #queryState} is &#x60;Ready&#x60;.
+ *
+ * #### Example 1: Using &#x60;ng-template&#x60;
+ * This example will show, instead of the content directly, a loading indicator as soon as the page is loaded.
+ * &#x60;&#x60;&#x60;html
+ * &lt;app-query-component errorMessage&#x3D;&quot;This is the message shown if the query failed&quot;&gt;
+ *   &lt;ng-template appQueryBody&gt;
+ *     This will only be shown if the query was successful!
+ *     &lt;!-- &lt;div *ngIf&#x3D;&quot;this.data&quot;&gt; Not required! --&gt;
+ *     Result is: {{this.data}}
+ *     &lt;!-- &lt;/div&gt; --&gt;
+ *   &lt;/ng-template&gt;
+ * &lt;/app-query-component&gt;
+ * &#x60;&#x60;&#x60;
+ *
+ * &#x60;&#x60;&#x60;ts
+ * // ...
+ *
+ * @ViewChild(QueryComponent) query: QueryComponent;
+ *
+ * // ...
+ *
+ * ngAfterViewInit() {
+ *   // Have to use ngAfterViewInit, otherwise query will be undefined!
+ *
+ *   this.query.listenTo(this.someObservable,
+ *     result &#x3D;&gt; {
+ *       this.data &#x3D; result;
+ *       console.log(&#x27;Result callback&#x27;);
+ *     },
+ *     error &#x3D;&gt; {
+ *       console.log(&#x27;Error callback&#x27;);
+ *     }
+ *   );
+ * }
+ * &#x60;&#x60;&#x60;
+ *
+ * #### Example 2: Using &#x60;button&#x60;
+ * This example will subscribe to the observable as soon as the button is clicked.
+ * The button is disabled and a loading indicator is shown as long as the subscription has not yielded a result.
+ * &#x60;&#x60;&#x60;html
+ * &lt;app-query-component errorMessage&#x3D;&quot;Failed to do something&quot;&gt;
+ *   &lt;button mat-raised-button (click)&#x3D;&quot;this.onClick()&quot; appQueryButton&gt;
+ *     Do something that takes a while...
+ *   &lt;/button&gt;
+ * &lt;/app-query-component&gt;
+ * &#x60;&#x60;&#x60;
+ *
+ * &#x60;&#x60;&#x60;ts
+ * // ...
+ *
+ * @ViewChild(QueryComponent) query: QueryComponent;
+ *
+ * // ...
+ *
+ * onClick() {
+ *   this.query.listenTo(this.somethingThatTakesAWhile,
+ *     result &#x3D;&gt; {
+ *       console.log(&#x27;Result callback&#x27;);
+ *     },
+ *     error &#x3D;&gt; {
+ *       console.log(&#x27;Error callback&#x27;);
+ *     }
+ *   );
+ * }
+ * &#x60;&#x60;&#x60;
+ */
+@Component({
+  templateUrl: &#x27;query.component.html&#x27;,
+  selector: &#x27;app-query-component&#x27;,
+  styleUrls: [&#x27;query.component.scss&#x27;]
+})
+export class QueryComponent implements OnDestroy, AfterViewInit {
+  /** Error message to be shown if the subscription failed */
+  @Input() errorMessage &#x3D; &#x27;Failed to run query!&#x27;;
+  @ContentChild(QueryBodyDirective) body: QueryBodyDirective;
+  @ContentChild(QueryButtonDirective) button: QueryButtonDirective;
+
+  /** @ignore */
+  readonly State &#x3D; QueryComponentState;
+  /** The current state of the query */
+  queryState: QueryComponentState &#x3D; QueryComponentState.Loading;
+  private subscription?: Subscription;
+  /** If true, a button is in the query body, not a template*/
+  buttonMode: boolean;
+
+  constructor(private notify: UserNotifyService,
+              private changeDetector: ChangeDetectorRef) {
+  }
+
+  ngAfterViewInit() {
+    this.buttonMode &#x3D; !this.body &amp;&amp; !!this.button;
+    if (this.buttonMode) {
+      this.queryState &#x3D; QueryComponentState.Ready;
+    }
+    this.changeDetector.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+
+  /** Quick way of checking if &#x60;this.query.queryState &#x3D;&#x3D;&#x3D; QueryComponentState.Ready&#x60; */
+  public ready(): boolean {
+    return this.queryState &#x3D;&#x3D;&#x3D; QueryComponentState.Ready;
+  }
+
+  /**
+   * Subscribe the query component to the observable
+   * @param query The observable
+   * @param success The function to be called if the query was successful
+   * @param error The function to be called if the query had an error
+   */
+  public listenTo&lt;T&gt;(query: Observable&lt;T&gt;, success?: (value: T) &#x3D;&gt; void, error?: (error: any) &#x3D;&gt; void): void {
+    this.queryState &#x3D; QueryComponentState.Loading;
+    this.changeDetector.detectChanges();
+    this.subscription?.unsubscribe();
+    this.updateButton();
+
+    this.subscription &#x3D; query.subscribe((value: T) &#x3D;&gt; {
+      if (success) {
+        success(value);
+
+        // Check if the callback changed the query state, e.g. by calling setError()
+        if (this.queryState &#x3D;&#x3D;&#x3D; QueryComponentState.Error) {
+          return;
+        }
+      }
+
+      this.queryState &#x3D; QueryComponentState.Ready;
+      this.changeDetector.detectChanges();
+      this.updateButton();
+    }, err &#x3D;&gt; {
+      if (error) {
+        error(err);
+      }
+
+      this.setError();
+      this.notify.notifyError(this.errorMessage, err);
+    });
+  }
+
+  /**
+   * Manually sets this query component to the error state.
+   * This may be useful if e.g. the query ran successfully, the contained data in it however is not valid.
+   */
+  public setError(): void {
+    this.queryState &#x3D; QueryComponentState.Error;
+    this.changeDetector.detectChanges();
+    this.updateButton();
+  }
+
+  private updateButton(): void {
+    if (!this.buttonMode) {
+      return;
+    }
+
+    this.button.element.disabled &#x3D; this.queryState &#x3D;&#x3D;&#x3D; QueryComponentState.Loading;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;buttonMode; else bodyMode&quot; xmlns&#x3D;&quot;http://www.w3.org/1999/html&quot;&gt;
+  &lt;div style&#x3D;&quot;display: flex; align-items: center; width: 100%&quot;&gt;
+    &lt;ng-content&gt;&lt;/ng-content&gt;
+    &lt;span style&#x3D;&quot;margin-left: 4px&quot; *ngIf&#x3D;&quot;queryState &#x3D;&#x3D;&#x3D; State.Loading&quot;&gt;
+      &lt;mat-spinner diameter&#x3D;&quot;20&quot;&gt;&lt;/mat-spinner&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/ng-container&gt;
+
+&lt;ng-template #bodyMode&gt;
+  &lt;ng-container *ngIf&#x3D;&quot;queryState&#x3D;&#x3D;&#x3D;State.Ready&quot;&gt;
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;body.template&quot;&gt;&lt;/ng-container&gt;
+  &lt;/ng-container&gt;
+
+  &lt;div *ngIf&#x3D;&quot;queryState&#x3D;&#x3D;&#x3D;State.Error&quot; class&#x3D;&quot;container&quot;&gt;
+    &lt;div class&#x3D;&quot;error&quot;&gt;
+      &lt;span class&#x3D;&quot;error-text&quot;&gt;{{errorMessage}}&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div *ngIf&#x3D;&quot;queryState&#x3D;&#x3D;&#x3D;State.Loading&quot; class&#x3D;&quot;container&quot;&gt;
+    &lt;div class&#x3D;&quot;load-container&quot;&gt;
+      &lt;mat-spinner diameter&#x3D;&quot;30&quot; style&#x3D;&quot;margin-right: 12px&quot;&gt;&lt;/mat-spinner&gt;
+      &lt;span style&#x3D;&quot;font-size: 1.2em&quot;&gt;Loading...&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>query.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+}
+
+.error {
+  border: red 1px solid;
+  border-radius: 10px;
+  padding: 18px;
+  width: fit-content;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.load-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  background-color: #ababab;
+  padding: 10px 16px 10px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  color: whitesmoke;
+}
+
+.error-text {
+  color: red;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="buttonMode; else bodyMode" xmlns="http://www.w3.org/1999/html">  <div style="display: flex; align-items: center; width: 100%">    <ng-content></ng-content>    <span style="margin-left: 4px" *ngIf="queryState === State.Loading">      <mat-spinner diameter="20"></mat-spinner>    </span>  </div></ng-container><ng-template #bodyMode>  <ng-container *ngIf="queryState===State.Ready">    <ng-container *ngTemplateOutlet="body.template"></ng-container>  </ng-container>  <div *ngIf="queryState===State.Error" class="container">    <div class="error">      <span class="error-text">{{errorMessage}}</span>    </div>  </div>  <div *ngIf="queryState===State.Loading" class="container">    <div class="load-container">      <mat-spinner diameter="30" style="margin-right: 12px"></mat-spinner>      <span style="font-size: 1.2em">Loading...</span>    </div>  </div></ng-template></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+    var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
+    var ACTUAL_COMPONENT = {'name': 'QueryComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'QueryComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

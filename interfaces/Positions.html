@@ -1,0 +1,1409 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  Positions</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/graphs/issue-graph/issue-graph.component.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interface specifying the content of the graph component local storage</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#issueGroups" 
+>
+                                            issueGroups
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#nodes" 
+>
+                                            nodes
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="issueGroups"></a>
+                                        <span class="name "><b>issueGroups</b>
+                                            <a href="#issueGroups">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>issueGroups:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Positions (north, south, east, west) of the issue groups</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="nodes"></a>
+                                        <span class="name "><b>nodes</b>
+                                            <a href="#nodes">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>nodes:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Positions of the nodes as the user arranged them</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
+import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
+import {DraggedEdge, Edge, Point} from &#x27;@ustutt/grapheditor-webcomponent/lib/edge&#x27;;
+import GraphEditor from &#x27;@ustutt/grapheditor-webcomponent/lib/grapheditor&#x27;;
+import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
+import {Rect} from &#x27;@ustutt/grapheditor-webcomponent/lib/util&#x27;;
+import {BehaviorSubject, ReplaySubject, Subject} from &#x27;rxjs&#x27;;
+import {debounceTime, takeUntil} from &#x27;rxjs/operators&#x27;;
+import {IssueGraphStateService} from &#x27;../../data/issue-graph/issue-graph-state.service&#x27;;
+import {IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour} from &#x27;./group-behaviours&#x27;;
+import {CreateInterfaceDialogComponent} from &#x27;@app/dialogs/create-interface-dialog/create-interface-dialog.component&#x27;;
+import {StateService} from &#x27;@app/state.service&#x27;;
+import {CreateInterfaceData} from &#x27;../../dialogs/create-interface-dialog/create-interface-dialog.component&#x27;;
+import {GraphData} from &#x27;../../data/issue-graph/graph-data&#x27;;
+import {IssueCategory} from &#x27;src/generated/graphql&#x27;;
+import * as issueGraphNodes from &#x27;./issue-graph-nodes&#x27;;
+import {ActivatedRoute, Router} from &#x27;@angular/router&#x27;;
+import {CreateComponentDialogComponent} from &#x27;@app/dialogs/create-component-dialog/create-component-dialog.component&#x27;;
+import {ComponentStoreService} from &#x27;@app/data/component/component-store.service&#x27;;
+import {InterfaceStoreService} from &#x27;@app/data/interface/interface-store.service&#x27;;
+import * as componentContextMenuComponent from &#x27;@app/graphs/component-context-menu/component-context-menu.component&#x27;;
+import {NodeDetailsType} from &#x27;@app/node-details/node-details.component&#x27;;
+import {doGraphLayout, LayoutNode} from &#x27;@app/graphs/automatic-layout&#x27;;
+import {BreakpointObserver, Breakpoints} from &#x27;@angular/cdk/layout&#x27;;
+import { IssueGraphClassSettersService } from &#x27;./class-setters/issue-graph-class-setters.service&#x27;;
+import { IssueGraphLinkHandlesService } from &#x27;./link-handles/issue-graph-link-handles.service&#x27;;
+import { IssueGraphDynamicTemplateRegistryService } from &#x27;./dynamic-template-registry/issue-graph-dynamic-template-registry.service&#x27;;
+
+/**
+ * Interface specifying the content of the graph component local storage
+ */
+interface Positions {
+  /** Positions of the nodes as the user arranged them */
+  nodes: { [prop: string]: Point; };
+  /** Positions (north, south, east, west) of the issue groups */
+  issueGroups: { [node: string]: string };
+}
+
+/**
+ * This component creates nodes and edges in the embedded MICO GraphEditor
+ * (html tag: &lt;network-graph&gt;) to reflect the data for the current project.
+ * This data consists of the project&#x27;s interfaces, components, issues and their relations and
+ * is stored in this.graphData. The key method for this purpose is drawGraph().
+ * This component is also responsible for registering event listeners with the GraphEditor.
+ */
+@Component({
+  selector: &#x27;app-issue-graph&#x27;,
+  templateUrl: &#x27;./issue-graph.component.html&#x27;,
+  styleUrls: [&#x27;./issue-graph.component.css&#x27;],
+})
+export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  constructor(private dialog: MatDialog,
+              private gs: IssueGraphStateService,
+              private ss: StateService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private componentStoreService: ComponentStoreService,
+              private interfaceStoreService: InterfaceStoreService,
+              private componentContextMenuService: componentContextMenuComponent.ComponentContextMenuService,
+              private breakPointObserver: BreakpointObserver,
+              private issueGraphClassSettersService: IssueGraphClassSettersService,
+              private issueGraphLinkHandlesService: IssueGraphLinkHandlesService,
+              private issueGraphDynamicTemplateRegistryService: IssueGraphDynamicTemplateRegistryService) {
+  }
+
+  // references the graph template
+  @ViewChild(&#x27;graph&#x27;, {static: true}) graphWrapper: { nativeElement: GraphEditor; };
+
+  // references the minimap template
+  @ViewChild(&#x27;minimap&#x27;, {static: true}) minimap: { nativeElement: GraphEditor; };
+
+  currentVisibleArea: Rect &#x3D; {x: 0, y: 0, width: 1, height: 1};
+  @Input() projectId: string;
+
+  readonly zeroPosition &#x3D; {x: 0, y: 0};
+
+  private componentContextMenu: componentContextMenuComponent.ComponentContextMenuComponent;
+  private componentContextMenuNodeId: number | string;
+  private destroy$ &#x3D; new ReplaySubject(1);
+
+  // reference to the GraphEditor instance of the graph
+  private graph: GraphEditor;
+
+  // contains all data about the projects interfaces, components, issues and their relations
+  // that is needed in order to create nodes and edges in the grapheditor to visualize the project
+  public graphData: GraphData;
+  private graphFirstRender &#x3D; true;
+
+  // indicates whether graph is initialized
+  private graphInitialized &#x3D; false;
+  private isHandset &#x3D; false;
+
+  // contains nodes representing interfaces and components which utilize node groups for display of issue folders
+  private issueGroupParents: Node[] &#x3D; [];
+
+  // local storage key for positions of graph elements
+  private projectStorageKey: string;
+
+  // The component details page moves the graph sometimes a bit,
+  // so dont move back when closing the component details page
+  private redrawByCloseOfComponentDetails &#x3D; false;
+
+  // when a new graph state arrives it is passed to the graph
+  // and a graph redraw is issued
+  // (check IssueGraphControlsComponents ngAfterViewInit for more information)
+  public reload$: BehaviorSubject&lt;void&gt; &#x3D; new BehaviorSubject(null);
+  private reloadOnMouseUp &#x3D; false;
+
+  // Saved positions of the nodes and the issue groups
+  private savedPositions: Positions &#x3D; {nodes: {}, issueGroups: {}};
+  // Responsible for saving the node positions to local storage
+  private savePositionsSubject &#x3D; new Subject&lt;null&gt;();
+
+  // used in the drawGraph method true on first draw and after component creation, effects a zoom to bounding box
+  private zoomOnRedraw &#x3D; true;
+
+  /**
+   * Gets reference to the MICO GraphEditor instance of the graph and initializes it.
+   */
+  ngAfterViewInit(): void {
+    this.graph &#x3D; this.graphWrapper.nativeElement;
+    this.initGraph();
+  }
+
+  /**
+   * Sets up a local storage key for graph element positions.
+   */
+  ngOnInit() {
+    this.projectStorageKey &#x3D; &#x60;CCIMS-Project_${this.projectId}&#x60;;
+    this.breakPointObserver.observe(Breakpoints.Handset)
+      .subscribe(r &#x3D;&gt; this.isHandset &#x3D; r.matches);
+  }
+
+  /**
+   * Cancels all subscriptions on component destruction.
+   */
+  ngOnDestroy() {
+    // saves the current zoom details of the graph for when the user comes back to the graph
+    localStorage.setItem(&#x60;zoomTransform_${this.projectStorageKey}&#x60;,
+      JSON.stringify(this.graph.currentZoomTransform));
+
+    // saves the current bounding box of the graph for when the user comes back to the graph
+    localStorage.setItem(&#x60;zoomBoundingBox_${this.projectStorageKey}&#x60;,
+      JSON.stringify(this.graph.currentViewWindow));
+
+    this.destroy$.next();
+    this.closeComponentActions();
+  }
+
+  /**
+   * 1) Sets up a subscription for node positions
+   * 2) and initializes the graph.
+   * Also manages:
+   * 3) class setters with the graph editor
+   * that apply css classes based on the edge and node types,
+   * 4) the link handle calculation,
+   * 5) the edge drag behaviour,
+   * 6) the dynamic template registry.
+   * 7) and various event listeners on the graph.
+   */
+  initGraph() {
+    // case: graph already initialized
+    if (this.graphInitialized) {
+      return;
+    }
+
+    // loads saved positions
+    this.savedPositions &#x3D; this.loadSavedPositions();
+
+    // 1) subscribes to the subject emitting node positions
+    this.subscribeToSubject();
+
+    // 2) initializes the graph
+    this.graphInitialized &#x3D; true;
+
+    // references to the GraphEditor instance of the graph / minimap
+    const graph: GraphEditor &#x3D; this.graphWrapper.nativeElement;
+    const minimap: GraphEditor &#x3D; this.minimap.nativeElement;
+
+    // 3) manages the node / edge class setters
+    this.issueGraphClassSettersService.manageClassSetters(graph, minimap);
+
+    // 4) manages the edge link handles
+    this.issueGraphLinkHandlesService.manageLinkHandles(graph, minimap);
+
+    // 5) manages the edge drag behaviour
+    this.manageDragBehaviour(graph);
+
+    // 6) manages the dynamic template registry
+    this.issueGraphDynamicTemplateRegistryService.manageDynamicTemplateRegistry(graph);
+
+    // 7) manages the event listeners
+    this.manageEventListeners(graph, minimap);
+  }
+
+  /**
+   * Loads positions of graph elements from the local storage.
+   * @returns Parsed positions
+   */
+  private loadSavedPositions(): Positions {
+    // gets data from the local storage
+    const data &#x3D; localStorage.getItem(this.projectStorageKey);
+
+    // case: there is no data
+    if (data &#x3D;&#x3D; null) {
+      return {nodes: {}, issueGroups: {}};
+    }
+
+    return JSON.parse(data);
+  }
+
+  /**
+   * Subscribes to the subject emitting node positions.
+   */
+  private subscribeToSubject() {
+    this.savePositionsSubject
+      .pipe(takeUntil(this.destroy$), debounceTime(300))
+      .subscribe(() &#x3D;&gt; {
+        console.log(&#x27;Setting: &#x27;, this.projectStorageKey);
+
+        // case: there are saved positions
+        if (this.savedPositions !&#x3D; null) {
+          const newData &#x3D; JSON.stringify(this.savedPositions);
+          localStorage.setItem(this.projectStorageKey, newData);
+        }
+      });
+  }
+
+  /**
+   * Manages the edge drag behaviour of given GraphEditor instance.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
+   */
+  private manageDragBehaviour(graph: GraphEditor) {
+    // applies functionality for when an edge is created
+    graph.onCreateDraggedEdge &#x3D; this.onCreateEdge;
+
+    // applies functionality for when an edge is dragged (and its target is changed)
+    graph.onDraggedEdgeTargetChange &#x3D; this.onDraggedEdgeTargetChanged;
+
+    // applies functionality for when an edge is added
+    graph.addEventListener(&#x27;edgeadd&#x27;, this.onEdgeAdd);
+
+    // applies functionality for when an edge is removed
+    graph.addEventListener(&#x27;edgeremove&#x27;, this.onEdgeRemove);
+
+    // applies functionality for when an edge is dropped
+    graph.addEventListener(&#x27;edgedrop&#x27;, this.onEdgeDrop);
+  }
+
+  /**
+   * Method gets triggered after an edge gets created,
+   * it can either be of type provider or consumer.
+   * @param edge Edge that is handled.
+   */
+  private onCreateEdge &#x3D; (edge: DraggedEdge) &#x3D;&gt; {
+    const graph: GraphEditor &#x3D; this.graphWrapper.nativeElement;
+    const sourceNode &#x3D; graph.getNode(edge.source);
+
+    // case: edge created from an existing edge
+    // &#x3D;&gt; allows deletion or dropping at the same node
+    if (edge.createdFrom !&#x3D; null) {
+      const original &#x3D; graph.getEdge(edge.createdFrom);
+      edge.validTargets.clear();
+      edge.validTargets.add(original.target.toString());
+      return edge;
+    }
+
+    // case: edge originates from a component
+    if (sourceNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
+      // updates edge properties (no drag handles)
+      edge.type &#x3D; issueGraphNodes.NodeType.Interface;
+      edge.dragHandles &#x3D; [];
+
+      // updates valid targets
+      edge.validTargets.clear();
+
+      // updates marker at the end of the edge
+      edge.markerEnd &#x3D; {
+        template: &#x27;interface-connector-initial&#x27;,
+        relativeRotation: 0,
+        absoluteRotation: 0
+      };
+
+      // allows only interfaces as targets
+      graph.nodeList.forEach((node) &#x3D;&gt; {
+        if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+          edge.validTargets.add(node.id.toString());
+        }
+      });
+
+      // allows only new targets
+      graph.getEdgesBySource(sourceNode.id).forEach((existingEdge) &#x3D;&gt; {
+        edge.validTargets.delete(existingEdge.target.toString());
+      });
+    }
+
+    return edge;
+  }
+
+  /**
+   * Method gets triggered after an edge gets dragged
+   * and its target is changed:
+   * ex. consumer edge gets moved away from the provider edge.
+   * @param edge Edge that is handled.
+   * @param sourceNode Source of the handled edge.
+   * @param targetNode Target of the handled edge.
+   * @returns Edge that is handled.
+   */
+  private onDraggedEdgeTargetChanged &#x3D; (
+    edge: DraggedEdge,
+    sourceNode: Node,
+    targetNode: Node
+  ) &#x3D;&gt; {
+    // case: edge originates from a component
+    if (sourceNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
+      // case: target of edge is an interface
+      // &#x3D;&gt; handles edge as of type consumer
+      if (targetNode?.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+
+        // updates edge properties (default drag handle)
+        edge.type &#x3D; issueGraphNodes.NodeType.InterfaceConsumer;
+        delete edge.dragHandles;
+
+        // updates marker at the end of the edge
+        edge.markerEnd &#x3D; {
+          template: &#x27;interface-connector&#x27;,
+          relativeRotation: 0,
+        };
+      }
+      // case: target of edge is not an interface (aka. null)
+      // &#x3D;&gt; handles edge as of type provider
+      else {
+        // updates edge properties (no drag handles)
+        edge.type &#x3D; issueGraphNodes.NodeType.Interface;
+        edge.dragHandles &#x3D; [];
+
+        // updates marker at the end of the edge
+        // ? delete edge.markerEnd; ?
+        edge.markerEnd &#x3D; {
+          template: &#x27;interface-connector-initial&#x27;,
+          relativeRotation: 0,
+          absoluteRotation: 0
+        };
+      }
+    }
+
+    return edge;
+  }
+
+  /**
+   * Method gets triggered after an edge gets added.
+   * @param event Event that is handled.
+   */
+  private onEdgeAdd &#x3D; (event: CustomEvent) &#x3D;&gt; {
+    const edge: Edge &#x3D; event.detail.edge;
+
+    // case: source of event is the API
+    if (event.detail.eventSource &#x3D;&#x3D;&#x3D; &#x27;API&#x27;) {
+      return;
+    }
+
+    // case: edge of type interface consumer
+    if (edge.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.InterfaceConsumer) {
+
+      // cancels edge creation
+      event.preventDefault();
+
+      // updates the graph via the API
+      const sourceNode &#x3D; this.graph.getNode(edge.source);
+      const targetNode &#x3D; this.graph.getNode(edge.target);
+
+      // case: edge has source and target
+      // &#x3D;&gt; adds edge of type interface provider
+      if (sourceNode !&#x3D; null &amp;&amp; targetNode !&#x3D; null) {
+        this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() &#x3D;&gt; this.reload$.next(null));
+      }
+    }
+  }
+
+  /**
+   * Method gets triggered after an edge gets dropped.
+   * @param event Event that is handled.
+   */
+  private onEdgeDrop &#x3D; (event: CustomEvent) &#x3D;&gt; {
+    const edge: DraggedEdge &#x3D; event.detail.edge;
+
+    // case: source of event is the API
+    if (event.detail.eventSource &#x3D;&#x3D;&#x3D; &#x27;API&#x27;) {
+      return;
+    }
+
+    // case: edge created from an existing edge
+    if (edge.createdFrom !&#x3D; null) {
+      return;
+    }
+
+    // case: edge of type interface
+    // &#x3D;&gt; opens the interface creation dialog
+    if (edge.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+      this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
+    }
+  }
+
+  /**
+   * Opens the interface creation dialog. If the user actually creates the interface
+   * it is added to the providing component at the position
+   * where the dragged edge was dropped by the user (before opening the interface creation dialog).
+   * @param offeredById Id of the component that will provide the interface.
+   * @param position Position of the interface.
+   */
+  private addInterfaceToComponent(offeredById: string, position: issueGraphNodes.Position) {
+    // interface data
+    const data: CreateInterfaceData &#x3D; {
+      position,
+      offeredById
+    };
+
+    // interface dialog reference
+    const createInterfaceDialogRef &#x3D; this.dialog.open(CreateInterfaceDialogComponent, {
+      data
+    });
+
+    // subscribes ...
+    createInterfaceDialogRef.afterClosed().subscribe((interfaceId) &#x3D;&gt; {
+      this.savedPositions.nodes[interfaceId] &#x3D; {
+        x: position.x,
+        y: position.y
+      };
+      this.savePositionsSubject.next();
+      this.reload$.next(null);
+    });
+  }
+
+  /**
+   * Method gets triggered after an edge gets removed.
+   * @param event Event that is handled.
+   */
+  private onEdgeRemove &#x3D; (event: CustomEvent) &#x3D;&gt; {
+    const edge: Edge &#x3D; event.detail.edge;
+
+    // case: source of event is the API
+    if (event.detail.eventSource &#x3D;&#x3D;&#x3D; &#x27;API&#x27;) {
+      return;
+    }
+
+    // case: edge of type interface consumer
+    if (edge.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.InterfaceConsumer) {
+
+      // cancels edge deletion
+      event.preventDefault();
+
+      // updates the graph via the API
+      const graph: GraphEditor &#x3D; this.graphWrapper.nativeElement;
+      const sourceNode &#x3D; graph.getNode(edge.source);
+      const targetNode &#x3D; graph.getNode(edge.target);
+
+      // case: edge has source and target
+      // &#x3D;&gt; removes edge of type interface provider
+      if (sourceNode !&#x3D; null &amp;&amp; targetNode !&#x3D; null) {
+        this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() &#x3D;&gt; this.reload$.next(null));
+      }
+    }
+  }
+
+  /**
+   * Adds event listeners to a given GraphEditor instance.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
+   * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
+   */
+  private manageEventListeners(graph: GraphEditor, minimap: GraphEditor) {
+    // applies functionality for when a node is clicked
+    graph.addEventListener(&#x27;nodeclick&#x27;, this.onNodeClick);
+
+    // applies functionality for when the position of a node is changed
+    graph.addEventListener(&#x27;nodepositionchange&#x27;, (e: CustomEvent) &#x3D;&gt; {
+      if (this.closeComponentActions(false)) {
+        this.reloadOnMouseUp &#x3D; true;
+      }
+    });
+
+    // TODO: document and extract
+    graph.addEventListener(&#x27;nodedragend&#x27;, (event: CustomEvent) &#x3D;&gt; {
+      const node &#x3D; event.detail.node;
+      if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.IssueGroupContainer) {
+        this.savedPositions.issueGroups[node.id] &#x3D; node.position;
+      }
+
+      // store node positioning information
+      this.savedPositions.nodes[node.id] &#x3D; {
+        x: node.x,
+        y: node.y,
+      };
+      this.savePositionsSubject.next();
+      if (this.reloadOnMouseUp) {
+        this.reloadOnMouseUp &#x3D; false;
+        this.zoomOnRedraw &#x3D; false;
+        this.reload();
+      }
+    });
+
+    // applies functionality for when a node is added to the minimap
+    graph.addEventListener(&#x27;nodeadd&#x27;, (event: CustomEvent) &#x3D;&gt; {
+      if (event.detail.node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.IssueGroupContainer) {
+        return;
+      }
+      const node &#x3D; event.detail.node;
+      minimap.addNode(node);
+    });
+
+    // applies functionality for when a node is removed from the minimap
+    graph.addEventListener(&#x27;noderemove&#x27;, (event: CustomEvent) &#x3D;&gt; {
+      const node &#x3D; event.detail.node;
+      if (event.detail.node.type !&#x3D;&#x3D; issueGraphNodes.NodeType.IssueGroupContainer) {
+        minimap.removeNode(node);
+      }
+    });
+
+    // applies functionality for when an edge is added to the minimap
+    graph.addEventListener(&#x27;edgeadd&#x27;, (event: CustomEvent) &#x3D;&gt; {
+      minimap.addEdge(event.detail.edge);
+    });
+
+    // applies functionality for when an edge is removed from the minimap
+    graph.addEventListener(&#x27;edgeremove&#x27;, (event: CustomEvent) &#x3D;&gt; {
+      minimap.removeEdge(event.detail.edge);
+    });
+
+    // applies functionality for when the minimap is rendered
+    graph.addEventListener(&#x27;render&#x27;, this.onMinimapRender(minimap));
+
+    // Close the component context menu when clicking anywhere in the graph
+    graph.addEventListener(&#x27;click&#x27;, (e) &#x3D;&gt; this.closeComponentActions());
+
+    // applies functionality for when the zoom is changed
+    graph.addEventListener(&#x27;zoomchange&#x27;, (event: CustomEvent) &#x3D;&gt; {
+      this.currentVisibleArea &#x3D; event.detail.currentViewWindow;
+      if (!this.componentContextMenu) {
+        return;
+      }
+
+      // Update component context menu position when zoom changed
+      const node &#x3D; this.graph.getNode(this.componentContextMenuNodeId);
+      const [x, y] &#x3D; this.graph.currentZoomTransform.apply([node.x, node.y]);
+      this.componentContextMenu.updatePosition(Math.max(x, 0), Math.max(y, 0));
+    });
+  }
+
+  /**
+   * Method gets triggered after a node is clicked.
+   * @param event Event that is handled.
+   */
+  private onNodeClick &#x3D; (event: CustomEvent) &#x3D;&gt; {
+    // cancels node selection
+    event.preventDefault();
+
+    const node: Node &#x3D; event.detail.node;
+
+    // Close existing context menu if the user clicked twice on the same node
+    if (this.componentContextMenu &amp;&amp; this.componentContextMenu.data.nodeId &#x3D;&#x3D;&#x3D; node.id) {
+      this.closeComponentActions();
+      return;
+    }
+
+    // Close context menu if one is already open
+    this.closeComponentActions();
+
+    // doesn&#x27;t allow the view of the graph to change after the Details page has been closed
+    this.redrawByCloseOfComponentDetails &#x3D; true;
+
+    // Open the details in a new page if a phone is used or if shift is pressed
+    if (event.detail.sourceEvent.shiftKey || this.isHandset) {
+      // case: node of type Component
+      // &#x3D;&gt; opens View Component page
+      if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
+        this.router.navigate([&#x27;./component/&#x27;, node.id], {relativeTo: this.activatedRoute.parent});
+        return;
+      }
+
+      // case: node of type Interface
+      // &#x3D;&gt; opens View Interface page
+      if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+        this.router.navigate([&#x27;./interface/&#x27;, node.id], {relativeTo: this.activatedRoute.parent});
+        return;
+      }
+    } else {
+      // sets the context menu type
+      const contextMenuType &#x3D; this.contextMenuTypeForNodeType(node);
+
+      // case: context menu has a type
+      if (contextMenuType !&#x3D; null) {
+        this.nodeClickContextMenuHasType(node, event, contextMenuType);
+        return;
+      }
+    }
+
+    // case: clicked issue folder
+    // &#x3D;&gt; determines issue count, opens corresponding issue page
+    this.nodeClickIssueFolder(node);
+  }
+
+  /**
+   * Sets the context menu type.
+   * @param node Node that is handled.
+   */
+  private contextMenuTypeForNodeType(node: Node): NodeDetailsType {
+    // case: node of type Component
+    // &#x3D;&gt; sets the context menu type as Component
+    if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
+      return NodeDetailsType.Component;
+    }
+
+    // case: node of type Interface
+    // &#x3D;&gt; sets the context menu type as Interface
+    if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+      return NodeDetailsType.Interface;
+    }
+
+    return null;
+  }
+
+  /**
+   * Open the component context menu
+   * @param node Node that is handled
+   * @param event Event that is handled
+   * @param contextMenuType Type of the context menu that is handled
+   */
+  private nodeClickContextMenuHasType(node: Node, event: CustomEvent, contextMenuType: NodeDetailsType) {
+    // Transform the node graph coordinates to screen coordinates
+    const [x, y] &#x3D; this.graph.currentZoomTransform.apply([node.x, node.y]);
+
+    // Only open the dialog if it will fit into view
+    if (x &gt;&#x3D; 0 &amp;&amp; y &gt;&#x3D; 0) {
+      this.componentContextMenuNodeId &#x3D; node.id;
+
+      // Cancel the click event that would otherwise close the dialog again
+      event.detail.sourceEvent.stopImmediatePropagation();
+
+      this.componentContextMenu &#x3D;
+        this.componentContextMenuService.open(
+          this.graphWrapper.nativeElement,
+          x,
+          y,
+          this.projectId,
+          node.id.toString(),
+          contextMenuType,
+          this);
+
+      // Make sure that the context menu is visible if it extends over the right/bottom edge
+      const visible &#x3D; this.graph.currentViewWindow;
+      const scale &#x3D; this.graph.currentZoomTransform.k;
+      // FIXME: this isn&#x27;t ideal, as the padding is somewhat dependent on the aspect ratio
+      const padding &#x3D; 85 / scale;
+      const edgeX &#x3D; visible.width * scale;
+      const edgeY &#x3D; visible.height * scale;
+      const moveX &#x3D; Math.max(0, this.componentContextMenu.width + x - edgeX) / scale;
+      const moveY &#x3D; Math.max(0, this.componentContextMenu.height + y - edgeY) / scale;
+
+      // case: Zoom has to change to make overlay visible
+      if (moveX || moveY) {
+        this.graph.zoomToBox({
+          x: visible.x + moveX + padding, y: visible.y + moveY + padding,
+          width: visible.width - 2 * padding, height: visible.height - 2 * padding
+        });
+      }
+    }
+  }
+
+  /**
+   * Handles the case in which an issue folder is clicked.
+   * Determines the number of issues in the issue folder
+   * and opens the corresponding issue page.
+   * @param node Issue folder that is handled.
+   */
+  private nodeClickIssueFolder(node: Node) {
+    // case: clicked issue folder
+    // &#x3D;&gt; determines issue count, opens corresponding issue page
+    if (node.type &#x3D;&#x3D;&#x3D; &#x27;BUG&#x27; || node.type &#x3D;&#x3D;&#x3D; &#x27;UNCLASSIFIED&#x27; || node.type &#x3D;&#x3D;&#x3D; &#x27;FEATURE_REQUEST&#x27;) {
+
+      // reference to the GraphEditor instance of the graph, the root ID and the root node
+      const graph: GraphEditor &#x3D; this.graphWrapper.nativeElement;
+      const rootId &#x3D; graph.groupingManager.getTreeRootOf(node.id);
+      const rootNode &#x3D; graph.getNode(rootId);
+
+      // case: only one issue inside the clicked issue folder
+      // &#x3D;&gt; opens Issue Details page
+      if (node.issueCount &#x3D;&#x3D;&#x3D; 1) {
+        this.nodeClickOneIssue(rootId, rootNode, node);
+        return;
+      }
+
+      // case: many issues inside the clicked issue folder
+      // &#x3D;&gt; opens Component Issues / Interface Issues page
+      else {
+        this.nodeClickManyIssues(rootNode);
+        return;
+      }
+    }
+  }
+
+  /**
+   * Handles the case in which the clicked issue folder contains only one issues.
+   * @param rootNode Root node that is handled.
+   * @param rootId Root id that is handled.
+   * @param node Clicked node that is handled.
+   */
+  private nodeClickOneIssue(rootId: string, rootNode: Node, node: Node) {
+    // case: root node of type Component
+    // &#x3D;&gt; handles a single component issue, opens its Issue Details page
+    if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
+      this.componentStoreService.getFullComponent(rootId).subscribe(component &#x3D;&gt; {
+        const currentIssueId &#x3D; this.extractIssueId(component.node.issues.nodes, node.type);
+        this.router.navigate([&#x27;./&#x27;, &#x27;issues&#x27;, currentIssueId], { relativeTo: this.activatedRoute.parent });
+      });
+    }
+
+    // case: root node of type Interface
+    // &#x3D;&gt; handles a single interface issue, opens its Issue Details page
+    else if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+      this.interfaceStoreService.getInterface(rootId).subscribe(interfaceComponent &#x3D;&gt; {
+        const currentIssueId &#x3D; this.extractIssueId(interfaceComponent.node.issuesOnLocation.nodes, node.type);
+        this.router.navigate([&#x27;./&#x27;, &#x27;issues&#x27;, currentIssueId], { relativeTo: this.activatedRoute.parent });
+      });
+    }
+  }
+
+  /**
+   * Extracts the id of an issue in a given issue list.
+   * @param issueList Ids of the issues that are handled.
+   * @param category Category of issues that are handled.
+   * @returns Id of the first issue (in the issue list) with matching category.
+   */
+  private extractIssueId(issueList, category: string): string {
+    for (const issue of issueList) {
+      if (issue.category &#x3D;&#x3D;&#x3D; category) {
+        return issue.id;
+      }
+    }
+  }
+
+  /**
+   * Handles the case in which the clicked issue folder contains many issues.
+   * @param rootNode Root node that is handled.
+   */
+  private nodeClickManyIssues(rootNode: Node) {
+    // case: root node of type Component
+    // &#x3D;&gt; handles many component issues, opens their Component Issues page
+    if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
+      this.router.navigate([&#x27;./component/&#x27;, rootNode.id], { relativeTo: this.activatedRoute.parent });
+    }
+
+    // case: root node of type Interface
+    // &#x3D;&gt; handles many interface issues, opens their Interface Issues page
+    if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+      this.router.navigate([&#x27;./interface/&#x27;, rootNode.id], { relativeTo: this.activatedRoute.parent });
+    }
+  }
+
+  /**
+   * Closes the component context menu, if one is open
+   * @param reload If true, reloads the graph if a context menu was closed
+   */
+  private closeComponentActions(reload: boolean &#x3D; true): boolean {
+    // case: there are actions to close
+    if (this.componentContextMenu) {
+      // case: redraw of the graph needed
+      // &#x3D;&gt; issues redraw
+      if (reload) {
+        this.reload();
+      }
+
+      // cancels component actions
+      this.componentContextMenu.close();
+      this.componentContextMenu &#x3D; null;
+      this.componentContextMenuNodeId &#x3D; null;
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Issues a redraw of the graph. ?
+   */
+  public reload(): void {
+    this.reload$.next(null);
+  }
+
+  /**
+   * Method gets triggered when the minimap renders.
+   * @param minimap Minimap that is handled.
+   */
+  private onMinimapRender(minimap: GraphEditor): EventListenerOrEventListenerObject {
+    return (event: CustomEvent) &#x3D;&gt; {
+      // case: renders the minimap completely
+      if (event.detail.rendered &#x3D;&#x3D;&#x3D; &#x27;complete&#x27;) {
+        minimap.completeRender();
+        minimap.zoomToBoundingBox();
+      }
+
+      // case: renders texts
+      else if (event.detail.rendered &#x3D;&#x3D;&#x3D; &#x27;text&#x27;) {
+        // irrelevant for the minimap
+      }
+
+      // case: renders node classes
+      else if (event.detail.rendered &#x3D;&#x3D;&#x3D; &#x27;classes&#x27;) {
+        minimap.updateNodeClasses();
+      }
+
+      // case: renders node positions
+      else if (event.detail.rendered &#x3D;&#x3D;&#x3D; &#x27;positions&#x27;) {
+        minimap.updateGraphPositions();
+        minimap.zoomToBoundingBox();
+      }
+    };
+  }
+
+  /**
+   * Responsible for drawing the graph based on this.graphData.
+   * Takes care of adding interfaces and components, and their connections.
+   * Additionally adds issue folders attached to each component and the dashed edges
+   * between them based on this.graphData.relatedFolders
+   */
+  drawGraph() {
+    const boundingBox &#x3D; this.calculateBoundingBox();
+    // reset graph and remove all elements, gives us clean slate
+    this.resetGraph();
+
+    const layoutGraph &#x3D; Object.keys(this.savedPositions.nodes).length &#x3D;&#x3D;&#x3D; 0;
+    // create nodes corresponding to the components and interfaces of the project
+    const componentNodes &#x3D; Array.from(this.graphData.components.values()).map(component &#x3D;&gt;
+      issueGraphNodes.createComponentNode(component, this.findIdealComponentPosition(component.id, boundingBox)));
+    const interfaceNodes &#x3D; Array.from(this.graphData.interfaces.values()).map(
+      intrface &#x3D;&gt; issueGraphNodes.createInterfaceNode(intrface, this.savedPositions.nodes[intrface.id]));
+    // issueNodes contains BOTH componentNodes and interfaceNodes
+    const issueNodes &#x3D; (componentNodes as issueGraphNodes.IssueNode[]).concat(interfaceNodes as issueGraphNodes.IssueNode[]);
+    // For components AND interfaces: add the edges, issue folders and relations between folders
+    issueNodes.forEach(node &#x3D;&gt; {
+      this.graph.addNode(node);
+      this.addIssueFolders(node);
+      this.drawFolderRelations(node);
+    });
+    // ONLY for interfaces: create edges connecting interface to offering component and consuming components to interface
+    interfaceNodes.forEach(interfaceNode &#x3D;&gt; {
+      this.connectToOfferingComponent(interfaceNode);
+      this.connectConsumingComponents(interfaceNode);
+    });
+
+    // render all changes
+    this.graph.completeRender();
+    this.setGraphToLastView();
+    if (layoutGraph &amp;&amp; issueNodes.length &gt; 0) {
+      this.layoutGraph();
+      this.drawGraph();
+    }
+  }
+
+  /**
+   * Resets graph state. Called at start of draw(). Enables logic in draw()
+   * to assume a &#x27;blank sheet&#x27; state avoiding complex updating logic.
+   */
+  resetGraph() {
+    this.graph.edgeList &#x3D; [];
+    this.graph.nodeList &#x3D; [];
+    this.issueGroupParents &#x3D; [];
+    this.graph.groupingManager.clearAllGroups();
+  }
+
+  /**
+   * Finds the ideal component position if none is saved.
+   * @param id Id of component that is handled.
+   * @param boundingBox Bounding box of the component that is handled.
+   */
+  findIdealComponentPosition(id: string, boundingBox: Rect): Point {
+
+    // saved position
+    const saved &#x3D; this.savedPositions.nodes[id];
+
+    // case: there is a saved position
+    // &#x3D;&gt; return it
+    if (saved) {
+      return saved;
+    }
+
+    // calculates the ideal position
+    const point &#x3D; {x: 0, y: 0};
+    if (boundingBox) {
+      point.x &#x3D; boundingBox.x + boundingBox.width + 60;
+      point.y &#x3D; boundingBox.y + boundingBox.height / 2;
+    }
+
+    // saves the ideal position
+    this.savedPositions.nodes[id] &#x3D; point;
+
+    return point;
+  }
+
+  /**
+   * Creates and adds an edge between the node representing a component
+   * an the node representing the interface itself.
+   * @param node - Interface that is handled.
+   */
+  connectToOfferingComponent(node: issueGraphNodes.InterfaceNode) {
+    this.graph.addEdge(issueGraphNodes.createInterfaceProvisionEdge(node.offeredById, node.id));
+  }
+
+  /**
+   * Adds an edge from each connected component to the interface.
+   * @param interfaceNode - Interface (visualized by lollipop notation) that is handled.
+   */
+  connectConsumingComponents(interfaceNode: issueGraphNodes.InterfaceNode) {
+    for (const consumerId of this.graphData.interfaces.get(interfaceNode.id).consumedBy) {
+      this.graph.addEdge(issueGraphNodes.createConsumptionEdge(consumerId, interfaceNode.id));
+    }
+  }
+
+  /**
+   * Adds the issue folders with counts for each IssueCategory (currently 3)
+   * to the component or interface represented by node. The first methods call
+   * sets up invisible nodes in the graph to make the folders display properly.
+   * The second method takes care of actually adding the visible folders with
+   * the correct counts.
+   * @param node - Interface / component that is handled.
+   */
+  private addIssueFolders(node: issueGraphNodes.IssueNode) {
+    this.addIssueGroupContainer(node);
+    this.addIssueFolderNodes(node);
+  }
+
+  /**
+   * Creates the node groups necessary for displaying issue folders attached to a node.
+   * A Node represents a component or an interface.
+   * It also gets an issue group of IssueGroupContainerParentBehaviour,
+   * issueGroupContainerNode with IssueGroupContainerBehaviour gets added to it.
+   * This corresponds to the 4 &#x27;Grouping Manager&#x27; object
+   * on the upper two levels in the graph_structure_documentation.png.
+   * @param node - Node (component or interface) which can have issue folders attached.
+   */
+  private addIssueGroupContainer(node: issueGraphNodes.IssueNode) {
+    const gm &#x3D; this.graph.groupingManager;
+    gm.markAsTreeRoot(node.id);
+    const issueGroupContainerNode &#x3D; issueGraphNodes.createIssueGroupContainerNode(node);
+    const initialPosition &#x3D; this.savedPositions.issueGroups[issueGroupContainerNode.id];
+    gm.setGroupBehaviourOf(
+      node.id,
+      new IssueGroupContainerParentBehaviour(initialPosition)
+    );
+
+    // the issueGroupContainerNode has no visual representation but contains the visible issue folders
+    node.issueGroupContainer &#x3D; issueGroupContainerNode;
+    this.graph.addNode(issueGroupContainerNode);
+    gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
+    gm.setGroupBehaviourOf(
+      issueGroupContainerNode.id,
+      new IssueGroupContainerBehaviour()
+    );
+    this.issueGroupParents.push(node);
+  }
+
+  /**
+   * This method presumes that node has the 4 &#x27;Grouping Manager Objects&#x27;
+   * depicted on the the upper levels in the graph_structure_documentation.png.
+   * correctly setup.
+   * @param node Interface / component that is handled.
+   */
+  private addIssueFolderNodes(node: issueGraphNodes.IssueNode) {
+    // get mapping from IssueCategory to number for the component or interface represented by node
+    const issueCounts &#x3D; this.graphData.graphLocations.get(node.id).issues;
+    // iterate over issue categories and create a node if there is at least one issue of it
+    Object.keys(IssueCategory).forEach(key &#x3D;&gt; {
+      const issueCategory &#x3D; IssueCategory[key];
+      if (issueCounts.has(issueCategory)) {
+        const count &#x3D; issueCounts.get(issueCategory);
+        // only show folders for issue categories with at least one issue
+        if (count &gt; 0) {
+          const issueFolderNode &#x3D; issueGraphNodes.createIssueFolderNode(node, issueCategory, count.toString());
+          this.graph.addNode(issueFolderNode);
+          this.graph.groupingManager.addNodeToGroup(node.issueGroupContainer.id, issueFolderNode.id);
+        }
+      }
+    });
+  }
+
+  /**
+   * Draws folder relations originating from the issue folder represented by node.
+   * @param node - Issue folder (for issues of a certain type) that is handled.
+   */
+  private drawFolderRelations(node: issueGraphNodes.IssueNode) {
+    // @ts-ignore
+    const folderNodes: IssueFolderNode[] &#x3D; Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
+      (id: string) &#x3D;&gt; this.graph.getNode(id));
+    for (const folderNode of folderNodes) {
+      const relatedFolders &#x3D; this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
+      for (const relatedFolder of relatedFolders) {
+        const [issueNodeId, category] &#x3D; relatedFolder;
+        const edge &#x3D; issueGraphNodes.createRelationEdge(folderNode.id, issueGraphNodes.getIssueFolderId(issueNodeId, category));
+        this.graph.addEdge(edge);
+      }
+    }
+  }
+
+  /**
+   * Sets the view and the bounding box of the graph to how it was when the user left the graph with the help of localStorage.
+   * When theres no previous session available set the view to the optimized bounding box for the graph.
+   */
+  private setGraphToLastView() {
+    // The previous currentViewWindow of the graph as JSON string
+    const previousBoundingBoxAsString &#x3D; localStorage.getItem(&#x60;zoomBoundingBox_${this.projectStorageKey}&#x60;);
+    // The previous zoomTransform of the graph as JSON string
+    const zoomTransformAsString &#x3D; localStorage.getItem(&#x60;zoomTransform_${this.projectStorageKey}&#x60;);
+    // Only set the bounding box to the optimized bounding box for the graph when creating the first component
+    const firstComponent &#x3D; this.graphData.components.size &#x3D;&#x3D;&#x3D; 1 ? true : false;
+
+    // Set the bounding box to the bounding box of the last session or to the optimized bounding box if there wasnt a last session
+    if ((JSON.parse(previousBoundingBoxAsString) !&#x3D;&#x3D; null) &amp;&amp; (JSON.parse(zoomTransformAsString) !&#x3D;&#x3D; null) &amp;&amp; this.graphFirstRender
+      &amp;&amp; !this.redrawByCloseOfComponentDetails &amp;&amp; !firstComponent) {
+      const previousBoundingBox &#x3D; JSON.parse(previousBoundingBoxAsString);
+      /* These calculations are necessary because of how GraphEditor.zoomToBox(box: Rect) works. GraphEditor.zoomToBox zooms to
+      the given box and adds some padding.These calculations get rid of the padding. Otherwise the padding would be added to the graph
+       with every execution of the setGraphToLastView() method. */
+      previousBoundingBox.width &#x3D; previousBoundingBox.width * 0.9;
+      previousBoundingBox.height &#x3D; previousBoundingBox.height * 0.9;
+      // Difference between Rect.x that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.x
+      const paddingX &#x3D; 57.75 / JSON.parse(zoomTransformAsString).k;
+      // Difference between Rect.y that is given into the GraphEdit.zoomToBox(box: Rect) method and the resulting Rect.y
+      const paddingY &#x3D; 17.2 / JSON.parse(zoomTransformAsString).k;
+      previousBoundingBox.x &#x3D; previousBoundingBox.x + paddingX;
+      previousBoundingBox.y &#x3D; previousBoundingBox.y + paddingY;
+      this.graph.zoomToBox(previousBoundingBox);
+      this.graphFirstRender &#x3D; false;
+    }
+    // Zoom to the optimized bounding box if no graph view is stored from the last session or when the first component is created
+    else if ((this.zoomOnRedraw &amp;&amp; !this.redrawByCloseOfComponentDetails) || firstComponent) {
+      this.fitGraphInView();
+      this.zoomOnRedraw &#x3D; false;
+    }
+  }
+
+  /**
+   * Fits the graph into view.
+   */
+  fitGraphInView(): void {
+    // calculates the bounding box of the view
+    const rect &#x3D; this.calculateBoundingBox();
+
+    // case: bounding box is calculated
+    // &#x3D;&gt; zoom to bounding box
+    if (rect) {
+      this.graph.zoomToBox(rect);
+    }
+  }
+
+  /**
+   * Calculates the bounding box of the view.
+   * @returns The calculated bounding box.
+   */
+  calculateBoundingBox(): Rect {
+    const componentSize &#x3D; {width: 100, height: 60};
+    const interfaceSize &#x3D; {width: 14, height: 14};
+    const issueContainerSize &#x3D; {width: 40, height: 30};
+
+    // calculates bounding box
+    let rect &#x3D; null;
+    for (const node of this.graph.nodeList) {
+      let size;
+      if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
+        size &#x3D; componentSize;
+      } else if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface || node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.InterfaceConsumer) {
+        size &#x3D; interfaceSize;
+      } else if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.IssueGroupContainer) {
+        if (node.issueGroupNodeIds.size &#x3D;&#x3D;&#x3D; 0) {
+          // irrelevant for empty issue group containers
+          continue;
+        }
+
+        size &#x3D; issueContainerSize;
+      } else {
+        continue;
+      }
+
+      const nodeX &#x3D; node.x - size.width / 2;
+      const nodeY &#x3D; node.y - size.height / 2;
+
+      if (rect &#x3D;&#x3D;&#x3D; null) {
+        rect &#x3D; {xMin: nodeX, yMin: nodeY, xMax: nodeX + size.width, yMax: nodeY + size.height};
+      } else {
+        rect.xMin &#x3D; Math.min(nodeX, rect.xMin);
+        rect.yMin &#x3D; Math.min(nodeY, rect.yMin);
+
+        rect.xMax &#x3D; Math.max(nodeX + size.width, rect.xMax);
+        rect.yMax &#x3D; Math.max(nodeY + size.height, rect.yMax);
+      }
+    }
+
+    return rect ? {x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin} : null;
+  }
+
+  /**
+   * Handles the layour graph.
+   */
+  layoutGraph(): void {
+    const nodes &#x3D; new Map&lt;string | number, LayoutNode&gt;();
+
+    for (const node of this.graph.nodeList) {
+      if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component || node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
+        nodes.set(node.id, new LayoutNode(node.id, node.x, node.y, node.type));
+      }
+    }
+
+    for (const edge of this.graph.edgeList) {
+      if (nodes.has(edge.source) &amp;&amp; nodes.has(edge.target)) {
+        nodes.get(edge.source).connectTo(nodes.get(edge.target));
+        nodes.get(edge.target).connectTo(nodes.get(edge.source));
+      }
+    }
+
+    const nodeList &#x3D; Array.from(nodes.values());
+    doGraphLayout(nodeList);
+
+    for (const node of nodeList) {
+      const layoutNode &#x3D; nodes.get(node.id);
+      this.savedPositions.nodes[layoutNode.id] &#x3D; {x: layoutNode.position.x, y: layoutNode.position.y};
+    }
+
+    this.savePositionsSubject.next();
+  }
+
+  /**
+   * Sets --show-relations css variable to initial or none. It is the value
+   * of the display attribute of the edges. If we set it to none the edges disappear.
+   * @param showRelations - Boolean derived from the setting of the switch slider for relation edges above the graph.
+   */
+  setRelationVisibility(showRelations: boolean) {
+    this.graph.getSVG().style(&#x27;--show-relations&#x27;, showRelations ? &#x27;initial&#x27; : &#x27;none&#x27;);
+  }
+
+  /**
+   * Opens create component dialog and triggers reload of data after the dialog is closed.
+   */
+  public openCreateComponentDialog(): void {
+    const createComponentDialogRef &#x3D; this.dialog.open(CreateComponentDialogComponent, {
+      data: {projectId: this.projectId}
+    });
+    createComponentDialogRef.afterClosed().subscribe(componentInformation &#x3D;&gt; {
+      this.zoomOnRedraw &#x3D; false;
+      this.reload$.next(null);
+    });
+  }
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'Positions.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

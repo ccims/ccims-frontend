@@ -1,0 +1,1126 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  IssueGraphControlsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>This component contains the graph toggles, the search bar and the button
+for creating new components. Additionally it contains the actual graph component and feeds
+data to it. This component collects the state of the search bar and graph toggles, combines it and emits it via this.filter$.
+Another observable retrieved from the IssueGraphStateService maps these values into the graph
+data matching the filters. Whenever new graph data arrives it is feed to the actual graph component. (see ngAfterViewInit)</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-issue-graph-controls</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./issue-graph-controls.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./issue-graph-controls.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#bug" >bug</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                <a href="#featureRequests" >featureRequests</a>
+                            </li>
+                            <li>
+                                <a href="#filter$" >filter$</a>
+                            </li>
+                            <li>
+                                <a href="#issueGraph" >issueGraph</a>
+                            </li>
+                            <li>
+                                <a href="#labelSearch" >labelSearch</a>
+                            </li>
+                            <li>
+                                <a href="#projectId" >projectId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#selectedCategories$" >selectedCategories$</a>
+                            </li>
+                            <li>
+                                <a href="#showRelations" >showRelations</a>
+                            </li>
+                            <li>
+                                <a href="#unclassified" >unclassified</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getSelectedCategories" >getSelectedCategories</a>
+                            </li>
+                            <li>
+                                <a href="#layoutGraph" >layoutGraph</a>
+                            </li>
+                            <li>
+                                <a href="#setRelationVisibility" >setRelationVisibility</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateSelectedCategories" >updateSelectedCategories</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(dialog: MatDialog, gs: <a href="../injectables/IssueGraphStateService.html" target="_self">IssueGraphStateService</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>gs</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/IssueGraphStateService.html" target="_self" >IssueGraphStateService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSelectedCategories"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getSelectedCategories</b></span>
+                        <a href="#getSelectedCategories"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSelectedCategories()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:66</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Gathers booleans indicating whether the toggle switches
+coressponding to values in IssueCategory are turned on or off</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#SelectedCategories" target="_self" >SelectedCategories</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="layoutGraph"></a>
+                    <span class="name">
+                        <span ><b>layoutGraph</b></span>
+                        <a href="#layoutGraph"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>layoutGraph()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:74</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setRelationVisibility"></a>
+                    <span class="name">
+                        <span ><b>setRelationVisibility</b></span>
+                        <a href="#setRelationVisibility"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setRelationVisibility()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:108</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tell the graph component whether to show issue relations or not.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSelectedCategories"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>updateSelectedCategories</b></span>
+                        <a href="#updateSelectedCategories"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateSelectedCategories()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:57</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Emit newly selected categories via this.selectedCategories$</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bug"></a>
+                    <span class="name">
+                        <span ><b>bug</b></span>
+                        <a href="#bug"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new ReplaySubject&lt;void&gt;(1)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="featureRequests"></a>
+                    <span class="name">
+                        <span ><b>featureRequests</b></span>
+                        <a href="#featureRequests"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filter$"></a>
+                    <span class="name">
+                        <span ><b>filter$</b></span>
+                        <a href="#filter$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/FilterState.html" target="_self" >BehaviorSubject&lt;FilterState&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="issueGraph"></a>
+                    <span class="name">
+                        <span ><b>issueGraph</b></span>
+                        <a href="#issueGraph"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/GraphComponent.html" target="_self" >IssueGraphComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(IssueGraphComponent)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="labelSearch"></a>
+                    <span class="name">
+                        <span ><b>labelSearch</b></span>
+                        <a href="#labelSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/LabelSearchComponent.html" target="_self" >LabelSearchComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(LabelSearchComponent)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectId"></a>
+                    <span class="name">
+                        <span ><b>projectId</b></span>
+                        <a href="#projectId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedCategories$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>selectedCategories$</b></span>
+                        <a href="#selectedCategories$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;SelectedCategories&gt;(
+    this.getSelectedCategories()
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showRelations"></a>
+                    <span class="name">
+                        <span ><b>showRelations</b></span>
+                        <a href="#showRelations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unclassified"></a>
+                    <span class="name">
+                        <span ><b>unclassified</b></span>
+                        <a href="#unclassified"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {AfterViewInit, Component, OnDestroy, ViewChild} from &#x27;@angular/core&#x27;;
+import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
+import {ActivatedRoute} from &#x27;@angular/router&#x27;;
+import {IssueGraphComponent} from &#x27;../issue-graph/issue-graph.component&#x27;;
+import {IssueCategory} from &#x27;src/generated/graphql&#x27;;
+import {BehaviorSubject, combineLatest, ReplaySubject} from &#x27;rxjs&#x27;;
+import {SelectedCategories} from &#x27;../shared&#x27;;
+import {IssueGraphStateService} from &#x27;../../data/issue-graph/issue-graph-state.service&#x27;;
+import {LabelSearchComponent} from &#x27;../label-search/label-search.component&#x27;;
+import {map, takeUntil} from &#x27;rxjs/operators&#x27;;
+import {FilterState} from &#x27;@app/graphs/shared&#x27;;
+
+/**
+ * This component contains the graph toggles, the search bar and the button
+ * for creating new components. Additionally it contains the actual graph component and feeds
+ * data to it. This component collects the state of the search bar and graph toggles, combines it and emits it via this.filter$.
+ * Another observable retrieved from the IssueGraphStateService maps these values into the graph
+ * data matching the filters. Whenever new graph data arrives it is feed to the actual graph component. (see ngAfterViewInit)
+ */
+@Component({
+  selector: &#x27;app-issue-graph-controls&#x27;,
+  templateUrl: &#x27;./issue-graph-controls.component.html&#x27;,
+  styleUrls: [&#x27;./issue-graph-controls.component.scss&#x27;]
+})
+export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
+  @ViewChild(LabelSearchComponent) labelSearch: LabelSearchComponent;
+
+  projectId: string;
+
+  // these 3 booleans are bound to the issue category toggles via ngModel
+  featureRequests &#x3D; true;
+  bug &#x3D; true;
+  unclassified &#x3D; true;
+
+  showRelations &#x3D; true;
+  // emits state of toggles and search bar combined
+  filter$: BehaviorSubject&lt;FilterState&gt;;
+  private destroy$ &#x3D; new ReplaySubject&lt;void&gt;(1);
+
+  constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
+    this.projectId &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
+    this.filter$ &#x3D; new BehaviorSubject({
+      selectedCategories: this.getSelectedCategories(), selectedFilter: {
+        labels: [], texts: []
+      }
+    });
+  }
+
+  public selectedCategories$ &#x3D; new BehaviorSubject&lt;SelectedCategories&gt;(
+    this.getSelectedCategories()
+  );
+
+  /**
+   * Emit newly selected categories via this.selectedCategories$
+   */
+  public updateSelectedCategories() {
+    this.selectedCategories$.next(
+      this.getSelectedCategories());
+  }
+
+  /**
+   * Gathers booleans indicating whether the toggle switches
+   * coressponding to values in IssueCategory are turned on or off
+   */
+  private getSelectedCategories(): SelectedCategories {
+    return {
+      [IssueCategory.Bug]: this.bug,
+      [IssueCategory.FeatureRequest]: this.featureRequests,
+      [IssueCategory.Unclassified]: this.unclassified,
+    };
+  }
+
+  layoutGraph(): void {
+    this.issueGraph.layoutGraph();
+    this.issueGraph.drawGraph();
+    this.issueGraph.fitGraphInView();
+  }
+
+  /**
+   * Setup this.filter$ and create subscription for observable returned from graphDataForFilter
+   */
+  ngAfterViewInit(): void {
+    // sets up emission of values representing the state of the graph toggles and the search bar via this.filter$
+    combineLatest([this.selectedCategories$, this.labelSearch.filterSelection$]).pipe(
+      takeUntil(this.destroy$),
+      map(([selectedCategories, filterSelection]) &#x3D;&gt; ({selectedCategories, selectedFilter: filterSelection}))
+    ).subscribe(filterState &#x3D;&gt; this.filter$.next(filterState));
+
+    // gets an obervable from GraphStateService that emits the matching graph state
+    // after this component emits values on this.filter$ or the IssueGraphComponent
+    // signals the need for a reload via this.issueGraph.reload$. Whenever new graph state
+    // arrives we pass it to the graph and issue a redraw on it.
+    this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$, this.destroy$).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(
+      graphData &#x3D;&gt; {
+        this.issueGraph.graphData &#x3D; graphData;
+        this.issueGraph.drawGraph();
+      }
+    );
+  }
+
+  /**
+   * Tell the graph component whether to show issue relations or not.
+   *
+   */
+  setRelationVisibility(): void {
+    this.issueGraph.setRelationVisibility(this.showRelations);
+  }
+
+  /**
+   * Cancel subscriptions by emitting a value on this.destroy$
+   */
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!--Graph page controls--&gt;
+&lt;div class&#x3D;&quot;container&quot;&gt;
+
+  &lt;!--Controls--&gt;
+  &lt;div class&#x3D;&quot;controls&quot;&gt;
+
+    &lt;!--Feature Requests toggle--&gt;
+    &lt;mat-slide-toggle title&#x3D;&quot;Feature Requests&quot; [(ngModel)]&#x3D;&quot;featureRequests&quot;
+                      matTooltip&#x3D;&quot;Feature Requests&quot; class&#x3D;&quot;slide-toggle&quot;
+                      [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;updateSelectedCategories()&quot;&gt;
+      &lt;mat-icon class&#x3D;&quot;feature-request-icon&quot;&gt;emoji_objects&lt;/mat-icon&gt;
+    &lt;/mat-slide-toggle&gt;
+
+    &lt;!--Bug Reports toggle--&gt;
+    &lt;mat-slide-toggle title&#x3D;&quot;Bug Reports&quot; [(ngModel)]&#x3D;&quot;bug&quot;
+                      matTooltip&#x3D;&quot;Bug Reports&quot; class&#x3D;&quot;slide-toggle&quot;
+                      [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;updateSelectedCategories()&quot;&gt;
+      &lt;mat-icon class&#x3D;&quot;bug-report-icon&quot;&gt;bug_report&lt;/mat-icon&gt;
+    &lt;/mat-slide-toggle&gt;
+
+      &lt;!--Unclassified Issues toggle--&gt;
+    &lt;mat-slide-toggle title&#x3D;&quot;Unclassified Issues&quot; [(ngModel)]&#x3D;&quot;unclassified&quot;
+                      matTooltip&#x3D;&quot;Unclassified Issues&quot; class&#x3D;&quot;slide-toggle&quot;
+                        [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;updateSelectedCategories()&quot;&gt;
+      &lt;mat-icon class&#x3D;&quot;unclassified-icon&quot;&gt;help&lt;/mat-icon&gt;
+    &lt;/mat-slide-toggle&gt;
+
+    &lt;!--Issue Relations toggle--&gt;
+    &lt;mat-slide-toggle title&#x3D;&quot;Issue Relations&quot; [(ngModel)]&#x3D;&quot;showRelations&quot;
+                      matTooltip&#x3D;&quot;Issue Relations&quot; class&#x3D;&quot;slide-toggle&quot;
+                      [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;setRelationVisibility()&quot;&gt;
+      &lt;mat-icon class&#x3D;&quot;relation-edge-icon&quot; svgIcon&#x3D;&quot;relation-edge&quot;&gt;&lt;/mat-icon&gt;
+    &lt;/mat-slide-toggle&gt;
+
+    &lt;!--Center Focus button--&gt;
+    &lt;button mat-icon-button title&#x3D;&quot;Fit Graph Into View&quot;
+            (click)&#x3D;&quot;this.issueGraph.fitGraphInView()&quot;
+            style&#x3D;&quot; margin-left: 20px&quot;&gt;
+      &lt;mat-icon&gt;center_focus_strong&lt;/mat-icon&gt;
+    &lt;/button&gt;
+
+    &lt;!--Dashboard button--&gt;
+    &lt;button mat-icon-button title&#x3D;&quot;Layout Graph&quot;
+            (click)&#x3D;&quot;this.layoutGraph()&quot;
+            style&#x3D;&quot; margin-left: 20px&quot;&gt;
+      &lt;mat-icon&gt;dashboard&lt;/mat-icon&gt;
+    &lt;/button&gt;
+
+    &lt;!--Search Label field--&gt;
+    &lt;app-label-search title&#x3D;&quot;Label Search&quot; #labelSearch&gt;&lt;/app-label-search&gt;
+
+    &lt;!--Create New Component button--&gt;
+    &lt;button mat-fab title&#x3D;&quot;Create New Component&quot; color&#x3D;&quot;primary&quot;
+            class&#x3D;&quot;create-component-button&quot;
+            (click)&#x3D;&quot;this.issueGraph.openCreateComponentDialog()&quot;&gt;
+      &lt;mat-icon&gt;add&lt;/mat-icon&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!--?--&gt;
+  &lt;app-issue-graph [projectId]&#x3D;&quot;projectId&quot;&gt;&lt;/app-issue-graph&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./issue-graph-controls.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;~@angular/material/theming&#x27;;
+@import &#x27;variables&#x27;;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+.container app-issue-graph {
+  flex-grow: 1;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  background-color: $background-controls;
+  border-bottom: 1px solid $border-color-controls;
+}
+
+.controls app-label-search {
+  display: inline-block;
+    height: 44px;
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.slide-toggle {
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.bug-report-icon {
+  color: red;
+}
+
+.feature-request-icon {
+  color: #005eff;
+}
+
+.feature-request-icon, .bug-report-icon, .notification-icon, .unclassified-icon {
+  margin-top: 7px;
+}
+
+.relation-edge-icon {
+  margin-top: 12px;
+}
+.create-component-button {
+  margin: 10px;
+  margin-left: 20px;
+  right: 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!--Graph page controls--><div class="container">  <!--Controls-->  <div class="controls">    <!--Feature Requests toggle-->    <mat-slide-toggle title="Feature Requests" [(ngModel)]="featureRequests"                      matTooltip="Feature Requests" class="slide-toggle"                      [checked]="true" (change)="updateSelectedCategories()">      <mat-icon class="feature-request-icon">emoji_objects</mat-icon>    </mat-slide-toggle>    <!--Bug Reports toggle-->    <mat-slide-toggle title="Bug Reports" [(ngModel)]="bug"                      matTooltip="Bug Reports" class="slide-toggle"                      [checked]="true" (change)="updateSelectedCategories()">      <mat-icon class="bug-report-icon">bug_report</mat-icon>    </mat-slide-toggle>      <!--Unclassified Issues toggle-->    <mat-slide-toggle title="Unclassified Issues" [(ngModel)]="unclassified"                      matTooltip="Unclassified Issues" class="slide-toggle"                        [checked]="true" (change)="updateSelectedCategories()">      <mat-icon class="unclassified-icon">help</mat-icon>    </mat-slide-toggle>    <!--Issue Relations toggle-->    <mat-slide-toggle title="Issue Relations" [(ngModel)]="showRelations"                      matTooltip="Issue Relations" class="slide-toggle"                      [checked]="true" (change)="setRelationVisibility()">      <mat-icon class="relation-edge-icon" svgIcon="relation-edge"></mat-icon>    </mat-slide-toggle>    <!--Center Focus button-->    <button mat-icon-button title="Fit Graph Into View"            (click)="this.issueGraph.fitGraphInView()"            style=" margin-left: 20px">      <mat-icon>center_focus_strong</mat-icon>    </button>    <!--Dashboard button-->    <button mat-icon-button title="Layout Graph"            (click)="this.layoutGraph()"            style=" margin-left: 20px">      <mat-icon>dashboard</mat-icon>    </button>    <!--Search Label field-->    <app-label-search title="Label Search" #labelSearch></app-label-search>    <!--Create New Component button-->    <button mat-fab title="Create New Component" color="primary"            class="create-component-button"            (click)="this.issueGraph.openCreateComponentDialog()">      <mat-icon>add</mat-icon>    </button>  </div>  <!--?-->  <app-issue-graph [projectId]="projectId"></app-issue-graph></div></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+    var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
+    var ACTUAL_COMPONENT = {'name': 'IssueGraphControlsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'IssueGraphControlsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
