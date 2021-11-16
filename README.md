@@ -1,3 +1,46 @@
+(new README)
+
+# Frontend for the Gropius system
+
+## Introduction to Gropius
+
+Software systems are usually built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous services. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.
+
+Even though component-based architectures have many benefits like ease of deployment, reusability and independence, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different issue management systems (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.
+
+Gropius is a cross component issue management system (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.
+
+## The frontend of Gropius
+
+As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.
+
+The system consists of three different parts: 
+a) the [frontend](https://github.com/ccims/ccims-frontend), 
+b) the [backend](https://github.com/ccims/ccims-backend) and 
+c) the [connection between both of them](https://github.com/ccims/ccims-backend-gql). 
+
+The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. 
+
+## Further details about Gropius
+
+Information about all the critical and additional features the frontend consists of can be found on this page: "Using the project".
+TODO: add link
+TODO: add additional info
+
+Information about the used technologies, structure of the project, connection with the backend, etc. can be found on this page:  "Managing the project".
+TODO: add link
+TODO: add additional info
+
+## Credits
+
+Information about all the team members that have worked on the frontend can be found on this page: "Team members".
+
+## License
+
+TODO: add additional info
+
+(old README)
+
 # Webfrontend for Gropius
 
 ## Development server
