@@ -1,3 +1,0 @@
-# Managing the system
-
-This is a test file ...
