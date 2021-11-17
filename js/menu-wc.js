@@ -554,10 +554,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/CreateComponentData.html" data-type="entity-link" >CreateComponentData</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/CreateInterfaceData.html" data-type="entity-link" >CreateInterfaceData</a>
+                                <a href="interfaces/CreateEditLabelDialogData.html" data-type="entity-link" >CreateEditLabelDialogData</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/CreateLabelDialogData.html" data-type="entity-link" >CreateLabelDialogData</a>
+                                <a href="interfaces/CreateInterfaceData.html" data-type="entity-link" >CreateInterfaceData</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/DialogData.html" data-type="entity-link" >DialogData</a>

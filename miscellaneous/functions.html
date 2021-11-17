@@ -438,6 +438,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Converts a predicate value into the backend representation for use in the filter.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -506,6 +508,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the default value for a predicate type.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1441,6 +1445,8 @@ provideDefaultApollo no token is attached to reqeusts.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>See <a href="../miscellaneous/functions.html#decodeListId">decodeListId</a>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1451,6 +1457,7 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1465,6 +1472,10 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>an encoded List ID</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1504,6 +1515,8 @@ provideDefaultApollo no token is attached to reqeusts.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>See <a href="../miscellaneous/functions.html#encodeNodeId">encodeNodeId</a>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1514,6 +1527,7 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1528,6 +1542,10 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>the encoded node ID</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1567,6 +1585,9 @@ provideDefaultApollo no token is attached to reqeusts.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Encodes a List ID into a string.</p>
+<p>See <a href="../miscellaneous/functions.html#encodeNodeId">encodeNodeId</a> for more details.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1577,6 +1598,7 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1591,6 +1613,10 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>a List ID</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1630,6 +1656,10 @@ provideDefaultApollo no token is attached to reqeusts.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Encodes a <a href="../interfaces/NodeId.html">NodeId</a> into a string.
+This is due to a limitation in Javascript where objects cannot be <code>==</code> compared with each other
+apart from identity. Encoding them as a string allows <code>NodeId</code>s to be used as object or <code>Map</code> keys.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1640,6 +1670,7 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1654,6 +1685,10 @@ provideDefaultApollo no token is attached to reqeusts.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>the node ID</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1693,7 +1728,8 @@ provideDefaultApollo no token is attached to reqeusts.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the NodeType for a given __typename value.</p>
+                    <div class="io-description"><p>Returns the NodeType for a given <code>__typename</code> value.
+<code>__typename</code> is a tag found in GraphQL data.</p>
 </div>
 
                     <div class="io-description">

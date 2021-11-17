@@ -371,14 +371,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/components/issue-item/issue-item.component.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/app/components/issue-item/issue-item.component.ts:24</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the link URL for the issue.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
@@ -416,6 +418,7 @@ export class IssueItemComponent {
 
   constructor(private router: Router) {}
 
+  /** Returns the link URL for the issue. */
   getIssueLink() {
     return this.router.serializeUrl(this.router.createUrlTree(
       [&#x27;/projects&#x27;, this.projectId, &#x27;issues&#x27;, this.issue.id]

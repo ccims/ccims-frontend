@@ -136,7 +136,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="579" class="link-to-prism">src/app/data-dgql/query.ts:579</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="588" class="link-to-prism">src/app/data-dgql/query.ts:588</a></div>
                             </td>
                         </tr>
 
@@ -203,10 +203,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="579" class="link-to-prism">src/app/data-dgql/query.ts:579</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="588" class="link-to-prism">src/app/data-dgql/query.ts:588</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Internal node storage. Do not use directly.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -239,14 +245,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="583"
-                            class="link-to-prism">src/app/data-dgql/query.ts:583</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="593"
+                            class="link-to-prism">src/app/data-dgql/query.ts:593</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates a new node.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -308,8 +316,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="589"
-                            class="link-to-prism">src/app/data-dgql/query.ts:589</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="599"
+                            class="link-to-prism">src/app/data-dgql/query.ts:599</a></div>
                 </td>
             </tr>
 
@@ -387,8 +395,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="603"
-                            class="link-to-prism">src/app/data-dgql/query.ts:603</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="613"
+                            class="link-to-prism">src/app/data-dgql/query.ts:613</a></div>
                 </td>
             </tr>
 
@@ -472,8 +480,11 @@ import { QueriesService } from &#x27;./queries/queries.service&#x27;;
 import { ListResult, queryList, queryNode } from &#x27;./load&#x27;;
 import { PageInfo } from &#x27;../../generated/graphql-dgql&#x27;;
 
+/** How long {@link DataQuery} will wait to debounce requests until actually sending a request, in milliseconds. */
 const CACHE_FAST_DEBOUNCE_TIME_MS &#x3D; 200;
+/** How long {@link DataQuery} will wait to debounce requests, if the {@link DataQuery#interactive} flag is set, in milliseconds. */
 const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS &#x3D; 500;
+/** Number of milliseconds beyond which cached data will be considered stale, and will be reloaded if a new subscriber is added. */
 const CACHE_STALE_TIME_MS &#x3D; 5000;
 
 /**
@@ -735,13 +746,14 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
   }
 }
 
-/** ignore */
+/** @ignore */
 const identity &#x3D; id &#x3D;&gt; id;
 
 /**
  * A cacheable node with no parameters.
  *
  * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataNode.
+ * Nodes are identified by a {@link NodeId}.
  *
  * #### Example
  * &#x60;&#x60;&#x60;html
@@ -795,16 +807,17 @@ export class DataNode&lt;T&gt; extends DataQuery&lt;NodeId, T, T, void&gt; {
 }
 
 /**
- * Provides a view into list of items.
+ * Provides a view into a list of items.
  *
  * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataList.
+ * Lists are identified by a {@link ListId}.
  *
  * - To access list items, use {@link #currentItems}.
  * - If you need the IDs as well, use {@link #current} (note that the Map is ordered).
  *
  * The current view is defined by following properties:
  *
- * - {@link #cursor}: the current NodeId cursor (see API documentation for details)
+ * - {@link #cursor}: the current NodeId cursor (see backend API documentation for details)
  * - {@link #count}: number of items to load
  * - {@link #forward}: if true, will load items after the cursor. If false, will load items before.
  * - {@link #filter}: filter object (type parameter F)
@@ -1036,10 +1049,15 @@ export type HydrateList&lt;T&gt; &#x3D; {
 /** Keeps a cache of DataNodes such that each NodeId has at most one associated DataNode. */
 export class NodeCache {
   // TODO: garbage collection? (nodes with zero subscribers)
+  /**
+   * @internal
+   * Internal node storage. Do not use directly.
+   */
   nodes: Map&lt;NodeIdEnc, DataNode&lt;unknown&gt;&gt; &#x3D; new Map();
 
   constructor(private queries: QueriesService) {}
 
+  /** Creates a new node. */
   private createNode(id: NodeId) {
     const encodedId &#x3D; encodeNodeId(id);
     this.nodes.set(encodedId, new DataNode(this.queries, id));

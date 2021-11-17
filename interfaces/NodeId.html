@@ -73,6 +73,8 @@
             </p>
             <p class="comment">
                 <p>Uniquely identifies a node.</p>
+<p>Node IDs are composed of a <a href="#type">#type</a> and an <a href="#id">#id</a>.
+The <a href="#id">#id</a> corresponds to the ID used in the backend API.</p>
 
             </p>
 
@@ -145,7 +147,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The ID of this node. This is the same as the node ID in the API.</p>
+                                    <div class="io-description"><p>The ID of this node. This is the same as the node ID in the backend API.</p>
 </div>
                                 </td>
                             </tr>
@@ -199,7 +201,8 @@
 export type ListIdEnc &#x3D; string;
 
 /**
- * API node types. The names should match the respective value of __typename for a given node.
+ * Backend API node types.
+ * The names should match the respective value of &#x60;__typename&#x60; in the GraphQL data for any given node.
  */
 export enum NodeType {
   Root,
@@ -215,7 +218,9 @@ export enum NodeType {
 }
 
 /**
- * Returns the NodeType for a given __typename value.
+ * Returns the NodeType for a given &#x60;__typename&#x60; value.
+ * &#x60;__typename&#x60; is a tag found in GraphQL data.
+ *
  * @param typename the __typename value
  */
 export function nodeTypeFromTypename(typename: string) {
@@ -224,6 +229,9 @@ export function nodeTypeFromTypename(typename: string) {
 
 /**
  * Uniquely identifies a node.
+ *
+ * Node IDs are composed of a {@link #type} and an {@link #id}.
+ * The {@link #id} corresponds to the ID used in the backend API.
  */
 export interface NodeId {
   /**
@@ -231,11 +239,15 @@ export interface NodeId {
    */
   type: NodeType;
   /**
-   * The ID of this node. This is the same as the node ID in the API.
+   * The ID of this node. This is the same as the node ID in the backend API.
    */
   id: string;
 }
 
+/**
+ * See {@link encodeNodeId}.
+ * @param id the encoded node ID
+ */
 export function decodeNodeId(id: NodeIdEnc): NodeId {
   if (!id) {
     throw new Error(&#x27;Could not decode node ID: no id given&#x27;);
@@ -244,14 +256,26 @@ export function decodeNodeId(id: NodeIdEnc): NodeId {
   return { type: NodeType[parts[0]], id: parts[1] };
 }
 
+/**
+ * Encodes a {@link NodeId} into a string.
+ * This is due to a limitation in Javascript where objects cannot be &#x60;&#x3D;&#x3D;&#x60; compared with each other
+ * apart from identity. Encoding them as a string allows &#x60;NodeId&#x60;s to be used as object or &#x60;Map&#x60; keys.
+ *
+ * @param nd the node ID
+ */
 export function encodeNodeId(nd: NodeId): NodeIdEnc {
   return NodeType[nd.type] + &#x27;/&#x27; + nd.id;
 }
 
+/** The ID of the root node. */
 export const ROOT_NODE &#x3D; { type: NodeType.Root, id: &#x27;&#x27; };
 
+/** The special ID of the current user node. */
 export const CURRENT_USER_NODE &#x3D; { type: NodeType.User, id: &#x27;self&#x27; };
 
+/**
+ * All list types represent their respective list queries in the backend API.
+ */
 export enum ListType {
   Projects,
   Components,
@@ -271,6 +295,23 @@ export enum ListType {
 
 /**
  * Uniquely identifies a list of items.
+ *
+ * Lists are always attached to a specific node.
+ * For example, a list of issues may be attached to a project or a component.
+ *
+ * Lists that do not have a specific parent node in the backend API are attached to the
+ * {@link ROOT_NODE}.
+ *
+ * #### Examples
+ * The list of all issues on a component:
+ * &#x60;&#x60;&#x60;ts
+ * { node: { type: NodeType.Component, id: &#x27;...&#x27; }, type: ListType.Issues }
+ * &#x60;&#x60;&#x60;
+ *
+ * The list of linked issues on an issue:
+ * &#x60;&#x60;&#x60;ts
+ * { node: { type: NodeType.Issue, id: &#x27;...&#x27; }, type: ListType.LinkedIssues }
+ * &#x60;&#x60;&#x60;
  */
 export interface ListId {
   /**
@@ -295,6 +336,10 @@ export interface ListParams&lt;F&gt; {
   filter?: F;
 }
 
+/**
+ * See {@link decodeListId}.
+ * @param id an encoded List ID
+ */
 export function decodeListId(id: ListIdEnc): ListId {
   if (!id) {
     throw new Error(&#x27;Could not decode list ID: no id given&#x27;);
@@ -303,6 +348,12 @@ export function decodeListId(id: ListIdEnc): ListId {
   return { node: decodeNodeId(parts[0]), type: ListType[parts[1]] };
 }
 
+/**
+ * Encodes a List ID into a string.
+ *
+ * See {@link encodeNodeId} for more details.
+ * @param ld a List ID
+ */
 export function encodeListId(ld: ListId): ListIdEnc {
   return encodeNodeId(ld.node) + &#x27;#&#x27; + ListType[ld.type];
 }

@@ -101,9 +101,6 @@
                             <a href="#icons" title="src/app/app.module.ts" ><b>icons</b>&nbsp;&nbsp;&nbsp;(src/.../app.module.ts)</a>
                         </li>
                         <li>
-                            <a href="#identity" title="src/app/data-dgql/query.ts" ><b>identity</b>&nbsp;&nbsp;&nbsp;(src/.../query.ts)</a>
-                        </li>
-                        <li>
                             <a href="#listAllIssues" title="src/app/issue-list/issue-filter.component.ts" ><b>listAllIssues</b>&nbsp;&nbsp;&nbsp;(src/.../issue-filter.component.ts)</a>
                         </li>
                         <li>
@@ -355,6 +352,12 @@ constructed from providePublicApollo is only used for registering.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>How long <a href="../classess/DataQuery.html">DataQuery</a> will wait to debounce requests until actually sending a request, in milliseconds.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -381,6 +384,12 @@ constructed from providePublicApollo is only used for registering.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>How long <a href="../classess/DataQuery.html">DataQuery</a> will wait to debounce requests, if the <a href="undefined">undefined</a> flag is set, in milliseconds.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -407,29 +416,9 @@ constructed from providePublicApollo is only used for registering.</p>
                     </td>
                 </tr>
 
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="identity"></a>
-                    <span class="name">
-                        <span ><b>identity</b></span>
-                        <a href="#identity"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>id &#x3D;&gt; id</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>ignore</p>
+                    <div class="io-description"><p>Number of milliseconds beyond which cached data will be considered stale, and will be reloaded if a new subscriber is added.</p>
 </div>
                 </td>
             </tr>
@@ -529,6 +518,12 @@ constructed from providePublicApollo is only used for registering.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The special ID of the current user node.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -545,7 +540,7 @@ constructed from providePublicApollo is only used for registering.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                        <i>Type : </i>    <code>miscellaneous</code>
 
                     </td>
                 </tr>
@@ -555,6 +550,12 @@ constructed from providePublicApollo is only used for registering.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The ID of the root node.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -704,6 +705,12 @@ constructed from providePublicApollo is only used for registering.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the ListId for listing all project issues.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -794,6 +801,14 @@ constructed from providePublicApollo is only used for registering.</p>
                     </td>
                 </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>List of all possible issue filter predicates.</p>
+<p>Keyed by their name, each predicate has a type, label,
+and possibly additional options depending on their type.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>

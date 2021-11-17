@@ -46,7 +46,7 @@
   <li>Interfaces</li>
   <li
   >
-  CreateLabelDialogData</li>
+  CreateEditLabelDialogData</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -68,6 +68,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Parameters for the create/edit label dialog component.</p>
+
+            </p>
 
 
         <section>
@@ -232,6 +239,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The raw project id.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -248,7 +261,9 @@ import {encodeNodeId, ListId, ListType, NodeId} from &#x27;@app/data-dgql/id&#x2
 import DataService from &#x27;@app/data-dgql&#x27;;
 import { ComponentFilter, Label } from &#x27;../../../generated/graphql-dgql&#x27;;
 
-export interface CreateLabelDialogData {
+/** Parameters for the create/edit label dialog component. */
+export interface CreateEditLabelDialogData {
+  /** The raw project id. */
   projectId: NodeId;
   /** If set, will edit an existing label instead of creating a new one. */
   editExisting?: NodeId;
@@ -256,23 +271,34 @@ export interface CreateLabelDialogData {
   issueId?: NodeId[];
 }
 
+/**
+ * This dialog creates or edits a label.
+ *
+ * See {@link CreateEditLabelDialogData} for parameters.
+ */
 @Component({
   selector: &#x27;app-create-edit-label-dialog-component&#x27;,
   templateUrl: &#x27;./create-edit-label-dialog.component.html&#x27;,
   styleUrls: [&#x27;./create-edit-label-dialog.component.scss&#x27;]
 })
 export class CreateEditLabelDialogComponent implements OnInit {
+  /** Validator for the label name. */
   validationLabelName &#x3D; new FormControl(&#x27;&#x27;, [Validators.required, Validators.maxLength(30)]);
+  /** Validator for the label description. */
   validationLabelDescription &#x3D; new FormControl(&#x27;&#x27;, CCIMSValidators.contentValidator);
+  /** Color state. */
   color &#x3D; &#x27;#000000&#x27;;
+  /** If true, the label that is to be edited is still loading. */
   loading &#x3D; false;
 
+  /** Component list to be edited. For new labels, this is a list of node IDs. For existing labels, this is a ListId. */
   componentList: NodeId[] | ListId &#x3D; [];
+  /** Source list of all components. */
   allComponentsList: ListId;
 
   constructor(private dialog: MatDialogRef&lt;CreateEditLabelDialogComponent, Label&gt;,
               private dataService: DataService,
-              @Inject(MAT_DIALOG_DATA) public data: CreateLabelDialogData,
+              @Inject(MAT_DIALOG_DATA) public data: CreateEditLabelDialogData,
               private notify: UserNotifyService) {
   }
 
@@ -312,9 +338,11 @@ export class CreateEditLabelDialogComponent implements OnInit {
     };
   }
 
+  /** @ignore used for set editor */
   makeComponentFilter(search): ComponentFilter {
     return { name: search };
   }
+  /** @ignore used for set editor */
   applyComponentChangeset &#x3D; async (additions: NodeId[], deletions: NodeId[]) &#x3D;&gt; {
     if (Array.isArray(this.componentList)) {
       const keySet &#x3D; new Set(this.componentList.map(id &#x3D;&gt; encodeNodeId(id)));
@@ -340,10 +368,12 @@ export class CreateEditLabelDialogComponent implements OnInit {
     }
   }
 
+  /** When the user cancels label creation or editing, close and return with null. */
   onLabelCancelClick(): void {
     this.dialog.close(null);
   }
 
+  /** When the user confirms their changes, attempt to mutate and return with the label data. */
   onConfirmClick(name: string, description?: string) {
     this.loading &#x3D; true;
 
@@ -383,6 +413,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
     }
   }
 
+  /** Randomizes the label color. */
   randomizeColor(): void {
     const r &#x3D; (&#x27;00&#x27; + (Math.random() * 0xFF).toString(16)).slice(-2);
     const g &#x3D; (&#x27;00&#x27; + (Math.random() * 0xFF).toString(16)).slice(-2);
@@ -418,7 +449,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'CreateLabelDialogData.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'CreateEditLabelDialogData.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

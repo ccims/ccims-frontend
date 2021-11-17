@@ -68,6 +68,15 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Displays a linked issue in a list.</p>
+<p>By default, only information from <a href="#issueStub">#issueStub</a> will be displayed. When the user expands
+the accordion card, the issue&#39;s body will be loaded separately.</p>
+
+    </p>
 
 
     <p class="comment">
@@ -136,16 +145,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                    <span class="modifier">Optional</span>
-                                <a href="#fullIssue" >fullIssue</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
                                 <a href="#fullIssueLink" >fullIssueLink</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#fullIssueSub" >fullIssueSub</a>
                             </li>
                         </ul>
                     </td>
@@ -202,7 +202,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -270,9 +270,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:24</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Cursory information about the linked issue.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -291,9 +297,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:22</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The raw project ID.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -325,14 +337,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:42</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Event handler for when the accordion is opened. Loads the full issue if it hasn&#39;t been loaded yet.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -348,34 +362,6 @@
     <h3 id="inputs">
         Properties
     </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="fullIssue"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                            <span class="modifier">Optional</span>
-                        <span ><b>fullIssue</b></span>
-                        <a href="#fullIssue"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/DataNode.html" target="_self" >DataNode&lt;Issue&gt;</a></code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:19</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -396,37 +382,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:27</a></div>
                         </td>
                     </tr>
 
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="fullIssueSub"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>fullIssueSub</b></span>
-                        <a href="#fullIssueSub"><span class="icon ion-ios-link"></span></a>
-                    </span>
+                    <div class="io-description"><p>Link to the full issue page.</p>
+</div>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>Subscription</code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:20</a></div>
-                        </td>
-                    </tr>
-
 
         </tbody>
     </table>
@@ -444,17 +409,28 @@ import { NodeType } from &#x27;@app/data-dgql/id&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
 
+/**
+ * Displays a linked issue in a list.
+ *
+ * By default, only information from {@link #issueStub} will be displayed. When the user expands
+ * the accordion card, the issue&#x27;s body will be loaded separately.
+ */
 @Component({
   selector: &#x27;app-issue-detail-linked-issue-item&#x27;,
   templateUrl: &#x27;linked-issue-item.component.html&#x27;,
   styleUrls: [&#x27;linked-issue-item.component.scss&#x27;]
 })
 export class LinkedIssueItemComponent implements OnInit, OnDestroy {
+  /** The raw project ID. */
   @Input() projectId: string;
+  /** Cursory information about the linked issue. */
   @Input() issueStub: Issue;
 
+  /** Link to the full issue page. */
   public fullIssueLink: string;
+  /** @ignore */
   public fullIssue?: DataNode&lt;Issue&gt;;
+  /** @ignore */
   private fullIssueSub: Subscription;
 
   constructor(private dataService: DataService, private router: Router) {}
@@ -465,6 +441,7 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
     ));
   }
 
+  /** Event handler for when the accordion is opened. Loads the full issue if it hasn&#x27;t been loaded yet. */
   didOpen() {
     if (!this.fullIssue) {
       this.fullIssue &#x3D; this.dataService.getNode({

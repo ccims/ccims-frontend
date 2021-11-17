@@ -69,15 +69,16 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Provides a view into list of items.</p>
-<p>See <a href="../classess/DataQuery.html">DataQuery</a> for more information, and <a href="../injectables/DataService.html">DataService</a> to obtain a DataList.</p>
+                <p>Provides a view into a list of items.</p>
+<p>See <a href="../classess/DataQuery.html">DataQuery</a> for more information, and <a href="../injectables/DataService.html">DataService</a> to obtain a DataList.
+Lists are identified by a <a href="../interfaces/ListId.html">ListId</a>.</p>
 <ul>
 <li>To access list items, use <a href="#currentItems">#currentItems</a>.</li>
 <li>If you need the IDs as well, use <a href="#current">#current</a> (note that the Map is ordered).</li>
 </ul>
 <p>The current view is defined by following properties:</p>
 <ul>
-<li><a href="#cursor">#cursor</a>: the current NodeId cursor (see API documentation for details)</li>
+<li><a href="#cursor">#cursor</a>: the current NodeId cursor (see backend API documentation for details)</li>
 <li><a href="#count">#count</a>: number of items to load</li>
 <li><a href="#forward">#forward</a>: if true, will load items after the cursor. If false, will load items before.</li>
 <li><a href="#filter">#filter</a>: filter object (type parameter F)</li>
@@ -276,7 +277,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:52</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:55</a></code>
 </div>
                         </td>
                     </tr>
@@ -314,7 +315,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:103</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:106</a></code>
 </div>
                         </td>
                     </tr>
@@ -352,7 +353,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:53</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:56</a></code>
 </div>
                         </td>
                     </tr>
@@ -387,8 +388,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="508"
-                            class="link-to-prism">src/app/data-dgql/query.ts:508</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="513"
+                            class="link-to-prism">src/app/data-dgql/query.ts:513</a></div>
                 </td>
             </tr>
 
@@ -458,8 +459,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="520"
-                            class="link-to-prism">src/app/data-dgql/query.ts:520</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="525"
+                            class="link-to-prism">src/app/data-dgql/query.ts:525</a></div>
                 </td>
             </tr>
 
@@ -497,8 +498,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="559"
-                            class="link-to-prism">src/app/data-dgql/query.ts:559</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="564"
+                            class="link-to-prism">src/app/data-dgql/query.ts:564</a></div>
                 </td>
             </tr>
 
@@ -583,8 +584,8 @@ this method to insert that data directly and avoid triggering a redundant API re
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="540"
-                            class="link-to-prism">src/app/data-dgql/query.ts:540</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="545"
+                            class="link-to-prism">src/app/data-dgql/query.ts:545</a></div>
                 </td>
             </tr>
 
@@ -622,8 +623,8 @@ this method to insert that data directly and avoid triggering a redundant API re
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="529"
-                            class="link-to-prism">src/app/data-dgql/query.ts:529</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="534"
+                            class="link-to-prism">src/app/data-dgql/query.ts:534</a></div>
                 </td>
             </tr>
 
@@ -661,8 +662,8 @@ this method to insert that data directly and avoid triggering a redundant API re
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="434"
-                            class="link-to-prism">src/app/data-dgql/query.ts:434</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="439"
+                            class="link-to-prism">src/app/data-dgql/query.ts:439</a></div>
                 </td>
             </tr>
 
@@ -706,7 +707,7 @@ this method to insert that data directly and avoid triggering a redundant API re
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:137</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:140</a></code>
 </div>
                 </td>
             </tr>
@@ -757,7 +758,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:189</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:192</a></code>
 </div>
                 </td>
             </tr>
@@ -834,7 +835,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:219</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:222</a></code>
 </div>
                 </td>
             </tr>
@@ -879,7 +880,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:180</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:183</a></code>
 </div>
                 </td>
             </tr>
@@ -924,7 +925,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:208</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:211</a></code>
 </div>
                 </td>
             </tr>
@@ -1001,7 +1002,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:198</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:201</a></code>
 </div>
                 </td>
             </tr>
@@ -1046,7 +1047,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:247</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:250</a></code>
 </div>
                 </td>
             </tr>
@@ -1128,7 +1129,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="444" class="link-to-prism">src/app/data-dgql/query.ts:444</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="449" class="link-to-prism">src/app/data-dgql/query.ts:449</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1157,7 +1158,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="449" class="link-to-prism">src/app/data-dgql/query.ts:449</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="454" class="link-to-prism">src/app/data-dgql/query.ts:454</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1190,7 +1191,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="457" class="link-to-prism">src/app/data-dgql/query.ts:457</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="462" class="link-to-prism">src/app/data-dgql/query.ts:462</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1212,7 +1213,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="460" class="link-to-prism">src/app/data-dgql/query.ts:460</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="465" class="link-to-prism">src/app/data-dgql/query.ts:465</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1270,7 +1271,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="466" class="link-to-prism">src/app/data-dgql/query.ts:466</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="471" class="link-to-prism">src/app/data-dgql/query.ts:471</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1292,7 +1293,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="469" class="link-to-prism">src/app/data-dgql/query.ts:469</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="474" class="link-to-prism">src/app/data-dgql/query.ts:474</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1350,7 +1351,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="475" class="link-to-prism">src/app/data-dgql/query.ts:475</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="480" class="link-to-prism">src/app/data-dgql/query.ts:480</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1372,7 +1373,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="478" class="link-to-prism">src/app/data-dgql/query.ts:478</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="483" class="link-to-prism">src/app/data-dgql/query.ts:483</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1430,7 +1431,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="484" class="link-to-prism">src/app/data-dgql/query.ts:484</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="489" class="link-to-prism">src/app/data-dgql/query.ts:489</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1452,7 +1453,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="487" class="link-to-prism">src/app/data-dgql/query.ts:487</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="492" class="link-to-prism">src/app/data-dgql/query.ts:492</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1510,7 +1511,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="493" class="link-to-prism">src/app/data-dgql/query.ts:493</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="498" class="link-to-prism">src/app/data-dgql/query.ts:498</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1543,7 +1544,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="499" class="link-to-prism">src/app/data-dgql/query.ts:499</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="504" class="link-to-prism">src/app/data-dgql/query.ts:504</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1576,7 +1577,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="512" class="link-to-prism">src/app/data-dgql/query.ts:512</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="517" class="link-to-prism">src/app/data-dgql/query.ts:517</a></div>
                                 </td>
                             </tr>
 
@@ -1598,7 +1599,7 @@ node.dataAsPromise().then(data =&gt; {
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="515" class="link-to-prism">src/app/data-dgql/query.ts:515</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="520" class="link-to-prism">src/app/data-dgql/query.ts:520</a></div>
                                 </td>
                             </tr>
 
@@ -1623,8 +1624,11 @@ import { QueriesService } from &#x27;./queries/queries.service&#x27;;
 import { ListResult, queryList, queryNode } from &#x27;./load&#x27;;
 import { PageInfo } from &#x27;../../generated/graphql-dgql&#x27;;
 
+/** How long {@link DataQuery} will wait to debounce requests until actually sending a request, in milliseconds. */
 const CACHE_FAST_DEBOUNCE_TIME_MS &#x3D; 200;
+/** How long {@link DataQuery} will wait to debounce requests, if the {@link DataQuery#interactive} flag is set, in milliseconds. */
 const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS &#x3D; 500;
+/** Number of milliseconds beyond which cached data will be considered stale, and will be reloaded if a new subscriber is added. */
 const CACHE_STALE_TIME_MS &#x3D; 5000;
 
 /**
@@ -1886,13 +1890,14 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
   }
 }
 
-/** ignore */
+/** @ignore */
 const identity &#x3D; id &#x3D;&gt; id;
 
 /**
  * A cacheable node with no parameters.
  *
  * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataNode.
+ * Nodes are identified by a {@link NodeId}.
  *
  * #### Example
  * &#x60;&#x60;&#x60;html
@@ -1946,16 +1951,17 @@ export class DataNode&lt;T&gt; extends DataQuery&lt;NodeId, T, T, void&gt; {
 }
 
 /**
- * Provides a view into list of items.
+ * Provides a view into a list of items.
  *
  * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataList.
+ * Lists are identified by a {@link ListId}.
  *
  * - To access list items, use {@link #currentItems}.
  * - If you need the IDs as well, use {@link #current} (note that the Map is ordered).
  *
  * The current view is defined by following properties:
  *
- * - {@link #cursor}: the current NodeId cursor (see API documentation for details)
+ * - {@link #cursor}: the current NodeId cursor (see backend API documentation for details)
  * - {@link #count}: number of items to load
  * - {@link #forward}: if true, will load items after the cursor. If false, will load items before.
  * - {@link #filter}: filter object (type parameter F)
@@ -2187,10 +2193,15 @@ export type HydrateList&lt;T&gt; &#x3D; {
 /** Keeps a cache of DataNodes such that each NodeId has at most one associated DataNode. */
 export class NodeCache {
   // TODO: garbage collection? (nodes with zero subscribers)
+  /**
+   * @internal
+   * Internal node storage. Do not use directly.
+   */
   nodes: Map&lt;NodeIdEnc, DataNode&lt;unknown&gt;&gt; &#x3D; new Map();
 
   constructor(private queries: QueriesService) {}
 
+  /** Creates a new node. */
   private createNode(id: NodeId) {
     const encodedId &#x3D; encodeNodeId(id);
     this.nodes.set(encodedId, new DataNode(this.queries, id));

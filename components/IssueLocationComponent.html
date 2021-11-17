@@ -304,14 +304,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">src/app/components/issue-location/issue-location.component.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/components/issue-location/issue-location.component.ts:28</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Navigates to the location&#39;s detail page.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -341,14 +343,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">src/app/components/issue-location/issue-location.component.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/components/issue-location/issue-location.component.ts:23</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns true if the location refers to a component.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
@@ -385,10 +389,12 @@ export class IssueLocationComponent {
   constructor(private router: Router) {
   }
 
+  /** Returns true if the location refers to a component. */
   isComponent(): boolean {
     return (this.location as any).__typename &#x3D;&#x3D;&#x3D; &#x27;Component&#x27;;
   }
 
+  /** Navigates to the location&#x27;s detail page. */
   goToLocationDetails(): void {
     if (this.isComponent()) {
       this.router.navigate([&#x27;projects&#x27;, this.projectId, &#x27;component&#x27;, this.location.id]);
