@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
-import {TimeFormatter} from '@app/issue-detail/TimeFormatter';
+import {TimeFormatter} from '@app/issue-detail/time-formatter';
 import {Router} from '@angular/router';
 import {IssueTimelineItem} from '../../../generated/graphql-dgql';
 import {DataList} from '@app/data-dgql/query';

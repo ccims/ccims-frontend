@@ -3,15 +3,20 @@ import { QueriesService } from '@app/data-dgql/queries/queries.service';
 import { encodeNodeId, ListId, ListType, NodeId, NodeType } from '@app/data-dgql/id';
 import { CreateIssueInput, IssueCategory } from '../../generated/graphql-dgql';
 
+/**
+ * Contains functions for mutating backend data and automatically invalidating local caches.
+ */
 export class Mutations {
   constructor(private qs: QueriesService, private nc: NodeCache, private invalidateLists: (id: ListType | ListId) => void) {}
 
+  /** Invalidates a node. */
   invalidateNode(id: NodeId) {
     if (this.nc.nodes.has(encodeNodeId(id))) {
       this.nc.getNode(id).loadDebounced();
     }
   }
 
+  /** Inserts new data into a node. */
   updateNode<T>(id: NodeId, data: unknown) {
     this.nc.getNode(id).insertResult(data);
   }

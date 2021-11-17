@@ -6,30 +6,39 @@ import DataService from '@app/data-dgql';
 import { CURRENT_USER_NODE, ListType, NodeType } from '@app/data-dgql/id';
 import { User } from '../../generated/graphql-dgql';
 
+/**
+ * This component renders the contents of the issue: the issue body, timeline, and comment box.
+ */
 @Component({
   selector: 'app-issue-contents',
   templateUrl: 'issue-contents.component.html',
   styleUrls: ['issue-contents.component.scss']
 })
 export class IssueContentsComponent implements OnInit, OnDestroy {
+  /** The issue to be rendered. */
   @Input() issue$: DataNode<Issue>;
-  @Input() issueId: string;
+  /** The raw project ID. */
   @Input() projectId: string;
 
+  /** @ignore */
   public linkedIssues$: DataList<Issue, unknown>;
+  /** @ignore */
   public linkedIssueSub: Subscription;
+  /** @ignore */
   public currentUser$: DataNode<User>;
+  /** @ignore */
   public currentUserSub: Subscription;
 
-  public editBody = false;
+  /** True if the issue comment is currently being saved. */
   public savingComment = false;
+  /** The comment editor (app-markdown-editor). */
   @ViewChild('comment') commentEditor;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
     this.linkedIssues$ = this.dataService.getList({
-      node: { type: NodeType.Issue, id: this.issueId },
+      node: this.issue$.id,
       type: ListType.LinkedIssues
     });
     this.linkedIssueSub = this.linkedIssues$.subscribe();
@@ -43,24 +52,17 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
     this.currentUserSub.unsubscribe();
   }
 
-  /**
-   * Closes the current issue and refreshes its information.
-   */
+  /** Closes the current issue. */
   public closeIssue(): void {
     this.dataService.mutations.closeIssue(Math.random().toString(), this.issue$.id);
   }
 
-
-  /**
-   * Reopens the closed current issue.
-   */
+  /** Reopens the currently closed issue. */
   public reopenIssue(): void {
     this.dataService.mutations.reopenIssue(Math.random().toString(), this.issue$.id);
   }
 
-  /**
-   * Adds a comment to the current issue.
-   */
+  /** Adds a comment to the current issue with the data provided in the comment box. */
   public commentIssue(): void {
     this.savingComment = true;
     this.dataService.mutations.addIssueComment(

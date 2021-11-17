@@ -29,39 +29,6 @@ const nodeQueries: NodeQueries = {
   [NodeType.Label]: (i, id) => i.q.issues.getLabel(id).then(data => data.node)
 };
 
-/** Loads a node. */
-export const queryNode = (q: QueriesService) => async <T>(nodeId: NodeId): Promise<T> => {
-  const { type, id } = nodeId;
-
-  if (!nodeQueries[type]) {
-    throw new Error(`${NodeType[type]} cannot be loaded directly`);
-  }
-
-  const i = { q };
-  return (await nodeQueries[type](i, id)) as T;
-};
-
-/** Converts ListParams to GraphQL parameters. */
-function listParams<F>(params: ListParams<F>) {
-  const output: any = {};
-  if (params.forward) {
-    output.first = params.count;
-  } else {
-    output.last = params.count;
-  }
-  if (params.cursor) {
-    if (params.forward) {
-      output.after = params.cursor.id;
-    } else {
-      output.before = params.cursor.id;
-    }
-  }
-  if (params.filter) {
-    output.filterBy = params.filter;
-  }
-  return output;
-}
-
 type ListQueryInput = {
   q: QueriesService,
   c: NodeCache,
@@ -206,6 +173,39 @@ const listQueries: ListQueries = {
       }))
   }
 };
+
+/** Loads a node. */
+export const queryNode = (q: QueriesService) => async <T>(nodeId: NodeId): Promise<T> => {
+  const { type, id } = nodeId;
+
+  if (!nodeQueries[type]) {
+    throw new Error(`${NodeType[type]} cannot be loaded directly`);
+  }
+
+  const i = { q };
+  return (await nodeQueries[type](i, id)) as T;
+};
+
+/** Converts ListParams to GraphQL parameters. */
+function listParams<F>(params: ListParams<F>) {
+  const output: any = {};
+  if (params.forward) {
+    output.first = params.count;
+  } else {
+    output.last = params.count;
+  }
+  if (params.cursor) {
+    if (params.forward) {
+      output.after = params.cursor.id;
+    } else {
+      output.before = params.cursor.id;
+    }
+  }
+  if (params.filter) {
+    output.filterBy = params.filter;
+  }
+  return output;
+}
 
 export type ListResult<T> = {
   totalCount: number,
