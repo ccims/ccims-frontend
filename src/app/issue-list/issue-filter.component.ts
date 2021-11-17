@@ -2,11 +2,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
 import { ListId, ListType, NodeType, ROOT_NODE } from '@app/data-dgql/id';
 
+/** Returns the ListId for listing all project issues. */
 const listAllIssues = (self: IssueFilterComponent) => ({
   node: { type: NodeType.Project, id: self.projectId },
   type: ListType.Issues
 });
 
+/**
+ * List of all possible issue filter predicates.
+ *
+ * Keyed by their name, each predicate has a type, label,
+ * and possibly additional options depending on their type.
+ */
 const PREDICATES = {
   isOpen: { type: 'bool', label: 'Is open' },
   isDuplicate: { type: 'bool', label: 'Is duplicate' },
@@ -73,6 +80,7 @@ const PREDICATES = {
   },
 };
 
+/** Returns the default value for a predicate type. */
 function getDefaultForType(type: string) {
   switch (type) {
     case 'bool':
@@ -85,6 +93,7 @@ function getDefaultForType(type: string) {
   }
 }
 
+/** Converts a predicate value into the backend representation for use in the filter. */
 function convertValueForFilter(type: string, value: any) {
   switch (type) {
     case 'ids':
@@ -162,6 +171,12 @@ export class IssueFilterComponent {
     this.update();
   }
 
+  /**
+   * Sets the presence of a value in an array of enum variants.
+   * @param array the array to mutate
+   * @param item the enum variant
+   * @param inArray whether or not it should be in the array
+   */
   setInEnumArray(array, item, inArray) {
     if (inArray && !array.includes(item)) {
       array.push(item);
@@ -172,6 +187,11 @@ export class IssueFilterComponent {
     this.update();
   }
 
+  /**
+   * Returns a function that can be passed to an app-set-editor to apply the changeset to the
+   * value of the id predicate.
+   * @param id predicate name
+   */
   applyIdChangeset(id) {
     return async (added, removed) => {
       for (const item of added) {
@@ -184,6 +204,9 @@ export class IssueFilterComponent {
     };
   }
 
+  /**
+   * Builds an IssueFilter from the search query and selected filters.
+   */
   buildFilter(): IssueFilter {
     const filter: IssueFilter = {};
     if (this.searchQuery.trim()) {
@@ -195,6 +218,7 @@ export class IssueFilterComponent {
     return filter;
   }
 
+  /** Emits a change event. */
   update() {
     this.filterChange.emit(this.buildFilter());
   }

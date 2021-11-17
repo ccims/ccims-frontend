@@ -19,10 +19,12 @@ export class IssueLocationComponent {
   constructor(private router: Router) {
   }
 
+  /** Returns true if the location refers to a component. */
   isComponent(): boolean {
     return (this.location as any).__typename === 'Component';
   }
 
+  /** Navigates to the location's detail page. */
   goToLocationDetails(): void {
     if (this.isComponent()) {
       this.router.navigate(['projects', this.projectId, 'component', this.location.id]);

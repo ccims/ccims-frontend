@@ -20,7 +20,7 @@
       <div class="title-actions" *ngIf="userCanEditIssue">
 
         <!--Edit button-->
-        <button mat-flat-button class="title-edit-button" color="primary" 
+        <button mat-flat-button class="title-edit-button" color="primary"
                 (click)="beginEditing()" *ngIf="!this.issueEditable">
           Edit
         </button>
@@ -31,11 +31,11 @@
           <button mat-flat-button (click)="this.finishEditing()">
             Cancel
           </button>
-          
+
           &nbsp;
 
           <!--Save button (in edit mode)-->
-          <button mat-flat-button (click)="this.finishEditing(true)" 
+          <button mat-flat-button (click)="this.finishEditing(true)"
                   [class.spinner]="savingChanges" color="accent">
             Save
           </button>
@@ -47,7 +47,7 @@
     <div class="issue-category">
 
       <!--Issue category buttons (in edit mode)-->
-      <mat-button-toggle-group class="category-selector" *ngIf="this.issueEditable" 
+      <mat-button-toggle-group class="category-selector" *ngIf="this.issueEditable"
                                [formControl]="category" required>
         <mat-button-toggle value="UNCLASSIFIED">
           <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
@@ -98,7 +98,6 @@
     <app-issue-contents
         class="issue-contents"
         [issue$]="issue$"
-        [issueId]="issueId"
         [projectId]="projectId"></app-issue-contents>
     <app-issue-sidebar
         class="issue-sidebar"

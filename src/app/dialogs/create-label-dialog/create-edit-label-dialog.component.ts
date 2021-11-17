@@ -7,7 +7,9 @@ import {encodeNodeId, ListId, ListType, NodeId} from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
 import { ComponentFilter, Label } from '../../../generated/graphql-dgql';
 
-export interface CreateLabelDialogData {
+/** Parameters for the create/edit label dialog component. */
+export interface CreateEditLabelDialogData {
+  /** The raw project id. */
   projectId: NodeId;
   /** If set, will edit an existing label instead of creating a new one. */
   editExisting?: NodeId;
@@ -15,23 +17,34 @@ export interface CreateLabelDialogData {
   issueId?: NodeId[];
 }
 
+/**
+ * This dialog creates or edits a label.
+ *
+ * See {@link CreateEditLabelDialogData} for parameters.
+ */
 @Component({
   selector: 'app-create-edit-label-dialog-component',
   templateUrl: './create-edit-label-dialog.component.html',
   styleUrls: ['./create-edit-label-dialog.component.scss']
 })
 export class CreateEditLabelDialogComponent implements OnInit {
+  /** Validator for the label name. */
   validationLabelName = new FormControl('', [Validators.required, Validators.maxLength(30)]);
+  /** Validator for the label description. */
   validationLabelDescription = new FormControl('', CCIMSValidators.contentValidator);
+  /** Color state. */
   color = '#000000';
+  /** If true, the label that is to be edited is still loading. */
   loading = false;
 
+  /** Component list to be edited. For new labels, this is a list of node IDs. For existing labels, this is a ListId. */
   componentList: NodeId[] | ListId = [];
+  /** Source list of all components. */
   allComponentsList: ListId;
 
   constructor(private dialog: MatDialogRef<CreateEditLabelDialogComponent, Label>,
               private dataService: DataService,
-              @Inject(MAT_DIALOG_DATA) public data: CreateLabelDialogData,
+              @Inject(MAT_DIALOG_DATA) public data: CreateEditLabelDialogData,
               private notify: UserNotifyService) {
   }
 
@@ -71,9 +84,11 @@ export class CreateEditLabelDialogComponent implements OnInit {
     };
   }
 
+  /** @ignore used for set editor */
   makeComponentFilter(search): ComponentFilter {
     return { name: search };
   }
+  /** @ignore used for set editor */
   applyComponentChangeset = async (additions: NodeId[], deletions: NodeId[]) => {
     if (Array.isArray(this.componentList)) {
       const keySet = new Set(this.componentList.map(id => encodeNodeId(id)));
@@ -99,10 +114,12 @@ export class CreateEditLabelDialogComponent implements OnInit {
     }
   }
 
+  /** When the user cancels label creation or editing, close and return with null. */
   onLabelCancelClick(): void {
     this.dialog.close(null);
   }
 
+  /** When the user confirms their changes, attempt to mutate and return with the label data. */
   onConfirmClick(name: string, description?: string) {
     this.loading = true;
 
@@ -142,6 +159,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
     }
   }
 
+  /** Randomizes the label color. */
   randomizeColor(): void {
     const r = ('00' + (Math.random() * 0xFF).toString(16)).slice(-2);
     const g = ('00' + (Math.random() * 0xFF).toString(16)).slice(-2);

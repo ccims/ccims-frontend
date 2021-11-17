@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { NodeType } from '@app/data-dgql/id';
 import { DataNode } from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
+import { TimeFormatter } from '@app/issue-detail/time-formatter';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -47,10 +47,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   // new category of the current issue
   category = new FormControl('', [Validators.required]);
 
-  constructor(private dataService: DataService, 
-              public activatedRoute: ActivatedRoute
-  ) {
-  }
+  constructor(private dataService: DataService, public activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -70,10 +67,10 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       return this.timeFormatter.formatTimeDifference(this.issue$.current.createdAt);
     }
   }
-  
+
   /**
    * Begins the editing process in which:
-   * 1) the issue title and 
+   * 1) the issue title and
    * 2) the issue category can be changed.
    */
   beginEditing() {
@@ -90,7 +87,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   /**
    * Finishes the editing process in which:
-   * 1) the issue title and 
+   * 1) the issue title and
    * 2) the issue category can be changed.
    * @param save - Boolean that indicates whether to save the new title.
    */
@@ -105,7 +102,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       // saves all changes
       this.saveChanges();
     }
-    
+
     // case: the new changes are not to be saved
     else {
       this.issueEditable = false;
@@ -136,5 +133,5 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       // marks the saving process as finished
       this.savingChanges = false;
     });
-  } 
+  }
 }

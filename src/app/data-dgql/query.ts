@@ -12,8 +12,11 @@ import { QueriesService } from './queries/queries.service';
 import { ListResult, queryList, queryNode } from './load';
 import { PageInfo } from '../../generated/graphql-dgql';
 
+/** How long {@link DataQuery} will wait to debounce requests until actually sending a request, in milliseconds. */
 const CACHE_FAST_DEBOUNCE_TIME_MS = 200;
+/** How long {@link DataQuery} will wait to debounce requests, if the {@link DataQuery#interactive} flag is set, in milliseconds. */
 const CACHE_INTERACTIVE_DEBOUNCE_TIME_MS = 500;
+/** Number of milliseconds beyond which cached data will be considered stale, and will be reloaded if a new subscriber is added. */
 const CACHE_STALE_TIME_MS = 5000;
 
 /**
@@ -275,13 +278,14 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
   }
 }
 
-/** ignore */
+/** @ignore */
 const identity = id => id;
 
 /**
  * A cacheable node with no parameters.
  *
  * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataNode.
+ * Nodes are identified by a {@link NodeId}.
  *
  * #### Example
  * ```html
@@ -335,16 +339,17 @@ export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
 }
 
 /**
- * Provides a view into list of items.
+ * Provides a view into a list of items.
  *
  * See {@link DataQuery} for more information, and {@link DataService} to obtain a DataList.
+ * Lists are identified by a {@link ListId}.
  *
  * - To access list items, use {@link #currentItems}.
  * - If you need the IDs as well, use {@link #current} (note that the Map is ordered).
  *
  * The current view is defined by following properties:
  *
- * - {@link #cursor}: the current NodeId cursor (see API documentation for details)
+ * - {@link #cursor}: the current NodeId cursor (see backend API documentation for details)
  * - {@link #count}: number of items to load
  * - {@link #forward}: if true, will load items after the cursor. If false, will load items before.
  * - {@link #filter}: filter object (type parameter F)
@@ -576,10 +581,15 @@ export type HydrateList<T> = {
 /** Keeps a cache of DataNodes such that each NodeId has at most one associated DataNode. */
 export class NodeCache {
   // TODO: garbage collection? (nodes with zero subscribers)
+  /**
+   * @internal
+   * Internal node storage. Do not use directly.
+   */
   nodes: Map<NodeIdEnc, DataNode<unknown>> = new Map();
 
   constructor(private queries: QueriesService) {}
 
+  /** Creates a new node. */
   private createNode(id: NodeId) {
     const encodedId = encodeNodeId(id);
     this.nodes.set(encodedId, new DataNode(this.queries, id));
