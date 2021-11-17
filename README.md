@@ -8,7 +8,7 @@ Even though component-based architectures have many benefits like ease of deploy
 
 Gropius is a cross component issue management system (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.
 
-## The frontend of Gropius
+## The frontend
 
 As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.
 
@@ -17,7 +17,7 @@ The system consists of two different parts: 1. the [frontend](https://github.com
 The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc.
 (TODO: specify this part)
 
-## Further details about Gropius
+## Further details: documentation, features, used technologies and structure
 
 The github page of the whole project can be found here: [https://github.com/ccims](https://github.com/ccims).
 
@@ -32,8 +32,13 @@ This includes 1. used technologies, 2. structure of the project, 3. connection w
 
 ## Credits
 
-Further information regarding the members who have worked on the frontend of the system can be found on page [Frontend Team](https://ccims.github.io/ccims-frontend/additional-documentation/frontend-team.html) located in the documentation. 
+Further information regarding the members who have worked on the frontend of the system can be found on page [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html) located in the documentation. 
 
 ## License
 
 (TODO: specify this part)
+
+
+
+
+

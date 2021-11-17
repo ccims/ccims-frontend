@@ -1,1 +1,0 @@
-# Frontend Team
