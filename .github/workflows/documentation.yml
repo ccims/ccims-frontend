@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - documentation/Kliment/Kristina
 
 jobs:
   build-and-deploy:
