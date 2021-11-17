@@ -8,6 +8,7 @@ import { User } from 'src/generated/graphql-dgql';
   styleUrls: ['./user-item.component.scss']
 })
 export class UserItemComponent {
+  /** The user data. */
   @Input() user: User;
   /** Will show only the display name or username. */
   @Input() short = false;

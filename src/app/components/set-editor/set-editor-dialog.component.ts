@@ -36,16 +36,26 @@ export interface SetMultiSource {
  * This is an internal component used to load data from multiple sources and through a layer of indirection (also see SetMultiSource).
  */
 class MultiSourceList<T, F> {
+  /** A DataList that loads the value of sourceNodes, if it's a ListId. */
   public sourceNodeList?: DataList<{ __typename: string }, unknown>;
+  /** @ignore */
   public sourceNodeListSub?: Subscription;
+  /** The list of nodes specified in sourceNodes, if it's a NodeId[]. */
   public staticSourceNodeList?: NodeId[];
+  /** List of all sources that will be included in the results. */
   public sources: Map<ListIdEnc, DataList<T, F>> = new Map();
+  /** @ignore */
   public sourceSubs: Map<ListIdEnc, Subscription> = new Map();
   /** Max number of items in results. */
   public limit = 10;
+  /** Current results. */
   public results?: T[];
   /** If true, there are more than `limit` items in the source data. */
   public hasMore = false;
+  /**
+   * Current search query. Used to rank results by relevance.
+   * The filters are computed separately! Use {@link #setFilter} to set both simultaneously.
+   */
   public query = '';
 
   constructor(public spec: SetMultiSource, public scoreKeys: string[], private dataService: DataService) {
@@ -58,6 +68,7 @@ class MultiSourceList<T, F> {
     this.update();
   }
 
+  /** Creates a new MultiSourceList that actually just loads a single list. */
   static fromSingleList<T, F>(list: ListId, scoreKeys: string[], dataService: DataService) {
     return new this<T, F>({ staticSources: [list] }, scoreKeys, dataService);
   }
@@ -65,7 +76,7 @@ class MultiSourceList<T, F> {
   /** Updates lists. */
   update() {
     const newSourceSet = new Set<ListIdEnc>();
-    for (const [id, node] of this.sourceNodeList?.current?.entries() || []) {
+    for (const id of this.sourceNodeList?.current?.keys() || []) {
       const nodeId = decodeNodeId(id);
       newSourceSet.add(encodeListId(this.spec.listFromNode(nodeId)));
     }
@@ -165,6 +176,7 @@ class MultiSourceList<T, F> {
   }
 }
 
+/** Types of item operations that may be made available. */
 export type ItemOps = 'none' | 'edit' | 'create-edit' | 'create-edit-delete';
 
 export interface SetEditorDialogData<T, F> {

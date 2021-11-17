@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IssueComment } from '../../../generated/graphql-dgql';
-import { TimeFormatter } from '@app/issue-detail/TimeFormatter';
+import { TimeFormatter } from '@app/issue-detail/time-formatter';
 import DataService from '@app/data-dgql';
 import { NodeId } from '@app/data-dgql/id';
 import { DataNode } from '@app/data-dgql/query';
@@ -9,23 +9,33 @@ import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.co
 import {MatDialog} from '@angular/material/dialog';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
+/**
+ * This component displays an issue comment.
+ * The comment will be subscribed to lazily (see {@link DataNode#subscribeLazy}).
+ */
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
-/**
- * This Component contains one comment
- */
 export class CommentComponent implements OnInit, OnDestroy {
+  /** If true, this comment component is actually editing an issue's body. */
+  @Input() isIssueBody: boolean;
+  /** The comment or issue ID. If this is an issue ID, set {@link #isIssueBody} to true. */
+  @Input() commentId: NodeId;
+  /** The issue this comment belongs to. */
+  @Input() issueId: NodeId;
+
+  /** Used to format time. */
   public timeFormatter = new TimeFormatter();
+  /** True if the comment body is being edited. */
   public editBody = false;
+  /** True if the comment body is being saved. */
   public savingBody = false;
 
-  @Input() isIssueBody: boolean;
-  @Input() commentId: NodeId;
-  @Input() issueId: NodeId;
+  /** @ignore */
   comment$: DataNode<IssueComment>;
+  /** @ignore */
   commentSub: Subscription;
 
   constructor(private dataService: DataService,
@@ -44,7 +54,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   /**
    * Edits the description of the current comment.
    *
-   * @param body - The new description of the current issue.
+   * @param body - The new description of the current issue or comment.
    */
   public editComment(body: string): void {
     this.savingBody = true;

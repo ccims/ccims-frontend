@@ -1,29 +1,27 @@
 /**
  * This class contains functionality for time formatting which is needed for correct time representation
  */
-export class TimeFormatter{
+export class TimeFormatter {
 
   /**
    * E.g. converts (2021-10-01T19:44:04.813Z) to
    * (Fri Oct 01 2021 21:44:04 GMT+0200 (Mitteleuropäische Sommerzeit))
-   * @param time
+   * @param time any string that can be parsed by `Date`
    */
   formatTime(time: string): string {
-    return new Date(Date.parse(time)).toString();
+    return new Date(time).toString();
   }
 
   /**
    * E.g. converts (2021-11-02T12:27:58.192Z) to (8 days ago)
-   * @param dateString
+   * @param dateString any string that can be parsed by `Date`
    */
   formatTimeDifference(dateString: string): string {
-    const pastTimeMs = Date.parse(dateString);
-    const nowMs = Date.now();
-    const now = new Date(nowMs);
-    const pastTime = new Date(pastTimeMs);
+    const now = new Date();
+    const pastTime = new Date(dateString);
 
     const months = (now.getMonth() - pastTime.getMonth()) + (now.getFullYear() - pastTime.getFullYear()) * 12;
-    const minutes = Math.round((nowMs - pastTimeMs) / 1000 / 60);
+    const minutes = Math.round((+now - +pastTime) / 1000 / 60);
     const hours = Math.round(minutes / 60);
     const days = Math.round(hours / 24);
 
