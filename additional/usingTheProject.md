@@ -1,13 +1,20 @@
-# Managing the Project
+# Using the Project
 
 ## Main features
-### Creating and Deleting a Project
-... TODO
+### Creating, Filtering and Deleting Projects
+The main page contains a list of projects. To create a new project, click the "Create Project" button and enter a name and description (optional) for the project.
+The search field above the project list allows to search for projects and filter the list. 
+Once a project is selected, the project overview is opened. After clicking on "Delete project" a confirmation is expected.
+A direct link to the project's component diagram is provided on the right side of each project item in the project list.
+
 ### Project Overview
-... TODO
+The Project Overview view contains the name and ID of the current project, the description which can be edited as well as the Delete Project button.
+
+![alternative text](mainPage.png "Main Page")
+
 ### Graph and Components
 ... TODO
-### Issues
+### Issues (Component Issues and Inteface Issues)
 ... TODO
 ### Sign-in and Log-in
 
@@ -47,14 +54,6 @@ of the primary components of the app.
 ## Documentation generation
 The documentation is generated with [Compodoc](https://github.com/compodoc/compodoc). Run `npm run compodoc`for a documentation server. Navigate to `http://localhost:6060/`. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in [tsconfig.doc.json](tsconfig.doc.json).
 
-## Codegeneration from .graphql files
-The app uses GraphQL instead of REST to communicate with the backend. The graphql files are in the
-[data folder](src/app/data) and subdivided by entities they pertain to e.g. [label](src/app/data/label/label.graphql) <br />
-When you change .graphql files you have to rerun the code generator. It will update the files in
-src/generated to match the changes in the .graphql files.  
-:warning: The backend has to be running with debugNoLogin set to true to make the backend schema
-definition accessible to the generator via the urls defined in the codegen [configuration file](codegen.yml).  
-Run `npm run generate` to execute the codegenerator when this condition is met.
 
 ## Codegenerator explanation
 We use a codegenerator (https://graphql-code-generator.com/) to create typescript classes from .graphql files
