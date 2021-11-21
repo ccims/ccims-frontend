@@ -7,16 +7,18 @@ The search field above the project list allows to search for projects and filter
 Once a project is selected, the project overview is opened. After clicking on "Delete project" a confirmation is expected.
 A direct link to the project's component diagram is provided on the right side of each project item in the project list.
 
+<img src="mainPage.png" alt="drawing" width="700"/>
+
 ### Project Overview
 The Project Overview view contains the name and ID of the current project, the description which can be edited as well as the Delete Project button.
 
-![alternative text](mainPage.png "Main Page")
+<img src="overviewPage.png" alt="drawing" width="700"/>
 
 ### Graph and Components
 ... TODO
 ### Issues (Component Issues and Inteface Issues)
 ... TODO
-### Sign-in and Log-in
+### Authentication
 
 
 ... TODO
@@ -32,7 +34,8 @@ and there are no other users who really have access to your project.
 ... dark mode TODO
 ### Timeline
 ... TODO
-### 
+### Labels
+... TODO
 
 ## Development server
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.12.
