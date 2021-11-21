@@ -2,20 +2,23 @@
 
 ## Main features
 ### Creating, Filtering and Deleting Projects
-The main page contains a list of projects. To create a new project, click the "Create Project" button and enter a name and description (optional) for the project.
-The search field above the project list allows to search for projects and filter the list. 
-Once a project is selected, the project overview is opened. After clicking on "Delete project" a confirmation is expected.
+The main page contains a list of projects. To create a new project, click the "Create Project" button and enter a name and description (optional) for the project. <br />
+The search field above the project list allows to search for projects and filter the list. <br />
+Once a project is selected, the project overview is opened. After clicking on "Delete project" a confirmation is expected. <br />
 A direct link to the project's component diagram is provided on the right side of each project item in the project list.
 
-<img src="mainPage.png" alt="drawing" width="700"/>
+<img src="mainPage.png" width="700"/>
 
 ### Project Overview
-The Project Overview view contains the name and ID of the current project, the description which can be edited as well as the Delete Project button.
+The Project Overview view contains the name and ID of the current project, the description, which can be edited, as well as the Delete Project button.
 
-<img src="overviewPage.png" alt="drawing" width="700"/>
+<img src="overviewPage.png" width="700"/>
 
 ### Graph and Components
-... TODO
+The graph of the project represents all components, issues (bugs, feature requests and unclassified issues), interfaces and connections between entities. <br />
+In the upper left corner there are filters that allow the user to hide different types of issues (bugs, feature requests and unclassified issues) or issue relations to get a better visualisation of the components and interfaces. <br />
+In the upper right corner a button allows for new components to be created. The user is expected to provide a  name, a repository-url, a provider type(IMS), an IMS-URL as well as a description (optional) for the component to create it. <br />
+Create an interface:
 ### Issues (Component Issues and Inteface Issues)
 ... TODO
 ### Authentication
