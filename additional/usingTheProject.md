@@ -1,51 +1,57 @@
 # Using the Project
 
-## Main features
-### Creating, Filtering and Deleting Projects
+#### Creating, Filtering and Deleting Projects
 The main page contains a list of projects. To create a new project, click the "Create Project" button and enter a name and description (optional) for the project. <br />
 The search field above the project list allows to search for projects and filter the list. <br />
 Once a project is selected, the project overview is opened. After clicking on "Delete project" a confirmation is expected. <br />
 A direct link to the project's component diagram is provided on the right side of each project item in the project list.
 
 <img src="mainPage.png" width="700"/>
-
-### Project Overview
+ <br />
+ 
+#### Project Overview
 The Project Overview view contains the name and ID of the current project, the description, which can be edited, as well as the Delete Project button.
 
 <img src="overviewPage.png" width="700"/>
+<br />
 
-### Graph and Components
+#### Graph and Components
 The graph of the project represents all components, issues (bugs, feature requests and unclassified issues), interfaces and connections between entities. <br />
 In the upper left corner there are filters that allow the user to hide different types of issues (bugs, feature requests and unclassified issues) or issue relations to get a better visualisation of the components and interfaces. <br />
 In the upper right corner a button allows for new components to be created. The user is expected to provide a  name, a repository-URL, a provider type(IMS), an IMS-URL as well as a description (optional) for the component to create it. <br />
 
 <img src="graph.png" width="700"/>
  <br />
+
 By connecting two of the components, an interface is created. The user is expected to provide a name, a type and optionally a description of the interface.
  <br />
-By clicking on a component, a pop up containing a list of issues and details of the current component shows up. There, new issues for this component can be created, issues can be filtered, the details can be edited and the component can be deleted. <br /> <br />
-<img src="componentIssuesAndDetails.png" width="1100"/>
+By clicking on a component, a pop up containing a list of issues and details of the current component shows up. There, new issues for this component can be created ("Create Issue" button), issues can be filtered, the details can be edited and the component can be deleted. <br />
+Similarly, by clicking on an interface, a pop up containing the details and the issues assicuated with this issue shows up. A "Create Issue" button allows for new issues associated with this interface to be created.  <br /> <br />
+<img src="componentIssuesAndDetails.png" width="1000"/>
  <br />
 
-### Issues (Component Issues and Inteface Issues)
-... TODO
-### Authentication
+#### Issues (Component Issues and Inteface Issues)
+An issue can be a bug, a feature request and an unclassified issue.
+#### Authentication
+For a user to use the app, signing up or logging in is required.  <br /> <br />
+
+<img src="logInOrRegister.png" width="1000"/>
+ <br />
 
 
-... TODO
-
-## Additional features
-### Mocked Members Page
-... Every project offers a mocked 'Members' page. It shows a list of users in the project and
-offers a dialog to add users. However this area is purely a mock, changes are not persisted
+#### Mocked Members Page
+Every project offers a mocked 'Members' page. It shows a list of users in the project and
+offers a dialog to add users. However, this area is purely a mock, changes are not persisted
 and there are no other users who really have access to your project.
-### Mocked Settings Menu
+
+#### Mocked Settings Menu
+The app;ication contains a mocked settings menu. The menu includes profile settings, creating an access token and a Dark Mode option. However, the menu is purely a mock and changes are not persisted.
 ... profile settings
 ... access token
 ... dark mode TODO
-### Timeline
+#### Timeline
 ... TODO
-### Labels
+#### Labels
 ... TODO
 
 ## Development server
