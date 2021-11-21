@@ -17,8 +17,16 @@ The Project Overview view contains the name and ID of the current project, the d
 ### Graph and Components
 The graph of the project represents all components, issues (bugs, feature requests and unclassified issues), interfaces and connections between entities. <br />
 In the upper left corner there are filters that allow the user to hide different types of issues (bugs, feature requests and unclassified issues) or issue relations to get a better visualisation of the components and interfaces. <br />
-In the upper right corner a button allows for new components to be created. The user is expected to provide a  name, a repository-url, a provider type(IMS), an IMS-URL as well as a description (optional) for the component to create it. <br />
-Create an interface:
+In the upper right corner a button allows for new components to be created. The user is expected to provide a  name, a repository-URL, a provider type(IMS), an IMS-URL as well as a description (optional) for the component to create it. <br />
+
+<img src="graph.png" width="700"/>
+ <br />
+By connecting two of the components, an interface is created. The user is expected to provide a name, a type and optionally a description of the interface.
+ <br />
+By clicking on a component, a pop up containing a list of issues and details of the current component shows up. There, new issues for this component can be created, issues can be filtered, the details can be edited and the component can be deleted. <br /> <br />
+<img src="componentIssuesAndDetails.png" width="1100"/>
+ <br />
+
 ### Issues (Component Issues and Inteface Issues)
 ... TODO
 ### Authentication
