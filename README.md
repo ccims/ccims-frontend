@@ -16,8 +16,7 @@ As already mentioned, the idea behind Gropius is to manage cross-component issue
 
 The system consists of two different parts: 1. the [frontend](https://github.com/ccims/ccims-frontend) and 2. the [backend](https://github.com/ccims/ccims-backend-gql).
 
-The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc.
-(TODO: specify this part)
+The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.
 
 ## Further details: documentation, features, used technologies and structure
 
@@ -30,7 +29,6 @@ This includes 1. main features and 2. ditional features.
 
 Further information regarding how to manage the project can be found on page [Managing the Project](https://ccims.github.io/ccims-frontend/additional-documentation/managing-the-project.html) located in the documentation. 
 This includes 1. used technologies, 2. structure of the project, 3. connection with the backend, etc.
-(TODO: specify this part)
 
 ## Credits
 
@@ -38,7 +36,7 @@ Further information regarding the members who have worked on the frontend of the
 
 ## License
 
-(TODO: specify this part)
+This part still needs to be specified.
 
 
 
