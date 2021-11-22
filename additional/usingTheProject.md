@@ -13,7 +13,6 @@ A direct link to the project's component diagram is provided on the right side o
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/mainPage.png" width="700"  />
 </p>
 
- <br />
 
 ### Project Overview
 The Project Overview view contains the name and ID of the current project, the description that can be edited as well as the Delete Project button.
@@ -21,7 +20,6 @@ The Project Overview view contains the name and ID of the current project, the d
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/overviewPage.png" width="700"/>
 </p>
-<br />
 
 ### Graph and Components
 The graph of the project represents all components, issues (bugs, feature requests and unclassified issues), interfaces and relations between entities. <br />
@@ -31,7 +29,6 @@ In the upper right corner there is a button to create new components. The user i
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/graph.png" width="700"/>
 </p>
- <br />
 
 A new interface is created by connecting two components. The user is expected to provide a name, a type, and optionally a description of the interface.
  <br />
@@ -41,7 +38,6 @@ Clicking on an interface displays a pop-up window with the interface details and
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/componentIssuesAndDetails.png" width="1000"/>
 </p>
- <br />
 
 ### Issues (Component Issues and Inteface Issues)
 An issue can be a bug, a feature request, and an unclassified issue. Issues can be created for interfaces and for components in the component/interface pop-up. The user is expected to specify the issue title, type (bug, feature request, or unclassified), associated components, issue location, labels, assignees (not yet functional), and linked issues. Each of these fields is optional, except for the issue title. New labels for the issues can also be created.
@@ -51,7 +47,6 @@ An issue can be a bug, a feature request, and an unclassified issue. Issues can 
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/createIssue.png" width="400"/>
 </p>
- <br />
 
 The issues are also displayed as a list in a separate view. Each issue has a title, author, assignees, labels and a category. The list of issues can be filtered and searched for issues. After selecting an issue, its details are displayed and can be edited, the issue can be commented and closed.
 TODO: describe timeline
@@ -60,7 +55,6 @@ TODO: describe timeline
  <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/issues.png" width="700"/>
 </p>
- <br />
 
 ### Authentication
 To use the app, the user must register or log in.  <br /> <br />
@@ -68,11 +62,14 @@ To use the app, the user must register or log in.  <br /> <br />
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/logInOrRegister.png" width="1000"/>
 </p>
-<br />
 
 ### Timeline
 TODO
 
+<br />
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/timeline.png" width="700"/>
+</p>
 
 ### Mocked Members Page
 Every project offers a mocked 'Members' page. It shows a list of users in the project and
@@ -82,7 +79,6 @@ and there are no other users who really have access to your project.
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/members.png" width="1000"/>
 </p>
-<br />
 
 ### Mocked Settings Menu
 The application contains a mocked settings menu. The menu includes profile settings (to update display name, username, email and password), creating an access token and a Dark Mode option. However, the menu is purely a mock and changes are not persisted.
