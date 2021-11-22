@@ -1,0 +1,14 @@
+[
+    {
+        "title": "Using the Project",
+        "file": "usingTheProject.md"
+    },
+    {
+        "title": "Managing the Project",
+        "file": "managingTheProject.md"
+    },
+    {
+        "title": "Contributors",
+        "file": "contributors.md"
+    }
+]
