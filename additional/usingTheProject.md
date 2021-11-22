@@ -1,6 +1,9 @@
 # Using the Project
 
-#### Creating, Filtering and Deleting Projects
+### Introduction
+This page lists all the features of Gropius and provides a description of how they can be used. In addition, the use of the features is visualized with pictures.
+
+### Creating, Filtering and Deleting Projects
 The main page contains a list of projects. To create a new project, click the "Create Project" button and enter a name and description (optional) for the project. <br />
 The search field above the project list allows to search for projects and filter the list. <br />
 Once a project is selected, the project overview is opened. After clicking on "Delete project" a confirmation is expected. <br />
@@ -11,7 +14,7 @@ A direct link to the project's component diagram is provided on the right side o
 </p>
  <br />
 
-#### Project Overview
+### Project Overview
 The Project Overview view contains the name and ID of the current project, the description that can be edited as well as the Delete Project button.
 
 <p align="center">
@@ -19,7 +22,7 @@ The Project Overview view contains the name and ID of the current project, the d
 </p>
 <br />
 
-#### Graph and Components
+### Graph and Components
 The graph of the project represents all components, issues (bugs, feature requests and unclassified issues), interfaces and relations between entities. <br />
 In the upper left corner there are filters that allow the user to hide different types of issues (bugs, feature requests and unclassified issues) or issue connections to get a better visualization of the components and interfaces. <br />
 In the upper right corner there is a button to create new components. The user is required to provide a name, repository URL, provider type (IMS), IMS-URL, and description (optional) for the component to be created.  <br /> <br />
@@ -39,7 +42,7 @@ Clicking on an interface displays a pop-up window with the interface details and
 </p>
  <br />
 
-#### Issues (Component Issues and Inteface Issues)
+### Issues (Component Issues and Inteface Issues)
 An issue can be a bug, a feature request, and an unclassified issue. Issues can be created for interfaces and for components in the component/interface pop-up. The user is expected to specify the issue title, type (bug, feature request, or unclassified), associated components, issue location, labels, assignees (not yet functional), and linked issues. Each of these fields is optional, except for the issue title. New labels for the issues can also be created.
 
 
@@ -58,7 +61,7 @@ TODO: describe timeline
 </p>
  <br />
 
-#### Authentication
+### Authentication
 To use the app, the user must register or log in.  <br /> <br />
 
 <p align="center">
@@ -66,16 +69,16 @@ To use the app, the user must register or log in.  <br /> <br />
 </p>
  <br />
 
-#### Timeline
+### Timeline
 TODO
 
 
-#### Mocked Members Page
+### Mocked Members Page
 Every project offers a mocked 'Members' page. It shows a list of users in the project and
 offers a dialog to add users. However, this area is purely a mock, changes are not persisted
 and there are no other users who really have access to your project.
 
-#### Mocked Settings Menu
+### Mocked Settings Menu
 The application contains a mocked settings menu. The menu includes profile settings (to update display name, username, email and password), creating an access token and a Dark Mode option. However, the menu is purely a mock and changes are not persisted.
 
  <br />
