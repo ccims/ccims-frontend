@@ -60,7 +60,7 @@ TODO: describe timeline
 To use the app, the user must register or log in.  <br /> <br />
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/logInOrRegister.png" width="1000"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/logInOrRegister.png" width="700"/>
 </p>
 
 ### Timeline
@@ -77,7 +77,7 @@ offers a dialog to add users. However, this area is purely a mock, changes are n
 and there are no other users who really have access to your project.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/members.png" width="1000"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/members.png" width="700"/>
 </p>
 
 ### Mocked Settings Menu
