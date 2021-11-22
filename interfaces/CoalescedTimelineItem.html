@@ -386,7 +386,7 @@ export class TimelineComponent implements AfterViewInit {
   /**
    * The id of the corresponding issue for which the timeline is shown
    */
-  @Input() issueId: string;
+  @Input() issueId: NodeId;
   /**
    * The id of the project in which the issue is listed
    */
@@ -415,7 +415,7 @@ export class TimelineComponent implements AfterViewInit {
 
     // gets an observable with all timeline items for thecurrent issue
     this.timelineItems$ &#x3D; this.dataService.getList({
-      node: {type: NodeType.Issue, id: this.issueId},
+      node: this.issueId,
       type: ListType.TimelineItems
     });
 

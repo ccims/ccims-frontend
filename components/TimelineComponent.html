@@ -297,7 +297,7 @@ with all its timeline events for a given issue.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/NodeId.html" target="_self" >NodeId</a></code>
 
                     </td>
                 </tr>
@@ -1344,7 +1344,7 @@ export class TimelineComponent implements AfterViewInit {
   /**
    * The id of the corresponding issue for which the timeline is shown
    */
-  @Input() issueId: string;
+  @Input() issueId: NodeId;
   /**
    * The id of the project in which the issue is listed
    */
@@ -1373,7 +1373,7 @@ export class TimelineComponent implements AfterViewInit {
 
     // gets an observable with all timeline items for thecurrent issue
     this.timelineItems$ &#x3D; this.dataService.getList({
-      node: {type: NodeType.Issue, id: this.issueId},
+      node: this.issueId,
       type: ListType.TimelineItems
     });
 
