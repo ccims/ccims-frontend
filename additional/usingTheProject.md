@@ -64,7 +64,7 @@ To use the app, the user must register or log in.  <br /> <br />
 </p>
 
 ### Timeline
-TODO
+After an issue is selected on the Issues page, another view is displayed containing a timeline. The timeline visualizes all the changes that have been made to the issue over time.
 
 <br />
 <p align="center">
