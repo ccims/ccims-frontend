@@ -25,7 +25,7 @@ The github page of the whole project can be found here: [https://github.com/ccim
 
 The documentation of the frontend can be found here: [http://ccims.github.io/ccims-frontend](http://ccims.github.io/ccims-frontend).
 
-Further information regarding how to use the project can be found on page [Using the Project](https://ccims.github.io/ccims-frontend/additional-documentation/using-the-project.html) located in the documentation. 
+Further information regarding how to use the project can be found on page [Using the Project](https://ccims.github.io/ccims-frontend/additional-documentation/using-the-project.html) located in the documentation.
 This includes 1. main features and 2. ditional features.
 
 Further information regarding how to manage the project can be found on page [Managing the Project](https://ccims.github.io/ccims-frontend/additional-documentation/managing-the-project.html) located in the documentation. 
@@ -34,7 +34,7 @@ This includes 1. used technologies, 2. structure of the project, 3. connection w
 
 ## Credits
 
-Further information regarding the members who have worked on the frontend of the system can be found on page [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html) located in the documentation. 
+Further information regarding the members who have worked on the frontend of the system can be found on page [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html) located in the documentation.
 
 ## License
 

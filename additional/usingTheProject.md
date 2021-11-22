@@ -10,15 +10,16 @@ Once a project is selected, the project overview is opened. After clicking on "D
 A direct link to the project's component diagram is provided on the right side of each project item in the project list.
 
 <p align="center">
-<img src="mainPage.png" width="700"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/mainPage.png" width="700"  />
 </p>
+
  <br />
 
 ### Project Overview
 The Project Overview view contains the name and ID of the current project, the description that can be edited as well as the Delete Project button.
 
 <p align="center">
-<img src="overviewPage.png" width="700"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/overviewPage.png" width="700"/>
 </p>
 <br />
 
@@ -28,7 +29,7 @@ In the upper left corner there are filters that allow the user to hide different
 In the upper right corner there is a button to create new components. The user is required to provide a name, repository URL, provider type (IMS), IMS-URL, and description (optional) for the component to be created.  <br /> <br />
 
 <p align="center">
-<img src="graph.png" width="700"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/graph.png" width="700"/>
 </p>
  <br />
 
@@ -38,7 +39,7 @@ Clicking on a component displays a popup window with a list of issues and detail
 Clicking on an interface displays a pop-up window with the interface details and the issues associated with that interface. The "Create Issue" button can be used to create new issues associated with this interface. <br /> <br />
 
 <p align="center">
-<img src="componentIssuesAndDetails.png" width="1000"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/componentIssuesAndDetails.png" width="1000"/>
 </p>
  <br />
 
@@ -48,7 +49,7 @@ An issue can be a bug, a feature request, and an unclassified issue. Issues can 
 
 <br />
 <p align="center">
-<img src="createIssue.png" width="400"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/createIssue.png" width="400"/>
 </p>
  <br />
 
@@ -57,7 +58,7 @@ TODO: describe timeline
 
  <br />
  <p align="center">
-<img src="issues.png" width="700"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/issues.png" width="700"/>
 </p>
  <br />
 
@@ -65,9 +66,9 @@ TODO: describe timeline
 To use the app, the user must register or log in.  <br /> <br />
 
 <p align="center">
-<img src="logInOrRegister.png" width="1000"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/logInOrRegister.png" width="1000"/>
 </p>
- <br />
+<br />
 
 ### Timeline
 TODO
@@ -83,7 +84,7 @@ The application contains a mocked settings menu. The menu includes profile setti
 
  <br />
  <p align="center">
-<img src="settings.png" width="700"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/settings.png" width="700"/>
 </p>
  <br />
 
