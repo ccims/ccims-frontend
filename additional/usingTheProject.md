@@ -79,6 +79,11 @@ Every project offers a mocked 'Members' page. It shows a list of users in the pr
 offers a dialog to add users. However, this area is purely a mock, changes are not persisted
 and there are no other users who really have access to your project.
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/members.png" width="1000"/>
+</p>
+<br />
+
 ### Mocked Settings Menu
 The application contains a mocked settings menu. The menu includes profile settings (to update display name, username, email and password), creating an access token and a Dark Mode option. However, the menu is purely a mock and changes are not persisted.
 
