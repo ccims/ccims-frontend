@@ -31,64 +31,30 @@
                <div class="content getting-started">
                    <div class="content-data">
 
-<h1 id="webfrontend-for-gropius">Webfrontend for Gropius</h1>
-<h2 id="development-server">Development server</h2>
-<p>This project was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 9.1.12.
-Run <code>npm start</code> for a dev server. Navigate to <code>http://localhost:4200/</code>. The app will automatically reload if you change any of the source files.</p>
-<h2 id="project-structure">Project structure</h2>
-<p>Have a look at the <a href="src/app/app-routing.module.ts">routing module</a> to get a nice overview
-of the primary components of the app.</p>
-<table class="table table-bordered compodoc-table">
-<thead>
-<tr>
-<th>Aspect</th>
-<th>Code</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>App Layout</td>
-<td><a href="src/app/frame/frame.component.ts">FrameComponent</a></td>
-</tr>
-<tr>
-<td>Graph</td>
-<td><a href="src/app/graphs/graphs.module.ts">GraphsModule</a>, look at the <em>declarations</em></td>
-</tr>
-<tr>
-<td>Project Context</td>
-<td><a href="src/app/state.service.ts">StateService</a></td>
-</tr>
-<tr>
-<td>Account Management and Auth with Backend</td>
-<td><a href="src/app/login/login.component.ts">LoginComponent</a>, <a href="src/app/login/register.component.ts">RegisterComponent</a>, <a href="src/app/auth/authentication.service.ts">AuthenticationService</a>, <a href="src/app/auth/auth.guard.ts">AuthGuard</a></td>
-</tr>
-<tr>
-<td>Apollo GraphQL Client Setup</td>
-<td><a href="src/app/graphql.module.ts">GraphQLModule</a></td>
-</tr>
-<tr>
-<td>Type Definitions for Data from Backend <br /> Helper Objects for Queries &amp; Mutations <br /> All of this is <em>output of code generator</em></td>
-<td><a href="src/generated">generated</a></td>
-</tr>
-</tbody>
-</table>
-<h2 id="documentation-generation">Documentation generation</h2>
-<p>The documentation is generated with <a href="https://github.com/compodoc/compodoc">Compodoc</a>. Run <code>npm run compodoc</code>for a documentation server. Navigate to <code>http://localhost:6060/</code>. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in <a href="tsconfig.doc.json">tsconfig.doc.json</a>.</p>
-<h2 id="codegeneration-from-graphql-files">Codegeneration from .graphql files</h2>
-<p>The app uses GraphQL instead of REST to communicate with the backend. The graphql files are in the
-<a href="src/app/data">data folder</a> and subdivided by entities they pertain to e.g. <a href="src/app/data/label/label.graphql">label</a> <br />
-When you change .graphql files you have to rerun the code generator. It will update the files in
-src/generated to match the changes in the .graphql files.<br>:warning: The backend has to be running with debugNoLogin set to true to make the backend schema
-definition accessible to the generator via the urls defined in the codegen <a href="codegen.yml">configuration file</a>.<br>Run <code>npm run generate</code> to execute the codegenerator when this condition is met.</p>
-<h2 id="codegenerator-explanation">Codegenerator explanation</h2>
-<p>We use a codegenerator (<a href="https://graphql-code-generator.com/">https://graphql-code-generator.com/</a>) to create typescript classes from .graphql files
-containing queries and mutations. One class per query/mutation. We then use dependency injection to inject objects of theses classes 
-into e.g. services via dependency injection. These objects make it easy to parameterize the mutations and queries and
-invoke them in typescript code.</p>
-<h2 id="mocked-members-page">Mocked Members Page</h2>
-<p>Every project offers a mocked &#39;Members&#39; page. It shows a list of users in the project and
-offers a dialog to add users. However this area is purely a mock, changes are not persisted
-and there are no other users who really have access to your project.</p>
+<h1 id="frontend-for-the-gropius-system">Frontend for the Gropius system</h1>
+<h2 id="introduction-to-gropius">Introduction to Gropius</h2>
+<p>Software systems are usually built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous services. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.</p>
+<p>Even though component-based architectures have many benefits like ease of deployment, reusability and independence, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different <strong>issue management systems</strong> (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.</p>
+<p>Gropius is a <strong>cross component issue management system</strong> (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.</p>
+<h2 id="the-frontend">The frontend</h2>
+<p><img src="https://github.com/ccims/ccims-frontend/blob/documentation/Kliment/Kristina/src/frontend-preview/preview00.png?raw=true" alt="preview00" class="img-responsive"></p>
+<p>As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.</p>
+<p>The system consists of two different parts: 1. the <a href="https://github.com/ccims/ccims-frontend">frontend</a> and 2. the <a href="https://github.com/ccims/ccims-backend-gql">backend</a>.</p>
+<p>The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.</p>
+<h2 id="further-details-documentation-features-used-technologies-and-structure">Further details: documentation, features, used technologies and structure</h2>
+<p>The github page of the whole project can be found here: <a href="https://github.com/ccims">https://github.com/ccims</a>.</p>
+<p>The documentation of the frontend can be found here: <a href="http://ccims.github.io/ccims-frontend">http://ccims.github.io/ccims-frontend</a>.</p>
+<p>Further information regarding how to use the project can be found on page <a href="https://ccims.github.io/ccims-frontend/additional-documentation/using-the-project.html">Using the Project</a> located in folder Additional documentation (in the documentation).
+This includes 1. main features and 2. ditional features.</p>
+<p>Further information regarding how to manage the project can be found on page <a href="https://ccims.github.io/ccims-frontend/additional-documentation/managing-the-project.html">Managing the Project</a> located in folder Additional documentation (in the documentation). 
+This includes 1. used technologies, 2. structure of the project, 3. connection with the backend, etc.</p>
+<p>In case folder Additional documentation is not visible below Getting started (in the documentation), the following code can be run:
+<code>compodoc -p tsconfig.doc.json --includes additional</code> and then <code>npm run compodoc</code>.
+Folder Additional documentation contains files Using the Project, Managing the Project and Contributors.</p>
+<h2 id="credits">Credits</h2>
+<p>Further information regarding the members who have worked on the frontend of the system can be found on page <a href="https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html">Contributors</a> located in the documentation.</p>
+<h2 id="license">License</h2>
+<p>This part still needs to be specified.</p>
 
 
 
