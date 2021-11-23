@@ -1,0 +1,178 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ccims documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ccims documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content additional-page">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="using-the-project">Using the Project</h1>
+<p>This page lists all the features of the Gropius system and provides a description of how they can be used. In addition, the use of the features is visualized with pictures.</p>
+<h2 id="creating-filtering-and-deleting-projects">Creating, Filtering and Deleting Projects</h2>
+<p>The main page contains a list of projects. To create a new project, click the &quot;Create Project&quot; button and enter a name and description (optional) for the project. <br />
+The search field above the project list allows to search for projects and filter the list. <br />
+Once a project is selected, the project overview is opened. After clicking on &quot;Delete project&quot; a confirmation is expected. <br />
+A direct link to the project&#39;s component diagram is provided on the right side of each project item in the project list.</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/mainPage.png" width="700"  />
+</p>
+
+<h2 id="project-overview">Project Overview</h2>
+<p>The &quot;Project Overview&quot; view contains the name and ID of the current project, the description that can be edited as well as the &quot;Delete Project&quot; button.</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/overviewPage.png" width="700"/>
+</p>
+
+<h2 id="graph-and-components">Graph and Components</h2>
+<p>The graph of the project represents all components, issues (bugs, feature requests and unclassified issues), interfaces and relations between entities. <br />
+In the upper left corner there are filters that allow the user to hide different types of issues (bugs, feature requests and unclassified issues) or issue connections to get a better visualization of the components and interfaces. <br />
+In the upper right corner there is a button to create new components. The user is required to provide a name, repository URL, provider type (IMS), IMS-URL, and description (optional) for the component to be created.  <br /> <br /></p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/graph.png" width="700"/>
+</p>
+
+<p>A new interface is created by connecting two components. The user is expected to provide a name, a type, and optionally a description of the interface.
+ <br />
+Clicking on a component displays a popup window with a list of issues and details associated with the current component. There, new issues can be created for this component (&quot;Create issue&quot; button), issues can be filtered, the details can be edited and the component can be deleted. <br />
+Clicking on an interface displays a pop-up window with the interface details and the issues associated with that interface. The &quot;Create Issue&quot; button can be used to create new issues associated with this interface. <br /> <br /></p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/componentIssuesAndDetails.png" width="1000"/>
+</p>
+
+<h2 id="issues-component-issues-and-inteface-issues">Issues (Component Issues and Inteface Issues)</h2>
+<p>An issue can be a bug, a feature request, and an unclassified issue. Issues can be created for interfaces and for components in the component / interface pop-up. The user is expected to specify the issue title, type (bug, feature request, or unclassified), associated components, issue location, labels, assignees (not yet functional), and linked issues. Each of these fields is optional, except for the issue title. New labels for the issues can also be created.</p>
+<br />
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/createIssue.png" width="400"/>
+</p>
+
+<p>The issues are also displayed as a list in a separate view. Each issue has a title, author, assignees, labels and a category. The list of issues can be filtered and searched for issues. After selecting an issue, its details are displayed and can be edited, the issue can be commented and closed.
+TODO: describe timeline</p>
+ <br />
+ <p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/issues.png" width="700"/>
+</p>
+
+<h2 id="authentication">Authentication</h2>
+<p>To use the app, the user must register or log in.  <br /> <br /></p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/logInOrRegister.png" width="700"/>
+</p>
+
+<h2 id="timeline">Timeline</h2>
+<p>After an issue is selected on the Issues page, another view is displayed containing a timeline. The timeline visualizes all the changes that have been made to the issue over time.</p>
+<br />
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/timeline.png" width="700"/>
+</p>
+
+<h2 id="mocked-members-page">Mocked Members Page</h2>
+<p>Every project offers a mocked &quot;Members&quot; page. It shows a list of users in the project and
+offers a dialog to add users. However, this area is purely a mock, changes are not persistent
+and there are no other users who have access to the currently handled project.</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/members.png" width="700"/>
+</p>
+
+<h2 id="mocked-settings-menu">Mocked Settings Menu</h2>
+<p>The application contains a mocked settings menu. The menu includes profile settings to update the display name, username, email and password. What&#39;s more, there is an option to create an access token and a &quot;Dark Mode&quot; option. However, the menu is purely a mock and changes are not persistent, nor are the latter two features functioning.</p>
+ <br />
+ <p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/settings.png" width="700"/>
+</p>
+ <br />
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'additional-page';
+            var COMPODOC_CURRENT_PAGE_URL = 'using-the-project.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

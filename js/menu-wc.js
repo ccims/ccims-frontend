@@ -40,6 +40,25 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                     </ul>
                 </li>
+                    <li class="chapter additional">
+                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ? 'data-target="#additional-pages"'
+                            : 'data-target="#xs-additional-pages"' }>
+                            <span class="icon ion-ios-book"></span>
+                            <span>Additional documentation</span>
+                            <span class="icon ion-ios-arrow-down"></span>
+                        </div>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="additional-pages"' : 'id="xs-additional-pages"' }>
+                                    <li class="link ">
+                                        <a href="additional-documentation/using-the-project.html" data-type="entity-link" data-context-id="additional">Using the Project</a>
+                                    </li>
+                                    <li class="link ">
+                                        <a href="additional-documentation/managing-the-project.html" data-type="entity-link" data-context-id="additional">Managing the Project</a>
+                                    </li>
+                                    <li class="link ">
+                                        <a href="additional-documentation/contributors.html" data-type="entity-link" data-context-id="additional">Contributors</a>
+                                    </li>
+                        </ul>
+                    </li>
                     <li class="chapter modules">
                         <a data-type="chapter-link" href="modules.html">
                             <div class="menu-toggler linked" data-toggle="collapse" ${ isNormalMode ?
@@ -651,6 +670,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </li>
                     <li class="chapter">
                         <a data-type="chapter-link" href="coverage.html"><span class="icon ion-ios-stats"></span>Documentation coverage</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="copyright">
+                        Documentation generated using <a href="https://compodoc.app/" target="_blank">
+                            <img data-src="images/compodoc-vectorise.png" class="img-responsive" data-type="compodoc-logo">
+                        </a>
                     </li>
             </ul>
         </nav>
