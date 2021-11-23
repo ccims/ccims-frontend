@@ -92,13 +92,13 @@ of the primary components of the app.</p>
 </table>
 <h2 id="documentation-generation">Documentation generation</h2>
 <p>The documentation is generated with <a href="https://github.com/compodoc/compodoc">Compodoc</a>. Run <code>npm run compodoc</code>for a documentation server. Navigate to <code>http://localhost:6060/</code>. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in <a href="tsconfig.doc.json">tsconfig.doc.json</a>.</p>
-<h2 id="codegeneration-from-graphql-files">Codegeneration from .graphql files</h2>
+<h2 id="code-generation-from-graphql-files">Code generation from .graphql files</h2>
 <p>The app uses GraphQL instead of REST to communicate with the backend. The graphql files are in the
 <a href="src/app/data">data folder</a> and subdivided by entities they pertain to e.g. <a href="src/app/data/label/label.graphql">label</a> <br />
 When you change .graphql files you have to rerun the code generator. It will update the files in
 src/generated to match the changes in the .graphql files.<br>:warning: The backend has to be running with debugNoLogin set to true to make the backend schema
 definition accessible to the generator via the urls defined in the codegen <a href="codegen.yml">configuration file</a>.<br>Run <code>npm run generate</code> to execute the codegenerator when this condition is met.</p>
-<h2 id="codegenerator-explanation">Codegenerator explanation</h2>
+<h2 id="code-generator-explanation">Code generator explanation</h2>
 <p>We use a codegenerator (<a href="https://graphql-code-generator.com/">https://graphql-code-generator.com/</a>) to create typescript classes from .graphql files
 containing queries and mutations. One class per query/mutation. We then use dependency injection to inject objects of theses classes 
 into e.g. services via dependency injection. These objects make it easy to parameterize the mutations and queries and
@@ -125,7 +125,7 @@ and there are no other users who really have access to your project.</p>
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'additional-page';
-            var COMPODOC_CURRENT_PAGE_URL = 'managing-the-project.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'managing-gropius.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
