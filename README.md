@@ -2,23 +2,28 @@
 
 ### Important details about Gropius
 
-1. Development server: 
-run `npm start` and navigate to `http://localhost:4200/`.
+1. Development server:  
+run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
+<br />
 
-2. Code generation from .graphql files: 
+2. Code generation from .graphql files:  
 run `npm run generate`.
+<br />
 
-3. Documentation: 
+3. Documentation:  
 can be found on [http://ccims.github.io/ccims-frontend](http://ccims.github.io/ccims-frontend).
+<br />
 
-4. Documentation generation:
+4. Documentation generation:  
 run `npm run compodoc`.
 p.s. If folder Additional documentation is not visible below Getting started, run `compodoc -p tsconfig.doc.json --includes additional` and then `npm run compodoc`.
+<br />
 
-5. Gropius features:
+5. Gropius features:  
 can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-the-project.html).
+<br />
 
-6. Used technologies, structure of the system, connection with the backend, etc.: 
+6. Used technologies, structure of the system, connection with the backend, and more:  
 can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-the-project.html). 
 
 ## Introduction to Gropius
