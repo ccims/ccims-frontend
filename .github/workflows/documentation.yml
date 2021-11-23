@@ -20,6 +20,7 @@ jobs:
         run: |
           npm install
           npm run compodoc-pages
+          npm run compodoc-additional
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
