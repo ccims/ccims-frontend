@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "generate": "graphql-codegen --config codegen.yml",
     "compodoc": "./node_modules/.bin/compodoc -p tsconfig.doc.json -s -r 6060 -w --disableLifeCycleHooks --hideGenerator",
-    "compodoc-pages": "./node_modules/.bin/compodoc -p tsconfig.doc.json --disableLifeCycleHooks --hideGenerator"
+    "compodoc-pages": "./node_modules/.bin/compodoc -p tsconfig.doc.json --includes additional --disableLifeCycleHooks --hideGenerator"
   },
   "private": true,
   "dependencies": {
