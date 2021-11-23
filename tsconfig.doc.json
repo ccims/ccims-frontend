@@ -3,8 +3,8 @@
     "src/**/*.ts",
     "additional/summary.json",
     "additional/contributors.md",
-    "additional/ManagingTheProject.md",
-    "additional/usingTheProject.md"],
+    "additional/managingGropius.md",
+    "additional/usingGropius.md"],
   "exclude": [
     "src/**/*.spec.ts",
     "src/generated/public-graphql.ts",

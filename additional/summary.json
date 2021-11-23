@@ -1,11 +1,11 @@
 [
     {
-        "title": "Using the Project",
-        "file": "usingTheProject.md"
+        "title": "Using Gropius",
+        "file": "usingGropius.md"
     },
     {
-        "title": "Managing the Project",
-        "file": "ManagingTheProject.md"
+        "title": "Managing Gropius",
+        "file": "managingGropius.md"
     },
     {
         "title": "Contributors",
