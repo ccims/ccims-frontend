@@ -20,7 +20,7 @@ of the primary components of the app.
 ## Documentation generation
 The documentation is generated with [Compodoc](https://github.com/compodoc/compodoc). Run `npm run compodoc`for a documentation server. Navigate to `http://localhost:6060/`. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in [tsconfig.doc.json](tsconfig.doc.json).
 
-## Codegeneration from .graphql files
+## Code generation from .graphql files
 The app uses GraphQL instead of REST to communicate with the backend. The graphql files are in the
 [data folder](src/app/data) and subdivided by entities they pertain to e.g. [label](src/app/data/label/label.graphql) <br />
 When you change .graphql files you have to rerun the code generator. It will update the files in
@@ -29,7 +29,7 @@ src/generated to match the changes in the .graphql files.
 definition accessible to the generator via the urls defined in the codegen [configuration file](codegen.yml).  
 Run `npm run generate` to execute the codegenerator when this condition is met.
 
-## Codegenerator explanation
+## Code generator explanation
 We use a codegenerator (https://graphql-code-generator.com/) to create typescript classes from .graphql files
 containing queries and mutations. One class per query/mutation. We then use dependency injection to inject objects of theses classes 
 into e.g. services via dependency injection. These objects make it easy to parameterize the mutations and queries and

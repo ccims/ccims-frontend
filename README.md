@@ -1,5 +1,31 @@
 # Frontend for the Gropius system
 
+### Important details about Gropius
+
+1. Development server:  
+run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
+<br />
+
+2. Code generation from .graphql files:  
+run `npm run generate`.
+<br />
+
+3. Documentation:  
+can be found on [http://ccims.github.io/ccims-frontend](http://ccims.github.io/ccims-frontend).
+<br />
+
+4. Documentation generation:  
+run `npm run compodoc`.
+p.s. If folder Additional documentation is not visible below Getting started, run `compodoc -p tsconfig.doc.json --includes additional` and then `npm run compodoc`.
+<br />
+
+5. Gropius features:  
+can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).
+<br />
+
+6. Used technologies, structure of the system, connection with the backend, and more:  
+can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html). 
+
 ## Introduction to Gropius
 
 Software systems are usually built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous services. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.
@@ -17,22 +43,6 @@ As already mentioned, the idea behind Gropius is to manage cross-component issue
 The system consists of two different parts: 1. the [frontend](https://github.com/ccims/ccims-frontend) and 2. the [backend](https://github.com/ccims/ccims-backend-gql).
 
 The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.
-
-## Further details: documentation, features, used technologies and structure
-
-The github page of the whole project can be found here: [https://github.com/ccims](https://github.com/ccims).
-
-The documentation of the frontend can be found here: [http://ccims.github.io/ccims-frontend](http://ccims.github.io/ccims-frontend).
-
-Further information regarding how to use the project can be found on page [Using the Project](https://ccims.github.io/ccims-frontend/additional-documentation/using-the-project.html) located in folder Additional documentation (in the documentation).
-This includes 1. main features and 2. ditional features.
-
-Further information regarding how to manage the project can be found on page [Managing the Project](https://ccims.github.io/ccims-frontend/additional-documentation/managing-the-project.html) located in folder Additional documentation (in the documentation). 
-This includes 1. used technologies, 2. structure of the project, 3. connection with the backend, etc.
-
-In case folder Additional documentation is not visible below Getting started (in the documentation), the following code can be run:
-`compodoc -p tsconfig.doc.json --includes additional` and then `npm run compodoc`.
-Folder Additional documentation contains files Using the Project, Managing the Project and Contributors.
 
 ## Credits
 
