@@ -2,7 +2,7 @@ name: Documentation
 on:
   push:
     branches:
-      - documentation/Kliment/Kristina
+      - master
 
 jobs:
   build-and-deploy:
