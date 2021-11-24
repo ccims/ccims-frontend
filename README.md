@@ -15,16 +15,20 @@ can be found on [http://ccims.github.io/ccims-frontend](http://ccims.github.io/c
 <br />
 
 4. Documentation generation:  
-run `npm run compodoc`.
+run `npm run compodoc`.  
 p.s. If folder Additional documentation is not visible below Getting started, run `compodoc -p tsconfig.doc.json --includes additional` and then `npm run compodoc`.
 <br />
 
 5. Gropius features:  
 can be found on [Using Gropius](additional-documentation/using-gropius.html).
+<!-- can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).   -->
+<!-- p.s. If running the documentation locally, then click [here](additional-documentation/using-gropius.html). -->
 <br />
 
 6. Used technologies, structure of the system, connection with the backend, and more:  
-can be found on [Managing Gropius](additional-documentation/managing-gropius.html). 
+can be found on [Managing Gropius](additional-documentation/managing-gropius.html).
+<!-- can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html).   -->
+<!-- p.s. If running the documentation locally, then click [here](additional-documentation/managing-gropius.html). -->
 
 ## Introduction to Gropius
 
