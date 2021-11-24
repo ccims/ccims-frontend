@@ -64,17 +64,10 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts</code>
+            <code>src/app/dialogs/remove-dialog/remove-dialog.component.ts</code>
         </p>
 
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>Interface that defines what data is injected to the dialog.</p>
-
-            </p>
 
 
         <section>
@@ -90,21 +83,29 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#components" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#confirmButtonText" 
 >
-                                            components
+                                            confirmButtonText
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#locations" 
+                                        <a href="#messages" 
 >
-                                            locations
+                                            messages
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#projectId" 
+                                        <a href="#title" 
 >
-                                            projectId
+                                            title
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#verificationName" 
+>
+                                            verificationName
                                         </a>
                                 </li>
                             </ul>
@@ -122,9 +123,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="components"></a>
-                                        <span class="name "><b>components</b>
-                                            <a href="#components">
+                                        <a name="confirmButtonText"></a>
+                                        <span class="name "><b>confirmButtonText</b>
+                                            <a href="#confirmButtonText">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -132,7 +133,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>components:         <code><a href="../interfaces/NodeId.html" target="_self" >NodeId[]</a></code>
+                                        <code>confirmButtonText:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -140,7 +141,51 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/NodeId.html" target="_self" >NodeId[]</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>If set, shows this text as the text in the confirm button. If not set, button shows &#39;Delete&#39;</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="messages"></a>
+                                        <span class="name "><b>messages</b>
+                                            <a href="#messages">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>messages:     <code>Array&lt;string&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Array&lt;string&gt;</code>
 
                                         </td>
                                     </tr>
@@ -149,15 +194,21 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The list of lines shown in the dialog. If a line starts with a space, the line will be indented</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="locations"></a>
-                                        <span class="name "><b>locations</b>
-                                            <a href="#locations">
+                                        <a name="title"></a>
+                                        <span class="name "><b>title</b>
+                                            <a href="#title">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -165,40 +216,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>locations:         <code><a href="../interfaces/NodeId.html" target="_self" >NodeId[]</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/NodeId.html" target="_self" >NodeId[]</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="projectId"></a>
-                                        <span class="name "><b>projectId</b>
-                                            <a href="#projectId">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>projectId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>title:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -217,151 +235,128 @@
 
                         </tbody>
                     </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="verificationName"></a>
+                                        <span class="name "><b>verificationName</b>
+                                            <a href="#verificationName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>verificationName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>If set, shows a text box that forces the user to type the specified text before being able to click the confirm button</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
             </section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
-import { FormControl, Validators } from &#x27;@angular/forms&#x27;;
-import { IssueCategory } from &#x27;../../../generated/graphql&#x27;;
-import { UserNotifyService } from &#x27;@app/user-notify/user-notify.service&#x27;;
-import { CCIMSValidators } from &#x27;@app/utils/validators&#x27;;
-import { CreateIssueInput } from &#x27;../../../generated/graphql-dgql&#x27;;
-import { NodeId, NodeType } from &#x27;@app/data-dgql/id&#x27;;
-import DataService from &#x27;@app/data-dgql&#x27;;
-import {LocalIssueData} from &#x27;@app/issue-detail/issue-sidebar.component&#x27;;
-import {RemoveDialogComponent} from &#x27;@app/dialogs/remove-dialog/remove-dialog.component&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Inject, OnInit} from &#x27;@angular/core&#x27;;
+import {MAT_DIALOG_DATA, MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
+import {FormControl, ValidatorFn} from &#x27;@angular/forms&#x27;;
 
-@Component({
-  selector: &#x27;app-create-issue-dialog&#x27;,
-  templateUrl: &#x27;./create-issue-dialog.component.html&#x27;,
-  styleUrls: [&#x27;./create-issue-dialog.component.scss&#x27;]
-})
 /**
- * This component opens a dialog for the issue creation.
+ * This component is a confirmation dialog for anything that involves deleting
+ *
+ * #### Example
+ * &#x60;&#x60;&#x60;ts
+ * // ...
+ *
+ * constructor(private dialog: MatDialog, ...)
+ *
+ * // ...
+ *
+ * const dialogRef &#x3D; this.dialog.open(RemoveDialogComponent,
+ * {
+ *   data: {
+ *     title: &#x27;This is the title of the dialog&#x27;,
+ *     messages: [&#x27;Every entry is a new line&#x27;,
+ *                &#x27;This is the next line&#x27;,
+ *                &#x27; Lines beginning with a space will be indented&#x27;],
+ *     verificationName: &#x27;In order for the user to be able to click the confirm button, this text has to be typed&#x27;,
+ *     confirmButtonText: &#x27;This is the text of the confirm button&#x27;
+ *   }
+ * });
+ *
+ * dialogRef.afterClosed().subscribe(confirm &#x3D;&gt; {
+ *   if (confirm) {
+ *     console.log(&#x27;Deleted!&#x27;);
+ *   } else {
+ *     console.log(&#x27;Not deleted!&#x27;);
+ *   }
+ * });
+ * &#x60;&#x60;&#x60;
  */
-export class CreateIssueDialogComponent implements OnInit {
-  @ViewChild(&#x27;body&#x27;) body;
-
-  public loading &#x3D; false;
-  public saveFailed &#x3D; false;
-
-  constructor(public dialogRef: MatDialogRef&lt;CreateIssueDialogComponent&gt;,
-              private dialog: MatDialog,
-              private dataService: DataService,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private notify: UserNotifyService
-  ) {
+@Component({
+  selector: &#x27;app-remove-dialog&#x27;,
+  templateUrl: &#x27;./remove-dialog.component.html&#x27;,
+  styleUrls: [&#x27;./remove-dialog.component.scss&#x27;]
+})
+export class RemoveDialogComponent implements OnInit {
+  matchValidator: ValidatorFn &#x3D; control &#x3D;&gt; {
+    return control.value &#x3D;&#x3D;&#x3D; this.data.verificationName ? null : {&#x27;Names don\&#x27;t match&#x27;: true};
   }
 
-  // form controls for the form fields
-  title &#x3D; new FormControl(&#x27;&#x27;, [CCIMSValidators.nameValidator, Validators.required]);
-  category &#x3D; new FormControl(&#x27;&#x27;, [Validators.required]);
+  verificationNameInput &#x3D; new FormControl(&#x27;&#x27;, this.matchValidator);
 
-  public issueData: LocalIssueData &#x3D; {
-    components: [],
-    locations: [],
-    labels: [],
-    assignees: [],
-    linksToIssues: [],
-  };
+  constructor(public dialogRef: MatDialogRef&lt;RemoveDialogComponent, boolean&gt;,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  }
 
   ngOnInit(): void {
-    // sets up the issue category as Unclassified
-    this.category.setValue(IssueCategory.Unclassified);
-    this.dialogRef.disableClose &#x3D; true;
-
-    // updates items to be selected
-    this.updateSelectedItems();
+    this.verificationNameInput.markAsTouched();
   }
 
-  /**
-   * Updates items to be selected in the Create Issue page,
-   * including 1) components and 2) locations.
-   */
-  private updateSelectedItems() {
-    // updates components
-    for (const componentId of this.data.components) {
-      this.issueData.components.push(componentId);
-      this.issueData.locations.push(componentId);
-    }
-
-    if (this.data.locations) {
-      // updates locations
-      for (const componentId of this.data.locations) {
-        this.issueData.locations.push(componentId);
-      }
-    }
+  onNoClick(): void {
+    this.dialogRef.close(false);
   }
 
-  onNoClick(showConfirmDialog: boolean): void {
-    if (showConfirmDialog) {
-      this.dialog.open(RemoveDialogComponent,
-        {
-          data: {
-            title: &#x27;Really discard issue?&#x27;,
-            messages: [&#x27;Are you sure you want to discard this issue?&#x27;],
-            confirmButtonText: &#x27;Confirm&#x27;
-          }
-        }).afterClosed().subscribe((close) &#x3D;&gt; {
-        if (close) {
-          this.dialogRef.close();
-        }
-      });
-    } else {
-      this.dialogRef.close();
-    }
-  }
-
-  afterAlertClose(): void {
-    this.saveFailed &#x3D; false;
-  }
-
-  onCreate() {
-    const issueData: CreateIssueInput &#x3D; {
-      title: this.title.value,
-      body: this.body.code,
-      category: this.category.value,
-      clientMutationID: Math.random().toString(36),
-      components: this.issueData.components.map(node &#x3D;&gt; node.id),
-      locations: this.issueData.locations.map(node &#x3D;&gt; node.id),
-      labels: this.issueData.labels.map(node &#x3D;&gt; node.id),
-      assignees: this.issueData.assignees.map(node &#x3D;&gt; node.id),
-    };
-    this.loading &#x3D; true;
-    this.saveFailed &#x3D; false;
-    this.dataService.mutations.createIssue(issueData).then(async result &#x3D;&gt; {
-      const issueId &#x3D; { type: NodeType.Issue, id: result.id };
-      const promises &#x3D; [];
-      for (const linked of this.issueData.linksToIssues) {
-        promises.push(this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch(err &#x3D;&gt; {
-          this.notify.notifyError(&#x27;Failed to link issue!&#x27;, err);
-          // aborting on this error would cause weird non-recoverable state so we won&#x27;t rethrow it
-        }));
-      }
-      await Promise.all(promises);
-
-      this.dialogRef.close(true);
-    }).catch(err &#x3D;&gt; {
-      this.notify.notifyError(&#x27;Failed to create issue!&#x27;, err);
-      this.saveFailed &#x3D; true;
-    }).finally(() &#x3D;&gt; {
-      this.loading &#x3D; false;
-    });
+  onDeleteClick(): void {
+    this.dialogRef.close(true);
   }
 }
 
-/**
- * Interface that defines what data is injected to the dialog.
- */
 export interface DialogData {
-  projectId: string;
-  // initial state of the issue&#x27;s component list
-  components: NodeId[];
-  // initial state of the issue&#x27;s location list
-  locations: NodeId[];
+  title: string;
+  /** The list of lines shown in the dialog. If a line starts with a space, the line will be indented */
+  messages: Array&lt;string&gt;;
+  /** If set, shows a text box that forces the user to type the specified text before being able to click the confirm button */
+  verificationName?: string;
+  /** If set, shows this text as the text in the confirm button. If not set, button shows &#x27;Delete&#x27; */
+  confirmButtonText?: string;
 }
 </code></pre>
     </div>
