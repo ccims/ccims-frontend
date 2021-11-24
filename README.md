@@ -19,7 +19,11 @@ The frontend is responsible for visualizing the part of the system the user can 
 Here is a shot of the way Gropius visualizes a project:  
 (TODO: put a picture that presents more features of Gropius at once...)
 
-![preview00](https://github.com/ccims/ccims-frontend/blob/documentation/Kliment/Kristina/src/frontend-preview/preview00.png?raw=true)
+<br />
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/preview00.png" width="700"/>
+</p>
+<br />
 
 ## About the documentation
 
@@ -73,5 +77,6 @@ Further information regarding the members who have worked on the frontend of the
 ## License
 
 Everything in this repository is [licensed under the MIT License](https://github.com/ccims/ccims-frontend/blob/master/LICENSE) unless otherwise specified.
+
 <br />
 <br />
