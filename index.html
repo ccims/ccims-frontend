@@ -38,16 +38,33 @@
 <p>Gropius is a <strong>cross component issue management system</strong> (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.</p>
 <h2 id="the-frontend">The frontend</h2>
 <p>As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.</p>
-<p>The system consists of two different parts: 1. the <a href="https://github.com/ccims/ccims-frontend">frontend</a> and 2. the <a href="https://github.com/ccims/ccims-backend-gql">backend</a>.</p>
-<p>The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.</p>
-<p>Here is a shot of the way Gropius visualizes a project:<br>(TODO: put a picture that presents more features of Gropius at once...)</p>
+<p>Architecture of the project:</p>
+<table class="table table-bordered compodoc-table">
+<thead>
+<tr>
+<th align="center">frontend</th>
+<th align="center">backend</th>
+<th align="center">IMS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><a href="https://github.com/ccims/ccims-frontend">ccims-frontend</a></td>
+<td align="center"><a href="https://github.com/ccims/ccims-backend">ccims-backend</a></td>
+<td align="center"><a href="https://github.com/ccims/ccims-backend-gql">ccims-backend-gql</a></td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="https://github.com/ccims/ccims-frontend">current repository</a> handles the frontend of the Gropius system. The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc.</p>
+<p>Below is an example how Gropius visualizes a project as a graph. It shows all the components, issues, interfaces and links between the issues. As seen on the picture, a bug (red symbol) in Component 1 has propagated to Component 2, Component 3 and Component 4 because of Interface A that is connecting them all. What&#39;s more, Component 1 and Component 4 have feature requests (blue symbol) that need to be handled. Above the graph there are different check boxes / buttons that make handling the graph much easier, e.g., the fourth one shows / hides connections between linked issues. A search bar can help the user find a component / interface / issue by filtering for a specific text or label. The button in the top right corner is used to create new components. And there are also many other pages the user can visit, like &quot;Settings&quot;, &quot;Issues&quot;, etc.</p>
 <br />
 <p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/preview00.png" width="700"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/preview00.png" width="1000"/>
 </p>
 <br />
 
-<h2 id="about-the-documentation">About the documentation</h2>
+<p>Of course the frontend of the Gropius system includes many more features. Information about most of them can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html">Using Gropius</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/using-gropius.html">here</a>.</p>
+<h2 id="layout-of-the-documentation">Layout of the documentation</h2>
 <ol>
 <li><p>Development server:<br>run <code>npm start</code> and navigate to <a href="http://localhost:4200/">http://localhost:4200/</a>.</p>
 <br />
