@@ -62,11 +62,16 @@ p.s. If running the documentation locally, then click [here](additional-document
 
 Further information regarding the members who have worked on the frontend of the system can be found on page [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html) located in the documentation.
 
+## Additional literature
+
+1. Speth, S., Breitenbücher, U., & Becker, S. (2020). Gropius—A Tool for Managing Cross-component Issues. In H. Muccini, P. Avgeriou, B. Buhnova, J. Camara, M. Camporuscio, M. Franzago, A. Koziolek, P. Scandurra, C. Trubiani, D. Weyns, & U. Zdun (Hrsg.), Communications in Computer and Information Science (Bd. 1269, S. 82--94). Springer.
+
+2. Speth, S., Becker, S., & Breitenbücher, U. (2021). Cross-Component Issue Metamodel and Modelling Language. Proceedings of the 11th International Conference on Cloud Computing and Services Science (CLOSER 2021), 304–311. [https://doi.org/10.5220/0010497703040311](https://doi.org/10.5220/0010497703040311)
+
+3. Speth, S., Krieger, N., Breitenbücher, U., & Becker, S. (2021). Gropius-VSC: IDE Support for Cross-Component Issue Management. In R. Heinrich, R. Mirrandola, & D. Weyns (Hrsg.), Companion Proceedings of the 15th European Conference on Software Architecture. CEUR. [http://ceur-ws.org/Vol-2978/tool-paper103.pdf](http://ceur-ws.org/Vol-2978/tool-paper103.pdf)
+
 ## License
 
-This part still needs to be specified.
-
-
-
-
-
+Everything in this repository is [licensed under the MIT License](https://github.com/ccims/ccims-frontend/blob/master/LICENSE) unless otherwise specified.
+<br />
+<br />
