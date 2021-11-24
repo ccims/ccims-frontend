@@ -33,40 +33,33 @@ p.s. If running the documentation locally, then click [here](additional-document
 
 ## Layout of the documentation
 
-1. Development server:  
-run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
-<br />
-
-2. Code generation from .graphql files:  
-run `npm run generate`.
-<br />
-
-3. Documentation:  
+1. Documentation:  
 can be found on [http://ccims.github.io/ccims-frontend](http://ccims.github.io/ccims-frontend).
-<br />
 
-4. Documentation generation:  
+2. Documentation generation:  
 run `npm run compodoc`.  
 p.s. If folder Additional documentation is not visible below Getting started, run `compodoc -p tsconfig.doc.json --includes additional` and then `npm run compodoc`.
-<br />
 
-5. Gropius features:  
+3. Gropius features:  
 can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).  
 p.s. If running the documentation locally, then click [here](additional-documentation/using-gropius.html).
-<br />
 
-6. Project structure, used technologies, mocked members page and more:  
+4. Project structure, used technologies, mocked members page and more:  
 can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html).  
 p.s. If running the documentation locally, then click [here](additional-documentation/managing-gropius.html).
-<br />
+
+5. Development server:  
+run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
+
+6. Code generation from .graphql files:  
+run `npm run generate`.
 
 7. Backend:  
 can be found on [https://github.com/ccims/ccims-backend-gql](https://github.com/ccims/ccims-backend-gql).
-<br />
 
-8. Contributors:  
+<!-- 8. Contributors:  
 can be found on [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html).  
-p.s. If running the documentation locally, then click [here](additional-documentation/contributors.html).
+p.s. If running the documentation locally, then click [here](additional-documentation/contributors.html). -->
 
 ## Credits
 
