@@ -307,9 +307,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="components-links"' : 'id="xs-components-links"' }>
                             <li class="link">
-                                <a href="components/CacheNodeComponent.html" data-type="entity-link" >CacheNodeComponent</a>
-                            </li>
-                            <li class="link">
                                 <a href="components/ComponentContextMenuComponent.html" data-type="entity-link" >ComponentContextMenuComponent</a>
                             </li>
                             <li class="link">
@@ -394,9 +391,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <span class="icon ion-ios-arrow-down"></span>
                             </div>
                             <ul class="links collapse " ${ isNormalMode ? 'id="directives-links"' : 'id="xs-directives-links"' }>
-                                <li class="link">
-                                    <a href="directives/ItemDirective.html" data-type="entity-link" >ItemDirective</a>
-                                </li>
                                 <li class="link">
                                     <a href="directives/QueryBodyDirective.html" data-type="entity-link" >QueryBodyDirective</a>
                                 </li>
