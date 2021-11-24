@@ -20,11 +20,11 @@ p.s. If folder Additional documentation is not visible below Getting started, ru
 <br />
 
 5. Gropius features:  
-can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).
+can be found on [Using Gropius](additional-documentation/using-gropius.html).
 <br />
 
 6. Used technologies, structure of the system, connection with the backend, and more:  
-can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html). 
+can be found on [Managing Gropius](additional-documentation/managing-gropius.html). 
 
 ## Introduction to Gropius
 
