@@ -24,7 +24,7 @@ Below is an example how Gropius visualizes a project as a graph. It shows all th
 
 <br />
 <p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/dokumentation/Kliment/Kristina/src/frontend-preview/preview00.png" width="1000"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/preview00.png" width="1000"/>
 </p>
 <br />
 
