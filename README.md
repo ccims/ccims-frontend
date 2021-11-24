@@ -12,20 +12,26 @@ Gropius is a **cross component issue management system** (CCIMS) that solves the
 
 As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.
 
-The system consists of two different parts: 1. the [frontend](https://github.com/ccims/ccims-frontend) and 2. the [backend](https://github.com/ccims/ccims-backend-gql).
+Architecture of the project:
 
-The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.
+| frontend | backend | IMS |
+| :-: | :-: | :-: |
+| [ccims-frontend](https://github.com/ccims/ccims-frontend) | [ccims-backend](https://github.com/ccims/ccims-backend) | [ccims-backend-gql](https://github.com/ccims/ccims-backend-gql) |
 
-Here is a shot of the way Gropius visualizes a project:  
-(TODO: put a picture that presents more features of Gropius at once...)
+The [current repository](https://github.com/ccims/ccims-frontend) handles the frontend of the Gropius system. The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc.
+
+Below is an example how Gropius visualizes a project as a graph. It shows all the components, issues, interfaces and links between the issues. As seen on the picture, a bug (red symbol) in Component 1 has propagated to Component 2, Component 3 and Component 4 because of Interface A that is connecting them all. What's more, Component 1 and Component 4 have feature requests (blue symbol) that need to be handled. Above the graph there are different check boxes / buttons that make handling the graph much easier, e.g., the fourth one shows / hides connections between linked issues. A search bar can help the user find a component / interface / issue by filtering for a specific text or label. The button in the top right corner is used to create new components. And there are also many other pages the user can visit, like "Settings", "Issues", etc.
 
 <br />
 <p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/preview00.png" width="700"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/preview00.png" width="1000"/>
 </p>
 <br />
 
-## About the documentation
+Of course the frontend of the Gropius system includes many more features. Information about most of them can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).  
+p.s. If running the documentation locally, then click [here](additional-documentation/using-gropius.html).
+
+## Layout of the documentation
 
 1. Development server:  
 run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
