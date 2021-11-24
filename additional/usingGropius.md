@@ -42,30 +42,29 @@ An issue can be a bug, a feature request, and an unclassified issue. Issues can 
 
 <br />
 <p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/createIssue.png" width="400"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/createIssue.png" width="700"/>
 </p>
 
-The issues are also displayed as a list in a separate view. Each issue has a title, author, assignees, labels and a category. The list of issues can be filtered and searched for issues. After selecting an issue, its details are displayed and can be edited, the issue can be commented and closed.
-TODO: describe timeline
+The issues are also displayed as a list in a separate view. Said view is either displayed as a component / interface pop-up, or it is shown in page "Issues". Each issue has a title, author, assignees, labels and a category. The list of issues can be filtered so that specific ones will be targeted. After selecting an issue, its details are displayed on its own issue details page. There the issue can be edited, commented and closed. What's more, the details page for each issue includes a timeline, more about which can be found in section Timeline. 
 
- <br />
- <p align="center">
+<br />
+<p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/issues.png" width="700"/>
 </p>
 
-## Authentication
-To use the app, the user must register or log in.  <br /> <br />
-
-<p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/logInOrRegister.png" width="700"/>
-</p>
-
 ## Timeline
-After an issue is selected on the Issues page, another view is displayed containing a timeline. The timeline visualizes all the changes that have been made to the issue over time.
+After an issue is selected in page "Issues", the issue details page for the corresponding issue opens. There the issue can be managed. All changes made to the issue are reflected on its own timeline. In a way, the timeline visualizes the whole lifecycle of an issue, including: a) when it has been created, b) who and how has edited it, c) who has commented it, d) what labels have been assigned to it, e) which user has been assigned to it, f) to which other issue / component / interface it has been linked and finally g) who has closed it.
 
 <br />
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/timeline.png" width="700"/>
+</p>
+
+## Authentication
+To use the app, the user must first sign up (if no account has been created yet) and then log in to the corresponding account. The sign up form requires a username, email and password. More details about the user's account can be managed in the settings menu once the user has logged in. <br /> <br />
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/logInOrRegister.png" width="700"/>
 </p>
 
 ## Mocked Members Page
