@@ -20,13 +20,11 @@ p.s. If folder Additional documentation is not visible below Getting started, ru
 <br />
 
 5. Gropius features:  
-<!-- can be found on [Using Gropius](additional-documentation/using-gropius.html). -->
 can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).  
 p.s. If running the documentation locally, then click [here](additional-documentation/using-gropius.html).
 <br />
 
 6. Project structure, used technologies, mocked members page and more:  
-<!-- can be found on [Managing Gropius](additional-documentation/managing-gropius.html). -->
 can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html).  
 p.s. If running the documentation locally, then click [here](additional-documentation/managing-gropius.html).
 <br />
@@ -36,7 +34,6 @@ can be found on [https://github.com/ccims/ccims-backend-gql](https://github.com/
 <br />
 
 8. Contributors:  
-<!-- can be found on [Contributors](additional-documentation/contributors.html). -->
 can be found on [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html).  
 p.s. If running the documentation locally, then click [here](additional-documentation/contributors.html).
 
