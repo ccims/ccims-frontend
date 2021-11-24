@@ -32,7 +32,17 @@
                    <div class="content-data">
 
 <h1 id="frontend-for-the-gropius-system">Frontend for the Gropius system</h1>
-<h3 id="about-the-documentation">About the documentation</h3>
+<h2 id="introduction-to-gropius">Introduction to Gropius</h2>
+<p>Software systems are usually built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous services. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.</p>
+<p>Even though component-based architectures have many benefits like ease of deployment, reusability and independence, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different <strong>issue management systems</strong> (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.</p>
+<p>Gropius is a <strong>cross component issue management system</strong> (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.</p>
+<h2 id="the-frontend">The frontend</h2>
+<p>As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.</p>
+<p>The system consists of two different parts: 1. the <a href="https://github.com/ccims/ccims-frontend">frontend</a> and 2. the <a href="https://github.com/ccims/ccims-backend-gql">backend</a>.</p>
+<p>The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.</p>
+<p>Here is a shot of the way Gropius visualizes a project:<br>(TODO: put a picture that presents more features of Gropius at once...)</p>
+<p><img src="https://github.com/ccims/ccims-frontend/blob/documentation/Kliment/Kristina/src/frontend-preview/preview00.png?raw=true" alt="preview00" class="img-responsive"></p>
+<h2 id="about-the-documentation">About the documentation</h2>
 <ol>
 <li><p>Development server:<br>run <code>npm start</code> and navigate to <a href="http://localhost:4200/">http://localhost:4200/</a>.</p>
 <br />
@@ -58,15 +68,6 @@
 <li><p>Contributors:<br>can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html">Contributors</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/contributors.html">here</a>.</p>
 </li>
 </ol>
-<h2 id="introduction-to-gropius">Introduction to Gropius</h2>
-<p>Software systems are usually built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous services. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.</p>
-<p>Even though component-based architectures have many benefits like ease of deployment, reusability and independence, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different <strong>issue management systems</strong> (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.</p>
-<p>Gropius is a <strong>cross component issue management system</strong> (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.</p>
-<h2 id="the-frontend">The frontend</h2>
-<p><img src="https://github.com/ccims/ccims-frontend/blob/documentation/Kliment/Kristina/src/frontend-preview/preview00.png?raw=true" alt="preview00" class="img-responsive"></p>
-<p>As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.</p>
-<p>The system consists of two different parts: 1. the <a href="https://github.com/ccims/ccims-frontend">frontend</a> and 2. the <a href="https://github.com/ccims/ccims-backend-gql">backend</a>.</p>
-<p>The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.</p>
 <h2 id="credits">Credits</h2>
 <p>Further information regarding the members who have worked on the frontend of the system can be found on page <a href="https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html">Contributors</a> located in the documentation.</p>
 <h2 id="license">License</h2>
