@@ -1,6 +1,6 @@
 # Frontend for the Gropius system
 
-### Important details about Gropius
+### About the documentation
 
 1. Development server:  
 run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
@@ -25,10 +25,18 @@ can be found on [Using Gropius](additional-documentation/using-gropius.html).
 <!-- p.s. If running the documentation locally, then click [here](additional-documentation/using-gropius.html). -->
 <br />
 
-6. Used technologies, structure of the system, connection with the backend, and more:  
+6. Project structure, used technologies, mocked members page and more:  
 can be found on [Managing Gropius](additional-documentation/managing-gropius.html).
 <!-- can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html).   -->
 <!-- p.s. If running the documentation locally, then click [here](additional-documentation/managing-gropius.html). -->
+<br />
+
+7. Backend:  
+can be found on [https://github.com/ccims/ccims-backend-gql](https://github.com/ccims/ccims-backend-gql).
+<br />
+
+8. Contributors:  
+can be found on [Contributors](additional-documentation/contributors.html).
 
 ## Introduction to Gropius
 
