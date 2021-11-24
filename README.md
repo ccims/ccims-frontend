@@ -2,9 +2,9 @@
 
 ## Introduction to Gropius
 
-Software systems are usually built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous services. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.
+Modern software systems are often built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous autonomous components, e.g., microservices. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.
 
-Even though component-based architectures have many benefits like ease of deployment, reusability and independence, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different **issue management systems** (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.
+Even though component-based architectures have many benefits like ease of deployment, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different **issue management systems** (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.
 
 Gropius is a **cross component issue management system** (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.
 
