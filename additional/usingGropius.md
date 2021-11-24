@@ -42,7 +42,7 @@ An issue can be a bug, a feature request, and an unclassified issue. Issues can 
 
 <br />
 <p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/createIssue.png" width="400"/>
+<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/documentation/Kliment/Kristina/src/frontend-preview/createIssue.png" width="700"/>
 </p>
 
 The issues are also displayed as a list in a separate view. Said view is either displayed as a component / interface pop-up, or it is shown in page "Issues". Each issue has a title, author, assignees, labels and a category. The list of issues can be filtered so that specific ones will be targeted. After selecting an issue, its details are displayed on its own issue details page. There the issue can be edited, commented and closed. What's more, the details page for each issue includes a timeline, more about which can be found in section Timeline. 
