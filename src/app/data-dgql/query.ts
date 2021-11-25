@@ -55,11 +55,21 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
   /** The ID of this data. */
   id: I;
   loading = false; // TODO: maybe make this value observable too?
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: this is the currently loaded data, externally accessible via .current.
+   */
   protected currentData?: T;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: this is the time the data was last loaded, to compare against the cache invalidation
+   * timeout. This is a millisecond epoch timestamp from Date.now().
+   */
   protected lastLoadTime = 0;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: this flag may be set by subclasses to avoid having writes to .params load any data.
+   */
   protected pSetParamsNoUpdate = false;
 
   /** Returns true if data is currently available. */
@@ -72,7 +82,10 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     return this.currentData;
   }
 
-  /** @ignore */
+  /**
+   * @ignore
+   * The current query parameters, externally accessible via .params.
+   */
   protected currentQueryParams?: P;
   /**
    * Parameters that will be passed to the request.
@@ -88,19 +101,44 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     }
   }
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: set of all subscribers to this data. This set is used to send updates.
+   */
   protected subscribers: Set<Subscriber<T>> = new Set();
-  /** @ignore */
+  // FIXME: innerQuery/MapFn is a bit inelegant; it may be possible to refactor this
+  /**
+   * @ignore
+   * Private: this is the inner query function that actually loads the data, provided by a subclass.
+   */
   protected innerQueryFn: (id: I, p: P) => Promise<R>;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: this function maps data returned by the inner query into our format, if necessary.
+   */
   protected innerMapFn: (r: R) => T;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: this is a simple counter used to determine whether the result of a load operation is
+   * still relevant.
+   */
   protected stateLock = 0;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: this is a javascript timeout ID set when doing debounced loading.
+   */
   protected loadTimeout = null;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: if true, the data will be hydrated (see {@link DataList#hydrateInitial}) and we should
+   * *not* trigger a load when a subscriber is added, until we have received the hydration.
+   */
   protected hydrated = false;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: if true, the next call to subscribe will add a lazy subscriber.
+   * The flag will be reset automatically. Used in subscribeLazy.
+   */
   protected isNextSubLazy = false;
 
   /** If true, will prolong debounce time a bit. */
@@ -114,7 +152,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @param query the inner query function
    * @param map maps returned data from the query R to usable data T
    */
-  constructor(id: I, query: (id: I, p: P) => Promise<R>, map: (r: R) => T) {
+  protected constructor(id: I, query: (id: I, p: P) => Promise<R>, map: (r: R) => T) {
     super(subscriber => {
       this.addSubscriber(subscriber, this.isNextSubLazy);
       this.isNextSubLazy = false;
@@ -153,7 +191,10 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     });
   }
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: the actual implementation of the load function.
+   */
   private loadImpl(fut: Promise<R>) {
     clearTimeout(this.loadTimeout);
     this.loadTimeout = null;
@@ -225,7 +266,10 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     this.emitUpdateToAllSubscribers();
   }
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: callback for adding a new subscriber.
+   */
   protected addSubscriber(subscriber: Subscriber<T>, lazy: boolean) {
     this.subscribers.add(subscriber);
     if (this.current !== undefined) {
@@ -253,21 +297,30 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     return this.subscribe(...args);
   }
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: will send an update with the current data (.current) to all subscribers.
+   */
   emitUpdateToAllSubscribers() {
     for (const sub of this.subscribers) {
       sub.next(this.current);
     }
   }
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: will send the given error to all subscribers.
+   */
   emitErrorToAllSubscribers(error: unknown) {
     for (const sub of this.subscribers) {
       sub.error(error);
     }
   }
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Updates current data with a result from innerQueryFn, and emits an update.
+   */
   insertResult(result: R) {
     this.currentData = this.innerMapFn(result);
     this.emitUpdateToAllSubscribers();
@@ -278,9 +331,6 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     return this.subscribers.size;
   }
 }
-
-/** @ignore */
-const identity = id => id;
 
 /**
  * A cacheable node with no parameters.
@@ -325,7 +375,7 @@ const identity = id => id;
 export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
   /** @ignore */
   constructor(queries: QueriesService, id: NodeId) {
-    super(id, queryNode(queries), identity);
+    super(id, queryNode(queries), data => data);
   }
 
   set params(p) {
@@ -393,6 +443,7 @@ export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
  * ```
  */
 export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListResult<T>, ListParams<F>> {
+  // these are all just the private versions of the corresponding list properties.
   /** @ignore */
   private pCursor?: NodeId;
   /** @ignore */
@@ -401,13 +452,26 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
   private pFilter?: F;
   /** @ignore */
   private pForward = true;
-  /** @ignore */
+
+  /**
+   * @ignore
+   * Private: page info for the currently loaded data.
+   */
   private pageInfo?: PageInfo;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: accessible via .totalCount (read-only)
+   */
   private pTotalCount?: number;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: used to correct hasPrevious/NextPage when receiving data.
+   */
   private previouslyHadPageContents = false;
-  /** @ignore */
+  /**
+   * @ignore
+   * Private: pointer to the global node cache, used to insert results.
+   */
   private pNodes: NodeCache;
 
   /** @ignore */
