@@ -1,23 +1,30 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort, MatSortable} from '@angular/material/sort';
-import {CreateIssueDialogComponent} from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
-import {FormControl} from '@angular/forms';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, MatSortable } from '@angular/material/sort';
+import { CreateIssueDialogComponent } from '@app/dialogs/create-issue-dialog/create-issue-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 import DataService from '@app/data-dgql';
-import {ListId, ListType, NodeId, NodeType} from '@app/data-dgql/id';
-import {DataList, DataNode} from '@app/data-dgql/query';
+import { ListId, ListType, NodeId, NodeType } from '@app/data-dgql/id';
+import { DataList, DataNode } from '@app/data-dgql/query';
 import {
   Component as IComponent,
   ComponentInterface,
   Issue,
   IssueCategory,
-  IssueFilter
+  IssueFilter,
 } from '../../generated/graphql-dgql';
-import {QueryComponent} from '@app/utils/query-component/query.component';
+import { QueryComponent } from '@app/utils/query-component/query.component';
 
 /**
  * This component shows all issues for a given component / interface.
@@ -27,7 +34,7 @@ import {QueryComponent} from '@app/utils/query-component/query.component';
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
-  styleUrls: ['./issue-list.component.scss']
+  styleUrls: ['./issue-list.component.scss'],
 })
 export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() listId: ListId;
@@ -66,8 +73,7 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private router: Router,
     private dataService: DataService
-  ) {
-  }
+  ) {}
 
   /**
    * Determines issue icon depending on the given category.
@@ -81,7 +87,9 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
       case IssueCategory.FeatureRequest:
         return issue.isOpen ? 'issue-feature' : 'issue-feature-closed';
       case IssueCategory.Unclassified:
-        return issue.isOpen ? 'issue-uncategorized' : 'issue-uncategorized-closed';
+        return issue.isOpen
+          ? 'issue-uncategorized'
+          : 'issue-uncategorized-closed';
     }
   }
 
@@ -102,10 +110,9 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.allLabelsList = {
       node: this.listId.node,
-      type: ListType.Labels
+      type: ListType.Labels,
     };
 
     if (this.listId.node.type === NodeType.Component) {
@@ -117,18 +124,23 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.componentInterface$ = this.dataService.getNode(this.listId.node);
       this.componentInterfaceSub = this.componentInterface$.subscribe();
 
-      this.componentInterface$.dataAsPromise().then(data => {
-        this.componentInterfaceProvider = {type: NodeType.Component, id: data.component.id};
+      this.componentInterface$.dataAsPromise().then((data) => {
+        this.componentInterfaceProvider = {
+          type: NodeType.Component,
+          id: data.component.id,
+        };
       });
     }
 
     // FIXME: a hack to fix the labels list on interfaces
     if (this.listId.node.type === NodeType.ComponentInterface) {
-      const interfaceNode = this.dataService.getNode<ComponentInterface>(this.listId.node);
-      interfaceNode.dataAsPromise().then(data => {
+      const interfaceNode = this.dataService.getNode<ComponentInterface>(
+        this.listId.node
+      );
+      interfaceNode.dataAsPromise().then((data) => {
         this.allLabelsList = {
-          node: {type: NodeType.Component, id: data.component.id},
-          type: ListType.Labels
+          node: { type: NodeType.Component, id: data.component.id },
+          type: ListType.Labels,
         };
       });
     }
@@ -138,9 +150,11 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.query.listenTo(this.list$, data => {
-      this.dataSource = new MatTableDataSource<any>(data ? [...data.values()] : []);
-      this.sort.sort(({id: 'category', start: 'asc'}) as MatSortable);
+    this.query.listenTo(this.list$, (data) => {
+      this.dataSource = new MatTableDataSource<any>(
+        data ? [...data.values()] : []
+      );
+      this.sort.sort({ id: 'category', start: 'asc' } as MatSortable);
       this.dataSource.sort = this.sort;
       // FIXME use bespoke pagination/sorting/filtering
       // this.dataSource.paginator = this.paginator;
@@ -162,22 +176,20 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private getQueryParamFilter(): string {
     let returnedFilter = '';
-    this.activatedRoute.queryParams.subscribe(
-      params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      // case: query param filter is set
+      // => shows only matching issues
+      if (params.filter) {
+        this.queryParamFilter = params.filter;
+        returnedFilter = params.filter;
+      }
 
-        // case: query param filter is set
-        // => shows only matching issues
-        if (params.filter) {
-          this.queryParamFilter = params.filter;
-          returnedFilter = params.filter;
-        }
-
-          // case: query param filter is not set
-        // => shows all issues
-        else {
-          returnedFilter = '';
-        }
-      });
+      // case: query param filter is not set
+      // => shows all issues
+      else {
+        returnedFilter = '';
+      }
+    });
     return returnedFilter;
   }
 
@@ -205,7 +217,6 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
    * The filter funcion can search inside the string for keywords matching the given search string.
    */
   private prepareIssueArray() {
-
     // FIXME use API search
     if (!this.list$.hasData) {
       return;
@@ -243,34 +254,29 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
    * with components: Component C1 and locations: Component C1, Interface I1
    */
   onAddClick() {
-
     // FIXME move functionality so that the component can be reusable as a list
 
     // case: node is a component
     if (this.listId.node.type === NodeType.Component) {
-      this.dialog.open(CreateIssueDialogComponent,
-        {
-          data: {
-            projectId: this.projectId,
-            components: [this.component$.id]
-          },
-          width: '600px'
-        });
+      this.dialog.open(CreateIssueDialogComponent, {
+        data: {
+          projectId: this.projectId,
+          components: [this.component$.id],
+        },
+        width: '600px',
+      });
     }
 
     // case: node is an interface
     else if (this.listId.node.type === NodeType.ComponentInterface) {
-      this.dialog.open(CreateIssueDialogComponent,
-        {
-          data: {
-            projectId: this.projectId,
-            components: [this.componentInterfaceProvider],
-            locations: [this.componentInterface$.id]
-          },
-          width: '600px'
-        });
+      this.dialog.open(CreateIssueDialogComponent, {
+        data: {
+          projectId: this.projectId,
+          components: [this.componentInterfaceProvider],
+          locations: [this.componentInterface$.id],
+        },
+        width: '600px',
+      });
     }
   }
-
 }
-

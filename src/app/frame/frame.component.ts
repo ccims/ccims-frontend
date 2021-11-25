@@ -21,22 +21,26 @@ import { slider } from '../route-animations';
   selector: 'app-frame',
   templateUrl: './frame.component.html',
   styleUrls: ['./frame.component.scss'],
-  animations: [slider]
+  animations: [slider],
 })
 export class FrameComponent {
   public isProjectSet$ = new BehaviorSubject<boolean>(false);
   public showDrawer = true;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-  .pipe(
-    map(result => result.matches),
-    shareReplay()
-  );
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
 
-  constructor(private breakpointObserver: BreakpointObserver, public ss: StateService) {
-    ss.state$.pipe(
-      map(state => (state.project != null))
-    ).subscribe(this.isProjectSet$);
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public ss: StateService
+  ) {
+    ss.state$
+      .pipe(map((state) => state.project != null))
+      .subscribe(this.isProjectSet$);
   }
 
   /**
@@ -47,6 +51,8 @@ export class FrameComponent {
   }
 
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+    return (
+      outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation
+    );
   }
 }

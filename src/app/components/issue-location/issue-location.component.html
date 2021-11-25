@@ -1,7 +1,11 @@
 <ng-container *ngIf="isComponent(); else locationIsInterface">
-  <span class="component-box" (click)="goToLocationDetails()" >
+  <span class="component-box" (click)="goToLocationDetails()">
     <span style="margin: 5px">
-      <a class="component-text" [title]="'Component &quot;' + location.name + '&quot;'">{{location.name}}</a>
+      <a
+        class="component-text"
+        [title]="'Component &quot;' + location.name + '&quot;'"
+        >{{ location.name }}</a
+      >
     </span>
   </span>
 </ng-container>
@@ -9,8 +13,11 @@
 <ng-template #locationIsInterface>
   <span class="interface-box" (click)="goToLocationDetails()">
     <span class="dot"></span>
-    <a class="component-text" [title]="'Interface &quot;' + location.name + '&quot;'">
-      {{location.name}}
+    <a
+      class="component-text"
+      [title]="'Interface &quot;' + location.name + '&quot;'"
+    >
+      {{ location.name }}
     </a>
   </span>
 </ng-template>

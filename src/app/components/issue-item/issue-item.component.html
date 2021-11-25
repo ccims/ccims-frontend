@@ -1,13 +1,20 @@
-<a class="issue-title is-interactive" [href]="getIssueLink()" *ngIf="interactive">
+<a
+  class="issue-title is-interactive"
+  [href]="getIssueLink()"
+  *ngIf="interactive"
+>
   <app-issue-icon class="issue-icon" [issue]="issue"></app-issue-icon>
-  {{issue.title}}
+  {{ issue.title }}
 </a>
 <span class="issue-title" *ngIf="!interactive">
   <app-issue-icon class="issue-icon" [issue]="issue"></app-issue-icon>
-  {{issue.title}}
+  {{ issue.title }}
 </span>
-<div class="linked-issue-locations" *ngIf="extended && !!issue.locations?.totalCount">
+<div
+  class="linked-issue-locations"
+  *ngIf="extended && !!issue.locations?.totalCount"
+>
   <span class="inner-item" *ngFor="let component of issue.locations.nodes">
-    {{component.name}}
+    {{ component.name }}
   </span>
 </div>

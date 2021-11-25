@@ -1,14 +1,14 @@
 [
-    {
-        "title": "Using Gropius",
-        "file": "usingGropius.md"
-    },
-    {
-        "title": "Managing Gropius",
-        "file": "managingGropius.md"
-    },
-    {
-        "title": "Contributors",
-        "file": "contributors.md"
-    }
+  {
+    "title": "Using Gropius",
+    "file": "usingGropius.md"
+  },
+  {
+    "title": "Managing Gropius",
+    "file": "managingGropius.md"
+  },
+  {
+    "title": "Contributors",
+    "file": "contributors.md"
+  }
 ]

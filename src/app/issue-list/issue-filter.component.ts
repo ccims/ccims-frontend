@@ -5,7 +5,7 @@ import { ListId, ListType, NodeType, ROOT_NODE } from '@app/data-dgql/id';
 /** Returns the ListId for listing all project issues. */
 const listAllIssues = (self: IssueFilterComponent) => ({
   node: { type: NodeType.Project, id: self.projectId },
-  type: ListType.Issues
+  type: ListType.Issues,
 });
 
 /**
@@ -23,8 +23,8 @@ const PREDICATES = {
     options: [
       [IssueCategory.Unclassified, 'Unclassified'],
       [IssueCategory.Bug, 'Bug'],
-      [IssueCategory.FeatureRequest, 'Feature Request']
-    ]
+      [IssueCategory.FeatureRequest, 'Feature Request'],
+    ],
   },
   labels: {
     type: 'ids',
@@ -71,9 +71,15 @@ const PREDICATES = {
     scoreKeys: ['name'],
     listAll: (self: IssueFilterComponent) => ({
       staticSources: [
-        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.Components },
-        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.ComponentInterfaces },
-      ]
+        {
+          node: { type: NodeType.Project, id: self.projectId },
+          type: ListType.Components,
+        },
+        {
+          node: { type: NodeType.Project, id: self.projectId },
+          type: ListType.ComponentInterfaces,
+        },
+      ],
     }),
     makeFilter: (query: string) => ({ title: query }),
     ifEmpty: 'No locations selected',
@@ -97,7 +103,7 @@ function getDefaultForType(type: string) {
 function convertValueForFilter(type: string, value: any) {
   switch (type) {
     case 'ids':
-      return value.map(item => item.id);
+      return value.map((item) => item.id);
     default:
       return value;
   }
@@ -109,7 +115,7 @@ function convertValueForFilter(type: string, value: any) {
 @Component({
   selector: 'app-issue-filter',
   templateUrl: './issue-filter.component.html',
-  styleUrls: ['./issue-filter.component.scss']
+  styleUrls: ['./issue-filter.component.scss'],
 })
 export class IssueFilterComponent {
   /** Raw project ID. */
@@ -136,7 +142,7 @@ export class IssueFilterComponent {
    */
   getRemainingTypes(index: number): string[] {
     const previousItems = this.activePredicates.slice(0, index);
-    return Object.keys(PREDICATES).filter(id => !previousItems.includes(id));
+    return Object.keys(PREDICATES).filter((id) => !previousItems.includes(id));
   }
 
   /**
@@ -198,7 +204,10 @@ export class IssueFilterComponent {
         this.predicateValues[id].push(item);
       }
       for (const item of removed) {
-        this.predicateValues[id].splice(this.predicateValues[id].indexOf(item), 1);
+        this.predicateValues[id].splice(
+          this.predicateValues[id].indexOf(item),
+          1
+        );
       }
       this.update();
     };
@@ -213,7 +222,10 @@ export class IssueFilterComponent {
       filter.fullSearch = { text: this.searchQuery.trim() };
     }
     for (const id of this.activePredicates) {
-      filter[id] = convertValueForFilter(PREDICATES[id].type, this.predicateValues[id]);
+      filter[id] = convertValueForFilter(
+        PREDICATES[id].type,
+        this.predicateValues[id]
+      );
     }
     return filter;
   }

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ProjectStoreService } from './project-store.service';
 
-
 describe('ProjectStoreService', () => {
   let service: ProjectStoreService;
 

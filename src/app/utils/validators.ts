@@ -1,4 +1,4 @@
-import {Validators} from '@angular/forms';
+import { Validators } from '@angular/forms';
 
 /**
  * This class provides commonly used validators in CCIMS usable for e.g. input fields
@@ -15,7 +15,7 @@ export class CCIMSValidators {
    */
   static readonly nameFormatValidator = Validators.compose([
     CCIMSValidators.nameValidator,
-    Validators.pattern('([^ ]+ )*([^ ]+)+')
+    Validators.pattern('([^ ]+ )*([^ ]+)+'),
   ]);
 
   /**

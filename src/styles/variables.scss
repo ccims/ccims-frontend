@@ -1,9 +1,9 @@
 // Import material theming functions
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
 $primary: mat-palette($mat-indigo);
-$accent:  mat-palette($mat-pink, A200, A100, A400);
-$warn:    mat-palette($mat-red);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+$warn: mat-palette($mat-red);
 
 $background-controls: whitesmoke;
 $border-color-controls: #e8e8e8;

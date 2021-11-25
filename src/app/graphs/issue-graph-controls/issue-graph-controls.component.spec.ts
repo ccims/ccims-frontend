@@ -8,9 +8,8 @@ describe('IssueGraphControlsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IssueGraphControlsComponent ]
-    })
-    .compileComponents();
+      declarations: [IssueGraphControlsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

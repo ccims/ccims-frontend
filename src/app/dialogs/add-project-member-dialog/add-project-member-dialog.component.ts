@@ -8,26 +8,29 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-add-project-member-dialog',
   templateUrl: './add-project-member-dialog.component.html',
-  styleUrls: ['./add-project-member-dialog.component.scss']
+  styleUrls: ['./add-project-member-dialog.component.scss'],
 })
 export class AddProjectMemberDialogComponent implements OnInit {
   loading = false;
   selectedUsers = [];
-  constructor(public dialogRef: MatDialogRef<AddProjectMemberDialogComponent>,@Inject(MAT_DIALOG_DATA) public data) { }
+  constructor(
+    public dialogRef: MatDialogRef<AddProjectMemberDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
   validation = new FormControl('', [Validators.required]);
   validationRole = new FormControl('', [Validators.required]);
   ngOnInit(): void {
-    this.validationRole.setValue('administrator')
+    this.validationRole.setValue('administrator');
   }
 
   //cancel button
-  onNoClick(){
+  onNoClick() {
     this.dialogRef.close();
   }
 
   //add member button
-  onOkClick(){
-    const data = {usersToAdd: this.selectedUsers};
+  onOkClick() {
+    const data = { usersToAdd: this.selectedUsers };
     this.dialogRef.close(data);
   }
 }

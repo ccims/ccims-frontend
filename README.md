@@ -14,8 +14,8 @@ As already mentioned, the idea behind Gropius is to manage cross-component issue
 
 Architecture of the project:
 
-| frontend | backend | IMS |
-| :-: | :-: | :-: |
+|                         frontend                          |                         backend                         |                               IMS                               |
+| :-------------------------------------------------------: | :-----------------------------------------------------: | :-------------------------------------------------------------: |
 | [ccims-frontend](https://github.com/ccims/ccims-frontend) | [ccims-backend](https://github.com/ccims/ccims-backend) | [ccims-backend-gql](https://github.com/ccims/ccims-backend-gql) |
 
 The [current repository](https://github.com/ccims/ccims-frontend) handles the frontend of the Gropius system. The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc.
@@ -34,31 +34,31 @@ p.s. If running the documentation locally, then click [here](additional-document
 ## Layout of the documentation
 
 1. Documentation:  
-can be found on [http://ccims.github.io/ccims-frontend](http://ccims.github.io/ccims-frontend).
+   can be found on [http://ccims.github.io/ccims-frontend](http://ccims.github.io/ccims-frontend).
 
 2. Documentation generation:  
-run `npm run compodoc`.  
-p.s. If folder Additional documentation is not visible below Getting started, run `compodoc -p tsconfig.doc.json --includes additional` and then `npm run compodoc`.
+   run `npm run compodoc`.  
+   p.s. If folder Additional documentation is not visible below Getting started, run `compodoc -p tsconfig.doc.json --includes additional` and then `npm run compodoc`.
 
 3. Gropius features:  
-can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).  
-p.s. If running the documentation locally, then click [here](additional-documentation/using-gropius.html).
+   can be found on [Using Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html).  
+   p.s. If running the documentation locally, then click [here](additional-documentation/using-gropius.html).
 
 4. Project structure, used technologies, mocked members page and more:  
-can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html).  
-p.s. If running the documentation locally, then click [here](additional-documentation/managing-gropius.html).
+   can be found on [Managing Gropius](https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html).  
+   p.s. If running the documentation locally, then click [here](additional-documentation/managing-gropius.html).
 
 5. Development server:  
-run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
+   run `npm start` and navigate to [http://localhost:4200/](http://localhost:4200/).
 
 6. Code generation from .graphql files:  
-run `npm run generate`.
+   run `npm run generate`.
 
 7. Backend:  
-can be found on [https://github.com/ccims/ccims-backend-gql](https://github.com/ccims/ccims-backend-gql).
+   can be found on [https://github.com/ccims/ccims-backend-gql](https://github.com/ccims/ccims-backend-gql).
 
-<!-- 8. Contributors:  
-can be found on [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html).  
+<!-- 8. Contributors:
+can be found on [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html).
 p.s. If running the documentation locally, then click [here](additional-documentation/contributors.html). -->
 
 ## Credits

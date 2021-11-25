@@ -1,6 +1,6 @@
 query GetLabels($projectId: ID!) {
   node(id: $projectId) {
-    ...on Project {
+    ... on Project {
       labels {
         nodes {
           id
@@ -12,9 +12,9 @@ query GetLabels($projectId: ID!) {
   }
 }
 
-mutation CreateLabel($input: CreateLabelInput!){
-  createLabel(input: $input){
-    label{
+mutation CreateLabel($input: CreateLabelInput!) {
+  createLabel(input: $input) {
+    label {
       id
       color
       name
@@ -22,19 +22,18 @@ mutation CreateLabel($input: CreateLabelInput!){
   }
 }
 
-mutation AddLabelToIssue($input: AddLabelToIssueInput!){
-  addLabelToIssue(input: $input){
-     label{
+mutation AddLabelToIssue($input: AddLabelToIssueInput!) {
+  addLabelToIssue(input: $input) {
+    label {
       id
     }
   }
 }
 
-mutation RemoveLabelFromIssue($input: RemoveLabelFromIssueInput!){
-  removeLabelFromIssue(input: $input){
-     issue{
-       title
-     }
+mutation RemoveLabelFromIssue($input: RemoveLabelFromIssueInput!) {
+  removeLabelFromIssue(input: $input) {
+    issue {
+      title
+    }
   }
 }
-

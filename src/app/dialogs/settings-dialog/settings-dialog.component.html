@@ -1,13 +1,31 @@
-
-<h1 mat-dialog-title style="text-align: center;">Settings</h1>
+<h1 mat-dialog-title style="text-align: center">Settings</h1>
 <mat-list>
-    <div><button class="button" mat-flat-button (click)="this.openProfileSettings()"> <mat-icon> <span class="material-icons-outlined">
-        account_circle
-        </span> </mat-icon> Profile Settings</button></div>
-    <div><button class="button" mat-flat-button (click)="this.openAccessTokenSettings()"> <mat-icon> <span class="material-icons-outlined">
-        token
-        </span></mat-icon> Access Token</button></div>
-    <div><button class="button" mat-flat-button (click)="this.switchTheme()"> <mat-icon> <span class="material-icons-outlined">
-        {{modeIcon}}
-        </span></mat-icon> {{mode}} </button></div>
+  <div>
+    <button class="button" mat-flat-button (click)="this.openProfileSettings()">
+      <mat-icon>
+        <span class="material-icons-outlined"> account_circle </span>
+      </mat-icon>
+      Profile Settings
+    </button>
+  </div>
+  <div>
+    <button
+      class="button"
+      mat-flat-button
+      (click)="this.openAccessTokenSettings()"
+    >
+      <mat-icon> <span class="material-icons-outlined"> token </span></mat-icon>
+      Access Token
+    </button>
+  </div>
+  <div>
+    <button class="button" mat-flat-button (click)="this.switchTheme()">
+      <mat-icon>
+        <span class="material-icons-outlined">
+          {{ modeIcon }}
+        </span></mat-icon
+      >
+      {{ mode }}
+    </button>
+  </div>
 </mat-list>

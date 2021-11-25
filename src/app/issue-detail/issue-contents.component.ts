@@ -12,7 +12,7 @@ import { User } from '../../generated/graphql-dgql';
 @Component({
   selector: 'app-issue-contents',
   templateUrl: 'issue-contents.component.html',
-  styleUrls: ['issue-contents.component.scss']
+  styleUrls: ['issue-contents.component.scss'],
 })
 export class IssueContentsComponent implements OnInit, OnDestroy {
   /** The issue to be rendered. */
@@ -39,7 +39,7 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.linkedIssues$ = this.dataService.getList({
       node: this.issue$.id,
-      type: ListType.LinkedIssues
+      type: ListType.LinkedIssues,
     });
     this.linkedIssueSub = this.linkedIssues$.subscribe();
 
@@ -54,26 +54,35 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
 
   /** Closes the current issue. */
   public closeIssue(): void {
-    this.dataService.mutations.closeIssue(Math.random().toString(), this.issue$.id);
+    this.dataService.mutations.closeIssue(
+      Math.random().toString(),
+      this.issue$.id
+    );
   }
 
   /** Reopens the currently closed issue. */
   public reopenIssue(): void {
-    this.dataService.mutations.reopenIssue(Math.random().toString(), this.issue$.id);
+    this.dataService.mutations.reopenIssue(
+      Math.random().toString(),
+      this.issue$.id
+    );
   }
 
   /** Adds a comment to the current issue with the data provided in the comment box. */
   public commentIssue(): void {
     this.savingComment = true;
-    this.dataService.mutations.addIssueComment(
-      Math.random().toString(),
-      this.issue$.id,
-      this.commentEditor.code
-    ).then(() => {
-      // only clear if successful
-      this.commentEditor.code = '';
-    }).finally(() => {
-      this.savingComment = false;
-    });
+    this.dataService.mutations
+      .addIssueComment(
+        Math.random().toString(),
+        this.issue$.id,
+        this.commentEditor.code
+      )
+      .then(() => {
+        // only clear if successful
+        this.commentEditor.code = '';
+      })
+      .finally(() => {
+        this.savingComment = false;
+      });
   }
 }

@@ -1,11 +1,10 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * A callback function that is called once the user finishes editing the text.
  * @param saved true if the user clicked save, false if the user cancelled the editing
  */
 export type TextDisplayEditCallbackFn = (saved: boolean) => void;
-
 
 /**
  * The text display component shows text in a labeled box, and if desired, allows the user to edit and save the
@@ -14,7 +13,7 @@ export type TextDisplayEditCallbackFn = (saved: boolean) => void;
 @Component({
   selector: 'app-text-display',
   templateUrl: './text-display.component.html',
-  styleUrls: ['./text-display.component.scss']
+  styleUrls: ['./text-display.component.scss'],
 })
 export class TextDisplayComponent {
   /** A callback function. */

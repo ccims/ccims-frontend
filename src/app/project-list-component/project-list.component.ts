@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {CreateProjectDialogComponent} from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
-import {Project} from 'src/generated/graphql';
-import {ProjectStoreService} from '../data/project/project-store.service';
-import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateProjectDialogComponent } from 'src/app/dialogs/create-project-dialog/create-project-dialog.component';
+import { Project } from 'src/generated/graphql';
+import { ProjectStoreService } from '../data/project/project-store.service';
+import { UserNotifyService } from '@app/user-notify/user-notify.service';
 
 /**
  * This component is the landing page for the user after loggin in to the system
@@ -12,7 +12,7 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.scss']
+  styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent implements OnInit {
   pendingCreate = false;
@@ -21,10 +21,11 @@ export class ProjectListComponent implements OnInit {
   projects: Pick<Project, 'id' | 'name'>[] = [];
   loading: boolean;
 
-  constructor(private projectStore: ProjectStoreService,
-              private dialog: MatDialog,
-              private notify: UserNotifyService) {
-  }
+  constructor(
+    private projectStore: ProjectStoreService,
+    private dialog: MatDialog,
+    private notify: UserNotifyService
+  ) {}
 
   ngOnInit(): void {
     // get all projects from the database
@@ -32,24 +33,32 @@ export class ProjectListComponent implements OnInit {
   }
 
   public reloadProjects(): void {
-    if (this.lastQueriedProjectName === this.projectName && this.lastQueriedProjectName) {
+    if (
+      this.lastQueriedProjectName === this.projectName &&
+      this.lastQueriedProjectName
+    ) {
       return;
     }
 
     this.loading = true;
-    this.projectStore.getAll(this.projectName).subscribe(projects => {
-      this.loading = false;
-      this.projects = projects;
-      this.lastQueriedProjectName = this.projectName;
-    }, error => {
-      this.loading = false;
-      this.notify.notifyError('Failed to load projects', error);
-    });
+    this.projectStore.getAll(this.projectName).subscribe(
+      (projects) => {
+        this.loading = false;
+        this.projects = projects;
+        this.lastQueriedProjectName = this.projectName;
+      },
+      (error) => {
+        this.loading = false;
+        this.notify.notifyError('Failed to load projects', error);
+      }
+    );
   }
 
   public openCreateProjectDialog(): void {
-    const createProjectDialogRef = this.dialog.open(CreateProjectDialogComponent);
-    createProjectDialogRef.afterClosed().subscribe(result => {
+    const createProjectDialogRef = this.dialog.open(
+      CreateProjectDialogComponent
+    );
+    createProjectDialogRef.afterClosed().subscribe((result) => {
       this.changeColour();
       if (result?.createdProjectId) {
         this.projectName = '';
@@ -71,6 +80,4 @@ export class ProjectListComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
   }
-
 }
-

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 /**
  * This component renders and displays markdown
@@ -7,10 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
   selector: 'app-markdown-preview',
   templateUrl: './markdown-preview.component.html',
   styleUrls: ['./markdown-preview.component.scss'],
-  preserveWhitespaces: true
+  preserveWhitespaces: true,
 })
 export class MarkdownPreviewComponent implements OnInit {
-
   /**
    * The markdown code as a string which will be rendered
    */
@@ -19,9 +18,7 @@ export class MarkdownPreviewComponent implements OnInit {
   /**
    * @ignore (Keyword for compodoc documentation generator)
    */
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

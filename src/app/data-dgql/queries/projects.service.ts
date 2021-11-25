@@ -4,15 +4,18 @@ import {
   ListProjectsGQL,
   ProjectFilter,
 } from 'src/generated/graphql-dgql';
-import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
+import {
+  promisifyApolloFetch,
+  QueryListParams,
+} from '@app/data-dgql/queries/util';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectsService {
   constructor(
     private qListProjects: ListProjectsGQL,
-    private qGetProject: GetProjectGQL,
+    private qGetProject: GetProjectGQL
   ) {}
 
   listProjects(list: QueryListParams<ProjectFilter>) {

@@ -12,10 +12,9 @@ import DataService from '@app/data-dgql';
 @Component({
   selector: 'app-project-issue-list',
   templateUrl: './project-issue-list.component.html',
-  styleUrls: ['./project-issue-list.component.scss']
+  styleUrls: ['./project-issue-list.component.scss'],
 })
 export class ProjectIssueListComponent implements OnInit {
-
   public projectId: string;
   public project$: DataNode<Project>;
   /**
@@ -27,7 +26,10 @@ export class ProjectIssueListComponent implements OnInit {
    * @param route for retrieving the id of the project through the url
    * @param dataService for connection to API
    */
-  constructor(private route: ActivatedRoute, private dataService: DataService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private dataService: DataService
+  ) {}
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
@@ -35,5 +37,4 @@ export class ProjectIssueListComponent implements OnInit {
     this.project$ = this.dataService.getNode(node);
     this.issueListId = { node, type: ListType.Issues };
   }
-
 }

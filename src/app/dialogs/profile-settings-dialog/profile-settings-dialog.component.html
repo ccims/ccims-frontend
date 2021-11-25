@@ -1,63 +1,94 @@
 <div class="dialog">
+  <button
+    mat-button
+    color="primary"
+    class="new-item-button"
+    (click)="closeDialog()"
+  >
+    <mat-icon>close_ios</mat-icon>
+  </button>
+  <h1 mat-dialog-title style="text-align: center">Profile Settings</h1>
 
-    <button mat-button color="primary" class="new-item-button" (click)="closeDialog()">
-        <mat-icon>close_ios</mat-icon>
+  <app-text-display
+    [text]="description"
+    [onEditFinished]="projectNameEdited"
+    placeholder="Display Name"
+    labelText="Display Name"
+  ></app-text-display>
+
+  <app-text-display
+    [text]="description"
+    [onEditFinished]="projectNameEdited"
+    placeholder="Username"
+    labelText="Username"
+  ></app-text-display>
+
+  <app-text-display
+    [text]="description"
+    [onEditFinished]="projectNameEdited"
+    placeholder="Email"
+    labelText="Email"
+  ></app-text-display>
+
+  <button
+    mat-button
+    color="primary"
+    class="new-item-button"
+    (click)="changePassword()"
+  >
+    Change Password
+  </button>
+
+  <br />
+
+  <!-- shows up when change password clicked, contains input fields for updating the password-->
+  <div *ngIf="updatePasswordFieldsShown">
+    <!-- old password input field (TODO : make update only possible when old password correct )-->
+    <mat-form-field appearance="fill">
+      <mat-label>Enter old password</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- new password input field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Enter new password</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <button
+      mat-button
+      color="primary"
+      class="new-item-button"
+      (click)="updatePassword()"
+    >
+      Update Password
     </button>
-    <h1 mat-dialog-title style="text-align: center;">Profile Settings</h1>
-    
-    <app-text-display [text]="description"
-                        [onEditFinished]="projectNameEdited"
-                        placeholder="Display Name"
-                        labelText="Display Name"></app-text-display>
 
-    <app-text-display [text]="description"
-                        [onEditFinished]="projectNameEdited"
-                        placeholder="Username"
-                        labelText="Username"></app-text-display>
-    
-    <app-text-display [text]="description"
-                        [onEditFinished]="projectNameEdited"
-                        placeholder="Email"
-                        labelText="Email"></app-text-display>
-
-    <button mat-button color="primary" class="new-item-button" (click)="changePassword()">
-        Change Password
+    <button
+      mat-button
+      color="primary"
+      class="new-item-button"
+      (click)="cancel()"
+    >
+      Cancel
     </button>
-
-    <br>
-
-    <!-- shows up when change password clicked, contains input fields for updating the password-->
-    <div *ngIf="updatePasswordFieldsShown">
-
-        <!-- old password input field (TODO : make update only possible when old password correct )-->
-        <mat-form-field appearance="fill">
-            <mat-label>Enter old password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-        </mat-form-field>
-
-        <!-- new password input field -->
-        <mat-form-field appearance="fill">
-            <mat-label>Enter new password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-        </mat-form-field>
-
-        <button mat-button color="primary" class="new-item-button" (click)="updatePassword()">
-            Update Password
-        </button>
-
-        <button mat-button color="primary" class="new-item-button" (click)="cancel()">
-            Cancel
-        </button>
-
-    </div>
-
-
+  </div>
 </div>

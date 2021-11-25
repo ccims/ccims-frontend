@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CreateComponentInterfaceGQL,
   CreateComponentInterfaceInput,
@@ -9,10 +9,10 @@ import {
   GetInterfaceGQL,
   GetInterfaceQuery,
   UpdateComponentInterfaceGQL,
-  UpdateComponentInterfaceInput
+  UpdateComponentInterfaceInput,
 } from '../../../generated/graphql';
-import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 /**
  * This service provides creation, retrievel, update and deletion of interfaces offered by components.
@@ -20,45 +20,50 @@ import {Observable} from 'rxjs';
  * as this file.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InterfaceStoreService {
+  constructor(
+    private createInterfaceMutation: CreateComponentInterfaceGQL,
+    private updateInterfaceMutation: UpdateComponentInterfaceGQL,
+    private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
+    private getInterfaceQuery: GetInterfaceGQL,
+    private getConsumingComponentsQuery: GetConsumingComponentsGQL
+  ) {}
 
-  constructor(private createInterfaceMutation: CreateComponentInterfaceGQL,
-              private updateInterfaceMutation: UpdateComponentInterfaceGQL,
-              private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
-              private getInterfaceQuery: GetInterfaceGQL,
-              private getConsumingComponentsQuery: GetConsumingComponentsGQL) {
-  }
-
-  public create(name: string, offeringComponentId: string, description?: string) {
+  public create(
+    name: string,
+    offeringComponentId: string,
+    description?: string
+  ) {
     const input: CreateComponentInterfaceInput = {
       name,
       description,
-      component: offeringComponentId
+      component: offeringComponentId,
     };
-    return this.createInterfaceMutation.mutate({input});
+    return this.createInterfaceMutation.mutate({ input });
   }
 
   public getInterface(id: string): Observable<GetInterfaceQuery> {
-    return this.getInterfaceQuery.fetch({id}).pipe(
-      map(({data}) => data)
-    );
+    return this.getInterfaceQuery.fetch({ id }).pipe(map(({ data }) => data));
   }
 
-  public getConsumingComponents(id: string): Observable<GetConsumingComponentsQuery> {
-    return this.getConsumingComponentsQuery.fetch({id}).pipe(map(({data}) => data));
+  public getConsumingComponents(
+    id: string
+  ): Observable<GetConsumingComponentsQuery> {
+    return this.getConsumingComponentsQuery
+      .fetch({ id })
+      .pipe(map(({ data }) => data));
   }
 
   public update(input: UpdateComponentInterfaceInput) {
-    return this.updateInterfaceMutation.mutate({input});
+    return this.updateInterfaceMutation.mutate({ input });
   }
 
   public delete(id: string) {
     const input: DeleteComponentInterfaceInput = {
-      componentInterface: id
+      componentInterface: id,
     };
-    return this.deleteInterfaceMutation.mutate({input});
+    return this.deleteInterfaceMutation.mutate({ input });
   }
-
 }

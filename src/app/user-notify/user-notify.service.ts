@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {IndividualConfig, ToastrService} from 'ngx-toastr';
+import { Injectable } from '@angular/core';
+import { IndividualConfig, ToastrService } from 'ngx-toastr';
 
 /**
  * This service provides functions for user notification
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserNotifyService {
   /** @ignore */
   private errorConfig: Partial<IndividualConfig> = {
     timeOut: 10000,
     closeButton: true,
     positionClass: 'toast-top-center',
-    enableHtml: true
+    enableHtml: true,
   };
 
   /** @ignore */
@@ -19,11 +19,10 @@ export class UserNotifyService {
     timeOut: 4000,
     closeButton: true,
     positionClass: 'toast-top-center',
-    enableHtml: true
+    enableHtml: true,
   };
 
-  constructor(private toastr: ToastrService) {
-  }
+  constructor(private toastr: ToastrService) {}
 
   /**
    * Notify the user that an error occurred
@@ -46,4 +45,3 @@ export class UserNotifyService {
     this.toastr.info(message, 'Info', this.infoConfig);
   }
 }
-

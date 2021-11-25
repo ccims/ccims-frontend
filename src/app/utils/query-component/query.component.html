@@ -1,4 +1,7 @@
-<ng-container *ngIf="buttonMode; else bodyMode" xmlns="http://www.w3.org/1999/html">
+<ng-container
+  *ngIf="buttonMode; else bodyMode"
+  xmlns="http://www.w3.org/1999/html"
+>
   <div style="display: flex; align-items: center; width: 100%">
     <ng-content></ng-content>
     <span style="margin-left: 4px" *ngIf="queryState === State.Loading">
@@ -8,22 +11,20 @@
 </ng-container>
 
 <ng-template #bodyMode>
-  <ng-container *ngIf="queryState===State.Ready">
+  <ng-container *ngIf="queryState === State.Ready">
     <ng-container *ngTemplateOutlet="body.template"></ng-container>
   </ng-container>
 
-  <div *ngIf="queryState===State.Error" class="container">
+  <div *ngIf="queryState === State.Error" class="container">
     <div class="error">
-      <span class="error-text">{{errorMessage}}</span>
+      <span class="error-text">{{ errorMessage }}</span>
     </div>
   </div>
 
-  <div *ngIf="queryState===State.Loading" class="container">
+  <div *ngIf="queryState === State.Loading" class="container">
     <div class="load-container">
       <mat-spinner diameter="30" style="margin-right: 12px"></mat-spinner>
       <span style="font-size: 1.2em">Loading...</span>
     </div>
   </div>
 </ng-template>
-
-

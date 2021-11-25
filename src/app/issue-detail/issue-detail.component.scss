@@ -1,5 +1,5 @@
-@import 'src/styles/variables.scss';
-@import 'src/styles/spinner';
+@import "src/styles/variables.scss";
+@import "src/styles/spinner";
 
 .category-selector {
   width: 100%;
@@ -104,7 +104,9 @@
         .state[stroke] {
           stroke: white;
         }
-        .arrow-in, .arrow-out, .assigned-star {
+        .arrow-in,
+        .arrow-out,
+        .assigned-star {
           fill: rgba(255, 255, 255, 0.7);
         }
       }
@@ -119,7 +121,8 @@
       }
     }
 
-    .issue-opened, .issue-stats {
+    .issue-opened,
+    .issue-stats {
       display: inline-block;
     }
   }

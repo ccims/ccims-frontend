@@ -1,7 +1,13 @@
 <div class="margin-left-top p-3" style="display: flex; flex-direction: column">
-  <div *ngIf="(project$ | async) as project">
-    <app-project-header [projectId]="projectId" [projectName]="project.name"></app-project-header>
+  <div *ngIf="project$ | async as project">
+    <app-project-header
+      [projectId]="projectId"
+      [projectName]="project.name"
+    ></app-project-header>
   </div>
 
-  <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list>
+  <app-issue-list
+    [projectId]="projectId"
+    [listId]="issueListId"
+  ></app-issue-list>
 </div>

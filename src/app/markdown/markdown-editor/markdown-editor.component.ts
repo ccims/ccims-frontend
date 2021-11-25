@@ -6,14 +6,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-markdown-editor',
   templateUrl: './markdown-editor.component.html',
-  styleUrls: ['./markdown-editor.component.scss']
+  styleUrls: ['./markdown-editor.component.scss'],
 })
 export class MarkdownEditorComponent {
-
   /**
    * necessary options for usage of ngx-monaco-editor
    */
-  editorOptions = {theme: 'vs', language: 'markdown'};
+  editorOptions = { theme: 'vs', language: 'markdown' };
   /**
    * This code is initially displayed in the editor
    */
@@ -29,5 +28,4 @@ export class MarkdownEditorComponent {
   codeDidChange() {
     this.codeChange.emit(this.code);
   }
-
 }

@@ -1,14 +1,14 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {ActivatedRoute} from '@angular/router';
-import {IssueGraphComponent} from '../issue-graph/issue-graph.component';
-import {IssueCategory} from 'src/generated/graphql';
-import {BehaviorSubject, combineLatest, ReplaySubject} from 'rxjs';
-import {SelectedCategories} from '../shared';
-import {IssueGraphStateService} from '../../data/issue-graph/issue-graph-state.service';
-import {LabelSearchComponent} from '../label-search/label-search.component';
-import {map, takeUntil} from 'rxjs/operators';
-import {FilterState} from '@app/graphs/shared';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
+import { IssueCategory } from 'src/generated/graphql';
+import { BehaviorSubject, combineLatest, ReplaySubject } from 'rxjs';
+import { SelectedCategories } from '../shared';
+import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
+import { LabelSearchComponent } from '../label-search/label-search.component';
+import { map, takeUntil } from 'rxjs/operators';
+import { FilterState } from '@app/graphs/shared';
 
 /**
  * This component contains the graph toggles, the search bar and the button
@@ -20,7 +20,7 @@ import {FilterState} from '@app/graphs/shared';
 @Component({
   selector: 'app-issue-graph-controls',
   templateUrl: './issue-graph-controls.component.html',
-  styleUrls: ['./issue-graph-controls.component.scss']
+  styleUrls: ['./issue-graph-controls.component.scss'],
 })
 export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
@@ -38,12 +38,18 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   filter$: BehaviorSubject<FilterState>;
   private destroy$ = new ReplaySubject<void>(1);
 
-  constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
+  constructor(
+    public dialog: MatDialog,
+    private gs: IssueGraphStateService,
+    private route: ActivatedRoute
+  ) {
     this.projectId = this.route.snapshot.paramMap.get('id');
     this.filter$ = new BehaviorSubject({
-      selectedCategories: this.getSelectedCategories(), selectedFilter: {
-        labels: [], texts: []
-      }
+      selectedCategories: this.getSelectedCategories(),
+      selectedFilter: {
+        labels: [],
+        texts: [],
+      },
     });
   }
 
@@ -55,8 +61,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
    * Emit newly selected categories via this.selectedCategories$
    */
   public updateSelectedCategories() {
-    this.selectedCategories$.next(
-      this.getSelectedCategories());
+    this.selectedCategories$.next(this.getSelectedCategories());
   }
 
   /**
@@ -82,23 +87,27 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
    */
   ngAfterViewInit(): void {
     // sets up emission of values representing the state of the graph toggles and the search bar via this.filter$
-    combineLatest([this.selectedCategories$, this.labelSearch.filterSelection$]).pipe(
-      takeUntil(this.destroy$),
-      map(([selectedCategories, filterSelection]) => ({selectedCategories, selectedFilter: filterSelection}))
-    ).subscribe(filterState => this.filter$.next(filterState));
+    combineLatest([this.selectedCategories$, this.labelSearch.filterSelection$])
+      .pipe(
+        takeUntil(this.destroy$),
+        map(([selectedCategories, filterSelection]) => ({
+          selectedCategories,
+          selectedFilter: filterSelection,
+        }))
+      )
+      .subscribe((filterState) => this.filter$.next(filterState));
 
     // gets an obervable from GraphStateService that emits the matching graph state
     // after this component emits values on this.filter$ or the IssueGraphComponent
     // signals the need for a reload via this.issueGraph.reload$. Whenever new graph state
     // arrives we pass it to the graph and issue a redraw on it.
-    this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$, this.destroy$).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(
-      graphData => {
+    this.gs
+      .graphDataForFilter(this.filter$, this.issueGraph.reload$, this.destroy$)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((graphData) => {
         this.issueGraph.graphData = graphData;
         this.issueGraph.drawGraph();
-      }
-    );
+      });
   }
 
   /**
@@ -115,5 +124,4 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
   }
-
 }

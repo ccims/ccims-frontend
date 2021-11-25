@@ -4,18 +4,19 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-profile-settings-dialog',
   templateUrl: './profile-settings-dialog.component.html',
-  styleUrls: ['./profile-settings-dialog.component.scss']
+  styleUrls: ['./profile-settings-dialog.component.scss'],
 })
 export class ProfileSettingsDialogComponent implements OnInit {
-
   hide = true;
   updatePasswordFieldsShown = false;
   description = '';
 
-  constructor(public dialogRef: MatDialogRef< boolean>, private dialog: MatDialog) { }
+  constructor(
+    public dialogRef: MatDialogRef<boolean>,
+    private dialog: MatDialog
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   //close profile settings dialog
   public closeDialog() {

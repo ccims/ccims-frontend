@@ -8,9 +8,8 @@ describe('CreateInterfaceDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateInterfaceDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [CreateInterfaceDialogComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

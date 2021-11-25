@@ -1,5 +1,5 @@
-mutation CreateComponentInterface($input: CreateComponentInterfaceInput!){
-  createComponentInterface(input: $input){
+mutation CreateComponentInterface($input: CreateComponentInterfaceInput!) {
+  createComponentInterface(input: $input) {
     componentInterface {
       id
       name
@@ -9,31 +9,31 @@ mutation CreateComponentInterface($input: CreateComponentInterfaceInput!){
     }
   }
 }
-mutation UpdateComponentInterface($input: UpdateComponentInterfaceInput!){
-  updateComponentInterface(input: $input){
+mutation UpdateComponentInterface($input: UpdateComponentInterfaceInput!) {
+  updateComponentInterface(input: $input) {
     componentInterface {
       id
       name
     }
   }
 }
-mutation DeleteComponentInterface($input: DeleteComponentInterfaceInput!){
-  deleteComponentInterface(input: $input){
+mutation DeleteComponentInterface($input: DeleteComponentInterfaceInput!) {
+  deleteComponentInterface(input: $input) {
     clientMutationID
   }
 }
 
 query GetConsumingComponents($id: ID!) {
-  node(id: $id){
-    ...on ComponentInterface{
+  node(id: $id) {
+    ... on ComponentInterface {
       id
       name
       description
-      component{
+      component {
         name
       }
-      consumedBy{
-        nodes{
+      consumedBy {
+        nodes {
           id
           name
         }
@@ -44,32 +44,32 @@ query GetConsumingComponents($id: ID!) {
 
 query GetInterface($id: ID!) {
   node(id: $id) {
-    ...on ComponentInterface {
+    ... on ComponentInterface {
       id
       name
       description
-      component{
+      component {
         id
       }
-      issuesOnLocation{
-        nodes{
+      issuesOnLocation {
+        nodes {
           id
           title
           isOpen
           category
-          createdBy{
+          createdBy {
             id
             displayName
           }
-          labels{
-            nodes{
+          labels {
+            nodes {
               name
               id
               color
             }
           }
-          assignees{
-            nodes{
+          assignees {
+            nodes {
               id
               displayName
             }

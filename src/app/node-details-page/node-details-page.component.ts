@@ -1,20 +1,21 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NodeDetailsType} from '@app/node-details/node-details.component';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NodeDetailsType } from '@app/node-details/node-details.component';
 
 @Component({
   templateUrl: './node-details-page.component.html',
-  styleUrls: ['./node-details-page.component.scss']
+  styleUrls: ['./node-details-page.component.scss'],
 })
 export class NodeDetailsPageComponent implements OnInit {
   nodeType: NodeDetailsType = null;
   nodeId: string = null;
   projectId: string = null;
 
-  constructor(private route: ActivatedRoute,
-              private changeDetector: ChangeDetectorRef,
-              private router: Router) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private changeDetector: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.projectId = this.route.snapshot.paramMap.get('id');

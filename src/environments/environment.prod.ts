@@ -4,5 +4,5 @@ export const environment = {
   apiUrl: `${host}/api`,
   signUpUrl: `${host}/api/public`,
   loginUrl: `${host}/login`,
-  publicClientName: 'publicClient'
+  publicClientName: 'publicClient',
 };

@@ -5,7 +5,7 @@ import { User } from 'src/generated/graphql-dgql';
 @Component({
   selector: 'app-user-item',
   templateUrl: './user-item.component.html',
-  styleUrls: ['./user-item.component.scss']
+  styleUrls: ['./user-item.component.scss'],
 })
 export class UserItemComponent {
   /** The user data. */

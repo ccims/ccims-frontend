@@ -1,4 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   decodeListId,
@@ -9,7 +15,7 @@ import {
   ListIdEnc,
   NodeId,
   NodeIdEnc,
-  nodeTypeFromTypename
+  nodeTypeFromTypename,
 } from '@app/data-dgql/id';
 import { DataList } from '@app/data-dgql/query';
 import { Subscription } from 'rxjs';
@@ -64,18 +70,28 @@ class MultiSourceList<T, F> {
    */
   public query = '';
 
-  constructor(public spec: SetMultiSource, public scoreKeys: string[], private dataService: DataService) {
+  constructor(
+    public spec: SetMultiSource,
+    public scoreKeys: string[],
+    private dataService: DataService
+  ) {
     if (Array.isArray(spec.sourceNodes)) {
       this.staticSourceNodeList = spec.sourceNodes;
     } else if (typeof spec.sourceNodes === 'object') {
       this.sourceNodeList = dataService.getList(spec.sourceNodes);
-      this.sourceNodeListSub = this.sourceNodeList.subscribe(() => this.update());
+      this.sourceNodeListSub = this.sourceNodeList.subscribe(() =>
+        this.update()
+      );
     }
     this.update();
   }
 
   /** Creates a new MultiSourceList that actually just loads a single list. */
-  static fromSingleList<T, F>(list: ListId, scoreKeys: string[], dataService: DataService) {
+  static fromSingleList<T, F>(
+    list: ListId,
+    scoreKeys: string[],
+    dataService: DataService
+  ) {
     return new this<T, F>({ staticSources: [list] }, scoreKeys, dataService);
   }
 
@@ -98,7 +114,10 @@ class MultiSourceList<T, F> {
         const list = this.dataService.getList<T, F>(decodeListId(source));
         list.interactive = true;
         this.sources.set(source, list);
-        this.sourceSubs.set(source, list.subscribe(() => this.updateResults()));
+        this.sourceSubs.set(
+          source,
+          list.subscribe(() => this.updateResults())
+        );
       }
     }
     for (const source of [...this.sources.keys()]) {
@@ -152,7 +171,7 @@ class MultiSourceList<T, F> {
           items.push(item);
         }
       }
-      this.hasMore = this.hasMore || (source.current.size < source.totalCount);
+      this.hasMore = this.hasMore || source.current.size < source.totalCount;
     }
 
     items.sort((a, b) => this.score(a) - this.score(b));
@@ -178,7 +197,7 @@ class MultiSourceList<T, F> {
   /** Unsubscribes from all subscriptions. This object should no longer be used afterwards. */
   unsubscribe() {
     this.sourceNodeListSub?.unsubscribe();
-    this.sourceSubs.forEach(sub => sub.unsubscribe());
+    this.sourceSubs.forEach((sub) => sub.unsubscribe());
   }
 }
 
@@ -204,9 +223,13 @@ export interface SetEditorDialogData<T, F> {
 @Component({
   selector: 'app-set-editor-dialog',
   templateUrl: './set-editor-dialog.component.html',
-  styleUrls: ['./set-editor-dialog.component.scss']
+  styleUrls: ['./set-editor-dialog.component.scss'],
 })
-export class SetEditorDialogComponent<T extends { id: string, __typename: string }, F> implements OnInit, OnDestroy {
+export class SetEditorDialogComponent<
+  T extends { id: string; __typename: string },
+  F
+> implements OnInit, OnDestroy
+{
   public isLocalSet = false;
   public localSet: NodeIdEnc[] = [];
   public listSet$: DataList<T, F>;
@@ -226,13 +249,22 @@ export class SetEditorDialogComponent<T extends { id: string, __typename: string
   ngOnInit() {
     if (Array.isArray(this.data.listSet)) {
       this.isLocalSet = true;
-      this.localSet = [...this.data.listSet].map(id => encodeNodeId(id));
+      this.localSet = [...this.data.listSet].map((id) => encodeNodeId(id));
     } else {
       this.listSet$ = this.dataService.getList(this.data.listSet);
     }
-    this.listAll = ('staticSources' in this.data.listAll)
-      ? new MultiSourceList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService)
-      : MultiSourceList.fromSingleList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService);
+    this.listAll =
+      'staticSources' in this.data.listAll
+        ? new MultiSourceList<T, F>(
+            this.data.listAll,
+            this.data.scoreKeys,
+            this.dataService
+          )
+        : MultiSourceList.fromSingleList<T, F>(
+            this.data.listAll,
+            this.data.scoreKeys,
+            this.dataService
+          );
 
     if (this.listSet$) {
       this.listSetSub = this.listSet$?.subscribe();
@@ -246,7 +278,10 @@ export class SetEditorDialogComponent<T extends { id: string, __typename: string
     if (this.listSet$) {
       this.listSet$.filter = this.data.makeFilter(this.searchQuery);
     }
-    this.listAll.setFilter(this.searchQuery, this.data.makeFilter(this.searchQuery));
+    this.listAll.setFilter(
+      this.searchQuery,
+      this.data.makeFilter(this.searchQuery)
+    );
   }
 
   getNodeId(item): NodeId {
@@ -289,15 +324,21 @@ export class SetEditorDialogComponent<T extends { id: string, __typename: string
       return;
     }
 
-    this.data.applyChangeset([...this.additions].map(decodeNodeId), [...this.deletions].map(decodeNodeId)).then(() => {
-      this.dialogRef.close(null);
-    }).catch(error => {
-      this.notifyService.notifyError('Failed to apply changes', error);
-    });
+    this.data
+      .applyChangeset(
+        [...this.additions].map(decodeNodeId),
+        [...this.deletions].map(decodeNodeId)
+      )
+      .then(() => {
+        this.dialogRef.close(null);
+      })
+      .catch((error) => {
+        this.notifyService.notifyError('Failed to apply changes', error);
+      });
   }
 
   createItem() {
-    this.data.createItem().then(node => {
+    this.data.createItem().then((node) => {
       if (node) {
         this.additions.add(encodeNodeId(node));
       }

@@ -9,9 +9,14 @@ import { Observable } from 'rxjs';
  * @param f the observable
  * @return a promise that resolves as soon as the observable emits an update
  */
-export function promisifyApolloFetch<T>(f: Observable<{ data?: T }>): Promise<T> {
+export function promisifyApolloFetch<T>(
+  f: Observable<{ data?: T }>
+): Promise<T> {
   return new Promise((resolve, reject) => {
-    f.subscribe(({ data }) => resolve(data), error => reject(error));
+    f.subscribe(
+      ({ data }) => resolve(data),
+      (error) => reject(error)
+    );
   });
 }
 

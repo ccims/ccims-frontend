@@ -1,32 +1,49 @@
 <ng-container *ngIf="editMode; else readOnlyDisplay">
-    <mat-form-field appearance="outline" class="text-edit-container">
-        <mat-label>{{labelText}}</mat-label>
-        <textarea [(ngModel)]="editText" matInput autofocus cdkTextareaAutosize style="margin-bottom: 8px"></textarea>
-        <div matSuffix style="display: flex">
-            <button mat-icon-button color="primary" (click)="finishEditing(true)">
-                <mat-icon>save</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="finishEditing(false)">
-                <mat-icon>cancel</mat-icon>
-            </button>
-        </div>
-    </mat-form-field>
+  <mat-form-field appearance="outline" class="text-edit-container">
+    <mat-label>{{ labelText }}</mat-label>
+    <textarea
+      [(ngModel)]="editText"
+      matInput
+      autofocus
+      cdkTextareaAutosize
+      style="margin-bottom: 8px"
+    ></textarea>
+    <div matSuffix style="display: flex">
+      <button mat-icon-button color="primary" (click)="finishEditing(true)">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="finishEditing(false)">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+  </mat-form-field>
 </ng-container>
 
 <ng-template #readOnlyDisplay>
-    <div class="text-display-container">
-        <div class="text-display-label-container">
-            <span class="text-display-label">{{labelText}}</span>
-        </div>
-        <button *ngIf="readonly === undefined" mat-icon-button style="float: right; margin: 0" color="primary"
-                (click)="startEditing()">
-            <mat-icon>edit</mat-icon>
-        </button>
-        <div [ngClass]="{'text-content-container' : !showPlaceholder,
-                         'text-content-container-placeholder' : showPlaceholder}">
-            <ng-container *ngFor="let line of (showPlaceholder ? placeholder : text).split('\n')">
-                {{line.replace('\n', '')}}<br>
-            </ng-container>
-        </div>
+  <div class="text-display-container">
+    <div class="text-display-label-container">
+      <span class="text-display-label">{{ labelText }}</span>
     </div>
+    <button
+      *ngIf="readonly === undefined"
+      mat-icon-button
+      style="float: right; margin: 0"
+      color="primary"
+      (click)="startEditing()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <div
+      [ngClass]="{
+        'text-content-container': !showPlaceholder,
+        'text-content-container-placeholder': showPlaceholder
+      }"
+    >
+      <ng-container
+        *ngFor="let line of (showPlaceholder ? placeholder : text).split('\n')"
+      >
+        {{ line.replace("\n", "") }}<br />
+      </ng-container>
+    </div>
+  </div>
 </ng-template>

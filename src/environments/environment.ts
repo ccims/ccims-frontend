@@ -5,5 +5,5 @@ export const environment = {
   // url for public api endpoint offering signup
   signUpUrl: `${host}/api/public`,
   loginUrl: `${host}/login`,
-  publicClientName: 'publicClient'
+  publicClientName: 'publicClient',
 };

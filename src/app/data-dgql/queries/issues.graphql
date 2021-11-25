@@ -33,64 +33,86 @@ fragment fIssueStub on Issue {
   category
   components(first: 10) {
     totalCount
-    pageInfo { ...allPageInfo }
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fComponentStub
     }
   }
   locations(first: 10) {
     totalCount
-    pageInfo { ...allPageInfo }
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fLocationStub
     }
   }
   labels(first: 10) {
     totalCount
-    pageInfo { ...allPageInfo }
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fLabelStub
     }
   }
   assignees(first: 10) {
     totalCount
-    pageInfo { ...allPageInfo }
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fAssigneeStub
     }
   }
   participants(first: 10) {
     totalCount
-    pageInfo { ...allPageInfo }
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
       ...fAssigneeStub
     }
   }
   linksToIssues(first: 10) {
     totalCount
-    pageInfo { ...allPageInfo }
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
-      ...on Issue {
+      ... on Issue {
         id
         title
         isOpen
         category
-        linkedByIssues { totalCount }
-        linksToIssues { totalCount }
+        linkedByIssues {
+          totalCount
+        }
+        linksToIssues {
+          totalCount
+        }
       }
     }
   }
   linkedByIssues(first: 10) {
     totalCount
-    pageInfo { ...allPageInfo }
+    pageInfo {
+      ...allPageInfo
+    }
     nodes {
-      ...on Issue {
+      ... on Issue {
         id
         title
         isOpen
         category
-        linkedByIssues { totalCount }
-        linksToIssues { totalCount }
+        linkedByIssues {
+          totalCount
+        }
+        linksToIssues {
+          totalCount
+        }
       }
     }
   }
@@ -116,70 +138,161 @@ fragment issueListPage on IssuePage {
   }
 }
 
-query ListProjectIssues($project: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+query ListProjectIssues(
+  $project: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $project) {
-    ...on Project {
-      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    ... on Project {
+      issues(
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
+      ) {
         ...issueListPage
       }
     }
   }
 }
 
-query ListComponentIssues($component: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+query ListComponentIssues(
+  $component: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $component) {
-    ...on Component {
-      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    ... on Component {
+      issues(
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
+      ) {
         ...issueListPage
       }
     }
   }
 }
 
-query ListComponentIssuesOnLocation($component: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+query ListComponentIssuesOnLocation(
+  $component: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $component) {
-    ...on Component {
-      issuesOnLocation(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    ... on Component {
+      issuesOnLocation(
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
+      ) {
         ...issueListPage
       }
     }
   }
 }
 
-query ListComponentInterfaceIssuesOnLocation($interface: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+query ListComponentInterfaceIssuesOnLocation(
+  $interface: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $interface) {
-    ...on ComponentInterface {
-      issuesOnLocation(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    ... on ComponentInterface {
+      issuesOnLocation(
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
+      ) {
         ...issueListPage
       }
     }
   }
 }
 
-query ListIssueLinksToIssues($issue: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+query ListIssueLinksToIssues(
+  $issue: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $issue) {
-    ...on Issue {
-      linksToIssues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    ... on Issue {
+      linksToIssues(
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
+      ) {
         ...issueListPage
       }
     }
   }
 }
 
-query ListIssueLinkedByIssues($issue: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+query ListIssueLinkedByIssues(
+  $issue: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $issue) {
-    ...on Issue {
-      linkedByIssues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    ... on Issue {
+      linkedByIssues(
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
+      ) {
         ...issueListPage
       }
     }
   }
 }
 
-query ListArtifactIssues($artifact: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
+query ListArtifactIssues(
+  $artifact: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $artifact) {
-    ...on Artifact {
-      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
+    ... on Artifact {
+      issues(
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
+      ) {
         ...issueListPage
       }
     }
@@ -218,7 +331,9 @@ fragment fNonFunctionalConstraintStub on NonFunctionalConstraint {
 
 fragment fReactionsStub on ReactionGroupPage {
   totalCount
-  pageInfo { ...allPageInfo }
+  pageInfo {
+    ...allPageInfo
+  }
   nodes {
     id
     reaction
@@ -257,34 +372,34 @@ fragment fTimelineItem on IssueTimelineItem {
     username
     displayName
   }
-  ...on AddedToComponentEvent {
+  ... on AddedToComponentEvent {
     component {
       id
       name
     }
   }
-  ...on AddedToLocationEvent {
+  ... on AddedToLocationEvent {
     location {
       id
       name
     }
   }
-  ...on AssignedEvent {
+  ... on AssignedEvent {
     assignee {
       id
       username
       displayName
     }
   }
-  ...on CategoryChangedEvent {
+  ... on CategoryChangedEvent {
     oldCategory
     newCategory
   }
-  ...on DueDateChangedEvent {
+  ... on DueDateChangedEvent {
     oldDueDate
     newDueDate
   }
-  ...on DeletedIssueComment {
+  ... on DeletedIssueComment {
     deletedAt
     deletedBy {
       id
@@ -292,35 +407,35 @@ fragment fTimelineItem on IssueTimelineItem {
       displayName
     }
   }
-  ...on EstimatedTimeChangedEvent {
+  ... on EstimatedTimeChangedEvent {
     oldEstimatedTime
     newEstimatedTime
   }
-  ...on LabelledEvent {
+  ... on LabelledEvent {
     label {
       ...fLabelStub
     }
   }
-  ...on IssueComment {
+  ... on IssueComment {
     ...fComment
   }
-  ...on MarkedAsDuplicateEvent {
+  ... on MarkedAsDuplicateEvent {
     originalIssue {
       ...fIssueStub
     }
   }
-  ...on LinkEvent {
+  ... on LinkEvent {
     linkedIssue {
       ...fIssueStub
     }
   }
-  ...on PinnedEvent {
+  ... on PinnedEvent {
     component {
       id
       name
     }
   }
-  ...on ReferencedByIssueEvent {
+  ... on ReferencedByIssueEvent {
     mentionedAt {
       ...fIssueStub
     }
@@ -333,17 +448,17 @@ fragment fTimelineItem on IssueTimelineItem {
       }
     }
   }
-  ...on PriorityChangedEvent {
+  ... on PriorityChangedEvent {
     oldPriority
     newPriority
   }
-  ...on RemovedFromComponentEvent {
+  ... on RemovedFromComponentEvent {
     removedComponent {
       id
       name
     }
   }
-  ...on ReferencedByOtherEvent {
+  ... on ReferencedByOtherEvent {
     component {
       id
       name
@@ -351,69 +466,69 @@ fragment fTimelineItem on IssueTimelineItem {
     source
     sourceURL
   }
-  ...on RemovedFromLocationEvent {
+  ... on RemovedFromLocationEvent {
     removedLocation {
       id
       name
     }
   }
-  ...on StartDateChangedEvent {
+  ... on StartDateChangedEvent {
     oldStartDate
     newStartDate
   }
-  ...on RenamedTitleEvent {
+  ... on RenamedTitleEvent {
     oldTitle
     newTitle
   }
-  ...on UnassignedEvent {
+  ... on UnassignedEvent {
     removedAssignee {
       id
       username
       displayName
     }
   }
-  ...on UnlabelledEvent {
+  ... on UnlabelledEvent {
     removedLabel {
       ...fLabelStub
     }
   }
-  ...on WasLinkedEvent {
+  ... on WasLinkedEvent {
     linkedBy {
       ...fIssueStub
     }
   }
-  ...on WasUnlinkedEvent {
+  ... on WasUnlinkedEvent {
     unlinkedBy {
       ...fIssueStub
     }
   }
-  ...on UnpinnedEvent {
+  ... on UnpinnedEvent {
     component {
       id
       name
     }
   }
-  ...on UnlinkEvent {
+  ... on UnlinkEvent {
     removedLinkedIssue {
       ...fIssueStub
     }
   }
-  ...on AddedArtifactEvent {
+  ... on AddedArtifactEvent {
     artifact {
       ...fArtifactStub
     }
   }
-  ...on RemovedArtifactEvent {
+  ... on RemovedArtifactEvent {
     removedArtifact {
       ...fArtifactStub
     }
   }
-  ...on AddedNonFunctionalConstraintEvent {
+  ... on AddedNonFunctionalConstraintEvent {
     nonFunctionalConstraint {
       ...fNonFunctionalConstraintStub
     }
   }
-  ...on RemovedNonFunctionalConstraintEvent {
+  ... on RemovedNonFunctionalConstraintEvent {
     removedNonFunctionalConstraint {
       ...fNonFunctionalConstraintStub
     }
@@ -422,7 +537,7 @@ fragment fTimelineItem on IssueTimelineItem {
 
 query GetIssueHeader($id: ID!) {
   node(id: $id) {
-    ...on Issue {
+    ... on Issue {
       ...fIssueStub
       body
       lastEditedAt
@@ -448,14 +563,21 @@ query GetIssueHeader($id: ID!) {
   }
 }
 
-query ListIssueTimelineItems($id: ID!, $after: String, $before: String, $filterBy: IssueTimelineItemFilter, $first: Int, $last: Int) {
+query ListIssueTimelineItems(
+  $id: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueTimelineItemFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $id) {
-    ...on Issue {
+    ... on Issue {
       timeline(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -470,14 +592,21 @@ query ListIssueTimelineItems($id: ID!, $after: String, $before: String, $filterB
   }
 }
 
-query ListProjectLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+query ListProjectLabels(
+  $project: ID!
+  $after: String
+  $before: String
+  $filterBy: LabelFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $project) {
-    ...on Project {
+    ... on Project {
       labels(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -491,14 +620,21 @@ query ListProjectLabels($project: ID!, $after: String, $before: String, $filterB
     }
   }
 }
-query ListComponentLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+query ListComponentLabels(
+  $project: ID!
+  $after: String
+  $before: String
+  $filterBy: LabelFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $project) {
-    ...on Component {
+    ... on Component {
       labels(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -512,14 +648,21 @@ query ListComponentLabels($project: ID!, $after: String, $before: String, $filte
     }
   }
 }
-query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
+query ListIssueLabels(
+  $issue: ID!
+  $after: String
+  $before: String
+  $filterBy: LabelFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $issue) {
-    ...on Issue {
+    ... on Issue {
       labels(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -534,14 +677,21 @@ query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: L
   }
 }
 
-query ListIssueLocations($issue: ID!, $after: String, $before: String, $filterBy: IssueLocationFilter, $first: Int, $last: Int) {
+query ListIssueLocations(
+  $issue: ID!
+  $after: String
+  $before: String
+  $filterBy: IssueLocationFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $issue) {
-    ...on Issue {
+    ... on Issue {
       locations(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -556,14 +706,21 @@ query ListIssueLocations($issue: ID!, $after: String, $before: String, $filterBy
   }
 }
 
-query ListIssueComponents($issue: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+query ListIssueComponents(
+  $issue: ID!
+  $after: String
+  $before: String
+  $filterBy: ComponentFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $issue) {
-    ...on Issue {
+    ... on Issue {
       components(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -578,14 +735,21 @@ query ListIssueComponents($issue: ID!, $after: String, $before: String, $filterB
   }
 }
 
-query ListIssueParticipants($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+query ListIssueParticipants(
+  $issue: ID!
+  $after: String
+  $before: String
+  $filterBy: UserFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $issue) {
-    ...on Issue {
+    ... on Issue {
       participants(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -593,7 +757,7 @@ query ListIssueParticipants($issue: ID!, $after: String, $before: String, $filte
           ...allPageInfo
         }
         nodes {
-          ...on User {
+          ... on User {
             id
             username
             displayName
@@ -604,14 +768,21 @@ query ListIssueParticipants($issue: ID!, $after: String, $before: String, $filte
   }
 }
 
-query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
+query ListIssueAssignees(
+  $issue: ID!
+  $after: String
+  $before: String
+  $filterBy: UserFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $issue) {
-    ...on Issue {
+    ... on Issue {
       assignees(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -619,7 +790,7 @@ query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy
           ...allPageInfo
         }
         nodes {
-          ...on User {
+          ... on User {
             id
             username
             displayName
@@ -632,7 +803,7 @@ query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy
 
 query GetLabel($id: ID!) {
   node(id: $id) {
-    ...on Label {
+    ... on Label {
       id
       ...fLabelStub
       description
@@ -650,14 +821,21 @@ query GetLabel($id: ID!) {
   }
 }
 
-query ListLabelComponents($label: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+query ListLabelComponents(
+  $label: ID!
+  $after: String
+  $before: String
+  $filterBy: ComponentFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $label) {
-    ...on Label {
+    ... on Label {
       components(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -665,7 +843,7 @@ query ListLabelComponents($label: ID!, $after: String, $before: String, $filterB
           ...allPageInfo
         }
         nodes {
-          ...on Component {
+          ... on Component {
             ...fComponentStub
           }
         }
@@ -683,37 +861,34 @@ mutation MutCreateIssue($issue: CreateIssueInput!) {
 }
 
 mutation MutRenameIssueTitle($id: String, $issue: ID!, $title: String!) {
-  renameIssueTitle(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    newTitle: $title
-  }) {
+  renameIssueTitle(
+    input: { clientMutationID: $id, issue: $issue, newTitle: $title }
+  ) {
     event {
       ...fTimelineItem
     }
   }
 }
 
-mutation MutChangeIssueCategory($id: String, $issue: ID!, $category: IssueCategory!){
-  changeIssueCategory(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    newCategory: $category
-  }) {
-    clientMutationID,
+mutation MutChangeIssueCategory(
+  $id: String
+  $issue: ID!
+  $category: IssueCategory!
+) {
+  changeIssueCategory(
+    input: { clientMutationID: $id, issue: $issue, newCategory: $category }
+  ) {
+    clientMutationID
     event {
-      id,
-      oldCategory,
+      id
+      oldCategory
       newCategory
     }
   }
 }
 
 mutation MutCloseIssue($id: String, $issue: ID!) {
-  closeIssue(input: {
-    clientMutationID: $id,
-    issue: $issue
-  }) {
+  closeIssue(input: { clientMutationID: $id, issue: $issue }) {
     event {
       ...fTimelineItem
     }
@@ -721,10 +896,7 @@ mutation MutCloseIssue($id: String, $issue: ID!) {
 }
 
 mutation MutReopenIssue($id: String, $issue: ID!) {
-  reopenIssue(input: {
-    clientMutationID: $id,
-    issue: $issue
-  }) {
+  reopenIssue(input: { clientMutationID: $id, issue: $issue }) {
     event {
       ...fTimelineItem
     }
@@ -732,11 +904,9 @@ mutation MutReopenIssue($id: String, $issue: ID!) {
 }
 
 mutation MutAddIssueComment($id: String, $issue: ID!, $body: String!) {
-  addIssueComment(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    body: $body
-  }) {
+  addIssueComment(
+    input: { clientMutationID: $id, issue: $issue, body: $body }
+  ) {
     comment {
       ...fComment
     }
@@ -744,11 +914,9 @@ mutation MutAddIssueComment($id: String, $issue: ID!, $body: String!) {
 }
 
 mutation MutUpdateIssueComment($id: String, $comment: ID!, $body: String!) {
-  updateComment(input: {
-    clientMutationID: $id,
-    comment: $comment,
-    body: $body
-  }) {
+  updateComment(
+    input: { clientMutationID: $id, comment: $comment, body: $body }
+  ) {
     comment {
       ...fComment
     }
@@ -756,10 +924,7 @@ mutation MutUpdateIssueComment($id: String, $comment: ID!, $body: String!) {
 }
 
 mutation MutDeleteIssueComment($id: String, $comment: ID!) {
-  deleteIssueComment(input: {
-    clientMutationID: $id,
-    issueComment: $comment
-  }) {
+  deleteIssueComment(input: { clientMutationID: $id, issueComment: $comment }) {
     event {
       ...fTimelineItem
     }
@@ -767,11 +932,9 @@ mutation MutDeleteIssueComment($id: String, $comment: ID!) {
 }
 
 mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
-  addLabelToIssue(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    label: $label
-  }) {
+  addLabelToIssue(
+    input: { clientMutationID: $id, issue: $issue, label: $label }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -779,11 +942,9 @@ mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
 }
 
 mutation MutRemoveIssueLabel($id: String, $issue: ID!, $label: ID!) {
-  removeLabelFromIssue(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    label: $label
-  }) {
+  removeLabelFromIssue(
+    input: { clientMutationID: $id, issue: $issue, label: $label }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -791,23 +952,23 @@ mutation MutRemoveIssueLabel($id: String, $issue: ID!, $label: ID!) {
 }
 
 mutation MutAddIssueToComponent($id: String, $issue: ID!, $component: ID!) {
-  addIssueToComponent(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    component: $component
-  }) {
+  addIssueToComponent(
+    input: { clientMutationID: $id, issue: $issue, component: $component }
+  ) {
     event {
       ...fTimelineItem
     }
   }
 }
 
-mutation MutRemoveIssueFromComponent($id: String, $issue: ID!, $component: ID!) {
-  removeIssueFromComponent(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    component: $component
-  }) {
+mutation MutRemoveIssueFromComponent(
+  $id: String
+  $issue: ID!
+  $component: ID!
+) {
+  removeIssueFromComponent(
+    input: { clientMutationID: $id, issue: $issue, component: $component }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -815,11 +976,9 @@ mutation MutRemoveIssueFromComponent($id: String, $issue: ID!, $component: ID!) 
 }
 
 mutation MutAddIssueToLocation($id: String, $issue: ID!, $location: ID!) {
-  addIssueToLocation(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    location: $location
-  }) {
+  addIssueToLocation(
+    input: { clientMutationID: $id, issue: $issue, location: $location }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -827,11 +986,9 @@ mutation MutAddIssueToLocation($id: String, $issue: ID!, $location: ID!) {
 }
 
 mutation MutRemoveIssueFromLocation($id: String, $issue: ID!, $location: ID!) {
-  removeIssueFromLocation(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    location: $location
-  }) {
+  removeIssueFromLocation(
+    input: { clientMutationID: $id, issue: $issue, location: $location }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -839,11 +996,9 @@ mutation MutRemoveIssueFromLocation($id: String, $issue: ID!, $location: ID!) {
 }
 
 mutation MutAddIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
-  addAssignee(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    user: $assignee
-  }) {
+  addAssignee(
+    input: { clientMutationID: $id, issue: $issue, user: $assignee }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -851,11 +1006,9 @@ mutation MutAddIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
 }
 
 mutation MutRemoveIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
-  removeAssignee(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    user: $assignee
-  }) {
+  removeAssignee(
+    input: { clientMutationID: $id, issue: $issue, user: $assignee }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -863,11 +1016,9 @@ mutation MutRemoveIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
 }
 
 mutation MutLinkIssue($id: String, $issue: ID!, $link: ID!) {
-  linkIssue(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    issueToLink: $link
-  }) {
+  linkIssue(
+    input: { clientMutationID: $id, issue: $issue, issueToLink: $link }
+  ) {
     event {
       ...fTimelineItem
     }
@@ -875,25 +1026,31 @@ mutation MutLinkIssue($id: String, $issue: ID!, $link: ID!) {
 }
 
 mutation MutUnlinkIssue($id: String, $issue: ID!, $link: ID!) {
-  unlinkIssue(input: {
-    clientMutationID: $id,
-    issue: $issue,
-    issueToUnlink: $link
-  }) {
+  unlinkIssue(
+    input: { clientMutationID: $id, issue: $issue, issueToUnlink: $link }
+  ) {
     event {
       ...fTimelineItem
     }
   }
 }
 
-mutation MutCreateLabel($id: String, $name: String!, $description: String, $color: Color!, $components: [ID!]!) {
-  createLabel(input: {
-    clientMutationID: $id,
-    components: $components,
-    name: $name,
-    description: $description,
-    color: $color
-  }) {
+mutation MutCreateLabel(
+  $id: String
+  $name: String!
+  $description: String
+  $color: Color!
+  $components: [ID!]!
+) {
+  createLabel(
+    input: {
+      clientMutationID: $id
+      components: $components
+      name: $name
+      description: $description
+      color: $color
+    }
+  ) {
     label {
       ...fLabelStub
       components {
@@ -905,42 +1062,47 @@ mutation MutCreateLabel($id: String, $name: String!, $description: String, $colo
     }
   }
 }
-mutation MutUpdateLabel($id: String, $label: ID!, $name: String, $description: String, $color: Color) {
-  updateLabel(input: {
-    clientMutationID: $id,
-    label: $label,
-    name: $name,
-    description: $description,
-    color: $color
-  }) {
+mutation MutUpdateLabel(
+  $id: String
+  $label: ID!
+  $name: String
+  $description: String
+  $color: Color
+) {
+  updateLabel(
+    input: {
+      clientMutationID: $id
+      label: $label
+      name: $name
+      description: $description
+      color: $color
+    }
+  ) {
     label {
       ...fLabelStub
     }
   }
 }
 mutation MutAddLabelToComponent($id: String, $label: ID!, $component: ID!) {
-  addLabelToComponent(input: {
-    clientMutationID: $id,
-    label: $label,
-    component: $component
-  }) {
+  addLabelToComponent(
+    input: { clientMutationID: $id, label: $label, component: $component }
+  ) {
     clientMutationID
   }
 }
-mutation MutRemoveLabelFromComponent($id: String, $label: ID!, $component: ID!) {
-  removeLabelFromComponent(input: {
-    clientMutationID: $id,
-    label: $label,
-    component: $component
-  }) {
+mutation MutRemoveLabelFromComponent(
+  $id: String
+  $label: ID!
+  $component: ID!
+) {
+  removeLabelFromComponent(
+    input: { clientMutationID: $id, label: $label, component: $component }
+  ) {
     clientMutationID
   }
 }
 mutation MutDeleteLabel($id: String, $label: ID!) {
-  deleteLabel(input: {
-    clientMutationID: $id,
-    label: $label
-  }) {
+  deleteLabel(input: { clientMutationID: $id, label: $label }) {
     clientMutationID
   }
 }

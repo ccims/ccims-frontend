@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
-import {IssueLocation} from '../../../generated/graphql-dgql';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { IssueLocation } from '../../../generated/graphql-dgql';
 
 /**
  * Displays an issue location.
@@ -8,7 +8,7 @@ import {IssueLocation} from '../../../generated/graphql-dgql';
 @Component({
   selector: 'app-issue-location',
   styleUrls: ['./issue-location.component.scss'],
-  templateUrl: './issue-location.component.html'
+  templateUrl: './issue-location.component.html',
 })
 export class IssueLocationComponent {
   /** The raw project ID. */
@@ -16,8 +16,7 @@ export class IssueLocationComponent {
   /** The location object that will be displayed. */
   @Input() location: IssueLocation;
 
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   /** Returns true if the location refers to a component. */
   isComponent(): boolean {
@@ -27,9 +26,19 @@ export class IssueLocationComponent {
   /** Navigates to the location's detail page. */
   goToLocationDetails(): void {
     if (this.isComponent()) {
-      this.router.navigate(['projects', this.projectId, 'component', this.location.id]);
+      this.router.navigate([
+        'projects',
+        this.projectId,
+        'component',
+        this.location.id,
+      ]);
     } else {
-      this.router.navigate(['projects', this.projectId, 'interface', this.location.id]);
+      this.router.navigate([
+        'projects',
+        this.projectId,
+        'interface',
+        this.location.id,
+      ]);
     }
   }
 }

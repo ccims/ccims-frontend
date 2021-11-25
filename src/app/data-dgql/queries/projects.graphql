@@ -4,12 +4,18 @@ fragment fProjectStub on Project {
   description
 }
 
-query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $first: Int, $last: Int) {
+query ListProjects(
+  $after: String
+  $before: String
+  $filterBy: ProjectFilter
+  $first: Int
+  $last: Int
+) {
   projects(
-    after: $after,
-    before: $before,
-    filterBy: $filterBy,
-    first: $first,
+    after: $after
+    before: $before
+    filterBy: $filterBy
+    first: $first
     last: $last
   ) {
     totalCount
@@ -20,7 +26,7 @@ query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $f
       endCursor
     }
     nodes {
-      ...on Project {
+      ... on Project {
         ...fProjectStub
       }
     }
@@ -29,7 +35,7 @@ query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $f
 
 query GetProject($id: ID!) {
   node(id: $id) {
-    ...on Project {
+    ... on Project {
       ...fProjectStub
     }
   }

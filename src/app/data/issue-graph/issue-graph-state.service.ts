@@ -1,20 +1,26 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable, ReplaySubject} from 'rxjs';
-import {StateService} from '@app/state.service';
-import {GraphData} from './graph-data';
-import {filter, shareReplay, switchMap, takeUntil} from 'rxjs/operators';
-import {IssueGraphApiService} from './issue-graph-api.service';
-import {FilterState} from '@app/graphs/shared';
+import { Injectable } from '@angular/core';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  ReplaySubject,
+} from 'rxjs';
+import { StateService } from '@app/state.service';
+import { GraphData } from './graph-data';
+import { filter, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import { IssueGraphApiService } from './issue-graph-api.service';
+import { FilterState } from '@app/graphs/shared';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IssueGraphStateService {
-
   state$: Observable<GraphData>;
 
-  constructor(private apiService: IssueGraphApiService, private ss: StateService) {
-  }
+  constructor(
+    private apiService: IssueGraphApiService,
+    private ss: StateService
+  ) {}
 
   /**
    * Maps an observable of the state of the graph filters (toggles and queries in search bar) onto an observable
@@ -25,14 +31,23 @@ export class IssueGraphStateService {
    * @returns observable emitting sequence of graph states containing e.g. components and interfaces. It will emit new values when
    * the filter$ or reload$ observables emit a value.
    */
-  graphDataForFilter(filter$: BehaviorSubject<FilterState>, reload$: BehaviorSubject<void>,
-                     destroy$: ReplaySubject<void>): Observable<GraphData> {
+  graphDataForFilter(
+    filter$: BehaviorSubject<FilterState>,
+    reload$: BehaviorSubject<void>,
+    destroy$: ReplaySubject<void>
+  ): Observable<GraphData> {
     // Whenever a new value arrives from reload$, loadIssueGraphData is executed
     this.state$ = combineLatest([this.ss.state$, filter$, reload$]).pipe(
       takeUntil(destroy$),
       filter(([appState, _]) => appState.project?.node.id != null),
-      switchMap(([appState, filterState]) => this.apiService.loadIssueGraphData(appState.project.node.id,
-        filterState.selectedCategories, filterState.selectedFilter.labels, filterState.selectedFilter.texts)),
+      switchMap(([appState, filterState]) =>
+        this.apiService.loadIssueGraphData(
+          appState.project.node.id,
+          filterState.selectedCategories,
+          filterState.selectedFilter.labels,
+          filterState.selectedFilter.texts
+        )
+      ),
       shareReplay(1)
     );
     return this.state$;

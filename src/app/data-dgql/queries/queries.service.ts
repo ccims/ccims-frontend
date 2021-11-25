@@ -5,13 +5,13 @@ import { ComponentsService } from './components.service';
 import { UsersService } from './users.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QueriesService {
   constructor(
     public components: ComponentsService,
     public issues: IssuesService,
     public projects: ProjectsService,
-    public users: UsersService,
+    public users: UsersService
   ) {}
 }

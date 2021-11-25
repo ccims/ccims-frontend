@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import * as dynamicTemplate from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
-import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
+import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
+import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
- * This service is respoonsible for managing the dynamic template registry 
+ * This service is respoonsible for managing the dynamic template registry
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IssueGraphDynamicTemplateRegistryService {
-
   /**
    * Manages the dynamic template registry of given GraphEditor instance.
    * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.

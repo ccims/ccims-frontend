@@ -2,33 +2,68 @@
   <div class="form-container">
     <div class="logo-wrapper">
       <div class="logo-container">
-        <div class="logo-image"><img src="../../assets/Gropius.png" alt="CCIMS-Logo" height="80"></div>
+        <div class="logo-image">
+          <img src="../../assets/Gropius.png" alt="CCIMS-Logo" height="80" />
+        </div>
       </div>
       <div class="headline"><h2>Login</h2></div>
     </div>
-    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+    <form
+      nz-form
+      [formGroup]="validateForm"
+      class="login-form"
+      (ngSubmit)="submitForm()"
+    >
       <nz-form-item>
         <nz-form-control nzErrorTip="Please enter your Username!">
           <nz-input-group nzPrefixIcon="user">
-            <input type="text" nz-input formControlName="userName" placeholder="Username"/>
+            <input
+              type="text"
+              nz-input
+              formControlName="userName"
+              placeholder="Username"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please enter your Password!">
           <nz-input-group nzPrefixIcon="lock">
-            <input type="password" nz-input formControlName="password" placeholder="Password"/>
+            <input
+              type="password"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <nz-alert *ngIf="invalidCredentials" class="error-message" nzType="error"
-                nzMessage="Username and/or Password invalid" nzShowIcon nzCloseable></nz-alert>
-      <nz-alert *ngIf="unknownError" class="error-message" nzType="error" nzMessage="Unknown error" nzShowIcon
-                nzCloseable></nz-alert>
-      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"
-              [disabled]="!validateForm.valid" [nzLoading]="isLoading">Log in
+      <nz-alert
+        *ngIf="invalidCredentials"
+        class="error-message"
+        nzType="error"
+        nzMessage="Username and/or Password invalid"
+        nzShowIcon
+        nzCloseable
+      ></nz-alert>
+      <nz-alert
+        *ngIf="unknownError"
+        class="error-message"
+        nzType="error"
+        nzMessage="Unknown error"
+        nzShowIcon
+        nzCloseable
+      ></nz-alert>
+      <button
+        nz-button
+        class="login-form-button login-form-margin"
+        [nzType]="'primary'"
+        [disabled]="!validateForm.valid"
+        [nzLoading]="isLoading"
+      >
+        Log in
       </button>
-      <span id="register-link">Or <a routerLink='/register'>register!</a></span>
+      <span id="register-link">Or <a routerLink="/register">register!</a></span>
     </form>
   </div>
 </div>

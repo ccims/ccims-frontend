@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import {Edge} from '@ustutt/grapheditor-webcomponent/lib/edge';
+import { Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
+import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
- * This service is respoonsible for managing the class setters 
+ * This service is respoonsible for managing the class setters
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IssueGraphClassSettersService {
-
   /**
-   * Manages node / edge class setters so that node / edge classes 
+   * Manages node / edge class setters so that node / edge classes
    * of given GraphEditor instances match their corresponding class names.
    * The setters return true if the class name is applied to the corresponding node / edge.
    * They are called on all nodes, pairs of edges and class names.
@@ -22,7 +21,6 @@ export class IssueGraphClassSettersService {
    * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageClassSetters(graph: GraphEditor, minimap: GraphEditor) {
-
     // node class setter
     const nodeClassSetter = (className: string, node: Node) => {
       if (className === node.type) {
@@ -48,10 +46,12 @@ export class IssueGraphClassSettersService {
       if (className === 'related-to' && edge.type === 'relatedTo') {
         return true;
       }
-      if (className === 'issue-relation' &&
+      if (
+        className === 'issue-relation' &&
         (edge.type === 'relatedTo' ||
           edge.type === 'duplicate' ||
-          edge.type === 'dependency')) {
+          edge.type === 'dependency')
+      ) {
         return true;
       }
       return false;

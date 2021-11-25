@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import {
   AddConsumedInterfaceGQL,
   GetIssueGraphDataForSearchGQL,
   GetIssueGraphDataGQL,
   IssueCategory,
-  RemoveConsumedInterfaceGQL
+  RemoveConsumedInterfaceGQL,
 } from 'src/generated/graphql';
-import {GraphData, GraphDataFactory} from './graph-data';
-import {Observable} from 'rxjs';
-import {SelectedCategories} from '@app/graphs/shared';
-import {FilterLabel} from '../label/label-store.service';
+import { GraphData, GraphDataFactory } from './graph-data';
+import { Observable } from 'rxjs';
+import { SelectedCategories } from '@app/graphs/shared';
+import { FilterLabel } from '../label/label-store.service';
 
 /**
  * Responsible for retrieval and conversion of data needed for graph rendering from backend.
@@ -19,15 +19,15 @@ import {FilterLabel} from '../label/label-store.service';
  * @class IssueGraphApiService
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IssueGraphApiService {
-
-  constructor(private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
-              private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
-              private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
-              private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) {
-  }
+  constructor(
+    private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
+    private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
+    private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
+    private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL
+  ) {}
 
   /**
    * Queries backend for data needed to render graph when given parameters restricting what information is requested.
@@ -39,7 +39,12 @@ export class IssueGraphApiService {
    * @param labels a list of issue labels the user has entered into the query bar
    * @param texts a list of text fragments the user has entered into the query bar
    */
-  loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[], texts: string[]): Observable<GraphData> {
+  loadIssueGraphData(
+    projectId: string,
+    categories: SelectedCategories,
+    labels: FilterLabel[],
+    texts: string[]
+  ): Observable<GraphData> {
     const activeCategories: IssueCategory[] = [];
     for (const key of Object.values(IssueCategory)) {
       if (categories[key]) {
@@ -47,15 +52,29 @@ export class IssueGraphApiService {
       }
     }
     if (labels.length === 0 && texts.length === 0) {
-      return this.getFullIssueGraphDataQuery.fetch({projectId, activeCategories}).pipe(
-        map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-        ));
+      return this.getFullIssueGraphDataQuery
+        .fetch({ projectId, activeCategories })
+        .pipe(
+          map((result) =>
+            GraphDataFactory.removeFilteredData(
+              GraphDataFactory.graphDataFromGQL(result.data),
+              activeCategories
+            )
+          )
+        );
     } else {
-      const selectedLabels: string[] = labels.map(label => label.id);
+      const selectedLabels: string[] = labels.map((label) => label.id);
       const issueRegex = this.textsToRegex(texts);
-      return this.getSearchIssueGraphDataQuery.fetch({projectId, activeCategories, selectedLabels, issueRegex}).pipe(
-        map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-        ));
+      return this.getSearchIssueGraphDataQuery
+        .fetch({ projectId, activeCategories, selectedLabels, issueRegex })
+        .pipe(
+          map((result) =>
+            GraphDataFactory.removeFilteredData(
+              GraphDataFactory.graphDataFromGQL(result.data),
+              activeCategories
+            )
+          )
+        );
     }
   }
 
@@ -69,7 +88,7 @@ export class IssueGraphApiService {
     if (texts.length === 0) {
       return undefined;
     }
-    return texts.map(text => '(' + text + ')').join('|');
+    return texts.map((text) => '(' + text + ')').join('|');
   }
 
   /**
@@ -78,7 +97,9 @@ export class IssueGraphApiService {
    * @param componentInterface
    */
   addConsumedInterface(component: string, componentInterface: string) {
-    return this.addConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
+    return this.addConsumedInterfaceMutation.mutate({
+      input: { component, componentInterface },
+    });
   }
 
   /**
@@ -87,7 +108,8 @@ export class IssueGraphApiService {
    * @param componentInterface
    */
   removeConsumedInterface(component: string, componentInterface: string) {
-    return this.removeConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
+    return this.removeConsumedInterfaceMutation.mutate({
+      input: { component, componentInterface },
+    });
   }
 }
-

@@ -30,7 +30,7 @@ function readCssColor(color: string): [number, number, number] {
 @Component({
   selector: 'app-issue-label',
   templateUrl: './issue-label.component.html',
-  styleUrls: ['./issue-label.component.scss']
+  styleUrls: ['./issue-label.component.scss'],
 })
 export class IssueLabelComponent {
   /** The label to display. Nullable. Should have properties `name` and `color`. */
@@ -49,11 +49,7 @@ export class IssueLabelComponent {
     const [r, g, b] = readCssColor(color);
 
     // HSP (Hue-Sat-Perceived-brightness) equation from http://alienryderflex.com/hsp.html
-    const hsp = Math.sqrt(
-      0.299 * (r * r) +
-      0.587 * (g * g) +
-      0.114 * (b * b)
-    );
+    const hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
 
     // Using the HSP value, determine whether the color is light or dark
     // Compare against gamma-adjusted tipping point

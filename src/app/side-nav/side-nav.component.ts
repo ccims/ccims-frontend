@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {StateService} from '@app/state.service';
-import {Router} from '@angular/router';
-import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import { Component } from '@angular/core';
+import { StateService } from '@app/state.service';
+import { Router } from '@angular/router';
+import { UserNotifyService } from '@app/user-notify/user-notify.service';
 
 /**
  * This component displays and manages the sidemenu showing
@@ -11,7 +11,7 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
-  styleUrls: ['./side-nav.component.scss']
+  styleUrls: ['./side-nav.component.scss'],
 })
 export class SideNavComponent {
   readonly defaultMenuTitle = 'Menu';
@@ -21,10 +21,12 @@ export class SideNavComponent {
   issuesLink = ['/'];
   membersLink = ['/'];
 
-  constructor(public ss: StateService,
-              public router: Router,
-              public notify: UserNotifyService) {
-    ss.state$.subscribe(appState => {
+  constructor(
+    public ss: StateService,
+    public router: Router,
+    public notify: UserNotifyService
+  ) {
+    ss.state$.subscribe((appState) => {
       if (!appState.project) {
         return;
       }
@@ -41,6 +43,4 @@ export class SideNavComponent {
       }
     });
   }
-
-
 }
