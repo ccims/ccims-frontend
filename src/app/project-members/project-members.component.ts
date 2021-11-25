@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProjectStoreService } from '@app/data/project/project-store.service';
-import { GetFullProjectQuery } from 'src/generated/graphql';
-import { Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort, MatSortable } from '@angular/material/sort';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { AddProjectMemberDialogComponent } from '@app/dialogs/add-project-member-dialog/add-project-member-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { RemoveProjectMemberComponentComponent } from '@app/dialogs/remove-project-member-component/remove-project-member-component.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ProjectStoreService} from '@app/data/project/project-store.service';
+import {GetFullProjectQuery} from 'src/generated/graphql';
+import {Observable} from 'rxjs';
+import {FormControl} from '@angular/forms';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort, MatSortable} from '@angular/material/sort';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {AddProjectMemberDialogComponent} from '@app/dialogs/add-project-member-dialog/add-project-member-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {RemoveProjectMemberComponentComponent} from '@app/dialogs/remove-project-member-component/remove-project-member-component.component';
 
 /**
  * This component is an example for the manage members view
@@ -36,20 +36,20 @@ export class ProjectMembersComponent implements OnInit {
 
   //users
   mockUsers: Array<userMock> = [
-    { id: '1', displayName: 'User1', email: 'User1.de' },
-    { id: '2', displayName: 'User2', email: 'User2.de' },
-    { id: '3', displayName: 'User3', email: 'User3.de' },
-    { id: '4', displayName: 'User4', email: 'User4.de' },
-    { id: '5', displayName: 'User5', email: 'User5.de' },
-    { id: '6', displayName: 'User6', email: 'User6.de' }
+    {id: '1', displayName: 'User1', email: 'User1.de'},
+    {id: '2', displayName: 'User2', email: 'User2.de'},
+    {id: '3', displayName: 'User3', email: 'User3.de'},
+    {id: '4', displayName: 'User4', email: 'User4.de'},
+    {id: '5', displayName: 'User5', email: 'User5.de'},
+    {id: '6', displayName: 'User6', email: 'User6.de'}
   ];
 
   // list of users who can be added to the project
   //hardcoded
   addableUsers: Array<userMock> = [
-    { id: '7', displayName: 'AddedUser1', email: 'AddedUser1.de' },
-    { id: '8', displayName: 'AddedUser2', email: 'AddedUser2.de' },
-    { id: '9', displayName: 'AddedUser3', email: 'AddedUser3.de' }
+    {id: '7', displayName: 'AddedUser1', email: 'AddedUser1.de'},
+    {id: '8', displayName: 'AddedUser2', email: 'AddedUser2.de'},
+    {id: '9', displayName: 'AddedUser3', email: 'AddedUser3.de'}
   ];
 
   constructor(private dialog: MatDialog, private projectStore: ProjectStoreService, private route: ActivatedRoute) {}
@@ -65,7 +65,7 @@ export class ProjectMembersComponent implements OnInit {
       this.dataSource = new MatTableDataSource<any>(this.mockUsers);
 
       // sort data in table
-      this.sort.sort({ id: 'Name', start: 'asc' } as MatSortable);
+      this.sort.sort({id: 'Name', start: 'asc'} as MatSortable);
       this.dataSource.sort = this.sort;
 
       //paginator
@@ -76,7 +76,7 @@ export class ProjectMembersComponent implements OnInit {
   // This method adds a user to the project members list without processing a task in the back-end
   onAddClick() {
     const addMemberDialogRef = this.dialog.open(AddProjectMemberDialogComponent, {
-      data: { addableMembers: this.addableUsers, projectId: this.projectId }
+      data: {addableMembers: this.addableUsers, projectId: this.projectId}
     });
     addMemberDialogRef.afterClosed().subscribe((data) => {
       if (data) {
@@ -95,7 +95,7 @@ export class ProjectMembersComponent implements OnInit {
   // This method deletes a user to the project members list without processing a task in the back-end
   onDeleteClick() {
     const deleteMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent, {
-      data: { mockMembers: this.mockUsers, projectId: this.projectId }
+      data: {mockMembers: this.mockUsers, projectId: this.projectId}
     });
     deleteMemberDialogRef.afterClosed().subscribe((data) => {
       if (data) {

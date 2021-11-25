@@ -1,13 +1,13 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { IssueComment } from '../../../generated/graphql-dgql';
-import { TimeFormatter } from '@app/issue-detail/time-formatter';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {IssueComment} from '../../../generated/graphql-dgql';
+import {TimeFormatter} from '@app/issue-detail/time-formatter';
 import DataService from '@app/data-dgql';
-import { NodeId } from '@app/data-dgql/id';
-import { DataNode } from '@app/data-dgql/query';
-import { Subscription } from 'rxjs';
-import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import {NodeId} from '@app/data-dgql/id';
+import {DataNode} from '@app/data-dgql/query';
+import {Subscription} from 'rxjs';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 /**
  * This component displays an issue comment.

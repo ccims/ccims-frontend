@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
 /**
  * Apollo's GraphQL fetch method returns an Observable even though we only ever see one update
@@ -9,10 +9,10 @@ import { Observable } from 'rxjs';
  * @param f the observable
  * @return a promise that resolves as soon as the observable emits an update
  */
-export function promisifyApolloFetch<T>(f: Observable<{ data?: T }>): Promise<T> {
+export function promisifyApolloFetch<T>(f: Observable<{data?: T}>): Promise<T> {
   return new Promise((resolve, reject) => {
     f.subscribe(
-      ({ data }) => resolve(data),
+      ({data}) => resolve(data),
       (error) => reject(error)
     );
   });

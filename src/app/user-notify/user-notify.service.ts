@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { IndividualConfig, ToastrService } from 'ngx-toastr';
+import {Injectable} from '@angular/core';
+import {IndividualConfig, ToastrService} from 'ngx-toastr';
 
 /**
  * This service provides functions for user notification
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class UserNotifyService {
   /** @ignore */
   private errorConfig: Partial<IndividualConfig> = {

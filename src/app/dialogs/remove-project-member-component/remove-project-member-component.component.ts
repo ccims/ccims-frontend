@@ -1,6 +1,6 @@
-import { Inject } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {Inject} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-remove-project-member-component',
@@ -20,7 +20,7 @@ export class RemoveProjectMemberComponentComponent implements OnInit {
   }
 
   onDeleteClick() {
-    const data = { usersToDelete: this.selectedUsers };
+    const data = {usersToDelete: this.selectedUsers};
     this.dialogRef.close(data);
   }
 }

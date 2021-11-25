@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { IssueGraphStateService } from '../data/issue-graph/issue-graph-state.service';
+import {IssueGraphStateService} from '../data/issue-graph/issue-graph-state.service';
 
 describe('IssueGraphService', () => {
   let service: IssueGraphStateService;

@@ -1,7 +1,7 @@
-import { GraphComponent, GraphInterface } from '@app/data/issue-graph/graph-data';
-import { IssueCategory } from 'src/generated/graphql';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
-import { Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {GraphComponent, GraphInterface} from '@app/data/issue-graph/graph-data';
+import {IssueCategory} from 'src/generated/graphql';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
+import {Edge} from '@ustutt/grapheditor-webcomponent/lib/edge';
 
 export {
   IssueNode,
@@ -152,7 +152,7 @@ interface Position {
   y: number;
 }
 
-const zeroPosition = { x: 0, y: 0 };
+const zeroPosition = {x: 0, y: 0};
 
 enum folderEdgeTypes {
   RelatedTo = 'relatedTo',

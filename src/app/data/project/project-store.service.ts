@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {map} from 'rxjs/operators';
 import {
   CreateProjectGQL,
   CreateProjectInput,
@@ -13,8 +13,8 @@ import {
   Project,
   ProjectFilter
 } from 'src/generated/graphql';
-import { Observable } from 'rxjs';
-import { AuthenticationService } from '@app/auth/authentication.service';
+import {Observable} from 'rxjs';
+import {AuthenticationService} from '@app/auth/authentication.service';
 
 /**
  * This service provides get, create and delete operations for projects
@@ -41,28 +41,28 @@ export class ProjectStoreService {
       name,
       description
     };
-    return this.createProject.mutate({ input });
+    return this.createProject.mutate({input});
   }
 
   delete(id: string) {
     const input: DeleteProjectInput = {
       project: id
     };
-    return this.deleteProject.mutate({ input });
+    return this.deleteProject.mutate({input});
   }
 
   getBasicProject(id: string): Observable<GetBasicProjectQuery> {
-    return this.getBasicProjectQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getBasicProjectQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   getFullProject(id: string): Observable<GetFullProjectQuery> {
-    return this.getFullQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getFullQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   getAll(filterText: string): Observable<Pick<Project, 'id' | 'name'>[]> {
     const filter: ProjectFilter = {
       name: filterText
     };
-    return this.getAllQuery.fetch({ filter }).pipe(map(({ data }) => data.projects.edges.map((edge) => edge.node)));
+    return this.getAllQuery.fetch({filter}).pipe(map(({data}) => data.projects.edges.map((edge) => edge.node)));
   }
 }

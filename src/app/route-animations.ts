@@ -1,4 +1,4 @@
-import { trigger, transition, style, query, group, animate } from '@angular/animations';
+import {trigger, transition, style, query, group, animate} from '@angular/animations';
 
 /**
  * Describes an animation of sliding to to the right, used for the entry of the ComponentDetails component
@@ -6,7 +6,7 @@ import { trigger, transition, style, query, group, animate } from '@angular/anim
 export const slider = trigger('routeAnimations', [transition('* => isRight', slideTo('right'))]);
 
 function slideTo(direction: string) {
-  const optional = { optional: true };
+  const optional = {optional: true};
   return [
     query(
       ':enter, :leave',
@@ -20,10 +20,10 @@ function slideTo(direction: string) {
       ],
       optional
     ),
-    query(':enter', [style({ [direction]: '-100%' })]),
+    query(':enter', [style({[direction]: '-100%'})]),
     group([
-      query(':leave', [animate('600ms ease', style({ [direction]: '100%' }))], optional),
-      query(':enter', [animate('600ms ease', style({ [direction]: '0%' }))])
+      query(':leave', [animate('600ms ease', style({[direction]: '100%'}))], optional),
+      query(':enter', [animate('600ms ease', style({[direction]: '0%'}))])
     ])
   ];
 }

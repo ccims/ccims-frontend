@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 import {
   CreateComponentGQL,
   CreateComponentInput,
@@ -16,7 +16,7 @@ import {
   UpdateComponentGQL,
   UpdateComponentInput
 } from 'src/generated/graphql';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 /**
  * Provides updating, deleting and retrieving components from the backend.
@@ -39,33 +39,33 @@ export class ComponentStoreService {
   ) {}
 
   getComponentLabels(id: string): Observable<GetComponentLabelsQuery> {
-    return this.getLabelsQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getLabelsQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   getBasicComponent(id: string): Observable<GetBasicComponentQuery> {
-    return this.getBasicComponentQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getBasicComponentQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   getFullComponent(id: string): Observable<GetComponentQuery> {
-    return this.getFullComponentQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getFullComponentQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   getComponentInterfaces(id: string): Observable<GetComponentInterfacesQuery> {
-    return this.getComponentInterfacesQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getComponentInterfacesQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   deleteComponent(id: string) {
     const input: DeleteComponentInput = {
       component: id
     };
-    return this.deleteComponentMutation.mutate({ input });
+    return this.deleteComponentMutation.mutate({input});
   }
 
   createComponent(input: CreateComponentInput) {
-    return this.createComponentMutation.mutate({ input });
+    return this.createComponentMutation.mutate({input});
   }
 
   updateComponent(input: UpdateComponentInput) {
-    return this.updateComponentMutation.mutate({ input });
+    return this.updateComponentMutation.mutate({input});
   }
 }

@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { CCIMSValidators } from '@app/utils/validators';
-import { encodeNodeId, ListId, ListType, NodeId } from '@app/data-dgql/id';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CCIMSValidators} from '@app/utils/validators';
+import {encodeNodeId, ListId, ListType, NodeId} from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
-import { ComponentFilter, Label } from '../../../generated/graphql-dgql';
+import {ComponentFilter, Label} from '../../../generated/graphql-dgql';
 
 /** Parameters for the create/edit label dialog component. */
 export interface CreateEditLabelDialogData {
@@ -91,7 +91,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
   /** @ignore used for set editor */
   makeComponentFilter(search): ComponentFilter {
-    return { name: search };
+    return {name: search};
   }
   /** @ignore used for set editor */
   applyComponentChangeset = async (additions: NodeId[], deletions: NodeId[]) => {

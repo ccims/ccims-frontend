@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { TimeFormatter } from '@app/issue-detail/time-formatter';
-import { Router } from '@angular/router';
-import { IssueTimelineItem } from '../../../generated/graphql-dgql';
-import { DataList } from '@app/data-dgql/query';
+import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
+import {TimeFormatter} from '@app/issue-detail/time-formatter';
+import {Router} from '@angular/router';
+import {IssueTimelineItem} from '../../../generated/graphql-dgql';
+import {DataList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { ListType, NodeId, NodeType } from '@app/data-dgql/id';
-import { QueryComponent } from '@app/utils/query-component/query.component';
+import {ListType, NodeId, NodeType} from '@app/data-dgql/id';
+import {QueryComponent} from '@app/utils/query-component/query.component';
 
 /**
  * This interface may contain in contrast to a normal timeline item several events in one item.
@@ -327,6 +327,6 @@ export class TimelineComponent implements AfterViewInit {
    * Handles the id for a given node...
    */
   makeCommentId(node): NodeId {
-    return { type: NodeType.IssueComment, id: node.id };
+    return {type: NodeType.IssueComment, id: node.id};
   }
 }

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DataNode, HydrateList } from '@app/data-dgql/query';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {DataNode, HydrateList} from '@app/data-dgql/query';
 import {
   Component as QComponent,
   ComponentFilter,
@@ -11,14 +11,14 @@ import {
   User,
   UserFilter
 } from '../../generated/graphql-dgql';
-import { encodeNodeId, ListId, ListType, NodeId, NodeType, ROOT_NODE } from '@app/data-dgql/id';
-import { SetMultiSource } from '@app/components/set-editor/set-editor-dialog.component';
+import {encodeNodeId, ListId, ListType, NodeId, NodeType, ROOT_NODE} from '@app/data-dgql/id';
+import {SetMultiSource} from '@app/components/set-editor/set-editor-dialog.component';
 import DataService from '@app/data-dgql';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateEditLabelDialogComponent } from '@app/dialogs/create-label-dialog/create-edit-label-dialog.component';
-import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { LabelPage } from 'src/generated/graphql';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateEditLabelDialogComponent} from '@app/dialogs/create-label-dialog/create-edit-label-dialog.component';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {LabelPage} from 'src/generated/graphql';
 
 type MaybeLocalList<T> = ListId | T[];
 export type LocalIssueData = {
@@ -70,27 +70,27 @@ export class IssueSidebarComponent implements OnInit {
   ngOnInit() {
     if (this.issueId) {
       this.componentList = {
-        node: { type: NodeType.Issue, id: this.issueId },
+        node: {type: NodeType.Issue, id: this.issueId},
         type: ListType.Components
       };
       this.locationList = {
-        node: { type: NodeType.Issue, id: this.issueId },
+        node: {type: NodeType.Issue, id: this.issueId},
         type: ListType.IssueLocations
       };
       this.labelList = {
-        node: { type: NodeType.Issue, id: this.issueId },
+        node: {type: NodeType.Issue, id: this.issueId},
         type: ListType.Labels
       };
       this.assigneeList = {
-        node: { type: NodeType.Issue, id: this.issueId },
+        node: {type: NodeType.Issue, id: this.issueId},
         type: ListType.Assignees
       };
       this.linkedIssueList = {
-        node: { type: NodeType.Issue, id: this.issueId },
+        node: {type: NodeType.Issue, id: this.issueId},
         type: ListType.LinkedIssues
       };
       this.linkedByIssueList = {
-        node: { type: NodeType.Issue, id: this.issueId },
+        node: {type: NodeType.Issue, id: this.issueId},
         type: ListType.LinkedByIssues
       };
     } else if (this.localIssue) {
@@ -103,11 +103,11 @@ export class IssueSidebarComponent implements OnInit {
     }
 
     const projectComponents = {
-      node: { type: NodeType.Project, id: this.projectId },
+      node: {type: NodeType.Project, id: this.projectId},
       type: ListType.Components
     };
     const projectInterfaces = {
-      node: { type: NodeType.Project, id: this.projectId },
+      node: {type: NodeType.Project, id: this.projectId},
       type: ListType.ComponentInterfaces
     };
 
@@ -119,7 +119,7 @@ export class IssueSidebarComponent implements OnInit {
       staticSources: this.issueId
         ? [
             {
-              node: { type: NodeType.Issue, id: this.issueId },
+              node: {type: NodeType.Issue, id: this.issueId},
               type: ListType.Labels
             }
           ]
@@ -127,7 +127,7 @@ export class IssueSidebarComponent implements OnInit {
       // source labels from labels of issue components
       sourceNodes: this.issueId
         ? {
-            node: { type: NodeType.Issue, id: this.issueId },
+            node: {type: NodeType.Issue, id: this.issueId},
             type: ListType.Components
           }
         : this.localIssue.components || [],
@@ -139,7 +139,7 @@ export class IssueSidebarComponent implements OnInit {
     this.allAssigneeCandidatesList = {
       staticSources: [
         this.issueId && {
-          node: { type: NodeType.Issue, id: this.issueId },
+          node: {type: NodeType.Issue, id: this.issueId},
           type: ListType.Assignees
         },
         {
@@ -149,7 +149,7 @@ export class IssueSidebarComponent implements OnInit {
       ].filter((x) => x)
     };
     this.allLinkedIssuesList = {
-      node: { type: NodeType.Project, id: this.projectId },
+      node: {type: NodeType.Project, id: this.projectId},
       type: ListType.Issues
     };
 
@@ -162,20 +162,20 @@ export class IssueSidebarComponent implements OnInit {
   }
 
   makeComponentFilter(search): ComponentFilter {
-    return { name: search };
+    return {name: search};
   }
   makeLocationFilter(search): IssueLocationFilter {
-    return { name: search };
+    return {name: search};
   }
   makeLabelFilter(search): LabelFilter {
-    return { name: search };
+    return {name: search};
   }
   makeIssueFilter(search): IssueFilter {
-    return { title: search };
+    return {title: search};
   }
   makeUserFilter(search): UserFilter {
     // FIXME: maybe you would want to search by display name?
-    return { username: search };
+    return {username: search};
   }
 
   applyLocalChangeset(key: keyof LocalIssueData, add: NodeId[], remove: NodeId[]) {
@@ -206,7 +206,7 @@ export class IssueSidebarComponent implements OnInit {
     }
 
     const mutId = Math.random().toString();
-    const issue = { type: NodeType.Issue, id: this.issueId };
+    const issue = {type: NodeType.Issue, id: this.issueId};
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueComponent(mutId, issue, id);
@@ -221,7 +221,7 @@ export class IssueSidebarComponent implements OnInit {
     }
 
     const mutId = Math.random().toString();
-    const issue = { type: NodeType.Issue, id: this.issueId };
+    const issue = {type: NodeType.Issue, id: this.issueId};
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueLocation(mutId, issue, id);
@@ -235,7 +235,7 @@ export class IssueSidebarComponent implements OnInit {
       return this.applyLocalChangeset('labels', add, remove);
     }
     const mutId = Math.random().toString();
-    const issue = { type: NodeType.Issue, id: this.issueId };
+    const issue = {type: NodeType.Issue, id: this.issueId};
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueLabel(mutId, issue, id);
@@ -249,7 +249,7 @@ export class IssueSidebarComponent implements OnInit {
       return this.applyLocalChangeset('assignees', add, remove);
     }
     const mutId = Math.random().toString();
-    const issue = { type: NodeType.Issue, id: this.issueId };
+    const issue = {type: NodeType.Issue, id: this.issueId};
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.addIssueAssignee(mutId, issue, id);
@@ -264,7 +264,7 @@ export class IssueSidebarComponent implements OnInit {
     }
 
     const mutId = Math.random().toString();
-    const issue = { type: NodeType.Issue, id: this.issueId };
+    const issue = {type: NodeType.Issue, id: this.issueId};
     // FIXME: batch mutations?
     for (const id of add) {
       await this.dataService.mutations.linkIssue(mutId, issue, id);
@@ -280,9 +280,9 @@ export class IssueSidebarComponent implements OnInit {
         .open(CreateEditLabelDialogComponent, {
           width: '400px',
           data: {
-            projectId: { type: NodeType.Project, id: this.projectId },
+            projectId: {type: NodeType.Project, id: this.projectId},
             issueId: this.issue$?.current.components.nodes.map((c) => {
-              return { type: NodeType.Component, id: c.id };
+              return {type: NodeType.Component, id: c.id};
             })
           }
         })
@@ -308,7 +308,7 @@ export class IssueSidebarComponent implements OnInit {
             }
 
             if (hasOverlap) {
-              resolve({ type: NodeType.Label, id: created.id });
+              resolve({type: NodeType.Label, id: created.id});
             } else {
               this.notify.notifyInfo('New label could not be added to issue because it does not appear to have any components in common.');
               resolve(null);
@@ -319,16 +319,16 @@ export class IssueSidebarComponent implements OnInit {
         });
     });
   };
-  onEditLabel({ id }) {
+  onEditLabel({id}) {
     this.dialogService.open(CreateEditLabelDialogComponent, {
       width: '400px',
       data: {
         editExisting: id,
-        projectId: { type: NodeType.Project, id: this.projectId }
+        projectId: {type: NodeType.Project, id: this.projectId}
       }
     });
   }
-  onDeleteLabel({ id, preview }) {
+  onDeleteLabel({id, preview}) {
     this.dialogService
       .open(RemoveDialogComponent, {
         data: {

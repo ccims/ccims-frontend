@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { GetLabelsGQL, Label } from '../../../generated/graphql';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {map} from 'rxjs/operators';
+import {GetLabelsGQL, Label} from '../../../generated/graphql';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ export class LabelStoreService {
    * @param projectId id of current project
    */
   private getAllFilter(projectId: string): Observable<FilterLabel[]> {
-    return this.getLabelsGQL.fetch({ projectId }).pipe(map(({ data }) => data.node.labels.nodes));
+    return this.getLabelsGQL.fetch({projectId}).pipe(map(({data}) => data.node.labels.nodes));
   }
 }
 

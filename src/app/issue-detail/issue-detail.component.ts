@@ -1,12 +1,12 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Issue } from 'src/generated/graphql-dgql';
-import { Subscription } from 'rxjs';
-import { NodeType } from '@app/data-dgql/id';
-import { DataNode } from '@app/data-dgql/query';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Issue} from 'src/generated/graphql-dgql';
+import {Subscription} from 'rxjs';
+import {NodeType} from '@app/data-dgql/id';
+import {DataNode} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { TimeFormatter } from '@app/issue-detail/time-formatter';
-import { FormControl, Validators } from '@angular/forms';
+import {TimeFormatter} from '@app/issue-detail/time-formatter';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-issue-detail',
@@ -51,7 +51,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
     this.issueId = this.activatedRoute.snapshot.paramMap.get('issueId');
-    const issueNodeId = { type: NodeType.Issue, id: this.issueId };
+    const issueNodeId = {type: NodeType.Issue, id: this.issueId};
 
     this.issue$ = this.dataService.getNode(issueNodeId);
     this.issueSub = this.issue$.subscribe();

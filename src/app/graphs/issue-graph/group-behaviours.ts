@@ -1,9 +1,9 @@
-import { GroupBehaviour } from '@ustutt/grapheditor-webcomponent/lib/grouping';
-import { Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {GroupBehaviour} from '@ustutt/grapheditor-webcomponent/lib/grouping';
+import {Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
-import { IssueCategory } from 'src/generated/graphql';
-import { IssueGroupContainerNode, NodeType } from './issue-graph-nodes';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
+import {IssueCategory} from 'src/generated/graphql';
+import {IssueGroupContainerNode, NodeType} from './issue-graph-nodes';
 
 function distance(x, y, x2, y2) {
   return (x - x2) ** 2 + (y - y2) ** 2;
@@ -52,28 +52,28 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
 
     // set position
     if (best === 'bottom') {
-      this.childNodePositions.set(childGroup, { x: 0, y: height / 2 + 25 });
+      this.childNodePositions.set(childGroup, {x: 0, y: height / 2 + 25});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x;
         childNode.y = groupNode.y + height / 2 + 25;
       }
     }
     if (best === 'top') {
-      this.childNodePositions.set(childGroup, { x: 0, y: -(height / 2) - 25 });
+      this.childNodePositions.set(childGroup, {x: 0, y: -(height / 2) - 25});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x;
         childNode.y = groupNode.y - height / 2 - 25;
       }
     }
     if (best === 'right') {
-      this.childNodePositions.set(childGroup, { x: width / 2 + 30, y: 0 });
+      this.childNodePositions.set(childGroup, {x: width / 2 + 30, y: 0});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x + width / 2 + 30;
         childNode.y = groupNode.y;
       }
     }
     if (best === 'left') {
-      this.childNodePositions.set(childGroup, { x: -(width / 2) - 30, y: 0 });
+      this.childNodePositions.set(childGroup, {x: -(width / 2) - 30, y: 0});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x - width / 2 - 30;
         childNode.y = groupNode.y;
@@ -122,7 +122,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
     ].filter(childId => children.has(childId));
     */
     sortedChildIds.forEach((childId, index) => {
-      this.childNodePositions.set(childId, { x: xOffset, y: yOffset });
+      this.childNodePositions.set(childId, {x: xOffset, y: yOffset});
       const child = graphEditor.getNode(childId);
       if (child != null) {
         child.x = groupNode.x + xOffset;

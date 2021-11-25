@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GetBasicComponentQuery,
   GetComponentQuery,
@@ -6,16 +6,16 @@ import {
   UpdateComponentInput,
   UpdateComponentInterfaceInput
 } from '../../generated/graphql';
-import { FormControl, Validators } from '@angular/forms';
-import { ListId, ListType, NodeType } from '@app/data-dgql/id';
-import { Router } from '@angular/router';
-import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
-import { MatDialog } from '@angular/material/dialog';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { QueryComponent } from '@app/utils/query-component/query.component';
-import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
-import { CCIMSValidators } from '@app/utils/validators';
+import {FormControl, Validators} from '@angular/forms';
+import {ListId, ListType, NodeType} from '@app/data-dgql/id';
+import {Router} from '@angular/router';
+import {ComponentStoreService} from '@app/data/component/component-store.service';
+import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
+import {MatDialog} from '@angular/material/dialog';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {QueryComponent} from '@app/utils/query-component/query.component';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {CCIMSValidators} from '@app/utils/validators';
 
 /**
  * A node shown in the details component can either be a component or an interface
@@ -90,12 +90,12 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
 
     if (this.nodeType === NodeDetailsType.Component) {
       this.issueListId = {
-        node: { type: NodeType.Component, id: this.nodeId },
+        node: {type: NodeType.Component, id: this.nodeId},
         type: ListType.Issues
       };
     } else {
       this.issueListId = {
-        node: { type: NodeType.ComponentInterface, id: this.nodeId },
+        node: {type: NodeType.ComponentInterface, id: this.nodeId},
         type: ListType.IssuesOnLocation
       };
     }

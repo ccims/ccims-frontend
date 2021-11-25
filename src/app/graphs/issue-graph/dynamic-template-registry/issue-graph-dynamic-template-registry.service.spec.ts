@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { IssueGraphDynamicTemplateRegistryService } from './issue-graph-dynamic-template-registry.service';
+import {IssueGraphDynamicTemplateRegistryService} from './issue-graph-dynamic-template-registry.service';
 
 describe('IssueGraphDynamicTemplateRegistryService', () => {
   let service: IssueGraphDynamicTemplateRegistryService;

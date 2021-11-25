@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Issue } from '../../generated/graphql-dgql';
-import { DataNode } from '@app/data-dgql/query';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Issue} from '../../generated/graphql-dgql';
+import {DataNode} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { NodeType } from '@app/data-dgql/id';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import {NodeType} from '@app/data-dgql/id';
+import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
 
 /**
  * Displays a linked issue in a list.

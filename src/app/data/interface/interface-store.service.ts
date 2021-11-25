@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   CreateComponentInterfaceGQL,
   CreateComponentInterfaceInput,
@@ -11,8 +11,8 @@ import {
   UpdateComponentInterfaceGQL,
   UpdateComponentInterfaceInput
 } from '../../../generated/graphql';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 /**
  * This service provides creation, retrievel, update and deletion of interfaces offered by components.
@@ -37,25 +37,25 @@ export class InterfaceStoreService {
       description,
       component: offeringComponentId
     };
-    return this.createInterfaceMutation.mutate({ input });
+    return this.createInterfaceMutation.mutate({input});
   }
 
   public getInterface(id: string): Observable<GetInterfaceQuery> {
-    return this.getInterfaceQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getInterfaceQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   public getConsumingComponents(id: string): Observable<GetConsumingComponentsQuery> {
-    return this.getConsumingComponentsQuery.fetch({ id }).pipe(map(({ data }) => data));
+    return this.getConsumingComponentsQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   public update(input: UpdateComponentInterfaceInput) {
-    return this.updateInterfaceMutation.mutate({ input });
+    return this.updateInterfaceMutation.mutate({input});
   }
 
   public delete(id: string) {
     const input: DeleteComponentInterfaceInput = {
       componentInterface: id
     };
-    return this.deleteInterfaceMutation.mutate({ input });
+    return this.deleteInterfaceMutation.mutate({input});
   }
 }

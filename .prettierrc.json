@@ -2,6 +2,7 @@
   "singleQuote": true,
   "printWidth": 140,
   "trailingComma": "none",
+  "bracketSpacing": false,
   "overrides": [
     {
       "files": "*.component.html",

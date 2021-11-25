@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { DataList } from '@app/data-dgql/query';
+import {Component, Input} from '@angular/core';
+import {DataList} from '@app/data-dgql/query';
 
 /**
  * This component controls the cursor in a {@link DataList} using arrows and a page size selector.

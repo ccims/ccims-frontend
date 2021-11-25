@@ -1,7 +1,7 @@
-import { NodeType, NodeId, ListParams, ListType, CURRENT_USER_NODE, NodeIdEnc, ListId } from './id';
-import { QueriesService } from './queries/queries.service';
-import { PageInfo } from '../../generated/graphql-dgql';
-import { NodeCache } from './query';
+import {NodeType, NodeId, ListParams, ListType, CURRENT_USER_NODE, NodeIdEnc, ListId} from './id';
+import {QueriesService} from './queries/queries.service';
+import {PageInfo} from '../../generated/graphql-dgql';
+import {NodeCache} from './query';
 
 type NodeQueryInput = {
   q: QueriesService;
@@ -161,7 +161,7 @@ const listQueries: ListQueries = {
   },
   [ListType.SearchUsers]: {
     [NodeType.Root]: (i, list, params) =>
-      i.q.users.searchUsers(params.filter as { username: string }).then((data) => ({
+      i.q.users.searchUsers(params.filter as {username: string}).then((data) => ({
         totalCount: data.length,
         pageInfo: {
           startCursor: data[0]?.id || null,
@@ -178,13 +178,13 @@ const listQueries: ListQueries = {
 export const queryNode =
   (q: QueriesService) =>
   async <T>(nodeId: NodeId): Promise<T> => {
-    const { type, id } = nodeId;
+    const {type, id} = nodeId;
 
     if (!nodeQueries[type]) {
       throw new Error(`${NodeType[type]} cannot be loaded directly`);
     }
 
-    const i = { q };
+    const i = {q};
     return (await nodeQueries[type](i, id)) as T;
   };
 
@@ -218,12 +218,12 @@ export type ListResult<T> = {
 export const queryList =
   (q: QueriesService, c: NodeCache) =>
   async <T, F>(listId: ListId, params: ListParams<F>): Promise<ListResult<T>> => {
-    const { node, type } = listId;
+    const {node, type} = listId;
 
     if (!listQueries[type] || !listQueries[type][node.type]) {
       throw new Error(`${NodeType[node.type]} has no list ${ListType[type]}`);
     }
 
-    const i = { q, c };
-    return (await listQueries[type][node.type](i, { node, type }, params)) as ListResult<T>;
+    const i = {q, c};
+    return (await listQueries[type][node.type](i, {node, type}, params)) as ListResult<T>;
   };

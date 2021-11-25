@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { DraggedEdge, Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {Injectable} from '@angular/core';
+import {DraggedEdge, Edge} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
+import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
  * This service is respoonsible for managing the link handles
@@ -61,7 +61,7 @@ export class IssueGraphLinkHandlesService {
    */
   private calculateSourceHandles(
     source: Node,
-    handles: { sourceHandles: LinkHandle[]; targetHandles: LinkHandle[] },
+    handles: {sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]},
     sourceHandles: LinkHandle[]
   ) {
     handles.sourceHandles = sourceHandles.filter((linkHandle) => {
@@ -97,7 +97,7 @@ export class IssueGraphLinkHandlesService {
    */
   private calculateTargetHandles(
     target: Node,
-    handles: { sourceHandles: LinkHandle[]; targetHandles: LinkHandle[] },
+    handles: {sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]},
     targetHandles: LinkHandle[]
   ) {
     handles.targetHandles = targetHandles.filter((linkHandle) => {

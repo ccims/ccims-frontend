@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 /**
  * This component provides a view to add a member to a project
  * The view is just mocked, so no interaction with the backend or database is provided yet
@@ -27,7 +27,7 @@ export class AddProjectMemberDialogComponent implements OnInit {
 
   //add member button
   onOkClick() {
-    const data = { usersToAdd: this.selectedUsers };
+    const data = {usersToAdd: this.selectedUsers};
     this.dialogRef.close(data);
   }
 }

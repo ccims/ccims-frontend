@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { IssueLocation } from '../../../generated/graphql-dgql';
+import {Component, Input} from '@angular/core';
+import {Router} from '@angular/router';
+import {IssueLocation} from '../../../generated/graphql-dgql';
 
 /**
  * Displays an issue location.

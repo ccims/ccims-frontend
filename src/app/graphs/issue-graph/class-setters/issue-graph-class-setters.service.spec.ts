@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { IssueGraphClassSettersService } from './issue-graph-class-setters.service';
+import {IssueGraphClassSettersService} from './issue-graph-class-setters.service';
 
 describe('IssueGraphClassSettersService', () => {
   let service: IssueGraphClassSettersService;

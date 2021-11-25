@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { NavigationEnd, PRIMARY_OUTLET, Router } from '@angular/router';
-import { ReplaySubject } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
-import { GetBasicProjectQuery } from 'src/generated/graphql';
-import { ProjectStoreService } from './data/project/project-store.service';
+import {Injectable} from '@angular/core';
+import {NavigationEnd, PRIMARY_OUTLET, Router} from '@angular/router';
+import {ReplaySubject} from 'rxjs';
+import {filter, switchMap} from 'rxjs/operators';
+import {GetBasicProjectQuery} from 'src/generated/graphql';
+import {ProjectStoreService} from './data/project/project-store.service';
 
 /**
  * This service exposes an observable of the name and id of the current project.

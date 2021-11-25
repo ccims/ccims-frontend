@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { IssueCategory } from '../../../generated/graphql-dgql';
+import {Component, Input} from '@angular/core';
+import {IssueCategory} from '../../../generated/graphql-dgql';
 
 @Component({
   selector: 'app-issue-category',

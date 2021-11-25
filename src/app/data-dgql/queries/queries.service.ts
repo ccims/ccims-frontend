@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { IssuesService } from './issues.service';
-import { ProjectsService } from './projects.service';
-import { ComponentsService } from './components.service';
-import { UsersService } from './users.service';
+import {Injectable} from '@angular/core';
+import {IssuesService} from './issues.service';
+import {ProjectsService} from './projects.service';
+import {ComponentsService} from './components.service';
+import {UsersService} from './users.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 /**
  * A callback function that is called once the user finishes editing the text.

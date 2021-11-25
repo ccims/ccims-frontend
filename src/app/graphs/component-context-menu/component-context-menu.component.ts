@@ -11,10 +11,10 @@ import {
   OnDestroy,
   ViewChild
 } from '@angular/core';
-import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
-import { NodeDetailsComponent, NodeDetailsType, NodeUpdatedCallbackFn } from '@app/node-details/node-details.component';
+import {ConnectedPosition, Overlay, OverlayRef} from '@angular/cdk/overlay';
+import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {IssueGraphComponent} from '@app/graphs/issue-graph/issue-graph.component';
+import {NodeDetailsComponent, NodeDetailsType, NodeUpdatedCallbackFn} from '@app/node-details/node-details.component';
 
 /**
  * Interface specifying the data required for the component context menu.
@@ -41,7 +41,7 @@ const COMPONENT_CONTEXT_MENU_DATA = new InjectionToken<ComponentContextMenuData>
 /**
  * Use this service to create a {@link ComponentContextMenuComponent}.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ComponentContextMenuService {
   constructor(private overlay: Overlay, private injector: Injector) {}
 

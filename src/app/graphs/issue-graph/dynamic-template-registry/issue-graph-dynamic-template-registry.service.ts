@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as dynamicTemplate from '@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
+import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
  * This service is respoonsible for managing the dynamic template registry

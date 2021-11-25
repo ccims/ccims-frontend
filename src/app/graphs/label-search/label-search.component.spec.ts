@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LabelSearchComponent } from './label-search.component';
+import {LabelSearchComponent} from './label-search.component';
 
 describe('LabelSearchComponent', () => {
   let component: LabelSearchComponent;

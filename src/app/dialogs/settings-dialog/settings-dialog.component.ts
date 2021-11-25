@@ -1,15 +1,15 @@
-import { Inject } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Output, EventEmitter, Input } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { AuthenticationService } from '@app/auth/authentication.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ProfileSettingsDialogComponent } from '../profile-settings-dialog/profile-settings-dialog.component';
-import { AccessTokenDialogComponent } from '../access-token-dialog/access-token-dialog.component';
+import {Inject} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {Output, EventEmitter, Input} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
+import {AuthenticationService} from '@app/auth/authentication.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ProfileSettingsDialogComponent} from '../profile-settings-dialog/profile-settings-dialog.component';
+import {AccessTokenDialogComponent} from '../access-token-dialog/access-token-dialog.component';
 
 @Component({
   selector: 'app-settings-dialog',

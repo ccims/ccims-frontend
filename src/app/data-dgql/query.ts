@@ -1,8 +1,8 @@
-import { Observable, Subscriber } from 'rxjs';
-import { decodeNodeId, encodeNodeId, ListId, ListParams, NodeId, NodeIdEnc, nodeTypeFromTypename } from './id';
-import { QueriesService } from './queries/queries.service';
-import { ListResult, queryList, queryNode } from './load';
-import { PageInfo } from '../../generated/graphql-dgql';
+import {Observable, Subscriber} from 'rxjs';
+import {decodeNodeId, encodeNodeId, ListId, ListParams, NodeId, NodeIdEnc, nodeTypeFromTypename} from './id';
+import {QueriesService} from './queries/queries.service';
+import {ListResult, queryList, queryNode} from './load';
+import {PageInfo} from '../../generated/graphql-dgql';
 
 /** How long {@link DataQuery} will wait to debounce requests until actually sending a request, in milliseconds. */
 const CACHE_FAST_DEBOUNCE_TIME_MS = 200;
@@ -626,7 +626,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
    * @param data a promise that returns the API data
    * @typeParam IdT - equivalent to T
    */
-  hydrateInitial<IdT extends T & { id: string; __typename: string }>(data: Promise<HydrateList<IdT>>) {
+  hydrateInitial<IdT extends T & {id: string; __typename: string}>(data: Promise<HydrateList<IdT>>) {
     this.hydrateRaw(
       data.then((value) => ({
         totalCount: value.totalCount,
@@ -677,7 +677,7 @@ export class NodeCache {
    * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
    * Nodes without an ID will be ignored.
    */
-  insertNodes<T extends { id?: string; __typename?: string }>(nodes: T[]): Map<NodeIdEnc, T> {
+  insertNodes<T extends {id?: string; __typename?: string}>(nodes: T[]): Map<NodeIdEnc, T> {
     const map = new Map();
 
     for (const node of nodes) {
@@ -685,7 +685,7 @@ export class NodeCache {
         continue;
       }
       const type = nodeTypeFromTypename(node.__typename);
-      const id = { type, id: node.id };
+      const id = {type, id: node.id};
       const dataNode: DataNode<T> = this.getNode(id);
       if (!dataNode.hasData) {
         // FIXME: different queries load different amounts of data, simple overwriting doesn't always have the desired effect

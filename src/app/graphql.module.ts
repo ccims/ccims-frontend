@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { APOLLO_NAMED_OPTIONS, APOLLO_OPTIONS, NamedOptions } from 'apollo-angular';
-import { ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/core';
-import { HttpLink } from 'apollo-angular/http';
-import { setContext } from '@apollo/link-context';
-import { onError } from '@apollo/client/link/error';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthenticationService } from './auth/authentication.service';
-import { environment } from '@environments/environment';
-import { IndividualConfig, ToastrModule, ToastrService } from 'ngx-toastr';
-import { DefaultOptions } from '@apollo/client/core/ApolloClient';
+import {NgModule} from '@angular/core';
+import {APOLLO_NAMED_OPTIONS, APOLLO_OPTIONS, NamedOptions} from 'apollo-angular';
+import {ApolloClientOptions, ApolloLink, InMemoryCache} from '@apollo/client/core';
+import {HttpLink} from 'apollo-angular/http';
+import {setContext} from '@apollo/link-context';
+import {onError} from '@apollo/client/link/error';
+import {HttpClientModule} from '@angular/common/http';
+import {AuthenticationService} from './auth/authentication.service';
+import {environment} from '@environments/environment';
+import {IndividualConfig, ToastrModule, ToastrService} from 'ngx-toastr';
+import {DefaultOptions} from '@apollo/client/core/ApolloClient';
 
 /**
  * This modules purpose is to provide define functions returning configurations
@@ -41,7 +41,7 @@ const basic = setContext((operation, context) => ({
 }));
 
 export function createErrorLink(authService: AuthenticationService, toastr: ToastrService): ApolloLink {
-  const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+  const errorLink = onError(({graphQLErrors, networkError, operation, forward}) => {
     if (graphQLErrors) {
       const message = graphQLErrors.map((err) => err.message).join('<br>');
       console.log(`[Graphql errors]: ${message}`);
@@ -73,7 +73,7 @@ export function provideDefaultApollo(
   toastr: ToastrService
 ): ApolloClientOptions<any> {
   const token = localStorage.getItem('token');
-  const auth = setContext((_, { headers }) => {
+  const auth = setContext((_, {headers}) => {
     // get the authentication token from local storage if it exists
     // return the headers to the context so httpLink can read them
     return {
@@ -84,9 +84,9 @@ export function provideDefaultApollo(
     };
   });
   const errorLink = createErrorLink(authService, toastr);
-  const link = ApolloLink.from([basic, errorLink, auth, httpLink.create({ uri: environment.apiUrl })]);
+  const link = ApolloLink.from([basic, errorLink, auth, httpLink.create({uri: environment.apiUrl})]);
   const cache = new InMemoryCache();
-  return { link, cache, defaultOptions };
+  return {link, cache, defaultOptions};
 }
 
 /**
@@ -98,7 +98,7 @@ export function provideDefaultApollo(
  */
 export function providePublicApollo(httpLink: HttpLink, authService: AuthenticationService, toastr: ToastrService): NamedOptions {
   const errorLink = createErrorLink(authService, toastr);
-  const link = ApolloLink.from([basic, errorLink, httpLink.create({ uri: environment.signUpUrl })]);
+  const link = ApolloLink.from([basic, errorLink, httpLink.create({uri: environment.signUpUrl})]);
   const cache = new InMemoryCache();
   return {
     publicClient: {

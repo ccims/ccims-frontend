@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, ValidatorFn } from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormControl, ValidatorFn} from '@angular/forms';
 
 /**
  * This component is a confirmation dialog for anything that involves deleting
@@ -41,7 +41,7 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 })
 export class RemoveDialogComponent implements OnInit {
   matchValidator: ValidatorFn = (control) => {
-    return control.value === this.data.verificationName ? null : { "Names don't match": true };
+    return control.value === this.data.verificationName ? null : {"Names don't match": true};
   };
 
   verificationNameInput = new FormControl('', this.matchValidator);

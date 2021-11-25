@@ -9,7 +9,7 @@ import {
   Maybe,
   Scalars
 } from 'src/generated/graphql';
-import { DefaultDictionary } from 'typescript-collections';
+import {DefaultDictionary} from 'typescript-collections';
 
 type LocationId = Scalars['ID'];
 type GraphFolder = [LocationId, IssueCategory];
@@ -96,7 +96,7 @@ type GQLInterface = Pick<ComponentInterface, 'id' | 'name'> & {
   bugs?: Maybe<Pick<IssuePage, 'totalCount'>>;
   featureRequests?: Maybe<Pick<IssuePage, 'totalCount'>>;
   unclassified?: Maybe<Pick<IssuePage, 'totalCount'>>;
-  consumedBy?: Maybe<{ nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>> }>;
+  consumedBy?: Maybe<{nodes?: Maybe<Array<Maybe<Pick<Component, 'id'>>>>}>;
 };
 
 // desired frontend data format for interface

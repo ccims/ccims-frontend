@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Label } from 'src/generated/graphql-dgql';
+import {Component, Input} from '@angular/core';
+import {Label} from 'src/generated/graphql-dgql';
 
 const colorTestCanvas = document.createElement('canvas');
 colorTestCanvas.width = colorTestCanvas.height = 1;

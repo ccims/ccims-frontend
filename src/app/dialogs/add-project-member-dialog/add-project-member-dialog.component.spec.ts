@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddProjectMemberDialogComponent } from './add-project-member-dialog.component';
+import {AddProjectMemberDialogComponent} from './add-project-member-dialog.component';
 
 describe('AddProjectMemberDialogComponent', () => {
   let component: AddProjectMemberDialogComponent;

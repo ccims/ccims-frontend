@@ -1,11 +1,11 @@
-import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { CreateComponentInput, ImsType } from 'src/generated/graphql';
-import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.service';
-import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { CCIMSValidators } from '@app/utils/validators';
-import { QueryComponent } from '@app/utils/query-component/query.component';
+import {Component, Inject, Input, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {CreateComponentInput, ImsType} from 'src/generated/graphql';
+import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
+import {ComponentStoreService} from '@app/data/component/component-store.service';
+import {CCIMSValidators} from '@app/utils/validators';
+import {QueryComponent} from '@app/utils/query-component/query.component';
 
 @Component({
   selector: 'app-create-component-dialog',

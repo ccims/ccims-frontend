@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import { Observable, Observer } from 'rxjs';
-import { environment } from '@environments/environment';
-import { CheckUsernameGQL, RegisterUserGQL, RegisterUserInput } from 'src/generated/public-graphql';
-import { Router } from '@angular/router';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import {Component} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {Apollo} from 'apollo-angular';
+import {Observable, Observer} from 'rxjs';
+import {environment} from '@environments/environment';
+import {CheckUsernameGQL, RegisterUserGQL, RegisterUserInput} from 'src/generated/public-graphql';
+import {Router} from '@angular/router';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 /**
  * Allows the user to register for a Gropius account.
@@ -47,13 +47,13 @@ export class RegisterComponent {
    */
   userNameAsyncValidator = (control: FormControl) =>
     new Observable((observer: Observer<ValidationErrors | null>) => {
-      this.userAvailablyQuery.fetch({ username: control.value }).subscribe(
-        ({ data }) => {
+      this.userAvailablyQuery.fetch({username: control.value}).subscribe(
+        ({data}) => {
           // case: username already taken
           // => marks event as error
           if (!data.checkUsername) {
             // returns `{error: true}` to mark event as an error
-            observer.next({ error: true, duplicated: true });
+            observer.next({error: true, duplicated: true});
           } else {
             observer.next(null);
           }
@@ -70,15 +70,15 @@ export class RegisterComponent {
    * matches the password in the Password field.
    * @param control Password that is handled.
    */
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
+  confirmValidator = (control: FormControl): {[s: string]: boolean} => {
     // case: no password given
     if (!control.value) {
-      return { error: true, required: true };
+      return {error: true, required: true};
     }
 
     // case: password does not match
     else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
+      return {confirm: true, error: true};
     }
     return {};
   };
@@ -97,7 +97,7 @@ export class RegisterComponent {
    * If successfull, the user is redirected to the Login page.
    * @param value - Data (from the register form) that is handled.
    */
-  submitForm(value: { username: string; email: string; password: string; confirm: string }): void {
+  submitForm(value: {username: string; email: string; password: string; confirm: string}): void {
     for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
@@ -109,8 +109,8 @@ export class RegisterComponent {
       email: value.email
     };
 
-    this.registerUserMutation.mutate({ input }).subscribe(
-      ({ data }) => {
+    this.registerUserMutation.mutate({input}).subscribe(
+      ({data}) => {
         this.router.navigate(['login']);
       },
       (error) => {

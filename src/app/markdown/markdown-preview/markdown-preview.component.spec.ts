@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MarkdownPreviewComponent } from './markdown-preview.component';
+import {MarkdownPreviewComponent} from './markdown-preview.component';
 
 describe('MarkdownPreviewComponent', () => {
   let component: MarkdownPreviewComponent;

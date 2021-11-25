@@ -1,14 +1,14 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { IssueGraphComponent } from '../issue-graph/issue-graph.component';
-import { IssueCategory } from 'src/generated/graphql';
-import { BehaviorSubject, combineLatest, ReplaySubject } from 'rxjs';
-import { SelectedCategories } from '../shared';
-import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
-import { LabelSearchComponent } from '../label-search/label-search.component';
-import { map, takeUntil } from 'rxjs/operators';
-import { FilterState } from '@app/graphs/shared';
+import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
+import {IssueGraphComponent} from '../issue-graph/issue-graph.component';
+import {IssueCategory} from 'src/generated/graphql';
+import {BehaviorSubject, combineLatest, ReplaySubject} from 'rxjs';
+import {SelectedCategories} from '../shared';
+import {IssueGraphStateService} from '../../data/issue-graph/issue-graph-state.service';
+import {LabelSearchComponent} from '../label-search/label-search.component';
+import {map, takeUntil} from 'rxjs/operators';
+import {FilterState} from '@app/graphs/shared';
 
 /**
  * This component contains the graph toggles, the search bar and the button

@@ -1,4 +1,4 @@
-import { NodeType } from '@app/graphs/issue-graph/issue-graph-nodes';
+import {NodeType} from '@app/graphs/issue-graph/issue-graph-nodes';
 
 /**
  * A simple 2D vector class.

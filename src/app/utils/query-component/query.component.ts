@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, OnDestroy, TemplateRef } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { MatButton } from '@angular/material/button';
+import {AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, OnDestroy, TemplateRef} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {MatButton} from '@angular/material/button';
 
 /**
  * The current state of the query

@@ -1,14 +1,14 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
-import { IssueCategory } from '../../../generated/graphql';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { CCIMSValidators } from '@app/utils/validators';
-import { CreateIssueInput } from '../../../generated/graphql-dgql';
-import { NodeId, NodeType } from '@app/data-dgql/id';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {FormControl, Validators} from '@angular/forms';
+import {IssueCategory} from '../../../generated/graphql';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CCIMSValidators} from '@app/utils/validators';
+import {CreateIssueInput} from '../../../generated/graphql-dgql';
+import {NodeId, NodeType} from '@app/data-dgql/id';
 import DataService from '@app/data-dgql';
-import { LocalIssueData } from '@app/issue-detail/issue-sidebar.component';
-import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.component';
+import {LocalIssueData} from '@app/issue-detail/issue-sidebar.component';
+import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 
 @Component({
   selector: 'app-create-issue-dialog',
@@ -113,7 +113,7 @@ export class CreateIssueDialogComponent implements OnInit {
     this.dataService.mutations
       .createIssue(issueData)
       .then(async (result) => {
-        const issueId = { type: NodeType.Issue, id: result.id };
+        const issueId = {type: NodeType.Issue, id: result.id};
         const promises = [];
         for (const linked of this.issueData.linksToIssues) {
           promises.push(

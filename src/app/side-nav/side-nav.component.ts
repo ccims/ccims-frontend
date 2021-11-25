@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { StateService } from '@app/state.service';
-import { Router } from '@angular/router';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
+import {Component} from '@angular/core';
+import {StateService} from '@app/state.service';
+import {Router} from '@angular/router';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
 
 /**
  * This component displays and manages the sidemenu showing

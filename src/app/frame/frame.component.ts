@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs/operators';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { StateService } from '@app/state.service';
-import { RouterOutlet } from '@angular/router';
-import { slider } from '../route-animations';
+import {Component} from '@angular/core';
+import {map, shareReplay} from 'rxjs/operators';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Observable, BehaviorSubject} from 'rxjs';
+import {StateService} from '@app/state.service';
+import {RouterOutlet} from '@angular/router';
+import {slider} from '../route-animations';
 
 /**
  * This component holds the 'frame' of the application

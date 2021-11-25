@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { IssueGraphComponent } from './issue-graph.component';
+import {IssueGraphComponent} from './issue-graph.component';
 
 describe('IssueGraphComponent', () => {
   let component: IssueGraphComponent;

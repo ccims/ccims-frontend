@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { StateService } from '@app/state.service';
-import { GraphData } from './graph-data';
-import { filter, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
-import { IssueGraphApiService } from './issue-graph-api.service';
-import { FilterState } from '@app/graphs/shared';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, combineLatest, Observable, ReplaySubject} from 'rxjs';
+import {StateService} from '@app/state.service';
+import {GraphData} from './graph-data';
+import {filter, shareReplay, switchMap, takeUntil} from 'rxjs/operators';
+import {IssueGraphApiService} from './issue-graph-api.service';
+import {FilterState} from '@app/graphs/shared';
 
 @Injectable({
   providedIn: 'root'

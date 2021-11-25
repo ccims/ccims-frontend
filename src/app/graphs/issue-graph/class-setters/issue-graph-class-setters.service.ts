@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {Injectable} from '@angular/core';
+import {Edge} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
  * This service is respoonsible for managing the class setters

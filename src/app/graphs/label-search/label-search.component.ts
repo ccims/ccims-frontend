@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { concat, of, Subject, Observable, BehaviorSubject } from 'rxjs';
-import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { FilterLabel, isFilterLabel, LabelStoreService } from '../../data/label/label-store.service';
-import { StateService } from '../../state.service';
+import {Component, OnInit} from '@angular/core';
+import {concat, of, Subject, Observable, BehaviorSubject} from 'rxjs';
+import {catchError, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {FilterLabel, isFilterLabel, LabelStoreService} from '../../data/label/label-store.service';
+import {StateService} from '../../state.service';
 
 /**
  * This component is responsible for the display of the search bar above the graph.
@@ -38,7 +38,7 @@ export class LabelSearchComponent implements OnInit {
    * Emit value representing label and text fragments in the search bar via this.filterSelection$
    */
   emitSelectedLabels() {
-    const selection: FilterSelection = { texts: [], labels: [] };
+    const selection: FilterSelection = {texts: [], labels: []};
     // find out which elements in search bar correspond to an existing label on the backend and which to a text fragment
     selection.texts = this.selectedLabels.filter((item) => !isFilterLabel(item)).map((item) => item.name);
     selection.labels = this.selectedLabels.filter((label) => isFilterLabel(label)) as FilterLabel[];

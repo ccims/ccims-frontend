@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {map} from 'rxjs/operators';
 import {
   AddConsumedInterfaceGQL,
   GetIssueGraphDataForSearchGQL,
@@ -7,10 +7,10 @@ import {
   IssueCategory,
   RemoveConsumedInterfaceGQL
 } from 'src/generated/graphql';
-import { GraphData, GraphDataFactory } from './graph-data';
-import { Observable } from 'rxjs';
-import { SelectedCategories } from '@app/graphs/shared';
-import { FilterLabel } from '../label/label-store.service';
+import {GraphData, GraphDataFactory} from './graph-data';
+import {Observable} from 'rxjs';
+import {SelectedCategories} from '@app/graphs/shared';
+import {FilterLabel} from '../label/label-store.service';
 
 /**
  * Responsible for retrieval and conversion of data needed for graph rendering from backend.
@@ -48,13 +48,13 @@ export class IssueGraphApiService {
     }
     if (labels.length === 0 && texts.length === 0) {
       return this.getFullIssueGraphDataQuery
-        .fetch({ projectId, activeCategories })
+        .fetch({projectId, activeCategories})
         .pipe(map((result) => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     } else {
       const selectedLabels: string[] = labels.map((label) => label.id);
       const issueRegex = this.textsToRegex(texts);
       return this.getSearchIssueGraphDataQuery
-        .fetch({ projectId, activeCategories, selectedLabels, issueRegex })
+        .fetch({projectId, activeCategories, selectedLabels, issueRegex})
         .pipe(map((result) => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     }
   }
@@ -79,7 +79,7 @@ export class IssueGraphApiService {
    */
   addConsumedInterface(component: string, componentInterface: string) {
     return this.addConsumedInterfaceMutation.mutate({
-      input: { component, componentInterface }
+      input: {component, componentInterface}
     });
   }
 
@@ -90,7 +90,7 @@ export class IssueGraphApiService {
    */
   removeConsumedInterface(component: string, componentInterface: string) {
     return this.removeConsumedInterfaceMutation.mutate({
-      input: { component, componentInterface }
+      input: {component, componentInterface}
     });
   }
 }

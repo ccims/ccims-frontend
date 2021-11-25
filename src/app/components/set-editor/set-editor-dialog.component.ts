@@ -1,5 +1,5 @@
-import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {Component, Inject, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   decodeListId,
   decodeNodeId,
@@ -11,11 +11,11 @@ import {
   NodeIdEnc,
   nodeTypeFromTypename
 } from '@app/data-dgql/id';
-import { DataList } from '@app/data-dgql/query';
-import { Subscription } from 'rxjs';
+import {DataList} from '@app/data-dgql/query';
+import {Subscription} from 'rxjs';
 import DataService from '@app/data-dgql';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { quickScore } from 'quick-score';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {quickScore} from 'quick-score';
 
 /**
  * This interface is used to source items from multiple sources in the set editor.
@@ -37,7 +37,7 @@ export interface SetMultiSource {
  */
 class MultiSourceList<T, F> {
   /** A DataList that loads the value of sourceNodes, if it's a ListId. */
-  public sourceNodeList?: DataList<{ __typename: string }, unknown>;
+  public sourceNodeList?: DataList<{__typename: string}, unknown>;
   /**
    * @ignore
    * Internal: subscription to the sourceNodeList.
@@ -76,7 +76,7 @@ class MultiSourceList<T, F> {
 
   /** Creates a new MultiSourceList that actually just loads a single list. */
   static fromSingleList<T, F>(list: ListId, scoreKeys: string[], dataService: DataService) {
-    return new this<T, F>({ staticSources: [list] }, scoreKeys, dataService);
+    return new this<T, F>({staticSources: [list]}, scoreKeys, dataService);
   }
 
   /** Updates lists. */
@@ -199,8 +199,8 @@ export interface SetEditorDialogData<T, F> {
   emptySuggestionsLabel: string;
   emptyResultsLabel: string;
   createItem?: () => Promise<NodeId | null | undefined>;
-  editItem?: ({ id: NodeId, preview: T }) => void;
-  deleteItem?: ({ id: NodeId, preview: T }) => void;
+  editItem?: ({id: NodeId, preview: T}) => void;
+  deleteItem?: ({id: NodeId, preview: T}) => void;
 }
 
 /** This is an internal component used in the set editor. */
@@ -209,7 +209,7 @@ export interface SetEditorDialogData<T, F> {
   templateUrl: './set-editor-dialog.component.html',
   styleUrls: ['./set-editor-dialog.component.scss']
 })
-export class SetEditorDialogComponent<T extends { id: string; __typename: string }, F> implements OnInit, OnDestroy {
+export class SetEditorDialogComponent<T extends {id: string; __typename: string}, F> implements OnInit, OnDestroy {
   public isLocalSet = false;
   public localSet: NodeIdEnc[] = [];
   public listSet$: DataList<T, F>;
@@ -255,7 +255,7 @@ export class SetEditorDialogComponent<T extends { id: string; __typename: string
 
   getNodeId(item): NodeId {
     const type = nodeTypeFromTypename(item.__typename);
-    return { type, id: item.id };
+    return {type, id: item.id};
   }
 
   getEncodedId(item): NodeIdEnc {

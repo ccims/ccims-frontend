@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ComponentStoreService } from './component-store.service';
+import {ComponentStoreService} from './component-store.service';
 
 describe('ComponentStoreService', () => {
   let service: ComponentStoreService;

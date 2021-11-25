@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NodeDetailsType } from '@app/node-details/node-details.component';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NodeDetailsType} from '@app/node-details/node-details.component';
 
 @Component({
   templateUrl: './node-details-page.component.html',

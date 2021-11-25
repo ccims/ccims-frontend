@@ -1,39 +1,39 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DraggedEdge, Edge, Point } from '@ustutt/grapheditor-webcomponent/lib/edge';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {DraggedEdge, Edge, Point} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
-import { Rect } from '@ustutt/grapheditor-webcomponent/lib/util';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
-import { IssueGraphStateService } from '../../data/issue-graph/issue-graph-state.service';
-import { IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour } from './group-behaviours';
-import { CreateInterfaceDialogComponent } from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
-import { StateService } from '@app/state.service';
-import { CreateInterfaceData } from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
-import { GraphData } from '../../data/issue-graph/graph-data';
-import { IssueCategory } from 'src/generated/graphql';
+import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
+import {Rect} from '@ustutt/grapheditor-webcomponent/lib/util';
+import {BehaviorSubject, ReplaySubject, Subject} from 'rxjs';
+import {debounceTime, takeUntil} from 'rxjs/operators';
+import {IssueGraphStateService} from '../../data/issue-graph/issue-graph-state.service';
+import {IssueGroupContainerBehaviour, IssueGroupContainerParentBehaviour} from './group-behaviours';
+import {CreateInterfaceDialogComponent} from '@app/dialogs/create-interface-dialog/create-interface-dialog.component';
+import {StateService} from '@app/state.service';
+import {CreateInterfaceData} from '../../dialogs/create-interface-dialog/create-interface-dialog.component';
+import {GraphData} from '../../data/issue-graph/graph-data';
+import {IssueCategory} from 'src/generated/graphql';
 import * as issueGraphNodes from './issue-graph-nodes';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CreateComponentDialogComponent } from '@app/dialogs/create-component-dialog/create-component-dialog.component';
-import { ComponentStoreService } from '@app/data/component/component-store.service';
-import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CreateComponentDialogComponent} from '@app/dialogs/create-component-dialog/create-component-dialog.component';
+import {ComponentStoreService} from '@app/data/component/component-store.service';
+import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
 import * as componentContextMenuComponent from '@app/graphs/component-context-menu/component-context-menu.component';
-import { NodeDetailsType } from '@app/node-details/node-details.component';
-import { doGraphLayout, LayoutNode } from '@app/graphs/automatic-layout';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { IssueGraphClassSettersService } from './class-setters/issue-graph-class-setters.service';
-import { IssueGraphLinkHandlesService } from './link-handles/issue-graph-link-handles.service';
-import { IssueGraphDynamicTemplateRegistryService } from './dynamic-template-registry/issue-graph-dynamic-template-registry.service';
+import {NodeDetailsType} from '@app/node-details/node-details.component';
+import {doGraphLayout, LayoutNode} from '@app/graphs/automatic-layout';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {IssueGraphClassSettersService} from './class-setters/issue-graph-class-setters.service';
+import {IssueGraphLinkHandlesService} from './link-handles/issue-graph-link-handles.service';
+import {IssueGraphDynamicTemplateRegistryService} from './dynamic-template-registry/issue-graph-dynamic-template-registry.service';
 
 /**
  * Interface specifying the content of the graph component local storage
  */
 interface Positions {
   /** Positions of the nodes as the user arranged them */
-  nodes: { [prop: string]: Point };
+  nodes: {[prop: string]: Point};
   /** Positions (north, south, east, west) of the issue groups */
-  issueGroups: { [node: string]: string };
+  issueGroups: {[node: string]: string};
 }
 
 /**
@@ -65,19 +65,19 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   // references the graph template
-  @ViewChild('graph', { static: true }) graphWrapper: {
+  @ViewChild('graph', {static: true}) graphWrapper: {
     nativeElement: GraphEditor;
   };
 
   // references the minimap template
-  @ViewChild('minimap', { static: true }) minimap: {
+  @ViewChild('minimap', {static: true}) minimap: {
     nativeElement: GraphEditor;
   };
 
-  currentVisibleArea: Rect = { x: 0, y: 0, width: 1, height: 1 };
+  currentVisibleArea: Rect = {x: 0, y: 0, width: 1, height: 1};
   @Input() projectId: string;
 
-  readonly zeroPosition = { x: 0, y: 0 };
+  readonly zeroPosition = {x: 0, y: 0};
 
   private componentContextMenu: componentContextMenuComponent.ComponentContextMenuComponent;
   private componentContextMenuNodeId: number | string;
@@ -112,7 +112,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
   private reloadOnMouseUp = false;
 
   // Saved positions of the nodes and the issue groups
-  private savedPositions: Positions = { nodes: {}, issueGroups: {} };
+  private savedPositions: Positions = {nodes: {}, issueGroups: {}};
   // Responsible for saving the node positions to local storage
   private savePositionsSubject = new Subject<null>();
 
@@ -205,7 +205,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // case: there is no data
     if (data == null) {
-      return { nodes: {}, issueGroups: {} };
+      return {nodes: {}, issueGroups: {}};
     }
 
     return JSON.parse(data);
@@ -891,7 +891,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     // calculates the ideal position
-    const point = { x: 0, y: 0 };
+    const point = {x: 0, y: 0};
     if (boundingBox) {
       point.x = boundingBox.x + boundingBox.width + 60;
       point.y = boundingBox.y + boundingBox.height / 2;
@@ -1063,9 +1063,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns The calculated bounding box.
    */
   calculateBoundingBox(): Rect {
-    const componentSize = { width: 100, height: 60 };
-    const interfaceSize = { width: 14, height: 14 };
-    const issueContainerSize = { width: 40, height: 30 };
+    const componentSize = {width: 100, height: 60};
+    const interfaceSize = {width: 14, height: 14};
+    const issueContainerSize = {width: 40, height: 30};
 
     // calculates bounding box
     let rect = null;
@@ -1162,7 +1162,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   public openCreateComponentDialog(): void {
     const createComponentDialogRef = this.dialog.open(CreateComponentDialogComponent, {
-      data: { projectId: this.projectId }
+      data: {projectId: this.projectId}
     });
     createComponentDialogRef.afterClosed().subscribe((componentInformation) => {
       this.zoomOnRedraw = false;

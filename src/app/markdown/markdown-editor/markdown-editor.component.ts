@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 /**
  * This component contains a monaco markdown editor with syntax highlighting
@@ -12,7 +12,7 @@ export class MarkdownEditorComponent {
   /**
    * necessary options for usage of ngx-monaco-editor
    */
-  editorOptions = { theme: 'vs', language: 'markdown' };
+  editorOptions = {theme: 'vs', language: 'markdown'};
   /**
    * This code is initially displayed in the editor
    */

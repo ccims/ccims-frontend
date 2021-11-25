@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, TemplateRef } from '@angular/core';
-import { CoalescedTimelineItem } from '@app/issue-detail/timeline/timeline.component';
-import { TimeFormatter } from '@app/issue-detail/time-formatter';
+import {AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, TemplateRef} from '@angular/core';
+import {CoalescedTimelineItem} from '@app/issue-detail/timeline/timeline.component';
+import {TimeFormatter} from '@app/issue-detail/time-formatter';
 
 /**
  * This directive is used in conjunction with an `ng-template`.

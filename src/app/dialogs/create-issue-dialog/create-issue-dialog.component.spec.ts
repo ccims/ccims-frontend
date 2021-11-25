@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CreateIssueDialogComponent } from './create-issue-dialog.component';
+import {CreateIssueDialogComponent} from './create-issue-dialog.component';
 
 describe('CreateIssueDialogComponent', () => {
   let component: CreateIssueDialogComponent;

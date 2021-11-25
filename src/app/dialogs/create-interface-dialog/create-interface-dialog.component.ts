@@ -1,11 +1,11 @@
-import { Component, Inject, Input } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthenticationService } from '@app/auth/authentication.service';
-import { IssueGraphStateService } from '@app/data/issue-graph/issue-graph-state.service';
-import { InterfaceStoreService } from '@app/data/interface/interface-store.service';
-import { UserNotifyService } from '@app/user-notify/user-notify.service';
-import { CCIMSValidators } from '@app/utils/validators';
+import {Component, Inject, Input} from '@angular/core';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {AuthenticationService} from '@app/auth/authentication.service';
+import {IssueGraphStateService} from '@app/data/issue-graph/issue-graph-state.service';
+import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
+import {UserNotifyService} from '@app/user-notify/user-notify.service';
+import {CCIMSValidators} from '@app/utils/validators';
 
 @Component({
   selector: 'app-create-interface-dialog',
@@ -42,7 +42,7 @@ export class CreateInterfaceDialogComponent {
 
     // db mutation to create an interface
     this.interfaceStore.create(name, this.data.offeredById, description).subscribe(
-      ({ data }) => {
+      ({data}) => {
         this.loading = false;
 
         // close dialog and return the interface id of the created dialog
@@ -62,6 +62,6 @@ export class CreateInterfaceDialogComponent {
 }
 
 export interface CreateInterfaceData {
-  position: { x: number; y: number };
+  position: {x: number; y: number};
   offeredById: string;
 }
