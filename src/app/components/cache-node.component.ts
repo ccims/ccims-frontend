@@ -1,11 +1,4 @@
-import {
-  Component,
-  ContentChild,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
+import { Component, ContentChild, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { ItemDirective } from '@app/components/item.directive';
 import DataService from '@app/data-dgql';
 import { NodeId } from '@app/data-dgql/id';
@@ -16,10 +9,10 @@ import { Subscription } from 'rxjs';
  * Loads data for a node from the cache or from the API.
  */
 @Component({
-  // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[cache-node]',
   template:
-    '<ng-container *ngIf="node$.hasData"><ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: node$.current }"></ng-container></ng-container>',
+    '<ng-container *ngIf="node$.hasData"><ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: node$.current }"></ng-container></ng-container>'
 })
 export class CacheNodeComponent implements OnInit, OnDestroy {
   /** The node that will be loaded. */
@@ -35,9 +28,7 @@ export class CacheNodeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.node$ = this.dataService.getNode(this.node);
-    this.nodeSub = this.lazy
-      ? this.node$.subscribeLazy()
-      : this.node$.subscribe();
+    this.nodeSub = this.lazy ? this.node$.subscribeLazy() : this.node$.subscribe();
   }
   ngOnDestroy() {
     this.nodeSub.unsubscribe();

@@ -20,44 +20,17 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
 
   constructor(private initialPosition: string) {}
 
-  beforeNodeMove(
-    group: string,
-    childGroup: string,
-    groupNode: Node,
-    childNode: Node,
-    newPosition: Point,
-    graphEditor: GraphEditor
-  ) {
+  beforeNodeMove(group: string, childGroup: string, groupNode: Node, childNode: Node, newPosition: Point, graphEditor: GraphEditor) {
     // calculate groupNode (the parent node) dimensions
     const width = groupNode.type === NodeType.Interface ? 10 : 100;
     const height = groupNode.type === NodeType.Interface ? 10 : 60;
     // find nearest side
     let best = 'bottom';
     if (newPosition != null && (newPosition.x !== 0 || newPosition.y !== 0)) {
-      let bestDistance = distance(
-        newPosition.x,
-        newPosition.y,
-        groupNode.x,
-        groupNode.y + height / 2 + 25
-      );
-      const rightDistance = distance(
-        newPosition.x,
-        newPosition.y,
-        groupNode.x + width / 2 + 30,
-        groupNode.y
-      );
-      const leftDistance = distance(
-        newPosition.x,
-        newPosition.y,
-        groupNode.x - width / 2 - 30,
-        groupNode.y
-      );
-      const topDistance = distance(
-        newPosition.x,
-        newPosition.y,
-        groupNode.x,
-        groupNode.y - height / 2 - 25
-      );
+      let bestDistance = distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y + height / 2 + 25);
+      const rightDistance = distance(newPosition.x, newPosition.y, groupNode.x + width / 2 + 30, groupNode.y);
+      const leftDistance = distance(newPosition.x, newPosition.y, groupNode.x - width / 2 - 30, groupNode.y);
+      const topDistance = distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y - height / 2 - 25);
       if (rightDistance < bestDistance) {
         bestDistance = rightDistance;
         best = 'right';
@@ -80,55 +53,36 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
     // set position
     if (best === 'bottom') {
       this.childNodePositions.set(childGroup, { x: 0, y: height / 2 + 25 });
-      if (
-        childNode != null &&
-        (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))
-      ) {
+      if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x;
         childNode.y = groupNode.y + height / 2 + 25;
       }
     }
     if (best === 'top') {
       this.childNodePositions.set(childGroup, { x: 0, y: -(height / 2) - 25 });
-      if (
-        childNode != null &&
-        (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))
-      ) {
+      if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x;
         childNode.y = groupNode.y - height / 2 - 25;
       }
     }
     if (best === 'right') {
       this.childNodePositions.set(childGroup, { x: width / 2 + 30, y: 0 });
-      if (
-        childNode != null &&
-        (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))
-      ) {
+      if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x + width / 2 + 30;
         childNode.y = groupNode.y;
       }
     }
     if (best === 'left') {
       this.childNodePositions.set(childGroup, { x: -(width / 2) - 30, y: 0 });
-      if (
-        childNode != null &&
-        (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))
-      ) {
+      if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x - width / 2 - 30;
         childNode.y = groupNode.y;
       }
     }
     if (childNode != null) {
       childNode.position = best;
-      const containerBehaviour =
-        graphEditor.groupingManager.getGroupBehaviourOf(
-          childGroup
-        ) as IssueGroupContainerBehaviour;
-      containerBehaviour?.relativePositionChanged?.(
-        childGroup,
-        childNode,
-        graphEditor
-      );
+      const containerBehaviour = graphEditor.groupingManager.getGroupBehaviourOf(childGroup) as IssueGroupContainerBehaviour;
+      containerBehaviour?.relativePositionChanged?.(childGroup, childNode, graphEditor);
     }
   }
 }
@@ -138,11 +92,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
   moveChildrenAlongGoup = true;
   childNodePositions = new Map();
 
-  relativePositionChanged(
-    group: string,
-    groupNode: Node,
-    graphEditor: GraphEditor
-  ) {
+  relativePositionChanged(group: string, groupNode: Node, graphEditor: GraphEditor) {
     const parent = graphEditor.groupingManager.getTreeParentOf(group);
     const children = graphEditor.groupingManager.getChildrenOf(group);
 
@@ -210,24 +160,12 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
     });
   }
 
-  afterNodeJoinedGroup(
-    group: string,
-    childGroup: string,
-    groupNode: IssueGroupContainerNode,
-    childNode: Node,
-    graphEditor: GraphEditor
-  ) {
+  afterNodeJoinedGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
     this.relativePositionChanged(group, groupNode, graphEditor);
     groupNode.issueGroupNodeIds.add(childGroup);
   }
 
-  afterNodeLeftGroup(
-    group: string,
-    childGroup: string,
-    groupNode: IssueGroupContainerNode,
-    childNode: Node,
-    graphEditor: GraphEditor
-  ) {
+  afterNodeLeftGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
     this.relativePositionChanged(group, groupNode, graphEditor);
     groupNode.issueGroupNodeIds.delete(childGroup);
   }

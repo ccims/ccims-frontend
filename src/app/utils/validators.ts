@@ -13,10 +13,7 @@ export class CCIMSValidators {
    * Ensures that the text is both usable as a name ({@link #nameValidator}) and that the text does not start/end with
    * a whitespace (white-spaces in the name are allowed)
    */
-  static readonly nameFormatValidator = Validators.compose([
-    CCIMSValidators.nameValidator,
-    Validators.pattern('([^ ]+ )*([^ ]+)+'),
-  ]);
+  static readonly nameFormatValidator = Validators.compose([CCIMSValidators.nameValidator, Validators.pattern('([^ ]+ )*([^ ]+)+')]);
 
   /**
    * Ensures that the provided text has the correct length and the correct format for an URL

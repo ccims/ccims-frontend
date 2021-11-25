@@ -1,13 +1,7 @@
 <ng-container *ngIf="editMode; else readOnlyDisplay">
   <mat-form-field appearance="outline" class="text-edit-container">
     <mat-label>{{ labelText }}</mat-label>
-    <textarea
-      [(ngModel)]="editText"
-      matInput
-      autofocus
-      cdkTextareaAutosize
-      style="margin-bottom: 8px"
-    ></textarea>
+    <textarea [(ngModel)]="editText" matInput autofocus cdkTextareaAutosize style="margin-bottom: 8px"></textarea>
     <div matSuffix style="display: flex">
       <button mat-icon-button color="primary" (click)="finishEditing(true)">
         <mat-icon>save</mat-icon>
@@ -24,13 +18,7 @@
     <div class="text-display-label-container">
       <span class="text-display-label">{{ labelText }}</span>
     </div>
-    <button
-      *ngIf="readonly === undefined"
-      mat-icon-button
-      style="float: right; margin: 0"
-      color="primary"
-      (click)="startEditing()"
-    >
+    <button *ngIf="readonly === undefined" mat-icon-button style="float: right; margin: 0" color="primary" (click)="startEditing()">
       <mat-icon>edit</mat-icon>
     </button>
     <div
@@ -39,9 +27,7 @@
         'text-content-container-placeholder': showPlaceholder
       }"
     >
-      <ng-container
-        *ngFor="let line of (showPlaceholder ? placeholder : text).split('\n')"
-      >
+      <ng-container *ngFor="let line of (showPlaceholder ? placeholder : text).split('\n')">
         {{ line.replace("\n", "") }}<br />
       </ng-container>
     </div>

@@ -1,13 +1,5 @@
 import { Observable, Subscriber } from 'rxjs';
-import {
-  decodeNodeId,
-  encodeNodeId,
-  ListId,
-  ListParams,
-  NodeId,
-  NodeIdEnc,
-  nodeTypeFromTypename,
-} from './id';
+import { decodeNodeId, encodeNodeId, ListId, ListParams, NodeId, NodeIdEnc, nodeTypeFromTypename } from './id';
 import { QueriesService } from './queries/queries.service';
 import { ListResult, queryList, queryNode } from './load';
 import { PageInfo } from '../../generated/graphql-dgql';
@@ -152,11 +144,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @param query the inner query function
    * @param map maps returned data from the query R to usable data T
    */
-  protected constructor(
-    id: I,
-    query: (id: I, p: P) => Promise<R>,
-    map: (r: R) => T
-  ) {
+  protected constructor(id: I, query: (id: I, p: P) => Promise<R>, map: (r: R) => T) {
     super((subscriber) => {
       this.addSubscriber(subscriber, this.isNextSubLazy);
       this.isNextSubLazy = false;
@@ -268,9 +256,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
         this.loadTimeout = null;
         this.load();
       },
-      interactive
-        ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS
-        : CACHE_FAST_DEBOUNCE_TIME_MS
+      interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS
     );
   }
 
@@ -298,7 +284,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     return {
       unsubscribe: () => {
         this.subscribers.delete(subscriber);
-      },
+      }
     };
   }
 
@@ -456,12 +442,7 @@ export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
  * }
  * ```
  */
-export class DataList<T, F> extends DataQuery<
-  ListId,
-  Map<NodeIdEnc, T>,
-  ListResult<T>,
-  ListParams<F>
-> {
+export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListResult<T>, ListParams<F>> {
   // these are all just the private versions of the corresponding list properties.
   /** @ignore */
   private pCursor?: NodeId;
@@ -525,7 +506,7 @@ export class DataList<T, F> extends DataQuery<
       cursor: this.pCursor,
       count: this.pCount,
       forward: this.pForward,
-      filter: this.pFilter,
+      filter: this.pFilter
     };
   }
 
@@ -580,9 +561,7 @@ export class DataList<T, F> extends DataQuery<
 
   /** Returns the node ID of the first item on the current page. */
   get firstPageItemId(): NodeId | null {
-    const firstKey = this.current
-      ? this.current.keys().next()?.value || null
-      : null;
+    const firstKey = this.current ? this.current.keys().next()?.value || null : null;
     return firstKey ? decodeNodeId(firstKey) : null;
   }
 
@@ -647,14 +626,12 @@ export class DataList<T, F> extends DataQuery<
    * @param data a promise that returns the API data
    * @typeParam IdT - equivalent to T
    */
-  hydrateInitial<IdT extends T & { id: string; __typename: string }>(
-    data: Promise<HydrateList<IdT>>
-  ) {
+  hydrateInitial<IdT extends T & { id: string; __typename: string }>(data: Promise<HydrateList<IdT>>) {
     this.hydrateRaw(
       data.then((value) => ({
         totalCount: value.totalCount,
         pageInfo: value.pageInfo,
-        items: this.pNodes.insertNodes(value.nodes || []),
+        items: this.pNodes.insertNodes(value.nodes || [])
       }))
     );
   }
@@ -700,9 +677,7 @@ export class NodeCache {
    * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
    * Nodes without an ID will be ignored.
    */
-  insertNodes<T extends { id?: string; __typename?: string }>(
-    nodes: T[]
-  ): Map<NodeIdEnc, T> {
+  insertNodes<T extends { id?: string; __typename?: string }>(nodes: T[]): Map<NodeIdEnc, T> {
     const map = new Map();
 
     for (const node of nodes) {

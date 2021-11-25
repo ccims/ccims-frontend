@@ -10,7 +10,7 @@ import { CCIMSValidators } from '@app/utils/validators';
 @Component({
   selector: 'app-create-interface-dialog',
   templateUrl: './create-interface-dialog.component.html',
-  styleUrls: ['./create-interface-dialog.component.scss'],
+  styleUrls: ['./create-interface-dialog.component.scss']
 })
 export class CreateInterfaceDialogComponent {
   @Input()
@@ -18,10 +18,7 @@ export class CreateInterfaceDialogComponent {
 
   public loading: boolean;
   public saveFailed: boolean;
-  validationName = new FormControl('', [
-    CCIMSValidators.nameFormatValidator,
-    Validators.required,
-  ]);
+  validationName = new FormControl('', [CCIMSValidators.nameFormatValidator, Validators.required]);
   validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
   constructor(
@@ -44,23 +41,19 @@ export class CreateInterfaceDialogComponent {
     this.loading = true;
 
     // db mutation to create an interface
-    this.interfaceStore
-      .create(name, this.data.offeredById, description)
-      .subscribe(
-        ({ data }) => {
-          this.loading = false;
+    this.interfaceStore.create(name, this.data.offeredById, description).subscribe(
+      ({ data }) => {
+        this.loading = false;
 
-          // close dialog and return the interface id of the created dialog
-          this.dialogRef.close(
-            data.createComponentInterface.componentInterface.id
-          );
-        },
-        (error) => {
-          this.notify.notifyError('Failed to create interface!', error);
-          this.loading = false;
-          this.saveFailed = true;
-        }
-      );
+        // close dialog and return the interface id of the created dialog
+        this.dialogRef.close(data.createComponentInterface.componentInterface.id);
+      },
+      (error) => {
+        this.notify.notifyError('Failed to create interface!', error);
+        this.loading = false;
+        this.saveFailed = true;
+      }
+    );
   }
 
   afterAlertClose(): void {

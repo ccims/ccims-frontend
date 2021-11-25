@@ -28,7 +28,7 @@ import {
   GetAllTimelineItemsGQL,
   GetAllTimelineItemsQuery,
   ChangeIssueCategoryGQL,
-  ChangeIssueCategoryInput,
+  ChangeIssueCategoryInput
 } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 /**
@@ -37,7 +37,7 @@ import { Observable } from 'rxjs';
  * based on the definitions in the issue.graphql file in the same folder
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IssueStoreService {
   constructor(
@@ -75,7 +75,7 @@ export class IssueStoreService {
 
   deleteComment(deleteIssueCommentInput: DeleteIssueCommentInput) {
     return this.deleteIssueCommentMutation.mutate({
-      input: deleteIssueCommentInput,
+      input: deleteIssueCommentInput
     });
   }
 
@@ -93,7 +93,7 @@ export class IssueStoreService {
 
   changeIssueCategory(changeIssueCategoryInput: ChangeIssueCategoryInput) {
     return this.changeIssueCategoryMutation.mutate({
-      input: changeIssueCategoryInput,
+      input: changeIssueCategoryInput
     });
   }
 
@@ -103,7 +103,7 @@ export class IssueStoreService {
 
   removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput) {
     return this.removeIssueFromLocationMutation.mutate({
-      input: removeLocationInput,
+      input: removeLocationInput
     });
   }
 
@@ -116,8 +116,6 @@ export class IssueStoreService {
   }
 
   getAllTimelineItems(id: string): Observable<GetAllTimelineItemsQuery> {
-    return this.getAllTimelineItemsQuery
-      .fetch({ input: id })
-      .pipe(map(({ data }) => data));
+    return this.getAllTimelineItemsQuery.fetch({ input: id }).pipe(map(({ data }) => data));
   }
 }

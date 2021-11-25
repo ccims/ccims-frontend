@@ -14,16 +14,13 @@ import { AccessTokenDialogComponent } from '../access-token-dialog/access-token-
 @Component({
   selector: 'app-settings-dialog',
   templateUrl: './settings-dialog.component.html',
-  styleUrls: ['./settings-dialog.component.scss'],
+  styleUrls: ['./settings-dialog.component.scss']
 })
 export class SettingsDialogComponent implements OnInit {
   mode = 'Dark Mode';
   modeIcon = 'dark_mode';
 
-  constructor(
-    public dialogRef: MatDialogRef<SettingsDialogComponent, boolean>,
-    private dialog: MatDialog
-  ) {}
+  constructor(public dialogRef: MatDialogRef<SettingsDialogComponent, boolean>, private dialog: MatDialog) {}
 
   ngOnInit(): void {}
 

@@ -9,22 +9,14 @@
     </button>
   </div>
   <div>
-    <button
-      class="button"
-      mat-flat-button
-      (click)="this.openAccessTokenSettings()"
-    >
+    <button class="button" mat-flat-button (click)="this.openAccessTokenSettings()">
       <mat-icon> <span class="material-icons-outlined"> token </span></mat-icon>
       Access Token
     </button>
   </div>
   <div>
     <button class="button" mat-flat-button (click)="this.switchTheme()">
-      <mat-icon>
-        <span class="material-icons-outlined">
-          {{ modeIcon }}
-        </span></mat-icon
-      >
+      <mat-icon> <span class="material-icons-outlined"> {{ modeIcon }} </span></mat-icon>
       {{ mode }}
     </button>
   </div>

@@ -8,7 +8,7 @@ describe('IssueListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IssueListComponent],
+      declarations: [IssueListComponent]
     }).compileComponents();
   }));
 

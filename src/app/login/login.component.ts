@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   validateForm!: FormGroup;
@@ -33,10 +33,7 @@ export class LoginComponent implements OnInit {
     });
     this.isLoading = true;
     this.authService
-      .login(
-        this.validateForm.controls.userName.value,
-        this.validateForm.controls.password.value
-      )
+      .login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
       .pipe(first())
       .subscribe(
         (data) => {
@@ -53,17 +50,12 @@ export class LoginComponent implements OnInit {
       );
   }
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthenticationService,
-    private fb: FormBuilder
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthenticationService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+      password: [null, [Validators.required]]
     });
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }

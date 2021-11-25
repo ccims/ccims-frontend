@@ -1,19 +1,9 @@
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { Observable, Observer } from 'rxjs';
 import { environment } from '@environments/environment';
-import {
-  CheckUsernameGQL,
-  RegisterUserGQL,
-  RegisterUserInput,
-} from 'src/generated/public-graphql';
+import { CheckUsernameGQL, RegisterUserGQL, RegisterUserInput } from 'src/generated/public-graphql';
 import { Router } from '@angular/router';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
 
@@ -23,7 +13,7 @@ import { UserNotifyService } from '@app/user-notify/user-notify.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   validateForm: FormGroup;
@@ -44,7 +34,7 @@ export class RegisterComponent {
       username: ['', [Validators.required], [this.userNameAsyncValidator]],
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
-      confirm: ['', [this.confirmValidator]],
+      confirm: ['', [this.confirmValidator]]
     });
   }
 
@@ -98,9 +88,7 @@ export class RegisterComponent {
    * This is triggered whenever the user changes the password in the register form.
    */
   validateConfirmPassword(): void {
-    setTimeout(() =>
-      this.validateForm.controls.confirm.updateValueAndValidity()
-    );
+    setTimeout(() => this.validateForm.controls.confirm.updateValueAndValidity());
   }
 
   /**
@@ -109,12 +97,7 @@ export class RegisterComponent {
    * If successfull, the user is redirected to the Login page.
    * @param value - Data (from the register form) that is handled.
    */
-  submitForm(value: {
-    username: string;
-    email: string;
-    password: string;
-    confirm: string;
-  }): void {
+  submitForm(value: { username: string; email: string; password: string; confirm: string }): void {
     for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
@@ -123,7 +106,7 @@ export class RegisterComponent {
       username: value.username,
       displayName: value.username,
       password: value.password,
-      email: value.email,
+      email: value.email
     };
 
     this.registerUserMutation.mutate({ input }).subscribe(

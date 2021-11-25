@@ -13,7 +13,7 @@ export type TextDisplayEditCallbackFn = (saved: boolean) => void;
 @Component({
   selector: 'app-text-display',
   templateUrl: './text-display.component.html',
-  styleUrls: ['./text-display.component.scss'],
+  styleUrls: ['./text-display.component.scss']
 })
 export class TextDisplayComponent {
   /** A callback function. */

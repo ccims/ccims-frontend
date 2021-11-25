@@ -11,7 +11,7 @@ import {
   GetFullProjectGQL,
   GetFullProjectQuery,
   Project,
-  ProjectFilter,
+  ProjectFilter
 } from 'src/generated/graphql';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/auth/authentication.service';
@@ -24,7 +24,7 @@ import { AuthenticationService } from '@app/auth/authentication.service';
  * transfered data while showing the projects list
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProjectStoreService {
   constructor(
@@ -39,22 +39,20 @@ export class ProjectStoreService {
   create(name: string, description: string) {
     const input: CreateProjectInput = {
       name,
-      description,
+      description
     };
     return this.createProject.mutate({ input });
   }
 
   delete(id: string) {
     const input: DeleteProjectInput = {
-      project: id,
+      project: id
     };
     return this.deleteProject.mutate({ input });
   }
 
   getBasicProject(id: string): Observable<GetBasicProjectQuery> {
-    return this.getBasicProjectQuery
-      .fetch({ id })
-      .pipe(map(({ data }) => data));
+    return this.getBasicProjectQuery.fetch({ id }).pipe(map(({ data }) => data));
   }
 
   getFullProject(id: string): Observable<GetFullProjectQuery> {
@@ -63,10 +61,8 @@ export class ProjectStoreService {
 
   getAll(filterText: string): Observable<Pick<Project, 'id' | 'name'>[]> {
     const filter: ProjectFilter = {
-      name: filterText,
+      name: filterText
     };
-    return this.getAllQuery
-      .fetch({ filter })
-      .pipe(map(({ data }) => data.projects.edges.map((edge) => edge.node)));
+    return this.getAllQuery.fetch({ filter }).pipe(map(({ data }) => data.projects.edges.map((edge) => edge.node)));
   }
 }

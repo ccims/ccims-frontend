@@ -1,10 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import {
-  Router,
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 
 /** AuthGuard is responsible for navigating the user to /login when he is not
@@ -13,10 +8,7 @@ import { AuthenticationService } from './authentication.service';
  */
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) {}
+  constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
   /**
    * Redirects user to login if he is not authenticated.

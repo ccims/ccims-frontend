@@ -67,21 +67,19 @@ import {
   TimelineCoalescedItemsDirective,
   TimelineItemComponent,
   TimelineItemDeletedDirective,
-  TimelineSingleItemDirective,
+  TimelineSingleItemDirective
 } from '@app/issue-detail/timeline/coalesced/timeline-item.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
-  (key) => antDesignIcons[key]
-);
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map((key) => antDesignIcons[key]);
 
 // configuration for toasts, the toastrservice is configured in graphql.module.ts
 const toasterConfig: Partial<GlobalConfig> = {
   maxOpened: 4,
-  autoDismiss: true,
+  autoDismiss: true
 };
 
 @NgModule({
@@ -118,7 +116,7 @@ const toasterConfig: Partial<GlobalConfig> = {
     TimelineItemComponent,
     TimelineSingleItemDirective,
     TimelineCoalescedItemsDirective,
-    TimelineItemDeletedDirective,
+    TimelineItemDeletedDirective
   ],
   imports: [
     BrowserModule,
@@ -151,13 +149,13 @@ const toasterConfig: Partial<GlobalConfig> = {
     PortalModule,
     MonacoEditorModule.forRoot(),
     MarkdownModule.forRoot(),
-    MatButtonToggleModule,
+    MatButtonToggleModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
-    { provide: NZ_ICONS, useValue: icons },
+    { provide: NZ_ICONS, useValue: icons }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

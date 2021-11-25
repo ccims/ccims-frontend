@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  Directive,
-  Input,
-  OnDestroy,
-  TemplateRef,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, OnDestroy, TemplateRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
 import { MatButton } from '@angular/material/button';
@@ -21,7 +12,7 @@ export enum QueryComponentState {
   /** The query has not yet finished */
   Loading,
   /** The query returned an error */
-  Error,
+  Error
 }
 
 /**
@@ -29,7 +20,7 @@ export enum QueryComponentState {
  * the query finished successfully
  */
 @Directive({
-  selector: '[appQueryBody]',
+  selector: '[appQueryBody]'
 })
 export class QueryBodyDirective {
   constructor(public template: TemplateRef<unknown>) {}
@@ -40,7 +31,7 @@ export class QueryBodyDirective {
  * button
  */
 @Directive({
-  selector: '[appQueryButton]',
+  selector: '[appQueryButton]'
 })
 export class QueryButtonDirective {
   constructor(public element: MatButton) {}
@@ -125,7 +116,7 @@ export class QueryButtonDirective {
 @Component({
   templateUrl: 'query.component.html',
   selector: 'app-query-component',
-  styleUrls: ['query.component.scss'],
+  styleUrls: ['query.component.scss']
 })
 export class QueryComponent implements OnDestroy, AfterViewInit {
   /** Error message to be shown if the subscription failed */
@@ -141,10 +132,7 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
   /** If true, a button is in the query body, not a template*/
   buttonMode: boolean;
 
-  constructor(
-    private notify: UserNotifyService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+  constructor(private notify: UserNotifyService, private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.buttonMode = !this.body && !!this.button;
@@ -169,11 +157,7 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
    * @param success The function to be called if the query was successful
    * @param error The function to be called if the query had an error
    */
-  public listenTo<T>(
-    query: Observable<T>,
-    success?: (value: T) => void,
-    error?: (error: any) => void
-  ): void {
+  public listenTo<T>(query: Observable<T>, success?: (value: T) => void, error?: (error: any) => void): void {
     this.queryState = QueryComponentState.Loading;
     this.changeDetector.detectChanges();
     this.subscription?.unsubscribe();
@@ -220,7 +204,6 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
       return;
     }
 
-    this.button.element.disabled =
-      this.queryState === QueryComponentState.Loading;
+    this.button.element.disabled = this.queryState === QueryComponentState.Loading;
   }
 }

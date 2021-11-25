@@ -10,7 +10,7 @@ import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
  * Used in method initGraph of IssueGraphComponent.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IssueGraphLinkHandlesService {
   /**
@@ -30,7 +30,7 @@ export class IssueGraphLinkHandlesService {
       // handles at the source / target of a given edge
       const handles = {
         sourceHandles,
-        targetHandles,
+        targetHandles
       };
 
       // case: source of edge has allowed anchors

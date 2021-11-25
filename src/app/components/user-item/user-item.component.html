@@ -1,10 +1,5 @@
 <ng-container *ngIf="user">
-  <span
-    class="display-name"
-    *ngIf="!noDisplay && user.displayName && user.displayName !== user.username"
-  >
-    {{ user.displayName }}
-  </span>
+  <span class="display-name" *ngIf="!noDisplay && user.displayName && user.displayName !== user.username"> {{ user.displayName }} </span>
   <span
     *ngIf="!short || !user.displayName"
     [ngClass]="

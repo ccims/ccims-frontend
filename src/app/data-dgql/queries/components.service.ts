@@ -5,15 +5,12 @@ import {
   GetComponentGQL,
   GetInterfaceGQL,
   ListProjectComponentsGQL,
-  ListProjectInterfacesGQL,
+  ListProjectInterfacesGQL
 } from 'src/generated/graphql-dgql';
-import {
-  promisifyApolloFetch,
-  QueryListParams,
-} from '@app/data-dgql/queries/util';
+import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ComponentsService {
   constructor(
@@ -23,22 +20,12 @@ export class ComponentsService {
     private qGetInterface: GetInterfaceGQL
   ) {}
 
-  listProjectComponents(
-    project: string,
-    list: QueryListParams<ComponentFilter>
-  ) {
-    return promisifyApolloFetch(
-      this.qListProjectComponents.fetch({ project, ...list })
-    );
+  listProjectComponents(project: string, list: QueryListParams<ComponentFilter>) {
+    return promisifyApolloFetch(this.qListProjectComponents.fetch({ project, ...list }));
   }
 
-  listProjectInterfaces(
-    project: string,
-    list: QueryListParams<ComponentInterfaceFilter>
-  ) {
-    return promisifyApolloFetch(
-      this.qListProjectInterfaces.fetch({ project, ...list })
-    );
+  listProjectInterfaces(project: string, list: QueryListParams<ComponentInterfaceFilter>) {
+    return promisifyApolloFetch(this.qListProjectInterfaces.fetch({ project, ...list }));
   }
 
   getComponent(id: string) {

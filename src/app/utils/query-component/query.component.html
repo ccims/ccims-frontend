@@ -1,7 +1,4 @@
-<ng-container
-  *ngIf="buttonMode; else bodyMode"
-  xmlns="http://www.w3.org/1999/html"
->
+<ng-container *ngIf="buttonMode; else bodyMode" xmlns="http://www.w3.org/1999/html">
   <div style="display: flex; align-items: center; width: 100%">
     <ng-content></ng-content>
     <span style="margin-left: 4px" *ngIf="queryState === State.Loading">

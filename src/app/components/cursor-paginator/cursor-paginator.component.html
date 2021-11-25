@@ -2,13 +2,8 @@
   <div class="page-size-control" *ngIf="this.pageSizes?.length > 1">
     <span class="page-size-label">Items per page:</span>
     <mat-form-field class="page-size-select">
-      <mat-select
-        [(value)]="this.list.count"
-        (valueChange)="this.list.firstPage()"
-      >
-        <mat-option *ngFor="let size of this.pageSizes" [value]="size">
-          {{ size }}
-        </mat-option>
+      <mat-select [(value)]="this.list.count" (valueChange)="this.list.firstPage()">
+        <mat-option *ngFor="let size of this.pageSizes" [value]="size"> {{ size }} </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -16,18 +11,10 @@
     <button mat-icon-button (click)="this.list.firstPage()">
       <mat-icon>first_page</mat-icon>
     </button>
-    <button
-      mat-icon-button
-      [disabled]="!this.list.hasPrevPage"
-      (click)="this.list.prevPage()"
-    >
+    <button mat-icon-button [disabled]="!this.list.hasPrevPage" (click)="this.list.prevPage()">
       <mat-icon>chevron_left</mat-icon>
     </button>
-    <button
-      mat-icon-button
-      [disabled]="!this.list.hasNextPage"
-      (click)="this.list.nextPage()"
-    >
+    <button mat-icon-button [disabled]="!this.list.hasNextPage" (click)="this.list.nextPage()">
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>

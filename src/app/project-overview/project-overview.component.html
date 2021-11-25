@@ -2,22 +2,11 @@
   <ng-template appQueryBody>
     <div class="project-overview-container">
       <div class="delete-button-container">
-        <app-project-header
-          [projectName]="project.current.name"
-          [projectId]="project.current.id"
-        >
-        </app-project-header>
+        <app-project-header [projectName]="project.current.name" [projectId]="project.current.id"> </app-project-header>
         <span style="flex: 1 1 auto"></span>
 
         <!-- delete project button -->
-        <button
-          id="button"
-          mat-raised-button
-          (click)="deleteProject()"
-          color="warn"
-        >
-          Delete
-        </button>
+        <button id="button" mat-raised-button (click)="deleteProject()" color="warn">Delete</button>
       </div>
 
       <app-text-display

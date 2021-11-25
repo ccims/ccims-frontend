@@ -3,13 +3,7 @@
     <span class="title-text-container" #titleText>
       <ng-content select="[title]"></ng-content>
     </span>
-    <button
-      *ngIf="editable"
-      mat-icon-button
-      class="settings-button"
-      aria-label="Edit"
-      (click)="beginEditing()"
-    >
+    <button *ngIf="editable" mat-icon-button class="settings-button" aria-label="Edit" (click)="beginEditing()">
       <mat-icon>settings</mat-icon>
     </button>
   </div>
@@ -37,17 +31,9 @@
           "
         ></ng-container>
       </ng-container>
-      <div
-        class="more-items"
-        *ngIf="listSet$.current?.size < listSet$.totalCount"
-      >
-        ...
-      </div>
+      <div class="more-items" *ngIf="listSet$.current?.size < listSet$.totalCount">...</div>
     </ng-container>
-    <div
-      class="items-empty"
-      *ngIf="isLocalSet ? !totalCount : !totalCount && !listSet$.loading"
-    >
+    <div class="items-empty" *ngIf="isLocalSet ? !totalCount : !totalCount && !listSet$.loading">
       <ng-content select="[if-empty]"></ng-content>
     </div>
   </div>

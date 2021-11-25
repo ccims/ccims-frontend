@@ -1,10 +1,5 @@
 <div class="dialog">
-  <button
-    mat-button
-    color="primary"
-    class="new-item-button"
-    (click)="closeDialog()"
-  >
+  <button mat-button color="primary" class="new-item-button" (click)="closeDialog()">
     <mat-icon>close_ios</mat-icon>
   </button>
   <h1 mat-dialog-title style="text-align: center">Profile Settings</h1>
@@ -23,21 +18,9 @@
     labelText="Username"
   ></app-text-display>
 
-  <app-text-display
-    [text]="description"
-    [onEditFinished]="projectNameEdited"
-    placeholder="Email"
-    labelText="Email"
-  ></app-text-display>
+  <app-text-display [text]="description" [onEditFinished]="projectNameEdited" placeholder="Email" labelText="Email"></app-text-display>
 
-  <button
-    mat-button
-    color="primary"
-    class="new-item-button"
-    (click)="changePassword()"
-  >
-    Change Password
-  </button>
+  <button mat-button color="primary" class="new-item-button" (click)="changePassword()">Change Password</button>
 
   <br />
 
@@ -47,13 +30,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Enter old password</mat-label>
       <input matInput [type]="hide ? 'password' : 'text'" />
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-      >
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
     </mat-form-field>
@@ -62,33 +39,13 @@
     <mat-form-field appearance="fill">
       <mat-label>Enter new password</mat-label>
       <input matInput [type]="hide ? 'password' : 'text'" />
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-      >
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
     </mat-form-field>
 
-    <button
-      mat-button
-      color="primary"
-      class="new-item-button"
-      (click)="updatePassword()"
-    >
-      Update Password
-    </button>
+    <button mat-button color="primary" class="new-item-button" (click)="updatePassword()">Update Password</button>
 
-    <button
-      mat-button
-      color="primary"
-      class="new-item-button"
-      (click)="cancel()"
-    >
-      Cancel
-    </button>
+    <button mat-button color="primary" class="new-item-button" (click)="cancel()">Cancel</button>
   </div>
 </div>

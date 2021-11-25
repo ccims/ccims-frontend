@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Issue } from 'src/generated/graphql-dgql';
 import { Subscription } from 'rxjs';
@@ -17,7 +11,7 @@ import { FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-issue-detail',
   templateUrl: './issue-detail.component.html',
-  styleUrls: ['./issue-detail.component.scss'],
+  styleUrls: ['./issue-detail.component.scss']
 })
 /**
  * This component provides detailed information about an issue.
@@ -52,10 +46,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
   // new category of the current issue
   category = new FormControl('', [Validators.required]);
 
-  constructor(
-    private dataService: DataService,
-    public activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private dataService: DataService, public activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.projectId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -72,9 +63,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   formatIssueOpenTime(): string {
     if (this.issue$.hasData) {
-      return this.timeFormatter.formatTimeDifference(
-        this.issue$.current.createdAt
-      );
+      return this.timeFormatter.formatTimeDifference(this.issue$.current.createdAt);
     }
   }
 
@@ -120,19 +109,11 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
    */
   private saveChanges() {
     // 1) saves the new title
-    this.dataService.mutations.renameIssueTitle(
-      Math.random().toString(),
-      this.issue$.id,
-      this.inputTitle.nativeElement.value
-    );
+    this.dataService.mutations.renameIssueTitle(Math.random().toString(), this.issue$.id, this.inputTitle.nativeElement.value);
 
     // 2) saves the new category
     this.dataService.mutations
-      .changeIssueCategory(
-        Math.random().toString(),
-        this.issue$.id,
-        this.category.value
-      )
+      .changeIssueCategory(Math.random().toString(), this.issue$.id, this.category.value)
       .then(() => {
         // marks the issue as uneditable
         this.issueEditable = false;

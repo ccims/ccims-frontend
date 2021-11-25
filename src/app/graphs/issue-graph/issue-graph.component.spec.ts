@@ -8,7 +8,7 @@ describe('IssueGraphComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IssueGraphComponent],
+      declarations: [IssueGraphComponent]
     }).compileComponents();
   }));
 

@@ -9,7 +9,7 @@ import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
  * Used in method initGraph of IssueGraphComponent.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IssueGraphClassSettersService {
   /**
@@ -34,24 +34,14 @@ export class IssueGraphClassSettersService {
     minimap.setNodeClass = nodeClassSetter;
 
     // edge class setter
-    const edgeClassSetter = (
-      className: string,
-      edge: Edge,
-      sourceNode: Node,
-      targetNode: Node
-    ) => {
+    const edgeClassSetter = (className: string, edge: Edge, sourceNode: Node, targetNode: Node) => {
       if (className === edge.type) {
         return true;
       }
       if (className === 'related-to' && edge.type === 'relatedTo') {
         return true;
       }
-      if (
-        className === 'issue-relation' &&
-        (edge.type === 'relatedTo' ||
-          edge.type === 'duplicate' ||
-          edge.type === 'dependency')
-      ) {
+      if (className === 'issue-relation' && (edge.type === 'relatedTo' || edge.type === 'duplicate' || edge.type === 'dependency')) {
         return true;
       }
       return false;

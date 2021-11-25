@@ -8,7 +8,7 @@ describe('CreateInterfaceDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateInterfaceDialogComponent],
+      declarations: [CreateInterfaceDialogComponent]
     }).compileComponents();
   }));
 

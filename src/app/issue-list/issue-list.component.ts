@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,13 +10,7 @@ import { FormControl } from '@angular/forms';
 import DataService from '@app/data-dgql';
 import { ListId, ListType, NodeId, NodeType } from '@app/data-dgql/id';
 import { DataList, DataNode } from '@app/data-dgql/query';
-import {
-  Component as IComponent,
-  ComponentInterface,
-  Issue,
-  IssueCategory,
-  IssueFilter,
-} from '../../generated/graphql-dgql';
+import { Component as IComponent, ComponentInterface, Issue, IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
 import { QueryComponent } from '@app/utils/query-component/query.component';
 
 /**
@@ -34,7 +21,7 @@ import { QueryComponent } from '@app/utils/query-component/query.component';
 @Component({
   selector: 'app-issue-list',
   templateUrl: './issue-list.component.html',
-  styleUrls: ['./issue-list.component.scss'],
+  styleUrls: ['./issue-list.component.scss']
 })
 export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() listId: ListId;
@@ -87,9 +74,7 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
       case IssueCategory.FeatureRequest:
         return issue.isOpen ? 'issue-feature' : 'issue-feature-closed';
       case IssueCategory.Unclassified:
-        return issue.isOpen
-          ? 'issue-uncategorized'
-          : 'issue-uncategorized-closed';
+        return issue.isOpen ? 'issue-uncategorized' : 'issue-uncategorized-closed';
     }
   }
 
@@ -112,7 +97,7 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.allLabelsList = {
       node: this.listId.node,
-      type: ListType.Labels,
+      type: ListType.Labels
     };
 
     if (this.listId.node.type === NodeType.Component) {
@@ -127,20 +112,18 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.componentInterface$.dataAsPromise().then((data) => {
         this.componentInterfaceProvider = {
           type: NodeType.Component,
-          id: data.component.id,
+          id: data.component.id
         };
       });
     }
 
     // FIXME: a hack to fix the labels list on interfaces
     if (this.listId.node.type === NodeType.ComponentInterface) {
-      const interfaceNode = this.dataService.getNode<ComponentInterface>(
-        this.listId.node
-      );
+      const interfaceNode = this.dataService.getNode<ComponentInterface>(this.listId.node);
       interfaceNode.dataAsPromise().then((data) => {
         this.allLabelsList = {
           node: { type: NodeType.Component, id: data.component.id },
-          type: ListType.Labels,
+          type: ListType.Labels
         };
       });
     }
@@ -151,9 +134,7 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.query.listenTo(this.list$, (data) => {
-      this.dataSource = new MatTableDataSource<any>(
-        data ? [...data.values()] : []
-      );
+      this.dataSource = new MatTableDataSource<any>(data ? [...data.values()] : []);
       this.sort.sort({ id: 'category', start: 'asc' } as MatSortable);
       this.dataSource.sort = this.sort;
       // FIXME use bespoke pagination/sorting/filtering
@@ -261,9 +242,9 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dialog.open(CreateIssueDialogComponent, {
         data: {
           projectId: this.projectId,
-          components: [this.component$.id],
+          components: [this.component$.id]
         },
-        width: '600px',
+        width: '600px'
       });
     }
 
@@ -273,9 +254,9 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
         data: {
           projectId: this.projectId,
           components: [this.componentInterfaceProvider],
-          locations: [this.componentInterface$.id],
+          locations: [this.componentInterface$.id]
         },
-        width: '600px',
+        width: '600px'
       });
     }
   }

@@ -10,7 +10,7 @@ import { QueryComponent } from '@app/utils/query-component/query.component';
 @Component({
   selector: 'app-create-component-dialog',
   templateUrl: './create-component-dialog.component.html',
-  styleUrls: ['./create-component-dialog.component.scss'],
+  styleUrls: ['./create-component-dialog.component.scss']
 })
 export class CreateComponentDialogComponent {
   @Input() projectId: string;
@@ -25,18 +25,9 @@ export class CreateComponentDialogComponent {
   ) {}
 
   // define validations
-  validationName = new FormControl('', [
-    CCIMSValidators.nameFormatValidator,
-    Validators.required,
-  ]);
-  validationUrl = new FormControl('', [
-    CCIMSValidators.urlValidator,
-    Validators.required,
-  ]);
-  validationIMS = new FormControl('', [
-    CCIMSValidators.urlValidator,
-    Validators.required,
-  ]);
+  validationName = new FormControl('', [CCIMSValidators.nameFormatValidator, Validators.required]);
+  validationUrl = new FormControl('', [CCIMSValidators.urlValidator, Validators.required]);
+  validationIMS = new FormControl('', [CCIMSValidators.urlValidator, Validators.required]);
   validationProvider = new FormControl('', Validators.required);
   validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
@@ -46,26 +37,17 @@ export class CreateComponentDialogComponent {
   }
 
   // callback method for component creation
-  onOkClick(
-    name: string,
-    url: string,
-    description: string,
-    ims: string,
-    provider: string
-  ): void {
+  onOkClick(name: string, url: string, description: string, ims: string, provider: string): void {
     // define the input for the database mutation - required fields are specified by the graphQL schema
     // TODO: Add component to IMS?
     const input: CreateComponentInput = {
       name,
       projects: [this.data.projectId],
       description,
-      repositoryURL: url,
+      repositoryURL: url
     };
 
-    this.queryComponent.listenTo(
-      this.componentStore.createComponent(input),
-      () => this.dialogRef.close()
-    );
+    this.queryComponent.listenTo(this.componentStore.createComponent(input), () => this.dialogRef.close());
   }
 
   checkImsType(returnFromSelect: string): ImsType {

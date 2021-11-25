@@ -1,10 +1,4 @@
-import {
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   decodeListId,
@@ -15,7 +9,7 @@ import {
   ListIdEnc,
   NodeId,
   NodeIdEnc,
-  nodeTypeFromTypename,
+  nodeTypeFromTypename
 } from '@app/data-dgql/id';
 import { DataList } from '@app/data-dgql/query';
 import { Subscription } from 'rxjs';
@@ -70,28 +64,18 @@ class MultiSourceList<T, F> {
    */
   public query = '';
 
-  constructor(
-    public spec: SetMultiSource,
-    public scoreKeys: string[],
-    private dataService: DataService
-  ) {
+  constructor(public spec: SetMultiSource, public scoreKeys: string[], private dataService: DataService) {
     if (Array.isArray(spec.sourceNodes)) {
       this.staticSourceNodeList = spec.sourceNodes;
     } else if (typeof spec.sourceNodes === 'object') {
       this.sourceNodeList = dataService.getList(spec.sourceNodes);
-      this.sourceNodeListSub = this.sourceNodeList.subscribe(() =>
-        this.update()
-      );
+      this.sourceNodeListSub = this.sourceNodeList.subscribe(() => this.update());
     }
     this.update();
   }
 
   /** Creates a new MultiSourceList that actually just loads a single list. */
-  static fromSingleList<T, F>(
-    list: ListId,
-    scoreKeys: string[],
-    dataService: DataService
-  ) {
+  static fromSingleList<T, F>(list: ListId, scoreKeys: string[], dataService: DataService) {
     return new this<T, F>({ staticSources: [list] }, scoreKeys, dataService);
   }
 
@@ -223,13 +207,9 @@ export interface SetEditorDialogData<T, F> {
 @Component({
   selector: 'app-set-editor-dialog',
   templateUrl: './set-editor-dialog.component.html',
-  styleUrls: ['./set-editor-dialog.component.scss'],
+  styleUrls: ['./set-editor-dialog.component.scss']
 })
-export class SetEditorDialogComponent<
-  T extends { id: string; __typename: string },
-  F
-> implements OnInit, OnDestroy
-{
+export class SetEditorDialogComponent<T extends { id: string; __typename: string }, F> implements OnInit, OnDestroy {
   public isLocalSet = false;
   public localSet: NodeIdEnc[] = [];
   public listSet$: DataList<T, F>;
@@ -255,16 +235,8 @@ export class SetEditorDialogComponent<
     }
     this.listAll =
       'staticSources' in this.data.listAll
-        ? new MultiSourceList<T, F>(
-            this.data.listAll,
-            this.data.scoreKeys,
-            this.dataService
-          )
-        : MultiSourceList.fromSingleList<T, F>(
-            this.data.listAll,
-            this.data.scoreKeys,
-            this.dataService
-          );
+        ? new MultiSourceList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService)
+        : MultiSourceList.fromSingleList<T, F>(this.data.listAll, this.data.scoreKeys, this.dataService);
 
     if (this.listSet$) {
       this.listSetSub = this.listSet$?.subscribe();
@@ -278,10 +250,7 @@ export class SetEditorDialogComponent<
     if (this.listSet$) {
       this.listSet$.filter = this.data.makeFilter(this.searchQuery);
     }
-    this.listAll.setFilter(
-      this.searchQuery,
-      this.data.makeFilter(this.searchQuery)
-    );
+    this.listAll.setFilter(this.searchQuery, this.data.makeFilter(this.searchQuery));
   }
 
   getNodeId(item): NodeId {
@@ -325,10 +294,7 @@ export class SetEditorDialogComponent<
     }
 
     this.data
-      .applyChangeset(
-        [...this.additions].map(decodeNodeId),
-        [...this.deletions].map(decodeNodeId)
-      )
+      .applyChangeset([...this.additions].map(decodeNodeId), [...this.deletions].map(decodeNodeId))
       .then(() => {
         this.dialogRef.close(null);
       })

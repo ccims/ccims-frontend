@@ -1,7 +1,4 @@
-import {
-  GraphComponent,
-  GraphInterface,
-} from '@app/data/issue-graph/graph-data';
+import { GraphComponent, GraphInterface } from '@app/data/issue-graph/graph-data';
 import { IssueCategory } from 'src/generated/graphql';
 import { Node } from '@ustutt/grapheditor-webcomponent/lib/node';
 import { Edge } from '@ustutt/grapheditor-webcomponent/lib/edge';
@@ -20,14 +17,14 @@ export {
   createConsumptionEdge,
   createInterfaceProvisionEdge,
   Position,
-  getIssueFolderId,
+  getIssueFolderId
 };
 
 export enum NodeType {
   Component = 'component',
   Interface = 'interface',
   InterfaceConsumer = 'interface-connect',
-  IssueGroupContainer = 'issue-group-container',
+  IssueGroupContainer = 'issue-group-container'
 }
 
 /**
@@ -49,16 +46,13 @@ interface ComponentNode extends IssueNode {
   data: GraphComponent;
 }
 
-function createComponentNode(
-  component: GraphComponent,
-  position: Position
-): ComponentNode {
+function createComponentNode(component: GraphComponent, position: Position): ComponentNode {
   return {
     ...(position || zeroPosition),
     id: component.id,
     title: component.name,
     type: NodeType.Component,
-    data: component,
+    data: component
   };
 }
 
@@ -66,16 +60,13 @@ interface InterfaceNode extends IssueNode {
   offeredById: string;
 }
 
-function createInterfaceNode(
-  intrface: GraphInterface,
-  position: Position
-): InterfaceNode {
+function createInterfaceNode(intrface: GraphInterface, position: Position): InterfaceNode {
   return {
     ...(position || zeroPosition),
     id: intrface.id,
     title: intrface.name,
     type: NodeType.Interface,
-    offeredById: intrface.offeredBy,
+    offeredById: intrface.offeredBy
   };
 }
 
@@ -84,9 +75,7 @@ interface IssueGroupContainerNode extends Node {
   issueGroupNodeIds: Set<string>;
 }
 
-function createIssueGroupContainerNode(
-  node: IssueNode
-): IssueGroupContainerNode {
+function createIssueGroupContainerNode(node: IssueNode): IssueGroupContainerNode {
   return {
     id: `${node.id}__issue-group-container`,
     type: NodeType.IssueGroupContainer,
@@ -94,7 +83,7 @@ function createIssueGroupContainerNode(
     x: 0,
     y: 0,
     position: 'bottom',
-    issueGroupNodeIds: new Set<string>(),
+    issueGroupNodeIds: new Set<string>()
   };
 }
 
@@ -103,18 +92,14 @@ interface IssueFolderNode extends Node {
   issueCount: string;
 }
 
-function createIssueFolderNode(
-  node: IssueNode,
-  issueCategory: IssueCategory,
-  issueCount: string
-): IssueFolderNode {
+function createIssueFolderNode(node: IssueNode, issueCategory: IssueCategory, issueCount: string): IssueFolderNode {
   return {
     id: getIssueFolderId(node.id, issueCategory),
     type: issueCategory,
     x: 0,
     y: 0,
     issues: new Set<string>(),
-    issueCount,
+    issueCount
   };
 }
 
@@ -122,11 +107,7 @@ interface RelationEdge extends Edge {
   sourceIssues: Set<string>;
 }
 
-function createRelationEdge(
-  sourceId: string,
-  targetId: string,
-  edgeType = folderEdgeTypes.RelatedTo
-): RelationEdge {
+function createRelationEdge(sourceId: string, targetId: string, edgeType = folderEdgeTypes.RelatedTo): RelationEdge {
   return {
     id: `s${sourceId}t${targetId}r${edgeType}`,
     source: sourceId,
@@ -134,10 +115,10 @@ function createRelationEdge(
     type: folderEdgeTypes.RelatedTo,
     markerEnd: {
       template: 'arrow',
-      relativeRotation: 0,
+      relativeRotation: 0
     },
     dragHandles: [],
-    sourceIssues: new Set<string>(),
+    sourceIssues: new Set<string>()
   };
 }
 
@@ -148,20 +129,17 @@ function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
     type: NodeType.InterfaceConsumer,
     markerEnd: {
       template: 'interface-connector',
-      relativeRotation: 0,
-    },
+      relativeRotation: 0
+    }
   };
 }
 
-function createInterfaceProvisionEdge(
-  componentId: string,
-  interfaceId: string
-): Edge {
+function createInterfaceProvisionEdge(componentId: string, interfaceId: string): Edge {
   return {
     source: componentId,
     target: interfaceId,
     type: NodeType.Interface,
-    dragHandles: [],
+    dragHandles: []
   };
 }
 
@@ -179,5 +157,5 @@ const zeroPosition = { x: 0, y: 0 };
 enum folderEdgeTypes {
   RelatedTo = 'relatedTo',
   Depends = 'dependency',
-  Duplicates = 'duplicate',
+  Duplicates = 'duplicate'
 }

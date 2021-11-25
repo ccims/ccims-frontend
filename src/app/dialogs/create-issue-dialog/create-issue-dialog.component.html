@@ -15,11 +15,7 @@
     <app-markdown-editor #body></app-markdown-editor>
 
     <!--1.3. Issue category-->
-    <mat-button-toggle-group
-      class="category-selector"
-      [formControl]="category"
-      required
-    >
+    <mat-button-toggle-group class="category-selector" [formControl]="category" required>
       <mat-button-toggle value="UNCLASSIFIED">
         <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
         Unclassified
@@ -35,10 +31,7 @@
     </mat-button-toggle-group>
 
     <!--1.4. Issue data-->
-    <app-issue-sidebar
-      [(localIssue)]="issueData"
-      [projectId]="data.projectId"
-    ></app-issue-sidebar>
+    <app-issue-sidebar [(localIssue)]="issueData" [projectId]="data.projectId"></app-issue-sidebar>
 
     <!--Save failed error message-->
     <nz-alert
@@ -56,13 +49,7 @@
 <!--2. Actions-->
 <div mat-dialog-actions class="actions">
   <!--2.1. Cancel button, stops the issue creation process-->
-  <button
-    mat-raised-button
-    color="warn"
-    (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)"
-  >
-    Cancel
-  </button>
+  <button mat-raised-button color="warn" (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)">Cancel</button>
 
   <!--2.2. Create button, finishes the issue creation process-->
   <button

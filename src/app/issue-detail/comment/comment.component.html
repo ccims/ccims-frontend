@@ -4,30 +4,15 @@
     <div class="item-header">
       <!--Text-->
       <h3 class="item-title">
-        <app-user-item
-          [short]="true"
-          [user]="comment.createdBy"
-        ></app-user-item>
+        <app-user-item [short]="true" [user]="comment.createdBy"></app-user-item>
         commented
-        <time
-          [dateTime]="comment.createdAt"
-          [title]="this.timeFormatter.formatTime(comment.createdAt)"
-        >
+        <time [dateTime]="comment.createdAt" [title]="this.timeFormatter.formatTime(comment.createdAt)">
           {{ this.timeFormatter.formatTimeDifference(comment.createdAt) }}
         </time>
-        <span
-          class="item-edited"
-          *ngIf="comment.lastEditedAt !== comment.createdAt"
-        >
-          &sdot;<app-user-item
-            [short]="true"
-            [user]="comment.editedBy?.nodes[0]"
-          ></app-user-item>
+        <span class="item-edited" *ngIf="comment.lastEditedAt !== comment.createdAt">
+          &sdot;<app-user-item [short]="true" [user]="comment.editedBy?.nodes[0]"></app-user-item>
           edited
-          <time
-            [dateTime]="comment.lastEditedAt"
-            [title]="this.timeFormatter.formatTime(comment.lastEditedAt)"
-          >
+          <time [dateTime]="comment.lastEditedAt" [title]="this.timeFormatter.formatTime(comment.lastEditedAt)">
             {{ this.timeFormatter.formatTimeDifference(comment.lastEditedAt) }}
           </time>
         </span>
@@ -35,13 +20,7 @@
 
       <!--Edit-->
       <!-- Delete button is only for comments and not for issue description displayed -->
-      <button
-        *ngIf="!this.editBody && !this.isIssueBody"
-        class="item-edit"
-        color="warn"
-        mat-flat-button
-        (click)="this.deleteComment()"
-      >
+      <button *ngIf="!this.editBody && !this.isIssueBody" class="item-edit" color="warn" mat-flat-button (click)="this.deleteComment()">
         Delete
       </button>
       <button
@@ -58,36 +37,19 @@
 
     <!--Part 2: Description-->
     <div *ngIf="!this.editBody" class="item-body">
-      <app-markdown-preview
-        [displayedCode]="comment.body"
-      ></app-markdown-preview>
+      <app-markdown-preview [displayedCode]="comment.body"></app-markdown-preview>
     </div>
 
     <!--Part 3: Editing-->
-    <div
-      *ngIf="this.editBody"
-      class="item-body is-editing"
-      [ngStyle]="{ height: this.editBody ? '280px' : 'auto' }"
-    >
+    <div *ngIf="this.editBody" class="item-body is-editing" [ngStyle]="{ height: this.editBody ? '280px' : 'auto' }">
       <!--Text-->
-      <app-markdown-editor
-        #bodyEdit
-        [code]="comment.body"
-      ></app-markdown-editor>
+      <app-markdown-editor #bodyEdit [code]="comment.body"></app-markdown-editor>
 
       <div class="edit-body-buttons">
         <!--Cancel-->
-        <button mat-raised-button (click)="this.editBody = !this.editBody">
-          Cancel
-        </button>
+        <button mat-raised-button (click)="this.editBody = !this.editBody">Cancel</button>
         <!--Save-->
-        <button
-          mat-raised-button
-          style="margin-left: 6px"
-          color="accent"
-          [class.spinner]="savingBody"
-          (click)="editComment(bodyEdit.code)"
-        >
+        <button mat-raised-button style="margin-left: 6px" color="accent" [class.spinner]="savingBody" (click)="editComment(bodyEdit.code)">
           Save
         </button>
       </div>

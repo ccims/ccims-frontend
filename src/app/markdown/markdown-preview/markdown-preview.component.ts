@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-markdown-preview',
   templateUrl: './markdown-preview.component.html',
   styleUrls: ['./markdown-preview.component.scss'],
-  preserveWhitespaces: true,
+  preserveWhitespaces: true
 })
 export class MarkdownPreviewComponent implements OnInit {
   /**

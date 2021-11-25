@@ -4,34 +4,18 @@
       <mat-label>Search</mat-label>
       <input matInput [(ngModel)]="searchQuery" (keyup)="update()" />
     </mat-form-field>
-    <button
-      mat-button
-      class="pred-add"
-      (click)="addPredicateAfter(-1)"
-      *ngIf="!activePredicates.length"
-    >
+    <button mat-button class="pred-add" (click)="addPredicateAfter(-1)" *ngIf="!activePredicates.length">
       <mat-icon>filter_list</mat-icon>
     </button>
   </div>
 
   <div class="filter-predicates" *ngIf="activePredicates.length">
     <div class="filter-title">Filter</div>
-    <div
-      class="filter-predicate"
-      *ngFor="let id of activePredicates; index as idx"
-    >
+    <div class="filter-predicate" *ngFor="let id of activePredicates; index as idx">
       <div class="predicate-type">
         <mat-form-field appearance="outline" class="predicate-type-selector">
-          <mat-select
-            [value]="id"
-            (selectionChange)="setPredicateType(idx, $event.value)"
-          >
-            <mat-option
-              *ngFor="let type of getRemainingTypes(idx)"
-              [value]="type"
-            >
-              {{ predicates[type].label }}
-            </mat-option>
+          <mat-select [value]="id" (selectionChange)="setPredicateType(idx, $event.value)">
+            <mat-option *ngFor="let type of getRemainingTypes(idx)" [value]="type"> {{ predicates[type].label }} </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -39,11 +23,7 @@
         <!-- FILTER VALUES -->
 
         <ng-container *ngSwitchCase="'bool'">
-          <mat-button-toggle-group
-            class="bool-value"
-            [(ngModel)]="predicateValues[id]"
-            (ngModelChange)="update()"
-          >
+          <mat-button-toggle-group class="bool-value" [(ngModel)]="predicateValues[id]" (ngModelChange)="update()">
             <mat-button-toggle [value]="true"> Yes </mat-button-toggle>
             <mat-button-toggle [value]="false"> No </mat-button-toggle>
           </mat-button-toggle-group>
@@ -76,34 +56,14 @@
           >
             <span title>{{ predicates[id].label }}</span>
             <span if-empty>{{ predicates[id].ifEmpty }}</span>
-            <ng-container
-              *appItem="let item"
-              [ngSwitch]="predicates[id].dataType"
-            >
-              <app-issue-label
-                *ngSwitchCase="'label'"
-                [label]="item"
-              ></app-issue-label>
-              <app-issue-item
-                *ngSwitchCase="'issue'"
-                [projectId]="projectId"
-                [issue]="item"
-              ></app-issue-item>
-              <app-user-item
-                *ngSwitchCase="'user'"
-                [user]="item"
-              ></app-user-item>
+            <ng-container *appItem="let item" [ngSwitch]="predicates[id].dataType">
+              <app-issue-label *ngSwitchCase="'label'" [label]="item"></app-issue-label>
+              <app-issue-item *ngSwitchCase="'issue'" [projectId]="projectId" [issue]="item"></app-issue-item>
+              <app-user-item *ngSwitchCase="'user'" [user]="item"></app-user-item>
               <ng-container *ngSwitchCase="'location'">
-                <div *ngIf="item.__typename === 'Component'">
-                  {{ item.name }}
-                </div>
+                <div *ngIf="item.__typename === 'Component'">{{ item.name }}</div>
                 <div *ngIf="item.__typename === 'ComponentInterface'">
-                  <span
-                    class="location-containing-component-name"
-                    *ngIf="!!item.component"
-                  >
-                    {{ item.component.name }} ›
-                  </span>
+                  <span class="location-containing-component-name" *ngIf="!!item.component"> {{ item.component.name }} › </span>
                   {{ item.name }}
                 </div>
               </ng-container>
@@ -117,12 +77,7 @@
         <button mat-button class="pred-remove" (click)="removePredicateAt(idx)">
           <mat-icon>remove</mat-icon>
         </button>
-        <button
-          mat-button
-          class="pred-add"
-          (click)="addPredicateAfter(idx)"
-          *ngIf="activePredicates.length < predicateCount"
-        >
+        <button mat-button class="pred-add" (click)="addPredicateAfter(idx)" *ngIf="activePredicates.length < predicateCount">
           <mat-icon>add</mat-icon>
         </button>
       </div>

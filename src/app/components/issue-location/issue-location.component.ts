@@ -8,7 +8,7 @@ import { IssueLocation } from '../../../generated/graphql-dgql';
 @Component({
   selector: 'app-issue-location',
   styleUrls: ['./issue-location.component.scss'],
-  templateUrl: './issue-location.component.html',
+  templateUrl: './issue-location.component.html'
 })
 export class IssueLocationComponent {
   /** The raw project ID. */
@@ -26,19 +26,9 @@ export class IssueLocationComponent {
   /** Navigates to the location's detail page. */
   goToLocationDetails(): void {
     if (this.isComponent()) {
-      this.router.navigate([
-        'projects',
-        this.projectId,
-        'component',
-        this.location.id,
-      ]);
+      this.router.navigate(['projects', this.projectId, 'component', this.location.id]);
     } else {
-      this.router.navigate([
-        'projects',
-        this.projectId,
-        'interface',
-        this.location.id,
-      ]);
+      this.router.navigate(['projects', this.projectId, 'interface', this.location.id]);
     }
   }
 }

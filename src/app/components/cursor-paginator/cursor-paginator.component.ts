@@ -7,7 +7,7 @@ import { DataList } from '@app/data-dgql/query';
 @Component({
   selector: 'app-cursor-paginator',
   templateUrl: './cursor-paginator.component.html',
-  styleUrls: ['./cursor-paginator.component.scss'],
+  styleUrls: ['./cursor-paginator.component.scss']
 })
 export class CursorPaginatorComponent {
   /** The DataList that will be controlled. */

@@ -10,9 +10,7 @@
     [ngModelOptions]="{ standalone: true }"
     placeholder="Select User(s)"
   >
-    <ng-option *ngFor="let user of this.data.addableMembers" [value]="user.id">
-      {{ user.displayName }}
-    </ng-option>
+    <ng-option *ngFor="let user of this.data.addableMembers" [value]="user.id"> {{ user.displayName }} </ng-option>
   </ng-select>
 
   <!-- select the role of the user to be added -->
@@ -26,13 +24,7 @@
 <!-- close window or add user and close window -->
 <div mat-dialog-actions class="actions">
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
-  <button
-    mat-raised-button
-    color="success"
-    [class.spinner]="loading"
-    [disabled]="loading || validation.invalid"
-    (click)="onOkClick()"
-  >
+  <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validation.invalid" (click)="onOkClick()">
     Add
   </button>
 </div>

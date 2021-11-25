@@ -1,16 +1,10 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   GetBasicComponentQuery,
   GetComponentQuery,
   GetInterfaceQuery,
   UpdateComponentInput,
-  UpdateComponentInterfaceInput,
+  UpdateComponentInterfaceInput
 } from '../../generated/graphql';
 import { FormControl, Validators } from '@angular/forms';
 import { ListId, ListType, NodeType } from '@app/data-dgql/id';
@@ -28,7 +22,7 @@ import { CCIMSValidators } from '@app/utils/validators';
  */
 export enum NodeDetailsType {
   Component,
-  Interface,
+  Interface
 }
 
 export declare type NodeUpdatedCallbackFn = (nodeDeleted: boolean) => void;
@@ -39,7 +33,7 @@ export declare type NodeUpdatedCallbackFn = (nodeDeleted: boolean) => void;
 @Component({
   selector: 'app-node-details',
   templateUrl: './node-details.component.html',
-  styleUrls: ['./node-details.component.scss'],
+  styleUrls: ['./node-details.component.scss']
 })
 export class NodeDetailsComponent implements OnInit, AfterViewInit {
   /**
@@ -76,22 +70,10 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
   placeholder = 'placeholder';
 
   // TODO: Validators
-  validationProvider = new FormControl('', [
-    Validators.required,
-    CCIMSValidators.urlValidator,
-  ]);
-  validationName = new FormControl('', [
-    Validators.required,
-    CCIMSValidators.nameFormatValidator,
-  ]);
-  validationUrl = new FormControl('', [
-    Validators.required,
-    CCIMSValidators.urlValidator,
-  ]);
-  validationIMS = new FormControl('', [
-    Validators.required,
-    CCIMSValidators.urlValidator,
-  ]);
+  validationProvider = new FormControl('', [Validators.required, CCIMSValidators.urlValidator]);
+  validationName = new FormControl('', [Validators.required, CCIMSValidators.nameFormatValidator]);
+  validationUrl = new FormControl('', [Validators.required, CCIMSValidators.urlValidator]);
+  validationIMS = new FormControl('', [Validators.required, CCIMSValidators.urlValidator]);
   validationType = new FormControl('');
   validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
@@ -109,12 +91,12 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     if (this.nodeType === NodeDetailsType.Component) {
       this.issueListId = {
         node: { type: NodeType.Component, id: this.nodeId },
-        type: ListType.Issues,
+        type: ListType.Issues
       };
     } else {
       this.issueListId = {
         node: { type: NodeType.ComponentInterface, id: this.nodeId },
-        type: ListType.IssuesOnLocation,
+        type: ListType.IssuesOnLocation
       };
     }
 
@@ -124,29 +106,23 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     if (this.nodeType === NodeDetailsType.Component) {
-      this.nodeQuery.listenTo(
-        this.componentStoreService.getBasicComponent(this.nodeId),
-        (component) => {
-          if (component.node) {
-            this.component = component;
-            this.validationIMS.setValue('This is a placeholder');
-            this.validationUrl.setValue(component.node.repositoryURL);
-          } else {
-            this.nodeQuery.setError();
-          }
+      this.nodeQuery.listenTo(this.componentStoreService.getBasicComponent(this.nodeId), (component) => {
+        if (component.node) {
+          this.component = component;
+          this.validationIMS.setValue('This is a placeholder');
+          this.validationUrl.setValue(component.node.repositoryURL);
+        } else {
+          this.nodeQuery.setError();
         }
-      );
+      });
     } else if (this.nodeType === NodeDetailsType.Interface) {
-      this.nodeQuery.listenTo(
-        this.interfaceStoreService.getInterface(this.nodeId),
-        (int) => {
-          if (int.node) {
-            this.interface = int;
-          } else {
-            this.nodeQuery.setError();
-          }
+      this.nodeQuery.listenTo(this.interfaceStoreService.getInterface(this.nodeId), (int) => {
+        if (int.node) {
+          this.interface = int;
+        } else {
+          this.nodeQuery.setError();
         }
-      );
+      });
     }
   }
 
@@ -169,9 +145,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
    * Get the type of the node as a formatted string
    */
   public getNodeTypeString(): string {
-    return this.nodeType === NodeDetailsType.Interface
-      ? 'Interface'
-      : 'Component';
+    return this.nodeType === NodeDetailsType.Interface ? 'Interface' : 'Component';
   }
 
   /**
@@ -198,41 +172,31 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     const affected: string[] = [];
     // Collect affected interfaces and components, then show the delete dialog
     if (this.nodeType === NodeDetailsType.Component) {
-      this.deleteQuery.listenTo(
-        this.componentStoreService.getComponentInterfaces(this.nodeId),
-        (interfaces) => {
-          for (const i of interfaces.node.interfaces.nodes) {
-            let affectedInterface =
-              'Interface "' + i.name + '" will be deleted';
-            if (i.consumedBy.nodes.length > 0) {
-              affectedInterface +=
-                ', which will affect the following component(s):';
-            }
-
-            affected.push(affectedInterface);
-            for (const component of i.consumedBy.nodes) {
-              affected.push(' ' + component.name);
-            }
+      this.deleteQuery.listenTo(this.componentStoreService.getComponentInterfaces(this.nodeId), (interfaces) => {
+        for (const i of interfaces.node.interfaces.nodes) {
+          let affectedInterface = 'Interface "' + i.name + '" will be deleted';
+          if (i.consumedBy.nodes.length > 0) {
+            affectedInterface += ', which will affect the following component(s):';
           }
 
-          this.showDeleteDialog(affected);
+          affected.push(affectedInterface);
+          for (const component of i.consumedBy.nodes) {
+            affected.push(' ' + component.name);
+          }
         }
-      );
+
+        this.showDeleteDialog(affected);
+      });
     } else if (this.nodeType === NodeDetailsType.Interface) {
-      this.deleteQuery.listenTo(
-        this.interfaceStoreService.getConsumingComponents(this.nodeId),
-        (components) => {
-          affected.push(
-            'Deleting this interface will affect the following component(s):'
-          );
-          affected.push(' ' + components.node.component.name);
-          for (const c of components.node.consumedBy.nodes) {
-            affected.push(' ' + c.name);
-          }
-
-          this.showDeleteDialog(affected);
+      this.deleteQuery.listenTo(this.interfaceStoreService.getConsumingComponents(this.nodeId), (components) => {
+        affected.push('Deleting this interface will affect the following component(s):');
+        affected.push(' ' + components.node.component.name);
+        for (const c of components.node.consumedBy.nodes) {
+          affected.push(' ' + c.name);
         }
-      );
+
+        this.showDeleteDialog(affected);
+      });
     }
   }
 
@@ -242,30 +206,21 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
         data: {
           title: 'Really delete component "' + this.component.node.name + '"?',
           messages: [
-            'Are you sure you want to delete the component "' +
-              this.component.node.name +
-              '"?',
-            'This action cannot be undone!',
+            'Are you sure you want to delete the component "' + this.component.node.name + '"?',
+            'This action cannot be undone!'
           ].concat(affected),
-          verificationName: this.component.node.name,
-        },
+          verificationName: this.component.node.name
+        }
       });
 
       confirmDeleteDialogRef.afterClosed().subscribe((deleteData) => {
         if (deleteData) {
-          this.deleteQuery.listenTo(
-            this.componentStoreService.deleteComponent(this.nodeId),
-            () => {
-              this.notify.notifyInfo(
-                'Successfully deleted component "' +
-                  this.component.node.name +
-                  '""'
-              );
-              if (this.callback) {
-                this.callback(true);
-              }
+          this.deleteQuery.listenTo(this.componentStoreService.deleteComponent(this.nodeId), () => {
+            this.notify.notifyInfo('Successfully deleted component "' + this.component.node.name + '""');
+            if (this.callback) {
+              this.callback(true);
             }
-          );
+          });
         }
       });
     } else if (this.nodeType === NodeDetailsType.Interface) {
@@ -273,31 +228,22 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
         data: {
           title: 'Really delete interface "' + this.interface.node.name + '"?',
           messages: [
-            'Are you sure you want to delete the interface "' +
-              this.interface.node.name +
-              '"?',
-            'This action cannot be undone!',
+            'Are you sure you want to delete the interface "' + this.interface.node.name + '"?',
+            'This action cannot be undone!'
           ].concat(affected),
-          verificationName: this.interface.node.name,
-        },
+          verificationName: this.interface.node.name
+        }
       });
 
       confirmDeleteDialogRef.afterClosed().subscribe((deleteData) => {
         // dialog returns if the deleting was successful
         if (deleteData) {
-          this.deleteQuery.listenTo(
-            this.interfaceStoreService.delete(this.nodeId),
-            () => {
-              this.notify.notifyInfo(
-                'Successfully deleted interface "' +
-                  this.interface.node.name +
-                  '"'
-              );
-              if (this.callback) {
-                this.callback(true);
-              }
+          this.deleteQuery.listenTo(this.interfaceStoreService.delete(this.nodeId), () => {
+            this.notify.notifyInfo('Successfully deleted interface "' + this.interface.node.name + '"');
+            if (this.callback) {
+              this.callback(true);
             }
-          );
+          });
         }
       });
     }
@@ -335,35 +281,29 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     const input: UpdateComponentInput = {
       component: this.component.node.id,
       name: this.component.node.name,
-      description: this.component.node.description,
+      description: this.component.node.description
     };
 
-    this.updateQuery.listenTo(
-      this.componentStoreService.updateComponent(input),
-      () => {
-        this.editMode = false;
-        if (this.callback) {
-          this.callback(false);
-        }
+    this.updateQuery.listenTo(this.componentStoreService.updateComponent(input), () => {
+      this.editMode = false;
+      if (this.callback) {
+        this.callback(false);
       }
-    );
+    });
   }
 
   private updateInterface(): void {
     const MutationinputData: UpdateComponentInterfaceInput = {
       componentInterface: this.interface.node.id,
       name: this.interface.node.name,
-      description: this.interface.node.description,
+      description: this.interface.node.description
     };
 
-    this.updateQuery.listenTo(
-      this.interfaceStoreService.update(MutationinputData),
-      () => {
-        this.editMode = false;
-        if (this.callback) {
-          this.callback(false);
-        }
+    this.updateQuery.listenTo(this.interfaceStoreService.update(MutationinputData), () => {
+      this.editMode = false;
+      if (this.callback) {
+        this.callback(false);
       }
-    );
+    });
   }
 }

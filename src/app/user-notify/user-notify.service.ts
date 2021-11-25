@@ -11,7 +11,7 @@ export class UserNotifyService {
     timeOut: 10000,
     closeButton: true,
     positionClass: 'toast-top-center',
-    enableHtml: true,
+    enableHtml: true
   };
 
   /** @ignore */
@@ -19,7 +19,7 @@ export class UserNotifyService {
     timeOut: 4000,
     closeButton: true,
     positionClass: 'toast-top-center',
-    enableHtml: true,
+    enableHtml: true
   };
 
   constructor(private toastr: ToastrService) {}

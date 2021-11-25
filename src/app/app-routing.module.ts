@@ -31,14 +31,14 @@ const routes: Routes = [
               {
                 path: '',
                 pathMatch: 'full',
-                component: ProjectIssueListComponent,
+                component: ProjectIssueListComponent
               },
               {
                 path: ':issueId',
                 pathMatch: 'full',
-                component: IssueDetailComponent,
-              },
-            ],
+                component: IssueDetailComponent
+              }
+            ]
           },
           { path: 'members', component: ProjectMembersComponent },
           {
@@ -47,7 +47,7 @@ const routes: Routes = [
               {
                 path: '',
                 pathMatch: 'full',
-                component: NodeDetailsPageComponent,
+                component: NodeDetailsPageComponent
               },
               {
                 path: 'interface/:interfaceId',
@@ -55,16 +55,16 @@ const routes: Routes = [
                   {
                     path: '',
                     pathMatch: 'full',
-                    component: NodeDetailsPageComponent,
+                    component: NodeDetailsPageComponent
                   },
                   {
                     path: 'component/:componentId/issue/:issueId',
                     pathMatch: 'full',
-                    component: IssueDetailComponent,
-                  },
-                ],
-              },
-            ],
+                    component: IssueDetailComponent
+                  }
+                ]
+              }
+            ]
           },
           {
             path: 'interface/:interfaceId',
@@ -72,23 +72,23 @@ const routes: Routes = [
               {
                 path: '',
                 pathMatch: 'full',
-                component: NodeDetailsPageComponent,
-              },
-            ],
-          },
-        ],
+                component: NodeDetailsPageComponent
+              }
+            ]
+          }
+        ]
       },
-      { path: 'issue', component: IssueDetailComponent },
-    ],
+      { path: 'issue', component: IssueDetailComponent }
+    ]
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   // otherwise redirect to home
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

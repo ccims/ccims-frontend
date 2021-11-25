@@ -1,11 +1,4 @@
-import {
-  NodeId,
-  ListId,
-  ListType,
-  encodeListId,
-  decodeListId,
-  ListIdEnc,
-} from './id';
+import { NodeId, ListId, ListType, encodeListId, decodeListId, ListIdEnc } from './id';
 import { Injectable } from '@angular/core';
 import { QueriesService } from './queries/queries.service';
 import { DataNode, DataList, NodeCache } from './query';
@@ -19,7 +12,7 @@ import { Mutations } from '@app/data-dgql/mutate';
  * To get data, use {@link #getNode} and {@link #getList}. To mutate data, use {@link #mutations}.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export default class DataService {
   /**
@@ -38,11 +31,7 @@ export default class DataService {
 
   constructor(private queries: QueriesService) {
     this.nodes = new NodeCache(queries);
-    this.mutations = new Mutations(
-      queries,
-      this.nodes,
-      this.invalidateLists.bind(this)
-    );
+    this.mutations = new Mutations(queries, this.nodes, this.invalidateLists.bind(this));
   }
 
   /** Returns the {@link DataNode} for the given {@link NodeId}. */

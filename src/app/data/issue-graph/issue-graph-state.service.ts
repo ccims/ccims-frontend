@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  ReplaySubject,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { StateService } from '@app/state.service';
 import { GraphData } from './graph-data';
 import { filter, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
@@ -12,15 +7,12 @@ import { IssueGraphApiService } from './issue-graph-api.service';
 import { FilterState } from '@app/graphs/shared';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IssueGraphStateService {
   state$: Observable<GraphData>;
 
-  constructor(
-    private apiService: IssueGraphApiService,
-    private ss: StateService
-  ) {}
+  constructor(private apiService: IssueGraphApiService, private ss: StateService) {}
 
   /**
    * Maps an observable of the state of the graph filters (toggles and queries in search bar) onto an observable

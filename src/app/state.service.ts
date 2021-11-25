@@ -10,7 +10,7 @@ import { ProjectStoreService } from './data/project/project-store.service';
  * It determines the current project by listening for url changes and parsing the url.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class StateService {
   state: AppState = {};
@@ -31,15 +31,9 @@ export class StateService {
   syncStateWithUrl(router: Router, ps: ProjectStoreService) {
     router.events
       .pipe(
-        filter(
-          (event) =>
-            event instanceof NavigationEnd && this.isProjectURL(event.url)
-        ),
+        filter((event) => event instanceof NavigationEnd && this.isProjectURL(event.url)),
         switchMap((event: NavigationEnd) =>
-          ps.getBasicProject(
-            this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET]
-              .segments[1].path
-          )
+          ps.getBasicProject(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path)
         )
       )
       .subscribe((project) => {
@@ -47,17 +41,10 @@ export class StateService {
         this.state$.next(this.state);
       });
     // set project to null if new url is not specific to a project
-    router.events
-      .pipe(
-        filter(
-          (event) =>
-            event instanceof NavigationEnd && !this.isProjectURL(event.url)
-        )
-      )
-      .subscribe((_) => {
-        this.state.project = null;
-        this.state$.next(this.state);
-      });
+    router.events.pipe(filter((event) => event instanceof NavigationEnd && !this.isProjectURL(event.url))).subscribe((_) => {
+      this.state.project = null;
+      this.state$.next(this.state);
+    });
   }
 
   /**
@@ -72,9 +59,7 @@ export class StateService {
     const primary = tree.root.children[PRIMARY_OUTLET];
     if (primary) {
       const primarySegments = primary.segments;
-      return (
-        primarySegments[0].path === 'projects' && primary.segments.length >= 2
-      );
+      return primarySegments[0].path === 'projects' && primary.segments.length >= 2;
     }
     return false;
   }

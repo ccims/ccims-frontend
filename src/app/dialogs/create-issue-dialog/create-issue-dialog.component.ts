@@ -1,9 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { IssueCategory } from '../../../generated/graphql';
 import { UserNotifyService } from '@app/user-notify/user-notify.service';
@@ -17,7 +13,7 @@ import { RemoveDialogComponent } from '@app/dialogs/remove-dialog/remove-dialog.
 @Component({
   selector: 'app-create-issue-dialog',
   templateUrl: './create-issue-dialog.component.html',
-  styleUrls: ['./create-issue-dialog.component.scss'],
+  styleUrls: ['./create-issue-dialog.component.scss']
 })
 /**
  * This component opens a dialog for the issue creation.
@@ -37,10 +33,7 @@ export class CreateIssueDialogComponent implements OnInit {
   ) {}
 
   // form controls for the form fields
-  title = new FormControl('', [
-    CCIMSValidators.nameValidator,
-    Validators.required,
-  ]);
+  title = new FormControl('', [CCIMSValidators.nameValidator, Validators.required]);
   category = new FormControl('', [Validators.required]);
 
   public issueData: LocalIssueData = {
@@ -48,7 +41,7 @@ export class CreateIssueDialogComponent implements OnInit {
     locations: [],
     labels: [],
     assignees: [],
-    linksToIssues: [],
+    linksToIssues: []
   };
 
   ngOnInit(): void {
@@ -86,8 +79,8 @@ export class CreateIssueDialogComponent implements OnInit {
           data: {
             title: 'Really discard issue?',
             messages: ['Are you sure you want to discard this issue?'],
-            confirmButtonText: 'Confirm',
-          },
+            confirmButtonText: 'Confirm'
+          }
         })
         .afterClosed()
         .subscribe((close) => {
@@ -113,7 +106,7 @@ export class CreateIssueDialogComponent implements OnInit {
       components: this.issueData.components.map((node) => node.id),
       locations: this.issueData.locations.map((node) => node.id),
       labels: this.issueData.labels.map((node) => node.id),
-      assignees: this.issueData.assignees.map((node) => node.id),
+      assignees: this.issueData.assignees.map((node) => node.id)
     };
     this.loading = true;
     this.saveFailed = false;
@@ -124,12 +117,10 @@ export class CreateIssueDialogComponent implements OnInit {
         const promises = [];
         for (const linked of this.issueData.linksToIssues) {
           promises.push(
-            this.dataService.mutations
-              .linkIssue(Math.random().toString(), issueId, linked)
-              .catch((err) => {
-                this.notify.notifyError('Failed to link issue!', err);
-                // aborting on this error would cause weird non-recoverable state so we won't rethrow it
-              })
+            this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch((err) => {
+              this.notify.notifyError('Failed to link issue!', err);
+              // aborting on this error would cause weird non-recoverable state so we won't rethrow it
+            })
           );
         }
         await Promise.all(promises);

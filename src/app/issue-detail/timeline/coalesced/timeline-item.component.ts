@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  Directive,
-  Input,
-  TemplateRef,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, TemplateRef } from '@angular/core';
 import { CoalescedTimelineItem } from '@app/issue-detail/timeline/timeline.component';
 import { TimeFormatter } from '@app/issue-detail/time-formatter';
 
@@ -15,7 +7,7 @@ import { TimeFormatter } from '@app/issue-detail/time-formatter';
  * The content of the `ng-template` specifies the content of a timeline item, if it was *not* coalesced
  */
 @Directive({
-  selector: '[appSingleTimelineItem]',
+  selector: '[appSingleTimelineItem]'
 })
 export class TimelineSingleItemDirective {
   constructor(public template: TemplateRef<unknown>) {}
@@ -26,7 +18,7 @@ export class TimelineSingleItemDirective {
  * The content of the `ng-template` specifies the content of a timeline item, if it was coalesced
  */
 @Directive({
-  selector: '[appCoalescedTimelineItems]',
+  selector: '[appCoalescedTimelineItems]'
 })
 export class TimelineCoalescedItemsDirective {
   constructor(public template: TemplateRef<unknown>) {}
@@ -38,7 +30,7 @@ export class TimelineCoalescedItemsDirective {
  * {@link TimelineItemComponent} is set to `true`.
  */
 @Directive({
-  selector: '[appTimelineItemDeleted]',
+  selector: '[appTimelineItemDeleted]'
 })
 export class TimelineItemDeletedDirective {
   constructor(public template: TemplateRef<unknown>) {}
@@ -52,7 +44,7 @@ export class TimelineItemDeletedDirective {
 @Component({
   selector: 'app-timeline-item',
   templateUrl: './timeline-item.component.html',
-  styleUrls: ['../timeline.component.scss'],
+  styleUrls: ['../timeline.component.scss']
 })
 export class TimelineItemComponent implements AfterViewInit {
   /** The timeline item to show */

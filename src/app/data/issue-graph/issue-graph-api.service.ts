@@ -5,7 +5,7 @@ import {
   GetIssueGraphDataForSearchGQL,
   GetIssueGraphDataGQL,
   IssueCategory,
-  RemoveConsumedInterfaceGQL,
+  RemoveConsumedInterfaceGQL
 } from 'src/generated/graphql';
 import { GraphData, GraphDataFactory } from './graph-data';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ import { FilterLabel } from '../label/label-store.service';
  * @class IssueGraphApiService
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IssueGraphApiService {
   constructor(
@@ -39,12 +39,7 @@ export class IssueGraphApiService {
    * @param labels a list of issue labels the user has entered into the query bar
    * @param texts a list of text fragments the user has entered into the query bar
    */
-  loadIssueGraphData(
-    projectId: string,
-    categories: SelectedCategories,
-    labels: FilterLabel[],
-    texts: string[]
-  ): Observable<GraphData> {
+  loadIssueGraphData(projectId: string, categories: SelectedCategories, labels: FilterLabel[], texts: string[]): Observable<GraphData> {
     const activeCategories: IssueCategory[] = [];
     for (const key of Object.values(IssueCategory)) {
       if (categories[key]) {
@@ -54,27 +49,13 @@ export class IssueGraphApiService {
     if (labels.length === 0 && texts.length === 0) {
       return this.getFullIssueGraphDataQuery
         .fetch({ projectId, activeCategories })
-        .pipe(
-          map((result) =>
-            GraphDataFactory.removeFilteredData(
-              GraphDataFactory.graphDataFromGQL(result.data),
-              activeCategories
-            )
-          )
-        );
+        .pipe(map((result) => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     } else {
       const selectedLabels: string[] = labels.map((label) => label.id);
       const issueRegex = this.textsToRegex(texts);
       return this.getSearchIssueGraphDataQuery
         .fetch({ projectId, activeCategories, selectedLabels, issueRegex })
-        .pipe(
-          map((result) =>
-            GraphDataFactory.removeFilteredData(
-              GraphDataFactory.graphDataFromGQL(result.data),
-              activeCategories
-            )
-          )
-        );
+        .pipe(map((result) => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     }
   }
 
@@ -98,7 +79,7 @@ export class IssueGraphApiService {
    */
   addConsumedInterface(component: string, componentInterface: string) {
     return this.addConsumedInterfaceMutation.mutate({
-      input: { component, componentInterface },
+      input: { component, componentInterface }
     });
   }
 
@@ -109,7 +90,7 @@ export class IssueGraphApiService {
    */
   removeConsumedInterface(component: string, componentInterface: string) {
     return this.removeConsumedInterfaceMutation.mutate({
-      input: { component, componentInterface },
+      input: { component, componentInterface }
     });
   }
 }

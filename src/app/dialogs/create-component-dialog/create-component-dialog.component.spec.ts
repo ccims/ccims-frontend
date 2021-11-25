@@ -8,7 +8,7 @@ describe('CreateComponentDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateComponentDialogComponent],
+      declarations: [CreateComponentDialogComponent]
     }).compileComponents();
   }));
 

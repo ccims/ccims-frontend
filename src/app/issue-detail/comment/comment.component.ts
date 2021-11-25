@@ -16,7 +16,7 @@ import { UserNotifyService } from '@app/user-notify/user-notify.service';
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss'],
+  styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit, OnDestroy {
   /** If true, this comment component is actually editing an issue's body. */
@@ -44,11 +44,7 @@ export class CommentComponent implements OnInit, OnDestroy {
    */
   commentSub: Subscription;
 
-  constructor(
-    private dataService: DataService,
-    private dialog: MatDialog,
-    private notify: UserNotifyService
-  ) {}
+  constructor(private dataService: DataService, private dialog: MatDialog, private notify: UserNotifyService) {}
 
   ngOnInit() {
     this.comment$ = this.dataService.getNode(this.commentId);
@@ -84,26 +80,17 @@ export class CommentComponent implements OnInit, OnDestroy {
     const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, {
       data: {
         title: 'Really delete comment ?',
-        messages: [
-          'Are you sure you want to delete this comment ?',
-          'This action cannot be undone!',
-        ],
-      },
+        messages: ['Are you sure you want to delete this comment ?', 'This action cannot be undone!']
+      }
     });
 
     confirmDeleteDialogRef.afterClosed().subscribe(
       (del) => {
         if (del) {
           // User confirmed deletion
-          this.dataService.mutations
-            .deleteIssueComment(
-              Math.random().toString(),
-              this.issueId,
-              this.commentId
-            )
-            .then(() => {
-              this.notify.notifyInfo('Successfully deleted comment');
-            });
+          this.dataService.mutations.deleteIssueComment(Math.random().toString(), this.issueId, this.commentId).then(() => {
+            this.notify.notifyInfo('Successfully deleted comment');
+          });
         }
       },
       (error) => this.notify.notifyError('Failed to delete project!', error)

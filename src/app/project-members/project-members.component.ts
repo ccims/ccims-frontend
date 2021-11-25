@@ -6,11 +6,7 @@ import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, MatSortable } from '@angular/material/sort';
-import {
-  MatPaginator,
-  MatPaginatorModule,
-  PageEvent,
-} from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { AddProjectMemberDialogComponent } from '@app/dialogs/add-project-member-dialog/add-project-member-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RemoveProjectMemberComponentComponent } from '@app/dialogs/remove-project-member-component/remove-project-member-component.component';
@@ -24,7 +20,7 @@ import { RemoveProjectMemberComponentComponent } from '@app/dialogs/remove-proje
 @Component({
   selector: 'app-project-members',
   templateUrl: './project-members.component.html',
-  styleUrls: ['./project-members.component.scss'],
+  styleUrls: ['./project-members.component.scss']
 })
 export class ProjectMembersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -45,7 +41,7 @@ export class ProjectMembersComponent implements OnInit {
     { id: '3', displayName: 'User3', email: 'User3.de' },
     { id: '4', displayName: 'User4', email: 'User4.de' },
     { id: '5', displayName: 'User5', email: 'User5.de' },
-    { id: '6', displayName: 'User6', email: 'User6.de' },
+    { id: '6', displayName: 'User6', email: 'User6.de' }
   ];
 
   // list of users who can be added to the project
@@ -53,14 +49,10 @@ export class ProjectMembersComponent implements OnInit {
   addableUsers: Array<userMock> = [
     { id: '7', displayName: 'AddedUser1', email: 'AddedUser1.de' },
     { id: '8', displayName: 'AddedUser2', email: 'AddedUser2.de' },
-    { id: '9', displayName: 'AddedUser3', email: 'AddedUser3.de' },
+    { id: '9', displayName: 'AddedUser3', email: 'AddedUser3.de' }
   ];
 
-  constructor(
-    private dialog: MatDialog,
-    private projectStore: ProjectStoreService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private dialog: MatDialog, private projectStore: ProjectStoreService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id');
@@ -83,10 +75,9 @@ export class ProjectMembersComponent implements OnInit {
 
   // This method adds a user to the project members list without processing a task in the back-end
   onAddClick() {
-    const addMemberDialogRef = this.dialog.open(
-      AddProjectMemberDialogComponent,
-      { data: { addableMembers: this.addableUsers, projectId: this.projectId } }
-    );
+    const addMemberDialogRef = this.dialog.open(AddProjectMemberDialogComponent, {
+      data: { addableMembers: this.addableUsers, projectId: this.projectId }
+    });
     addMemberDialogRef.afterClosed().subscribe((data) => {
       if (data) {
         for (const user of data.usersToAdd) {
@@ -103,14 +94,13 @@ export class ProjectMembersComponent implements OnInit {
 
   // This method deletes a user to the project members list without processing a task in the back-end
   onDeleteClick() {
-    const deleteMemberDialogRef = this.dialog.open(
-      RemoveProjectMemberComponentComponent,
-      { data: { mockMembers: this.mockUsers, projectId: this.projectId } }
-    );
+    const deleteMemberDialogRef = this.dialog.open(RemoveProjectMemberComponentComponent, {
+      data: { mockMembers: this.mockUsers, projectId: this.projectId }
+    });
     deleteMemberDialogRef.afterClosed().subscribe((data) => {
       if (data) {
         for (const user of data.usersToDelete) {
-          for (var i = 0; i < this.mockUsers.length; i++) {
+          for (let i = 0; i < this.mockUsers.length; i++) {
             if (this.mockUsers[i].id === user) {
               this.mockUsers.splice(i, 1);
             }

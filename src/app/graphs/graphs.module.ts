@@ -46,15 +46,8 @@ import { ProjectHeaderComponent } from '@app/project-header/project-header.compo
 import { IssueFilterComponent } from '@app/issue-list/issue-filter.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {
-  QueryBodyDirective,
-  QueryButtonDirective,
-  QueryComponent,
-} from '@app/utils/query-component/query.component';
-import {
-  MatProgressSpinnerModule,
-  MatSpinner,
-} from '@angular/material/progress-spinner';
+import { QueryBodyDirective, QueryButtonDirective, QueryComponent } from '@app/utils/query-component/query.component';
+import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
 import { IssueLocationComponent } from '@app/components/issue-location/issue-location.component';
 import { IssueCategoryComponent } from '@app/components/issue-category/issue-category.component';
 
@@ -89,7 +82,7 @@ import { IssueCategoryComponent } from '@app/components/issue-category/issue-cat
     QueryBodyDirective,
     QueryButtonDirective,
     IssueLocationComponent,
-    IssueCategoryComponent,
+    IssueCategoryComponent
   ],
   imports: [
     CommonModule,
@@ -126,7 +119,7 @@ import { IssueCategoryComponent } from '@app/components/issue-category/issue-cat
     MatMenuModule,
     MatButtonToggleModule,
     MatTooltipModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     CdkTableModule,
@@ -147,14 +140,14 @@ import { IssueCategoryComponent } from '@app/components/issue-category/issue-cat
     QueryBodyDirective,
     QueryButtonDirective,
     IssueLocationComponent,
-    IssueCategoryComponent,
+    IssueCategoryComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill' },
-    },
-  ],
+      useValue: { appearance: 'fill' }
+    }
+  ]
 })
 export class GraphsModule {}

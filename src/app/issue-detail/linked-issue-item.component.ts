@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-issue-detail-linked-issue-item',
   templateUrl: 'linked-issue-item.component.html',
-  styleUrls: ['linked-issue-item.component.scss'],
+  styleUrls: ['linked-issue-item.component.scss']
 })
 export class LinkedIssueItemComponent implements OnInit, OnDestroy {
   /** The raw project ID. */
@@ -33,14 +33,7 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit() {
-    this.fullIssueLink = this.router.serializeUrl(
-      this.router.createUrlTree([
-        '/projects',
-        this.projectId,
-        'issues',
-        this.issueStub.id,
-      ])
-    );
+    this.fullIssueLink = this.router.serializeUrl(this.router.createUrlTree(['/projects', this.projectId, 'issues', this.issueStub.id]));
   }
 
   /** Event handler for when the accordion is opened. Loads the full issue if it hasn't been loaded yet. */
@@ -48,7 +41,7 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
     if (!this.fullIssue) {
       this.fullIssue = this.dataService.getNode({
         type: NodeType.Issue,
-        id: this.issueStub.id,
+        id: this.issueStub.id
       });
       this.fullIssueSub = this.fullIssue.subscribe();
     }

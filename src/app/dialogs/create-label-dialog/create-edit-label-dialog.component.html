@@ -27,18 +27,10 @@
 
   <mat-form-field class="new-label-input" appearance="outline">
     <mat-label>Description</mat-label>
-    <input
-      #labelDescription
-      matInput
-      [formControl]="validationLabelDescription"
-    />
+    <input #labelDescription matInput [formControl]="validationLabelDescription" />
   </mat-form-field>
 
-  <mat-form-field
-    class="new-label-input"
-    floatLabel="always"
-    appearance="outline"
-  >
+  <mat-form-field class="new-label-input" floatLabel="always" appearance="outline">
     <mat-label>Color</mat-label>
     <input
       matInput
@@ -49,21 +41,14 @@
       [cpAlphaChannel]="'disabled'"
       [cpPosition]="'bottom'"
     />
-    <button
-      mat-icon-button
-      class="color-randomize-button"
-      matSuffix
-      (click)="this.randomizeColor()"
-    >
+    <button mat-icon-button class="color-randomize-button" matSuffix (click)="this.randomizeColor()">
       <mat-icon>refresh</mat-icon>
     </button>
   </mat-form-field>
 </div>
 
 <div mat-dialog-actions class="actions">
-  <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">
-    Cancel
-  </button>
+  <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">Cancel</button>
   <button
     mat-raised-button
     color="success"

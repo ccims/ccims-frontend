@@ -5,22 +5,13 @@
       <mat-form-field class="search-field">
         <mat-label>Search</mat-label>
         <mat-icon matPrefix>search</mat-icon>
-        <input
-          matInput
-          type="search"
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="searchQueryDidChange()"
-        />
+        <input matInput type="search" [(ngModel)]="searchQuery" (ngModelChange)="searchQueryDidChange()" />
       </mat-form-field>
     </div>
     <div class="dialog-items">
       <ng-container *ngFor="let item of listAll.results || []">
         <div class="selectable-item">
-          <mat-checkbox
-            class="inner-checkbox"
-            [checked]="isInSet(item)"
-            (change)="toggleInSet(item)"
-          >
+          <mat-checkbox class="inner-checkbox" [checked]="isInSet(item)" (change)="toggleInSet(item)">
             <ng-container
               *ngTemplateOutlet="
                 data.itemTemplate;
@@ -67,24 +58,12 @@
         </div>
         Use search to find more items
       </div>
-      <div
-        class="items-empty"
-        *ngIf="!listAll.results?.length && !listAll.isLoading()"
-      >
-        <ng-container *ngIf="!!listAll.query; else noQueryEmptyResults">
-          {{ data.emptyResultsLabel }}
-        </ng-container>
-        <ng-template #noQueryEmptyResults>
-          {{ data.emptySuggestionsLabel }}
-        </ng-template>
+      <div class="items-empty" *ngIf="!listAll.results?.length && !listAll.isLoading()">
+        <ng-container *ngIf="!!listAll.query; else noQueryEmptyResults"> {{ data.emptyResultsLabel }} </ng-container>
+        <ng-template #noQueryEmptyResults> {{ data.emptySuggestionsLabel }} </ng-template>
       </div>
       <div class="items-create" *ngIf="data.createItem">
-        <button
-          mat-button
-          color="primary"
-          class="new-item-button"
-          (click)="createItem()"
-        >
+        <button mat-button color="primary" class="new-item-button" (click)="createItem()">
           <mat-icon>add</mat-icon>
           Create new
         </button>

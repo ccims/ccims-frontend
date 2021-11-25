@@ -9,7 +9,7 @@ import {
   GetInterfaceGQL,
   GetInterfaceQuery,
   UpdateComponentInterfaceGQL,
-  UpdateComponentInterfaceInput,
+  UpdateComponentInterfaceInput
 } from '../../../generated/graphql';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
  * as this file.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class InterfaceStoreService {
   constructor(
@@ -31,15 +31,11 @@ export class InterfaceStoreService {
     private getConsumingComponentsQuery: GetConsumingComponentsGQL
   ) {}
 
-  public create(
-    name: string,
-    offeringComponentId: string,
-    description?: string
-  ) {
+  public create(name: string, offeringComponentId: string, description?: string) {
     const input: CreateComponentInterfaceInput = {
       name,
       description,
-      component: offeringComponentId,
+      component: offeringComponentId
     };
     return this.createInterfaceMutation.mutate({ input });
   }
@@ -48,12 +44,8 @@ export class InterfaceStoreService {
     return this.getInterfaceQuery.fetch({ id }).pipe(map(({ data }) => data));
   }
 
-  public getConsumingComponents(
-    id: string
-  ): Observable<GetConsumingComponentsQuery> {
-    return this.getConsumingComponentsQuery
-      .fetch({ id })
-      .pipe(map(({ data }) => data));
+  public getConsumingComponents(id: string): Observable<GetConsumingComponentsQuery> {
+    return this.getConsumingComponentsQuery.fetch({ id }).pipe(map(({ data }) => data));
   }
 
   public update(input: UpdateComponentInterfaceInput) {
@@ -62,7 +54,7 @@ export class InterfaceStoreService {
 
   public delete(id: string) {
     const input: DeleteComponentInterfaceInput = {
-      componentInterface: id,
+      componentInterface: id
     };
     return this.deleteInterfaceMutation.mutate({ input });
   }

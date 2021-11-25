@@ -17,7 +17,7 @@ export enum NodeType {
   Project,
   Artifact,
   User,
-  IssueComment,
+  IssueComment
 }
 
 /**
@@ -93,7 +93,7 @@ export enum ListType {
   Assignees,
   SearchUsers,
   LinkedIssues,
-  LinkedByIssues,
+  LinkedByIssues
 }
 
 /**

@@ -3,12 +3,7 @@
   <app-query-component errorMessage="Failed to load issues">
     <ng-template appQueryBody>
       <!--1) Filter field-->
-      <app-issue-filter
-        [projectId]="projectId"
-        [allLabelsList]="allLabelsList"
-        (filterChange)="applyFilter($event)"
-      >
-      </app-issue-filter>
+      <app-issue-filter [projectId]="projectId" [allLabelsList]="allLabelsList" (filterChange)="applyFilter($event)"> </app-issue-filter>
 
       <!--2) Create Issue button-->
       <div style="display: flex; justify-content: flex-start">
@@ -34,64 +29,27 @@
         >
           <!--Title column-->
           <ng-container matColumnDef="title">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              scope="Title column."
-            >
-              Title
-            </th>
-            <td mat-cell style="text-align: left" *matCellDef="let element">
-              {{ element.title }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="Title column.">Title</th>
+            <td mat-cell style="text-align: left" *matCellDef="let element">{{ element.title }}</td>
           </ng-container>
 
           <!--Author column-->
           <ng-container matColumnDef="author">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              scope="Author column."
-            >
-              Author
-            </th>
-            <td mat-cell style="text-align: left" *matCellDef="let element">
-              {{ element.createdBy.displayName }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="Author column.">Author</th>
+            <td mat-cell style="text-align: left" *matCellDef="let element">{{ element.createdBy.displayName }}</td>
           </ng-container>
 
           <!--Assignees column-->
           <ng-container matColumnDef="assignees">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              scope="Title column."
-            >
-              Assignees
-            </th>
-            <td mat-cell style="text-align: left" *matCellDef="let element">
-              {{ element.assigneesString }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="Title column.">Assignees</th>
+            <td mat-cell style="text-align: left" *matCellDef="let element">{{ element.assigneesString }}</td>
           </ng-container>
 
           <!--Labels column-->
           <ng-container matColumnDef="labels">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              mat-sort-header
-              scope="Labels column."
-            >
-              Labels
-            </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="Labels column.">Labels</th>
             <td mat-cell style="text-align: left" *matCellDef="let element">
-              <div
-                style="float: left"
-                *ngFor="let label of element.labels.nodes"
-              >
+              <div style="float: left" *ngFor="let label of element.labels.nodes">
                 <app-issue-label [label]="label"></app-issue-label>
               </div>
             </td>
@@ -99,39 +57,21 @@
 
           <!--Category column-->
           <ng-container matColumnDef="category">
-            <th
-              mat-header-cell
-              mat-sort-header
-              *matHeaderCellDef
-              scope="Category column."
-            >
-              Category
-            </th>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef scope="Category column.">Category</th>
             <td mat-cell style="text-align: left" *matCellDef="let element">
               <div style="display: flex; align-items: center">
-                <mat-icon
-                  [svgIcon]="this.formatCategoryIcon(element)"
-                  style="margin-right: 4px"
-                >
-                </mat-icon>
+                <mat-icon [svgIcon]="this.formatCategoryIcon(element)" style="margin-right: 4px"> </mat-icon>
                 {{ this.formatCategoryDescription(element.category) }}
               </div>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-          <tr
-            mat-row
-            *matRowDef="let rowData; columns: columnsToDisplay"
-            (click)="this.clickedOnRow(rowData)"
-          ></tr>
+          <tr mat-row *matRowDef="let rowData; columns: columnsToDisplay" (click)="this.clickedOnRow(rowData)"></tr>
         </table>
       </div>
 
       <!--4. Paginator-->
-      <app-cursor-paginator
-        [list]="this.list$"
-        [pageSizes]="[10, 25, 50, 100]"
-      ></app-cursor-paginator>
+      <app-cursor-paginator [list]="this.list$" [pageSizes]="[10, 25, 50, 100]"></app-cursor-paginator>
     </ng-template>
   </app-query-component>
 </div>

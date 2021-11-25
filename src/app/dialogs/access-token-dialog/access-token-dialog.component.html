@@ -1,10 +1,5 @@
 <div class="dialog">
-  <button
-    mat-button
-    color="primary"
-    class="new-item-button"
-    (click)="closeDialog()"
-  >
+  <button mat-button color="primary" class="new-item-button" (click)="closeDialog()">
     <mat-icon>close_ios</mat-icon>
   </button>
 
@@ -14,11 +9,7 @@
   <form class="example-form">
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Note</mat-label>
-      <input
-        type="email"
-        matInput
-        placeholder="Ex. what will this token be used for?"
-      />
+      <input type="email" matInput placeholder="Ex. what will this token be used for?" />
     </mat-form-field>
   </form>
 
@@ -34,9 +25,7 @@
 
   <br />
 
-  <button mat-button [color]="'primary'" (click)="this.generateToken()">
-    Generate Token
-  </button>
+  <button mat-button [color]="'primary'" (click)="this.generateToken()">Generate Token</button>
 
   <button mat-button [mat-dialog-close]="null">Cancel</button>
 </div>

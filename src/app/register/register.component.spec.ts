@@ -7,7 +7,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RegisterComponent],
+      declarations: [RegisterComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterComponent);

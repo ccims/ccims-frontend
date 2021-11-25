@@ -30,7 +30,7 @@ function readCssColor(color: string): [number, number, number] {
 @Component({
   selector: 'app-issue-label',
   templateUrl: './issue-label.component.html',
-  styleUrls: ['./issue-label.component.scss'],
+  styleUrls: ['./issue-label.component.scss']
 })
 export class IssueLabelComponent {
   /** The label to display. Nullable. Should have properties `name` and `color`. */

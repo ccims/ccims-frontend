@@ -3,13 +3,7 @@
 </div>
 <div class="list-header">
   <h2 class="list-h2">Project-List</h2>
-  <button
-    mat-raised-button
-    color="accent"
-    id="buttonCreateProject"
-    (click)="openCreateProjectDialog()"
-    class="floating-button"
-  >
+  <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()" class="floating-button">
     Create Project
   </button>
   <!--  <button mat-raised-button color="primary" (click)="this.createDemoProject()"-->
@@ -20,13 +14,7 @@
 <!-- list wrapper including search input field and list of projects -->
 <div class="listWrapper">
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input
-      type="text"
-      [(ngModel)]="projectName"
-      nz-input
-      placeholder="Search projects..."
-      (keydown.enter)="reloadProjects()"
-    />
+    <input type="text" [(ngModel)]="projectName" nz-input placeholder="Search projects..." (keydown.enter)="reloadProjects()" />
   </nz-input-group>
   <!-- search button -->
   <ng-template #suffixIconButton>
@@ -42,18 +30,10 @@
     </button>
   </ng-template>
 
-  <nz-alert
-    *ngIf="!loading && projects.length == 0"
-    nzMessage="No projects found!"
-    nzType="info"
-  ></nz-alert>
+  <nz-alert *ngIf="!loading && projects.length == 0" nzMessage="No projects found!" nzType="info"></nz-alert>
   <!-- list of projects -->
   <mat-nav-list class="mat-nav-list-padding-removed">
-    <a
-      *ngFor="let project of projects"
-      mat-list-item
-      [routerLink]="['/projects', project.id]"
-    >
+    <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
       <!-- name of project -->
       <span matLine>{{ project.name }}</span>
       <a

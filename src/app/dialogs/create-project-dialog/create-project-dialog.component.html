@@ -8,23 +8,14 @@
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Name</mat-label>
       <input #name required matInput [formControl]="nameValidator" />
-      <mat-error *ngIf="nameValidator.invalid">
-        Invalid project name
-      </mat-error>
+      <mat-error *ngIf="nameValidator.invalid"> Invalid project name </mat-error>
     </mat-form-field>
 
     <!--Project Description input field-->
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea
-        style="height: 200px"
-        #description
-        matInput
-        [formControl]="descriptionValidator"
-      ></textarea>
-      <mat-error *ngIf="nameValidator.invalid"
-        >Invalid project description</mat-error
-      >
+      <textarea style="height: 200px" #description matInput [formControl]="descriptionValidator"></textarea>
+      <mat-error *ngIf="nameValidator.invalid">Invalid project description</mat-error>
     </mat-form-field>
 
     <!--Save Failed error message-->

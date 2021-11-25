@@ -20,7 +20,7 @@ import { FilterState } from '@app/graphs/shared';
 @Component({
   selector: 'app-issue-graph-controls',
   templateUrl: './issue-graph-controls.component.html',
-  styleUrls: ['./issue-graph-controls.component.scss'],
+  styleUrls: ['./issue-graph-controls.component.scss']
 })
 export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   @ViewChild(IssueGraphComponent) issueGraph: IssueGraphComponent;
@@ -38,24 +38,18 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   filter$: BehaviorSubject<FilterState>;
   private destroy$ = new ReplaySubject<void>(1);
 
-  constructor(
-    public dialog: MatDialog,
-    private gs: IssueGraphStateService,
-    private route: ActivatedRoute
-  ) {
+  constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
     this.projectId = this.route.snapshot.paramMap.get('id');
     this.filter$ = new BehaviorSubject({
       selectedCategories: this.getSelectedCategories(),
       selectedFilter: {
         labels: [],
-        texts: [],
-      },
+        texts: []
+      }
     });
   }
 
-  public selectedCategories$ = new BehaviorSubject<SelectedCategories>(
-    this.getSelectedCategories()
-  );
+  public selectedCategories$ = new BehaviorSubject<SelectedCategories>(this.getSelectedCategories());
 
   /**
    * Emit newly selected categories via this.selectedCategories$
@@ -72,7 +66,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     return {
       [IssueCategory.Bug]: this.bug,
       [IssueCategory.FeatureRequest]: this.featureRequests,
-      [IssueCategory.Unclassified]: this.unclassified,
+      [IssueCategory.Unclassified]: this.unclassified
     };
   }
 
@@ -92,7 +86,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
         takeUntil(this.destroy$),
         map(([selectedCategories, filterSelection]) => ({
           selectedCategories,
-          selectedFilter: filterSelection,
+          selectedFilter: filterSelection
         }))
       )
       .subscribe((filterState) => this.filter$.next(filterState));

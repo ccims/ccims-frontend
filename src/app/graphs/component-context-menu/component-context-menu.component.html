@@ -1,12 +1,7 @@
 <div #frame class="frame" [style.width.px]="width" [style.height.px]="height">
   <div style="height: calc(100% - 20px); overflow: hidden">
-    <div
-      class="node-title"
-      *ngIf="nodeDetailsReady && nodeDetails.getNodeName()"
-    >
-      <h1 style="overflow: hidden; text-overflow: ellipsis">
-        {{ this.nodeDetails.getNodeName() }}
-      </h1>
+    <div class="node-title" *ngIf="nodeDetailsReady && nodeDetails.getNodeName()">
+      <h1 style="overflow: hidden; text-overflow: ellipsis">{{ this.nodeDetails.getNodeName() }}</h1>
     </div>
     <div class="container">
       <app-node-details
@@ -20,14 +15,8 @@
 
   <div style="width: 100%; height: 20px; display: inline-block">
     <span style="font-size: 0.8em">{{ this.data.nodeId }}</span>
-    <span
-      #resizeCorner
-      style="position: absolute; bottom: 0; right: 4px; user-select: none"
-    >
-      <mat-icon
-        svgIcon="resize-corner"
-        style="width: 10px; height: 10px; cursor: nwse-resize"
-      ></mat-icon>
+    <span #resizeCorner style="position: absolute; bottom: 0; right: 4px; user-select: none">
+      <mat-icon svgIcon="resize-corner" style="width: 10px; height: 10px; cursor: nwse-resize"></mat-icon>
     </span>
   </div>
 </div>

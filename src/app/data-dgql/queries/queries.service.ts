@@ -5,7 +5,7 @@ import { ComponentsService } from './components.service';
 import { UsersService } from './users.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class QueriesService {
   constructor(

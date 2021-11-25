@@ -47,18 +47,15 @@ import {
   ListLabelComponentsGQL,
   GetLabelGQL,
   MutChangeIssueCategoryGQL,
-  IssueCategory,
+  IssueCategory
 } from 'src/generated/graphql-dgql';
-import {
-  promisifyApolloFetch,
-  QueryListParams,
-} from '@app/data-dgql/queries/util';
+import { promisifyApolloFetch, QueryListParams } from '@app/data-dgql/queries/util';
 import { CreateIssueInput } from '../../../generated/graphql';
 
 type IssueListParams = QueryListParams<IssueFilter>;
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class IssuesService {
   constructor(
@@ -106,109 +103,72 @@ export class IssuesService {
   ) {}
 
   listProjectIssues(project: string, list: IssueListParams) {
-    return promisifyApolloFetch(
-      this.qListProjectIssues.fetch({ project, ...list })
-    );
+    return promisifyApolloFetch(this.qListProjectIssues.fetch({ project, ...list }));
   }
 
   listComponentIssues(component: string, list: IssueListParams) {
-    return promisifyApolloFetch(
-      this.qListComponentIssues.fetch({ component, ...list })
-    );
+    return promisifyApolloFetch(this.qListComponentIssues.fetch({ component, ...list }));
   }
 
   listComponentIssuesOnLocation(component: string, list: IssueListParams) {
-    return promisifyApolloFetch(
-      this.qListComponentIssuesOnLocation.fetch({ component, ...list })
-    );
+    return promisifyApolloFetch(this.qListComponentIssuesOnLocation.fetch({ component, ...list }));
   }
 
-  listComponentInterfaceIssuesOnLocation(
-    cInterface: string,
-    list: IssueListParams
-  ) {
+  listComponentInterfaceIssuesOnLocation(cInterface: string, list: IssueListParams) {
     return promisifyApolloFetch(
       this.qListComponentInterfaceIssuesOnLocation.fetch({
         interface: cInterface,
-        ...list,
+        ...list
       })
     );
   }
 
   listIssueLinksToIssues(issue: string, list: IssueListParams) {
-    return promisifyApolloFetch(
-      this.qListIssueLinksToIssues.fetch({ issue, ...list })
-    );
+    return promisifyApolloFetch(this.qListIssueLinksToIssues.fetch({ issue, ...list }));
   }
 
   listIssueLinkedByIssues(issue: string, list: IssueListParams) {
-    return promisifyApolloFetch(
-      this.qListIssueLinkedByIssues.fetch({ issue, ...list })
-    );
+    return promisifyApolloFetch(this.qListIssueLinkedByIssues.fetch({ issue, ...list }));
   }
 
   listArtifactIssues(artifact: string, list: IssueListParams) {
-    return promisifyApolloFetch(
-      this.qListArtifactIssues.fetch({ artifact, ...list })
-    );
+    return promisifyApolloFetch(this.qListArtifactIssues.fetch({ artifact, ...list }));
   }
 
   getIssueHeader(id: string) {
     return promisifyApolloFetch(this.qGetIssueHeader.fetch({ id }));
   }
 
-  listIssueTimelineItems(
-    id: string,
-    list: QueryListParams<IssueTimelineItemFilter>
-  ) {
-    return promisifyApolloFetch(
-      this.qListIssueTimelineItems.fetch({ id, ...list })
-    );
+  listIssueTimelineItems(id: string, list: QueryListParams<IssueTimelineItemFilter>) {
+    return promisifyApolloFetch(this.qListIssueTimelineItems.fetch({ id, ...list }));
   }
 
   listIssueLabels(issue: string, list: QueryListParams<LabelFilter>) {
-    return promisifyApolloFetch(
-      this.qListIssueLabels.fetch({ issue, ...list })
-    );
+    return promisifyApolloFetch(this.qListIssueLabels.fetch({ issue, ...list }));
   }
 
-  listIssueLocations(
-    issue: string,
-    list: QueryListParams<IssueLocationFilter>
-  ) {
-    return promisifyApolloFetch(
-      this.qListIssueLocations.fetch({ issue, ...list })
-    );
+  listIssueLocations(issue: string, list: QueryListParams<IssueLocationFilter>) {
+    return promisifyApolloFetch(this.qListIssueLocations.fetch({ issue, ...list }));
   }
 
   listIssueComponents(issue: string, list: QueryListParams<ComponentFilter>) {
-    return promisifyApolloFetch(
-      this.qListIssueComponents.fetch({ issue, ...list })
-    );
+    return promisifyApolloFetch(this.qListIssueComponents.fetch({ issue, ...list }));
   }
 
   listProjectLabels(project: string, list: QueryListParams<LabelFilter>) {
-    return promisifyApolloFetch(
-      this.qListProjectLabels.fetch({ project, ...list })
-    );
+    return promisifyApolloFetch(this.qListProjectLabels.fetch({ project, ...list }));
   }
 
   listComponentLabels(project: string, list: QueryListParams<LabelFilter>) {
-    return promisifyApolloFetch(
-      this.qListComponentLabels.fetch({ project, ...list })
-    );
+    return promisifyApolloFetch(this.qListComponentLabels.fetch({ project, ...list }));
   }
 
   listIssueParticipants(issue: string, list: QueryListParams<UserFilter>) {
-    return promisifyApolloFetch(
-      this.qListIssueParticipants.fetch({ issue, ...list })
-    );
+    return promisifyApolloFetch(this.qListIssueParticipants.fetch({ issue, ...list }));
   }
 
   listIssueAssignees(issue: string, list: QueryListParams<UserFilter>) {
-    return promisifyApolloFetch(
-      this.qListIssueAssignees.fetch({ issue, ...list })
-    );
+    return promisifyApolloFetch(this.qListIssueAssignees.fetch({ issue, ...list }));
   }
 
   getLabel(id: string) {
@@ -216,9 +176,7 @@ export class IssuesService {
   }
 
   listLabelComponents(label: string, list: QueryListParams<ComponentFilter>) {
-    return promisifyApolloFetch(
-      this.qListLabelComponents.fetch({ label, ...list })
-    );
+    return promisifyApolloFetch(this.qListLabelComponents.fetch({ label, ...list }));
   }
 
   mutCreateIssue(issue: CreateIssueInput) {
@@ -226,15 +184,11 @@ export class IssuesService {
   }
 
   mutRenameIssueTitle(id: string, issue: string, title: string) {
-    return promisifyApolloFetch(
-      this.qMutRenameIssueTitle.mutate({ id, issue, title })
-    );
+    return promisifyApolloFetch(this.qMutRenameIssueTitle.mutate({ id, issue, title }));
   }
 
   mutChangeIssueCategory(id: string, issue: string, category: IssueCategory) {
-    return promisifyApolloFetch(
-      this.qMutChangeIssueCategory.mutate({ id, issue, category })
-    );
+    return promisifyApolloFetch(this.qMutChangeIssueCategory.mutate({ id, issue, category }));
   }
 
   mutCloseIssue(id: string, issue: string) {
@@ -246,69 +200,47 @@ export class IssuesService {
   }
 
   mutAddIssueComment(id: string, issue: string, body: string) {
-    return promisifyApolloFetch(
-      this.qMutAddIssueComment.mutate({ id, issue, body })
-    );
+    return promisifyApolloFetch(this.qMutAddIssueComment.mutate({ id, issue, body }));
   }
 
   mutUpdateIssueComment(id: string, comment: string, body: string) {
-    return promisifyApolloFetch(
-      this.qMutUpdateIssueComment.mutate({ id, comment, body })
-    );
+    return promisifyApolloFetch(this.qMutUpdateIssueComment.mutate({ id, comment, body }));
   }
 
   mutDeleteIssueComment(id: string, comment: string) {
-    return promisifyApolloFetch(
-      this.qMutDeleteIssueComment.mutate({ id, comment })
-    );
+    return promisifyApolloFetch(this.qMutDeleteIssueComment.mutate({ id, comment }));
   }
 
   mutAddIssueLabel(id: string, issue: string, label: string) {
-    return promisifyApolloFetch(
-      this.qMutAddIssueLabel.mutate({ id, issue, label })
-    );
+    return promisifyApolloFetch(this.qMutAddIssueLabel.mutate({ id, issue, label }));
   }
 
   mutRemoveIssueLabel(id: string, issue: string, label: string) {
-    return promisifyApolloFetch(
-      this.qMutRemoveIssueLabel.mutate({ id, issue, label })
-    );
+    return promisifyApolloFetch(this.qMutRemoveIssueLabel.mutate({ id, issue, label }));
   }
 
   mutAddIssueComponent(id: string, issue: string, component: string) {
-    return promisifyApolloFetch(
-      this.qMutAddIssueComponent.mutate({ id, issue, component })
-    );
+    return promisifyApolloFetch(this.qMutAddIssueComponent.mutate({ id, issue, component }));
   }
 
   mutRemoveIssueComponent(id: string, issue: string, component: string) {
-    return promisifyApolloFetch(
-      this.qMutRemoveIssueComponent.mutate({ id, issue, component })
-    );
+    return promisifyApolloFetch(this.qMutRemoveIssueComponent.mutate({ id, issue, component }));
   }
 
   mutAddIssueLocation(id: string, issue: string, location: string) {
-    return promisifyApolloFetch(
-      this.qMutAddIssueLocation.mutate({ id, issue, location })
-    );
+    return promisifyApolloFetch(this.qMutAddIssueLocation.mutate({ id, issue, location }));
   }
 
   mutRemoveIssueLocation(id: string, issue: string, location: string) {
-    return promisifyApolloFetch(
-      this.qMutRemoveIssueLocation.mutate({ id, issue, location })
-    );
+    return promisifyApolloFetch(this.qMutRemoveIssueLocation.mutate({ id, issue, location }));
   }
 
   mutAddIssueAssignee(id: string, issue: string, assignee: string) {
-    return promisifyApolloFetch(
-      this.qMutAddIssueAssignee.mutate({ id, issue, assignee })
-    );
+    return promisifyApolloFetch(this.qMutAddIssueAssignee.mutate({ id, issue, assignee }));
   }
 
   mutRemoveIssueAssignee(id: string, issue: string, assignee: string) {
-    return promisifyApolloFetch(
-      this.qMutRemoveIssueAssignee.mutate({ id, issue, assignee })
-    );
+    return promisifyApolloFetch(this.qMutRemoveIssueAssignee.mutate({ id, issue, assignee }));
   }
 
   mutLinkIssue(id: string, issue: string, link: string) {
@@ -316,42 +248,20 @@ export class IssuesService {
   }
 
   mutUnlinkIssue(id: string, issue: string, link: string) {
-    return promisifyApolloFetch(
-      this.qMutUnlinkIssue.mutate({ id, issue, link })
-    );
+    return promisifyApolloFetch(this.qMutUnlinkIssue.mutate({ id, issue, link }));
   }
 
-  mutCreateLabel(
-    id: string,
-    components: string[],
-    name: string,
-    color: string,
-    description?: string
-  ) {
-    return promisifyApolloFetch(
-      this.qMutCreateLabel.mutate({ id, components, name, description, color })
-    );
+  mutCreateLabel(id: string, components: string[], name: string, color: string, description?: string) {
+    return promisifyApolloFetch(this.qMutCreateLabel.mutate({ id, components, name, description, color }));
   }
-  mutUpdateLabel(
-    id: string,
-    label: string,
-    name?: string,
-    color?: string,
-    description?: string
-  ) {
-    return promisifyApolloFetch(
-      this.qMutUpdateLabel.mutate({ id, label, name, description, color })
-    );
+  mutUpdateLabel(id: string, label: string, name?: string, color?: string, description?: string) {
+    return promisifyApolloFetch(this.qMutUpdateLabel.mutate({ id, label, name, description, color }));
   }
   mutAddLabelToComponent(id: string, label: string, component: string) {
-    return promisifyApolloFetch(
-      this.qMutAddLabelToComponent.mutate({ id, label, component })
-    );
+    return promisifyApolloFetch(this.qMutAddLabelToComponent.mutate({ id, label, component }));
   }
   mutRemoveLabelFromComponent(id: string, label: string, component: string) {
-    return promisifyApolloFetch(
-      this.qMutRemoveLabelFromComponent.mutate({ id, label, component })
-    );
+    return promisifyApolloFetch(this.qMutRemoveLabelFromComponent.mutate({ id, label, component }));
   }
   mutDeleteLabel(id: string, label: string) {
     return promisifyApolloFetch(this.qMutDeleteLabel.mutate({ id, label }));

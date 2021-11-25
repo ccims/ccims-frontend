@@ -5,36 +5,16 @@
     <!--1.1. Issue header: title-->
     <div class="issue-title">
       <!--Issue title-->
-      <h1 class="title-text" *ngIf="!this.issueEditable">
-        {{ issue.title }}
-      </h1>
+      <h1 class="title-text" *ngIf="!this.issueEditable">{{ issue.title }}</h1>
 
       <!--Issue title input field (in edit mode)-->
-      <mat-form-field
-        class="title-input"
-        *ngIf="this.issueEditable"
-        appearance="outline"
-      >
-        <input
-          matInput
-          #titleInput
-          class="title-input"
-          [value]="issue.title"
-          autofocus
-        />
+      <mat-form-field class="title-input" *ngIf="this.issueEditable" appearance="outline">
+        <input matInput #titleInput class="title-input" [value]="issue.title" autofocus />
       </mat-form-field>
 
       <div class="title-actions" *ngIf="userCanEditIssue">
         <!--Edit button-->
-        <button
-          mat-flat-button
-          class="title-edit-button"
-          color="primary"
-          (click)="beginEditing()"
-          *ngIf="!this.issueEditable"
-        >
-          Edit
-        </button>
+        <button mat-flat-button class="title-edit-button" color="primary" (click)="beginEditing()" *ngIf="!this.issueEditable">Edit</button>
 
         <ng-container *ngIf="this.issueEditable">
           <!--Cancel button (in edit mode)-->
@@ -43,14 +23,7 @@
           &nbsp;
 
           <!--Save button (in edit mode)-->
-          <button
-            mat-flat-button
-            (click)="this.finishEditing(true)"
-            [class.spinner]="savingChanges"
-            color="accent"
-          >
-            Save
-          </button>
+          <button mat-flat-button (click)="this.finishEditing(true)" [class.spinner]="savingChanges" color="accent">Save</button>
         </ng-container>
       </div>
     </div>
@@ -58,12 +31,7 @@
     <!--1.2. Issue header: category-->
     <div class="issue-category">
       <!--Issue category buttons (in edit mode)-->
-      <mat-button-toggle-group
-        class="category-selector"
-        *ngIf="this.issueEditable"
-        [formControl]="category"
-        required
-      >
+      <mat-button-toggle-group class="category-selector" *ngIf="this.issueEditable" [formControl]="category" required>
         <mat-button-toggle value="UNCLASSIFIED">
           <mat-icon [svgIcon]="'issue-uncategorized'"></mat-icon>
           Unclassified
@@ -92,44 +60,21 @@
 
       <!--Issue info about the user and date-->
       <div class="issue-opened">
-        <app-user-item
-          [noDisplay]="true"
-          [user]="issue.createdBy"
-        ></app-user-item>
+        <app-user-item [noDisplay]="true" [user]="issue.createdBy"></app-user-item>
         opened this issue
-        <time
-          [dateTime]="issue.createdAt"
-          [title]="this.timeFormatter.formatTime(issue.createdAt)"
-        >
+        <time [dateTime]="issue.createdAt" [title]="this.timeFormatter.formatTime(issue.createdAt)">
           {{ this.formatIssueOpenTime() }}
         </time>
       </div>
 
       <!--Issue comments-->
-      <div class="issue-stats">
-        &nbsp;&sdot;
-        {{
-          this.timeFormatter.pluralize(
-            issue.issueComments?.totalCount + 1,
-            "comment"
-          )
-        }}
-      </div>
+      <div class="issue-stats">&nbsp;&sdot; {{ this.timeFormatter.pluralize( issue.issueComments?.totalCount + 1, "comment" ) }}</div>
     </div>
   </header>
 
   <!--2. Issue contents-->
   <div class="issue-page">
-    <app-issue-contents
-      class="issue-contents"
-      [issue$]="issue$"
-      [projectId]="projectId"
-    ></app-issue-contents>
-    <app-issue-sidebar
-      class="issue-sidebar"
-      [issue$]="issue$"
-      [issueId]="issueId"
-      [projectId]="projectId"
-    ></app-issue-sidebar>
+    <app-issue-contents class="issue-contents" [issue$]="issue$" [projectId]="projectId"></app-issue-contents>
+    <app-issue-sidebar class="issue-sidebar" [issue$]="issue$" [issueId]="issueId" [projectId]="projectId"></app-issue-sidebar>
   </div>
 </div>

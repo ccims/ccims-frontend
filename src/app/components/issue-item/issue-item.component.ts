@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-issue-item',
   templateUrl: './issue-item.component.html',
-  styleUrls: ['./issue-item.component.scss'],
+  styleUrls: ['./issue-item.component.scss']
 })
 export class IssueItemComponent {
   /** The raw project ID. */
@@ -22,13 +22,6 @@ export class IssueItemComponent {
 
   /** Returns the link URL for the issue. */
   getIssueLink() {
-    return this.router.serializeUrl(
-      this.router.createUrlTree([
-        '/projects',
-        this.projectId,
-        'issues',
-        this.issue.id,
-      ])
-    );
+    return this.router.serializeUrl(this.router.createUrlTree(['/projects', this.projectId, 'issues', this.issue.id]));
   }
 }

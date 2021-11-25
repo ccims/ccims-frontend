@@ -9,16 +9,12 @@ import {
   InjectionToken,
   Injector,
   OnDestroy,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { IssueGraphComponent } from '@app/graphs/issue-graph/issue-graph.component';
-import {
-  NodeDetailsComponent,
-  NodeDetailsType,
-  NodeUpdatedCallbackFn,
-} from '@app/node-details/node-details.component';
+import { NodeDetailsComponent, NodeDetailsType, NodeUpdatedCallbackFn } from '@app/node-details/node-details.component';
 
 /**
  * Interface specifying the data required for the component context menu.
@@ -40,8 +36,7 @@ interface ComponentContextMenuData {
   graph: IssueGraphComponent;
 }
 
-const COMPONENT_CONTEXT_MENU_DATA =
-  new InjectionToken<ComponentContextMenuData>('COMPONENT_CONTEXT_MENU_DATA');
+const COMPONENT_CONTEXT_MENU_DATA = new InjectionToken<ComponentContextMenuData>('COMPONENT_CONTEXT_MENU_DATA');
 
 /**
  * Use this service to create a {@link ComponentContextMenuComponent}.
@@ -77,14 +72,14 @@ export class ComponentContextMenuService {
       overlayX: 'start',
       overlayY: 'top',
       offsetX: x,
-      offsetY: y,
+      offsetY: y
     };
     position.withPositions([pos]);
 
     const ref = this.overlay.create({
       minWidth: 400,
       minHeight: 200,
-      positionStrategy: position,
+      positionStrategy: position
     });
 
     const map = new WeakMap();
@@ -94,12 +89,10 @@ export class ComponentContextMenuService {
       projectId: projectID,
       nodeId: nodeID,
       type: nodeType,
-      graph: issueGraph,
+      graph: issueGraph
     });
     const injector = new PortalInjector(this.injector, map);
-    return ref.attach(
-      new ComponentPortal(ComponentContextMenuComponent, null, injector)
-    ).instance;
+    return ref.attach(new ComponentPortal(ComponentContextMenuComponent, null, injector)).instance;
   }
 }
 
@@ -108,7 +101,7 @@ export class ComponentContextMenuService {
  */
 @Component({
   styleUrls: ['component-context-menu.component.scss'],
-  templateUrl: './component-context-menu.component.html',
+  templateUrl: './component-context-menu.component.html'
 })
 export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   /** @ignore */
@@ -135,26 +128,18 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   /** @ignore */
   @ViewChild('resizeCorner') set resizeCorner(content: ElementRef) {
     if (content) {
-      content.nativeElement.addEventListener(
-        'mousedown',
-        () => (this.resize = true)
-      );
+      content.nativeElement.addEventListener('mousedown', () => (this.resize = true));
     }
   }
 
   /** @ignore */
   @ViewChild(NodeDetailsComponent) nodeDetails: NodeDetailsComponent;
 
-  constructor(
-    @Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData, private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
-    this.frame.nativeElement.style.minWidth =
-      ComponentContextMenuComponent.MIN_WIDTH + 'px';
-    this.frame.nativeElement.style.minHeight =
-      ComponentContextMenuComponent.MIN_HEIGHT + 'px';
+    this.frame.nativeElement.style.minWidth = ComponentContextMenuComponent.MIN_WIDTH + 'px';
+    this.frame.nativeElement.style.minHeight = ComponentContextMenuComponent.MIN_HEIGHT + 'px';
     this.nodeDetailsReady = true;
     this.changeDetector.detectChanges();
   }
@@ -204,13 +189,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.width = Math.max(
-      this.width + event.movementX,
-      ComponentContextMenuComponent.MIN_WIDTH
-    );
-    this.height = Math.max(
-      this.height + event.movementY,
-      ComponentContextMenuComponent.MIN_HEIGHT
-    );
+    this.width = Math.max(this.width + event.movementX, ComponentContextMenuComponent.MIN_WIDTH);
+    this.height = Math.max(this.height + event.movementY, ComponentContextMenuComponent.MIN_HEIGHT);
   }
 }

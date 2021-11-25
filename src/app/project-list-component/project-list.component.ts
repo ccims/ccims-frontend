@@ -12,7 +12,7 @@ import { UserNotifyService } from '@app/user-notify/user-notify.service';
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.scss'],
+  styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
   pendingCreate = false;
@@ -21,11 +21,7 @@ export class ProjectListComponent implements OnInit {
   projects: Pick<Project, 'id' | 'name'>[] = [];
   loading: boolean;
 
-  constructor(
-    private projectStore: ProjectStoreService,
-    private dialog: MatDialog,
-    private notify: UserNotifyService
-  ) {}
+  constructor(private projectStore: ProjectStoreService, private dialog: MatDialog, private notify: UserNotifyService) {}
 
   ngOnInit(): void {
     // get all projects from the database
@@ -33,10 +29,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   public reloadProjects(): void {
-    if (
-      this.lastQueriedProjectName === this.projectName &&
-      this.lastQueriedProjectName
-    ) {
+    if (this.lastQueriedProjectName === this.projectName && this.lastQueriedProjectName) {
       return;
     }
 
@@ -55,9 +48,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   public openCreateProjectDialog(): void {
-    const createProjectDialogRef = this.dialog.open(
-      CreateProjectDialogComponent
-    );
+    const createProjectDialogRef = this.dialog.open(CreateProjectDialogComponent);
     createProjectDialogRef.afterClosed().subscribe((result) => {
       this.changeColour();
       if (result?.createdProjectId) {

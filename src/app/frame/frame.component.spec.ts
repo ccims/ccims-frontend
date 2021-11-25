@@ -8,7 +8,7 @@ describe('FrameComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FrameComponent],
+      declarations: [FrameComponent]
     }).compileComponents();
   }));
 

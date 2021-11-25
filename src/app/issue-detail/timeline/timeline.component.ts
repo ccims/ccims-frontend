@@ -31,64 +31,62 @@ type ItemFilterFunction = (IssueTimelineItem) => boolean;
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss'],
+  styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements AfterViewInit {
   /**
    * Events which need to be coalesced
    */
-  static readonly COALESCABLE_EVENTS: Map<string, ItemFilterFunction> = new Map(
+  static readonly COALESCABLE_EVENTS: Map<string, ItemFilterFunction> = new Map([
     [
-      [
-        'LabelledEvent',
-        (item) => {
-          return !!item.label;
-        },
-      ],
-      [
-        'UnlabelledEvent',
-        (item) => {
-          return !!item.removedLabel;
-        },
-      ],
-      [
-        'AddedToComponentEvent',
-        (item) => {
-          return !!item.component;
-        },
-      ],
-      [
-        'RemovedFromComponentEvent',
-        (item) => {
-          return !!item.removedComponent;
-        },
-      ],
-      [
-        'AddedToLocationEvent',
-        (item) => {
-          return !!item.location;
-        },
-      ],
-      [
-        'RemovedFromLocationEvent',
-        (item) => {
-          return !!item.removedLocation;
-        },
-      ],
-      [
-        'LinkEvent',
-        (item) => {
-          return !!item.linkedIssue;
-        },
-      ],
-      [
-        'UnlinkEvent',
-        (item) => {
-          return !!item.removedLinkedIssue;
-        },
-      ],
+      'LabelledEvent',
+      (item) => {
+        return !!item.label;
+      }
+    ],
+    [
+      'UnlabelledEvent',
+      (item) => {
+        return !!item.removedLabel;
+      }
+    ],
+    [
+      'AddedToComponentEvent',
+      (item) => {
+        return !!item.component;
+      }
+    ],
+    [
+      'RemovedFromComponentEvent',
+      (item) => {
+        return !!item.removedComponent;
+      }
+    ],
+    [
+      'AddedToLocationEvent',
+      (item) => {
+        return !!item.location;
+      }
+    ],
+    [
+      'RemovedFromLocationEvent',
+      (item) => {
+        return !!item.removedLocation;
+      }
+    ],
+    [
+      'LinkEvent',
+      (item) => {
+        return !!item.linkedIssue;
+      }
+    ],
+    [
+      'UnlinkEvent',
+      (item) => {
+        return !!item.removedLinkedIssue;
+      }
     ]
-  );
+  ]);
 
   /**
    * provides functionality for time formatting for correct representation
@@ -133,7 +131,7 @@ export class TimelineComponent implements AfterViewInit {
     // gets an observable with all timeline items for thecurrent issue
     this.timelineItems$ = this.dataService.getList({
       node: this.issueId,
-      type: ListType.TimelineItems,
+      type: ListType.TimelineItems
     });
 
     //FIXME: decide on the count
@@ -177,12 +175,7 @@ export class TimelineComponent implements AfterViewInit {
       let stopCoalescing = false;
 
       // decides whether to stop coalescing
-      stopCoalescing = this.stopCoalescing(
-        coalescingType,
-        coalesceList,
-        stopCoalescing,
-        timelineItem
-      );
+      stopCoalescing = this.stopCoalescing(coalescingType, coalesceList, stopCoalescing, timelineItem);
 
       // case: the coalescing type equals the current item type
       // or coalescing should stop
@@ -195,11 +188,7 @@ export class TimelineComponent implements AfterViewInit {
           coalesceList.push(timelineItem);
         } else {
           coalescingType = null;
-          coalesced = this.addSingleCoalesceItem(
-            timelineItem,
-            filter,
-            coalesced
-          );
+          coalesced = this.addSingleCoalesceItem(timelineItem, filter, coalesced);
         }
 
         continue;
@@ -244,10 +233,7 @@ export class TimelineComponent implements AfterViewInit {
    * @param  {CoalescedTimelineItem[]} coalesced  The given list containing all coalesced timeline items.
    * @returns The given list containing all coalesced timeline items.
    */
-  private addCoalesceItems(
-    coalesceList: IssueTimelineItem[],
-    coalesced: CoalescedTimelineItem[]
-  ): CoalescedTimelineItem[] {
+  private addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
     const firstItem: any = coalesceList[0];
     const itemType = firstItem.__typename;
     const createdBy = this.userName(firstItem);
@@ -259,7 +245,7 @@ export class TimelineComponent implements AfterViewInit {
         isCoalesced: true,
         item: coalesceList,
         user: createdBy,
-        time: coalesceList[0].createdAt,
+        time: coalesceList[0].createdAt
       });
     }
 
@@ -270,7 +256,7 @@ export class TimelineComponent implements AfterViewInit {
         isCoalesced: false,
         item: coalesceList[0],
         user: createdBy,
-        time: coalesceList[0].createdAt,
+        time: coalesceList[0].createdAt
       });
     }
 
@@ -295,7 +281,7 @@ export class TimelineComponent implements AfterViewInit {
         isCoalesced: false,
         item: timelineItem,
         user: this.userName(timelineItem),
-        time: timelineItem.createdAt,
+        time: timelineItem.createdAt
       });
     }
 
@@ -314,19 +300,12 @@ export class TimelineComponent implements AfterViewInit {
    * @param  {IssueTimelineItem} timelineItem - Timeline item handled.
    * @returns The value that determines whether the coalescing should stop.
    */
-  private stopCoalescing(
-    coalescingType: any,
-    coalesceList: IssueTimelineItem[],
-    stopCoalescing: boolean,
-    timelineItem: IssueTimelineItem
-  ) {
+  private stopCoalescing(coalescingType: any, coalesceList: IssueTimelineItem[], stopCoalescing: boolean, timelineItem: IssueTimelineItem) {
     if (coalescingType) {
       const firstItem = coalesceList[0];
       stopCoalescing =
         firstItem.createdBy.id !== timelineItem.createdBy.id ||
-        Math.abs(
-          Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)
-        ) > 60000;
+        Math.abs(Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)) > 60000;
     }
 
     return stopCoalescing;

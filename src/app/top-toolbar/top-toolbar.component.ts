@@ -15,7 +15,7 @@ import { SettingsDialogComponent } from '@app/dialogs/settings-dialog/settings-d
 @Component({
   selector: 'app-top-toolbar',
   templateUrl: './top-toolbar.component.html',
-  styleUrls: ['./top-toolbar.component.scss'],
+  styleUrls: ['./top-toolbar.component.scss']
 })
 export class TopToolbarComponent {
   @Input()
@@ -24,18 +24,12 @@ export class TopToolbarComponent {
   @Output()
   public menuClick = new EventEmitter();
 
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
+    shareReplay()
+  );
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    public authService: AuthenticationService,
-    private dialog: MatDialog
-  ) {}
+  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog) {}
 
   public handleClick() {
     this.menuClick.emit();

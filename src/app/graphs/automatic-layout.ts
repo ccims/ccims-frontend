@@ -26,11 +26,7 @@ class Vector {
    * @param point The point to check, as a vector
    * @return dot(target - source, point - source) < 0
    */
-  public static isBehind(
-    source: Vector,
-    target: Vector,
-    point: Vector
-  ): boolean {
+  public static isBehind(source: Vector, target: Vector, point: Vector): boolean {
     const srcToTarget = target.subtract(source);
     const srcToPoint = point.subtract(source);
     return srcToTarget.dot(srcToPoint) < 0 || srcToTarget.isZero();
@@ -127,10 +123,8 @@ class Vector {
   public distanceToLine(sourcePoint: Vector, targetPoint: Vector): number {
     const length = targetPoint.subtract(sourcePoint).length();
     return (
-      Math.abs(
-        (targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) -
-          (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)
-      ) / length
+      Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) - (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)) /
+      length
     );
   }
 
@@ -180,17 +174,9 @@ export class LayoutNode {
   /** Padding to be added to this node */
   readonly padding: number;
 
-  constructor(
-    id: string | number,
-    positionX: number,
-    positionY: number,
-    nodeType: NodeType
-  ) {
+  constructor(id: string | number, positionX: number, positionY: number, nodeType: NodeType) {
     this.id = id;
-    this.padding =
-      nodeType === NodeType.Component
-        ? LayoutNode.PADDING_COMPONENT
-        : LayoutNode.PADDING_INTERFACE;
+    this.padding = nodeType === NodeType.Component ? LayoutNode.PADDING_COMPONENT : LayoutNode.PADDING_INTERFACE;
     this.position = new Vector(positionX, positionY);
   }
 
@@ -259,11 +245,7 @@ export class LayoutNode {
       // Now make this node repel from edges connecting nodes
       for (const edgeNode of otherNode.connectedTo) {
         // Ignore edges that were already visited
-        if (
-          edgeNode.id === this.id ||
-          (otherNodesVisited.has(otherNode.id) &&
-            otherNodesVisited.has(edgeNode.id))
-        ) {
+        if (edgeNode.id === this.id || (otherNodesVisited.has(otherNode.id) && otherNodesVisited.has(edgeNode.id))) {
           continue;
         }
 
@@ -271,11 +253,7 @@ export class LayoutNode {
 
         // Check if this node is next to the edge connecting two nodes
         if (
-          Vector.isBehind(
-            otherNode.position,
-            edgeNode.position,
-            this.position
-          ) ||
+          Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
           Vector.isBehind(edgeNode.position, otherNode.position, this.position)
         ) {
           continue;
@@ -283,11 +261,7 @@ export class LayoutNode {
 
         // If this is the case, determine the distance of the node to the edge, and if necessary, add a force pointing
         // away from the edge
-        const distanceToEdge = Math.max(
-          1,
-          this.position.distanceToLine(otherNode.position, edgeNode.position) -
-            pad
-        );
+        const distanceToEdge = Math.max(1, this.position.distanceToLine(otherNode.position, edgeNode.position) - pad);
         if (distanceToEdge < LayoutNode.MIN_DISTANCE_EDGE) {
           const edge = edgeNode.position.subtract(otherNode.position);
           const point = this.position.subtract(otherNode.position);
@@ -295,13 +269,9 @@ export class LayoutNode {
 
           // Always point away from edge
           if (edge.x * -point.y + edge.y * point.x < 0) {
-            result.addSelf(
-              edge.normalize().perpendicularCounterClockwise().scale(scale)
-            );
+            result.addSelf(edge.normalize().perpendicularCounterClockwise().scale(scale));
           } else {
-            result.addSelf(
-              edge.normalize().perpendicularClockwise().scale(scale)
-            );
+            result.addSelf(edge.normalize().perpendicularClockwise().scale(scale));
           }
         }
       }

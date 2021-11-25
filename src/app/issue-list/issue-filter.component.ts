@@ -5,7 +5,7 @@ import { ListId, ListType, NodeType, ROOT_NODE } from '@app/data-dgql/id';
 /** Returns the ListId for listing all project issues. */
 const listAllIssues = (self: IssueFilterComponent) => ({
   node: { type: NodeType.Project, id: self.projectId },
-  type: ListType.Issues,
+  type: ListType.Issues
 });
 
 /**
@@ -23,8 +23,8 @@ const PREDICATES = {
     options: [
       [IssueCategory.Unclassified, 'Unclassified'],
       [IssueCategory.Bug, 'Bug'],
-      [IssueCategory.FeatureRequest, 'Feature Request'],
-    ],
+      [IssueCategory.FeatureRequest, 'Feature Request']
+    ]
   },
   labels: {
     type: 'ids',
@@ -33,7 +33,7 @@ const PREDICATES = {
     scoreKeys: ['name'],
     listAll: (self: IssueFilterComponent) => self.allLabelsList,
     makeFilter: (query: string) => ({ name: query }),
-    ifEmpty: 'No labels selected',
+    ifEmpty: 'No labels selected'
   },
   linksIssues: { type: 'bool', label: 'Has linked issues' },
   linkedIssues: {
@@ -43,7 +43,7 @@ const PREDICATES = {
     scoreKeys: ['title'],
     listAll: listAllIssues,
     makeFilter: (query: string) => ({ title: query }),
-    ifEmpty: 'No issues selected',
+    ifEmpty: 'No issues selected'
   },
   isLinkedByIssues: { type: 'bool', label: 'Is linked by issues' },
   linkedByIssues: {
@@ -53,7 +53,7 @@ const PREDICATES = {
     scoreKeys: ['title'],
     listAll: listAllIssues,
     makeFilter: (query: string) => ({ title: query }),
-    ifEmpty: 'No issues selected',
+    ifEmpty: 'No issues selected'
   },
   participants: {
     type: 'ids',
@@ -62,7 +62,7 @@ const PREDICATES = {
     scoreKeys: ['username', 'displayName'],
     listAll: () => ({ node: ROOT_NODE, type: ListType.SearchUsers }),
     makeFilter: (query: string) => ({ username: query }),
-    ifEmpty: 'No users selected',
+    ifEmpty: 'No users selected'
   },
   locations: {
     type: 'ids',
@@ -73,17 +73,17 @@ const PREDICATES = {
       staticSources: [
         {
           node: { type: NodeType.Project, id: self.projectId },
-          type: ListType.Components,
+          type: ListType.Components
         },
         {
           node: { type: NodeType.Project, id: self.projectId },
-          type: ListType.ComponentInterfaces,
-        },
-      ],
+          type: ListType.ComponentInterfaces
+        }
+      ]
     }),
     makeFilter: (query: string) => ({ title: query }),
-    ifEmpty: 'No locations selected',
-  },
+    ifEmpty: 'No locations selected'
+  }
 };
 
 /** Returns the default value for a predicate type. */
@@ -115,7 +115,7 @@ function convertValueForFilter(type: string, value: any) {
 @Component({
   selector: 'app-issue-filter',
   templateUrl: './issue-filter.component.html',
-  styleUrls: ['./issue-filter.component.scss'],
+  styleUrls: ['./issue-filter.component.scss']
 })
 export class IssueFilterComponent {
   /** Raw project ID. */
@@ -204,10 +204,7 @@ export class IssueFilterComponent {
         this.predicateValues[id].push(item);
       }
       for (const item of removed) {
-        this.predicateValues[id].splice(
-          this.predicateValues[id].indexOf(item),
-          1
-        );
+        this.predicateValues[id].splice(this.predicateValues[id].indexOf(item), 1);
       }
       this.update();
     };
@@ -222,10 +219,7 @@ export class IssueFilterComponent {
       filter.fullSearch = { text: this.searchQuery.trim() };
     }
     for (const id of this.activePredicates) {
-      filter[id] = convertValueForFilter(
-        PREDICATES[id].type,
-        this.predicateValues[id]
-      );
+      filter[id] = convertValueForFilter(PREDICATES[id].type, this.predicateValues[id]);
     }
     return filter;
   }

@@ -13,7 +13,7 @@ import { CCIMSValidators } from '@app/utils/validators';
 @Component({
   selector: 'app-create-project-dialog',
   templateUrl: './create-project-dialog.component.html',
-  styleUrls: ['./create-project-dialog.component.scss'],
+  styleUrls: ['./create-project-dialog.component.scss']
 })
 export class CreateProjectDialogComponent {
   @Input() name: string;
@@ -30,10 +30,7 @@ export class CreateProjectDialogComponent {
     this.loading = false;
   }
 
-  nameValidator = new FormControl('', [
-    CCIMSValidators.nameFormatValidator,
-    Validators.required,
-  ]);
+  nameValidator = new FormControl('', [CCIMSValidators.nameFormatValidator, Validators.required]);
   descriptionValidator = new FormControl('', CCIMSValidators.contentValidator);
 
   onNoClick(): void {
@@ -51,7 +48,7 @@ export class CreateProjectDialogComponent {
       ({ data }) => {
         this.loading = false;
         this.dialogRef.close({
-          createdProjectId: data.createProject.project.id,
+          createdProjectId: data.createProject.project.id
         });
       },
       (error) => {

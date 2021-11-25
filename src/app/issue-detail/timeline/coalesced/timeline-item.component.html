@@ -1,10 +1,7 @@
 <div class="timeline-body">
   <ng-container [ngTemplateOutlet]="activeItemContent"></ng-container><br />
   <small class="text-muted">
-    <time
-      [dateTime]="timelineItem.time"
-      [title]="this.timeFormatter.formatTime(timelineItem.time)"
-    >
+    <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">
       {{ this.timeFormatter.formatTimeDifference(timelineItem.time) }}
     </time>
   </small>

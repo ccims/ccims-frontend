@@ -5,28 +5,20 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'Gropius';
 
-  constructor(
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
-  ) {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     const ccimsIcons = {
       'relation-edge': 'relation-edge.svg',
-      'resize-corner': 'resize-corner.svg',
+      'resize-corner': 'resize-corner.svg'
     };
 
     for (const [key, value] of Object.entries(ccimsIcons)) {
       console.log('register', key, 'as', '../assets/icons/svg/' + value);
-      this.matIconRegistry.addSvgIcon(
-        key,
-        this.domSanitizer.bypassSecurityTrustResourceUrl(
-          '../assets/icons/svg/' + value
-        )
-      );
+      this.matIconRegistry.addSvgIcon(key, this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/svg/' + value));
     }
 
     // add all issue icons
@@ -42,23 +34,14 @@ export class AppComponent {
               isClosed ? '-closed' : null,
               edgeType && '-',
               edgeType,
-              '.svg',
+              '.svg'
             ]
               .filter((part) => !!part)
               .join('');
-            const iconName = [
-              'issue',
-              type === 'assigned' ? 'assigned' : null,
-              category,
-              isClosed ? 'closed' : null,
-              edgeType,
-            ]
+            const iconName = ['issue', type === 'assigned' ? 'assigned' : null, category, isClosed ? 'closed' : null, edgeType]
               .filter((part) => !!part)
               .join('-');
-            this.matIconRegistry.addSvgIcon(
-              iconName,
-              this.domSanitizer.bypassSecurityTrustResourceUrl(assetUrl)
-            );
+            this.matIconRegistry.addSvgIcon(iconName, this.domSanitizer.bypassSecurityTrustResourceUrl(assetUrl));
           }
         }
       }

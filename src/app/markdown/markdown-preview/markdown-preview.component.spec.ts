@@ -8,7 +8,7 @@ describe('MarkdownPreviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MarkdownPreviewComponent],
+      declarations: [MarkdownPreviewComponent]
     }).compileComponents();
   }));
 

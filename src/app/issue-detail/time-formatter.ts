@@ -19,10 +19,7 @@ export class TimeFormatter {
     const now = new Date();
     const pastTime = new Date(dateString);
 
-    const months =
-      now.getMonth() -
-      pastTime.getMonth() +
-      (now.getFullYear() - pastTime.getFullYear()) * 12;
+    const months = now.getMonth() - pastTime.getMonth() + (now.getFullYear() - pastTime.getFullYear()) * 12;
     const minutes = Math.round((+now - +pastTime) / 1000 / 60);
     const hours = Math.round(minutes / 60);
     const days = Math.round(hours / 24);

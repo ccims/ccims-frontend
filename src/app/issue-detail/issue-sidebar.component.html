@@ -34,16 +34,9 @@
     <span title>Locations</span>
     <span if-empty>No locations assigned</span>
     <ng-container *appItem="let item">
-      <div *ngIf="item.__typename === 'Component'">
-        {{ item.name }}
-      </div>
+      <div *ngIf="item.__typename === 'Component'">{{ item.name }}</div>
       <div *ngIf="item.__typename === 'ComponentInterface'">
-        <span
-          class="location-containing-component-name"
-          *ngIf="!!item.component"
-        >
-          {{ item.component.name }} ›
-        </span>
+        <span class="location-containing-component-name" *ngIf="!!item.component"> {{ item.component.name }} › </span>
         {{ item.name }}
       </div>
     </ng-container>
@@ -109,16 +102,8 @@
   >
     <span title>Linked Issues</span>
     <span if-empty>No issues linked</span>
-    <div
-      class="linked-issue-item"
-      *appItem="let item; let interactive = interactive"
-    >
-      <app-issue-item
-        [issue]="item"
-        [extended]="!interactive"
-        [interactive]="interactive"
-        [projectId]="projectId"
-      ></app-issue-item>
+    <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
+      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
     </div>
   </app-set-editor>
 </div>
@@ -137,16 +122,8 @@
   >
     <span title>Linked By Issues</span>
     <span if-empty>No issues link to this issue</span>
-    <div
-      class="linked-issue-item"
-      *appItem="let item; let interactive = interactive"
-    >
-      <app-issue-item
-        [issue]="item"
-        [extended]="!interactive"
-        [interactive]="interactive"
-        [projectId]="projectId"
-      ></app-issue-item>
+    <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
+      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
     </div>
   </app-set-editor>
 </div>

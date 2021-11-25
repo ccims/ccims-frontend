@@ -5,9 +5,7 @@
       <mat-form-field class="stretch" appearance="outline">
         <mat-label>Name</mat-label>
         <input #name required matInput [formControl]="validationName" />
-        <mat-error *ngIf="validationName.invalid"
-          >Invalid interface name</mat-error
-        >
+        <mat-error *ngIf="validationName.invalid">Invalid interface name</mat-error>
       </mat-form-field>
 
       <mat-form-field class="stretch" appearance="outline">
@@ -17,12 +15,7 @@
 
       <mat-form-field class="stretch" appearance="outline">
         <mat-label>Description</mat-label>
-        <textarea
-          style="height: 66px"
-          #description
-          matInput
-          [formControl]="validationDescription"
-        ></textarea>
+        <textarea style="height: 66px" #description matInput [formControl]="validationDescription"></textarea>
       </mat-form-field>
 
       <nz-alert

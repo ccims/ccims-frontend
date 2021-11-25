@@ -8,7 +8,7 @@ describe('LabelSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LabelSearchComponent],
+      declarations: [LabelSearchComponent]
     }).compileComponents();
   }));
 

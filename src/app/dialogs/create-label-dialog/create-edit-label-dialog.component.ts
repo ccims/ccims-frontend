@@ -25,19 +25,13 @@ export interface CreateEditLabelDialogData {
 @Component({
   selector: 'app-create-edit-label-dialog-component',
   templateUrl: './create-edit-label-dialog.component.html',
-  styleUrls: ['./create-edit-label-dialog.component.scss'],
+  styleUrls: ['./create-edit-label-dialog.component.scss']
 })
 export class CreateEditLabelDialogComponent implements OnInit {
   /** Validator for the label name. */
-  validationLabelName = new FormControl('', [
-    Validators.required,
-    Validators.maxLength(30),
-  ]);
+  validationLabelName = new FormControl('', [Validators.required, Validators.maxLength(30)]);
   /** Validator for the label description. */
-  validationLabelDescription = new FormControl(
-    '',
-    CCIMSValidators.contentValidator
-  );
+  validationLabelDescription = new FormControl('', CCIMSValidators.contentValidator);
   /** Color state. */
   color = '#000000';
   /** If true, the label that is to be edited is still loading. */
@@ -59,7 +53,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
     if (this.data.editExisting) {
       this.componentList = {
         node: this.data.editExisting,
-        type: ListType.Components,
+        type: ListType.Components
       };
 
       this.loading = true;
@@ -91,7 +85,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
     this.allComponentsList = {
       node: this.data.projectId,
-      type: ListType.Components,
+      type: ListType.Components
     };
   }
 
@@ -100,10 +94,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
     return { name: search };
   }
   /** @ignore used for set editor */
-  applyComponentChangeset = async (
-    additions: NodeId[],
-    deletions: NodeId[]
-  ) => {
+  applyComponentChangeset = async (additions: NodeId[], deletions: NodeId[]) => {
     if (Array.isArray(this.componentList)) {
       const keySet = new Set(this.componentList.map((id) => encodeNodeId(id)));
       for (const item of additions) {
@@ -120,18 +111,10 @@ export class CreateEditLabelDialogComponent implements OnInit {
       }
     } else {
       for (const item of additions) {
-        await this.dataService.mutations.addLabelToComponent(
-          Math.random().toString(),
-          this.data.editExisting,
-          item
-        );
+        await this.dataService.mutations.addLabelToComponent(Math.random().toString(), this.data.editExisting, item);
       }
       for (const item of deletions) {
-        await this.dataService.mutations.removeLabelFromComponent(
-          Math.random().toString(),
-          this.data.editExisting,
-          item
-        );
+        await this.dataService.mutations.removeLabelFromComponent(Math.random().toString(), this.data.editExisting, item);
       }
     }
   };
@@ -147,19 +130,13 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
     if (this.data.editExisting) {
       this.dataService.mutations
-        .updateLabel(
-          Math.random().toString(),
-          this.data.editExisting,
-          name,
-          this.color,
-          description
-        )
+        .updateLabel(Math.random().toString(), this.data.editExisting, name, this.color, description)
         .then(() => {
           this.dialog.close({
             id: this.data.editExisting.id,
             name,
             color: this.color,
-            description,
+            description
           } as Label);
         })
         .catch((error) => {
@@ -170,13 +147,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
         });
     } else {
       this.dataService.mutations
-        .createLabel(
-          Math.random().toString(),
-          this.componentList as NodeId[],
-          name,
-          this.color,
-          description
-        )
+        .createLabel(Math.random().toString(), this.componentList as NodeId[], name, this.color, description)
         .then((created) => {
           this.dialog.close(created as Label);
         })

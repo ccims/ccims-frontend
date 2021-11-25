@@ -3,13 +3,10 @@ import { CurrentUserGQL, SearchUsersGQL } from 'src/generated/graphql-dgql';
 import { promisifyApolloFetch } from '@app/data-dgql/queries/util';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UsersService {
-  constructor(
-    private qSearchUsers: SearchUsersGQL,
-    private qCurrentUser: CurrentUserGQL
-  ) {}
+  constructor(private qSearchUsers: SearchUsersGQL, private qCurrentUser: CurrentUserGQL) {}
 
   searchUsers(filter: { username: string }) {
     let query = '';
@@ -27,9 +24,7 @@ export class UsersService {
       return Promise.resolve([]);
     }
 
-    return promisifyApolloFetch(this.qSearchUsers.fetch({ query })).then(
-      (data) => data.searchUser
-    );
+    return promisifyApolloFetch(this.qSearchUsers.fetch({ query })).then((data) => data.searchUser);
   }
 
   currentUser() {

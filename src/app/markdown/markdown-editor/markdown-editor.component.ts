@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-markdown-editor',
   templateUrl: './markdown-editor.component.html',
-  styleUrls: ['./markdown-editor.component.scss'],
+  styleUrls: ['./markdown-editor.component.scss']
 })
 export class MarkdownEditorComponent {
   /**

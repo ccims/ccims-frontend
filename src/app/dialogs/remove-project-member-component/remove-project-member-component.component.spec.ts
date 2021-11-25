@@ -8,7 +8,7 @@ describe('RemoveProjectMemberComponentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RemoveProjectMemberComponentComponent],
+      declarations: [RemoveProjectMemberComponentComponent]
     }).compileComponents();
   }));
 

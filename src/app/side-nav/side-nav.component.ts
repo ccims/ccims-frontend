@@ -11,7 +11,7 @@ import { UserNotifyService } from '@app/user-notify/user-notify.service';
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
-  styleUrls: ['./side-nav.component.scss'],
+  styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent {
   readonly defaultMenuTitle = 'Menu';
@@ -21,11 +21,7 @@ export class SideNavComponent {
   issuesLink = ['/'];
   membersLink = ['/'];
 
-  constructor(
-    public ss: StateService,
-    public router: Router,
-    public notify: UserNotifyService
-  ) {
+  constructor(public ss: StateService, public router: Router, public notify: UserNotifyService) {
     ss.state$.subscribe((appState) => {
       if (!appState.project) {
         return;

@@ -1,16 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { concat, of, Subject, Observable, BehaviorSubject } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
-import {
-  FilterLabel,
-  isFilterLabel,
-  LabelStoreService,
-} from '../../data/label/label-store.service';
+import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { FilterLabel, isFilterLabel, LabelStoreService } from '../../data/label/label-store.service';
 import { StateService } from '../../state.service';
 
 /**
@@ -20,12 +11,12 @@ import { StateService } from '../../state.service';
 @Component({
   selector: 'app-label-search',
   templateUrl: './label-search.component.html',
-  styleUrls: ['./label-search.component.scss'],
+  styleUrls: ['./label-search.component.scss']
 })
 export class LabelSearchComponent implements OnInit {
   public filterSelection$ = new BehaviorSubject<FilterSelection>({
     labels: [],
-    texts: [],
+    texts: []
   });
 
   labels$: Observable<FilterLabel[]>;
@@ -33,10 +24,7 @@ export class LabelSearchComponent implements OnInit {
   labelsInput$ = new Subject<string>();
   selectedLabels: FilterElement[] = [];
 
-  constructor(
-    private labelStore: LabelStoreService,
-    private ss: StateService
-  ) {}
+  constructor(private labelStore: LabelStoreService, private ss: StateService) {}
 
   ngOnInit() {
     this.loadLabels();
@@ -52,12 +40,8 @@ export class LabelSearchComponent implements OnInit {
   emitSelectedLabels() {
     const selection: FilterSelection = { texts: [], labels: [] };
     // find out which elements in search bar correspond to an existing label on the backend and which to a text fragment
-    selection.texts = this.selectedLabels
-      .filter((item) => !isFilterLabel(item))
-      .map((item) => item.name);
-    selection.labels = this.selectedLabels.filter((label) =>
-      isFilterLabel(label)
-    ) as FilterLabel[];
+    selection.texts = this.selectedLabels.filter((item) => !isFilterLabel(item)).map((item) => item.name);
+    selection.labels = this.selectedLabels.filter((label) => isFilterLabel(label)) as FilterLabel[];
     this.filterSelection$.next(selection);
   }
 
@@ -71,12 +55,10 @@ export class LabelSearchComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => (this.labelsLoading = true)),
         switchMap((term) =>
-          this.labelStore
-            .getMatchingLabels(this.ss.state.project.node.id, term)
-            .pipe(
-              catchError(() => of([])), // empty list on error
-              tap(() => (this.labelsLoading = false))
-            )
+          this.labelStore.getMatchingLabels(this.ss.state.project.node.id, term).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.labelsLoading = false))
+          )
         )
       )
     );
