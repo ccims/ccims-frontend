@@ -160,7 +160,7 @@ const listQueries: ListQueries = {
       }))
   },
   [ListType.SearchUsers]: {
-    [NodeType.Root]: (i, list, params) => i.q.users.searchUsers(params.filter as (string | { username: string }))
+    [NodeType.Root]: (i, list, params) => i.q.users.searchUsers(params.filter as ({ username: string }))
       .then(data => ({
         totalCount: data.length,
         pageInfo: {
