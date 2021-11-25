@@ -14,13 +14,14 @@ export class UsersService {
     private qCurrentUser: CurrentUserGQL,
   ) {}
 
-  searchUsers(filter: string | { username: string }) {
+  searchUsers(filter: { username: string }) {
     let query = '';
-    // filter accepts an object for compatibility with UserFilter
-    // FIXME: this is not very elegant of a solution
-    if (typeof filter === 'string') {
-      query = filter;
-    } else if (filter) {
+    // The searchUser query is special in that it does not use a filter object.
+    // However, this is not compatible with the rest of our API, which uses UserFilter
+    // (e.g. issue assignees).
+    // Hence, this function uses the username search field, even though this is technically
+    // incorrect (searchUsers will also search by display name).
+    if (filter) {
       query = filter.username;
     }
 

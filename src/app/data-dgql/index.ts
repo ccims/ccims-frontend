@@ -15,9 +15,15 @@ import { Mutations } from '@app/data-dgql/mutate';
   providedIn: 'root'
 })
 export default class DataService {
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: node cache. You probably do not need to use this directly.
+   */
   nodes: NodeCache;
-  /** @ignore */
+  /**
+   * @ignore
+   * internal: list of all lists. You probably do not need to use this directly.
+   */
   lists: Map<ListIdEnc, Set<DataList<unknown, unknown>>> = new Map();
 
   /** Data mutations. */

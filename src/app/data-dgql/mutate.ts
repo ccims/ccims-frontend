@@ -100,7 +100,8 @@ export class Mutations {
 
   addIssueLabel(id: string, issue: NodeId, label: NodeId) {
     return this.qs.issues.mutAddIssueLabel(id, issue.id, label.id).then(() => {
-      // while we do have the new timeline item, there's currently no way in the API to just append it to the end,
+      // FIXME: while we do have the new timeline item,
+      // there's currently no way in the API to just append it to the end,
       // so we'll just invalidate lists
       this.invalidateLists({ node: issue, type: ListType.TimelineItems });
       this.invalidateLists({ node: issue, type: ListType.Labels });

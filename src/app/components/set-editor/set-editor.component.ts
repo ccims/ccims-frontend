@@ -62,14 +62,26 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   /** Callback to delete an item. */
   @Output() deleteItem = new EventEmitter<{ id: NodeId, preview: T }>();
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Pointer to the title text element. Used to read the title, because we can't read angular components directly.
+   */
   @ViewChild('titleText') titleText: ElementRef<HTMLElement>;
-  /** @ignore */
+  /**
+   * @ignore
+   * Pointer to the *appItem directive. Used to instantiate list items.
+   */
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
 
-  /** @ignore */
+  /**
+   * @ignore
+   * List that fetches the first few items of the list of items in the set.
+   */
   public listSet$: DataList<T, unknown>;
-  /** @ignore */
+  /**
+   * @ignore
+   * The subscription to listSet$.
+   */
   private listSetSub: Subscription;
 
   /**
@@ -83,8 +95,11 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
     private dialogService: MatDialog
   ) {}
 
-  /** @ignore */
-  reloadListSet() {
+  /**
+   * @ignore
+   * Internal: (re-)loads the subscription to whatever the user put in listSet.
+   */
+  private reloadListSet() {
     if (Array.isArray(this.listSet)) {
       this.isLocalSet = true;
       if (this.listSet$) {
@@ -93,6 +108,7 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
       }
     } else {
       this.isLocalSet = false;
+      this.listSetSub?.unsubscribe();
       this.listSet$ = this.dataService.getList(this.listSet);
       this.listSetSub = this.listSet$.subscribe();
     }
@@ -104,6 +120,7 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
       this.listSet$.hydrateInitial(this.hydrate);
     }
   }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.listSet) {
       const newValue = changes.listSet.currentValue;
@@ -118,21 +135,28 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   }
 
   /**
-   * @ignore
-   * This method is needed to satisfy static type checking bounds
+   * Returns the number of selected items.
+   *
+   * May be NaN if it hasn't been loaded yet.
    */
-  getListSetLength(): number {
+  get totalCount(): number {
     if (this.isLocalSet) {
       return (this.listSet as NodeId[]).length;
+    } else {
+      if (this.listSet$.loading) {
+        return NaN;
+      }
+      return this.listSet$.totalCount;
     }
-    throw new Error('bad state');
   }
 
+  // Callbacks for the set editor dialog.
+  // They all forward to the user-provided function.
+  // We do not pass the user-provided function directly because they may change while the dialog is open.
   /** @ignore */
   private onDialogApplyChangeset = (additions: NodeId[], deletions: NodeId[]): Promise<void> => {
     return this.applyChangeset(additions, deletions);
   }
-
   /** @ignore */
   private onDialogCreateItem = () => this.createItem();
   /** @ignore */

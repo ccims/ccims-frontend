@@ -38,14 +38,20 @@ export interface SetMultiSource {
 class MultiSourceList<T, F> {
   /** A DataList that loads the value of sourceNodes, if it's a ListId. */
   public sourceNodeList?: DataList<{ __typename: string }, unknown>;
-  /** @ignore */
-  public sourceNodeListSub?: Subscription;
+  /**
+   * @ignore
+   * Internal: subscription to the sourceNodeList.
+   */
+  private sourceNodeListSub?: Subscription;
   /** The list of nodes specified in sourceNodes, if it's a NodeId[]. */
   public staticSourceNodeList?: NodeId[];
   /** List of all sources that will be included in the results. */
   public sources: Map<ListIdEnc, DataList<T, F>> = new Map();
-  /** @ignore */
-  public sourceSubs: Map<ListIdEnc, Subscription> = new Map();
+  /**
+   * @ignore
+   * Internal: subscriptions to all of the sources.
+   */
+  private sourceSubs: Map<ListIdEnc, Subscription> = new Map();
   /** Max number of items in results. */
   public limit = 10;
   /** Current results. */
