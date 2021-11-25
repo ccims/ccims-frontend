@@ -1,6 +1,29 @@
 import { Component, Input } from '@angular/core';
 import { Label } from 'src/generated/graphql-dgql';
 
+const colorTestCanvas = document.createElement('canvas');
+colorTestCanvas.width = colorTestCanvas.height = 1;
+const colorTestCtx = colorTestCanvas.getContext('2d');
+
+/**
+ * Reads a CSS color into an RGB tuple.
+ * Undefined behavior if the string is not a valid color.
+ *
+ * @param color a CSS color string
+ * @return RGB tuple in the 0..255 range
+ */
+function readCssColor(color: string): [number, number, number] {
+  try {
+    colorTestCtx.fillStyle = color;
+    colorTestCtx.fillRect(0, 0, 1, 1);
+    const imageData = colorTestCtx.getImageData(0, 0, 1, 1);
+    return [imageData.data[0], imageData.data[1], imageData.data[2]];
+  } catch {
+    // getImageData may fail in rare cases(?) so we'll simply return garbage
+    return [NaN, NaN, NaN];
+  }
+}
+
 /**
  * Renders an issue label.
  */
@@ -14,35 +37,19 @@ export class IssueLabelComponent {
   @Input() label: Label;
 
   /**
-   * Determines the label color for a given background color.
-   * @param color the background color string in hex or rgb(...)
+   * Determines whether the color is light or dark.
+   *
+   * @param color label color - any CSS color string
    */
-  public static labelColorForBackground(color) {
-    // Variables for red, green, blue values
-    let r, g, b, hsp;
-
-    // Check the format of the color, HEX or RGB?
-    if (color.match(/^rgb/)) {
-
-      // If RGB --> store the red, green, blue values in separate variables
-      color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-
-      r = color[1];
-      g = color[2];
-      b = color[3];
-    } else {
-
-      // If hex --> Convert it to RGB: http://gist.github.com/983661
-      color = +('0x' + color.slice(1).replace(
-        color.length < 5 && /./g, '$&$&'));
-
-      r = color >> 16;
-      g = color >> 8 & 255;
-      b = color & 255;
+  public isColorDark(color?: string) {
+    if (!color) {
+      return false;
     }
 
+    const [r, g, b] = readCssColor(color);
+
     // HSP (Hue-Sat-Perceived-brightness) equation from http://alienryderflex.com/hsp.html
-    hsp = Math.sqrt(
+    const hsp = Math.sqrt(
       0.299 * (r * r) +
       0.587 * (g * g) +
       0.114 * (b * b)
@@ -50,22 +57,6 @@ export class IssueLabelComponent {
 
     // Using the HSP value, determine whether the color is light or dark
     // Compare against gamma-adjusted tipping point
-    if (hsp > Math.sqrt(0.5) * 255) {
-      return 'black';
-    } else {
-      return 'white';
-    }
-  }
-
-  /**
-   * Determines whether the background color is light or dark.
-   *
-   * @param color - Background color of a label.
-   */
-  public labelIsDark(color) {
-    if (!color) {
-      return false;
-    }
-    return IssueLabelComponent.labelColorForBackground(color) === 'black';
+    return hsp > Math.sqrt(0.5) * 255;
   }
 }
