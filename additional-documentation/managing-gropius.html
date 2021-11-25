@@ -92,23 +92,63 @@ of the primary components of the app.</p>
 </table>
 <h2 id="documentation-generation">Documentation generation</h2>
 <p>The documentation is generated with <a href="https://github.com/compodoc/compodoc">Compodoc</a>. Run <code>npm run compodoc</code>for a documentation server. Navigate to <code>http://localhost:6060/</code>. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in <a href="tsconfig.doc.json">tsconfig.doc.json</a>.</p>
-<h2 id="code-generation-from-graphql-files">Code generation from .graphql files</h2>
-<p>The app uses GraphQL instead of REST to communicate with the backend. The graphql files are in the
-<a href="src/app/data">data folder</a> and subdivided by entities they pertain to e.g. <a href="src/app/data/label/label.graphql">label</a> <br />
-When you change .graphql files you have to rerun the code generator. It will update the files in
-src/generated to match the changes in the .graphql files.<br>:warning: The backend has to be running with debugNoLogin set to true to make the backend schema
-definition accessible to the generator via the urls defined in the codegen <a href="codegen.yml">configuration file</a>.<br>Run <code>npm run generate</code> to execute the codegenerator when this condition is met.</p>
-<h2 id="code-generator-explanation">Code generator explanation</h2>
-<p>We use a codegenerator (<a href="https://graphql-code-generator.com/">https://graphql-code-generator.com/</a>) to create typescript classes from .graphql files
-containing queries and mutations. One class per query/mutation. We then use dependency injection to inject objects of theses classes 
-into e.g. services via dependency injection. These objects make it easy to parameterize the mutations and queries and
-invoke them in typescript code.</p>
+<h2 id="bindings-to-the-backend-api">Bindings to the Backend API</h2>
+<p>The app uses GraphQL to communicate with the backend.
+The following documentation will assume you are familiar with the CCIMS backend API.</p>
+<p>There are currently two different APIs for communicating with the backend:</p>
+<h3 id="data-api"><code>data</code> API</h3>
+<p>The data API provides simple wrappers around the inner GraphQL queries
+(e.g. <code>ComponentStoreService</code>) that can be included into any Angular class using dependency
+injection.
+Graphql source files are located in the <a href="src/app/data">data</a> directory, subdivided by the entities
+they pertain to (components, issues, etc.)</p>
+<p>Refer to the code documentation for the handler of each entity type for more information.</p>
+<p>It is not recommended that you use the <code>data</code> API for new code, as it has several drawbacks:</p>
+<ul>
+<li>Queries do not have any granularity: a lot of list queries will fetch all items in that list at
+once, without any pagination. A lot of node queries will fetch the node and all of its child nodes
+used in the GUI, often every time the GUI control accessing the data is created.</li>
+<li>Updates to data in one area (e.g. changing the name of a component) are not propagated to other
+areas. This is, however, sort of canceled out by the fact that data is reloaded every time.</li>
+</ul>
+<h3 id="data-dgql-api"><code>data-dgql</code> API</h3>
+<p>The declarative data API attempts to improve upon the data API by introducing following new
+concepts:</p>
+<ul>
+<li><code>DataNode</code>: a shared, cached view into a node, agnostic of where the data was loaded from.
+Data may be loaded by lists, parent nodes, or queries about the node itself.
+All subscribers to the node (such as GUI components) can see the data and any updates
+simultaneously.
+Viewers will cause data to be loaded by default, but can be configured to prefer cached data
+(with <code>subscribeLazy</code> - useful when data has already been loaded by a DataList).</li>
+<li><code>DataList</code>: a view into a list that makes use of pagination and provides an interface for
+server-side filtering.
+Lists will automatically load data into the corresponding DataNode of each item.</li>
+<li><code>DataQuery</code>: a superclass of both DataNode and DataList that contains common methods.</li>
+<li><code>DataService</code>: a single injectable that provides access to all data.
+Data is accessed using NodeIds and ListIds.</li>
+<li><code>NodeId</code>: DataNodes are identified by a Node ID, which is a backend ID with a type tag.</li>
+<li><code>ListId</code>: The specific list a DataList will provide a view into is identified by a List ID.
+List IDs are a NodeId with a list type tag
+(e.g. &quot;the list of issues (type) in component abcdef (node)&quot;).</li>
+</ul>
+<p>Also see the code documentation for more information.</p>
+<h3 id="code-generation-from-graphql-files">Code generation from .graphql files</h3>
+<p>We use a code generator (<a href="https://graphql-code-generator.com/">https://graphql-code-generator.com/</a>) to create typescript classes from
+.graphql files containing queries and mutations. The code generator generates one Angular service
+class per query/mutation. These can then be included using dependency injection. These objects make
+it easy to parameterize the mutations and queries and invoke them in typescript code.
+You should, however, never need to use the GraphQL queries directly, as abstractions are provided in
+<code>data</code> and <code>data-dgql</code>.</p>
+<p>When you change .graphql files you have to rerun the code generator.
+It will update the files in src/generated to match the changes in the .graphql files.
+:warning: The backend has to be running with debugNoLogin set to true to make the backend schema
+definition accessible to the generator via the urls defined in the codegen <a href="codegen.yml">configuration file</a>.<br>Run <code>npm run generate</code> to execute the code generator when this condition is met.</p>
 <h2 id="mocked-members-page">Mocked Members Page</h2>
 <p>Every project offers a mocked &#39;Members&#39; page. It shows a list of users in the project and
 offers a dialog to add users. However this area is purely a mock, changes are not persisted
 and there are no other users who really have access to your project.</p>
-<br />
-<br />
+
                    </div><div class="search-results">
     <div class="has-results">
         <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>

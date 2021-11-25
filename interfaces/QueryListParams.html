@@ -68,6 +68,15 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Generic interface for backend list parameters.
+This represents the actual data sent in the request, as our representation in the frontend
+differs slightly (see <a href="../interfaces/ListParams.html">ListParams</a>).</p>
+
+            </p>
 
 
         <section>
@@ -325,15 +334,26 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
 
-// FIXME: why is this an observable? during runtime, we only ever observe one update emitted from
-//  the observable, yet the Apollo API uses this everywhere
-// TODO: investigate
+/**
+ * Apollo&#x27;s GraphQL fetch method returns an Observable even though we only ever see one update
+ * emitted from it.
+ *
+ * Hence, we just convert it to a promise here.
+ *
+ * @param f the observable
+ * @return a promise that resolves as soon as the observable emits an update
+ */
 export function promisifyApolloFetch&lt;T&gt;(f: Observable&lt;{ data?: T }&gt;): Promise&lt;T&gt; {
   return new Promise((resolve, reject) &#x3D;&gt; {
     f.subscribe(({ data }) &#x3D;&gt; resolve(data), error &#x3D;&gt; reject(error));
   });
 }
 
+/**
+ * Generic interface for backend list parameters.
+ * This represents the actual data sent in the request, as our representation in the frontend
+ * differs slightly (see {@link ListParams}).
+ */
 export interface QueryListParams&lt;F&gt; {
   after?: string;
   before?: string;

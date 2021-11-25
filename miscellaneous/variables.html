@@ -74,6 +74,12 @@
                             <a href="#CACHE_STALE_TIME_MS" title="src/app/data-dgql/query.ts" ><b>CACHE_STALE_TIME_MS</b>&nbsp;&nbsp;&nbsp;(src/.../query.ts)</a>
                         </li>
                         <li>
+                            <a href="#colorTestCanvas" title="src/app/components/issue-label/issue-label.component.ts" ><b>colorTestCanvas</b>&nbsp;&nbsp;&nbsp;(src/.../issue-label.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#colorTestCtx" title="src/app/components/issue-label/issue-label.component.ts" ><b>colorTestCtx</b>&nbsp;&nbsp;&nbsp;(src/.../issue-label.component.ts)</a>
+                        </li>
+                        <li>
                             <a href="#COMPONENT_CONTEXT_MENU_DATA" title="src/app/graphs/component-context-menu/component-context-menu.component.ts" ><b>COMPONENT_CONTEXT_MENU_DATA</b>&nbsp;&nbsp;&nbsp;(src/.../component-context-menu.component.ts)</a>
                         </li>
                         <li>
@@ -422,6 +428,49 @@ constructed from providePublicApollo is only used for registering.</p>
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/app/components/issue-label/issue-label.component.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colorTestCanvas"></a>
+                    <span class="name">
+                        <span ><b>colorTestCanvas</b></span>
+                        <a href="#colorTestCanvas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>document.createElement(&#x27;canvas&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colorTestCtx"></a>
+                    <span class="name">
+                        <span ><b>colorTestCtx</b></span>
+                        <a href="#colorTestCtx"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>colorTestCanvas.getContext(&#x27;2d&#x27;)</code>
+                    </td>
+                </tr>
+
 
         </tbody>
     </table>
@@ -953,7 +1002,7 @@ and possibly additional options depending on their type.</p>
       }))
   },
   [ListType.SearchUsers]: {
-    [NodeType.Root]: (i, list, params) &#x3D;&gt; i.q.users.searchUsers(params.filter as (string | { username: string }))
+    [NodeType.Root]: (i, list, params) &#x3D;&gt; i.q.users.searchUsers(params.filter as ({ username: string }))
       .then(data &#x3D;&gt; ({
         totalCount: data.length,
         pageInfo: {

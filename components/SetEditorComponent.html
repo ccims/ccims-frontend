@@ -221,6 +221,20 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#totalCount" >totalCount</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -236,7 +250,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:91</a></div>
                             </td>
                         </tr>
 
@@ -690,8 +704,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:171</a></div>
                 </td>
             </tr>
 
@@ -711,6 +725,45 @@
     </table>
 </section>
 
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="totalCount"></a>
+                        <span class="name"><b>totalCount</b><a href="#totalCount"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>totalCount()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/components/set-editor/set-editor.component.ts:142</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the number of selected items.</p>
+<p>May be NaN if it hasn&#39;t been loaded yet.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
 </div>
 
 
@@ -779,14 +832,26 @@ export class SetEditorComponent&lt;T extends { id: string, __typename: string },
   /** Callback to delete an item. */
   @Output() deleteItem &#x3D; new EventEmitter&lt;{ id: NodeId, preview: T }&gt;();
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Pointer to the title text element. Used to read the title, because we can&#x27;t read angular components directly.
+   */
   @ViewChild(&#x27;titleText&#x27;) titleText: ElementRef&lt;HTMLElement&gt;;
-  /** @ignore */
+  /**
+   * @ignore
+   * Pointer to the *appItem directive. Used to instantiate list items.
+   */
   @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
 
-  /** @ignore */
+  /**
+   * @ignore
+   * List that fetches the first few items of the list of items in the set.
+   */
   public listSet$: DataList&lt;T, unknown&gt;;
-  /** @ignore */
+  /**
+   * @ignore
+   * The subscription to listSet$.
+   */
   private listSetSub: Subscription;
 
   /**
@@ -800,8 +865,11 @@ export class SetEditorComponent&lt;T extends { id: string, __typename: string },
     private dialogService: MatDialog
   ) {}
 
-  /** @ignore */
-  reloadListSet() {
+  /**
+   * @ignore
+   * Internal: (re-)loads the subscription to whatever the user put in listSet.
+   */
+  private reloadListSet() {
     if (Array.isArray(this.listSet)) {
       this.isLocalSet &#x3D; true;
       if (this.listSet$) {
@@ -810,6 +878,7 @@ export class SetEditorComponent&lt;T extends { id: string, __typename: string },
       }
     } else {
       this.isLocalSet &#x3D; false;
+      this.listSetSub?.unsubscribe();
       this.listSet$ &#x3D; this.dataService.getList(this.listSet);
       this.listSetSub &#x3D; this.listSet$.subscribe();
     }
@@ -821,6 +890,7 @@ export class SetEditorComponent&lt;T extends { id: string, __typename: string },
       this.listSet$.hydrateInitial(this.hydrate);
     }
   }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.listSet) {
       const newValue &#x3D; changes.listSet.currentValue;
@@ -835,21 +905,28 @@ export class SetEditorComponent&lt;T extends { id: string, __typename: string },
   }
 
   /**
-   * @ignore
-   * This method is needed to satisfy static type checking bounds
+   * Returns the number of selected items.
+   *
+   * May be NaN if it hasn&#x27;t been loaded yet.
    */
-  getListSetLength(): number {
+  get totalCount(): number {
     if (this.isLocalSet) {
       return (this.listSet as NodeId[]).length;
+    } else {
+      if (this.listSet$.loading) {
+        return NaN;
+      }
+      return this.listSet$.totalCount;
     }
-    throw new Error(&#x27;bad state&#x27;);
   }
 
+  // Callbacks for the set editor dialog.
+  // They all forward to the user-provided function.
+  // We do not pass the user-provided function directly because they may change while the dialog is open.
   /** @ignore */
   private onDialogApplyChangeset &#x3D; (additions: NodeId[], deletions: NodeId[]): Promise&lt;void&gt; &#x3D;&gt; {
     return this.applyChangeset(additions, deletions);
   }
-
   /** @ignore */
   private onDialogCreateItem &#x3D; () &#x3D;&gt; this.createItem();
   /** @ignore */
@@ -917,7 +994,7 @@ export class SetEditorComponent&lt;T extends { id: string, __typename: string },
                 ...
             &lt;/div&gt;
         &lt;/ng-container&gt;
-        &lt;div class&#x3D;&quot;items-empty&quot; *ngIf&#x3D;&quot;isLocalSet ? !getListSetLength() : (!listSet$.totalCount &amp;&amp; !listSet$.loading)&quot;&gt;
+        &lt;div class&#x3D;&quot;items-empty&quot; *ngIf&#x3D;&quot;isLocalSet ? !totalCount : (!totalCount &amp;&amp; !listSet$.loading)&quot;&gt;
             &lt;ng-content select&#x3D;&quot;[if-empty]&quot;&gt;&lt;/ng-content&gt;
         &lt;/div&gt;
     &lt;/div&gt;
@@ -978,7 +1055,7 @@ export class SetEditorComponent&lt;T extends { id: string, __typename: string },
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="app-set-editor">    <div class="set-editor-title">        <span class="title-text-container" #titleText>            <ng-content select="[title]"></ng-content>        </span>        <button                *ngIf="editable"                mat-icon-button                class="settings-button"                aria-label="Edit"                (click)="beginEditing()">            <mat-icon>settings</mat-icon>        </button>    </div>    <div class="set-editor-items">        <ng-container *ngIf="isLocalSet">            <ng-container *ngFor="let itemId of listSet">                <span cache-node [node]="itemId">                    <ng-container *appItem="let item">                        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item, interactive: true }"></ng-container>                    </ng-container>                </span>            </ng-container>        </ng-container>        <ng-container *ngIf="!isLocalSet">            <ng-container *ngFor="let item of listSet$.currentItems">                <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item, interactive: true }"></ng-container>            </ng-container>            <div class="more-items" *ngIf="listSet$.current?.size < listSet$.totalCount">                ...            </div>        </ng-container>        <div class="items-empty" *ngIf="isLocalSet ? !getListSetLength() : (!listSet$.totalCount && !listSet$.loading)">            <ng-content select="[if-empty]"></ng-content>        </div>    </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="app-set-editor">    <div class="set-editor-title">        <span class="title-text-container" #titleText>            <ng-content select="[title]"></ng-content>        </span>        <button                *ngIf="editable"                mat-icon-button                class="settings-button"                aria-label="Edit"                (click)="beginEditing()">            <mat-icon>settings</mat-icon>        </button>    </div>    <div class="set-editor-items">        <ng-container *ngIf="isLocalSet">            <ng-container *ngFor="let itemId of listSet">                <span cache-node [node]="itemId">                    <ng-container *appItem="let item">                        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item, interactive: true }"></ng-container>                    </ng-container>                </span>            </ng-container>        </ng-container>        <ng-container *ngIf="!isLocalSet">            <ng-container *ngFor="let item of listSet$.currentItems">                <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item, interactive: true }"></ng-container>            </ng-container>            <div class="more-items" *ngIf="listSet$.current?.size < listSet$.totalCount">                ...            </div>        </ng-container>        <div class="items-empty" *ngIf="isLocalSet ? !totalCount : (!totalCount && !listSet$.loading)">            <ng-content select="[if-empty]"></ng-content>        </div>    </div></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'SetEditorComponent'};

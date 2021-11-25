@@ -136,12 +136,8 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Static</span>
-                                <a href="#labelColorForBackground" >labelColorForBackground</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Public</span>
-                                <a href="#labelIsDark" >labelIsDark</a>
+                                <a href="#isColorDark" >isColorDark</a>
                             </li>
                         </ul>
                     </td>
@@ -188,7 +184,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/issue-label/issue-label.component.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/issue-label/issue-label.component.ts:37</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -212,107 +208,33 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="labelColorForBackground"></a>
-                    <span class="name">
-                        <span class="modifier">Static</span>
-                        <span ><b>labelColorForBackground</b></span>
-                        <a href="#labelColorForBackground"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>labelColorForBackground(color)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/app/components/issue-label/issue-label.component.ts:20</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Determines the label color for a given background color.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>color</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>the background color string in hex or rgb(...)</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>&quot;black&quot; | &quot;white&quot;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="labelIsDark"></a>
+                    <a name="isColorDark"></a>
                     <span class="name">
                         <span class="modifier">Public</span>
-                        <span ><b>labelIsDark</b></span>
-                        <a href="#labelIsDark"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>isColorDark</b></span>
+                        <a href="#isColorDark"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>labelIsDark(color)</code>
+                    <code>isColorDark(color?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/app/components/issue-label/issue-label.component.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/app/components/issue-label/issue-label.component.ts:44</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Determines whether the background color is light or dark.</p>
+                    <div class="io-description"><p>Determines whether the color is light or dark.</p>
 </div>
 
                     <div class="io-description">
@@ -322,6 +244,7 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                     <td>Description</td>
                                 </tr>
@@ -329,16 +252,17 @@
                             <tbody>
                                 <tr>
                                     <td>color</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
                                     <td>
-                                        <ul>
-<li>Background color of a label.</li>
-</ul>
+                                        <p>label color - any CSS color string</p>
 
                                     </td>
                                 </tr>
@@ -367,6 +291,29 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input } from &#x27;@angular/core&#x27;;
 import { Label } from &#x27;src/generated/graphql-dgql&#x27;;
 
+const colorTestCanvas &#x3D; document.createElement(&#x27;canvas&#x27;);
+colorTestCanvas.width &#x3D; colorTestCanvas.height &#x3D; 1;
+const colorTestCtx &#x3D; colorTestCanvas.getContext(&#x27;2d&#x27;);
+
+/**
+ * Reads a CSS color into an RGB tuple.
+ * Undefined behavior if the string is not a valid color.
+ *
+ * @param color a CSS color string
+ * @return RGB tuple in the 0..255 range
+ */
+function readCssColor(color: string): [number, number, number] {
+  try {
+    colorTestCtx.fillStyle &#x3D; color;
+    colorTestCtx.fillRect(0, 0, 1, 1);
+    const imageData &#x3D; colorTestCtx.getImageData(0, 0, 1, 1);
+    return [imageData.data[0], imageData.data[1], imageData.data[2]];
+  } catch {
+    // getImageData may fail in rare cases(?) so we&#x27;ll simply return garbage
+    return [NaN, NaN, NaN];
+  }
+}
+
 /**
  * Renders an issue label.
  */
@@ -380,35 +327,19 @@ export class IssueLabelComponent {
   @Input() label: Label;
 
   /**
-   * Determines the label color for a given background color.
-   * @param color the background color string in hex or rgb(...)
+   * Determines whether the color is light or dark.
+   *
+   * @param color label color - any CSS color string
    */
-  public static labelColorForBackground(color) {
-    // Variables for red, green, blue values
-    let r, g, b, hsp;
-
-    // Check the format of the color, HEX or RGB?
-    if (color.match(/^rgb/)) {
-
-      // If RGB --&gt; store the red, green, blue values in separate variables
-      color &#x3D; color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-
-      r &#x3D; color[1];
-      g &#x3D; color[2];
-      b &#x3D; color[3];
-    } else {
-
-      // If hex --&gt; Convert it to RGB: http://gist.github.com/983661
-      color &#x3D; +(&#x27;0x&#x27; + color.slice(1).replace(
-        color.length &lt; 5 &amp;&amp; /./g, &#x27;$&amp;$&amp;&#x27;));
-
-      r &#x3D; color &gt;&gt; 16;
-      g &#x3D; color &gt;&gt; 8 &amp; 255;
-      b &#x3D; color &amp; 255;
+  public isColorDark(color?: string) {
+    if (!color) {
+      return false;
     }
 
+    const [r, g, b] &#x3D; readCssColor(color);
+
     // HSP (Hue-Sat-Perceived-brightness) equation from http://alienryderflex.com/hsp.html
-    hsp &#x3D; Math.sqrt(
+    const hsp &#x3D; Math.sqrt(
       0.299 * (r * r) +
       0.587 * (g * g) +
       0.114 * (b * b)
@@ -416,23 +347,7 @@ export class IssueLabelComponent {
 
     // Using the HSP value, determine whether the color is light or dark
     // Compare against gamma-adjusted tipping point
-    if (hsp &gt; Math.sqrt(0.5) * 255) {
-      return &#x27;black&#x27;;
-    } else {
-      return &#x27;white&#x27;;
-    }
-  }
-
-  /**
-   * Determines whether the background color is light or dark.
-   *
-   * @param color - Background color of a label.
-   */
-  public labelIsDark(color) {
-    if (!color) {
-      return false;
-    }
-    return IssueLabelComponent.labelColorForBackground(color) &#x3D;&#x3D;&#x3D; &#x27;black&#x27;;
+    return hsp &gt; Math.sqrt(0.5) * 255;
   }
 }
 </code></pre>
@@ -442,7 +357,7 @@ export class IssueLabelComponent {
         <pre class="line-numbers"><code class="language-html">&lt;span
     class&#x3D;&quot;inner-label&quot;
     [ngStyle]&#x3D;&quot;{ backgroundColor: label?.color }&quot;
-    [ngClass]&#x3D;&quot;labelIsDark(label?.color) ? &#x27;is-dark-text&#x27; : &#x27;&#x27;&quot;&gt;
+    [ngClass]&#x3D;&quot;isColorDark(label?.color) ? &#x27;is-dark-text&#x27; : &#x27;&#x27;&quot;&gt;
     {{label?.name}}
 &lt;/span&gt;
 </code></pre>
@@ -497,7 +412,7 @@ export class IssueLabelComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><span    class="inner-label"    [ngStyle]="{ backgroundColor: label?.color }"    [ngClass]="labelIsDark(label?.color) ? \'is-dark-text\' : \'\'">    {{label?.name}}</span></div>'
+        var COMPONENT_TEMPLATE = '<div><span    class="inner-label"    [ngStyle]="{ backgroundColor: label?.color }"    [ngClass]="isColorDark(label?.color) ? \'is-dark-text\' : \'\'">    {{label?.name}}</span></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'IssueLabelComponent'};

@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/data-dgql/queries/users.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/data-dgql/queries/users.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -211,7 +211,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>searchUsers(filter: string | literal type)</code>
+<code>searchUsers(filter: literal type)</code>
                 </td>
             </tr>
 
@@ -242,7 +242,7 @@
                                 <tr>
                                     <td>filter</td>
                                     <td>
-                                            <code>string | literal type</code>
+                                            <code>literal type</code>
                                     </td>
 
                                     <td>
@@ -289,13 +289,14 @@ export class UsersService {
     private qCurrentUser: CurrentUserGQL,
   ) {}
 
-  searchUsers(filter: string | { username: string }) {
+  searchUsers(filter: { username: string }) {
     let query &#x3D; &#x27;&#x27;;
-    // filter accepts an object for compatibility with UserFilter
-    // FIXME: this is not very elegant of a solution
-    if (typeof filter &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
-      query &#x3D; filter;
-    } else if (filter) {
+    // The searchUser query is special in that it does not use a filter object.
+    // However, this is not compatible with the rest of our API, which uses UserFilter
+    // (e.g. issue assignees).
+    // Hence, this function uses the username search field, even though this is technically
+    // incorrect (searchUsers will also search by display name).
+    if (filter) {
       query &#x3D; filter.username;
     }
 

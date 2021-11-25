@@ -134,6 +134,9 @@
                             <a href="#providePublicApollo" title="src/app/graphql.module.ts" ><b>providePublicApollo</b>&nbsp;&nbsp;&nbsp;(src/.../graphql.module.ts)</a>
                         </li>
                         <li>
+                            <a href="#readCssColor" title="src/app/components/issue-label/issue-label.component.ts" ><b>readCssColor</b>&nbsp;&nbsp;&nbsp;(src/.../issue-label.component.ts)</a>
+                        </li>
+                        <li>
                             <a href="#removeOfferingComponents" title="src/app/data/issue-graph/graph-data.ts" ><b>removeOfferingComponents</b>&nbsp;&nbsp;&nbsp;(src/.../graph-data.ts)</a>
                         </li>
                         <li>
@@ -2065,6 +2068,10 @@ apart from identity. Encoding them as a string allows <code>NodeId</code>s to be
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Apollo&#39;s GraphQL fetch method returns an Observable even though we only ever see one update
+emitted from it.</p>
+<p>Hence, we just convert it to a promise here.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -2075,6 +2082,7 @@ apart from identity. Encoding them as a string allows <code>NodeId</code>s to be
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -2089,6 +2097,10 @@ apart from identity. Encoding them as a string allows <code>NodeId</code>s to be
                                     </td>
 
 
+                                    <td>
+                                        <p>the observable</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2100,7 +2112,74 @@ apart from identity. Encoding them as a string allows <code>NodeId</code>s to be
 
                     </div>
                     <div class="io-description">
+                        <p>a promise that resolves as soon as the observable emits an update</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/components/issue-label/issue-label.component.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readCssColor"></a>
+                    <span class="name">
+                        <span ><b>readCssColor</b></span>
+                        <a href="#readCssColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readCssColor(color: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reads a CSS color into an RGB tuple.
+Undefined behavior if the string is not a valid color.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
                         
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>color</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>a CSS color string</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
                     </div>
                 </td>
             </tr>

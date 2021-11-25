@@ -133,7 +133,7 @@ automatically propagates updates to all observers of affected data.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/data-dgql/index.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/data-dgql/index.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -196,8 +196,8 @@ automatically propagates updates to all observers of affected data.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">src/app/data-dgql/index.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">src/app/data-dgql/index.ts:73</a></div>
                 </td>
             </tr>
 
@@ -276,8 +276,8 @@ automatically propagates updates to all observers of affected data.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/data-dgql/index.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/app/data-dgql/index.ts:40</a></div>
                 </td>
             </tr>
 
@@ -355,8 +355,8 @@ automatically propagates updates to all observers of affected data.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/app/data-dgql/index.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/app/data-dgql/index.ts:45</a></div>
                 </td>
             </tr>
 
@@ -431,7 +431,7 @@ automatically propagates updates to all observers of affected data.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/data-dgql/index.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/data-dgql/index.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -467,9 +467,15 @@ import { Mutations } from &#x27;@app/data-dgql/mutate&#x27;;
   providedIn: &#x27;root&#x27;
 })
 export default class DataService {
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: node cache. You probably do not need to use this directly.
+   */
   nodes: NodeCache;
-  /** @ignore */
+  /**
+   * @ignore
+   * internal: list of all lists. You probably do not need to use this directly.
+   */
   lists: Map&lt;ListIdEnc, Set&lt;DataList&lt;unknown, unknown&gt;&gt;&gt; &#x3D; new Map();
 
   /** Data mutations. */

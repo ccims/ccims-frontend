@@ -32,74 +32,52 @@
                    <div class="content-data">
 
 <h1 id="frontend-for-the-gropius-system">Frontend for the Gropius system</h1>
-<h2 id="introduction-to-gropius">Introduction to Gropius</h2>
-<p>Modern software systems are often built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous autonomous components, e.g., microservices. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.</p>
-<p>Even though component-based architectures have many benefits like ease of deployment, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different <strong>issue management systems</strong> (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.</p>
-<p>Gropius is a <strong>cross component issue management system</strong> (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.</p>
-<h2 id="the-frontend">The frontend</h2>
-<p>As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.</p>
-<p>Architecture of the project:</p>
-<table class="table table-bordered compodoc-table">
-<thead>
-<tr>
-<th align="center">frontend</th>
-<th align="center">backend</th>
-<th align="center">IMS</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center"><a href="https://github.com/ccims/ccims-frontend">ccims-frontend</a></td>
-<td align="center"><a href="https://github.com/ccims/ccims-backend">ccims-backend</a></td>
-<td align="center"><a href="https://github.com/ccims/ccims-backend-gql">ccims-backend-gql</a></td>
-</tr>
-</tbody>
-</table>
-<p>The <a href="https://github.com/ccims/ccims-frontend">current repository</a> handles the frontend of the Gropius system. The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc.</p>
-<p>Below is an example how Gropius visualizes a project as a graph. It shows all the components, issues, interfaces and links between the issues. As seen on the picture, a bug (red symbol) in Component 1 has propagated to Component 2, Component 3 and Component 4 because of Interface A that is connecting them all. What&#39;s more, Component 1 and Component 4 have feature requests (blue symbol) that need to be handled. Above the graph there are different check boxes / buttons that make handling the graph much easier, e.g., the fourth one shows / hides connections between linked issues. A search bar can help the user find a component / interface / issue by filtering for a specific text or label. The button in the top right corner is used to create new components. And there are also many other pages the user can visit, like &quot;Settings&quot;, &quot;Issues&quot;, etc.</p>
-<br />
-<p align="center">
-<img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/preview00.png" width="1000"/>
-</p>
-<br />
-
-<p>Of course the frontend of the Gropius system includes many more features. Information about most of them can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html">Using Gropius</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/using-gropius.html">here</a>.</p>
-<h2 id="layout-of-the-documentation">Layout of the documentation</h2>
+<h3 id="about-the-documentation">About the documentation</h3>
 <ol>
-<li><p>Documentation:<br>can be found on <a href="http://ccims.github.io/ccims-frontend">http://ccims.github.io/ccims-frontend</a>.</p>
-</li>
-<li><p>Documentation generation:<br>run <code>npm run compodoc</code>.<br>p.s. If folder Additional documentation is not visible below Getting started, run <code>compodoc -p tsconfig.doc.json --includes additional</code> and then <code>npm run compodoc</code>.</p>
-</li>
-<li><p>Gropius features:<br>can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html">Using Gropius</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/using-gropius.html">here</a>.</p>
-</li>
-<li><p>Project structure, used technologies, mocked members page and more:<br>can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html">Managing Gropius</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/managing-gropius.html">here</a>.</p>
-</li>
 <li><p>Development server:<br>run <code>npm start</code> and navigate to <a href="http://localhost:4200/">http://localhost:4200/</a>.</p>
+<br />
 </li>
 <li><p>Code generation from .graphql files:<br>run <code>npm run generate</code>.</p>
+<br />
+</li>
+<li><p>Documentation:<br>can be found on <a href="http://ccims.github.io/ccims-frontend">http://ccims.github.io/ccims-frontend</a>.</p>
+<br />
+</li>
+<li><p>Documentation generation:<br>run <code>npm run compodoc</code>.<br>p.s. If folder Additional documentation is not visible below Getting started, run <code>compodoc -p tsconfig.doc.json --includes additional</code> and then <code>npm run compodoc</code>.</p>
+<br />
+</li>
+<li><p>Gropius features:  </p>
+<!-- can be found on [Using Gropius](additional-documentation/using-gropius.html). -->
+<p>can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/using-gropius.html">Using Gropius</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/using-gropius.html">here</a>.</p>
+<br />
+</li>
+<li><p>Project structure, used technologies, mocked members page and more:  </p>
+<!-- can be found on [Managing Gropius](additional-documentation/managing-gropius.html). -->
+<p>can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/managing-gropius.html">Managing Gropius</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/managing-gropius.html">here</a>.</p>
+<br />
 </li>
 <li><p>Backend:<br>can be found on <a href="https://github.com/ccims/ccims-backend-gql">https://github.com/ccims/ccims-backend-gql</a>.</p>
+<br />
+</li>
+<li><p>Contributors:  </p>
+<!-- can be found on [Contributors](additional-documentation/contributors.html). -->
+<p>can be found on <a href="https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html">Contributors</a>.<br>p.s. If running the documentation locally, then click <a href="additional-documentation/contributors.html">here</a>.</p>
 </li>
 </ol>
-<!-- 8. Contributors:  
-can be found on [Contributors](https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html).  
-p.s. If running the documentation locally, then click [here](additional-documentation/contributors.html). -->
-
+<h2 id="introduction-to-gropius">Introduction to Gropius</h2>
+<p>Software systems are usually built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous services. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.</p>
+<p>Even though component-based architectures have many benefits like ease of deployment, reusability and independence, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different <strong>issue management systems</strong> (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.</p>
+<p>Gropius is a <strong>cross component issue management system</strong> (CCIMS) that solves the described problem by enabling direct dependency links over issues which are managed in different issue management systems.</p>
+<h2 id="the-frontend">The frontend</h2>
+<p><img src="https://github.com/ccims/ccims-frontend/blob/documentation/Kliment/Kristina/src/frontend-preview/preview00.png?raw=true" alt="preview00" class="img-responsive"></p>
+<p>As already mentioned, the idea behind Gropius is to manage cross-component issues for component-based architectures. The system graphically models cross-component problems along with the system architecture. The graphical representation is similar to that of an UML component diagram.</p>
+<p>The system consists of two different parts: 1. the <a href="https://github.com/ccims/ccims-frontend">frontend</a> and 2. the <a href="https://github.com/ccims/ccims-backend-gql">backend</a>.</p>
+<p>The frontend is responsible for visualizing the part of the system the user can interact with aka. the graphical representation of components and issues and also different methods of managing them. Said methods include 1. creating components, interfaces and issues, 2. editing them, 3. analysing the current status of given issues and their propagation, etc. More about this can be found in the next point of this file.</p>
 <h2 id="credits">Credits</h2>
 <p>Further information regarding the members who have worked on the frontend of the system can be found on page <a href="https://ccims.github.io/ccims-frontend/additional-documentation/contributors.html">Contributors</a> located in the documentation.</p>
-<h2 id="additional-literature">Additional literature</h2>
-<ol>
-<li><p>Speth, S., Breitenbücher, U., &amp; Becker, S. (2020). Gropius—A Tool for Managing Cross-component Issues. In H. Muccini, P. Avgeriou, B. Buhnova, J. Camara, M. Camporuscio, M. Franzago, A. Koziolek, P. Scandurra, C. Trubiani, D. Weyns, &amp; U. Zdun (Hrsg.), Communications in Computer and Information Science (Bd. 1269, S. 82--94). Springer.</p>
-</li>
-<li><p>Speth, S., Becker, S., &amp; Breitenbücher, U. (2021). Cross-Component Issue Metamodel and Modelling Language. Proceedings of the 11th International Conference on Cloud Computing and Services Science (CLOSER 2021), 304–311. <a href="https://doi.org/10.5220/0010497703040311">https://doi.org/10.5220/0010497703040311</a></p>
-</li>
-<li><p>Speth, S., Krieger, N., Breitenbücher, U., &amp; Becker, S. (2021). Gropius-VSC: IDE Support for Cross-Component Issue Management. In R. Heinrich, R. Mirrandola, &amp; D. Weyns (Hrsg.), Companion Proceedings of the 15th European Conference on Software Architecture. CEUR. <a href="http://ceur-ws.org/Vol-2978/tool-paper103.pdf">http://ceur-ws.org/Vol-2978/tool-paper103.pdf</a></p>
-</li>
-</ol>
 <h2 id="license">License</h2>
-<p>Everything in this repository is <a href="https://github.com/ccims/ccims-frontend/blob/master/LICENSE">licensed under the MIT License</a> unless otherwise specified.</p>
-<br />
-<br />
+<p>This part still needs to be specified.</p>
+
 
 
 

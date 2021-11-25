@@ -217,7 +217,7 @@ The comment will be subscribed to lazily (see <a href="../classes/DataNode.html#
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -393,8 +393,8 @@ The comment will be subscribed to lazily (see <a href="../classes/DataNode.html#
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:82</a></div>
                 </td>
             </tr>
 
@@ -434,8 +434,8 @@ The comment will be subscribed to lazily (see <a href="../classes/DataNode.html#
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:65</a></div>
                 </td>
             </tr>
 
@@ -635,9 +635,15 @@ export class CommentComponent implements OnInit, OnDestroy {
   /** True if the comment body is being saved. */
   public savingBody &#x3D; false;
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: comment data node view.
+   */
   comment$: DataNode&lt;IssueComment&gt;;
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: subscription to comment$.
+   */
   commentSub: Subscription;
 
   constructor(private dataService: DataService,
