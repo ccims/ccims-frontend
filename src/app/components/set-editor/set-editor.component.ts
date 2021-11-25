@@ -135,15 +135,19 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   }
 
   /**
-   * @ignore
-   * This method is needed to satisfy static type checking bounds and just returns the length of
-   * this.listSet iff it's a local set.
+   * Returns the number of selected items.
+   *
+   * May be NaN if it hasn't been loaded yet.
    */
-  getListSetLength(): number {
+  get totalCount(): number {
     if (this.isLocalSet) {
       return (this.listSet as NodeId[]).length;
+    } else {
+      if (this.listSet$.loading) {
+        return NaN;
+      }
+      return this.listSet$.totalCount;
     }
-    throw new Error('bad state');
   }
 
   // Callbacks for the set editor dialog.

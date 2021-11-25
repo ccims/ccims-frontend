@@ -52,7 +52,7 @@
 <div mat-dialog-actions class="actions">
   <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">Cancel</button>
   <button mat-raised-button color="success"
-          [disabled]="loading || validationLabelName.invalid || list.getListSetLength() === 0"
+          [disabled]="loading || validationLabelName.invalid || !list.totalCount"
           (click)="this.onConfirmClick(labelName.value, labelDescription.value)">
     <ng-container *ngIf="data.editExisting">
       Apply
