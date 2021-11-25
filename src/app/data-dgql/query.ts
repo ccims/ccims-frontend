@@ -46,6 +46,7 @@ const CACHE_STALE_TIME_MS = 5000;
  *
  * See {@link DataNode} and {@link DataList} for the two main types of data that use DataQuery.
  *
+ * @typeParam I - ID type (e.g. NodeId or ListId)
  * @typeParam T - type of data accessible via .current
  * @typeParam R - type returned by innerQueryFn
  * @typeParam P - parameter type for innerQueryFn
