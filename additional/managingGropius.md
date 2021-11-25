@@ -23,6 +23,10 @@ of the primary components of the app.
 
 The documentation is generated with [Compodoc](https://github.com/compodoc/compodoc). Run `npm run compodoc`for a documentation server. Navigate to `http://localhost:6060/`. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in [tsconfig.doc.json](tsconfig.doc.json).
 
+## Code formatting
+
+Consistent code formatting is guaranteed with [Prettier](https://prettier.io/). Run `npx prettier --write .` to format all files except the ones that are excluded in the [.prettierignore](.prettierignore) file.
+
 ## Bindings to the Backend API
 
 The app uses GraphQL to communicate with the backend.
