@@ -33,9 +33,15 @@ export class CommentComponent implements OnInit, OnDestroy {
   /** True if the comment body is being saved. */
   public savingBody = false;
 
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: comment data node view.
+   */
   comment$: DataNode<IssueComment>;
-  /** @ignore */
+  /**
+   * @ignore
+   * Internal: subscription to comment$.
+   */
   commentSub: Subscription;
 
   constructor(private dataService: DataService,

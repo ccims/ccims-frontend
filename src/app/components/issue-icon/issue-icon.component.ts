@@ -13,11 +13,14 @@ export class IssueIconComponent {
   @Input() issue: Issue;
 
   getIconName() {
-    const category = this.issue.category === IssueCategory.Bug
-      ? 'bug'
-      : this.issue.category === IssueCategory.FeatureRequest
-      ? 'feature'
-      : 'uncategorized';
+    let category;
+    if (this.issue.category === IssueCategory.Bug) {
+      category = 'bug';
+    } else if (this.issue.category === IssueCategory.FeatureRequest) {
+      category = 'feature';
+    } else {
+      category = 'uncategorized';
+    }
     const closed = this.issue.isOpen ? null : '-closed';
 
     const hasIn = this.issue.linkedByIssues?.totalCount;
