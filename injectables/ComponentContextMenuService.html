@@ -185,8 +185,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:59</a></div>
                 </td>
             </tr>
 
@@ -389,8 +389,7 @@ const COMPONENT_CONTEXT_MENU_DATA &#x3D; new InjectionToken&lt;ComponentContextM
  */
 @Injectable({providedIn: &#x27;root&#x27;})
 export class ComponentContextMenuService {
-  constructor(private overlay: Overlay, private injector: Injector) {
-  }
+  constructor(private overlay: Overlay, private injector: Injector) {}
 
   /**
    * Open a new component context menu
@@ -403,12 +402,15 @@ export class ComponentContextMenuService {
    * @param issueGraph A reference to the issue graph
    * @return A reference to the context menu
    */
-  open(parent: Element,
-       x: number, y: number,
-       projectID: string,
-       nodeID: string,
-       nodeType: NodeDetailsType,
-       issueGraph: IssueGraphComponent): ComponentContextMenuComponent {
+  open(
+    parent: Element,
+    x: number,
+    y: number,
+    projectID: string,
+    nodeID: string,
+    nodeType: NodeDetailsType,
+    issueGraph: IssueGraphComponent
+  ): ComponentContextMenuComponent {
     const position &#x3D; this.overlay.position().flexibleConnectedTo(parent);
     const pos: ConnectedPosition &#x3D; {
       originX: &#x27;start&#x27;,
@@ -472,16 +474,14 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   /** @ignore */
   @ViewChild(&#x27;resizeCorner&#x27;) set resizeCorner(content: ElementRef) {
     if (content) {
-      content.nativeElement.addEventListener(&#x27;mousedown&#x27;, () &#x3D;&gt; this.resize &#x3D; true);
+      content.nativeElement.addEventListener(&#x27;mousedown&#x27;, () &#x3D;&gt; (this.resize &#x3D; true));
     }
   }
 
   /** @ignore */
   @ViewChild(NodeDetailsComponent) nodeDetails: NodeDetailsComponent;
 
-  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData,
-              private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData, private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.frame.nativeElement.style.minWidth &#x3D; ComponentContextMenuComponent.MIN_WIDTH + &#x27;px&#x27;;
@@ -502,7 +502,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
     if (nodeDeleted) {
       this.close();
     }
-  }
+  };
 
   /**
    * Update the position of the context menu
@@ -527,7 +527,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   private onMouseUp() {
     this.resize &#x3D; false;
   }
-  
+
   /** @ignore */
   @HostListener(&#x27;window:mousemove&#x27;, [&#x27;$event&#x27;])
   private onMouseMove(event: MouseEvent) {

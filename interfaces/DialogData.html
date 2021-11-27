@@ -222,14 +222,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Inject, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
-import { FormControl, Validators } from &#x27;@angular/forms&#x27;;
-import { IssueCategory } from &#x27;../../../generated/graphql&#x27;;
-import { UserNotifyService } from &#x27;@app/user-notify/user-notify.service&#x27;;
-import { CCIMSValidators } from &#x27;@app/utils/validators&#x27;;
-import { CreateIssueInput } from &#x27;../../../generated/graphql-dgql&#x27;;
-import { NodeId, NodeType } from &#x27;@app/data-dgql/id&#x27;;
+import {FormControl, Validators} from &#x27;@angular/forms&#x27;;
+import {IssueCategory} from &#x27;../../../generated/graphql&#x27;;
+import {UserNotifyService} from &#x27;@app/user-notify/user-notify.service&#x27;;
+import {CCIMSValidators} from &#x27;@app/utils/validators&#x27;;
+import {CreateIssueInput} from &#x27;../../../generated/graphql-dgql&#x27;;
+import {NodeId, NodeType} from &#x27;@app/data-dgql/id&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
 import {LocalIssueData} from &#x27;@app/issue-detail/issue-sidebar.component&#x27;;
 import {RemoveDialogComponent} from &#x27;@app/dialogs/remove-dialog/remove-dialog.component&#x27;;
@@ -248,13 +248,13 @@ export class CreateIssueDialogComponent implements OnInit {
   public loading &#x3D; false;
   public saveFailed &#x3D; false;
 
-  constructor(public dialogRef: MatDialogRef&lt;CreateIssueDialogComponent&gt;,
-              private dialog: MatDialog,
-              private dataService: DataService,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private notify: UserNotifyService
-  ) {
-  }
+  constructor(
+    public dialogRef: MatDialogRef&lt;CreateIssueDialogComponent&gt;,
+    private dialog: MatDialog,
+    private dataService: DataService,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private notify: UserNotifyService
+  ) {}
 
   // form controls for the form fields
   title &#x3D; new FormControl(&#x27;&#x27;, [CCIMSValidators.nameValidator, Validators.required]);
@@ -265,7 +265,7 @@ export class CreateIssueDialogComponent implements OnInit {
     locations: [],
     labels: [],
     assignees: [],
-    linksToIssues: [],
+    linksToIssues: []
   };
 
   ngOnInit(): void {
@@ -298,18 +298,20 @@ export class CreateIssueDialogComponent implements OnInit {
 
   onNoClick(showConfirmDialog: boolean): void {
     if (showConfirmDialog) {
-      this.dialog.open(RemoveDialogComponent,
-        {
+      this.dialog
+        .open(RemoveDialogComponent, {
           data: {
             title: &#x27;Really discard issue?&#x27;,
             messages: [&#x27;Are you sure you want to discard this issue?&#x27;],
             confirmButtonText: &#x27;Confirm&#x27;
           }
-        }).afterClosed().subscribe((close) &#x3D;&gt; {
-        if (close) {
-          this.dialogRef.close();
-        }
-      });
+        })
+        .afterClosed()
+        .subscribe((close) &#x3D;&gt; {
+          if (close) {
+            this.dialogRef.close();
+          }
+        });
     } else {
       this.dialogRef.close();
     }
@@ -325,31 +327,37 @@ export class CreateIssueDialogComponent implements OnInit {
       body: this.body.code,
       category: this.category.value,
       clientMutationID: Math.random().toString(36),
-      components: this.issueData.components.map(node &#x3D;&gt; node.id),
-      locations: this.issueData.locations.map(node &#x3D;&gt; node.id),
-      labels: this.issueData.labels.map(node &#x3D;&gt; node.id),
-      assignees: this.issueData.assignees.map(node &#x3D;&gt; node.id),
+      components: this.issueData.components.map((node) &#x3D;&gt; node.id),
+      locations: this.issueData.locations.map((node) &#x3D;&gt; node.id),
+      labels: this.issueData.labels.map((node) &#x3D;&gt; node.id),
+      assignees: this.issueData.assignees.map((node) &#x3D;&gt; node.id)
     };
     this.loading &#x3D; true;
     this.saveFailed &#x3D; false;
-    this.dataService.mutations.createIssue(issueData).then(async result &#x3D;&gt; {
-      const issueId &#x3D; { type: NodeType.Issue, id: result.id };
-      const promises &#x3D; [];
-      for (const linked of this.issueData.linksToIssues) {
-        promises.push(this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch(err &#x3D;&gt; {
-          this.notify.notifyError(&#x27;Failed to link issue!&#x27;, err);
-          // aborting on this error would cause weird non-recoverable state so we won&#x27;t rethrow it
-        }));
-      }
-      await Promise.all(promises);
+    this.dataService.mutations
+      .createIssue(issueData)
+      .then(async (result) &#x3D;&gt; {
+        const issueId &#x3D; {type: NodeType.Issue, id: result.id};
+        const promises &#x3D; [];
+        for (const linked of this.issueData.linksToIssues) {
+          promises.push(
+            this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch((err) &#x3D;&gt; {
+              this.notify.notifyError(&#x27;Failed to link issue!&#x27;, err);
+              // aborting on this error would cause weird non-recoverable state so we won&#x27;t rethrow it
+            })
+          );
+        }
+        await Promise.all(promises);
 
-      this.dialogRef.close(true);
-    }).catch(err &#x3D;&gt; {
-      this.notify.notifyError(&#x27;Failed to create issue!&#x27;, err);
-      this.saveFailed &#x3D; true;
-    }).finally(() &#x3D;&gt; {
-      this.loading &#x3D; false;
-    });
+        this.dialogRef.close(true);
+      })
+      .catch((err) &#x3D;&gt; {
+        this.notify.notifyError(&#x27;Failed to create issue!&#x27;, err);
+        this.saveFailed &#x3D; true;
+      })
+      .finally(() &#x3D;&gt; {
+        this.loading &#x3D; false;
+      });
   }
 }
 

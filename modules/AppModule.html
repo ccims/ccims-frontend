@@ -779,14 +779,13 @@ registerLocaleData(en);
 const antDesignIcons &#x3D; AllIcons as {
   [key: string]: IconDefinition;
 };
-const icons: IconDefinition[] &#x3D; Object.keys(antDesignIcons).map(key &#x3D;&gt; antDesignIcons[key]);
+const icons: IconDefinition[] &#x3D; Object.keys(antDesignIcons).map((key) &#x3D;&gt; antDesignIcons[key]);
 
 // configuration for toasts, the toastrservice is configured in graphql.module.ts
 const toasterConfig: Partial&lt;GlobalConfig&gt; &#x3D; {
   maxOpened: 4,
   autoDismiss: true
 };
-
 
 @NgModule({
   declarations: [
@@ -857,14 +856,14 @@ const toasterConfig: Partial&lt;GlobalConfig&gt; &#x3D; {
     MarkdownModule.forRoot(),
     MatButtonToggleModule
   ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    {provide: NZ_I18N, useValue: en_US},
+    {provide: NZ_ICONS, useValue: icons}
   ],
-  providers: [{provide: NZ_I18N, useValue: en_US}, {provide: NZ_ICONS, useValue: icons}],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
 </code></pre>
     </div>
 </div>

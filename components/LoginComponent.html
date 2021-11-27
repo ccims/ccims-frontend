@@ -194,7 +194,7 @@ and tries to login the user via the AuthenticationService.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/login/login.component.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/login/login.component.ts:51</a></div>
                             </td>
                         </tr>
 
@@ -486,15 +486,16 @@ export class LoginComponent implements OnInit {
    * If login fails, set this.invalidCredentials so that gui shows error.
    */
   submitForm(): void {
-    Object.keys(this.validateForm.controls).forEach(controlKey &#x3D;&gt; {
+    Object.keys(this.validateForm.controls).forEach((controlKey) &#x3D;&gt; {
       this.validateForm.controls[controlKey].markAsDirty();
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });
     this.isLoading &#x3D; true;
-    this.authService.login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
+    this.authService
+      .login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
       .pipe(first())
       .subscribe(
-        data &#x3D;&gt; {
+        (data) &#x3D;&gt; {
           this.validateForm.controls.password.reset();
           this.isLoading &#x3D; false;
           this.router.navigate([this.returnUrl]);
@@ -504,21 +505,19 @@ export class LoginComponent implements OnInit {
           this.isLoading &#x3D; false;
           this.invalidCredentials &#x3D; error.status &#x3D;&#x3D;&#x3D; 401;
           this.unknownError &#x3D; error.status &#x3D;&#x3D;&#x3D; 0;
-        });
+        }
+      );
   }
 
-  constructor(private route: ActivatedRoute, private router: Router,
-              private authService: AuthenticationService, private fb: FormBuilder) {
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthenticationService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.validateForm &#x3D; this.fb.group({
       userName: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+      password: [null, [Validators.required]]
     });
     this.returnUrl &#x3D; this.route.snapshot.queryParams.returnUrl || &#x27;/&#x27;;
   }
-
 }
 </code></pre>
     </div>
@@ -528,7 +527,9 @@ export class LoginComponent implements OnInit {
   &lt;div class&#x3D;&quot;form-container&quot;&gt;
     &lt;div class&#x3D;&quot;logo-wrapper&quot;&gt;
       &lt;div class&#x3D;&quot;logo-container&quot;&gt;
-        &lt;div class&#x3D;&quot;logo-image&quot;&gt;&lt;img src&#x3D;&quot;../../assets/Gropius.png&quot; alt&#x3D;&quot;CCIMS-Logo&quot; height&#x3D;&quot;80&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;logo-image&quot;&gt;
+          &lt;img src&#x3D;&quot;../../assets/Gropius.png&quot; alt&#x3D;&quot;CCIMS-Logo&quot; height&#x3D;&quot;80&quot; /&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
       &lt;div class&#x3D;&quot;headline&quot;&gt;&lt;h2&gt;Login&lt;/h2&gt;&lt;/div&gt;
     &lt;/div&gt;
@@ -536,25 +537,36 @@ export class LoginComponent implements OnInit {
       &lt;nz-form-item&gt;
         &lt;nz-form-control nzErrorTip&#x3D;&quot;Please enter your Username!&quot;&gt;
           &lt;nz-input-group nzPrefixIcon&#x3D;&quot;user&quot;&gt;
-            &lt;input type&#x3D;&quot;text&quot; nz-input formControlName&#x3D;&quot;userName&quot; placeholder&#x3D;&quot;Username&quot;/&gt;
+            &lt;input type&#x3D;&quot;text&quot; nz-input formControlName&#x3D;&quot;userName&quot; placeholder&#x3D;&quot;Username&quot; /&gt;
           &lt;/nz-input-group&gt;
         &lt;/nz-form-control&gt;
       &lt;/nz-form-item&gt;
       &lt;nz-form-item&gt;
         &lt;nz-form-control nzErrorTip&#x3D;&quot;Please enter your Password!&quot;&gt;
           &lt;nz-input-group nzPrefixIcon&#x3D;&quot;lock&quot;&gt;
-            &lt;input type&#x3D;&quot;password&quot; nz-input formControlName&#x3D;&quot;password&quot; placeholder&#x3D;&quot;Password&quot;/&gt;
+            &lt;input type&#x3D;&quot;password&quot; nz-input formControlName&#x3D;&quot;password&quot; placeholder&#x3D;&quot;Password&quot; /&gt;
           &lt;/nz-input-group&gt;
         &lt;/nz-form-control&gt;
       &lt;/nz-form-item&gt;
-      &lt;nz-alert *ngIf&#x3D;&quot;invalidCredentials&quot; class&#x3D;&quot;error-message&quot; nzType&#x3D;&quot;error&quot;
-                nzMessage&#x3D;&quot;Username and/or Password invalid&quot; nzShowIcon nzCloseable&gt;&lt;/nz-alert&gt;
-      &lt;nz-alert *ngIf&#x3D;&quot;unknownError&quot; class&#x3D;&quot;error-message&quot; nzType&#x3D;&quot;error&quot; nzMessage&#x3D;&quot;Unknown error&quot; nzShowIcon
-                nzCloseable&gt;&lt;/nz-alert&gt;
-      &lt;button nz-button class&#x3D;&quot;login-form-button login-form-margin&quot; [nzType]&#x3D;&quot;&#x27;primary&#x27;&quot;
-              [disabled]&#x3D;&quot;!validateForm.valid&quot; [nzLoading]&#x3D;&quot;isLoading&quot;&gt;Log in
+      &lt;nz-alert
+        *ngIf&#x3D;&quot;invalidCredentials&quot;
+        class&#x3D;&quot;error-message&quot;
+        nzType&#x3D;&quot;error&quot;
+        nzMessage&#x3D;&quot;Username and/or Password invalid&quot;
+        nzShowIcon
+        nzCloseable
+      &gt;&lt;/nz-alert&gt;
+      &lt;nz-alert *ngIf&#x3D;&quot;unknownError&quot; class&#x3D;&quot;error-message&quot; nzType&#x3D;&quot;error&quot; nzMessage&#x3D;&quot;Unknown error&quot; nzShowIcon nzCloseable&gt;&lt;/nz-alert&gt;
+      &lt;button
+        nz-button
+        class&#x3D;&quot;login-form-button login-form-margin&quot;
+        [nzType]&#x3D;&quot;&#x27;primary&#x27;&quot;
+        [disabled]&#x3D;&quot;!validateForm.valid&quot;
+        [nzLoading]&#x3D;&quot;isLoading&quot;
+      &gt;
+        Log in
       &lt;/button&gt;
-      &lt;span id&#x3D;&quot;register-link&quot;&gt;Or &lt;a routerLink&#x3D;&#x27;/register&#x27;&gt;register!&lt;/a&gt;&lt;/span&gt;
+      &lt;span id&#x3D;&quot;register-link&quot;&gt;Or &lt;a routerLink&#x3D;&quot;/register&quot;&gt;register!&lt;/a&gt;&lt;/span&gt;
     &lt;/form&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -617,7 +629,7 @@ export class LoginComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="canvas-background">  <div class="form-container">    <div class="logo-wrapper">      <div class="logo-container">        <div class="logo-image"><img src="../../assets/Gropius.png" alt="CCIMS-Logo" height="80"></div>      </div>      <div class="headline"><h2>Login</h2></div>    </div>    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">      <nz-form-item>        <nz-form-control nzErrorTip="Please enter your Username!">          <nz-input-group nzPrefixIcon="user">            <input type="text" nz-input formControlName="userName" placeholder="Username"/>          </nz-input-group>        </nz-form-control>      </nz-form-item>      <nz-form-item>        <nz-form-control nzErrorTip="Please enter your Password!">          <nz-input-group nzPrefixIcon="lock">            <input type="password" nz-input formControlName="password" placeholder="Password"/>          </nz-input-group>        </nz-form-control>      </nz-form-item>      <nz-alert *ngIf="invalidCredentials" class="error-message" nzType="error"                nzMessage="Username and/or Password invalid" nzShowIcon nzCloseable></nz-alert>      <nz-alert *ngIf="unknownError" class="error-message" nzType="error" nzMessage="Unknown error" nzShowIcon                nzCloseable></nz-alert>      <button nz-button class="login-form-button login-form-margin" [nzType]="\'primary\'"              [disabled]="!validateForm.valid" [nzLoading]="isLoading">Log in      </button>      <span id="register-link">Or <a routerLink=\'/register\'>register!</a></span>    </form>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="canvas-background">  <div class="form-container">    <div class="logo-wrapper">      <div class="logo-container">        <div class="logo-image">          <img src="../../assets/Gropius.png" alt="CCIMS-Logo" height="80" />        </div>      </div>      <div class="headline"><h2>Login</h2></div>    </div>    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">      <nz-form-item>        <nz-form-control nzErrorTip="Please enter your Username!">          <nz-input-group nzPrefixIcon="user">            <input type="text" nz-input formControlName="userName" placeholder="Username" />          </nz-input-group>        </nz-form-control>      </nz-form-item>      <nz-form-item>        <nz-form-control nzErrorTip="Please enter your Password!">          <nz-input-group nzPrefixIcon="lock">            <input type="password" nz-input formControlName="password" placeholder="Password" />          </nz-input-group>        </nz-form-control>      </nz-form-item>      <nz-alert        *ngIf="invalidCredentials"        class="error-message"        nzType="error"        nzMessage="Username and/or Password invalid"        nzShowIcon        nzCloseable      ></nz-alert>      <nz-alert *ngIf="unknownError" class="error-message" nzType="error" nzMessage="Unknown error" nzShowIcon nzCloseable></nz-alert>      <button        nz-button        class="login-form-button login-form-margin"        [nzType]="\'primary\'"        [disabled]="!validateForm.valid"        [nzLoading]="isLoading"      >        Log in      </button>      <span id="register-link">Or <a routerLink="/register">register!</a></span>    </form>  </div></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'LoginComponent'};

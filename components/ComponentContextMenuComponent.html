@@ -191,7 +191,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:134</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:136</a></div>
                             </td>
                         </tr>
 
@@ -416,7 +416,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:136</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:138</a></div>
                         </td>
                     </tr>
 
@@ -441,7 +441,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:119</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:121</a></div>
                         </td>
                     </tr>
 
@@ -473,7 +473,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:121</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:123</a></div>
                         </td>
                     </tr>
 
@@ -504,7 +504,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:117</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/graphs/component-context-menu/component-context-menu.component.ts:119</a></div>
                         </td>
                     </tr>
 
@@ -568,8 +568,7 @@ const COMPONENT_CONTEXT_MENU_DATA &#x3D; new InjectionToken&lt;ComponentContextM
  */
 @Injectable({providedIn: &#x27;root&#x27;})
 export class ComponentContextMenuService {
-  constructor(private overlay: Overlay, private injector: Injector) {
-  }
+  constructor(private overlay: Overlay, private injector: Injector) {}
 
   /**
    * Open a new component context menu
@@ -582,12 +581,15 @@ export class ComponentContextMenuService {
    * @param issueGraph A reference to the issue graph
    * @return A reference to the context menu
    */
-  open(parent: Element,
-       x: number, y: number,
-       projectID: string,
-       nodeID: string,
-       nodeType: NodeDetailsType,
-       issueGraph: IssueGraphComponent): ComponentContextMenuComponent {
+  open(
+    parent: Element,
+    x: number,
+    y: number,
+    projectID: string,
+    nodeID: string,
+    nodeType: NodeDetailsType,
+    issueGraph: IssueGraphComponent
+  ): ComponentContextMenuComponent {
     const position &#x3D; this.overlay.position().flexibleConnectedTo(parent);
     const pos: ConnectedPosition &#x3D; {
       originX: &#x27;start&#x27;,
@@ -651,16 +653,14 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   /** @ignore */
   @ViewChild(&#x27;resizeCorner&#x27;) set resizeCorner(content: ElementRef) {
     if (content) {
-      content.nativeElement.addEventListener(&#x27;mousedown&#x27;, () &#x3D;&gt; this.resize &#x3D; true);
+      content.nativeElement.addEventListener(&#x27;mousedown&#x27;, () &#x3D;&gt; (this.resize &#x3D; true));
     }
   }
 
   /** @ignore */
   @ViewChild(NodeDetailsComponent) nodeDetails: NodeDetailsComponent;
 
-  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData,
-              private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData, private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.frame.nativeElement.style.minWidth &#x3D; ComponentContextMenuComponent.MIN_WIDTH + &#x27;px&#x27;;
@@ -681,7 +681,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
     if (nodeDeleted) {
       this.close();
     }
-  }
+  };
 
   /**
    * Update the position of the context menu
@@ -706,7 +706,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   private onMouseUp() {
     this.resize &#x3D; false;
   }
-  
+
   /** @ignore */
   @HostListener(&#x27;window:mousemove&#x27;, [&#x27;$event&#x27;])
   private onMouseMove(event: MouseEvent) {
@@ -723,25 +723,27 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div #frame class&#x3D;&quot;frame&quot; [style.width.px]&#x3D;&quot;width&quot; [style.height.px]&#x3D;&quot;height&quot;&gt;
-    &lt;div style&#x3D;&quot;height: calc(100% - 20px); overflow: hidden&quot;&gt;
-        &lt;div class&#x3D;&quot;node-title&quot; *ngIf&#x3D;&quot;nodeDetailsReady &amp;&amp; nodeDetails.getNodeName()&quot;&gt;
-            &lt;h1 style&#x3D;&quot;overflow: hidden;  text-overflow: ellipsis;&quot;&gt;{{this.nodeDetails.getNodeName()}}&lt;/h1&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;container&quot;&gt;
-            &lt;app-node-details [projectId]&#x3D;&quot;data.projectId&quot; [nodeId]&#x3D;&quot;data.nodeId&quot; [nodeType]&#x3D;&quot;data.type&quot;
-                              [callback]&#x3D;&quot;detailsCallback&quot;&gt;&lt;/app-node-details&gt;
-        &lt;/div&gt;
+  &lt;div style&#x3D;&quot;height: calc(100% - 20px); overflow: hidden&quot;&gt;
+    &lt;div class&#x3D;&quot;node-title&quot; *ngIf&#x3D;&quot;nodeDetailsReady &amp;&amp; nodeDetails.getNodeName()&quot;&gt;
+      &lt;h1 style&#x3D;&quot;overflow: hidden; text-overflow: ellipsis&quot;&gt;{{ this.nodeDetails.getNodeName() }}&lt;/h1&gt;
     &lt;/div&gt;
+    &lt;div class&#x3D;&quot;container&quot;&gt;
+      &lt;app-node-details
+        [projectId]&#x3D;&quot;data.projectId&quot;
+        [nodeId]&#x3D;&quot;data.nodeId&quot;
+        [nodeType]&#x3D;&quot;data.type&quot;
+        [callback]&#x3D;&quot;detailsCallback&quot;
+      &gt;&lt;/app-node-details&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 
-    &lt;div style&#x3D;&quot;width: 100%; height: 20px; display: inline-block;&quot;&gt;
-        &lt;span style&#x3D;&quot;font-size: .8em&quot;&gt;{{this.data.nodeId}}&lt;/span&gt;
-        &lt;span #resizeCorner style&#x3D;&quot;position: absolute; bottom: 0; right: 4px; user-select: none&quot;&gt;
-            &lt;mat-icon svgIcon&#x3D;&quot;resize-corner&quot; style&#x3D;&quot;width: 10px; height: 10px; cursor: nwse-resize&quot;&gt;&lt;/mat-icon&gt;
-        &lt;/span&gt;
-    &lt;/div&gt;
+  &lt;div style&#x3D;&quot;width: 100%; height: 20px; display: inline-block&quot;&gt;
+    &lt;span style&#x3D;&quot;font-size: 0.8em&quot;&gt;{{ this.data.nodeId }}&lt;/span&gt;
+    &lt;span #resizeCorner style&#x3D;&quot;position: absolute; bottom: 0; right: 4px; user-select: none&quot;&gt;
+      &lt;mat-icon svgIcon&#x3D;&quot;resize-corner&quot; style&#x3D;&quot;width: 10px; height: 10px; cursor: nwse-resize&quot;&gt;&lt;/mat-icon&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
-
-
 </code></pre>
     </div>
 
@@ -755,7 +757,8 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   padding: 24px;
   background-color: $background-controls;
   border-radius: 4px;
-  box-shadow: 0 11px 15px -7px rgb(0 0 0 / 20%), 0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%);
+  box-shadow: 0 11px 15px -7px rgb(0 0 0 / 20%),
+    0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%);
 }
 
 .node-title {
@@ -764,7 +767,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   margin: 0 0 20px;
 }
 
-.container{
+.container {
   height: calc(100% - 50px);
   overflow: auto;
 }
@@ -796,7 +799,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div #frame class="frame" [style.width.px]="width" [style.height.px]="height">    <div style="height: calc(100% - 20px); overflow: hidden">        <div class="node-title" *ngIf="nodeDetailsReady && nodeDetails.getNodeName()">            <h1 style="overflow: hidden;  text-overflow: ellipsis;">{{this.nodeDetails.getNodeName()}}</h1>        </div>        <div class="container">            <app-node-details [projectId]="data.projectId" [nodeId]="data.nodeId" [nodeType]="data.type"                              [callback]="detailsCallback"></app-node-details>        </div>    </div>    <div style="width: 100%; height: 20px; display: inline-block;">        <span style="font-size: .8em">{{this.data.nodeId}}</span>        <span #resizeCorner style="position: absolute; bottom: 0; right: 4px; user-select: none">            <mat-icon svgIcon="resize-corner" style="width: 10px; height: 10px; cursor: nwse-resize"></mat-icon>        </span>    </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div #frame class="frame" [style.width.px]="width" [style.height.px]="height">  <div style="height: calc(100% - 20px); overflow: hidden">    <div class="node-title" *ngIf="nodeDetailsReady && nodeDetails.getNodeName()">      <h1 style="overflow: hidden; text-overflow: ellipsis">{{ this.nodeDetails.getNodeName() }}</h1>    </div>    <div class="container">      <app-node-details        [projectId]="data.projectId"        [nodeId]="data.nodeId"        [nodeType]="data.type"        [callback]="detailsCallback"      ></app-node-details>    </div>  </div>  <div style="width: 100%; height: 20px; display: inline-block">    <span style="font-size: 0.8em">{{ this.data.nodeId }}</span>    <span #resizeCorner style="position: absolute; bottom: 0; right: 4px; user-select: none">      <mat-icon svgIcon="resize-corner" style="width: 10px; height: 10px; cursor: nwse-resize"></mat-icon>    </span>  </div></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'ComponentContextMenuComponent'};

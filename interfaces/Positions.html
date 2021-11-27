@@ -219,18 +219,18 @@ import * as componentContextMenuComponent from &#x27;@app/graphs/component-conte
 import {NodeDetailsType} from &#x27;@app/node-details/node-details.component&#x27;;
 import {doGraphLayout, LayoutNode} from &#x27;@app/graphs/automatic-layout&#x27;;
 import {BreakpointObserver, Breakpoints} from &#x27;@angular/cdk/layout&#x27;;
-import { IssueGraphClassSettersService } from &#x27;./class-setters/issue-graph-class-setters.service&#x27;;
-import { IssueGraphLinkHandlesService } from &#x27;./link-handles/issue-graph-link-handles.service&#x27;;
-import { IssueGraphDynamicTemplateRegistryService } from &#x27;./dynamic-template-registry/issue-graph-dynamic-template-registry.service&#x27;;
+import {IssueGraphClassSettersService} from &#x27;./class-setters/issue-graph-class-setters.service&#x27;;
+import {IssueGraphLinkHandlesService} from &#x27;./link-handles/issue-graph-link-handles.service&#x27;;
+import {IssueGraphDynamicTemplateRegistryService} from &#x27;./dynamic-template-registry/issue-graph-dynamic-template-registry.service&#x27;;
 
 /**
  * Interface specifying the content of the graph component local storage
  */
 interface Positions {
   /** Positions of the nodes as the user arranged them */
-  nodes: { [prop: string]: Point; };
+  nodes: {[prop: string]: Point};
   /** Positions (north, south, east, west) of the issue groups */
-  issueGroups: { [node: string]: string };
+  issueGroups: {[node: string]: string};
 }
 
 /**
@@ -243,29 +243,33 @@ interface Positions {
 @Component({
   selector: &#x27;app-issue-graph&#x27;,
   templateUrl: &#x27;./issue-graph.component.html&#x27;,
-  styleUrls: [&#x27;./issue-graph.component.css&#x27;],
+  styleUrls: [&#x27;./issue-graph.component.css&#x27;]
 })
 export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
-
-  constructor(private dialog: MatDialog,
-              private gs: IssueGraphStateService,
-              private ss: StateService,
-              private router: Router,
-              private activatedRoute: ActivatedRoute,
-              private componentStoreService: ComponentStoreService,
-              private interfaceStoreService: InterfaceStoreService,
-              private componentContextMenuService: componentContextMenuComponent.ComponentContextMenuService,
-              private breakPointObserver: BreakpointObserver,
-              private issueGraphClassSettersService: IssueGraphClassSettersService,
-              private issueGraphLinkHandlesService: IssueGraphLinkHandlesService,
-              private issueGraphDynamicTemplateRegistryService: IssueGraphDynamicTemplateRegistryService) {
-  }
+  constructor(
+    private dialog: MatDialog,
+    private gs: IssueGraphStateService,
+    private ss: StateService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private componentStoreService: ComponentStoreService,
+    private interfaceStoreService: InterfaceStoreService,
+    private componentContextMenuService: componentContextMenuComponent.ComponentContextMenuService,
+    private breakPointObserver: BreakpointObserver,
+    private issueGraphClassSettersService: IssueGraphClassSettersService,
+    private issueGraphLinkHandlesService: IssueGraphLinkHandlesService,
+    private issueGraphDynamicTemplateRegistryService: IssueGraphDynamicTemplateRegistryService
+  ) {}
 
   // references the graph template
-  @ViewChild(&#x27;graph&#x27;, {static: true}) graphWrapper: { nativeElement: GraphEditor; };
+  @ViewChild(&#x27;graph&#x27;, {static: true}) graphWrapper: {
+    nativeElement: GraphEditor;
+  };
 
   // references the minimap template
-  @ViewChild(&#x27;minimap&#x27;, {static: true}) minimap: { nativeElement: GraphEditor; };
+  @ViewChild(&#x27;minimap&#x27;, {static: true}) minimap: {
+    nativeElement: GraphEditor;
+  };
 
   currentVisibleArea: Rect &#x3D; {x: 0, y: 0, width: 1, height: 1};
   @Input() projectId: string;
@@ -325,8 +329,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngOnInit() {
     this.projectStorageKey &#x3D; &#x60;CCIMS-Project_${this.projectId}&#x60;;
-    this.breakPointObserver.observe(Breakpoints.Handset)
-      .subscribe(r &#x3D;&gt; this.isHandset &#x3D; r.matches);
+    this.breakPointObserver.observe(Breakpoints.Handset).subscribe((r) &#x3D;&gt; (this.isHandset &#x3D; r.matches));
   }
 
   /**
@@ -334,12 +337,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngOnDestroy() {
     // saves the current zoom details of the graph for when the user comes back to the graph
-    localStorage.setItem(&#x60;zoomTransform_${this.projectStorageKey}&#x60;,
-      JSON.stringify(this.graph.currentZoomTransform));
+    localStorage.setItem(&#x60;zoomTransform_${this.projectStorageKey}&#x60;, JSON.stringify(this.graph.currentZoomTransform));
 
     // saves the current bounding box of the graph for when the user comes back to the graph
-    localStorage.setItem(&#x60;zoomBoundingBox_${this.projectStorageKey}&#x60;,
-      JSON.stringify(this.graph.currentViewWindow));
+    localStorage.setItem(&#x60;zoomBoundingBox_${this.projectStorageKey}&#x60;, JSON.stringify(this.graph.currentViewWindow));
 
     this.destroy$.next();
     this.closeComponentActions();
@@ -411,17 +412,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * Subscribes to the subject emitting node positions.
    */
   private subscribeToSubject() {
-    this.savePositionsSubject
-      .pipe(takeUntil(this.destroy$), debounceTime(300))
-      .subscribe(() &#x3D;&gt; {
-        console.log(&#x27;Setting: &#x27;, this.projectStorageKey);
+    this.savePositionsSubject.pipe(takeUntil(this.destroy$), debounceTime(300)).subscribe(() &#x3D;&gt; {
+      console.log(&#x27;Setting: &#x27;, this.projectStorageKey);
 
-        // case: there are saved positions
-        if (this.savedPositions !&#x3D; null) {
-          const newData &#x3D; JSON.stringify(this.savedPositions);
-          localStorage.setItem(this.projectStorageKey, newData);
-        }
-      });
+      // case: there are saved positions
+      if (this.savedPositions !&#x3D; null) {
+        const newData &#x3D; JSON.stringify(this.savedPositions);
+        localStorage.setItem(this.projectStorageKey, newData);
+      }
+    });
   }
 
   /**
@@ -493,7 +492,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return edge;
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets dragged
@@ -504,17 +503,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param targetNode Target of the handled edge.
    * @returns Edge that is handled.
    */
-  private onDraggedEdgeTargetChanged &#x3D; (
-    edge: DraggedEdge,
-    sourceNode: Node,
-    targetNode: Node
-  ) &#x3D;&gt; {
+  private onDraggedEdgeTargetChanged &#x3D; (edge: DraggedEdge, sourceNode: Node, targetNode: Node) &#x3D;&gt; {
     // case: edge originates from a component
     if (sourceNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
       // case: target of edge is an interface
       // &#x3D;&gt; handles edge as of type consumer
       if (targetNode?.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
-
         // updates edge properties (default drag handle)
         edge.type &#x3D; issueGraphNodes.NodeType.InterfaceConsumer;
         delete edge.dragHandles;
@@ -522,7 +516,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         // updates marker at the end of the edge
         edge.markerEnd &#x3D; {
           template: &#x27;interface-connector&#x27;,
-          relativeRotation: 0,
+          relativeRotation: 0
         };
       }
       // case: target of edge is not an interface (aka. null)
@@ -543,7 +537,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return edge;
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets added.
@@ -559,7 +553,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // case: edge of type interface consumer
     if (edge.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.InterfaceConsumer) {
-
       // cancels edge creation
       event.preventDefault();
 
@@ -573,7 +566,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() &#x3D;&gt; this.reload$.next(null));
       }
     }
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets dropped.
@@ -597,7 +590,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (edge.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
-  }
+  };
 
   /**
    * Opens the interface creation dialog. If the user actually creates the interface
@@ -643,7 +636,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // case: edge of type interface consumer
     if (edge.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.InterfaceConsumer) {
-
       // cancels edge deletion
       event.preventDefault();
 
@@ -658,7 +650,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() &#x3D;&gt; this.reload$.next(null));
       }
     }
-  }
+  };
 
   /**
    * Adds event listeners to a given GraphEditor instance.
@@ -686,7 +678,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       // store node positioning information
       this.savedPositions.nodes[node.id] &#x3D; {
         x: node.x,
-        y: node.y,
+        y: node.y
       };
       this.savePositionsSubject.next();
       if (this.reloadOnMouseUp) {
@@ -770,14 +762,18 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       // case: node of type Component
       // &#x3D;&gt; opens View Component page
       if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
-        this.router.navigate([&#x27;./component/&#x27;, node.id], {relativeTo: this.activatedRoute.parent});
+        this.router.navigate([&#x27;./component/&#x27;, node.id], {
+          relativeTo: this.activatedRoute.parent
+        });
         return;
       }
 
       // case: node of type Interface
       // &#x3D;&gt; opens View Interface page
       if (node.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
-        this.router.navigate([&#x27;./interface/&#x27;, node.id], {relativeTo: this.activatedRoute.parent});
+        this.router.navigate([&#x27;./interface/&#x27;, node.id], {
+          relativeTo: this.activatedRoute.parent
+        });
         return;
       }
     } else {
@@ -794,7 +790,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // case: clicked issue folder
     // &#x3D;&gt; determines issue count, opens corresponding issue page
     this.nodeClickIssueFolder(node);
-  }
+  };
 
   /**
    * Sets the context menu type.
@@ -833,15 +829,15 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       // Cancel the click event that would otherwise close the dialog again
       event.detail.sourceEvent.stopImmediatePropagation();
 
-      this.componentContextMenu &#x3D;
-        this.componentContextMenuService.open(
-          this.graphWrapper.nativeElement,
-          x,
-          y,
-          this.projectId,
-          node.id.toString(),
-          contextMenuType,
-          this);
+      this.componentContextMenu &#x3D; this.componentContextMenuService.open(
+        this.graphWrapper.nativeElement,
+        x,
+        y,
+        this.projectId,
+        node.id.toString(),
+        contextMenuType,
+        this
+      );
 
       // Make sure that the context menu is visible if it extends over the right/bottom edge
       const visible &#x3D; this.graph.currentViewWindow;
@@ -856,8 +852,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       // case: Zoom has to change to make overlay visible
       if (moveX || moveY) {
         this.graph.zoomToBox({
-          x: visible.x + moveX + padding, y: visible.y + moveY + padding,
-          width: visible.width - 2 * padding, height: visible.height - 2 * padding
+          x: visible.x + moveX + padding,
+          y: visible.y + moveY + padding,
+          width: visible.width - 2 * padding,
+          height: visible.height - 2 * padding
         });
       }
     }
@@ -873,7 +871,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // case: clicked issue folder
     // &#x3D;&gt; determines issue count, opens corresponding issue page
     if (node.type &#x3D;&#x3D;&#x3D; &#x27;BUG&#x27; || node.type &#x3D;&#x3D;&#x3D; &#x27;UNCLASSIFIED&#x27; || node.type &#x3D;&#x3D;&#x3D; &#x27;FEATURE_REQUEST&#x27;) {
-
       // reference to the GraphEditor instance of the graph, the root ID and the root node
       const graph: GraphEditor &#x3D; this.graphWrapper.nativeElement;
       const rootId &#x3D; graph.groupingManager.getTreeRootOf(node.id);
@@ -905,18 +902,22 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // case: root node of type Component
     // &#x3D;&gt; handles a single component issue, opens its Issue Details page
     if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
-      this.componentStoreService.getFullComponent(rootId).subscribe(component &#x3D;&gt; {
+      this.componentStoreService.getFullComponent(rootId).subscribe((component) &#x3D;&gt; {
         const currentIssueId &#x3D; this.extractIssueId(component.node.issues.nodes, node.type);
-        this.router.navigate([&#x27;./&#x27;, &#x27;issues&#x27;, currentIssueId], { relativeTo: this.activatedRoute.parent });
+        this.router.navigate([&#x27;./&#x27;, &#x27;issues&#x27;, currentIssueId], {
+          relativeTo: this.activatedRoute.parent
+        });
       });
     }
 
     // case: root node of type Interface
     // &#x3D;&gt; handles a single interface issue, opens its Issue Details page
     else if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
-      this.interfaceStoreService.getInterface(rootId).subscribe(interfaceComponent &#x3D;&gt; {
+      this.interfaceStoreService.getInterface(rootId).subscribe((interfaceComponent) &#x3D;&gt; {
         const currentIssueId &#x3D; this.extractIssueId(interfaceComponent.node.issuesOnLocation.nodes, node.type);
-        this.router.navigate([&#x27;./&#x27;, &#x27;issues&#x27;, currentIssueId], { relativeTo: this.activatedRoute.parent });
+        this.router.navigate([&#x27;./&#x27;, &#x27;issues&#x27;, currentIssueId], {
+          relativeTo: this.activatedRoute.parent
+        });
       });
     }
   }
@@ -943,13 +944,17 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // case: root node of type Component
     // &#x3D;&gt; handles many component issues, opens their Component Issues page
     if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Component) {
-      this.router.navigate([&#x27;./component/&#x27;, rootNode.id], { relativeTo: this.activatedRoute.parent });
+      this.router.navigate([&#x27;./component/&#x27;, rootNode.id], {
+        relativeTo: this.activatedRoute.parent
+      });
     }
 
     // case: root node of type Interface
     // &#x3D;&gt; handles many interface issues, opens their Interface Issues page
     if (rootNode.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
-      this.router.navigate([&#x27;./interface/&#x27;, rootNode.id], { relativeTo: this.activatedRoute.parent });
+      this.router.navigate([&#x27;./interface/&#x27;, rootNode.id], {
+        relativeTo: this.activatedRoute.parent
+      });
     }
   }
 
@@ -1027,20 +1032,22 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const layoutGraph &#x3D; Object.keys(this.savedPositions.nodes).length &#x3D;&#x3D;&#x3D; 0;
     // create nodes corresponding to the components and interfaces of the project
-    const componentNodes &#x3D; Array.from(this.graphData.components.values()).map(component &#x3D;&gt;
-      issueGraphNodes.createComponentNode(component, this.findIdealComponentPosition(component.id, boundingBox)));
-    const interfaceNodes &#x3D; Array.from(this.graphData.interfaces.values()).map(
-      intrface &#x3D;&gt; issueGraphNodes.createInterfaceNode(intrface, this.savedPositions.nodes[intrface.id]));
+    const componentNodes &#x3D; Array.from(this.graphData.components.values()).map((component) &#x3D;&gt;
+      issueGraphNodes.createComponentNode(component, this.findIdealComponentPosition(component.id, boundingBox))
+    );
+    const interfaceNodes &#x3D; Array.from(this.graphData.interfaces.values()).map((intrface) &#x3D;&gt;
+      issueGraphNodes.createInterfaceNode(intrface, this.savedPositions.nodes[intrface.id])
+    );
     // issueNodes contains BOTH componentNodes and interfaceNodes
     const issueNodes &#x3D; (componentNodes as issueGraphNodes.IssueNode[]).concat(interfaceNodes as issueGraphNodes.IssueNode[]);
     // For components AND interfaces: add the edges, issue folders and relations between folders
-    issueNodes.forEach(node &#x3D;&gt; {
+    issueNodes.forEach((node) &#x3D;&gt; {
       this.graph.addNode(node);
       this.addIssueFolders(node);
       this.drawFolderRelations(node);
     });
     // ONLY for interfaces: create edges connecting interface to offering component and consuming components to interface
-    interfaceNodes.forEach(interfaceNode &#x3D;&gt; {
+    interfaceNodes.forEach((interfaceNode) &#x3D;&gt; {
       this.connectToOfferingComponent(interfaceNode);
       this.connectConsumingComponents(interfaceNode);
     });
@@ -1071,7 +1078,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param boundingBox Bounding box of the component that is handled.
    */
   findIdealComponentPosition(id: string, boundingBox: Rect): Point {
-
     // saved position
     const saved &#x3D; this.savedPositions.nodes[id];
 
@@ -1140,19 +1146,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     gm.markAsTreeRoot(node.id);
     const issueGroupContainerNode &#x3D; issueGraphNodes.createIssueGroupContainerNode(node);
     const initialPosition &#x3D; this.savedPositions.issueGroups[issueGroupContainerNode.id];
-    gm.setGroupBehaviourOf(
-      node.id,
-      new IssueGroupContainerParentBehaviour(initialPosition)
-    );
+    gm.setGroupBehaviourOf(node.id, new IssueGroupContainerParentBehaviour(initialPosition));
 
     // the issueGroupContainerNode has no visual representation but contains the visible issue folders
     node.issueGroupContainer &#x3D; issueGroupContainerNode;
     this.graph.addNode(issueGroupContainerNode);
     gm.addNodeToGroup(node.id, issueGroupContainerNode.id);
-    gm.setGroupBehaviourOf(
-      issueGroupContainerNode.id,
-      new IssueGroupContainerBehaviour()
-    );
+    gm.setGroupBehaviourOf(issueGroupContainerNode.id, new IssueGroupContainerBehaviour());
     this.issueGroupParents.push(node);
   }
 
@@ -1166,7 +1166,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // get mapping from IssueCategory to number for the component or interface represented by node
     const issueCounts &#x3D; this.graphData.graphLocations.get(node.id).issues;
     // iterate over issue categories and create a node if there is at least one issue of it
-    Object.keys(IssueCategory).forEach(key &#x3D;&gt; {
+    Object.keys(IssueCategory).forEach((key) &#x3D;&gt; {
       const issueCategory &#x3D; IssueCategory[key];
       if (issueCounts.has(issueCategory)) {
         const count &#x3D; issueCounts.get(issueCategory);
@@ -1186,8 +1186,9 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private drawFolderRelations(node: issueGraphNodes.IssueNode) {
     // @ts-ignore
-    const folderNodes: IssueFolderNode[] &#x3D; Array.from(node.issueGroupContainer.issueGroupNodeIds).map(
-      (id: string) &#x3D;&gt; this.graph.getNode(id));
+    const folderNodes: IssueFolderNode[] &#x3D; Array.from(node.issueGroupContainer.issueGroupNodeIds).map((id: string) &#x3D;&gt;
+      this.graph.getNode(id)
+    );
     for (const folderNode of folderNodes) {
       const relatedFolders &#x3D; this.graphData.relatedFolders.getValue([node.id.toString(), folderNode.type]);
       for (const relatedFolder of relatedFolders) {
@@ -1211,8 +1212,13 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const firstComponent &#x3D; this.graphData.components.size &#x3D;&#x3D;&#x3D; 1 ? true : false;
 
     // Set the bounding box to the bounding box of the last session or to the optimized bounding box if there wasnt a last session
-    if ((JSON.parse(previousBoundingBoxAsString) !&#x3D;&#x3D; null) &amp;&amp; (JSON.parse(zoomTransformAsString) !&#x3D;&#x3D; null) &amp;&amp; this.graphFirstRender
-      &amp;&amp; !this.redrawByCloseOfComponentDetails &amp;&amp; !firstComponent) {
+    if (
+      JSON.parse(previousBoundingBoxAsString) !&#x3D;&#x3D; null &amp;&amp;
+      JSON.parse(zoomTransformAsString) !&#x3D;&#x3D; null &amp;&amp;
+      this.graphFirstRender &amp;&amp;
+      !this.redrawByCloseOfComponentDetails &amp;&amp;
+      !firstComponent
+    ) {
       const previousBoundingBox &#x3D; JSON.parse(previousBoundingBoxAsString);
       /* These calculations are necessary because of how GraphEditor.zoomToBox(box: Rect) works. GraphEditor.zoomToBox zooms to
       the given box and adds some padding.These calculations get rid of the padding. Otherwise the padding would be added to the graph
@@ -1281,7 +1287,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       const nodeY &#x3D; node.y - size.height / 2;
 
       if (rect &#x3D;&#x3D;&#x3D; null) {
-        rect &#x3D; {xMin: nodeX, yMin: nodeY, xMax: nodeX + size.width, yMax: nodeY + size.height};
+        rect &#x3D; {
+          xMin: nodeX,
+          yMin: nodeY,
+          xMax: nodeX + size.width,
+          yMax: nodeY + size.height
+        };
       } else {
         rect.xMin &#x3D; Math.min(nodeX, rect.xMin);
         rect.yMin &#x3D; Math.min(nodeY, rect.yMin);
@@ -1291,7 +1302,14 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
 
-    return rect ? {x: rect.xMin, y: rect.yMin, width: rect.xMax - rect.xMin, height: rect.yMax - rect.yMin} : null;
+    return rect
+      ? {
+          x: rect.xMin,
+          y: rect.yMin,
+          width: rect.xMax - rect.xMin,
+          height: rect.yMax - rect.yMin
+        }
+      : null;
   }
 
   /**
@@ -1318,7 +1336,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     for (const node of nodeList) {
       const layoutNode &#x3D; nodes.get(node.id);
-      this.savedPositions.nodes[layoutNode.id] &#x3D; {x: layoutNode.position.x, y: layoutNode.position.y};
+      this.savedPositions.nodes[layoutNode.id] &#x3D; {
+        x: layoutNode.position.x,
+        y: layoutNode.position.y
+      };
     }
 
     this.savePositionsSubject.next();
@@ -1340,12 +1361,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     const createComponentDialogRef &#x3D; this.dialog.open(CreateComponentDialogComponent, {
       data: {projectId: this.projectId}
     });
-    createComponentDialogRef.afterClosed().subscribe(componentInformation &#x3D;&gt; {
+    createComponentDialogRef.afterClosed().subscribe((componentInformation) &#x3D;&gt; {
       this.zoomOnRedraw &#x3D; false;
       this.reload$.next(null);
     });
   }
-
 }
 </code></pre>
     </div>

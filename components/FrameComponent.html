@@ -198,7 +198,7 @@ display size and makes the side menu an overlay when on handset size.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/frame/frame.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/frame/frame.component.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -277,8 +277,8 @@ display size and makes the side menu an overlay when on handset size.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/app/frame/frame.component.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/app/frame/frame.component.ts:46</a></div>
                 </td>
             </tr>
 
@@ -346,8 +346,8 @@ display size and makes the side menu an overlay when on handset size.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/frame/frame.component.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/frame/frame.component.ts:42</a></div>
                 </td>
             </tr>
 
@@ -390,9 +390,8 @@ display size and makes the side menu an overlay when on handset size.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>this.breakpointObserver.observe(Breakpoints.Handset)
-  .pipe(
-    map(result &#x3D;&gt; result.matches),
+                        <i>Default value : </i><code>this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) &#x3D;&gt; result.matches),
     shareReplay()
   )</code>
                     </td>
@@ -478,7 +477,7 @@ display size and makes the side menu an overlay when on handset size.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/frame/frame.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/frame/frame.component.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -491,13 +490,13 @@ display size and makes the side menu an overlay when on handset size.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
-import { map, shareReplay } from &#x27;rxjs/operators&#x27;;
-import { BreakpointObserver, Breakpoints } from &#x27;@angular/cdk/layout&#x27;;
-import { Observable, BehaviorSubject } from &#x27;rxjs&#x27;;
-import { StateService } from &#x27;@app/state.service&#x27;;
-import { RouterOutlet } from &#x27;@angular/router&#x27;;
-import { slider } from &#x27;../route-animations&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component} from &#x27;@angular/core&#x27;;
+import {map, shareReplay} from &#x27;rxjs/operators&#x27;;
+import {BreakpointObserver, Breakpoints} from &#x27;@angular/cdk/layout&#x27;;
+import {Observable, BehaviorSubject} from &#x27;rxjs&#x27;;
+import {StateService} from &#x27;@app/state.service&#x27;;
+import {RouterOutlet} from &#x27;@angular/router&#x27;;
+import {slider} from &#x27;../route-animations&#x27;;
 
 /**
  * This component holds the &#x27;frame&#x27; of the application
@@ -520,16 +519,13 @@ export class FrameComponent {
   public isProjectSet$ &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
   public showDrawer &#x3D; true;
 
-  isHandset$: Observable&lt;boolean&gt; &#x3D; this.breakpointObserver.observe(Breakpoints.Handset)
-  .pipe(
-    map(result &#x3D;&gt; result.matches),
+  isHandset$: Observable&lt;boolean&gt; &#x3D; this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) &#x3D;&gt; result.matches),
     shareReplay()
   );
 
   constructor(private breakpointObserver: BreakpointObserver, public ss: StateService) {
-    ss.state$.pipe(
-      map(state &#x3D;&gt; (state.project !&#x3D; null))
-    ).subscribe(this.isProjectSet$);
+    ss.state$.pipe(map((state) &#x3D;&gt; state.project !&#x3D; null)).subscribe(this.isProjectSet$);
   }
 
   /**
@@ -548,19 +544,25 @@ export class FrameComponent {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;root&quot;&gt;
-&lt;app-top-toolbar (menuClick)&#x3D;&quot;toggleMenu()&quot; [showMenuButton]&#x3D;&quot;isProjectSet$|async&quot; class&#x3D;&quot;header&quot;&gt;&lt;/app-top-toolbar&gt;
-&lt;mat-sidenav-container class&#x3D;&quot;sidenav-container&quot;&gt;
-  &lt;!--if you set fixedInViewPort on the sidenav it will appear to the left of the mat-tooblar instead of under it--&gt;
-  &lt;mat-sidenav id&#x3D;&quot;sidenav&quot; class&#x3D;&quot;sidenav&quot; [attr.role]&#x3D;&quot;(isHandset$ | async) ? &#x27;dialog&#x27; : &#x27;navigation&#x27;&quot;
-               [mode]&#x3D;&quot;(isHandset$ | async) ? &#x27;over&#x27; : &#x27;side&#x27;&quot; [opened]&#x3D;&quot;showDrawer&quot; *ngIf&#x3D;&quot;(isProjectSet$|async)&quot;&gt;
-    &lt;app-side-nav&gt;&lt;/app-side-nav&gt;
-  &lt;/mat-sidenav&gt;
-  &lt;mat-sidenav-content class&#x3D;&quot;sidenav-content&quot;&gt;
-    &lt;div class&#x3D;&quot;container&quot; [@routeAnimations]&#x3D;&quot;prepareRoute(outlet)&quot;&gt;
-      &lt;router-outlet #outlet&#x3D;&quot;outlet&quot;&gt;&lt;/router-outlet&gt;
-    &lt;/div&gt;
-  &lt;/mat-sidenav-content&gt;
-&lt;/mat-sidenav-container&gt;
+  &lt;app-top-toolbar (menuClick)&#x3D;&quot;toggleMenu()&quot; [showMenuButton]&#x3D;&quot;isProjectSet$ | async&quot; class&#x3D;&quot;header&quot;&gt;&lt;/app-top-toolbar&gt;
+  &lt;mat-sidenav-container class&#x3D;&quot;sidenav-container&quot;&gt;
+    &lt;!--if you set fixedInViewPort on the sidenav it will appear to the left of the mat-tooblar instead of under it--&gt;
+    &lt;mat-sidenav
+      id&#x3D;&quot;sidenav&quot;
+      class&#x3D;&quot;sidenav&quot;
+      [attr.role]&#x3D;&quot;(isHandset$ | async) ? &#x27;dialog&#x27; : &#x27;navigation&#x27;&quot;
+      [mode]&#x3D;&quot;(isHandset$ | async) ? &#x27;over&#x27; : &#x27;side&#x27;&quot;
+      [opened]&#x3D;&quot;showDrawer&quot;
+      *ngIf&#x3D;&quot;isProjectSet$ | async&quot;
+    &gt;
+      &lt;app-side-nav&gt;&lt;/app-side-nav&gt;
+    &lt;/mat-sidenav&gt;
+    &lt;mat-sidenav-content class&#x3D;&quot;sidenav-content&quot;&gt;
+      &lt;div class&#x3D;&quot;container&quot; [@routeAnimations]&#x3D;&quot;prepareRoute(outlet)&quot;&gt;
+        &lt;router-outlet #outlet&#x3D;&quot;outlet&quot;&gt;&lt;/router-outlet&gt;
+      &lt;/div&gt;
+    &lt;/mat-sidenav-content&gt;
+  &lt;/mat-sidenav-container&gt;
 &lt;/div&gt;
 </code></pre>
     </div>
@@ -637,7 +639,7 @@ export class FrameComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="root"><app-top-toolbar (menuClick)="toggleMenu()" [showMenuButton]="isProjectSet$|async" class="header"></app-top-toolbar><mat-sidenav-container class="sidenav-container">  <!--if you set fixedInViewPort on the sidenav it will appear to the left of the mat-tooblar instead of under it-->  <mat-sidenav id="sidenav" class="sidenav" [attr.role]="(isHandset$ | async) ? \'dialog\' : \'navigation\'"               [mode]="(isHandset$ | async) ? \'over\' : \'side\'" [opened]="showDrawer" *ngIf="(isProjectSet$|async)">    <app-side-nav></app-side-nav>  </mat-sidenav>  <mat-sidenav-content class="sidenav-content">    <div class="container" [@routeAnimations]="prepareRoute(outlet)">      <router-outlet #outlet="outlet"></router-outlet>    </div>  </mat-sidenav-content></mat-sidenav-container></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="root">  <app-top-toolbar (menuClick)="toggleMenu()" [showMenuButton]="isProjectSet$ | async" class="header"></app-top-toolbar>  <mat-sidenav-container class="sidenav-container">    <!--if you set fixedInViewPort on the sidenav it will appear to the left of the mat-tooblar instead of under it-->    <mat-sidenav      id="sidenav"      class="sidenav"      [attr.role]="(isHandset$ | async) ? \'dialog\' : \'navigation\'"      [mode]="(isHandset$ | async) ? \'over\' : \'side\'"      [opened]="showDrawer"      *ngIf="isProjectSet$ | async"    >      <app-side-nav></app-side-nav>    </mat-sidenav>    <mat-sidenav-content class="sidenav-content">      <div class="container" [@routeAnimations]="prepareRoute(outlet)">        <router-outlet #outlet="outlet"></router-outlet>      </div>    </mat-sidenav-content>  </mat-sidenav-container></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'FrameComponent'};

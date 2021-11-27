@@ -259,8 +259,8 @@ the two GroupBehaviour implementations interplay with the graph.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/app/graphs/issue-graph/group-behaviours.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/graphs/issue-graph/group-behaviours.ts:23</a></div>
                 </td>
             </tr>
 
@@ -386,7 +386,7 @@ import {IssueCategory} from &#x27;src/generated/graphql&#x27;;
 import {IssueGroupContainerNode, NodeType} from &#x27;./issue-graph-nodes&#x27;;
 
 function distance(x, y, x2, y2) {
-  return ((x - x2) ** 2) + ((y - y2) ** 2);
+  return (x - x2) ** 2 + (y - y2) ** 2;
 }
 
 /**
@@ -398,8 +398,7 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
   moveChildrenAlongGoup &#x3D; true;
   childNodePositions &#x3D; new Map();
 
-  constructor(private initialPosition: string) {
-  }
+  constructor(private initialPosition: string) {}
 
   beforeNodeMove(group: string, childGroup: string, groupNode: Node, childNode: Node, newPosition: Point, graphEditor: GraphEditor) {
     // calculate groupNode (the parent node) dimensions
@@ -408,10 +407,10 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
     // find nearest side
     let best &#x3D; &#x27;bottom&#x27;;
     if (newPosition !&#x3D; null &amp;&amp; (newPosition.x !&#x3D;&#x3D; 0 || newPosition.y !&#x3D;&#x3D; 0)) {
-      let bestDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y + (height / 2) + 25);
-      const rightDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x + (width / 2) + 30, groupNode.y);
-      const leftDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x - (width / 2) - 30, groupNode.y);
-      const topDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y - (height / 2) - 25);
+      let bestDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y + height / 2 + 25);
+      const rightDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x + width / 2 + 30, groupNode.y);
+      const leftDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x - width / 2 - 30, groupNode.y);
+      const topDistance &#x3D; distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y - height / 2 - 25);
       if (rightDistance &lt; bestDistance) {
         bestDistance &#x3D; rightDistance;
         best &#x3D; &#x27;right&#x27;;
@@ -433,30 +432,30 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
 
     // set position
     if (best &#x3D;&#x3D;&#x3D; &#x27;bottom&#x27;) {
-      this.childNodePositions.set(childGroup, {x: 0, y: (height / 2) + 25});
+      this.childNodePositions.set(childGroup, {x: 0, y: height / 2 + 25});
       if (childNode !&#x3D; null &amp;&amp; (newPosition &#x3D;&#x3D; null || (newPosition.x &#x3D;&#x3D;&#x3D; 0 &amp;&amp; newPosition.y &#x3D;&#x3D;&#x3D; 0))) {
         childNode.x &#x3D; groupNode.x;
-        childNode.y &#x3D; groupNode.y + (height / 2) + 25;
+        childNode.y &#x3D; groupNode.y + height / 2 + 25;
       }
     }
     if (best &#x3D;&#x3D;&#x3D; &#x27;top&#x27;) {
       this.childNodePositions.set(childGroup, {x: 0, y: -(height / 2) - 25});
       if (childNode !&#x3D; null &amp;&amp; (newPosition &#x3D;&#x3D; null || (newPosition.x &#x3D;&#x3D;&#x3D; 0 &amp;&amp; newPosition.y &#x3D;&#x3D;&#x3D; 0))) {
         childNode.x &#x3D; groupNode.x;
-        childNode.y &#x3D; groupNode.y - (height / 2) - 25;
+        childNode.y &#x3D; groupNode.y - height / 2 - 25;
       }
     }
     if (best &#x3D;&#x3D;&#x3D; &#x27;right&#x27;) {
-      this.childNodePositions.set(childGroup, {x: (width / 2) + 30, y: 0});
+      this.childNodePositions.set(childGroup, {x: width / 2 + 30, y: 0});
       if (childNode !&#x3D; null &amp;&amp; (newPosition &#x3D;&#x3D; null || (newPosition.x &#x3D;&#x3D;&#x3D; 0 &amp;&amp; newPosition.y &#x3D;&#x3D;&#x3D; 0))) {
-        childNode.x &#x3D; groupNode.x + (width / 2) + 30;
+        childNode.x &#x3D; groupNode.x + width / 2 + 30;
         childNode.y &#x3D; groupNode.y;
       }
     }
     if (best &#x3D;&#x3D;&#x3D; &#x27;left&#x27;) {
       this.childNodePositions.set(childGroup, {x: -(width / 2) - 30, y: 0});
       if (childNode !&#x3D; null &amp;&amp; (newPosition &#x3D;&#x3D; null || (newPosition.x &#x3D;&#x3D;&#x3D; 0 &amp;&amp; newPosition.y &#x3D;&#x3D;&#x3D; 0))) {
-        childNode.x &#x3D; groupNode.x - (width / 2) - 30;
+        childNode.x &#x3D; groupNode.x - width / 2 - 30;
         childNode.y &#x3D; groupNode.y;
       }
     }
@@ -478,7 +477,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
     const children &#x3D; graphEditor.groupingManager.getChildrenOf(group);
 
     const places &#x3D; children.size - 1;
-    const startOffset &#x3D; places &gt; 0 ? (places / 2) : 0;
+    const startOffset &#x3D; places &gt; 0 ? places / 2 : 0;
     let xOffset &#x3D; 0;
     let yOffset &#x3D; 0;
 
@@ -491,8 +490,8 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
 
     // order of sortedChildIds decides order of rendering
     const sortedChildIds &#x3D; Object.keys(IssueCategory)
-      .map(key &#x3D;&gt; &#x60;${parent}__${IssueCategory[key]}&#x60;)
-      .filter(childId &#x3D;&gt; children.has(childId));
+      .map((key) &#x3D;&gt; &#x60;${parent}__${IssueCategory[key]}&#x60;)
+      .filter((childId) &#x3D;&gt; children.has(childId));
 
     // pre sorted list
     /*
@@ -526,7 +525,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
           allowedAnchors.add(&#x27;top&#x27;);
         }
       }
-      if (index &#x3D;&#x3D;&#x3D; (sortedChildIds.length - 1)) {
+      if (index &#x3D;&#x3D;&#x3D; sortedChildIds.length - 1) {
         if (groupNode.position &#x3D;&#x3D;&#x3D; &#x27;bottom&#x27; || groupNode.position &#x3D;&#x3D;&#x3D; &#x27;top&#x27;) {
           allowedAnchors.add(&#x27;left&#x27;);
         }

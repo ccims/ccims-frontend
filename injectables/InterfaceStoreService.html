@@ -337,8 +337,8 @@ as this file.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/app/data/interface/interface-store.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/app/data/interface/interface-store.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -408,8 +408,8 @@ as this file.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/app/data/interface/interface-store.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/data/interface/interface-store.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -550,8 +550,8 @@ as this file.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/app/data/interface/interface-store.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/data/interface/interface-store.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -630,13 +630,13 @@ import {Observable} from &#x27;rxjs&#x27;;
   providedIn: &#x27;root&#x27;
 })
 export class InterfaceStoreService {
-
-  constructor(private createInterfaceMutation: CreateComponentInterfaceGQL,
-              private updateInterfaceMutation: UpdateComponentInterfaceGQL,
-              private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
-              private getInterfaceQuery: GetInterfaceGQL,
-              private getConsumingComponentsQuery: GetConsumingComponentsGQL) {
-  }
+  constructor(
+    private createInterfaceMutation: CreateComponentInterfaceGQL,
+    private updateInterfaceMutation: UpdateComponentInterfaceGQL,
+    private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
+    private getInterfaceQuery: GetInterfaceGQL,
+    private getConsumingComponentsQuery: GetConsumingComponentsGQL
+  ) {}
 
   public create(name: string, offeringComponentId: string, description?: string) {
     const input: CreateComponentInterfaceInput &#x3D; {
@@ -648,9 +648,7 @@ export class InterfaceStoreService {
   }
 
   public getInterface(id: string): Observable&lt;GetInterfaceQuery&gt; {
-    return this.getInterfaceQuery.fetch({id}).pipe(
-      map(({data}) &#x3D;&gt; data)
-    );
+    return this.getInterfaceQuery.fetch({id}).pipe(map(({data}) &#x3D;&gt; data));
   }
 
   public getConsumingComponents(id: string): Observable&lt;GetConsumingComponentsQuery&gt; {
@@ -667,7 +665,6 @@ export class InterfaceStoreService {
     };
     return this.deleteInterfaceMutation.mutate({input});
   }
-
 }
 </code></pre>
     </div>

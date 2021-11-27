@@ -94,7 +94,7 @@ import {DefaultOptions} from &#x27;@apollo/client/core/ApolloClient&#x27;;
 const defaultOptions: DefaultOptions &#x3D; {
   query: {
     fetchPolicy: &#x27;no-cache&#x27;,
-    errorPolicy: &#x27;all&#x27;,
+    errorPolicy: &#x27;all&#x27;
   }
 };
 
@@ -116,23 +116,22 @@ const basic &#x3D; setContext((operation, context) &#x3D;&gt; ({
 
 export function createErrorLink(authService: AuthenticationService, toastr: ToastrService): ApolloLink {
   const errorLink &#x3D; onError(({graphQLErrors, networkError, operation, forward}) &#x3D;&gt; {
-      if (graphQLErrors) {
-        const message &#x3D; graphQLErrors.map(err &#x3D;&gt; err.message).join(&#x27;&lt;br&gt;&#x27;);
-        console.log(&#x60;[Graphql errors]: ${message}&#x60;);
-        toastr.error(message, &#x27;GraphQL error&#x27;, networkErrorToast);
-      }
+    if (graphQLErrors) {
+      const message &#x3D; graphQLErrors.map((err) &#x3D;&gt; err.message).join(&#x27;&lt;br&gt;&#x27;);
+      console.log(&#x60;[Graphql errors]: ${message}&#x60;);
+      toastr.error(message, &#x27;GraphQL error&#x27;, networkErrorToast);
+    }
 
-      if (networkError) {
-        console.log(&#x60;[Network error]: ${networkError.name}\n${networkError.message}\n${networkError.stack}&#x60;);
-        // @ts-ignore
-        if (networkError.status &#x3D;&#x3D;&#x3D; 401) {
-          authService.logout();
-        } else {
-          toastr.error(networkError.message, &#x27;Server/Connection error&#x27;, networkErrorToast);
-        }
+    if (networkError) {
+      console.log(&#x60;[Network error]: ${networkError.name}\n${networkError.message}\n${networkError.stack}&#x60;);
+      // @ts-ignore
+      if (networkError.status &#x3D;&#x3D;&#x3D; 401) {
+        authService.logout();
+      } else {
+        toastr.error(networkError.message, &#x27;Server/Connection error&#x27;, networkErrorToast);
       }
     }
-  );
+  });
   return errorLink;
 }
 
@@ -142,8 +141,11 @@ export function createErrorLink(authService: AuthenticationService, toastr: Toas
  * @param authService
  * @param toastr
  */
-export function provideDefaultApollo(httpLink: HttpLink, authService: AuthenticationService,
-                                     toastr: ToastrService): ApolloClientOptions&lt;any&gt; {
+export function provideDefaultApollo(
+  httpLink: HttpLink,
+  authService: AuthenticationService,
+  toastr: ToastrService
+): ApolloClientOptions&lt;any&gt; {
   const token &#x3D; localStorage.getItem(&#x27;token&#x27;);
   const auth &#x3D; setContext((_, {headers}) &#x3D;&gt; {
     // get the authentication token from local storage if it exists
@@ -182,27 +184,22 @@ export function providePublicApollo(httpLink: HttpLink, authService: Authenticat
 }
 
 @NgModule({
-  imports: [
-    ToastrModule,
-  ],
-  exports: [
-    HttpClientModule
-  ],
+  imports: [ToastrModule],
+  exports: [HttpClientModule],
   providers: [
     {
       provide: APOLLO_OPTIONS,
       useFactory: provideDefaultApollo,
-      deps: [HttpLink, AuthenticationService, ToastrService],
+      deps: [HttpLink, AuthenticationService, ToastrService]
     },
     {
       provide: APOLLO_NAMED_OPTIONS,
       useFactory: providePublicApollo,
-      deps: [HttpLink, AuthenticationService, ToastrService],
+      deps: [HttpLink, AuthenticationService, ToastrService]
     }
-  ],
+  ]
 })
-export class GraphQLModule {
-}
+export class GraphQLModule {}
 </code></pre>
     </div>
 </div>

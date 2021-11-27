@@ -192,7 +192,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>Object.keys(antDesignIcons).map(key &#x3D;&gt; antDesignIcons[key])</code>
+                        <i>Default value : </i><code>Object.keys(antDesignIcons).map((key) &#x3D;&gt; antDesignIcons[key])</code>
                     </td>
                 </tr>
 
@@ -277,7 +277,7 @@
                         <i>Default value : </i><code>{
   query: {
     fetchPolicy: &#x27;no-cache&#x27;,
-    errorPolicy: &#x27;all&#x27;,
+    errorPolicy: &#x27;all&#x27;
   }
 }</code>
                     </td>
@@ -563,7 +563,7 @@ constructed from providePublicApollo is only used for registering.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>{ type: NodeType.User, id: &#x27;self&#x27; }</code>
+                        <i>Default value : </i><code>{type: NodeType.User, id: &#x27;self&#x27;}</code>
                     </td>
                 </tr>
 
@@ -595,7 +595,7 @@ constructed from providePublicApollo is only used for registering.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>{ type: NodeType.Root, id: &#x27;&#x27; }</code>
+                        <i>Default value : </i><code>{type: NodeType.Root, id: &#x27;&#x27;}</code>
                     </td>
                 </tr>
 
@@ -748,7 +748,7 @@ constructed from providePublicApollo is only used for registering.</p>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(self: IssueFilterComponent) &#x3D;&gt; ({
-  node: { type: NodeType.Project, id: self.projectId },
+  node: {type: NodeType.Project, id: self.projectId},
   type: ListType.Issues
 })</code>
                     </td>
@@ -783,8 +783,8 @@ constructed from providePublicApollo is only used for registering.</p>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-  isOpen: { type: &#x27;bool&#x27;, label: &#x27;Is open&#x27; },
-  isDuplicate: { type: &#x27;bool&#x27;, label: &#x27;Is duplicate&#x27; },
+  isOpen: {type: &#x27;bool&#x27;, label: &#x27;Is open&#x27;},
+  isDuplicate: {type: &#x27;bool&#x27;, label: &#x27;Is duplicate&#x27;},
   category: {
     type: &#x27;enum&#x27;,
     label: &#x27;Category&#x27;,
@@ -800,37 +800,37 @@ constructed from providePublicApollo is only used for registering.</p>
     dataType: &#x27;label&#x27;,
     scoreKeys: [&#x27;name&#x27;],
     listAll: (self: IssueFilterComponent) &#x3D;&gt; self.allLabelsList,
-    makeFilter: (query: string) &#x3D;&gt; ({ name: query }),
-    ifEmpty: &#x27;No labels selected&#x27;,
+    makeFilter: (query: string) &#x3D;&gt; ({name: query}),
+    ifEmpty: &#x27;No labels selected&#x27;
   },
-  linksIssues: { type: &#x27;bool&#x27;, label: &#x27;Has linked issues&#x27; },
+  linksIssues: {type: &#x27;bool&#x27;, label: &#x27;Has linked issues&#x27;},
   linkedIssues: {
     type: &#x27;ids&#x27;,
     label: &#x27;Linked issues&#x27;,
     dataType: &#x27;issue&#x27;,
     scoreKeys: [&#x27;title&#x27;],
     listAll: listAllIssues,
-    makeFilter: (query: string) &#x3D;&gt; ({ title: query }),
-    ifEmpty: &#x27;No issues selected&#x27;,
+    makeFilter: (query: string) &#x3D;&gt; ({title: query}),
+    ifEmpty: &#x27;No issues selected&#x27;
   },
-  isLinkedByIssues: { type: &#x27;bool&#x27;, label: &#x27;Is linked by issues&#x27; },
+  isLinkedByIssues: {type: &#x27;bool&#x27;, label: &#x27;Is linked by issues&#x27;},
   linkedByIssues: {
     type: &#x27;ids&#x27;,
     label: &#x27;Linked by issues&#x27;,
     dataType: &#x27;issue&#x27;,
     scoreKeys: [&#x27;title&#x27;],
     listAll: listAllIssues,
-    makeFilter: (query: string) &#x3D;&gt; ({ title: query }),
-    ifEmpty: &#x27;No issues selected&#x27;,
+    makeFilter: (query: string) &#x3D;&gt; ({title: query}),
+    ifEmpty: &#x27;No issues selected&#x27;
   },
   participants: {
     type: &#x27;ids&#x27;,
     label: &#x27;Participants&#x27;,
     dataType: &#x27;user&#x27;,
     scoreKeys: [&#x27;username&#x27;, &#x27;displayName&#x27;],
-    listAll: () &#x3D;&gt; ({ node: ROOT_NODE, type: ListType.SearchUsers }),
-    makeFilter: (query: string) &#x3D;&gt; ({ username: query }),
-    ifEmpty: &#x27;No users selected&#x27;,
+    listAll: () &#x3D;&gt; ({node: ROOT_NODE, type: ListType.SearchUsers}),
+    makeFilter: (query: string) &#x3D;&gt; ({username: query}),
+    ifEmpty: &#x27;No users selected&#x27;
   },
   locations: {
     type: &#x27;ids&#x27;,
@@ -839,13 +839,19 @@ constructed from providePublicApollo is only used for registering.</p>
     scoreKeys: [&#x27;name&#x27;],
     listAll: (self: IssueFilterComponent) &#x3D;&gt; ({
       staticSources: [
-        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.Components },
-        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.ComponentInterfaces },
+        {
+          node: {type: NodeType.Project, id: self.projectId},
+          type: ListType.Components
+        },
+        {
+          node: {type: NodeType.Project, id: self.projectId},
+          type: ListType.ComponentInterfaces
+        }
       ]
     }),
-    makeFilter: (query: string) &#x3D;&gt; ({ title: query }),
-    ifEmpty: &#x27;No locations selected&#x27;,
-  },
+    makeFilter: (query: string) &#x3D;&gt; ({title: query}),
+    ifEmpty: &#x27;No locations selected&#x27;
+  }
 }</code>
                     </td>
                 </tr>
@@ -885,131 +891,138 @@ and possibly additional options depending on their type.</p>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
   [ListType.Projects]: {
-    [NodeType.Root]: (i, list, params) &#x3D;&gt; i.q.projects.listProjects(listParams(params)).then(data &#x3D;&gt; ({
-      totalCount: data.projects.totalCount,
-      pageInfo: data.projects.pageInfo,
-      items: i.c.insertNodes(data.projects.nodes),
-    })),
+    [NodeType.Root]: (i, list, params) &#x3D;&gt;
+      i.q.projects.listProjects(listParams(params)).then((data) &#x3D;&gt; ({
+        totalCount: data.projects.totalCount,
+        pageInfo: data.projects.pageInfo,
+        items: i.c.insertNodes(data.projects.nodes)
+      }))
   },
   [ListType.Components]: {
-    [NodeType.Project]: (i, list, params) &#x3D;&gt; i.q.components.listProjectComponents(list.node.id, listParams(params)).then(data &#x3D;&gt; ({
-      totalCount: data.node.components.totalCount,
-      pageInfo: data.node.components.pageInfo,
-      items: i.c.insertNodes(data.node.components.nodes),
-    })),
-    [NodeType.Issue]: (i, list, params) &#x3D;&gt; i.q.issues.listIssueComponents(list.node.id, listParams(params)).then(data &#x3D;&gt; ({
-      totalCount: data.node.components.totalCount,
-      pageInfo: data.node.components.pageInfo,
-      items: i.c.insertNodes(data.node.components.nodes),
-    })),
-    [NodeType.Label]: (i, list, params) &#x3D;&gt; i.q.issues.listLabelComponents(list.node.id, listParams(params)).then(data &#x3D;&gt; ({
-      totalCount: data.node.components.totalCount,
-      pageInfo: data.node.components.pageInfo,
-      items: i.c.insertNodes(data.node.components.nodes),
-    }))
+    [NodeType.Project]: (i, list, params) &#x3D;&gt;
+      i.q.components.listProjectComponents(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
+        totalCount: data.node.components.totalCount,
+        pageInfo: data.node.components.pageInfo,
+        items: i.c.insertNodes(data.node.components.nodes)
+      })),
+    [NodeType.Issue]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listIssueComponents(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
+        totalCount: data.node.components.totalCount,
+        pageInfo: data.node.components.pageInfo,
+        items: i.c.insertNodes(data.node.components.nodes)
+      })),
+    [NodeType.Label]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listLabelComponents(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
+        totalCount: data.node.components.totalCount,
+        pageInfo: data.node.components.pageInfo,
+        items: i.c.insertNodes(data.node.components.nodes)
+      }))
   },
   [ListType.ComponentInterfaces]: {
-    [NodeType.Project]: (i, list, params) &#x3D;&gt; i.q.components.listProjectInterfaces(list.node.id, listParams(params)).then(data &#x3D;&gt; ({
-      totalCount: data.node.interfaces.totalCount,
-      pageInfo: data.node.interfaces.pageInfo,
-      items: i.c.insertNodes(data.node.interfaces.nodes),
-    })),
+    [NodeType.Project]: (i, list, params) &#x3D;&gt;
+      i.q.components.listProjectInterfaces(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
+        totalCount: data.node.interfaces.totalCount,
+        pageInfo: data.node.interfaces.pageInfo,
+        items: i.c.insertNodes(data.node.interfaces.nodes)
+      }))
   },
   [ListType.Issues]: {
-    [NodeType.Project]: (i, list, params) &#x3D;&gt; i.q.issues.listProjectIssues(list.node.id, listParams(params)).then(data &#x3D;&gt; ({
-      totalCount: data.node.issues.totalCount,
-      pageInfo: data.node.issues.pageInfo,
-      items: i.c.insertNodes(data.node.issues.nodes),
-    })),
-    [NodeType.Component]: (i, list, params) &#x3D;&gt; i.q.issues.listComponentIssues(list.node.id, listParams(params)).then(data &#x3D;&gt; ({
-      totalCount: data.node.issues.totalCount,
-      pageInfo: data.node.issues.pageInfo,
-      items: i.c.insertNodes(data.node.issues.nodes),
-    })),
+    [NodeType.Project]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listProjectIssues(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
+        totalCount: data.node.issues.totalCount,
+        pageInfo: data.node.issues.pageInfo,
+        items: i.c.insertNodes(data.node.issues.nodes)
+      })),
+    [NodeType.Component]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listComponentIssues(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
+        totalCount: data.node.issues.totalCount,
+        pageInfo: data.node.issues.pageInfo,
+        items: i.c.insertNodes(data.node.issues.nodes)
+      }))
   },
   [ListType.IssuesOnLocation]: {
-    [NodeType.Component]: (i, list, params) &#x3D;&gt; i.q.issues.listComponentIssuesOnLocation(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Component]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listComponentIssuesOnLocation(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.issuesOnLocation.totalCount,
         pageInfo: data.node.issuesOnLocation.pageInfo,
-        items: i.c.insertNodes(data.node.issuesOnLocation.nodes),
+        items: i.c.insertNodes(data.node.issuesOnLocation.nodes)
       })),
-    [NodeType.ComponentInterface]: (i, list, params) &#x3D;&gt; i.q.issues.listComponentInterfaceIssuesOnLocation(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.ComponentInterface]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listComponentInterfaceIssuesOnLocation(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.issuesOnLocation.totalCount,
         pageInfo: data.node.issuesOnLocation.pageInfo,
-        items: i.c.insertNodes(data.node.issuesOnLocation.nodes),
-      })),
+        items: i.c.insertNodes(data.node.issuesOnLocation.nodes)
+      }))
   },
   [ListType.TimelineItems]: {
-    [NodeType.Issue]: (i, list, params) &#x3D;&gt; i.q.issues.listIssueTimelineItems(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Issue]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listIssueTimelineItems(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.timeline.totalCount,
         pageInfo: data.node.timeline.pageInfo,
-        items: i.c.insertNodes(data.node.timeline.nodes),
-      })),
+        items: i.c.insertNodes(data.node.timeline.nodes)
+      }))
   },
   [ListType.IssueLocations]: {
-    [NodeType.Issue]: (i, list, params) &#x3D;&gt; i.q.issues.listIssueLocations(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Issue]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listIssueLocations(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.locations.totalCount,
         pageInfo: data.node.locations.pageInfo,
-        items: i.c.insertNodes(data.node.locations.nodes),
+        items: i.c.insertNodes(data.node.locations.nodes)
       }))
   },
   [ListType.Labels]: {
-    [NodeType.Project]: (i, list, params) &#x3D;&gt; i.q.issues.listProjectLabels(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Project]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listProjectLabels(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.labels.totalCount,
         pageInfo: data.node.labels.pageInfo,
         items: i.c.insertNodes(data.node.labels.nodes)
       })),
-    [NodeType.Component]: (i, list, params) &#x3D;&gt; i.q.issues.listComponentLabels(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Component]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listComponentLabels(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.labels.totalCount,
         pageInfo: data.node.labels.pageInfo,
         items: i.c.insertNodes(data.node.labels.nodes)
       })),
-    [NodeType.Issue]: (i, list, params) &#x3D;&gt; i.q.issues.listIssueLabels(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Issue]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listIssueLabels(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.labels.totalCount,
         pageInfo: data.node.labels.pageInfo,
         items: i.c.insertNodes(data.node.labels.nodes)
       }))
   },
   [ListType.Assignees]: {
-    [NodeType.Issue]: (i, list, params) &#x3D;&gt; i.q.issues.listIssueAssignees(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Issue]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listIssueAssignees(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.assignees.totalCount,
         pageInfo: data.node.assignees.pageInfo,
         items: i.c.insertNodes(data.node.assignees.nodes)
       }))
   },
   [ListType.LinkedIssues]: {
-    [NodeType.Issue]: (i, list, params) &#x3D;&gt; i.q.issues.listIssueLinksToIssues(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Issue]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listIssueLinksToIssues(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.linksToIssues.totalCount,
         pageInfo: data.node.linksToIssues.pageInfo,
         items: i.c.insertNodes(data.node.linksToIssues.nodes)
       }))
   },
   [ListType.LinkedByIssues]: {
-    [NodeType.Issue]: (i, list, params) &#x3D;&gt; i.q.issues.listIssueLinkedByIssues(list.node.id, listParams(params))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Issue]: (i, list, params) &#x3D;&gt;
+      i.q.issues.listIssueLinkedByIssues(list.node.id, listParams(params)).then((data) &#x3D;&gt; ({
         totalCount: data.node.linkedByIssues.totalCount,
         pageInfo: data.node.linkedByIssues.pageInfo,
         items: i.c.insertNodes(data.node.linkedByIssues.nodes)
       }))
   },
   [ListType.SearchUsers]: {
-    [NodeType.Root]: (i, list, params) &#x3D;&gt; i.q.users.searchUsers(params.filter as ({ username: string }))
-      .then(data &#x3D;&gt; ({
+    [NodeType.Root]: (i, list, params) &#x3D;&gt;
+      i.q.users.searchUsers(params.filter as {username: string}).then((data) &#x3D;&gt; ({
         totalCount: data.length,
         pageInfo: {
           startCursor: data[0]?.id || null,
           endCursor: data[data.length - 1]?.id || null,
           hasNextPage: false,
-          hasPreviousPage: false,
+          hasPreviousPage: false
         },
         items: i.c.insertNodes(data)
       }))
@@ -1047,14 +1060,13 @@ and possibly additional options depending on their type.</p>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-  [NodeType.Project]: (i, id) &#x3D;&gt; i.q.projects.getProject(id).then(data &#x3D;&gt; data.node),
-  [NodeType.Component]: (i, id) &#x3D;&gt; i.q.components.getComponent(id).then(data &#x3D;&gt; data.node),
-  [NodeType.ComponentInterface]: (i, id) &#x3D;&gt; i.q.components.getInterface(id).then(data &#x3D;&gt; data.node),
-  [NodeType.Issue]: (i, id) &#x3D;&gt; i.q.issues.getIssueHeader(id).then(data &#x3D;&gt; data.node),
-  [NodeType.User]: (i, id) &#x3D;&gt; id &#x3D;&#x3D;&#x3D; CURRENT_USER_NODE.id
-    ? i.q.users.currentUser().then(data &#x3D;&gt; data.currentUser)
-    : Promise.reject(new Error(&#x27;not implemented&#x27;)),
-  [NodeType.Label]: (i, id) &#x3D;&gt; i.q.issues.getLabel(id).then(data &#x3D;&gt; data.node)
+  [NodeType.Project]: (i, id) &#x3D;&gt; i.q.projects.getProject(id).then((data) &#x3D;&gt; data.node),
+  [NodeType.Component]: (i, id) &#x3D;&gt; i.q.components.getComponent(id).then((data) &#x3D;&gt; data.node),
+  [NodeType.ComponentInterface]: (i, id) &#x3D;&gt; i.q.components.getInterface(id).then((data) &#x3D;&gt; data.node),
+  [NodeType.Issue]: (i, id) &#x3D;&gt; i.q.issues.getIssueHeader(id).then((data) &#x3D;&gt; data.node),
+  [NodeType.User]: (i, id) &#x3D;&gt;
+    id &#x3D;&#x3D;&#x3D; CURRENT_USER_NODE.id ? i.q.users.currentUser().then((data) &#x3D;&gt; data.currentUser) : Promise.reject(new Error(&#x27;not implemented&#x27;)),
+  [NodeType.Label]: (i, id) &#x3D;&gt; i.q.issues.getLabel(id).then((data) &#x3D;&gt; data.node)
 }</code>
                     </td>
                 </tr>
@@ -1081,19 +1093,17 @@ and possibly additional options depending on their type.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>(q: QueriesService, c: NodeCache) &#x3D;&gt; async &lt;T, F&gt;(
-  listId: ListId,
-  params: ListParams&lt;F&gt;
-): Promise&lt;ListResult&lt;T&gt;&gt; &#x3D;&gt; {
-  const { node, type } &#x3D; listId;
+                        <i>Default value : </i><code>(q: QueriesService, c: NodeCache) &#x3D;&gt;
+  async &lt;T, F&gt;(listId: ListId, params: ListParams&lt;F&gt;): Promise&lt;ListResult&lt;T&gt;&gt; &#x3D;&gt; {
+    const {node, type} &#x3D; listId;
 
-  if (!listQueries[type] || !listQueries[type][node.type]) {
-    throw new Error(&#x60;${NodeType[node.type]} has no list ${ListType[type]}&#x60;);
-  }
+    if (!listQueries[type] || !listQueries[type][node.type]) {
+      throw new Error(&#x60;${NodeType[node.type]} has no list ${ListType[type]}&#x60;);
+    }
 
-  const i &#x3D; { q, c };
-  return (await listQueries[type][node.type](i, { node, type }, params)) as ListResult&lt;T&gt;;
-}</code>
+    const i &#x3D; {q, c};
+    return (await listQueries[type][node.type](i, {node, type}, params)) as ListResult&lt;T&gt;;
+  }</code>
                     </td>
                 </tr>
 
@@ -1113,16 +1123,17 @@ and possibly additional options depending on their type.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>(q: QueriesService) &#x3D;&gt; async &lt;T&gt;(nodeId: NodeId): Promise&lt;T&gt; &#x3D;&gt; {
-  const { type, id } &#x3D; nodeId;
+                        <i>Default value : </i><code>(q: QueriesService) &#x3D;&gt;
+  async &lt;T&gt;(nodeId: NodeId): Promise&lt;T&gt; &#x3D;&gt; {
+    const {type, id} &#x3D; nodeId;
 
-  if (!nodeQueries[type]) {
-    throw new Error(&#x60;${NodeType[type]} cannot be loaded directly&#x60;);
-  }
+    if (!nodeQueries[type]) {
+      throw new Error(&#x60;${NodeType[type]} cannot be loaded directly&#x60;);
+    }
 
-  const i &#x3D; { q };
-  return (await nodeQueries[type](i, id)) as T;
-}</code>
+    const i &#x3D; {q};
+    return (await nodeQueries[type](i, id)) as T;
+  }</code>
                     </td>
                 </tr>
 
@@ -1151,9 +1162,7 @@ and possibly additional options depending on their type.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>trigger(&#x27;routeAnimations&#x27;, [
-    transition(&#x27;* &#x3D;&gt; isRight&#x27;, slideTo(&#x27;right&#x27;)),
-  ])</code>
+                        <i>Default value : </i><code>trigger(&#x27;routeAnimations&#x27;, [transition(&#x27;* &#x3D;&gt; isRight&#x27;, slideTo(&#x27;right&#x27;))])</code>
                     </td>
                 </tr>
 

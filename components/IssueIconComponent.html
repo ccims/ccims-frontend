@@ -280,8 +280,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input } from &#x27;@angular/core&#x27;;
-import { Issue, IssueCategory } from &#x27;src/generated/graphql-dgql&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
+import {Issue, IssueCategory} from &#x27;src/generated/graphql-dgql&#x27;;
 
 /**
  * This component automatically displays the appropriate mat-icon for the given issue.
@@ -309,12 +309,12 @@ export class IssueIconComponent {
     const hasOut &#x3D; this.issue.linksToIssues?.totalCount;
     const edgeType &#x3D; (hasIn ? &#x27;in&#x27; : &#x27;&#x27;) + (hasOut ? &#x27;out&#x27; : &#x27;&#x27;);
 
-    return [&#x27;issue-&#x27;, category, closed, edgeType &amp;&amp; &#x27;-&#x27;, edgeType].filter(part &#x3D;&gt; part).join(&#x27;&#x27;);
+    return [&#x27;issue-&#x27;, category, closed, edgeType &amp;&amp; &#x27;-&#x27;, edgeType].filter((part) &#x3D;&gt; part).join(&#x27;&#x27;);
   }
 
   getIconLabel() {
-    const category &#x3D; this.issue.category &#x3D;&#x3D;&#x3D; IssueCategory.Bug ? &#x27;bug&#x27;
-      : this.issue.category &#x3D;&#x3D;&#x3D; IssueCategory.FeatureRequest ? &#x27;feature&#x27; : &#x27;issue&#x27;;
+    const category &#x3D;
+      this.issue.category &#x3D;&#x3D;&#x3D; IssueCategory.Bug ? &#x27;bug&#x27; : this.issue.category &#x3D;&#x3D;&#x3D; IssueCategory.FeatureRequest ? &#x27;feature&#x27; : &#x27;issue&#x27;;
     return this.issue.isOpen ? &#x60;Open ${category}&#x60; : &#x60;Closed ${category}&#x60;;
   }
 }

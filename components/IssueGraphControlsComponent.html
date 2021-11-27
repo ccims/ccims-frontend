@@ -323,8 +323,8 @@ data matching the filters. Whenever new graph data arrives it is feed to the act
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:65</a></div>
                 </td>
             </tr>
 
@@ -363,8 +363,8 @@ coressponding to values in IssueCategory are turned on or off</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:73</a></div>
                 </td>
             </tr>
 
@@ -400,8 +400,8 @@ coressponding to values in IssueCategory are turned on or off</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:111</a></div>
                 </td>
             </tr>
 
@@ -705,14 +705,12 @@ coressponding to values in IssueCategory are turned on or off</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject&lt;SelectedCategories&gt;(
-    this.getSelectedCategories()
-  )</code>
+                        <i>Default value : </i><code>new BehaviorSubject&lt;SelectedCategories&gt;(this.getSelectedCategories())</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/graphs/issue-graph-controls/issue-graph-controls.component.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -818,22 +816,21 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   constructor(public dialog: MatDialog, private gs: IssueGraphStateService, private route: ActivatedRoute) {
     this.projectId &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
     this.filter$ &#x3D; new BehaviorSubject({
-      selectedCategories: this.getSelectedCategories(), selectedFilter: {
-        labels: [], texts: []
+      selectedCategories: this.getSelectedCategories(),
+      selectedFilter: {
+        labels: [],
+        texts: []
       }
     });
   }
 
-  public selectedCategories$ &#x3D; new BehaviorSubject&lt;SelectedCategories&gt;(
-    this.getSelectedCategories()
-  );
+  public selectedCategories$ &#x3D; new BehaviorSubject&lt;SelectedCategories&gt;(this.getSelectedCategories());
 
   /**
    * Emit newly selected categories via this.selectedCategories$
    */
   public updateSelectedCategories() {
-    this.selectedCategories$.next(
-      this.getSelectedCategories());
+    this.selectedCategories$.next(this.getSelectedCategories());
   }
 
   /**
@@ -844,7 +841,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     return {
       [IssueCategory.Bug]: this.bug,
       [IssueCategory.FeatureRequest]: this.featureRequests,
-      [IssueCategory.Unclassified]: this.unclassified,
+      [IssueCategory.Unclassified]: this.unclassified
     };
   }
 
@@ -859,23 +856,27 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
    */
   ngAfterViewInit(): void {
     // sets up emission of values representing the state of the graph toggles and the search bar via this.filter$
-    combineLatest([this.selectedCategories$, this.labelSearch.filterSelection$]).pipe(
-      takeUntil(this.destroy$),
-      map(([selectedCategories, filterSelection]) &#x3D;&gt; ({selectedCategories, selectedFilter: filterSelection}))
-    ).subscribe(filterState &#x3D;&gt; this.filter$.next(filterState));
+    combineLatest([this.selectedCategories$, this.labelSearch.filterSelection$])
+      .pipe(
+        takeUntil(this.destroy$),
+        map(([selectedCategories, filterSelection]) &#x3D;&gt; ({
+          selectedCategories,
+          selectedFilter: filterSelection
+        }))
+      )
+      .subscribe((filterState) &#x3D;&gt; this.filter$.next(filterState));
 
     // gets an obervable from GraphStateService that emits the matching graph state
     // after this component emits values on this.filter$ or the IssueGraphComponent
     // signals the need for a reload via this.issueGraph.reload$. Whenever new graph state
     // arrives we pass it to the graph and issue a redraw on it.
-    this.gs.graphDataForFilter(this.filter$, this.issueGraph.reload$, this.destroy$).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(
-      graphData &#x3D;&gt; {
+    this.gs
+      .graphDataForFilter(this.filter$, this.issueGraph.reload$, this.destroy$)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((graphData) &#x3D;&gt; {
         this.issueGraph.graphData &#x3D; graphData;
         this.issueGraph.drawGraph();
-      }
-    );
+      });
   }
 
   /**
@@ -892,7 +893,6 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
   }
-
 }
 </code></pre>
     </div>
@@ -900,49 +900,63 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;!--Graph page controls--&gt;
 &lt;div class&#x3D;&quot;container&quot;&gt;
-
   &lt;!--Controls--&gt;
   &lt;div class&#x3D;&quot;controls&quot;&gt;
-
     &lt;!--Feature Requests toggle--&gt;
-    &lt;mat-slide-toggle title&#x3D;&quot;Feature Requests&quot; [(ngModel)]&#x3D;&quot;featureRequests&quot;
-                      matTooltip&#x3D;&quot;Feature Requests&quot; class&#x3D;&quot;slide-toggle&quot;
-                      [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;updateSelectedCategories()&quot;&gt;
+    &lt;mat-slide-toggle
+      title&#x3D;&quot;Feature Requests&quot;
+      [(ngModel)]&#x3D;&quot;featureRequests&quot;
+      matTooltip&#x3D;&quot;Feature Requests&quot;
+      class&#x3D;&quot;slide-toggle&quot;
+      [checked]&#x3D;&quot;true&quot;
+      (change)&#x3D;&quot;updateSelectedCategories()&quot;
+    &gt;
       &lt;mat-icon class&#x3D;&quot;feature-request-icon&quot;&gt;emoji_objects&lt;/mat-icon&gt;
     &lt;/mat-slide-toggle&gt;
 
     &lt;!--Bug Reports toggle--&gt;
-    &lt;mat-slide-toggle title&#x3D;&quot;Bug Reports&quot; [(ngModel)]&#x3D;&quot;bug&quot;
-                      matTooltip&#x3D;&quot;Bug Reports&quot; class&#x3D;&quot;slide-toggle&quot;
-                      [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;updateSelectedCategories()&quot;&gt;
+    &lt;mat-slide-toggle
+      title&#x3D;&quot;Bug Reports&quot;
+      [(ngModel)]&#x3D;&quot;bug&quot;
+      matTooltip&#x3D;&quot;Bug Reports&quot;
+      class&#x3D;&quot;slide-toggle&quot;
+      [checked]&#x3D;&quot;true&quot;
+      (change)&#x3D;&quot;updateSelectedCategories()&quot;
+    &gt;
       &lt;mat-icon class&#x3D;&quot;bug-report-icon&quot;&gt;bug_report&lt;/mat-icon&gt;
     &lt;/mat-slide-toggle&gt;
 
-      &lt;!--Unclassified Issues toggle--&gt;
-    &lt;mat-slide-toggle title&#x3D;&quot;Unclassified Issues&quot; [(ngModel)]&#x3D;&quot;unclassified&quot;
-                      matTooltip&#x3D;&quot;Unclassified Issues&quot; class&#x3D;&quot;slide-toggle&quot;
-                        [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;updateSelectedCategories()&quot;&gt;
+    &lt;!--Unclassified Issues toggle--&gt;
+    &lt;mat-slide-toggle
+      title&#x3D;&quot;Unclassified Issues&quot;
+      [(ngModel)]&#x3D;&quot;unclassified&quot;
+      matTooltip&#x3D;&quot;Unclassified Issues&quot;
+      class&#x3D;&quot;slide-toggle&quot;
+      [checked]&#x3D;&quot;true&quot;
+      (change)&#x3D;&quot;updateSelectedCategories()&quot;
+    &gt;
       &lt;mat-icon class&#x3D;&quot;unclassified-icon&quot;&gt;help&lt;/mat-icon&gt;
     &lt;/mat-slide-toggle&gt;
 
     &lt;!--Issue Relations toggle--&gt;
-    &lt;mat-slide-toggle title&#x3D;&quot;Issue Relations&quot; [(ngModel)]&#x3D;&quot;showRelations&quot;
-                      matTooltip&#x3D;&quot;Issue Relations&quot; class&#x3D;&quot;slide-toggle&quot;
-                      [checked]&#x3D;&quot;true&quot; (change)&#x3D;&quot;setRelationVisibility()&quot;&gt;
+    &lt;mat-slide-toggle
+      title&#x3D;&quot;Issue Relations&quot;
+      [(ngModel)]&#x3D;&quot;showRelations&quot;
+      matTooltip&#x3D;&quot;Issue Relations&quot;
+      class&#x3D;&quot;slide-toggle&quot;
+      [checked]&#x3D;&quot;true&quot;
+      (change)&#x3D;&quot;setRelationVisibility()&quot;
+    &gt;
       &lt;mat-icon class&#x3D;&quot;relation-edge-icon&quot; svgIcon&#x3D;&quot;relation-edge&quot;&gt;&lt;/mat-icon&gt;
     &lt;/mat-slide-toggle&gt;
 
     &lt;!--Center Focus button--&gt;
-    &lt;button mat-icon-button title&#x3D;&quot;Fit Graph Into View&quot;
-            (click)&#x3D;&quot;this.issueGraph.fitGraphInView()&quot;
-            style&#x3D;&quot; margin-left: 20px&quot;&gt;
+    &lt;button mat-icon-button title&#x3D;&quot;Fit Graph Into View&quot; (click)&#x3D;&quot;this.issueGraph.fitGraphInView()&quot; style&#x3D;&quot;margin-left: 20px&quot;&gt;
       &lt;mat-icon&gt;center_focus_strong&lt;/mat-icon&gt;
     &lt;/button&gt;
 
     &lt;!--Dashboard button--&gt;
-    &lt;button mat-icon-button title&#x3D;&quot;Layout Graph&quot;
-            (click)&#x3D;&quot;this.layoutGraph()&quot;
-            style&#x3D;&quot; margin-left: 20px&quot;&gt;
+    &lt;button mat-icon-button title&#x3D;&quot;Layout Graph&quot; (click)&#x3D;&quot;this.layoutGraph()&quot; style&#x3D;&quot;margin-left: 20px&quot;&gt;
       &lt;mat-icon&gt;dashboard&lt;/mat-icon&gt;
     &lt;/button&gt;
 
@@ -950,9 +964,13 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
     &lt;app-label-search title&#x3D;&quot;Label Search&quot; #labelSearch&gt;&lt;/app-label-search&gt;
 
     &lt;!--Create New Component button--&gt;
-    &lt;button mat-fab title&#x3D;&quot;Create New Component&quot; color&#x3D;&quot;primary&quot;
-            class&#x3D;&quot;create-component-button&quot;
-            (click)&#x3D;&quot;this.issueGraph.openCreateComponentDialog()&quot;&gt;
+    &lt;button
+      mat-fab
+      title&#x3D;&quot;Create New Component&quot;
+      color&#x3D;&quot;primary&quot;
+      class&#x3D;&quot;create-component-button&quot;
+      (click)&#x3D;&quot;this.issueGraph.openCreateComponentDialog()&quot;
+    &gt;
       &lt;mat-icon&gt;add&lt;/mat-icon&gt;
     &lt;/button&gt;
   &lt;/div&gt;
@@ -967,8 +985,8 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
                 <p class="comment">
                     <code>./issue-graph-controls.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;~@angular/material/theming&#x27;;
-@import &#x27;variables&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &quot;~@angular/material/theming&quot;;
+@import &quot;variables&quot;;
 
 .container {
   display: flex;
@@ -990,9 +1008,9 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
 
 .controls app-label-search {
   display: inline-block;
-    height: 44px;
-    flex-grow: 1;
-    margin-left: 20px;
+  height: 44px;
+  flex-grow: 1;
+  margin-left: 20px;
 }
 
 .slide-toggle {
@@ -1009,7 +1027,10 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   color: #005eff;
 }
 
-.feature-request-icon, .bug-report-icon, .notification-icon, .unclassified-icon {
+.feature-request-icon,
+.bug-report-icon,
+.notification-icon,
+.unclassified-icon {
   margin-top: 7px;
 }
 
@@ -1053,7 +1074,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!--Graph page controls--><div class="container">  <!--Controls-->  <div class="controls">    <!--Feature Requests toggle-->    <mat-slide-toggle title="Feature Requests" [(ngModel)]="featureRequests"                      matTooltip="Feature Requests" class="slide-toggle"                      [checked]="true" (change)="updateSelectedCategories()">      <mat-icon class="feature-request-icon">emoji_objects</mat-icon>    </mat-slide-toggle>    <!--Bug Reports toggle-->    <mat-slide-toggle title="Bug Reports" [(ngModel)]="bug"                      matTooltip="Bug Reports" class="slide-toggle"                      [checked]="true" (change)="updateSelectedCategories()">      <mat-icon class="bug-report-icon">bug_report</mat-icon>    </mat-slide-toggle>      <!--Unclassified Issues toggle-->    <mat-slide-toggle title="Unclassified Issues" [(ngModel)]="unclassified"                      matTooltip="Unclassified Issues" class="slide-toggle"                        [checked]="true" (change)="updateSelectedCategories()">      <mat-icon class="unclassified-icon">help</mat-icon>    </mat-slide-toggle>    <!--Issue Relations toggle-->    <mat-slide-toggle title="Issue Relations" [(ngModel)]="showRelations"                      matTooltip="Issue Relations" class="slide-toggle"                      [checked]="true" (change)="setRelationVisibility()">      <mat-icon class="relation-edge-icon" svgIcon="relation-edge"></mat-icon>    </mat-slide-toggle>    <!--Center Focus button-->    <button mat-icon-button title="Fit Graph Into View"            (click)="this.issueGraph.fitGraphInView()"            style=" margin-left: 20px">      <mat-icon>center_focus_strong</mat-icon>    </button>    <!--Dashboard button-->    <button mat-icon-button title="Layout Graph"            (click)="this.layoutGraph()"            style=" margin-left: 20px">      <mat-icon>dashboard</mat-icon>    </button>    <!--Search Label field-->    <app-label-search title="Label Search" #labelSearch></app-label-search>    <!--Create New Component button-->    <button mat-fab title="Create New Component" color="primary"            class="create-component-button"            (click)="this.issueGraph.openCreateComponentDialog()">      <mat-icon>add</mat-icon>    </button>  </div>  <!--?-->  <app-issue-graph [projectId]="projectId"></app-issue-graph></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!--Graph page controls--><div class="container">  <!--Controls-->  <div class="controls">    <!--Feature Requests toggle-->    <mat-slide-toggle      title="Feature Requests"      [(ngModel)]="featureRequests"      matTooltip="Feature Requests"      class="slide-toggle"      [checked]="true"      (change)="updateSelectedCategories()"    >      <mat-icon class="feature-request-icon">emoji_objects</mat-icon>    </mat-slide-toggle>    <!--Bug Reports toggle-->    <mat-slide-toggle      title="Bug Reports"      [(ngModel)]="bug"      matTooltip="Bug Reports"      class="slide-toggle"      [checked]="true"      (change)="updateSelectedCategories()"    >      <mat-icon class="bug-report-icon">bug_report</mat-icon>    </mat-slide-toggle>    <!--Unclassified Issues toggle-->    <mat-slide-toggle      title="Unclassified Issues"      [(ngModel)]="unclassified"      matTooltip="Unclassified Issues"      class="slide-toggle"      [checked]="true"      (change)="updateSelectedCategories()"    >      <mat-icon class="unclassified-icon">help</mat-icon>    </mat-slide-toggle>    <!--Issue Relations toggle-->    <mat-slide-toggle      title="Issue Relations"      [(ngModel)]="showRelations"      matTooltip="Issue Relations"      class="slide-toggle"      [checked]="true"      (change)="setRelationVisibility()"    >      <mat-icon class="relation-edge-icon" svgIcon="relation-edge"></mat-icon>    </mat-slide-toggle>    <!--Center Focus button-->    <button mat-icon-button title="Fit Graph Into View" (click)="this.issueGraph.fitGraphInView()" style="margin-left: 20px">      <mat-icon>center_focus_strong</mat-icon>    </button>    <!--Dashboard button-->    <button mat-icon-button title="Layout Graph" (click)="this.layoutGraph()" style="margin-left: 20px">      <mat-icon>dashboard</mat-icon>    </button>    <!--Search Label field-->    <app-label-search title="Label Search" #labelSearch></app-label-search>    <!--Create New Component button-->    <button      mat-fab      title="Create New Component"      color="primary"      class="create-component-button"      (click)="this.issueGraph.openCreateComponentDialog()"    >      <mat-icon>add</mat-icon>    </button>  </div>  <!--?-->  <app-issue-graph [projectId]="projectId"></app-issue-graph></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'IssueGraphControlsComponent'};

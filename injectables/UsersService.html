@@ -106,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/data-dgql/queries/users.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/data-dgql/queries/users.service.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/app/data-dgql/queries/users.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">src/app/data-dgql/queries/users.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -218,8 +218,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/data-dgql/queries/users.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">src/app/data-dgql/queries/users.service.ts:11</a></div>
                 </td>
             </tr>
 
@@ -273,23 +273,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  CurrentUserGQL,
-  SearchUsersGQL
-} from &#x27;src/generated/graphql-dgql&#x27;;
-import { promisifyApolloFetch } from &#x27;@app/data-dgql/queries/util&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
+import {CurrentUserGQL, SearchUsersGQL} from &#x27;src/generated/graphql-dgql&#x27;;
+import {promisifyApolloFetch} from &#x27;@app/data-dgql/queries/util&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
 export class UsersService {
-  constructor(
-    private qSearchUsers: SearchUsersGQL,
-    private qCurrentUser: CurrentUserGQL,
-  ) {}
+  constructor(private qSearchUsers: SearchUsersGQL, private qCurrentUser: CurrentUserGQL) {}
 
-  searchUsers(filter: { username: string }) {
+  searchUsers(filter: {username: string}) {
     let query &#x3D; &#x27;&#x27;;
     // The searchUser query is special in that it does not use a filter object.
     // However, this is not compatible with the rest of our API, which uses UserFilter
@@ -305,7 +299,7 @@ export class UsersService {
       return Promise.resolve([]);
     }
 
-    return promisifyApolloFetch(this.qSearchUsers.fetch({ query })).then(data &#x3D;&gt; data.searchUser);
+    return promisifyApolloFetch(this.qSearchUsers.fetch({query})).then((data) &#x3D;&gt; data.searchUser);
   }
 
   currentUser() {

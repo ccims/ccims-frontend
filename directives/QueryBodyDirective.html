@@ -125,7 +125,7 @@ the query finished successfully</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/utils/query-component/query.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/utils/query-component/query.component.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@ the query finished successfully</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/utils/query-component/query.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/utils/query-component/query.component.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -207,16 +207,7 @@ the query finished successfully</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  Directive,
-  Input,
-  OnDestroy,
-  TemplateRef
-} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, OnDestroy, TemplateRef} from &#x27;@angular/core&#x27;;
 import {Observable, Subscription} from &#x27;rxjs&#x27;;
 import {UserNotifyService} from &#x27;@app/user-notify/user-notify.service&#x27;;
 import {MatButton} from &#x27;@angular/material/button&#x27;;
@@ -241,8 +232,7 @@ export enum QueryComponentState {
   selector: &#x27;[appQueryBody]&#x27;
 })
 export class QueryBodyDirective {
-  constructor(public template: TemplateRef&lt;unknown&gt;) {
-  }
+  constructor(public template: TemplateRef&lt;unknown&gt;) {}
 }
 
 /**
@@ -253,8 +243,7 @@ export class QueryBodyDirective {
   selector: &#x27;[appQueryButton]&#x27;
 })
 export class QueryButtonDirective {
-  constructor(public element: MatButton) {
-  }
+  constructor(public element: MatButton) {}
 }
 
 /**
@@ -352,9 +341,7 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
   /** If true, a button is in the query body, not a template*/
   buttonMode: boolean;
 
-  constructor(private notify: UserNotifyService,
-              private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(private notify: UserNotifyService, private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.buttonMode &#x3D; !this.body &amp;&amp; !!this.button;
@@ -385,27 +372,30 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
     this.subscription?.unsubscribe();
     this.updateButton();
 
-    this.subscription &#x3D; query.subscribe((value: T) &#x3D;&gt; {
-      if (success) {
-        success(value);
+    this.subscription &#x3D; query.subscribe(
+      (value: T) &#x3D;&gt; {
+        if (success) {
+          success(value);
 
-        // Check if the callback changed the query state, e.g. by calling setError()
-        if (this.queryState &#x3D;&#x3D;&#x3D; QueryComponentState.Error) {
-          return;
+          // Check if the callback changed the query state, e.g. by calling setError()
+          if (this.queryState &#x3D;&#x3D;&#x3D; QueryComponentState.Error) {
+            return;
+          }
         }
-      }
 
-      this.queryState &#x3D; QueryComponentState.Ready;
-      this.changeDetector.detectChanges();
-      this.updateButton();
-    }, err &#x3D;&gt; {
-      if (error) {
-        error(err);
-      }
+        this.queryState &#x3D; QueryComponentState.Ready;
+        this.changeDetector.detectChanges();
+        this.updateButton();
+      },
+      (err) &#x3D;&gt; {
+        if (error) {
+          error(err);
+        }
 
-      this.setError();
-      this.notify.notifyError(this.errorMessage, err);
-    });
+        this.setError();
+        this.notify.notifyError(this.errorMessage, err);
+      }
+    );
   }
 
   /**

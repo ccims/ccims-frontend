@@ -92,6 +92,11 @@ of the primary components of the app.</p>
 </table>
 <h2 id="documentation-generation">Documentation generation</h2>
 <p>The documentation is generated with <a href="https://github.com/compodoc/compodoc">Compodoc</a>. Run <code>npm run compodoc</code>for a documentation server. Navigate to <code>http://localhost:6060/</code>. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in <a href="tsconfig.doc.json">tsconfig.doc.json</a>.</p>
+<h2 id="code-quality">Code quality</h2>
+<p>Code quality concerns are handled with <a href="https://eslint.org/">ESLint</a> and code formatting concerns with <a href="https://prettier.io/">Prettier</a>. The Prettier code formatter is integrated in the ESLint configuration.
+Run <code>ng lint --fix</code> for a static code analysis and code formatting of all files except the ones excluded in <a href=".eslintignore">.eslintignore</a>.</p>
+<h2 id="code-formatting">Code formatting</h2>
+<p>Consistent code formatting is guaranteed with <a href="https://prettier.io/">Prettier</a>. Run <code>npx prettier --write .</code> to format all files except the ones that are excluded in the <a href=".prettierignore">.prettierignore</a> file.</p>
 <h2 id="bindings-to-the-backend-api">Bindings to the Backend API</h2>
 <p>The app uses GraphQL to communicate with the backend.
 The following documentation will assume you are familiar with the CCIMS backend API.</p>
@@ -150,6 +155,7 @@ offers a dialog to add users. However this area is purely a mock, changes are no
 and there are no other users who really have access to your project.</p>
 <br />
 <br />
+
                    </div><div class="search-results">
     <div class="has-results">
         <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>

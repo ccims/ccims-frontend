@@ -215,7 +215,7 @@ menu icon itself, but gets this information passed from FrameComponent.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -359,8 +359,8 @@ menu icon itself, but gets this information passed from FrameComponent.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:34</a></div>
                 </td>
             </tr>
 
@@ -398,8 +398,8 @@ menu icon itself, but gets this information passed from FrameComponent.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:38</a></div>
                 </td>
             </tr>
 
@@ -441,7 +441,7 @@ menu icon itself, but gets this information passed from FrameComponent.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/top-toolbar/top-toolbar.component.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -467,11 +467,10 @@ menu icon itself, but gets this information passed from FrameComponent.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result &#x3D;&gt; result.matches),
-      shareReplay()
-    )</code>
+                        <i>Default value : </i><code>this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) &#x3D;&gt; result.matches),
+    shareReplay()
+  )</code>
                     </td>
                 </tr>
                     <tr>
@@ -489,13 +488,13 @@ menu icon itself, but gets this information passed from FrameComponent.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Output, EventEmitter, Input } from &#x27;@angular/core&#x27;;
-import { BreakpointObserver, Breakpoints } from &#x27;@angular/cdk/layout&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { map, shareReplay } from &#x27;rxjs/operators&#x27;;
-import { AuthenticationService } from &#x27;@app/auth/authentication.service&#x27;;
-import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
-import { SettingsDialogComponent } from &#x27;@app/dialogs/settings-dialog/settings-dialog.component&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Output, EventEmitter, Input} from &#x27;@angular/core&#x27;;
+import {BreakpointObserver, Breakpoints} from &#x27;@angular/cdk/layout&#x27;;
+import {Observable} from &#x27;rxjs&#x27;;
+import {map, shareReplay} from &#x27;rxjs/operators&#x27;;
+import {AuthenticationService} from &#x27;@app/auth/authentication.service&#x27;;
+import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
+import {SettingsDialogComponent} from &#x27;@app/dialogs/settings-dialog/settings-dialog.component&#x27;;
 
 /**
  * This component is responsible for showing the top bar containing the home icon
@@ -515,14 +514,13 @@ export class TopToolbarComponent {
   @Output()
   public menuClick &#x3D; new EventEmitter();
 
-  isHandset$: Observable&lt;boolean&gt; &#x3D; this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result &#x3D;&gt; result.matches),
-      shareReplay()
-    );
+  isHandset$: Observable&lt;boolean&gt; &#x3D; this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) &#x3D;&gt; result.matches),
+    shareReplay()
+  );
 
-  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog) { }
-  
+  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog) {}
+
   public handleClick() {
     this.menuClick.emit();
   }
@@ -537,27 +535,47 @@ export class TopToolbarComponent {
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar color&#x3D;&quot;primary&quot; id&#x3D;&quot;toolbar&quot;&gt;
   &lt;!--add *ngIf&#x3D;&quot;isHandset$ | async&quot; within the button tag if you want to show the menu toggle button on mobile only--&gt;
-  &lt;button mat-icon-button class&#x3D;&quot;example-icon&quot; aria-label&#x3D;&quot;Toggle sidenav&quot; (click)&#x3D;&quot;this.handleClick()&quot;
-          [hidden]&#x3D;&quot;!showMenuButton&quot; title&#x3D;&quot;Show menu&quot;&gt;
+  &lt;button
+    mat-icon-button
+    class&#x3D;&quot;example-icon&quot;
+    aria-label&#x3D;&quot;Toggle sidenav&quot;
+    (click)&#x3D;&quot;this.handleClick()&quot;
+    [hidden]&#x3D;&quot;!showMenuButton&quot;
+    title&#x3D;&quot;Show menu&quot;
+  &gt;
     &lt;mat-icon&gt;menu&lt;/mat-icon&gt;
   &lt;/button&gt;
-  &lt;button routerLink&#x3D;&quot;/&quot; mat-icon-button class&#x3D;&quot;example-icon favorite-icon&quot; aria-label&#x3D;&quot;Home icon-button with a house&quot;
-          title&#x3D;&quot;Show all projects&quot;&gt;
+  &lt;button
+    routerLink&#x3D;&quot;/&quot;
+    mat-icon-button
+    class&#x3D;&quot;example-icon favorite-icon&quot;
+    aria-label&#x3D;&quot;Home icon-button with a house&quot;
+    title&#x3D;&quot;Show all projects&quot;
+  &gt;
     &lt;mat-icon&gt;home&lt;/mat-icon&gt;
   &lt;/button&gt;
   &lt;span class&#x3D;&quot;toolbar-spacer&quot;&gt;&lt;/span&gt;
   &lt;!--This div makes the setting and account icon stay together - mat-toolbar has justify-content set--&gt;
   &lt;div&gt;
-    &lt;button (click)&#x3D;&quot;openSettingsDialog()&quot; mat-icon-button class&#x3D;&quot;example-icon favorite-icon&quot; aria-label&#x3D;&quot;Example icon-button with heart icon&quot;
-            title&#x3D;&quot;Settings&quot;&gt;
+    &lt;button
+      (click)&#x3D;&quot;openSettingsDialog()&quot;
+      mat-icon-button
+      class&#x3D;&quot;example-icon favorite-icon&quot;
+      aria-label&#x3D;&quot;Example icon-button with heart icon&quot;
+      title&#x3D;&quot;Settings&quot;
+    &gt;
       &lt;mat-icon&gt;settings&lt;/mat-icon&gt;
     &lt;/button&gt;
-    &lt;button mat-icon-button class&#x3D;&quot;example-icon&quot; aria-label&#x3D;&quot;Example icon-button with share icon&quot;
-            title&#x3D;&quot;User settings&quot;&gt;
+    &lt;button mat-icon-button class&#x3D;&quot;example-icon&quot; aria-label&#x3D;&quot;Example icon-button with share icon&quot; title&#x3D;&quot;User settings&quot;&gt;
       &lt;mat-icon&gt;account_circle&lt;/mat-icon&gt;
     &lt;/button&gt;
-    &lt;button (click)&#x3D;&quot;authService.logout()&quot; mat-icon-button class&#x3D;&quot;example-icon&quot;
-            aria-label&#x3D;&quot;Example icon-button with share icon&quot; title&#x3D;&quot;Logout&quot;&gt;
+    &lt;button
+      (click)&#x3D;&quot;authService.logout()&quot;
+      mat-icon-button
+      class&#x3D;&quot;example-icon&quot;
+      aria-label&#x3D;&quot;Example icon-button with share icon&quot;
+      title&#x3D;&quot;Logout&quot;
+    &gt;
       &lt;mat-icon&gt;logout&lt;/mat-icon&gt;
     &lt;/button&gt;
   &lt;/div&gt;
@@ -621,7 +639,7 @@ export class TopToolbarComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><mat-toolbar color="primary" id="toolbar">  <!--add *ngIf="isHandset$ | async" within the button tag if you want to show the menu toggle button on mobile only-->  <button mat-icon-button class="example-icon" aria-label="Toggle sidenav" (click)="this.handleClick()"          [hidden]="!showMenuButton" title="Show menu">    <mat-icon>menu</mat-icon>  </button>  <button routerLink="/" mat-icon-button class="example-icon favorite-icon" aria-label="Home icon-button with a house"          title="Show all projects">    <mat-icon>home</mat-icon>  </button>  <span class="toolbar-spacer"></span>  <!--This div makes the setting and account icon stay together - mat-toolbar has justify-content set-->  <div>    <button (click)="openSettingsDialog()" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"            title="Settings">      <mat-icon>settings</mat-icon>    </button>    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"            title="User settings">      <mat-icon>account_circle</mat-icon>    </button>    <button (click)="authService.logout()" mat-icon-button class="example-icon"            aria-label="Example icon-button with share icon" title="Logout">      <mat-icon>logout</mat-icon>    </button>  </div></mat-toolbar></div>'
+        var COMPONENT_TEMPLATE = '<div><mat-toolbar color="primary" id="toolbar">  <!--add *ngIf="isHandset$ | async" within the button tag if you want to show the menu toggle button on mobile only-->  <button    mat-icon-button    class="example-icon"    aria-label="Toggle sidenav"    (click)="this.handleClick()"    [hidden]="!showMenuButton"    title="Show menu"  >    <mat-icon>menu</mat-icon>  </button>  <button    routerLink="/"    mat-icon-button    class="example-icon favorite-icon"    aria-label="Home icon-button with a house"    title="Show all projects"  >    <mat-icon>home</mat-icon>  </button>  <span class="toolbar-spacer"></span>  <!--This div makes the setting and account icon stay together - mat-toolbar has justify-content set-->  <div>    <button      (click)="openSettingsDialog()"      mat-icon-button      class="example-icon favorite-icon"      aria-label="Example icon-button with heart icon"      title="Settings"    >      <mat-icon>settings</mat-icon>    </button>    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" title="User settings">      <mat-icon>account_circle</mat-icon>    </button>    <button      (click)="authService.logout()"      mat-icon-button      class="example-icon"      aria-label="Example icon-button with share icon"      title="Logout"    >      <mat-icon>logout</mat-icon>    </button>  </div></mat-toolbar></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'TopToolbarComponent'};

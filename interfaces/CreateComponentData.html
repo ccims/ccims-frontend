@@ -155,12 +155,13 @@ export class CreateComponentDialogComponent {
   @Input() projectId: string;
   @ViewChild(QueryComponent) queryComponent: QueryComponent;
 
-  constructor(public dialogRef: MatDialogRef&lt;CreateComponentDialogComponent&gt;,
-              @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
-              private fb: FormBuilder,
-              private gs: IssueGraphStateService,
-              private componentStore: ComponentStoreService) {
-  }
+  constructor(
+    public dialogRef: MatDialogRef&lt;CreateComponentDialogComponent&gt;,
+    @Inject(MAT_DIALOG_DATA) public data: CreateComponentData,
+    private fb: FormBuilder,
+    private gs: IssueGraphStateService,
+    private componentStore: ComponentStoreService
+  ) {}
 
   // define validations
   validationName &#x3D; new FormControl(&#x27;&#x27;, [CCIMSValidators.nameFormatValidator, Validators.required]);

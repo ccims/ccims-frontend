@@ -141,7 +141,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:134</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:136</a></div>
                         </td>
                     </tr>
 
@@ -167,7 +167,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:135</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:137</a></div>
                         </td>
                     </tr>
 
@@ -193,7 +193,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:133</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:135</a></div>
                         </td>
                     </tr>
 
@@ -229,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:143</a></div>
                 </td>
             </tr>
 
@@ -307,8 +307,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:152</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:156</a></div>
                 </td>
             </tr>
 
@@ -368,7 +368,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Component,
-  ComponentInterface, GetIssueGraphDataDocument,
+  ComponentInterface,
+  GetIssueGraphDataDocument,
   GetIssueGraphDataQuery,
   Issue,
   IssueCategory,
@@ -377,7 +378,6 @@
   Scalars
 } from &#x27;src/generated/graphql&#x27;;
 import {DefaultDictionary} from &#x27;typescript-collections&#x27;;
-
 
 type LocationId &#x3D; Scalars[&#x27;ID&#x27;];
 type GraphFolder &#x3D; [LocationId, IssueCategory];
@@ -417,10 +417,14 @@ export class GraphDataFactory {
     const components &#x3D; GraphComponent.mapFromGQL(data.node.components.nodes);
     const interfaces &#x3D; GraphInterface.mapFromGQL(data.node.interfaces.nodes);
     const graphLocations: Map&lt;string, GraphLocation&gt; &#x3D; new Map([...components, ...interfaces]);
-    const linkIssues &#x3D; data.node.linkingIssues.nodes.map(gqlIssue &#x3D;&gt; GraphIssue.fromGQL(gqlIssue));
+    const linkIssues &#x3D; data.node.linkingIssues.nodes.map((gqlIssue) &#x3D;&gt; GraphIssue.fromGQL(gqlIssue));
     const relatedFolders &#x3D; computeRelatedFolders(linkIssues, interfaces);
     return {
-      components, interfaces, graphLocations, relatedFolders, linkIssues
+      components,
+      interfaces,
+      graphLocations,
+      relatedFolders,
+      linkIssues
     };
   }
 }
@@ -432,11 +436,11 @@ export class GraphDataFactory {
  */
 function removeOfferingComponents(locationIds: string[], interfaces: Map&lt;LocationId, GraphInterface&gt;) {
   // compute components that offer an interface whoose id is in locationIds
-  const interfaceOfferingComponents: Set&lt;string&gt; &#x3D; new Set(locationIds.filter(locationId &#x3D;&gt; interfaces.has(locationId)).map(interfaceId &#x3D;&gt;
-    interfaces.get(interfaceId).offeredBy
-  ));
+  const interfaceOfferingComponents: Set&lt;string&gt; &#x3D; new Set(
+    locationIds.filter((locationId) &#x3D;&gt; interfaces.has(locationId)).map((interfaceId) &#x3D;&gt; interfaces.get(interfaceId).offeredBy)
+  );
   // return location ids with the components offering an interface with id in locationIds removed
-  return locationIds.filter(id &#x3D;&gt; !interfaceOfferingComponents.has(id));
+  return locationIds.filter((id) &#x3D;&gt; !interfaceOfferingComponents.has(id));
 }
 
 /**
@@ -460,7 +464,7 @@ type GQLInterface &#x3D; Pick&lt;ComponentInterface, &#x27;id&#x27; | &#x27;name
   bugs?: Maybe&lt;Pick&lt;IssuePage, &#x27;totalCount&#x27;&gt;&gt;;
   featureRequests?: Maybe&lt;Pick&lt;IssuePage, &#x27;totalCount&#x27;&gt;&gt;;
   unclassified?: Maybe&lt;Pick&lt;IssuePage, &#x27;totalCount&#x27;&gt;&gt;;
-  consumedBy?: Maybe&lt;{ nodes?: Maybe&lt;Array&lt;Maybe&lt;Pick&lt;Component, &#x27;id&#x27;&gt;&gt;&gt;&gt; }&gt;
+  consumedBy?: Maybe&lt;{nodes?: Maybe&lt;Array&lt;Maybe&lt;Pick&lt;Component, &#x27;id&#x27;&gt;&gt;&gt;&gt;}&gt;;
 };
 
 // desired frontend data format for interface
@@ -472,20 +476,18 @@ export class GraphInterface {
   issues: Map&lt;IssueCategory, number&gt;;
 
   static fromGQL(gqlInterface: GQLInterface): GraphInterface {
-    const issues &#x3D; issueCounts(gqlInterface.bugs.totalCount,
-      gqlInterface.featureRequests.totalCount,
-      gqlInterface.unclassified.totalCount);
+    const issues &#x3D; issueCounts(gqlInterface.bugs.totalCount, gqlInterface.featureRequests.totalCount, gqlInterface.unclassified.totalCount);
     return {
       id: gqlInterface.id,
       name: gqlInterface.name,
       offeredBy: gqlInterface.component.id,
-      consumedBy: gqlInterface.consumedBy.nodes.map(component &#x3D;&gt; component.id),
+      consumedBy: gqlInterface.consumedBy.nodes.map((component) &#x3D;&gt; component.id),
       issues
     };
   }
 
   static mapFromGQL(gqlInterfaces: GQLInterface[]): Map&lt;LocationId, GraphInterface&gt; {
-    return new Map(gqlInterfaces.map(gqlInterface &#x3D;&gt; [gqlInterface.id, GraphInterface.fromGQL(gqlInterface)]));
+    return new Map(gqlInterfaces.map((gqlInterface) &#x3D;&gt; [gqlInterface.id, GraphInterface.fromGQL(gqlInterface)]));
   }
 }
 
@@ -507,9 +509,11 @@ export class GraphComponent {
    * @param gqlGraphComponent backend representation of component
    */
   static fromGQL(gqlGraphComponent: GQLGraphComponent): GraphComponent {
-    const issues &#x3D; issueCounts(gqlGraphComponent.bugs.totalCount,
+    const issues &#x3D; issueCounts(
+      gqlGraphComponent.bugs.totalCount,
       gqlGraphComponent.featureRequests.totalCount,
-      gqlGraphComponent.unclassified.totalCount);
+      gqlGraphComponent.unclassified.totalCount
+    );
     return {
       id: gqlGraphComponent.id,
       name: gqlGraphComponent.name,
@@ -518,7 +522,7 @@ export class GraphComponent {
   }
 
   static mapFromGQL(gqlGraphComponents: GQLGraphComponent[]): Map&lt;LocationId, GraphComponent&gt; {
-    return new Map(gqlGraphComponents.map(gqlComponent &#x3D;&gt; [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]));
+    return new Map(gqlGraphComponents.map((gqlComponent) &#x3D;&gt; [gqlComponent.id, GraphComponent.fromGQL(gqlComponent)]));
   }
 }
 
@@ -528,7 +532,11 @@ type GQLIssue &#x3D; Pick&lt;Issue, &#x27;id&#x27; | &#x27;category&#x27;&gt; &a
     nodes?: (Pick&lt;Component, &#x27;id&#x27;&gt; | Pick&lt;ComponentInterface, &#x27;id&#x27;&gt;)[];
   };
   linksToIssues?: {
-    nodes?: (Pick&lt;Issue, &#x27;id&#x27; | &#x27;category&#x27;&gt; &amp; { locations?: { nodes?: (Pick&lt;Component, &#x27;id&#x27;&gt; | Pick&lt;ComponentInterface, &#x27;id&#x27;&gt;)[]; }; })[];
+    nodes?: (Pick&lt;Issue, &#x27;id&#x27; | &#x27;category&#x27;&gt; &amp; {
+      locations?: {
+        nodes?: (Pick&lt;Component, &#x27;id&#x27;&gt; | Pick&lt;ComponentInterface, &#x27;id&#x27;&gt;)[];
+      };
+    })[];
   };
 };
 
@@ -547,7 +555,7 @@ class GraphIssue {
     return {
       id: gqlPartialIssue.id,
       category: gqlPartialIssue.category,
-      locations: gqlPartialIssue.locations.nodes.map(location &#x3D;&gt; location.id)
+      locations: gqlPartialIssue.locations.nodes.map((location) &#x3D;&gt; location.id)
     };
   }
 
@@ -557,7 +565,7 @@ class GraphIssue {
    */
   static fromGQL(gqlIssue: GQLIssue): GraphIssue {
     const issue: GraphIssue &#x3D; this.fromGQLNoLinks(gqlIssue);
-    issue.linksIssues &#x3D; gqlIssue.linksToIssues.nodes.map(gqlPartialIssue &#x3D;&gt; this.fromGQLNoLinks(gqlPartialIssue));
+    issue.linksIssues &#x3D; gqlIssue.linksToIssues.nodes.map((gqlPartialIssue) &#x3D;&gt; this.fromGQLNoLinks(gqlPartialIssue));
     return issue;
   }
 }
@@ -569,22 +577,22 @@ class GraphIssue {
  * @param linkIssues contains only issues that link to other issues
  * @param interfaces mapping from ids of locations to interfaces attached to locations
  */
-function computeRelatedFolders(linkIssues: GraphIssue[], interfaces: Map&lt;LocationId, GraphInterface&gt;):
-  DefaultDictionary&lt;GraphFolder, GraphFolder[]&gt; {
+function computeRelatedFolders(
+  linkIssues: GraphIssue[],
+  interfaces: Map&lt;LocationId, GraphInterface&gt;
+): DefaultDictionary&lt;GraphFolder, GraphFolder[]&gt; {
   let targetFolders: GraphFolder[];
   const relatedFolders: DefaultDictionary&lt;GraphFolder, GraphFolder[]&gt; &#x3D; new DefaultDictionary&lt;GraphFolder, GraphFolder[]&gt;(() &#x3D;&gt; []);
   for (const issue of linkIssues) {
     const sourceLocationIds &#x3D; removeOfferingComponents(issue.locations, interfaces);
-    const sourceFolders: GraphFolder[] &#x3D; sourceLocationIds.map(locationId &#x3D;&gt; [locationId, issue.category]);
+    const sourceFolders: GraphFolder[] &#x3D; sourceLocationIds.map((locationId) &#x3D;&gt; [locationId, issue.category]);
     targetFolders &#x3D; [];
     for (const linkedIssue of issue.linksIssues) {
       const targetLocationIds &#x3D; removeOfferingComponents(linkedIssue.locations, interfaces);
       // @ts-ignore
-      targetFolders &#x3D; targetFolders.concat(targetLocationIds.map(locationId &#x3D;&gt; [locationId, linkedIssue.category]));
+      targetFolders &#x3D; targetFolders.concat(targetLocationIds.map((locationId) &#x3D;&gt; [locationId, linkedIssue.category]));
     }
-    sourceFolders.forEach(folder &#x3D;&gt;
-      relatedFolders.setValue(folder,
-        (relatedFolders.getValue(folder).concat(targetFolders))));
+    sourceFolders.forEach((folder) &#x3D;&gt; relatedFolders.setValue(folder, relatedFolders.getValue(folder).concat(targetFolders)));
   }
   return relatedFolders;
 }

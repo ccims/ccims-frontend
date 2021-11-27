@@ -157,7 +157,7 @@ and exposing the name and id through currentUserSubject</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/auth/authentication.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/auth/authentication.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -232,8 +232,8 @@ and exposing the name and id through currentUserSubject</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/auth/authentication.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/app/auth/authentication.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -269,8 +269,8 @@ and exposing the name and id through currentUserSubject</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/app/auth/authentication.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/auth/authentication.service.ts:42</a></div>
                 </td>
             </tr>
 
@@ -402,8 +402,8 @@ through currentUserSubject. If the login fails the returned observable errors.</
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/app/auth/authentication.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/auth/authentication.service.ts:31</a></div>
                 </td>
             </tr>
 
@@ -477,7 +477,7 @@ through currentUserSubject. If the login fails the returned observable errors.</
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/auth/authentication.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/auth/authentication.service.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -504,7 +504,7 @@ through currentUserSubject. If the login fails the returned observable errors.</
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/auth/authentication.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/auth/authentication.service.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -536,7 +536,7 @@ through currentUserSubject. If the login fails the returned observable errors.</
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/auth/authentication.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/auth/authentication.service.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -565,7 +565,7 @@ through currentUserSubject. If the login fails the returned observable errors.</
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/auth/authentication.service.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/auth/authentication.service.ts:23</a></div>
                                 </td>
                             </tr>
 
@@ -589,7 +589,6 @@ import {map} from &#x27;rxjs/operators&#x27;;
  */
 @Injectable({providedIn: &#x27;root&#x27;})
 export class AuthenticationService {
-
   readonly userStorageKey &#x3D; &#x27;currentUser&#x27;;
   private currentUserSubject: BehaviorSubject&lt;User&gt;;
   public currentUser: Observable&lt;User&gt;;
@@ -619,8 +618,8 @@ export class AuthenticationService {
    * @returns the logged in user, errors if login is not successful
    */
   login(username: string, password: string): Observable&lt;User&gt; {
-    return this.http.post&lt;any&gt;(environment.loginUrl, {username, password})
-      .pipe(map(response &#x3D;&gt; {
+    return this.http.post&lt;any&gt;(environment.loginUrl, {username, password}).pipe(
+      map((response) &#x3D;&gt; {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem(&#x27;token&#x27;, response.token);
         const tokenPayload &#x3D; JSON.parse(atob(response.token.split(&#x27;.&#x27;)[1]));
@@ -628,7 +627,8 @@ export class AuthenticationService {
         this.saveUserToStorage(user);
         this.currentUserSubject.next(user);
         return user;
-      }));
+      })
+    );
   }
 
   /**

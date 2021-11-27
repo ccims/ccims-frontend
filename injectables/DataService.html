@@ -196,8 +196,8 @@ automatically propagates updates to all observers of affected data.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">src/app/data-dgql/index.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">src/app/data-dgql/index.ts:71</a></div>
                 </td>
             </tr>
 
@@ -276,8 +276,8 @@ automatically propagates updates to all observers of affected data.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/app/data-dgql/index.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/data-dgql/index.ts:38</a></div>
                 </td>
             </tr>
 
@@ -355,8 +355,8 @@ automatically propagates updates to all observers of affected data.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/app/data-dgql/index.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/data-dgql/index.ts:43</a></div>
                 </td>
             </tr>
 
@@ -450,11 +450,11 @@ automatically propagates updates to all observers of affected data.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NodeId, ListId, ListType, encodeListId, decodeListId, ListIdEnc } from &#x27;./id&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
-import { QueriesService } from &#x27;./queries/queries.service&#x27;;
-import { DataNode, DataList, NodeCache } from &#x27;./query&#x27;;
-import { Mutations } from &#x27;@app/data-dgql/mutate&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {NodeId, ListId, ListType, encodeListId, decodeListId, ListIdEnc} from &#x27;./id&#x27;;
+import {Injectable} from &#x27;@angular/core&#x27;;
+import {QueriesService} from &#x27;./queries/queries.service&#x27;;
+import {DataNode, DataList, NodeCache} from &#x27;./query&#x27;;
+import {Mutations} from &#x27;@app/data-dgql/mutate&#x27;;
 
 /**
  * The data service provides access to the backend API.
@@ -481,9 +481,7 @@ export default class DataService {
   /** Data mutations. */
   mutations: Mutations;
 
-  constructor(
-    private queries: QueriesService
-  ) {
+  constructor(private queries: QueriesService) {
     this.nodes &#x3D; new NodeCache(queries);
     this.mutations &#x3D; new Mutations(queries, this.nodes, this.invalidateLists.bind(this));
   }

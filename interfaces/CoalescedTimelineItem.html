@@ -327,7 +327,6 @@ export interface CoalescedTimelineItem {
   time: string;
 }
 
-
 type ItemFilterFunction &#x3D; (IssueTimelineItem) &#x3D;&gt; boolean;
 
 /**
@@ -344,32 +343,55 @@ export class TimelineComponent implements AfterViewInit {
    * Events which need to be coalesced
    */
   static readonly COALESCABLE_EVENTS: Map&lt;string, ItemFilterFunction&gt; &#x3D; new Map([
-      [&#x27;LabelledEvent&#x27;, (item) &#x3D;&gt; {
+    [
+      &#x27;LabelledEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.label;
-      }],
-      [&#x27;UnlabelledEvent&#x27;, (item) &#x3D;&gt; {
+      }
+    ],
+    [
+      &#x27;UnlabelledEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.removedLabel;
-      }],
-      [&#x27;AddedToComponentEvent&#x27;, (item) &#x3D;&gt; {
+      }
+    ],
+    [
+      &#x27;AddedToComponentEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.component;
-      }],
-      [&#x27;RemovedFromComponentEvent&#x27;, (item) &#x3D;&gt; {
+      }
+    ],
+    [
+      &#x27;RemovedFromComponentEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.removedComponent;
-      }],
-      [&#x27;AddedToLocationEvent&#x27;, (item) &#x3D;&gt; {
+      }
+    ],
+    [
+      &#x27;AddedToLocationEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.location;
-      }],
-      [&#x27;RemovedFromLocationEvent&#x27;, (item) &#x3D;&gt; {
+      }
+    ],
+    [
+      &#x27;RemovedFromLocationEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.removedLocation;
-      }],
-      [&#x27;LinkEvent&#x27;, (item) &#x3D;&gt; {
+      }
+    ],
+    [
+      &#x27;LinkEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.linkedIssue;
-      }],
-      [&#x27;UnlinkEvent&#x27;, (item) &#x3D;&gt; {
+      }
+    ],
+    [
+      &#x27;UnlinkEvent&#x27;,
+      (item) &#x3D;&gt; {
         return !!item.removedLinkedIssue;
-      }]
+      }
     ]
-  );
+  ]);
 
   /**
    * provides functionality for time formatting for correct representation
@@ -400,8 +422,7 @@ export class TimelineComponent implements AfterViewInit {
    * Service for handling API connection is required
    * @param {DataService} dataService handling api connection
    */
-  constructor(private dataService: DataService) {
-  }
+  constructor(private dataService: DataService) {}
 
   ngAfterViewInit(): void {
     this.requestTimelineItems();
@@ -412,7 +433,6 @@ export class TimelineComponent implements AfterViewInit {
    * Use in ngAfterViewInit() lifecycle hook
    */
   requestTimelineItems(): void {
-
     // gets an observable with all timeline items for thecurrent issue
     this.timelineItems$ &#x3D; this.dataService.getList({
       node: this.issueId,
@@ -422,7 +442,7 @@ export class TimelineComponent implements AfterViewInit {
     //FIXME: decide on the count
     this.timelineItems$.count &#x3D; 99999;
 
-    this.query.listenTo(this.timelineItems$, value &#x3D;&gt; {
+    this.query.listenTo(this.timelineItems$, (value) &#x3D;&gt; {
       this.prepareTimelineItems(value);
     });
   }
@@ -432,7 +452,6 @@ export class TimelineComponent implements AfterViewInit {
    * @param  {Map&lt;string, IssueTimelineItem&gt;} items - Timeline items to prepare.
    */
   prepareTimelineItems(items: Map&lt;string, IssueTimelineItem&gt;): void {
-
     let coalescingType &#x3D; null;
     let coalesceList &#x3D; new Array&lt;IssueTimelineItem&gt;();
     let coalesced: Array&lt;CoalescedTimelineItem&gt; &#x3D; [];
@@ -443,7 +462,6 @@ export class TimelineComponent implements AfterViewInit {
      * in case the coalesce list is not empty.
      */
     const finishCoalescing &#x3D; () &#x3D;&gt; {
-
       // case: the coalesce list is empty
       if (coalesceList.length &#x3D;&#x3D;&#x3D; 0) {
         return;
@@ -467,7 +485,6 @@ export class TimelineComponent implements AfterViewInit {
       // case: the coalescing type equals the current item type
       // or coalescing should stop
       if (coalescingType !&#x3D;&#x3D; itemType || stopCoalescing) {
-
         // adds remaining items
         finishCoalescing();
 
@@ -506,7 +523,6 @@ export class TimelineComponent implements AfterViewInit {
    * @returns - Name of the timeline item creator.
    */
   private userName(item: IssueTimelineItem) {
-
     // case: the timeline item&#x27;s creator&#x27;s name can be retrieved
     if (item.createdBy) {
       return item.createdBy.displayName;
@@ -522,8 +538,7 @@ export class TimelineComponent implements AfterViewInit {
    * @param  {CoalescedTimelineItem[]} coalesced  The given list containing all coalesced timeline items.
    * @returns The given list containing all coalesced timeline items.
    */
-   private addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
-
+  private addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
     const firstItem: any &#x3D; coalesceList[0];
     const itemType &#x3D; firstItem.__typename;
     const createdBy &#x3D; this.userName(firstItem);
@@ -560,23 +575,23 @@ export class TimelineComponent implements AfterViewInit {
    * @param  {ItemFilterFunction|undefined} filter - Filter used on the given item.
    * @returns The given list containing all coalesced timeline items.
    */
-   private addSingleCoalesceItem(
+  private addSingleCoalesceItem(
     timelineItem: IssueTimelineItem,
     filter: ItemFilterFunction | undefined,
-    coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
+    coalesced: CoalescedTimelineItem[]
+  ): CoalescedTimelineItem[] {
+    if (!filter || filter(timelineItem)) {
+      coalesced.push({
+        type: (timelineItem as any).__typename,
+        isCoalesced: false,
+        item: timelineItem,
+        user: this.userName(timelineItem),
+        time: timelineItem.createdAt
+      });
+    }
 
-      if (!filter || filter(timelineItem)) {
-        coalesced.push({
-          type: (timelineItem as any).__typename,
-          isCoalesced: false,
-          item: timelineItem,
-          user: this.userName(timelineItem),
-          time: timelineItem.createdAt
-        });
-      }
-
-      // returns the list containing all coalesced timeline items
-      return coalesced;
+    // returns the list containing all coalesced timeline items
+    return coalesced;
   }
 
   /**
@@ -590,11 +605,11 @@ export class TimelineComponent implements AfterViewInit {
    * @param  {IssueTimelineItem} timelineItem - Timeline item handled.
    * @returns The value that determines whether the coalescing should stop.
    */
-   private stopCoalescing(coalescingType: any, coalesceList: IssueTimelineItem[], stopCoalescing: boolean, timelineItem: IssueTimelineItem) {
-
+  private stopCoalescing(coalescingType: any, coalesceList: IssueTimelineItem[], stopCoalescing: boolean, timelineItem: IssueTimelineItem) {
     if (coalescingType) {
       const firstItem &#x3D; coalesceList[0];
-      stopCoalescing &#x3D; firstItem.createdBy.id !&#x3D;&#x3D; timelineItem.createdBy.id ||
+      stopCoalescing &#x3D;
+        firstItem.createdBy.id !&#x3D;&#x3D; timelineItem.createdBy.id ||
         Math.abs(Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)) &gt; 60000;
     }
 
@@ -606,7 +621,6 @@ export class TimelineComponent implements AfterViewInit {
    * @param assignedEvent - Assigned event handled.
    */
   selfAssigned(assignedEvent): boolean {
-
     if (assignedEvent.createdBy.id &#x3D;&#x3D;&#x3D; assignedEvent.removedAssignee?.id) {
       return true;
     }

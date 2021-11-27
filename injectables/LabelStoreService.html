@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/data/label/label-store.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/data/label/label-store.service.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -172,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/app/data/label/label-store.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/app/data/label/label-store.service.ts:32</a></div>
                 </td>
             </tr>
 
@@ -248,8 +248,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/app/data/label/label-store.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/app/data/label/label-store.service.ts:19</a></div>
                 </td>
             </tr>
 
@@ -337,17 +337,13 @@ whoose name contains term</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
 import {map} from &#x27;rxjs/operators&#x27;;
-import {
-  GetLabelsGQL,
-  Label,
-} from &#x27;../../../generated/graphql&#x27;;
+import {GetLabelsGQL, Label} from &#x27;../../../generated/graphql&#x27;;
 import {Observable} from &#x27;rxjs&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
 export class LabelStoreService {
-
   constructor(private getLabelsGQL: GetLabelsGQL) {}
 
   /**
@@ -362,7 +358,7 @@ export class LabelStoreService {
       return this.getAllFilter(projectId);
     }
     return this.getAllFilter(projectId).pipe(
-      map(items &#x3D;&gt; items.filter(x &#x3D;&gt; x.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) &gt; -1))
+      map((items) &#x3D;&gt; items.filter((x) &#x3D;&gt; x.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) &gt; -1))
     );
   }
 
@@ -371,9 +367,7 @@ export class LabelStoreService {
    * @param projectId id of current project
    */
   private getAllFilter(projectId: string): Observable&lt;FilterLabel[]&gt; {
-    return this.getLabelsGQL.fetch({projectId}).pipe(
-      map(({data}) &#x3D;&gt; data.node.labels.nodes)
-    );
+    return this.getLabelsGQL.fetch({projectId}).pipe(map(({data}) &#x3D;&gt; data.node.labels.nodes));
   }
 }
 

@@ -222,18 +222,17 @@ export class ProjectHeaderComponent {
   @Input() projectName: string;
   @Input() projectId: string;
 }
-
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;project-title-row&quot;&gt;
   &lt;!-- Icon source: https://github.com/logos --&gt;
-  &lt;img alt&#x3D;&quot;Github icon&quot; src&#x3D;&quot;../assets/icons/github-icon.png&quot; class&#x3D;&quot;icon&quot;/&gt;
+  &lt;img alt&#x3D;&quot;Github icon&quot; src&#x3D;&quot;../assets/icons/github-icon.png&quot; class&#x3D;&quot;icon&quot; /&gt;
 
   &lt;div class&#x3D;&quot;content&quot;&gt;
-    &lt;p class&#x3D;&quot;title&quot;&gt;{{projectName}}&lt;/p&gt;
-    &lt;div class&#x3D;&quot;sub-sub-title&quot;&gt;Project ID: {{projectId}}&lt;/div&gt;
+    &lt;p class&#x3D;&quot;title&quot;&gt;{{ projectName }}&lt;/p&gt;
+    &lt;div class&#x3D;&quot;sub-sub-title&quot;&gt;Project ID: {{ projectId }}&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
@@ -260,7 +259,8 @@ export class ProjectHeaderComponent {
   float: left;
 }
 
-.title, .sub-title {
+.title,
+.sub-title {
   margin: 0;
   padding: 3px 10px 3px 0;
 }
@@ -272,7 +272,7 @@ export class ProjectHeaderComponent {
 
 .sub-title {
   font-weight: bold;
-  color: #3F3F3F;
+  color: #3f3f3f;
 }
 </code></pre>
     </div>
@@ -302,7 +302,7 @@ export class ProjectHeaderComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="project-title-row">  <!-- Icon source: https://github.com/logos -->  <img alt="Github icon" src="../assets/icons/github-icon.png" class="icon"/>  <div class="content">    <p class="title">{{projectName}}</p>    <div class="sub-sub-title">Project ID: {{projectId}}</div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="project-title-row">  <!-- Icon source: https://github.com/logos -->  <img alt="Github icon" src="../assets/icons/github-icon.png" class="icon" />  <div class="content">    <p class="title">{{ projectName }}</p>    <div class="sub-sub-title">Project ID: {{ projectId }}</div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'ProjectHeaderComponent'};

@@ -249,8 +249,8 @@ transfered data while showing the projects list</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/app/data/project/project-store.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">src/app/data/project/project-store.service.ts:39</a></div>
                 </td>
             </tr>
 
@@ -330,8 +330,8 @@ transfered data while showing the projects list</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/app/data/project/project-store.service.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/data/project/project-store.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -399,8 +399,8 @@ transfered data while showing the projects list</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/app/data/project/project-store.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">src/app/data/project/project-store.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -468,8 +468,8 @@ transfered data while showing the projects list</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">src/app/data/project/project-store.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/data/project/project-store.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -537,8 +537,8 @@ transfered data while showing the projects list</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/app/data/project/project-store.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/app/data/project/project-store.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -621,11 +621,14 @@ import {AuthenticationService} from &#x27;@app/auth/authentication.service&#x27;
   providedIn: &#x27;root&#x27;
 })
 export class ProjectStoreService {
-
-  constructor(private authService: AuthenticationService, private getAllQuery: GetAllProjectsGQL,
-              private getBasicProjectQuery: GetBasicProjectGQL, private getFullQuery: GetFullProjectGQL,
-              private createProject: CreateProjectGQL, private deleteProject: DeleteProjectGQL) {
-  }
+  constructor(
+    private authService: AuthenticationService,
+    private getAllQuery: GetAllProjectsGQL,
+    private getBasicProjectQuery: GetBasicProjectGQL,
+    private getFullQuery: GetFullProjectGQL,
+    private createProject: CreateProjectGQL,
+    private deleteProject: DeleteProjectGQL
+  ) {}
 
   create(name: string, description: string) {
     const input: CreateProjectInput &#x3D; {
@@ -654,9 +657,7 @@ export class ProjectStoreService {
     const filter: ProjectFilter &#x3D; {
       name: filterText
     };
-    return this.getAllQuery.fetch({filter}).pipe(
-      map(({data}) &#x3D;&gt; data.projects.edges.map(edge &#x3D;&gt; edge.node))
-    );
+    return this.getAllQuery.fetch({filter}).pipe(map(({data}) &#x3D;&gt; data.projects.edges.map((edge) &#x3D;&gt; edge.node)));
   }
 }
 </code></pre>

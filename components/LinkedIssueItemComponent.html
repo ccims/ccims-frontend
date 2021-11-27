@@ -337,8 +337,8 @@ the accordion card, the issue&#39;s body will be loaded separately.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/app/issue-detail/linked-issue-item.component.ts:40</a></div>
                 </td>
             </tr>
 
@@ -401,13 +401,13 @@ the accordion card, the issue&#39;s body will be loaded separately.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
-import { Issue } from &#x27;../../generated/graphql-dgql&#x27;;
-import { DataNode } from &#x27;@app/data-dgql/query&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnDestroy, OnInit} from &#x27;@angular/core&#x27;;
+import {Issue} from &#x27;../../generated/graphql-dgql&#x27;;
+import {DataNode} from &#x27;@app/data-dgql/query&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
-import { NodeType } from &#x27;@app/data-dgql/id&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
-import { Router } from &#x27;@angular/router&#x27;;
+import {NodeType} from &#x27;@app/data-dgql/id&#x27;;
+import {Subscription} from &#x27;rxjs&#x27;;
+import {Router} from &#x27;@angular/router&#x27;;
 
 /**
  * Displays a linked issue in a list.
@@ -436,9 +436,7 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit() {
-    this.fullIssueLink &#x3D; this.router.serializeUrl(this.router.createUrlTree(
-      [&#x27;/projects&#x27;, this.projectId, &#x27;issues&#x27;, this.issueStub.id]
-    ));
+    this.fullIssueLink &#x3D; this.router.serializeUrl(this.router.createUrlTree([&#x27;/projects&#x27;, this.projectId, &#x27;issues&#x27;, this.issueStub.id]));
   }
 
   /** Event handler for when the accordion is opened. Loads the full issue if it hasn&#x27;t been loaded yet. */
@@ -461,23 +459,17 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;mat-expansion-panel (opened)&#x3D;&quot;didOpen()&quot;&gt;
-    &lt;mat-expansion-panel-header&gt;
-        &lt;mat-panel-title&gt;
-            {{issueStub.title}}
-        &lt;/mat-panel-title&gt;
-        &lt;mat-panel-description class&#x3D;&quot;linked-issue-components&quot;&gt;
-            &lt;span
-                class&#x3D;&quot;linked-issue-component&quot;
-                *ngFor&#x3D;&quot;let component of issueStub.components.nodes&quot;&gt;{{component.name}}&lt;/span&gt;
-        &lt;/mat-panel-description&gt;
-    &lt;/mat-expansion-panel-header&gt;
-    &lt;div class&#x3D;&quot;body-loading&quot; *ngIf&#x3D;&quot;fullIssue?.loading&quot;&gt;
-        Loading…
-    &lt;/div&gt;
-    &lt;app-markdown-preview *ngIf&#x3D;&quot;fullIssue?.hasData&quot; [displayedCode]&#x3D;&quot;fullIssue.current.body&quot;&gt;&lt;/app-markdown-preview&gt;
-    &lt;div class&#x3D;&quot;issue-buttons&quot;&gt;
-        &lt;a mat-button [href]&#x3D;&quot;fullIssueLink&quot;&gt;View Issue &lt;mat-icon&gt;chevron_right&lt;/mat-icon&gt;&lt;/a&gt;
-    &lt;/div&gt;
+  &lt;mat-expansion-panel-header&gt;
+    &lt;mat-panel-title&gt; {{ issueStub.title }} &lt;/mat-panel-title&gt;
+    &lt;mat-panel-description class&#x3D;&quot;linked-issue-components&quot;&gt;
+      &lt;span class&#x3D;&quot;linked-issue-component&quot; *ngFor&#x3D;&quot;let component of issueStub.components.nodes&quot;&gt;{{ component.name }}&lt;/span&gt;
+    &lt;/mat-panel-description&gt;
+  &lt;/mat-expansion-panel-header&gt;
+  &lt;div class&#x3D;&quot;body-loading&quot; *ngIf&#x3D;&quot;fullIssue?.loading&quot;&gt;Loading…&lt;/div&gt;
+  &lt;app-markdown-preview *ngIf&#x3D;&quot;fullIssue?.hasData&quot; [displayedCode]&#x3D;&quot;fullIssue.current.body&quot;&gt;&lt;/app-markdown-preview&gt;
+  &lt;div class&#x3D;&quot;issue-buttons&quot;&gt;
+    &lt;a mat-button [href]&#x3D;&quot;fullIssueLink&quot;&gt;View Issue &lt;mat-icon&gt;chevron_right&lt;/mat-icon&gt;&lt;/a&gt;
+  &lt;/div&gt;
 &lt;/mat-expansion-panel&gt;
 </code></pre>
     </div>
@@ -492,7 +484,7 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
 
   .linked-issue-component {
     &amp;::after {
-      content: &#x27;,&#x27;;
+      content: &quot;,&quot;;
       margin-right: 0.3em;
     }
     &amp;:last-child::after {
@@ -539,7 +531,7 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><mat-expansion-panel (opened)="didOpen()">    <mat-expansion-panel-header>        <mat-panel-title>            {{issueStub.title}}        </mat-panel-title>        <mat-panel-description class="linked-issue-components">            <span                class="linked-issue-component"                *ngFor="let component of issueStub.components.nodes">{{component.name}}</span>        </mat-panel-description>    </mat-expansion-panel-header>    <div class="body-loading" *ngIf="fullIssue?.loading">        Loading…    </div>    <app-markdown-preview *ngIf="fullIssue?.hasData" [displayedCode]="fullIssue.current.body"></app-markdown-preview>    <div class="issue-buttons">        <a mat-button [href]="fullIssueLink">View Issue <mat-icon>chevron_right</mat-icon></a>    </div></mat-expansion-panel></div>'
+        var COMPONENT_TEMPLATE = '<div><mat-expansion-panel (opened)="didOpen()">  <mat-expansion-panel-header>    <mat-panel-title> {{ issueStub.title }} </mat-panel-title>    <mat-panel-description class="linked-issue-components">      <span class="linked-issue-component" *ngFor="let component of issueStub.components.nodes">{{ component.name }}</span>    </mat-panel-description>  </mat-expansion-panel-header>  <div class="body-loading" *ngIf="fullIssue?.loading">Loading…</div>  <app-markdown-preview *ngIf="fullIssue?.hasData" [displayedCode]="fullIssue.current.body"></app-markdown-preview>  <div class="issue-buttons">    <a mat-button [href]="fullIssueLink">View Issue <mat-icon>chevron_right</mat-icon></a>  </div></mat-expansion-panel></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'LinkedIssueItemComponent'};

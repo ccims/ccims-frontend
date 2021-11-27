@@ -177,7 +177,7 @@ It contains the IssueHeaderComponent and the IssueListComponent.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -266,7 +266,7 @@ It contains the IssueHeaderComponent and the IssueListComponent.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -299,7 +299,7 @@ It contains the IssueHeaderComponent and the IssueListComponent.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -326,7 +326,7 @@ It contains the IssueHeaderComponent and the IssueListComponent.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/project-issue-list/project-issue-list.component.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -339,11 +339,11 @@ It contains the IssueHeaderComponent and the IssueListComponent.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
-import { ActivatedRoute } from &#x27;@angular/router&#x27;;
-import { ListId, ListType, NodeType } from &#x27;@app/data-dgql/id&#x27;;
-import { DataNode } from &#x27;@app/data-dgql/query&#x27;;
-import { Project } from &#x27;../../generated/graphql-dgql&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, OnInit} from &#x27;@angular/core&#x27;;
+import {ActivatedRoute} from &#x27;@angular/router&#x27;;
+import {ListId, ListType, NodeType} from &#x27;@app/data-dgql/id&#x27;;
+import {DataNode} from &#x27;@app/data-dgql/query&#x27;;
+import {Project} from &#x27;../../generated/graphql-dgql&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
 
 /**
@@ -356,7 +356,6 @@ import DataService from &#x27;@app/data-dgql&#x27;;
   styleUrls: [&#x27;./project-issue-list.component.scss&#x27;]
 })
 export class ProjectIssueListComponent implements OnInit {
-
   public projectId: string;
   public project$: DataNode&lt;Project&gt;;
   /**
@@ -368,22 +367,21 @@ export class ProjectIssueListComponent implements OnInit {
    * @param route for retrieving the id of the project through the url
    * @param dataService for connection to API
    */
-  constructor(private route: ActivatedRoute, private dataService: DataService) { }
+  constructor(private route: ActivatedRoute, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.projectId &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
-    const node &#x3D; { type: NodeType.Project, id: this.projectId };
+    const node &#x3D; {type: NodeType.Project, id: this.projectId};
     this.project$ &#x3D; this.dataService.getNode(node);
-    this.issueListId &#x3D; { node, type: ListType.Issues };
+    this.issueListId &#x3D; {node, type: ListType.Issues};
   }
-
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;margin-left-top p-3&quot; style&#x3D;&quot;display: flex; flex-direction: column&quot;&gt;
-  &lt;div *ngIf&#x3D;&quot;(project$ | async) as project&quot;&gt;
+  &lt;div *ngIf&#x3D;&quot;project$ | async as project&quot;&gt;
     &lt;app-project-header [projectId]&#x3D;&quot;projectId&quot; [projectName]&#x3D;&quot;project.name&quot;&gt;&lt;/app-project-header&gt;
   &lt;/div&gt;
 
@@ -396,7 +394,7 @@ export class ProjectIssueListComponent implements OnInit {
                 <p class="comment">
                     <code>./project-issue-list.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">.center-horizontal{
+                <pre class="line-numbers"><code class="language-scss">.center-horizontal {
   width: 100%;
   text-align: center;
   margin-top: 15px;
@@ -418,9 +416,9 @@ export class ProjectIssueListComponent implements OnInit {
 .content {
   //display: inline-block;
   float: left;
-
 }
-.title, .sub-title {
+.title,
+.sub-title {
   margin: 0;
   padding: 3px 10px 3px 0;
 }
@@ -430,11 +428,11 @@ export class ProjectIssueListComponent implements OnInit {
 }
 .sub-title {
   font-weight: bold;
-  color: #3F3F3F;
+  color: #3f3f3f;
 }
 
 img {
-  width:100%;
+  width: 100%;
 }
 
 .pagefill {
@@ -444,7 +442,6 @@ img {
 .margin-left-top {
   margin-top: 3px;
   margin-left: 3px;
-
 }
 </code></pre>
     </div>
@@ -474,7 +471,7 @@ img {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="margin-left-top p-3" style="display: flex; flex-direction: column">  <div *ngIf="(project$ | async) as project">    <app-project-header [projectId]="projectId" [projectName]="project.name"></app-project-header>  </div>  <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="margin-left-top p-3" style="display: flex; flex-direction: column">  <div *ngIf="project$ | async as project">    <app-project-header [projectId]="projectId" [projectName]="project.name"></app-project-header>  </div>  <app-issue-list [projectId]="projectId" [listId]="issueListId"></app-issue-list></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'ProjectIssueListComponent'};

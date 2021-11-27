@@ -393,8 +393,8 @@ The comment will be subscribed to lazily (see <a href="../classes/DataNode.html#
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:79</a></div>
                 </td>
             </tr>
 
@@ -434,8 +434,8 @@ The comment will be subscribed to lazily (see <a href="../classes/DataNode.html#
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/app/issue-detail/comment/comment.component.ts:63</a></div>
                 </td>
             </tr>
 
@@ -600,13 +600,13 @@ The comment will be subscribed to lazily (see <a href="../classes/DataNode.html#
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
-import { IssueComment } from &#x27;../../../generated/graphql-dgql&#x27;;
-import { TimeFormatter } from &#x27;@app/issue-detail/time-formatter&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnDestroy, OnInit} from &#x27;@angular/core&#x27;;
+import {IssueComment} from &#x27;../../../generated/graphql-dgql&#x27;;
+import {TimeFormatter} from &#x27;@app/issue-detail/time-formatter&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
-import { NodeId } from &#x27;@app/data-dgql/id&#x27;;
-import { DataNode } from &#x27;@app/data-dgql/query&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
+import {NodeId} from &#x27;@app/data-dgql/id&#x27;;
+import {DataNode} from &#x27;@app/data-dgql/query&#x27;;
+import {Subscription} from &#x27;rxjs&#x27;;
 import {RemoveDialogComponent} from &#x27;@app/dialogs/remove-dialog/remove-dialog.component&#x27;;
 import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
 import {UserNotifyService} from &#x27;@app/user-notify/user-notify.service&#x27;;
@@ -646,9 +646,7 @@ export class CommentComponent implements OnInit, OnDestroy {
    */
   commentSub: Subscription;
 
-  constructor(private dataService: DataService,
-              private dialog: MatDialog,
-              private notify: UserNotifyService) {}
+  constructor(private dataService: DataService, private dialog: MatDialog, private notify: UserNotifyService) {}
 
   ngOnInit() {
     this.comment$ &#x3D; this.dataService.getNode(this.commentId);
@@ -666,45 +664,39 @@ export class CommentComponent implements OnInit, OnDestroy {
    */
   public editComment(body: string): void {
     this.savingBody &#x3D; true;
-    this.dataService.mutations.updateIssueComment(
-      Math.random().toString(),
-      this.commentId,
-      body
-    ).then(() &#x3D;&gt; {
-      // only exit if successful
-      this.editBody &#x3D; false;
-    }).finally(() &#x3D;&gt; {
-      this.savingBody &#x3D; false;
-    });
+    this.dataService.mutations
+      .updateIssueComment(Math.random().toString(), this.commentId, body)
+      .then(() &#x3D;&gt; {
+        // only exit if successful
+        this.editBody &#x3D; false;
+      })
+      .finally(() &#x3D;&gt; {
+        this.savingBody &#x3D; false;
+      });
   }
 
   /**
    * Deletes the current comment.
    */
   public deleteComment(): void {
-
-    const confirmDeleteDialogRef &#x3D; this.dialog.open(RemoveDialogComponent,
-      {
-        data: {
-          title: &#x27;Really delete comment ?&#x27;,
-          messages: [&#x27;Are you sure you want to delete this comment ?&#x27;,
-            &#x27;This action cannot be undone!&#x27;]
-        }
-      });
-
-    confirmDeleteDialogRef.afterClosed().subscribe(del &#x3D;&gt; {
-      if (del) {
-        // User confirmed deletion
-        this.dataService.mutations.deleteIssueComment(
-          Math.random().toString(),
-          this.issueId,
-          this.commentId
-        ).then(() &#x3D;&gt; {
-          this.notify.notifyInfo(&#x27;Successfully deleted comment&#x27;);
-        });
+    const confirmDeleteDialogRef &#x3D; this.dialog.open(RemoveDialogComponent, {
+      data: {
+        title: &#x27;Really delete comment ?&#x27;,
+        messages: [&#x27;Are you sure you want to delete this comment ?&#x27;, &#x27;This action cannot be undone!&#x27;]
       }
-    },
-      error &#x3D;&gt; this.notify.notifyError(&#x27;Failed to delete project!&#x27;, error));
+    });
+
+    confirmDeleteDialogRef.afterClosed().subscribe(
+      (del) &#x3D;&gt; {
+        if (del) {
+          // User confirmed deletion
+          this.dataService.mutations.deleteIssueComment(Math.random().toString(), this.issueId, this.commentId).then(() &#x3D;&gt; {
+            this.notify.notifyInfo(&#x27;Successfully deleted comment&#x27;);
+          });
+        }
+      },
+      (error) &#x3D;&gt; this.notify.notifyError(&#x27;Failed to delete project!&#x27;, error)
+    );
   }
 }
 </code></pre>
@@ -717,35 +709,33 @@ export class CommentComponent implements OnInit, OnDestroy {
     &lt;div class&#x3D;&quot;item-header&quot;&gt;
       &lt;!--Text--&gt;
       &lt;h3 class&#x3D;&quot;item-title&quot;&gt;
-        &lt;app-user-item [short]&#x3D;&quot;true&quot; [user]&#x3D;&quot;comment.createdBy&quot;&gt;&lt;/app-user-item&gt; commented
+        &lt;app-user-item [short]&#x3D;&quot;true&quot; [user]&#x3D;&quot;comment.createdBy&quot;&gt;&lt;/app-user-item&gt;
+        commented
         &lt;time [dateTime]&#x3D;&quot;comment.createdAt&quot; [title]&#x3D;&quot;this.timeFormatter.formatTime(comment.createdAt)&quot;&gt;
-          {{this.timeFormatter.formatTimeDifference(comment.createdAt)}}
+          {{ this.timeFormatter.formatTimeDifference(comment.createdAt) }}
         &lt;/time&gt;
         &lt;span class&#x3D;&quot;item-edited&quot; *ngIf&#x3D;&quot;comment.lastEditedAt !&#x3D;&#x3D; comment.createdAt&quot;&gt;
-          &amp;sdot;&lt;app-user-item [short]&#x3D;&quot;true&quot; [user]&#x3D;&quot;comment.editedBy?.nodes[0]&quot;&gt;&lt;/app-user-item&gt; edited
+          &amp;sdot;&lt;app-user-item [short]&#x3D;&quot;true&quot; [user]&#x3D;&quot;comment.editedBy?.nodes[0]&quot;&gt;&lt;/app-user-item&gt;
+          edited
           &lt;time [dateTime]&#x3D;&quot;comment.lastEditedAt&quot; [title]&#x3D;&quot;this.timeFormatter.formatTime(comment.lastEditedAt)&quot;&gt;
-            {{this.timeFormatter.formatTimeDifference(comment.lastEditedAt)}}
+            {{ this.timeFormatter.formatTimeDifference(comment.lastEditedAt) }}
           &lt;/time&gt;
         &lt;/span&gt;
       &lt;/h3&gt;
 
       &lt;!--Edit--&gt;
       &lt;!-- Delete button is only for comments and not for issue description displayed --&gt;
-      &lt;button
-        *ngIf&#x3D;&quot;!this.editBody &amp;&amp; !this.isIssueBody&quot;
-        class&#x3D;&quot;item-edit&quot;
-        color&#x3D;&quot;warn&quot;
-        mat-flat-button
-        (click)&#x3D;&quot;this.deleteComment()&quot;&gt;
+      &lt;button *ngIf&#x3D;&quot;!this.editBody &amp;&amp; !this.isIssueBody&quot; class&#x3D;&quot;item-edit&quot; color&#x3D;&quot;warn&quot; mat-flat-button (click)&#x3D;&quot;this.deleteComment()&quot;&gt;
         Delete
       &lt;/button&gt;
       &lt;button
-          *ngIf&#x3D;&quot;!this.editBody&quot;
-          class&#x3D;&quot;item-edit&quot;
-          style&#x3D;&quot;margin-left: 6px&quot;
-          color&#x3D;&quot;primary&quot;
-          mat-flat-button
-          (click)&#x3D;&quot;this.editBody&#x3D;!this.editBody&quot;&gt;
+        *ngIf&#x3D;&quot;!this.editBody&quot;
+        class&#x3D;&quot;item-edit&quot;
+        style&#x3D;&quot;margin-left: 6px&quot;
+        color&#x3D;&quot;primary&quot;
+        mat-flat-button
+        (click)&#x3D;&quot;this.editBody &#x3D; !this.editBody&quot;
+      &gt;
         Edit
       &lt;/button&gt;
     &lt;/div&gt;
@@ -756,27 +746,21 @@ export class CommentComponent implements OnInit, OnDestroy {
     &lt;/div&gt;
 
     &lt;!--Part 3: Editing--&gt;
-    &lt;div *ngIf&#x3D;&quot;this.editBody&quot; class&#x3D;&quot;item-body is-editing&quot; [ngStyle]&#x3D;&quot;{&#x27;height&#x27;: (this.editBody) ? &#x27;280px&#x27; : &#x27;auto&#x27;}&quot;&gt;
+    &lt;div *ngIf&#x3D;&quot;this.editBody&quot; class&#x3D;&quot;item-body is-editing&quot; [ngStyle]&#x3D;&quot;{ height: this.editBody ? &#x27;280px&#x27; : &#x27;auto&#x27; }&quot;&gt;
       &lt;!--Text--&gt;
       &lt;app-markdown-editor #bodyEdit [code]&#x3D;&quot;comment.body&quot;&gt;&lt;/app-markdown-editor&gt;
 
       &lt;div class&#x3D;&quot;edit-body-buttons&quot;&gt;
         &lt;!--Cancel--&gt;
-        &lt;button mat-raised-button (click)&#x3D;&quot;this.editBody&#x3D;!this.editBody&quot;&gt;Cancel&lt;/button&gt;
+        &lt;button mat-raised-button (click)&#x3D;&quot;this.editBody &#x3D; !this.editBody&quot;&gt;Cancel&lt;/button&gt;
         &lt;!--Save--&gt;
-        &lt;button
-          mat-raised-button
-          style&#x3D;&quot;margin-left: 6px&quot;
-          color&#x3D;&quot;accent&quot;
-          [class.spinner]&#x3D;&quot;savingBody&quot;
-          (click)&#x3D;&quot;editComment(bodyEdit.code)&quot;&gt;
+        &lt;button mat-raised-button style&#x3D;&quot;margin-left: 6px&quot; color&#x3D;&quot;accent&quot; [class.spinner]&#x3D;&quot;savingBody&quot; (click)&#x3D;&quot;editComment(bodyEdit.code)&quot;&gt;
           Save
         &lt;/button&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
-
 </code></pre>
     </div>
 
@@ -784,7 +768,7 @@ export class CommentComponent implements OnInit, OnDestroy {
                 <p class="comment">
                     <code>./comment.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;../issue-contents.component&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &quot;../issue-contents.component&quot;;
 </code></pre>
     </div>
 
@@ -813,7 +797,7 @@ export class CommentComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="timeline-item">  <div class="item-box" *ngIf="comment$.hasData && comment$.current as comment">    <!--Part 1: Header-->    <div class="item-header">      <!--Text-->      <h3 class="item-title">        <app-user-item [short]="true" [user]="comment.createdBy"></app-user-item> commented        <time [dateTime]="comment.createdAt" [title]="this.timeFormatter.formatTime(comment.createdAt)">          {{this.timeFormatter.formatTimeDifference(comment.createdAt)}}        </time>        <span class="item-edited" *ngIf="comment.lastEditedAt !== comment.createdAt">          &sdot;<app-user-item [short]="true" [user]="comment.editedBy?.nodes[0]"></app-user-item> edited          <time [dateTime]="comment.lastEditedAt" [title]="this.timeFormatter.formatTime(comment.lastEditedAt)">            {{this.timeFormatter.formatTimeDifference(comment.lastEditedAt)}}          </time>        </span>      </h3>      <!--Edit-->      <!-- Delete button is only for comments and not for issue description displayed -->      <button        *ngIf="!this.editBody && !this.isIssueBody"        class="item-edit"        color="warn"        mat-flat-button        (click)="this.deleteComment()">        Delete      </button>      <button          *ngIf="!this.editBody"          class="item-edit"          style="margin-left: 6px"          color="primary"          mat-flat-button          (click)="this.editBody=!this.editBody">        Edit      </button>    </div>    <!--Part 2: Description-->    <div *ngIf="!this.editBody" class="item-body">      <app-markdown-preview [displayedCode]="comment.body"></app-markdown-preview>    </div>    <!--Part 3: Editing-->    <div *ngIf="this.editBody" class="item-body is-editing" [ngStyle]="{\'height\': (this.editBody) ? \'280px\' : \'auto\'}">      <!--Text-->      <app-markdown-editor #bodyEdit [code]="comment.body"></app-markdown-editor>      <div class="edit-body-buttons">        <!--Cancel-->        <button mat-raised-button (click)="this.editBody=!this.editBody">Cancel</button>        <!--Save-->        <button          mat-raised-button          style="margin-left: 6px"          color="accent"          [class.spinner]="savingBody"          (click)="editComment(bodyEdit.code)">          Save        </button>      </div>    </div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="timeline-item">  <div class="item-box" *ngIf="comment$.hasData && comment$.current as comment">    <!--Part 1: Header-->    <div class="item-header">      <!--Text-->      <h3 class="item-title">        <app-user-item [short]="true" [user]="comment.createdBy"></app-user-item>        commented        <time [dateTime]="comment.createdAt" [title]="this.timeFormatter.formatTime(comment.createdAt)">          {{ this.timeFormatter.formatTimeDifference(comment.createdAt) }}        </time>        <span class="item-edited" *ngIf="comment.lastEditedAt !== comment.createdAt">          &sdot;<app-user-item [short]="true" [user]="comment.editedBy?.nodes[0]"></app-user-item>          edited          <time [dateTime]="comment.lastEditedAt" [title]="this.timeFormatter.formatTime(comment.lastEditedAt)">            {{ this.timeFormatter.formatTimeDifference(comment.lastEditedAt) }}          </time>        </span>      </h3>      <!--Edit-->      <!-- Delete button is only for comments and not for issue description displayed -->      <button *ngIf="!this.editBody && !this.isIssueBody" class="item-edit" color="warn" mat-flat-button (click)="this.deleteComment()">        Delete      </button>      <button        *ngIf="!this.editBody"        class="item-edit"        style="margin-left: 6px"        color="primary"        mat-flat-button        (click)="this.editBody = !this.editBody"      >        Edit      </button>    </div>    <!--Part 2: Description-->    <div *ngIf="!this.editBody" class="item-body">      <app-markdown-preview [displayedCode]="comment.body"></app-markdown-preview>    </div>    <!--Part 3: Editing-->    <div *ngIf="this.editBody" class="item-body is-editing" [ngStyle]="{ height: this.editBody ? \'280px\' : \'auto\' }">      <!--Text-->      <app-markdown-editor #bodyEdit [code]="comment.body"></app-markdown-editor>      <div class="edit-body-buttons">        <!--Cancel-->        <button mat-raised-button (click)="this.editBody = !this.editBody">Cancel</button>        <!--Save-->        <button mat-raised-button style="margin-left: 6px" color="accent" [class.spinner]="savingBody" (click)="editComment(bodyEdit.code)">          Save        </button>      </div>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'CommentComponent'};

@@ -174,19 +174,19 @@ export class StateService {
    * @param ps
    */
   syncStateWithUrl(router: Router, ps: ProjectStoreService) {
-    router.events.pipe(
-      filter(event &#x3D;&gt; (event instanceof NavigationEnd &amp;&amp; this.isProjectURL(event.url))),
-      switchMap((event: NavigationEnd) &#x3D;&gt;
-        ps.getBasicProject(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path)
+    router.events
+      .pipe(
+        filter((event) &#x3D;&gt; event instanceof NavigationEnd &amp;&amp; this.isProjectURL(event.url)),
+        switchMap((event: NavigationEnd) &#x3D;&gt;
+          ps.getBasicProject(this.router.parseUrl(event.url).root?.children[PRIMARY_OUTLET].segments[1].path)
+        )
       )
-    ).subscribe(project &#x3D;&gt; {
-      this.state.project &#x3D; project;
-      this.state$.next(this.state);
-    });
+      .subscribe((project) &#x3D;&gt; {
+        this.state.project &#x3D; project;
+        this.state$.next(this.state);
+      });
     // set project to null if new url is not specific to a project
-    router.events.pipe(
-      filter(event &#x3D;&gt; (event instanceof NavigationEnd &amp;&amp; !this.isProjectURL(event.url))),
-    ).subscribe(_ &#x3D;&gt; {
+    router.events.pipe(filter((event) &#x3D;&gt; event instanceof NavigationEnd &amp;&amp; !this.isProjectURL(event.url))).subscribe((_) &#x3D;&gt; {
       this.state.project &#x3D; null;
       this.state$.next(this.state);
     });
@@ -204,7 +204,7 @@ export class StateService {
     const primary &#x3D; tree.root.children[PRIMARY_OUTLET];
     if (primary) {
       const primarySegments &#x3D; primary.segments;
-      return (primarySegments[0].path &#x3D;&#x3D;&#x3D; &#x27;projects&#x27; &amp;&amp; primary.segments.length &gt;&#x3D; 2);
+      return primarySegments[0].path &#x3D;&#x3D;&#x3D; &#x27;projects&#x27; &amp;&amp; primary.segments.length &gt;&#x3D; 2;
     }
     return false;
   }
@@ -213,7 +213,6 @@ export class StateService {
 export interface AppState {
   project?: GetBasicProjectQuery;
 }
-
 </code></pre>
     </div>
 </div>

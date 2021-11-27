@@ -127,8 +127,8 @@ Used in method initGraph of IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">src/app/graphs/issue-graph/dynamic-template-registry/issue-graph-dynamic-template-registry.service.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">src/app/graphs/issue-graph/dynamic-template-registry/issue-graph-dynamic-template-registry.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -191,14 +191,14 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
 import * as dynamicTemplate from &#x27;@ustutt/grapheditor-webcomponent/lib/dynamic-templates/dynamic-template&#x27;;
 import GraphEditor from &#x27;@ustutt/grapheditor-webcomponent/lib/grapheditor&#x27;;
 import {LinkHandle} from &#x27;@ustutt/grapheditor-webcomponent/lib/link-handle&#x27;;
 import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 
 /**
- * This service is respoonsible for managing the dynamic template registry 
+ * This service is respoonsible for managing the dynamic template registry
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
@@ -206,36 +206,23 @@ import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
   providedIn: &#x27;root&#x27;
 })
 export class IssueGraphDynamicTemplateRegistryService {
-
   /**
    * Manages the dynamic template registry of given GraphEditor instance.
    * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
    */
   manageDynamicTemplateRegistry(graph: GraphEditor) {
     graph.dynamicTemplateRegistry.addDynamicTemplate(&#x27;issue-group-container&#x27;, {
-      renderInitialTemplate(
-        g,
-        grapheditor: GraphEditor,
-        context: dynamicTemplate.DynamicTemplateContext&lt;Node&gt;
-      ): void {
+      renderInitialTemplate(g, grapheditor: GraphEditor, context: dynamicTemplate.DynamicTemplateContext&lt;Node&gt;): void {
         // template is empty
-        g.append(&#x27;circle&#x27;)
-          .attr(&#x27;x&#x27;, 0)
-          .attr(&#x27;y&#x27;, 0)
-          .attr(&#x27;r&#x27;, 1)
-          .style(&#x27;opacity&#x27;, 0);
+        g.append(&#x27;circle&#x27;).attr(&#x27;x&#x27;, 0).attr(&#x27;y&#x27;, 0).attr(&#x27;r&#x27;, 1).style(&#x27;opacity&#x27;, 0);
       },
-      updateTemplate(
-        g,
-        grapheditor: GraphEditor,
-        context: dynamicTemplate.DynamicTemplateContext&lt;Node&gt;
-      ): void {
+      updateTemplate(g, grapheditor: GraphEditor, context: dynamicTemplate.DynamicTemplateContext&lt;Node&gt;): void {
         // template is empty
       },
       getLinkHandles(g, grapheditor: GraphEditor): LinkHandle[] {
         // template has no link handles
         return [];
-      },
+      }
     } as dynamicTemplate.DynamicNodeTemplate);
   }
 }

@@ -325,8 +325,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:96</a></div>
                 </td>
             </tr>
 
@@ -362,8 +362,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:100</a></div>
                 </td>
             </tr>
 
@@ -579,7 +579,7 @@ including 1) components and 2) locations.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -606,7 +606,7 @@ including 1) components and 2) locations.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/dialogs/create-issue-dialog/create-issue-dialog.component.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -638,7 +638,7 @@ including 1) components and 2) locations.</p>
     locations: [],
     labels: [],
     assignees: [],
-    linksToIssues: [],
+    linksToIssues: []
   }</code>
                     </td>
                 </tr>
@@ -734,14 +734,14 @@ including 1) components and 2) locations.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Inject, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
-import { FormControl, Validators } from &#x27;@angular/forms&#x27;;
-import { IssueCategory } from &#x27;../../../generated/graphql&#x27;;
-import { UserNotifyService } from &#x27;@app/user-notify/user-notify.service&#x27;;
-import { CCIMSValidators } from &#x27;@app/utils/validators&#x27;;
-import { CreateIssueInput } from &#x27;../../../generated/graphql-dgql&#x27;;
-import { NodeId, NodeType } from &#x27;@app/data-dgql/id&#x27;;
+import {FormControl, Validators} from &#x27;@angular/forms&#x27;;
+import {IssueCategory} from &#x27;../../../generated/graphql&#x27;;
+import {UserNotifyService} from &#x27;@app/user-notify/user-notify.service&#x27;;
+import {CCIMSValidators} from &#x27;@app/utils/validators&#x27;;
+import {CreateIssueInput} from &#x27;../../../generated/graphql-dgql&#x27;;
+import {NodeId, NodeType} from &#x27;@app/data-dgql/id&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
 import {LocalIssueData} from &#x27;@app/issue-detail/issue-sidebar.component&#x27;;
 import {RemoveDialogComponent} from &#x27;@app/dialogs/remove-dialog/remove-dialog.component&#x27;;
@@ -760,13 +760,13 @@ export class CreateIssueDialogComponent implements OnInit {
   public loading &#x3D; false;
   public saveFailed &#x3D; false;
 
-  constructor(public dialogRef: MatDialogRef&lt;CreateIssueDialogComponent&gt;,
-              private dialog: MatDialog,
-              private dataService: DataService,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private notify: UserNotifyService
-  ) {
-  }
+  constructor(
+    public dialogRef: MatDialogRef&lt;CreateIssueDialogComponent&gt;,
+    private dialog: MatDialog,
+    private dataService: DataService,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private notify: UserNotifyService
+  ) {}
 
   // form controls for the form fields
   title &#x3D; new FormControl(&#x27;&#x27;, [CCIMSValidators.nameValidator, Validators.required]);
@@ -777,7 +777,7 @@ export class CreateIssueDialogComponent implements OnInit {
     locations: [],
     labels: [],
     assignees: [],
-    linksToIssues: [],
+    linksToIssues: []
   };
 
   ngOnInit(): void {
@@ -810,18 +810,20 @@ export class CreateIssueDialogComponent implements OnInit {
 
   onNoClick(showConfirmDialog: boolean): void {
     if (showConfirmDialog) {
-      this.dialog.open(RemoveDialogComponent,
-        {
+      this.dialog
+        .open(RemoveDialogComponent, {
           data: {
             title: &#x27;Really discard issue?&#x27;,
             messages: [&#x27;Are you sure you want to discard this issue?&#x27;],
             confirmButtonText: &#x27;Confirm&#x27;
           }
-        }).afterClosed().subscribe((close) &#x3D;&gt; {
-        if (close) {
-          this.dialogRef.close();
-        }
-      });
+        })
+        .afterClosed()
+        .subscribe((close) &#x3D;&gt; {
+          if (close) {
+            this.dialogRef.close();
+          }
+        });
     } else {
       this.dialogRef.close();
     }
@@ -837,31 +839,37 @@ export class CreateIssueDialogComponent implements OnInit {
       body: this.body.code,
       category: this.category.value,
       clientMutationID: Math.random().toString(36),
-      components: this.issueData.components.map(node &#x3D;&gt; node.id),
-      locations: this.issueData.locations.map(node &#x3D;&gt; node.id),
-      labels: this.issueData.labels.map(node &#x3D;&gt; node.id),
-      assignees: this.issueData.assignees.map(node &#x3D;&gt; node.id),
+      components: this.issueData.components.map((node) &#x3D;&gt; node.id),
+      locations: this.issueData.locations.map((node) &#x3D;&gt; node.id),
+      labels: this.issueData.labels.map((node) &#x3D;&gt; node.id),
+      assignees: this.issueData.assignees.map((node) &#x3D;&gt; node.id)
     };
     this.loading &#x3D; true;
     this.saveFailed &#x3D; false;
-    this.dataService.mutations.createIssue(issueData).then(async result &#x3D;&gt; {
-      const issueId &#x3D; { type: NodeType.Issue, id: result.id };
-      const promises &#x3D; [];
-      for (const linked of this.issueData.linksToIssues) {
-        promises.push(this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch(err &#x3D;&gt; {
-          this.notify.notifyError(&#x27;Failed to link issue!&#x27;, err);
-          // aborting on this error would cause weird non-recoverable state so we won&#x27;t rethrow it
-        }));
-      }
-      await Promise.all(promises);
+    this.dataService.mutations
+      .createIssue(issueData)
+      .then(async (result) &#x3D;&gt; {
+        const issueId &#x3D; {type: NodeType.Issue, id: result.id};
+        const promises &#x3D; [];
+        for (const linked of this.issueData.linksToIssues) {
+          promises.push(
+            this.dataService.mutations.linkIssue(Math.random().toString(), issueId, linked).catch((err) &#x3D;&gt; {
+              this.notify.notifyError(&#x27;Failed to link issue!&#x27;, err);
+              // aborting on this error would cause weird non-recoverable state so we won&#x27;t rethrow it
+            })
+          );
+        }
+        await Promise.all(promises);
 
-      this.dialogRef.close(true);
-    }).catch(err &#x3D;&gt; {
-      this.notify.notifyError(&#x27;Failed to create issue!&#x27;, err);
-      this.saveFailed &#x3D; true;
-    }).finally(() &#x3D;&gt; {
-      this.loading &#x3D; false;
-    });
+        this.dialogRef.close(true);
+      })
+      .catch((err) &#x3D;&gt; {
+        this.notify.notifyError(&#x27;Failed to create issue!&#x27;, err);
+        this.saveFailed &#x3D; true;
+      })
+      .finally(() &#x3D;&gt; {
+        this.loading &#x3D; false;
+      });
   }
 }
 
@@ -885,11 +893,10 @@ export interface DialogData {
 &lt;!--1. Content--&gt;
 &lt;div mat-dialog-content&gt;
   &lt;form&gt;
-
     &lt;!--1.1. Issue title--&gt;
     &lt;mat-form-field class&#x3D;&quot;stretch&quot; appearance&#x3D;&quot;outline&quot;&gt;
       &lt;mat-label&gt;Title&lt;/mat-label&gt;
-      &lt;input matInput [formControl]&#x3D;&quot;title&quot; required&gt;
+      &lt;input matInput [formControl]&#x3D;&quot;title&quot; required /&gt;
       &lt;mat-error *ngIf&#x3D;&quot;title.invalid&quot;&gt;Invalid issue title&lt;/mat-error&gt;
     &lt;/mat-form-field&gt;
 
@@ -916,24 +923,32 @@ export interface DialogData {
     &lt;app-issue-sidebar [(localIssue)]&#x3D;&quot;issueData&quot; [projectId]&#x3D;&quot;data.projectId&quot;&gt;&lt;/app-issue-sidebar&gt;
 
     &lt;!--Save failed error message--&gt;
-    &lt;nz-alert *ngIf&#x3D;&quot;this.saveFailed&quot; class&#x3D;&quot;error-message&quot; nzType&#x3D;&quot;error&quot; nzMessage&#x3D;&quot;Something went wrong&quot; nzShowIcon
-              nzCloseable (nzOnClose)&#x3D;&quot;afterAlertClose()&quot;&gt;&lt;/nz-alert&gt;
+    &lt;nz-alert
+      *ngIf&#x3D;&quot;this.saveFailed&quot;
+      class&#x3D;&quot;error-message&quot;
+      nzType&#x3D;&quot;error&quot;
+      nzMessage&#x3D;&quot;Something went wrong&quot;
+      nzShowIcon
+      nzCloseable
+      (nzOnClose)&#x3D;&quot;afterAlertClose()&quot;
+    &gt;&lt;/nz-alert&gt;
   &lt;/form&gt;
-
 &lt;/div&gt;
 
 &lt;!--2. Actions--&gt;
 &lt;div mat-dialog-actions class&#x3D;&quot;actions&quot;&gt;
-
   &lt;!--2.1. Cancel button, stops the issue creation process--&gt;
-  &lt;button mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;onNoClick(body.code?.length &gt; 0 || title.value.length &gt; 0)&quot;&gt;
-    Cancel
-  &lt;/button&gt;
+  &lt;button mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;onNoClick(body.code?.length &gt; 0 || title.value.length &gt; 0)&quot;&gt;Cancel&lt;/button&gt;
 
   &lt;!--2.2. Create button, finishes the issue creation process--&gt;
-  &lt;button mat-raised-button color&#x3D;&quot;success&quot; [class.spinner]&#x3D;&quot;loading&quot;
-          [disabled]&#x3D;&quot;loading || title.invalid || category.invalid&quot;
-          (click)&#x3D;&quot;onCreate()&quot;&gt;Create
+  &lt;button
+    mat-raised-button
+    color&#x3D;&quot;success&quot;
+    [class.spinner]&#x3D;&quot;loading&quot;
+    [disabled]&#x3D;&quot;loading || title.invalid || category.invalid&quot;
+    (click)&#x3D;&quot;onCreate()&quot;
+  &gt;
+    Create
   &lt;/button&gt;
 &lt;/div&gt;
 </code></pre>
@@ -943,7 +958,7 @@ export interface DialogData {
                 <p class="comment">
                     <code>./create-issue-dialog.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/styles/dialog&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &quot;src/styles/dialog&quot;;
 
 .category-selector {
   width: 100%;
@@ -991,7 +1006,7 @@ export interface DialogData {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!--Create issue dialog--><h1 mat-dialog-title>Create Issue</h1><!--1. Content--><div mat-dialog-content>  <form>    <!--1.1. Issue title-->    <mat-form-field class="stretch" appearance="outline">      <mat-label>Title</mat-label>      <input matInput [formControl]="title" required>      <mat-error *ngIf="title.invalid">Invalid issue title</mat-error>    </mat-form-field>    <!--1.2. Issue description-->    <app-markdown-editor #body></app-markdown-editor>    <!--1.3. Issue category-->    <mat-button-toggle-group class="category-selector" [formControl]="category" required>      <mat-button-toggle value="UNCLASSIFIED">        <mat-icon [svgIcon]="\'issue-uncategorized\'"></mat-icon>        Unclassified      </mat-button-toggle>      <mat-button-toggle value="BUG">        <mat-icon [svgIcon]="\'issue-bug\'"></mat-icon>        Bug      </mat-button-toggle>      <mat-button-toggle value="FEATURE_REQUEST">        <mat-icon [svgIcon]="\'issue-feature\'"></mat-icon>        Feature Request      </mat-button-toggle>    </mat-button-toggle-group>    <!--1.4. Issue data-->    <app-issue-sidebar [(localIssue)]="issueData" [projectId]="data.projectId"></app-issue-sidebar>    <!--Save failed error message-->    <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon              nzCloseable (nzOnClose)="afterAlertClose()"></nz-alert>  </form></div><!--2. Actions--><div mat-dialog-actions class="actions">  <!--2.1. Cancel button, stops the issue creation process-->  <button mat-raised-button color="warn" (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)">    Cancel  </button>  <!--2.2. Create button, finishes the issue creation process-->  <button mat-raised-button color="success" [class.spinner]="loading"          [disabled]="loading || title.invalid || category.invalid"          (click)="onCreate()">Create  </button></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!--Create issue dialog--><h1 mat-dialog-title>Create Issue</h1><!--1. Content--><div mat-dialog-content>  <form>    <!--1.1. Issue title-->    <mat-form-field class="stretch" appearance="outline">      <mat-label>Title</mat-label>      <input matInput [formControl]="title" required />      <mat-error *ngIf="title.invalid">Invalid issue title</mat-error>    </mat-form-field>    <!--1.2. Issue description-->    <app-markdown-editor #body></app-markdown-editor>    <!--1.3. Issue category-->    <mat-button-toggle-group class="category-selector" [formControl]="category" required>      <mat-button-toggle value="UNCLASSIFIED">        <mat-icon [svgIcon]="\'issue-uncategorized\'"></mat-icon>        Unclassified      </mat-button-toggle>      <mat-button-toggle value="BUG">        <mat-icon [svgIcon]="\'issue-bug\'"></mat-icon>        Bug      </mat-button-toggle>      <mat-button-toggle value="FEATURE_REQUEST">        <mat-icon [svgIcon]="\'issue-feature\'"></mat-icon>        Feature Request      </mat-button-toggle>    </mat-button-toggle-group>    <!--1.4. Issue data-->    <app-issue-sidebar [(localIssue)]="issueData" [projectId]="data.projectId"></app-issue-sidebar>    <!--Save failed error message-->    <nz-alert      *ngIf="this.saveFailed"      class="error-message"      nzType="error"      nzMessage="Something went wrong"      nzShowIcon      nzCloseable      (nzOnClose)="afterAlertClose()"    ></nz-alert>  </form></div><!--2. Actions--><div mat-dialog-actions class="actions">  <!--2.1. Cancel button, stops the issue creation process-->  <button mat-raised-button color="warn" (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)">Cancel</button>  <!--2.2. Create button, finishes the issue creation process-->  <button    mat-raised-button    color="success"    [class.spinner]="loading"    [disabled]="loading || title.invalid || category.invalid"    (click)="onCreate()"  >    Create  </button></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'CreateIssueDialogComponent'};

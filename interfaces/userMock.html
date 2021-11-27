@@ -309,29 +309,29 @@ export class ProjectMembersComponent implements OnInit {
   dataSource: MatTableDataSource&lt;any&gt;;
 
   //users
-  mockUsers: Array&lt;userMock&gt; &#x3D; [{id: &#x27;1&#x27;, displayName: &#x27;User1&#x27;, email: &#x27;User1.de&#x27;},
+  mockUsers: Array&lt;userMock&gt; &#x3D; [
+    {id: &#x27;1&#x27;, displayName: &#x27;User1&#x27;, email: &#x27;User1.de&#x27;},
     {id: &#x27;2&#x27;, displayName: &#x27;User2&#x27;, email: &#x27;User2.de&#x27;},
     {id: &#x27;3&#x27;, displayName: &#x27;User3&#x27;, email: &#x27;User3.de&#x27;},
     {id: &#x27;4&#x27;, displayName: &#x27;User4&#x27;, email: &#x27;User4.de&#x27;},
     {id: &#x27;5&#x27;, displayName: &#x27;User5&#x27;, email: &#x27;User5.de&#x27;},
-    {id: &#x27;6&#x27;, displayName: &#x27;User6&#x27;, email: &#x27;User6.de&#x27;}];
+    {id: &#x27;6&#x27;, displayName: &#x27;User6&#x27;, email: &#x27;User6.de&#x27;}
+  ];
 
   // list of users who can be added to the project
   //hardcoded
   addableUsers: Array&lt;userMock&gt; &#x3D; [
     {id: &#x27;7&#x27;, displayName: &#x27;AddedUser1&#x27;, email: &#x27;AddedUser1.de&#x27;},
     {id: &#x27;8&#x27;, displayName: &#x27;AddedUser2&#x27;, email: &#x27;AddedUser2.de&#x27;},
-    {id: &#x27;9&#x27;, displayName: &#x27;AddedUser3&#x27;, email: &#x27;AddedUser3.de&#x27;},
+    {id: &#x27;9&#x27;, displayName: &#x27;AddedUser3&#x27;, email: &#x27;AddedUser3.de&#x27;}
   ];
 
-
-  constructor(private dialog: MatDialog, private projectStore: ProjectStoreService, private route: ActivatedRoute) {
-  }
+  constructor(private dialog: MatDialog, private projectStore: ProjectStoreService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.projectId &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
     this.project$ &#x3D; this.projectStore.getFullProject(this.projectId);
-    this.project$.subscribe(project &#x3D;&gt; {
+    this.project$.subscribe((project) &#x3D;&gt; {
       this.project &#x3D; project;
       // MOCK DATA for table
       // FIXME Api change
@@ -339,7 +339,7 @@ export class ProjectMembersComponent implements OnInit {
       this.dataSource &#x3D; new MatTableDataSource&lt;any&gt;(this.mockUsers);
 
       // sort data in table
-      this.sort.sort(({id: &#x27;Name&#x27;, start: &#x27;asc&#x27;}) as MatSortable);
+      this.sort.sort({id: &#x27;Name&#x27;, start: &#x27;asc&#x27;} as MatSortable);
       this.dataSource.sort &#x3D; this.sort;
 
       //paginator
@@ -349,32 +349,32 @@ export class ProjectMembersComponent implements OnInit {
 
   // This method adds a user to the project members list without processing a task in the back-end
   onAddClick() {
-    const addMemberDialogRef &#x3D; this.dialog.open(AddProjectMemberDialogComponent,
-      {data: {addableMembers: this.addableUsers, projectId: this.projectId}});
-    addMemberDialogRef.afterClosed().subscribe(data &#x3D;&gt; {
+    const addMemberDialogRef &#x3D; this.dialog.open(AddProjectMemberDialogComponent, {
+      data: {addableMembers: this.addableUsers, projectId: this.projectId}
+    });
+    addMemberDialogRef.afterClosed().subscribe((data) &#x3D;&gt; {
       if (data) {
         for (const user of data.usersToAdd) {
-          this.addableUsers.forEach(addableUser &#x3D;&gt; {
+          this.addableUsers.forEach((addableUser) &#x3D;&gt; {
             if (addableUser.id &#x3D;&#x3D; user) {
               this.mockUsers.push(addableUser);
             }
           });
         }
         this.dataSource &#x3D; new MatTableDataSource&lt;any&gt;(this.mockUsers);
-
       }
     });
-
   }
 
   // This method deletes a user to the project members list without processing a task in the back-end
   onDeleteClick() {
-    const deleteMemberDialogRef &#x3D; this.dialog.open(RemoveProjectMemberComponentComponent,
-      {data: {mockMembers: this.mockUsers, projectId: this.projectId}});
-    deleteMemberDialogRef.afterClosed().subscribe(data &#x3D;&gt; {
+    const deleteMemberDialogRef &#x3D; this.dialog.open(RemoveProjectMemberComponentComponent, {
+      data: {mockMembers: this.mockUsers, projectId: this.projectId}
+    });
+    deleteMemberDialogRef.afterClosed().subscribe((data) &#x3D;&gt; {
       if (data) {
         for (const user of data.usersToDelete) {
-          for (var i &#x3D; 0; i &lt; this.mockUsers.length; i++) {
+          for (let i &#x3D; 0; i &lt; this.mockUsers.length; i++) {
             if (this.mockUsers[i].id &#x3D;&#x3D;&#x3D; user) {
               this.mockUsers.splice(i, 1);
             }
@@ -386,8 +386,7 @@ export class ProjectMembersComponent implements OnInit {
   }
 
   //change pages
-  onPageChange(event: PageEvent) {
-  }
+  onPageChange(event: PageEvent) {}
 
   // on every key pressed in the filter-field this method is triggered and reduces the shown users in the list (table)
   applyFilter(filterValue: string) {
@@ -400,7 +399,6 @@ export class ProjectMembersComponent implements OnInit {
     // there schould be the code when a user is selected
     // TODO jump to the user information page
   }
-
 }
 
 // defines the structure of a user
@@ -409,9 +407,7 @@ export interface userMock {
   displayName?: string;
   username?: string;
   email?: string;
-
 }
-
 </code></pre>
     </div>
 </div>

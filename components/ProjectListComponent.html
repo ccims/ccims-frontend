@@ -449,8 +449,8 @@ It shows a list of all projects the user can access</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/project-list-component/project-list.component.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/project-list-component/project-list.component.ts:31</a></div>
                 </td>
             </tr>
 
@@ -640,10 +640,7 @@ export class ProjectListComponent implements OnInit {
   projects: Pick&lt;Project, &#x27;id&#x27; | &#x27;name&#x27;&gt;[] &#x3D; [];
   loading: boolean;
 
-  constructor(private projectStore: ProjectStoreService,
-              private dialog: MatDialog,
-              private notify: UserNotifyService) {
-  }
+  constructor(private projectStore: ProjectStoreService, private dialog: MatDialog, private notify: UserNotifyService) {}
 
   ngOnInit(): void {
     // get all projects from the database
@@ -656,19 +653,22 @@ export class ProjectListComponent implements OnInit {
     }
 
     this.loading &#x3D; true;
-    this.projectStore.getAll(this.projectName).subscribe(projects &#x3D;&gt; {
-      this.loading &#x3D; false;
-      this.projects &#x3D; projects;
-      this.lastQueriedProjectName &#x3D; this.projectName;
-    }, error &#x3D;&gt; {
-      this.loading &#x3D; false;
-      this.notify.notifyError(&#x27;Failed to load projects&#x27;, error);
-    });
+    this.projectStore.getAll(this.projectName).subscribe(
+      (projects) &#x3D;&gt; {
+        this.loading &#x3D; false;
+        this.projects &#x3D; projects;
+        this.lastQueriedProjectName &#x3D; this.projectName;
+      },
+      (error) &#x3D;&gt; {
+        this.loading &#x3D; false;
+        this.notify.notifyError(&#x27;Failed to load projects&#x27;, error);
+      }
+    );
   }
 
   public openCreateProjectDialog(): void {
     const createProjectDialogRef &#x3D; this.dialog.open(CreateProjectDialogComponent);
-    createProjectDialogRef.afterClosed().subscribe(result &#x3D;&gt; {
+    createProjectDialogRef.afterClosed().subscribe((result) &#x3D;&gt; {
       this.changeColour();
       if (result?.createdProjectId) {
         this.projectName &#x3D; &#x27;&#x27;;
@@ -690,9 +690,7 @@ export class ProjectListComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
   }
-
 }
-
 </code></pre>
     </div>
 
@@ -702,25 +700,29 @@ export class ProjectListComponent implements OnInit {
 &lt;/div&gt;
 &lt;div class&#x3D;&quot;list-header&quot;&gt;
   &lt;h2 class&#x3D;&quot;list-h2&quot;&gt;Project-List&lt;/h2&gt;
-  &lt;button mat-raised-button color&#x3D;&quot;accent&quot; id&#x3D;&quot;buttonCreateProject&quot; (click)&#x3D;&quot;openCreateProjectDialog()&quot;
-          class&#x3D;&quot;floating-button&quot;&gt;Create Project
+  &lt;button mat-raised-button color&#x3D;&quot;accent&quot; id&#x3D;&quot;buttonCreateProject&quot; (click)&#x3D;&quot;openCreateProjectDialog()&quot; class&#x3D;&quot;floating-button&quot;&gt;
+    Create Project
   &lt;/button&gt;
   &lt;!--  &lt;button mat-raised-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;this.createDemoProject()&quot;--&gt;
   &lt;!--          class&#x3D;&quot;floating-button&quot;&gt;Create Demo Project--&gt;
   &lt;!--  &lt;/button&gt;--&gt;
 &lt;/div&gt;
 
-
 &lt;!-- list wrapper including search input field and list of projects --&gt;
 &lt;div class&#x3D;&quot;listWrapper&quot;&gt;
   &lt;nz-input-group nzSearch [nzAddOnAfter]&#x3D;&quot;suffixIconButton&quot;&gt;
-    &lt;input type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;projectName&quot; nz-input placeholder&#x3D;&quot;Search projects...&quot;
-           (keydown.enter)&#x3D;&quot;reloadProjects()&quot;/&gt;
+    &lt;input type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;projectName&quot; nz-input placeholder&#x3D;&quot;Search projects...&quot; (keydown.enter)&#x3D;&quot;reloadProjects()&quot; /&gt;
   &lt;/nz-input-group&gt;
   &lt;!-- search button --&gt;
   &lt;ng-template #suffixIconButton&gt;
-    &lt;button nz-button nzType&#x3D;&quot;primary&quot; [nzLoading]&#x3D;&quot;pendingCreate&quot; nzSearch (click)&#x3D;&quot;reloadProjects()&quot;
-            [disabled]&#x3D;&quot;projectName &#x3D;&#x3D;&#x3D; lastQueriedProjectName&quot;&gt;
+    &lt;button
+      nz-button
+      nzType&#x3D;&quot;primary&quot;
+      [nzLoading]&#x3D;&quot;pendingCreate&quot;
+      nzSearch
+      (click)&#x3D;&quot;reloadProjects()&quot;
+      [disabled]&#x3D;&quot;projectName &#x3D;&#x3D;&#x3D; lastQueriedProjectName&quot;
+    &gt;
       &lt;i nz-icon nzType&#x3D;&quot;search&quot;&gt;&lt;/i&gt;
     &lt;/button&gt;
   &lt;/ng-template&gt;
@@ -729,11 +731,14 @@ export class ProjectListComponent implements OnInit {
   &lt;!-- list of projects --&gt;
   &lt;mat-nav-list class&#x3D;&quot;mat-nav-list-padding-removed&quot;&gt;
     &lt;a *ngFor&#x3D;&quot;let project of projects&quot; mat-list-item [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;, project.id]&quot;&gt;
-
       &lt;!-- name of project --&gt;
       &lt;span matLine&gt;{{ project.name }}&lt;/span&gt;
-      &lt;a [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;, project.id,&#x27;graph&#x27;]&quot; mat-icon-button (click)&#x3D;&quot;this.nothing($event)&quot;
-         title&#x3D;&quot;Open project in graph view&quot;&gt;
+      &lt;a
+        [routerLink]&#x3D;&quot;[&#x27;/projects&#x27;, project.id, &#x27;graph&#x27;]&quot;
+        mat-icon-button
+        (click)&#x3D;&quot;this.nothing($event)&quot;
+        title&#x3D;&quot;Open project in graph view&quot;
+      &gt;
         &lt;mat-icon class&#x3D;&quot;graph-icon&quot;&gt;account_tree&lt;/mat-icon&gt;
       &lt;/a&gt;
       &lt;mat-divider&gt;&lt;/mat-divider&gt;
@@ -747,50 +752,48 @@ export class ProjectListComponent implements OnInit {
                 <p class="comment">
                     <code>./project-list.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;~@angular/material/theming&#x27;;
-@import &#x27;variables&#x27;;
-@import &#x27;src/styles/spinner&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &quot;~@angular/material/theming&quot;;
+@import &quot;variables&quot;;
+@import &quot;src/styles/spinner&quot;;
 
 span[matLine] {
   padding-left: 16px;
 }
 
-.nz-input-group{
-max-width: 100%;
-}
-.nz-input-group{
+.nz-input-group {
   max-width: 100%;
 }
-.listWrapper{
+.nz-input-group {
+  max-width: 100%;
+}
+.listWrapper {
   max-width: 50%;
   //background-color: black;
-  -webkit-box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
--moz-box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
-box-shadow: 2px 3px 18px -6px rgba(0,0,0,0.75);
-margin-top: 15px;
-margin-left: auto;
-margin-right: auto;
+  -webkit-box-shadow: 2px 3px 18px -6px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 3px 18px -6px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 3px 18px -6px rgba(0, 0, 0, 0.75);
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.centered-headline{
+.centered-headline {
   margin: auto;
 }
 
-
-
-.mat-nav-list-padding-removed{
+.mat-nav-list-padding-removed {
   padding-top: 0;
 }
-.floating-button{
-float: right;
+.floating-button {
+  float: right;
 }
-.list-header{
-max-width: 50%;
-margin-left: auto;
-margin-right: auto;
-height: 36px;
-margin-bottom: 5px;
+.list-header {
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 36px;
+  margin-bottom: 5px;
 }
-.list-h2{
+.list-h2 {
   max-width: 50%;
   float: left;
   margin-bottom: 0;
@@ -800,11 +803,11 @@ margin-bottom: 5px;
   color: $icon-gray;
 }
 
-#buttonDeleteProject{
+#buttonDeleteProject {
   margin: 5px;
 }
 
-#buttonCreateProject{
+#buttonCreateProject {
   margin: 5px;
 }
 </code></pre>
@@ -835,7 +838,7 @@ margin-bottom: 5px;
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="mat-toolbar-single-row">  <h1 class="centered-headline">My Projects</h1></div><div class="list-header">  <h2 class="list-h2">Project-List</h2>  <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()"          class="floating-button">Create Project  </button>  <!--  <button mat-raised-button color="primary" (click)="this.createDemoProject()"-->  <!--          class="floating-button">Create Demo Project-->  <!--  </button>--></div><!-- list wrapper including search input field and list of projects --><div class="listWrapper">  <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">    <input type="text" [(ngModel)]="projectName" nz-input placeholder="Search projects..."           (keydown.enter)="reloadProjects()"/>  </nz-input-group>  <!-- search button -->  <ng-template #suffixIconButton>    <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch (click)="reloadProjects()"            [disabled]="projectName === lastQueriedProjectName">      <i nz-icon nzType="search"></i>    </button>  </ng-template>  <nz-alert *ngIf="!loading && projects.length == 0" nzMessage="No projects found!" nzType="info"></nz-alert>  <!-- list of projects -->  <mat-nav-list class="mat-nav-list-padding-removed">    <a *ngFor="let project of projects" mat-list-item [routerLink]="[\'/projects\', project.id]">      <!-- name of project -->      <span matLine>{{ project.name }}</span>      <a [routerLink]="[\'/projects\', project.id,\'graph\']" mat-icon-button (click)="this.nothing($event)"         title="Open project in graph view">        <mat-icon class="graph-icon">account_tree</mat-icon>      </a>      <mat-divider></mat-divider>    </a>  </mat-nav-list></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="mat-toolbar-single-row">  <h1 class="centered-headline">My Projects</h1></div><div class="list-header">  <h2 class="list-h2">Project-List</h2>  <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()" class="floating-button">    Create Project  </button>  <!--  <button mat-raised-button color="primary" (click)="this.createDemoProject()"-->  <!--          class="floating-button">Create Demo Project-->  <!--  </button>--></div><!-- list wrapper including search input field and list of projects --><div class="listWrapper">  <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">    <input type="text" [(ngModel)]="projectName" nz-input placeholder="Search projects..." (keydown.enter)="reloadProjects()" />  </nz-input-group>  <!-- search button -->  <ng-template #suffixIconButton>    <button      nz-button      nzType="primary"      [nzLoading]="pendingCreate"      nzSearch      (click)="reloadProjects()"      [disabled]="projectName === lastQueriedProjectName"    >      <i nz-icon nzType="search"></i>    </button>  </ng-template>  <nz-alert *ngIf="!loading && projects.length == 0" nzMessage="No projects found!" nzType="info"></nz-alert>  <!-- list of projects -->  <mat-nav-list class="mat-nav-list-padding-removed">    <a *ngFor="let project of projects" mat-list-item [routerLink]="[\'/projects\', project.id]">      <!-- name of project -->      <span matLine>{{ project.name }}</span>      <a        [routerLink]="[\'/projects\', project.id, \'graph\']"        mat-icon-button        (click)="this.nothing($event)"        title="Open project in graph view"      >        <mat-icon class="graph-icon">account_tree</mat-icon>      </a>      <mat-divider></mat-divider>    </a>  </mat-nav-list></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'ProjectListComponent'};

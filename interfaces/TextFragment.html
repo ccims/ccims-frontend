@@ -137,11 +137,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
-import { concat, of, Subject, Observable, BehaviorSubject } from &#x27;rxjs&#x27;;
-import { catchError, distinctUntilChanged, switchMap, tap } from &#x27;rxjs/operators&#x27;;
-import { FilterLabel, isFilterLabel, LabelStoreService } from &#x27;../../data/label/label-store.service&#x27;;
-import { StateService } from &#x27;../../state.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, OnInit} from &#x27;@angular/core&#x27;;
+import {concat, of, Subject, Observable, BehaviorSubject} from &#x27;rxjs&#x27;;
+import {catchError, distinctUntilChanged, switchMap, tap} from &#x27;rxjs/operators&#x27;;
+import {FilterLabel, isFilterLabel, LabelStoreService} from &#x27;../../data/label/label-store.service&#x27;;
+import {StateService} from &#x27;../../state.service&#x27;;
 
 /**
  * This component is responsible for the display of the search bar above the graph.
@@ -153,22 +153,24 @@ import { StateService } from &#x27;../../state.service&#x27;;
   styleUrls: [&#x27;./label-search.component.scss&#x27;]
 })
 export class LabelSearchComponent implements OnInit {
-  public filterSelection$ &#x3D; new BehaviorSubject&lt;FilterSelection&gt;({labels: [], texts: []});
+  public filterSelection$ &#x3D; new BehaviorSubject&lt;FilterSelection&gt;({
+    labels: [],
+    texts: []
+  });
 
   labels$: Observable&lt;FilterLabel[]&gt;;
   labelsLoading &#x3D; false;
   labelsInput$ &#x3D; new Subject&lt;string&gt;();
   selectedLabels: FilterElement[] &#x3D; [];
 
-  constructor(private labelStore: LabelStoreService, private ss: StateService) {
-  }
+  constructor(private labelStore: LabelStoreService, private ss: StateService) {}
 
   ngOnInit() {
-      this.loadLabels();
+    this.loadLabels();
   }
 
   trackByFn(item: FilterLabel) {
-      return item.id;
+    return item.id;
   }
 
   /**
@@ -177,8 +179,8 @@ export class LabelSearchComponent implements OnInit {
   emitSelectedLabels() {
     const selection: FilterSelection &#x3D; {texts: [], labels: []};
     // find out which elements in search bar correspond to an existing label on the backend and which to a text fragment
-    selection.texts &#x3D; this.selectedLabels.filter(item &#x3D;&gt; !isFilterLabel(item)).map(item &#x3D;&gt; item.name);
-    selection.labels &#x3D; this.selectedLabels.filter(label &#x3D;&gt; isFilterLabel(label)) as FilterLabel[];
+    selection.texts &#x3D; this.selectedLabels.filter((item) &#x3D;&gt; !isFilterLabel(item)).map((item) &#x3D;&gt; item.name);
+    selection.labels &#x3D; this.selectedLabels.filter((label) &#x3D;&gt; isFilterLabel(label)) as FilterLabel[];
     this.filterSelection$.next(selection);
   }
 
@@ -186,21 +188,21 @@ export class LabelSearchComponent implements OnInit {
    * Load all labels from backend that match the currently typed in ng-select element
    */
   private loadLabels() {
-      this.labels$ &#x3D; concat(
-          of([]), // default items
-          this.labelsInput$.pipe(
-              distinctUntilChanged(),
-              tap(() &#x3D;&gt; this.labelsLoading &#x3D; true),
-              switchMap(term &#x3D;&gt; this.labelStore.getMatchingLabels(this.ss.state.project.node.id, term).pipe(
-                  catchError(() &#x3D;&gt; of([])), // empty list on error
-                  tap(() &#x3D;&gt; this.labelsLoading &#x3D; false)
-              ))
+    this.labels$ &#x3D; concat(
+      of([]), // default items
+      this.labelsInput$.pipe(
+        distinctUntilChanged(),
+        tap(() &#x3D;&gt; (this.labelsLoading &#x3D; true)),
+        switchMap((term) &#x3D;&gt;
+          this.labelStore.getMatchingLabels(this.ss.state.project.node.id, term).pipe(
+            catchError(() &#x3D;&gt; of([])), // empty list on error
+            tap(() &#x3D;&gt; (this.labelsLoading &#x3D; false))
           )
-      );
+        )
+      )
+    );
   }
-
 }
-
 
 /**
  * The bar can contain elements standing for labels and elements for text fragments.
@@ -215,7 +217,6 @@ export interface FilterSelection {
   texts: string[];
   labels: FilterLabel[];
 }
-
 </code></pre>
     </div>
 </div>

@@ -435,7 +435,7 @@ navigation points e.g. &#39;Graph&#39; are displayed.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/side-nav/side-nav.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/side-nav/side-nav.component.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -493,7 +493,7 @@ navigation points e.g. &#39;Graph&#39; are displayed.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/side-nav/side-nav.component.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/side-nav/side-nav.component.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -556,10 +556,8 @@ export class SideNavComponent {
   issuesLink &#x3D; [&#x27;/&#x27;];
   membersLink &#x3D; [&#x27;/&#x27;];
 
-  constructor(public ss: StateService,
-              public router: Router,
-              public notify: UserNotifyService) {
-    ss.state$.subscribe(appState &#x3D;&gt; {
+  constructor(public ss: StateService, public router: Router, public notify: UserNotifyService) {
+    ss.state$.subscribe((appState) &#x3D;&gt; {
       if (!appState.project) {
         return;
       }
@@ -576,35 +574,29 @@ export class SideNavComponent {
       }
     });
   }
-
-
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar&gt;{{menuTitle}}&lt;/mat-toolbar&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;mat-toolbar&gt;{{ menuTitle }}&lt;/mat-toolbar&gt;
 &lt;mat-nav-list&gt;
-    &lt;mat-list-item [routerLink]&#x3D;&quot;overviewLink&quot; routerLinkActive&#x3D;&quot;list-item-active&quot;
-                   [routerLinkActiveOptions]&#x3D;&quot;{exact: true}&quot;&gt;
-        &lt;mat-icon&gt;info&lt;/mat-icon&gt;
-        &lt;a&gt;Overview&lt;/a&gt;
-    &lt;/mat-list-item&gt;
-    &lt;mat-list-item [routerLink]&#x3D;&quot;graphLink&quot;
-                   routerLinkActive&#x3D;&quot;list-item-active&quot; [routerLinkActiveOptions]&#x3D;&quot;{exact: true}&quot;&gt;
-        &lt;mat-icon&gt;account_tree&lt;/mat-icon&gt;
-        &lt;a&gt;Graph&lt;/a&gt;
-    &lt;/mat-list-item&gt;
-    &lt;mat-list-item [routerLink]&#x3D;&quot;issuesLink&quot;
-                   routerLinkActive&#x3D;&quot;list-item-active&quot; [routerLinkActiveOptions]&#x3D;&quot;{exact: true}&quot;&gt;
-        &lt;mat-icon&gt;bug_report&lt;/mat-icon&gt;
-        &lt;a&gt;Issues&lt;/a&gt;
-    &lt;/mat-list-item&gt;
-    &lt;mat-list-item [routerLink]&#x3D;&quot;membersLink&quot;
-                   routerLinkActive&#x3D;&quot;list-item-active&quot; [routerLinkActiveOptions]&#x3D;&quot;{exact: true}&quot;&gt;
-        &lt;mat-icon&gt;group&lt;/mat-icon&gt;
-        &lt;a&gt;Members&lt;/a&gt;
-    &lt;/mat-list-item&gt;
+  &lt;mat-list-item [routerLink]&#x3D;&quot;overviewLink&quot; routerLinkActive&#x3D;&quot;list-item-active&quot; [routerLinkActiveOptions]&#x3D;&quot;{ exact: true }&quot;&gt;
+    &lt;mat-icon&gt;info&lt;/mat-icon&gt;
+    &lt;a&gt;Overview&lt;/a&gt;
+  &lt;/mat-list-item&gt;
+  &lt;mat-list-item [routerLink]&#x3D;&quot;graphLink&quot; routerLinkActive&#x3D;&quot;list-item-active&quot; [routerLinkActiveOptions]&#x3D;&quot;{ exact: true }&quot;&gt;
+    &lt;mat-icon&gt;account_tree&lt;/mat-icon&gt;
+    &lt;a&gt;Graph&lt;/a&gt;
+  &lt;/mat-list-item&gt;
+  &lt;mat-list-item [routerLink]&#x3D;&quot;issuesLink&quot; routerLinkActive&#x3D;&quot;list-item-active&quot; [routerLinkActiveOptions]&#x3D;&quot;{ exact: true }&quot;&gt;
+    &lt;mat-icon&gt;bug_report&lt;/mat-icon&gt;
+    &lt;a&gt;Issues&lt;/a&gt;
+  &lt;/mat-list-item&gt;
+  &lt;mat-list-item [routerLink]&#x3D;&quot;membersLink&quot; routerLinkActive&#x3D;&quot;list-item-active&quot; [routerLinkActiveOptions]&#x3D;&quot;{ exact: true }&quot;&gt;
+    &lt;mat-icon&gt;group&lt;/mat-icon&gt;
+    &lt;a&gt;Members&lt;/a&gt;
+  &lt;/mat-list-item&gt;
 &lt;/mat-nav-list&gt;
 </code></pre>
     </div>
@@ -613,8 +605,8 @@ export class SideNavComponent {
                 <p class="comment">
                     <code>./side-nav.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;~@angular/material/theming&#x27;;
-@import &#x27;variables&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &quot;~@angular/material/theming&quot;;
+@import &quot;variables&quot;;
 
 mat-icon {
   color: rgba(0, 0, 0, 0.54);
@@ -658,7 +650,7 @@ mat-nav-list {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><mat-toolbar>{{menuTitle}}</mat-toolbar><mat-nav-list>    <mat-list-item [routerLink]="overviewLink" routerLinkActive="list-item-active"                   [routerLinkActiveOptions]="{exact: true}">        <mat-icon>info</mat-icon>        <a>Overview</a>    </mat-list-item>    <mat-list-item [routerLink]="graphLink"                   routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">        <mat-icon>account_tree</mat-icon>        <a>Graph</a>    </mat-list-item>    <mat-list-item [routerLink]="issuesLink"                   routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">        <mat-icon>bug_report</mat-icon>        <a>Issues</a>    </mat-list-item>    <mat-list-item [routerLink]="membersLink"                   routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">        <mat-icon>group</mat-icon>        <a>Members</a>    </mat-list-item></mat-nav-list></div>'
+        var COMPONENT_TEMPLATE = '<div><mat-toolbar>{{ menuTitle }}</mat-toolbar><mat-nav-list>  <mat-list-item [routerLink]="overviewLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">    <mat-icon>info</mat-icon>    <a>Overview</a>  </mat-list-item>  <mat-list-item [routerLink]="graphLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">    <mat-icon>account_tree</mat-icon>    <a>Graph</a>  </mat-list-item>  <mat-list-item [routerLink]="issuesLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">    <mat-icon>bug_report</mat-icon>    <a>Issues</a>  </mat-list-item>  <mat-list-item [routerLink]="membersLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">    <mat-icon>group</mat-icon>    <a>Members</a>  </mat-list-item></mat-nav-list></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'SideNavComponent'};

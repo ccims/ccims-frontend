@@ -332,7 +332,7 @@ differs slightly (see <a href="../interfaces/ListParams.html">ListParams</a>).</
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Observable} from &#x27;rxjs&#x27;;
 
 /**
  * Apollo&#x27;s GraphQL fetch method returns an Observable even though we only ever see one update
@@ -343,9 +343,12 @@ differs slightly (see <a href="../interfaces/ListParams.html">ListParams</a>).</
  * @param f the observable
  * @return a promise that resolves as soon as the observable emits an update
  */
-export function promisifyApolloFetch&lt;T&gt;(f: Observable&lt;{ data?: T }&gt;): Promise&lt;T&gt; {
+export function promisifyApolloFetch&lt;T&gt;(f: Observable&lt;{data?: T}&gt;): Promise&lt;T&gt; {
   return new Promise((resolve, reject) &#x3D;&gt; {
-    f.subscribe(({ data }) &#x3D;&gt; resolve(data), error &#x3D;&gt; reject(error));
+    f.subscribe(
+      ({data}) &#x3D;&gt; resolve(data),
+      (error) &#x3D;&gt; reject(error)
+    );
   });
 }
 

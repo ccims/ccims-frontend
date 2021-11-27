@@ -426,8 +426,8 @@ it invokes GraphDataFactory.graphDataFromGQL</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">src/app/data/issue-graph/issue-graph-api.service.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">src/app/data/issue-graph/issue-graph-api.service.ts:91</a></div>
                 </td>
             </tr>
 
@@ -595,12 +595,12 @@ import {FilterLabel} from &#x27;../label/label-store.service&#x27;;
   providedIn: &#x27;root&#x27;
 })
 export class IssueGraphApiService {
-
-  constructor(private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
-              private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
-              private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
-              private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) {
-  }
+  constructor(
+    private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
+    private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
+    private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
+    private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL
+  ) {}
 
   /**
    * Queries backend for data needed to render graph when given parameters restricting what information is requested.
@@ -620,15 +620,15 @@ export class IssueGraphApiService {
       }
     }
     if (labels.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; texts.length &#x3D;&#x3D;&#x3D; 0) {
-      return this.getFullIssueGraphDataQuery.fetch({projectId, activeCategories}).pipe(
-        map(result &#x3D;&gt; GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-        ));
+      return this.getFullIssueGraphDataQuery
+        .fetch({projectId, activeCategories})
+        .pipe(map((result) &#x3D;&gt; GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     } else {
-      const selectedLabels: string[] &#x3D; labels.map(label &#x3D;&gt; label.id);
+      const selectedLabels: string[] &#x3D; labels.map((label) &#x3D;&gt; label.id);
       const issueRegex &#x3D; this.textsToRegex(texts);
-      return this.getSearchIssueGraphDataQuery.fetch({projectId, activeCategories, selectedLabels, issueRegex}).pipe(
-        map(result &#x3D;&gt; GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-        ));
+      return this.getSearchIssueGraphDataQuery
+        .fetch({projectId, activeCategories, selectedLabels, issueRegex})
+        .pipe(map((result) &#x3D;&gt; GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     }
   }
 
@@ -642,7 +642,7 @@ export class IssueGraphApiService {
     if (texts.length &#x3D;&#x3D;&#x3D; 0) {
       return undefined;
     }
-    return texts.map(text &#x3D;&gt; &#x27;(&#x27; + text + &#x27;)&#x27;).join(&#x27;|&#x27;);
+    return texts.map((text) &#x3D;&gt; &#x27;(&#x27; + text + &#x27;)&#x27;).join(&#x27;|&#x27;);
   }
 
   /**
@@ -651,7 +651,9 @@ export class IssueGraphApiService {
    * @param componentInterface
    */
   addConsumedInterface(component: string, componentInterface: string) {
-    return this.addConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
+    return this.addConsumedInterfaceMutation.mutate({
+      input: {component, componentInterface}
+    });
   }
 
   /**
@@ -660,10 +662,11 @@ export class IssueGraphApiService {
    * @param componentInterface
    */
   removeConsumedInterface(component: string, componentInterface: string) {
-    return this.removeConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
+    return this.removeConsumedInterfaceMutation.mutate({
+      input: {component, componentInterface}
+    });
   }
 }
-
 </code></pre>
     </div>
 

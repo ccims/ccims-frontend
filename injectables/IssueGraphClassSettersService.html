@@ -127,8 +127,8 @@ Used in method initGraph of IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/app/graphs/issue-graph/class-setters/issue-graph-class-setters.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/graphs/issue-graph/class-setters/issue-graph-class-setters.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -212,13 +212,13 @@ They are called on all nodes, pairs of edges and class names.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
 import {Edge} from &#x27;@ustutt/grapheditor-webcomponent/lib/edge&#x27;;
 import GraphEditor from &#x27;@ustutt/grapheditor-webcomponent/lib/grapheditor&#x27;;
 import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 
 /**
- * This service is respoonsible for managing the class setters 
+ * This service is respoonsible for managing the class setters
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
@@ -226,9 +226,8 @@ import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
   providedIn: &#x27;root&#x27;
 })
 export class IssueGraphClassSettersService {
-
   /**
-   * Manages node / edge class setters so that node / edge classes 
+   * Manages node / edge class setters so that node / edge classes
    * of given GraphEditor instances match their corresponding class names.
    * The setters return true if the class name is applied to the corresponding node / edge.
    * They are called on all nodes, pairs of edges and class names.
@@ -236,7 +235,6 @@ export class IssueGraphClassSettersService {
    * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageClassSetters(graph: GraphEditor, minimap: GraphEditor) {
-
     // node class setter
     const nodeClassSetter &#x3D; (className: string, node: Node) &#x3D;&gt; {
       if (className &#x3D;&#x3D;&#x3D; node.type) {
@@ -250,22 +248,14 @@ export class IssueGraphClassSettersService {
     minimap.setNodeClass &#x3D; nodeClassSetter;
 
     // edge class setter
-    const edgeClassSetter &#x3D; (
-      className: string,
-      edge: Edge,
-      sourceNode: Node,
-      targetNode: Node
-    ) &#x3D;&gt; {
+    const edgeClassSetter &#x3D; (className: string, edge: Edge, sourceNode: Node, targetNode: Node) &#x3D;&gt; {
       if (className &#x3D;&#x3D;&#x3D; edge.type) {
         return true;
       }
       if (className &#x3D;&#x3D;&#x3D; &#x27;related-to&#x27; &amp;&amp; edge.type &#x3D;&#x3D;&#x3D; &#x27;relatedTo&#x27;) {
         return true;
       }
-      if (className &#x3D;&#x3D;&#x3D; &#x27;issue-relation&#x27; &amp;&amp;
-        (edge.type &#x3D;&#x3D;&#x3D; &#x27;relatedTo&#x27; ||
-          edge.type &#x3D;&#x3D;&#x3D; &#x27;duplicate&#x27; ||
-          edge.type &#x3D;&#x3D;&#x3D; &#x27;dependency&#x27;)) {
+      if (className &#x3D;&#x3D;&#x3D; &#x27;issue-relation&#x27; &amp;&amp; (edge.type &#x3D;&#x3D;&#x3D; &#x27;relatedTo&#x27; || edge.type &#x3D;&#x3D;&#x3D; &#x27;duplicate&#x27; || edge.type &#x3D;&#x3D;&#x3D; &#x27;dependency&#x27;)) {
         return true;
       }
       return false;

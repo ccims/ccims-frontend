@@ -369,8 +369,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:59</a></div>
                 </td>
             </tr>
 
@@ -406,8 +406,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:36</a></div>
                 </td>
             </tr>
 
@@ -443,8 +443,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:40</a></div>
                 </td>
             </tr>
 
@@ -551,7 +551,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -578,7 +578,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/dialogs/create-interface-dialog/create-interface-dialog.component.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -718,13 +718,15 @@ export class CreateInterfaceDialogComponent {
   validationName &#x3D; new FormControl(&#x27;&#x27;, [CCIMSValidators.nameFormatValidator, Validators.required]);
   validationDescription &#x3D; new FormControl(&#x27;&#x27;, CCIMSValidators.contentValidator);
 
-  constructor(public dialogRef: MatDialogRef&lt;CreateInterfaceDialogComponent&gt;,
-              @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
-              private fb: FormBuilder,
-              private gs: IssueGraphStateService,
-              private authService: AuthenticationService,
-              private interfaceStore: InterfaceStoreService,
-              private notify: UserNotifyService) {
+  constructor(
+    public dialogRef: MatDialogRef&lt;CreateInterfaceDialogComponent&gt;,
+    @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
+    private fb: FormBuilder,
+    private gs: IssueGraphStateService,
+    private authService: AuthenticationService,
+    private interfaceStore: InterfaceStoreService,
+    private notify: UserNotifyService
+  ) {
     this.loading &#x3D; false;
   }
 
@@ -736,16 +738,19 @@ export class CreateInterfaceDialogComponent {
     this.loading &#x3D; true;
 
     // db mutation to create an interface
-    this.interfaceStore.create(name, this.data.offeredById, description).subscribe(({data}) &#x3D;&gt; {
-      this.loading &#x3D; false;
+    this.interfaceStore.create(name, this.data.offeredById, description).subscribe(
+      ({data}) &#x3D;&gt; {
+        this.loading &#x3D; false;
 
-      // close dialog and return the interface id of the created dialog
-      this.dialogRef.close(data.createComponentInterface.componentInterface.id);
-    }, (error) &#x3D;&gt; {
-      this.notify.notifyError(&#x27;Failed to create interface!&#x27;, error);
-      this.loading &#x3D; false;
-      this.saveFailed &#x3D; true;
-    });
+        // close dialog and return the interface id of the created dialog
+        this.dialogRef.close(data.createComponentInterface.componentInterface.id);
+      },
+      (error) &#x3D;&gt; {
+        this.notify.notifyError(&#x27;Failed to create interface!&#x27;, error);
+        this.loading &#x3D; false;
+        this.saveFailed &#x3D; true;
+      }
+    );
   }
 
   afterAlertClose(): void {
@@ -754,7 +759,7 @@ export class CreateInterfaceDialogComponent {
 }
 
 export interface CreateInterfaceData {
-  position: { x: number, y: number };
+  position: {x: number; y: number};
   offeredById: string;
 }
 </code></pre>
@@ -767,28 +772,41 @@ export interface CreateInterfaceData {
     &lt;form&gt;
       &lt;mat-form-field class&#x3D;&quot;stretch&quot; appearance&#x3D;&quot;outline&quot;&gt;
         &lt;mat-label&gt;Name&lt;/mat-label&gt;
-        &lt;input #name required matInput [formControl]&#x3D;&quot;validationName&quot;&gt;
+        &lt;input #name required matInput [formControl]&#x3D;&quot;validationName&quot; /&gt;
         &lt;mat-error *ngIf&#x3D;&quot;validationName.invalid&quot;&gt;Invalid interface name&lt;/mat-error&gt;
       &lt;/mat-form-field&gt;
 
       &lt;mat-form-field class&#x3D;&quot;stretch&quot; appearance&#x3D;&quot;outline&quot;&gt;
         &lt;mat-label&gt;Interface-Type&lt;/mat-label&gt;
-        &lt;input #type matInput&gt;
+        &lt;input #type matInput /&gt;
       &lt;/mat-form-field&gt;
 
       &lt;mat-form-field class&#x3D;&quot;stretch&quot; appearance&#x3D;&quot;outline&quot;&gt;
         &lt;mat-label&gt;Description&lt;/mat-label&gt;
-        &lt;textarea style&#x3D;&quot;height: 66px;&quot; #description matInput [formControl]&#x3D;&quot;validationDescription&quot;&gt;&lt;/textarea&gt;
+        &lt;textarea style&#x3D;&quot;height: 66px&quot; #description matInput [formControl]&#x3D;&quot;validationDescription&quot;&gt;&lt;/textarea&gt;
       &lt;/mat-form-field&gt;
 
-      &lt;nz-alert *ngIf&#x3D;&quot;this.saveFailed&quot; class&#x3D;&quot;error-message&quot; nzType&#x3D;&quot;error&quot; nzMessage&#x3D;&quot;Something went wrong&quot; nzShowIcon
-                nzCloseable (nzOnClose)&#x3D;&quot;this.afterAlertClose()&quot;&gt;&lt;/nz-alert&gt;
+      &lt;nz-alert
+        *ngIf&#x3D;&quot;this.saveFailed&quot;
+        class&#x3D;&quot;error-message&quot;
+        nzType&#x3D;&quot;error&quot;
+        nzMessage&#x3D;&quot;Something went wrong&quot;
+        nzShowIcon
+        nzCloseable
+        (nzOnClose)&#x3D;&quot;this.afterAlertClose()&quot;
+      &gt;&lt;/nz-alert&gt;
     &lt;/form&gt;
   &lt;/div&gt;
-  &lt;div mat-dialog-actions style&#x3D;&quot;justify-content: flex-end;&quot;&gt;
+  &lt;div mat-dialog-actions style&#x3D;&quot;justify-content: flex-end&quot;&gt;
     &lt;button mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;onNoClick()&quot;&gt;Cancel&lt;/button&gt;
-    &lt;button mat-raised-button color&#x3D;&quot;success&quot; [class.spinner]&#x3D;&quot;loading&quot; [disabled]&#x3D;&quot;loading || validationName.invalid &quot;
-            (click)&#x3D;&quot;onOkClick(name.value, description.value, type.value)&quot;&gt;Create
+    &lt;button
+      mat-raised-button
+      color&#x3D;&quot;success&quot;
+      [class.spinner]&#x3D;&quot;loading&quot;
+      [disabled]&#x3D;&quot;loading || validationName.invalid&quot;
+      (click)&#x3D;&quot;onOkClick(name.value, description.value, type.value)&quot;
+    &gt;
+      Create
     &lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -799,7 +817,7 @@ export interface CreateInterfaceData {
                 <p class="comment">
                     <code>./create-interface-dialog.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/styles/dialog&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &quot;src/styles/dialog&quot;;
 
 .dialog-wrapper {
   max-width: 600px;
@@ -832,7 +850,7 @@ export interface CreateInterfaceData {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="dialog-wrapper">  <h1 mat-dialog-title>Create Interface</h1>  <div mat-dialog-content>    <form>      <mat-form-field class="stretch" appearance="outline">        <mat-label>Name</mat-label>        <input #name required matInput [formControl]="validationName">        <mat-error *ngIf="validationName.invalid">Invalid interface name</mat-error>      </mat-form-field>      <mat-form-field class="stretch" appearance="outline">        <mat-label>Interface-Type</mat-label>        <input #type matInput>      </mat-form-field>      <mat-form-field class="stretch" appearance="outline">        <mat-label>Description</mat-label>        <textarea style="height: 66px;" #description matInput [formControl]="validationDescription"></textarea>      </mat-form-field>      <nz-alert *ngIf="this.saveFailed" class="error-message" nzType="error" nzMessage="Something went wrong" nzShowIcon                nzCloseable (nzOnClose)="this.afterAlertClose()"></nz-alert>    </form>  </div>  <div mat-dialog-actions style="justify-content: flex-end;">    <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>    <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validationName.invalid "            (click)="onOkClick(name.value, description.value, type.value)">Create    </button>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="dialog-wrapper">  <h1 mat-dialog-title>Create Interface</h1>  <div mat-dialog-content>    <form>      <mat-form-field class="stretch" appearance="outline">        <mat-label>Name</mat-label>        <input #name required matInput [formControl]="validationName" />        <mat-error *ngIf="validationName.invalid">Invalid interface name</mat-error>      </mat-form-field>      <mat-form-field class="stretch" appearance="outline">        <mat-label>Interface-Type</mat-label>        <input #type matInput />      </mat-form-field>      <mat-form-field class="stretch" appearance="outline">        <mat-label>Description</mat-label>        <textarea style="height: 66px" #description matInput [formControl]="validationDescription"></textarea>      </mat-form-field>      <nz-alert        *ngIf="this.saveFailed"        class="error-message"        nzType="error"        nzMessage="Something went wrong"        nzShowIcon        nzCloseable        (nzOnClose)="this.afterAlertClose()"      ></nz-alert>    </form>  </div>  <div mat-dialog-actions style="justify-content: flex-end">    <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>    <button      mat-raised-button      color="success"      [class.spinner]="loading"      [disabled]="loading || validationName.invalid"      (click)="onOkClick(name.value, description.value, type.value)"    >      Create    </button>  </div></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'CreateInterfaceDialogComponent'};

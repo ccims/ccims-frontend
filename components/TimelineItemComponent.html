@@ -259,7 +259,7 @@ Additionally, the formatted time is shown.</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:56</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:53</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -286,7 +286,7 @@ Additionally, the formatted time is shown.</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:54</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:51</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -397,7 +397,7 @@ Additionally, the formatted time is shown.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -479,7 +479,7 @@ Additionally, the formatted time is shown.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -510,8 +510,7 @@ import {TimeFormatter} from &#x27;@app/issue-detail/time-formatter&#x27;;
   selector: &#x27;[appSingleTimelineItem]&#x27;
 })
 export class TimelineSingleItemDirective {
-  constructor(public template: TemplateRef&lt;unknown&gt;) {
-  }
+  constructor(public template: TemplateRef&lt;unknown&gt;) {}
 }
 
 /**
@@ -522,8 +521,7 @@ export class TimelineSingleItemDirective {
   selector: &#x27;[appCoalescedTimelineItems]&#x27;
 })
 export class TimelineCoalescedItemsDirective {
-  constructor(public template: TemplateRef&lt;unknown&gt;) {
-  }
+  constructor(public template: TemplateRef&lt;unknown&gt;) {}
 }
 
 /**
@@ -535,8 +533,7 @@ export class TimelineCoalescedItemsDirective {
   selector: &#x27;[appTimelineItemDeleted]&#x27;
 })
 export class TimelineItemDeletedDirective {
-  constructor(public template: TemplateRef&lt;unknown&gt;) {
-  }
+  constructor(public template: TemplateRef&lt;unknown&gt;) {}
 }
 
 /**
@@ -556,17 +553,19 @@ export class TimelineItemComponent implements AfterViewInit {
   @Input() showDeleted &#x3D; false;
 
   /** The content to be shown if the timeline item was not coalesced */
-  @ContentChild(TimelineSingleItemDirective) timelineItemContent: TimelineSingleItemDirective;
+  @ContentChild(TimelineSingleItemDirective)
+  timelineItemContent: TimelineSingleItemDirective;
   /** The content to be shown if the timeline item was coalesced */
-  @ContentChild(TimelineCoalescedItemsDirective) timelineItemsContent: TimelineCoalescedItemsDirective;
+  @ContentChild(TimelineCoalescedItemsDirective)
+  timelineItemsContent: TimelineCoalescedItemsDirective;
   /** The content to be shown if the timeline item contains deleted data */
-  @ContentChild(TimelineItemDeletedDirective) timelineItemDeletedContent: TimelineItemDeletedDirective;
+  @ContentChild(TimelineItemDeletedDirective)
+  timelineItemDeletedContent: TimelineItemDeletedDirective;
 
   timeFormatter: TimeFormatter &#x3D; new TimeFormatter();
   activeItemContent: TemplateRef&lt;unknown&gt; &#x3D; null;
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     if (this.showDeleted) {
@@ -585,10 +584,10 @@ export class TimelineItemComponent implements AfterViewInit {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;timeline-body&quot;&gt;
-  &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;activeItemContent&quot;&gt;&lt;/ng-container&gt;&lt;br&gt;
+  &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;activeItemContent&quot;&gt;&lt;/ng-container&gt;&lt;br /&gt;
   &lt;small class&#x3D;&quot;text-muted&quot;&gt;
     &lt;time [dateTime]&#x3D;&quot;timelineItem.time&quot; [title]&#x3D;&quot;this.timeFormatter.formatTime(timelineItem.time)&quot;&gt;
-      {{this.timeFormatter.formatTimeDifference(timelineItem.time)}}
+      {{ this.timeFormatter.formatTimeDifference(timelineItem.time) }}
     &lt;/time&gt;
   &lt;/small&gt;
 &lt;/div&gt;
@@ -742,7 +741,7 @@ export class TimelineItemComponent implements AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="timeline-body">  <ng-container [ngTemplateOutlet]="activeItemContent"></ng-container><br>  <small class="text-muted">    <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">      {{this.timeFormatter.formatTimeDifference(timelineItem.time)}}    </time>  </small></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="timeline-body">  <ng-container [ngTemplateOutlet]="activeItemContent"></ng-container><br />  <small class="text-muted">    <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">      {{ this.timeFormatter.formatTimeDifference(timelineItem.time) }}    </time>  </small></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'TimelineItemComponent'};

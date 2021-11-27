@@ -125,7 +125,7 @@ The content of the <code>ng-template</code> specifies the content of a timeline 
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@ The content of the <code>ng-template</code> specifies the content of a timeline 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/issue-detail/timeline/coalesced/timeline-item.component.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -219,8 +219,7 @@ import {TimeFormatter} from &#x27;@app/issue-detail/time-formatter&#x27;;
   selector: &#x27;[appSingleTimelineItem]&#x27;
 })
 export class TimelineSingleItemDirective {
-  constructor(public template: TemplateRef&lt;unknown&gt;) {
-  }
+  constructor(public template: TemplateRef&lt;unknown&gt;) {}
 }
 
 /**
@@ -231,8 +230,7 @@ export class TimelineSingleItemDirective {
   selector: &#x27;[appCoalescedTimelineItems]&#x27;
 })
 export class TimelineCoalescedItemsDirective {
-  constructor(public template: TemplateRef&lt;unknown&gt;) {
-  }
+  constructor(public template: TemplateRef&lt;unknown&gt;) {}
 }
 
 /**
@@ -244,8 +242,7 @@ export class TimelineCoalescedItemsDirective {
   selector: &#x27;[appTimelineItemDeleted]&#x27;
 })
 export class TimelineItemDeletedDirective {
-  constructor(public template: TemplateRef&lt;unknown&gt;) {
-  }
+  constructor(public template: TemplateRef&lt;unknown&gt;) {}
 }
 
 /**
@@ -265,17 +262,19 @@ export class TimelineItemComponent implements AfterViewInit {
   @Input() showDeleted &#x3D; false;
 
   /** The content to be shown if the timeline item was not coalesced */
-  @ContentChild(TimelineSingleItemDirective) timelineItemContent: TimelineSingleItemDirective;
+  @ContentChild(TimelineSingleItemDirective)
+  timelineItemContent: TimelineSingleItemDirective;
   /** The content to be shown if the timeline item was coalesced */
-  @ContentChild(TimelineCoalescedItemsDirective) timelineItemsContent: TimelineCoalescedItemsDirective;
+  @ContentChild(TimelineCoalescedItemsDirective)
+  timelineItemsContent: TimelineCoalescedItemsDirective;
   /** The content to be shown if the timeline item contains deleted data */
-  @ContentChild(TimelineItemDeletedDirective) timelineItemDeletedContent: TimelineItemDeletedDirective;
+  @ContentChild(TimelineItemDeletedDirective)
+  timelineItemDeletedContent: TimelineItemDeletedDirective;
 
   timeFormatter: TimeFormatter &#x3D; new TimeFormatter();
   activeItemContent: TemplateRef&lt;unknown&gt; &#x3D; null;
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     if (this.showDeleted) {

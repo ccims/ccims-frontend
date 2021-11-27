@@ -181,7 +181,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/cache-node.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/cache-node.component.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -242,7 +242,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/components/cache-node.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/cache-node.component.ts:21</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -269,7 +269,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/components/cache-node.component.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/components/cache-node.component.ts:19</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -312,7 +312,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/components/cache-node.component.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/components/cache-node.component.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -338,7 +338,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/cache-node.component.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/cache-node.component.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -364,7 +364,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/cache-node.component.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/cache-node.component.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -377,27 +377,28 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ContentChild, Input, OnDestroy, OnInit, TemplateRef } from &#x27;@angular/core&#x27;;
-import { ItemDirective } from &#x27;@app/components/item.directive&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, ContentChild, Input, OnDestroy, OnInit, TemplateRef} from &#x27;@angular/core&#x27;;
+import {ItemDirective} from &#x27;@app/components/item.directive&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
-import { NodeId } from &#x27;@app/data-dgql/id&#x27;;
-import { DataNode } from &#x27;@app/data-dgql/query&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
+import {NodeId} from &#x27;@app/data-dgql/id&#x27;;
+import {DataNode} from &#x27;@app/data-dgql/query&#x27;;
+import {Subscription} from &#x27;rxjs&#x27;;
 
 /**
  * Loads data for a node from the cache or from the API.
  */
 @Component({
-  // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: &#x27;[cache-node]&#x27;,
-  template: &#x27;&lt;ng-container *ngIf&#x3D;&quot;node$.hasData&quot;&gt;&lt;ng-container *ngTemplateOutlet&#x3D;&quot;itemTemplate; context: { $implicit: node$.current }&quot;&gt;&lt;/ng-container&gt;&lt;/ng-container&gt;&#x27;
+  template:
+    &#x27;&lt;ng-container *ngIf&#x3D;&quot;node$.hasData&quot;&gt;&lt;ng-container *ngTemplateOutlet&#x3D;&quot;itemTemplate; context: { $implicit: node$.current }&quot;&gt;&lt;/ng-container&gt;&lt;/ng-container&gt;&#x27;
 })
 export class CacheNodeComponent implements OnInit, OnDestroy {
   /** The node that will be loaded. */
   @Input() node: NodeId;
   /** If true, this component will subscribe to the node lazily (i.e. it will not fetch new data if data is cached already) */
   @Input() lazy &#x3D; true;
-  @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
+  @ContentChild(ItemDirective, {read: TemplateRef}) itemTemplate;
 
   node$: DataNode&lt;unknown&gt;;
   nodeSub: Subscription;

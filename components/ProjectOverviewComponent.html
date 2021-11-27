@@ -336,8 +336,8 @@ owner, id and description.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">src/app/project-overview/project-overview.component.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/app/project-overview/project-overview.component.ts:59</a></div>
                 </td>
             </tr>
 
@@ -373,8 +373,8 @@ owner, id and description.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/app/project-overview/project-overview.component.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/project-overview/project-overview.component.ts:51</a></div>
                 </td>
             </tr>
 
@@ -582,22 +582,26 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
   public project: DataNode&lt;Project&gt;;
   description &#x3D; &#x27;&#x27;;
 
-  constructor(private dataService: DataService,
-              private projectStore: ProjectStoreService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private changeDetector: ChangeDetectorRef,
-              private dialog: MatDialog,
-              private notify: UserNotifyService) {
-  }
+  constructor(
+    private dataService: DataService,
+    private projectStore: ProjectStoreService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private changeDetector: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private notify: UserNotifyService
+  ) {}
 
   ngOnInit(): void {
     this.projectId &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
-    this.project &#x3D; this.dataService.getNode({type: NodeType.Project, id: this.projectId});
+    this.project &#x3D; this.dataService.getNode({
+      type: NodeType.Project,
+      id: this.projectId
+    });
   }
 
   ngAfterViewInit() {
-    this.queryComponent.listenTo(this.project, project &#x3D;&gt; this.description &#x3D; project.description);
+    this.queryComponent.listenTo(this.project, (project) &#x3D;&gt; (this.description &#x3D; project.description));
   }
 
   projectNameEdited(saved: boolean): void {
@@ -609,22 +613,22 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
   }
 
   deleteProject(): void {
-    const confirmDeleteDialogRef &#x3D; this.dialog.open(RemoveDialogComponent,
-      {
-        data: {
-          title: &#x27;Really delete project \&quot;&#x27; + this.project.current.name + &#x27;\&quot;?&#x27;,
-          messages: [&#x27;Are you sure you want to delete the project \&quot;&#x27; + this.project.current.name + &#x27;\&quot;?&#x27;,
-            &#x27;This action cannot be undone!&#x27;],
-          verificationName: this.project.current.name
-        }
-      });
-    confirmDeleteDialogRef.afterClosed().subscribe(del &#x3D;&gt; {
+    const confirmDeleteDialogRef &#x3D; this.dialog.open(RemoveDialogComponent, {
+      data: {
+        title: &#x27;Really delete project &quot;&#x27; + this.project.current.name + &#x27;&quot;?&#x27;,
+        messages: [&#x27;Are you sure you want to delete the project &quot;&#x27; + this.project.current.name + &#x27;&quot;?&#x27;, &#x27;This action cannot be undone!&#x27;],
+        verificationName: this.project.current.name
+      }
+    });
+    confirmDeleteDialogRef.afterClosed().subscribe((del) &#x3D;&gt; {
       if (del) {
-        this.projectStore.delete(this.projectId).subscribe(() &#x3D;&gt; {
-            this.notify.notifyInfo(&#x27;Successfully deleted project \&quot;&#x27; + this.project.current.name + &#x27;\&quot;&#x27;);
+        this.projectStore.delete(this.projectId).subscribe(
+          () &#x3D;&gt; {
+            this.notify.notifyInfo(&#x27;Successfully deleted project &quot;&#x27; + this.project.current.name + &#x27;&quot;&#x27;);
             this.router.navigate([&#x27;/&#x27;]);
           },
-          error &#x3D;&gt; this.notify.notifyError(&#x27;Failed to delete project!&#x27;, error));
+          (error) &#x3D;&gt; this.notify.notifyError(&#x27;Failed to delete project!&#x27;, error)
+        );
       }
     });
   }
@@ -637,20 +641,19 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
   &lt;ng-template appQueryBody&gt;
     &lt;div class&#x3D;&quot;project-overview-container&quot;&gt;
       &lt;div class&#x3D;&quot;delete-button-container&quot;&gt;
-        &lt;app-project-header [projectName]&#x3D;&quot;project.current.name&quot; [projectId]&#x3D;&quot;project.current.id&quot;&gt;
-        &lt;/app-project-header&gt;
+        &lt;app-project-header [projectName]&#x3D;&quot;project.current.name&quot; [projectId]&#x3D;&quot;project.current.id&quot;&gt; &lt;/app-project-header&gt;
         &lt;span style&#x3D;&quot;flex: 1 1 auto&quot;&gt;&lt;/span&gt;
 
         &lt;!-- delete project button --&gt;
-        &lt;button id&#x3D;&quot;button&quot; mat-raised-button (click)&#x3D;&quot;deleteProject()&quot; color&#x3D;&quot;warn&quot;&gt;
-          Delete
-        &lt;/button&gt;
+        &lt;button id&#x3D;&quot;button&quot; mat-raised-button (click)&#x3D;&quot;deleteProject()&quot; color&#x3D;&quot;warn&quot;&gt;Delete&lt;/button&gt;
       &lt;/div&gt;
-      
-      &lt;app-text-display [text]&#x3D;&quot;description&quot;
-                        [onEditFinished]&#x3D;&quot;projectNameEdited&quot;
-                        placeholder&#x3D;&quot;No project description!&quot;
-                        labelText&#x3D;&quot;Project description&quot;&gt;&lt;/app-text-display&gt;
+
+      &lt;app-text-display
+        [text]&#x3D;&quot;description&quot;
+        [onEditFinished]&#x3D;&quot;projectNameEdited&quot;
+        placeholder&#x3D;&quot;No project description!&quot;
+        labelText&#x3D;&quot;Project description&quot;
+      &gt;&lt;/app-text-display&gt;
     &lt;/div&gt;
   &lt;/ng-template&gt;
 &lt;/app-query-component&gt;
@@ -671,7 +674,7 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
   margin: 4px;
 }
 
-#button{
+#button {
   margin: 5px;
 }
 </code></pre>
@@ -702,7 +705,7 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><app-query-component errorMessage="Failed to load project information">  <ng-template appQueryBody>    <div class="project-overview-container">      <div class="delete-button-container">        <app-project-header [projectName]="project.current.name" [projectId]="project.current.id">        </app-project-header>        <span style="flex: 1 1 auto"></span>        <!-- delete project button -->        <button id="button" mat-raised-button (click)="deleteProject()" color="warn">          Delete        </button>      </div>            <app-text-display [text]="description"                        [onEditFinished]="projectNameEdited"                        placeholder="No project description!"                        labelText="Project description"></app-text-display>    </div>  </ng-template></app-query-component></div>'
+        var COMPONENT_TEMPLATE = '<div><app-query-component errorMessage="Failed to load project information">  <ng-template appQueryBody>    <div class="project-overview-container">      <div class="delete-button-container">        <app-project-header [projectName]="project.current.name" [projectId]="project.current.id"> </app-project-header>        <span style="flex: 1 1 auto"></span>        <!-- delete project button -->        <button id="button" mat-raised-button (click)="deleteProject()" color="warn">Delete</button>      </div>      <app-text-display        [text]="description"        [onEditFinished]="projectNameEdited"        placeholder="No project description!"        labelText="Project description"      ></app-text-display>    </div>  </ng-template></app-query-component></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'ProjectOverviewComponent'};

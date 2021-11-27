@@ -245,9 +245,18 @@ import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 import {Edge} from &#x27;@ustutt/grapheditor-webcomponent/lib/edge&#x27;;
 
 export {
-  IssueNode, ComponentNode, InterfaceNode, IssueGroupContainerNode, RelationEdge,
-  createComponentNode, createInterfaceNode, createIssueGroupContainerNode, createIssueFolderNode,
-  createRelationEdge, createConsumptionEdge, createInterfaceProvisionEdge,
+  IssueNode,
+  ComponentNode,
+  InterfaceNode,
+  IssueGroupContainerNode,
+  RelationEdge,
+  createComponentNode,
+  createInterfaceNode,
+  createIssueGroupContainerNode,
+  createIssueFolderNode,
+  createRelationEdge,
+  createConsumptionEdge,
+  createInterfaceProvisionEdge,
   Position,
   getIssueFolderId
 };
@@ -298,7 +307,7 @@ function createInterfaceNode(intrface: GraphInterface, position: Position): Inte
     id: intrface.id,
     title: intrface.name,
     type: NodeType.Interface,
-    offeredById: intrface.offeredBy,
+    offeredById: intrface.offeredBy
   };
 }
 
@@ -315,7 +324,7 @@ function createIssueGroupContainerNode(node: IssueNode): IssueGroupContainerNode
     x: 0,
     y: 0,
     position: &#x27;bottom&#x27;,
-    issueGroupNodeIds: new Set&lt;string&gt;(),
+    issueGroupNodeIds: new Set&lt;string&gt;()
   };
 }
 
@@ -347,7 +356,7 @@ function createRelationEdge(sourceId: string, targetId: string, edgeType &#x3D; 
     type: folderEdgeTypes.RelatedTo,
     markerEnd: {
       template: &#x27;arrow&#x27;,
-      relativeRotation: 0,
+      relativeRotation: 0
     },
     dragHandles: [],
     sourceIssues: new Set&lt;string&gt;()
@@ -361,8 +370,8 @@ function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
     type: NodeType.InterfaceConsumer,
     markerEnd: {
       template: &#x27;interface-connector&#x27;,
-      relativeRotation: 0,
-    },
+      relativeRotation: 0
+    }
   };
 }
 
@@ -371,7 +380,7 @@ function createInterfaceProvisionEdge(componentId: string, interfaceId: string):
     source: componentId,
     target: interfaceId,
     type: NodeType.Interface,
-    dragHandles: [],
+    dragHandles: []
   };
 }
 

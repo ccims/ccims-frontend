@@ -310,8 +310,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:128</a></div>
                 </td>
             </tr>
 
@@ -393,8 +393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:123</a></div>
                 </td>
             </tr>
 
@@ -432,8 +432,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:164</a></div>
                 </td>
             </tr>
 
@@ -592,7 +592,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/dialogs/create-label-dialog/create-edit-label-dialog.component.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -705,7 +705,7 @@ import {UserNotifyService} from &#x27;@app/user-notify/user-notify.service&#x27;
 import {CCIMSValidators} from &#x27;@app/utils/validators&#x27;;
 import {encodeNodeId, ListId, ListType, NodeId} from &#x27;@app/data-dgql/id&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
-import { ComponentFilter, Label } from &#x27;../../../generated/graphql-dgql&#x27;;
+import {ComponentFilter, Label} from &#x27;../../../generated/graphql-dgql&#x27;;
 
 /** Parameters for the create/edit label dialog component. */
 export interface CreateEditLabelDialogData {
@@ -742,11 +742,12 @@ export class CreateEditLabelDialogComponent implements OnInit {
   /** Source list of all components. */
   allComponentsList: ListId;
 
-  constructor(private dialog: MatDialogRef&lt;CreateEditLabelDialogComponent, Label&gt;,
-              private dataService: DataService,
-              @Inject(MAT_DIALOG_DATA) public data: CreateEditLabelDialogData,
-              private notify: UserNotifyService) {
-  }
+  constructor(
+    private dialog: MatDialogRef&lt;CreateEditLabelDialogComponent, Label&gt;,
+    private dataService: DataService,
+    @Inject(MAT_DIALOG_DATA) public data: CreateEditLabelDialogData,
+    private notify: UserNotifyService
+  ) {}
 
   ngOnInit() {
     if (this.data.editExisting) {
@@ -760,16 +761,20 @@ export class CreateEditLabelDialogComponent implements OnInit {
       // reload data from source
       node.invalidate();
       node.load();
-      node.dataAsPromise().then(data &#x3D;&gt; {
-        this.validationLabelName.setValue(data.name);
-        this.color &#x3D; data.color;
-        this.validationLabelDescription.setValue(data.description);
-      }).catch(error &#x3D;&gt; {
-        this.notify.notifyError(&#x27;Could not load label data for editing&#x27;);
-        this.dialog.close(null);
-      }).finally(() &#x3D;&gt; {
-        this.loading &#x3D; false;
-      });
+      node
+        .dataAsPromise()
+        .then((data) &#x3D;&gt; {
+          this.validationLabelName.setValue(data.name);
+          this.color &#x3D; data.color;
+          this.validationLabelDescription.setValue(data.description);
+        })
+        .catch((error) &#x3D;&gt; {
+          this.notify.notifyError(&#x27;Could not load label data for editing&#x27;);
+          this.dialog.close(null);
+        })
+        .finally(() &#x3D;&gt; {
+          this.loading &#x3D; false;
+        });
     } else {
       this.randomizeColor();
 
@@ -786,12 +791,12 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
   /** @ignore used for set editor */
   makeComponentFilter(search): ComponentFilter {
-    return { name: search };
+    return {name: search};
   }
   /** @ignore used for set editor */
   applyComponentChangeset &#x3D; async (additions: NodeId[], deletions: NodeId[]) &#x3D;&gt; {
     if (Array.isArray(this.componentList)) {
-      const keySet &#x3D; new Set(this.componentList.map(id &#x3D;&gt; encodeNodeId(id)));
+      const keySet &#x3D; new Set(this.componentList.map((id) &#x3D;&gt; encodeNodeId(id)));
       for (const item of additions) {
         if (!keySet.has(encodeNodeId(item))) {
           this.componentList.push(item);
@@ -812,7 +817,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
         await this.dataService.mutations.removeLabelFromComponent(Math.random().toString(), this.data.editExisting, item);
       }
     }
-  }
+  };
 
   /** When the user cancels label creation or editing, close and return with null. */
   onLabelCancelClick(): void {
@@ -824,46 +829,42 @@ export class CreateEditLabelDialogComponent implements OnInit {
     this.loading &#x3D; true;
 
     if (this.data.editExisting) {
-      this.dataService.mutations.updateLabel(
-        Math.random().toString(),
-        this.data.editExisting,
-        name,
-        this.color,
-        description
-      ).then(() &#x3D;&gt; {
-        this.dialog.close({
-          id: this.data.editExisting.id,
-          name,
-          color: this.color,
-          description
-        } as Label);
-      }).catch((error) &#x3D;&gt; {
-        this.notify.notifyError(&#x27;Failed to update label!&#x27;, error);
-      }).finally(() &#x3D;&gt; {
-        this.loading &#x3D; false;
-      });
+      this.dataService.mutations
+        .updateLabel(Math.random().toString(), this.data.editExisting, name, this.color, description)
+        .then(() &#x3D;&gt; {
+          this.dialog.close({
+            id: this.data.editExisting.id,
+            name,
+            color: this.color,
+            description
+          } as Label);
+        })
+        .catch((error) &#x3D;&gt; {
+          this.notify.notifyError(&#x27;Failed to update label!&#x27;, error);
+        })
+        .finally(() &#x3D;&gt; {
+          this.loading &#x3D; false;
+        });
     } else {
-      this.dataService.mutations.createLabel(
-        Math.random().toString(),
-        this.componentList as NodeId[],
-        name,
-        this.color,
-        description
-      ).then(created &#x3D;&gt; {
-        this.dialog.close(created as Label);
-      }).catch((error) &#x3D;&gt; {
-        this.notify.notifyError(&#x27;Failed to create label!&#x27;, error);
-      }).finally(() &#x3D;&gt; {
-        this.loading &#x3D; false;
-      });
+      this.dataService.mutations
+        .createLabel(Math.random().toString(), this.componentList as NodeId[], name, this.color, description)
+        .then((created) &#x3D;&gt; {
+          this.dialog.close(created as Label);
+        })
+        .catch((error) &#x3D;&gt; {
+          this.notify.notifyError(&#x27;Failed to create label!&#x27;, error);
+        })
+        .finally(() &#x3D;&gt; {
+          this.loading &#x3D; false;
+        });
     }
   }
 
   /** Randomizes the label color. */
   randomizeColor(): void {
-    const r &#x3D; (&#x27;00&#x27; + (Math.random() * 0xFF).toString(16)).slice(-2);
-    const g &#x3D; (&#x27;00&#x27; + (Math.random() * 0xFF).toString(16)).slice(-2);
-    const b &#x3D; (&#x27;00&#x27; + (Math.random() * 0xFF).toString(16)).slice(-2);
+    const r &#x3D; (&#x27;00&#x27; + (Math.random() * 0xff).toString(16)).slice(-2);
+    const g &#x3D; (&#x27;00&#x27; + (Math.random() * 0xff).toString(16)).slice(-2);
+    const b &#x3D; (&#x27;00&#x27; + (Math.random() * 0xff).toString(16)).slice(-2);
 
     this.color &#x3D; &#x27;#&#x27; + r + g + b;
   }
@@ -873,38 +874,35 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;h1 mat-dialog-title&gt;
-  &lt;ng-container *ngIf&#x3D;&quot;data.editExisting&quot;&gt;
-    Update label
-  &lt;/ng-container&gt;
-  &lt;ng-container *ngIf&#x3D;&quot;!data.editExisting&quot;&gt;
-    Create a new label
-  &lt;/ng-container&gt;
+  &lt;ng-container *ngIf&#x3D;&quot;data.editExisting&quot;&gt; Update label &lt;/ng-container&gt;
+  &lt;ng-container *ngIf&#x3D;&quot;!data.editExisting&quot;&gt; Create a new label &lt;/ng-container&gt;
 &lt;/h1&gt;
 &lt;div mat-dialog-content&gt;
   &lt;app-set-editor
-      class&#x3D;&quot;component-selector&quot;
-      [makeFilter]&#x3D;&quot;makeComponentFilter&quot;
-      [scoreKeys]&#x3D;&quot;[&#x27;name&#x27;]&quot;
-      [listSet]&#x3D;&quot;componentList&quot;
-      [listAll]&#x3D;&quot;allComponentsList&quot;
-      [applyChangeset]&#x3D;&quot;applyComponentChangeset&quot;
-      #list&gt;
+    class&#x3D;&quot;component-selector&quot;
+    [makeFilter]&#x3D;&quot;makeComponentFilter&quot;
+    [scoreKeys]&#x3D;&quot;[&#x27;name&#x27;]&quot;
+    [listSet]&#x3D;&quot;componentList&quot;
+    [listAll]&#x3D;&quot;allComponentsList&quot;
+    [applyChangeset]&#x3D;&quot;applyComponentChangeset&quot;
+    #list
+  &gt;
     &lt;span title&gt;Components&lt;/span&gt;
     &lt;span if-empty style&#x3D;&quot;color: red&quot;&gt;Assign the label to a component&lt;/span&gt;
     &lt;ng-container *appItem&#x3D;&quot;let item&quot;&gt;
-      &lt;div&gt;{{item.name}}&lt;/div&gt;
+      &lt;div&gt;{{ item.name }}&lt;/div&gt;
     &lt;/ng-container&gt;
   &lt;/app-set-editor&gt;
 
   &lt;mat-form-field class&#x3D;&quot;new-label-input&quot; appearance&#x3D;&quot;outline&quot;&gt;
     &lt;mat-label&gt;Label Name&lt;/mat-label&gt;
-    &lt;input #labelName required matInput [formControl]&#x3D;&quot;validationLabelName&quot;&gt;
+    &lt;input #labelName required matInput [formControl]&#x3D;&quot;validationLabelName&quot; /&gt;
     &lt;mat-error *ngIf&#x3D;&quot;validationLabelName.invalid&quot;&gt;Invalid name&lt;/mat-error&gt;
   &lt;/mat-form-field&gt;
 
   &lt;mat-form-field class&#x3D;&quot;new-label-input&quot; appearance&#x3D;&quot;outline&quot;&gt;
     &lt;mat-label&gt;Description&lt;/mat-label&gt;
-    &lt;input #labelDescription matInput [formControl]&#x3D;&quot;validationLabelDescription&quot;&gt;
+    &lt;input #labelDescription matInput [formControl]&#x3D;&quot;validationLabelDescription&quot; /&gt;
   &lt;/mat-form-field&gt;
 
   &lt;mat-form-field class&#x3D;&quot;new-label-input&quot; floatLabel&#x3D;&quot;always&quot; appearance&#x3D;&quot;outline&quot;&gt;
@@ -916,7 +914,8 @@ export class CreateEditLabelDialogComponent implements OnInit {
       autocomplete&#x3D;&quot;off&quot;
       [(colorPicker)]&#x3D;&quot;this.color&quot;
       [cpAlphaChannel]&#x3D;&quot;&#x27;disabled&#x27;&quot;
-      [cpPosition]&#x3D;&quot;&#x27;bottom&#x27;&quot;/&gt;
+      [cpPosition]&#x3D;&quot;&#x27;bottom&#x27;&quot;
+    /&gt;
     &lt;button mat-icon-button class&#x3D;&quot;color-randomize-button&quot; matSuffix (click)&#x3D;&quot;this.randomizeColor()&quot;&gt;
       &lt;mat-icon&gt;refresh&lt;/mat-icon&gt;
     &lt;/button&gt;
@@ -925,15 +924,14 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
 &lt;div mat-dialog-actions class&#x3D;&quot;actions&quot;&gt;
   &lt;button mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;this.onLabelCancelClick()&quot;&gt;Cancel&lt;/button&gt;
-  &lt;button mat-raised-button color&#x3D;&quot;success&quot;
-          [disabled]&#x3D;&quot;loading || validationLabelName.invalid || !list.totalCount&quot;
-          (click)&#x3D;&quot;this.onConfirmClick(labelName.value, labelDescription.value)&quot;&gt;
-    &lt;ng-container *ngIf&#x3D;&quot;data.editExisting&quot;&gt;
-      Apply
-    &lt;/ng-container&gt;
-    &lt;ng-container *ngIf&#x3D;&quot;!data.editExisting&quot;&gt;
-      Create
-    &lt;/ng-container&gt;
+  &lt;button
+    mat-raised-button
+    color&#x3D;&quot;success&quot;
+    [disabled]&#x3D;&quot;loading || validationLabelName.invalid || !list.totalCount&quot;
+    (click)&#x3D;&quot;this.onConfirmClick(labelName.value, labelDescription.value)&quot;
+  &gt;
+    &lt;ng-container *ngIf&#x3D;&quot;data.editExisting&quot;&gt; Apply &lt;/ng-container&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;!data.editExisting&quot;&gt; Create &lt;/ng-container&gt;
   &lt;/button&gt;
 &lt;/div&gt;
 </code></pre>
@@ -998,7 +996,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><h1 mat-dialog-title>  <ng-container *ngIf="data.editExisting">    Update label  </ng-container>  <ng-container *ngIf="!data.editExisting">    Create a new label  </ng-container></h1><div mat-dialog-content>  <app-set-editor      class="component-selector"      [makeFilter]="makeComponentFilter"      [scoreKeys]="[\'name\']"      [listSet]="componentList"      [listAll]="allComponentsList"      [applyChangeset]="applyComponentChangeset"      #list>    <span title>Components</span>    <span if-empty style="color: red">Assign the label to a component</span>    <ng-container *appItem="let item">      <div>{{item.name}}</div>    </ng-container>  </app-set-editor>  <mat-form-field class="new-label-input" appearance="outline">    <mat-label>Label Name</mat-label>    <input #labelName required matInput [formControl]="validationLabelName">    <mat-error *ngIf="validationLabelName.invalid">Invalid name</mat-error>  </mat-form-field>  <mat-form-field class="new-label-input" appearance="outline">    <mat-label>Description</mat-label>    <input #labelDescription matInput [formControl]="validationLabelDescription">  </mat-form-field>  <mat-form-field class="new-label-input" floatLabel="always" appearance="outline">    <mat-label>Color</mat-label>    <input      matInput      readonly      [style.background]="color"      autocomplete="off"      [(colorPicker)]="this.color"      [cpAlphaChannel]="\'disabled\'"      [cpPosition]="\'bottom\'"/>    <button mat-icon-button class="color-randomize-button" matSuffix (click)="this.randomizeColor()">      <mat-icon>refresh</mat-icon>    </button>  </mat-form-field></div><div mat-dialog-actions class="actions">  <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">Cancel</button>  <button mat-raised-button color="success"          [disabled]="loading || validationLabelName.invalid || !list.totalCount"          (click)="this.onConfirmClick(labelName.value, labelDescription.value)">    <ng-container *ngIf="data.editExisting">      Apply    </ng-container>    <ng-container *ngIf="!data.editExisting">      Create    </ng-container>  </button></div></div>'
+        var COMPONENT_TEMPLATE = '<div><h1 mat-dialog-title>  <ng-container *ngIf="data.editExisting"> Update label </ng-container>  <ng-container *ngIf="!data.editExisting"> Create a new label </ng-container></h1><div mat-dialog-content>  <app-set-editor    class="component-selector"    [makeFilter]="makeComponentFilter"    [scoreKeys]="[\'name\']"    [listSet]="componentList"    [listAll]="allComponentsList"    [applyChangeset]="applyComponentChangeset"    #list  >    <span title>Components</span>    <span if-empty style="color: red">Assign the label to a component</span>    <ng-container *appItem="let item">      <div>{{ item.name }}</div>    </ng-container>  </app-set-editor>  <mat-form-field class="new-label-input" appearance="outline">    <mat-label>Label Name</mat-label>    <input #labelName required matInput [formControl]="validationLabelName" />    <mat-error *ngIf="validationLabelName.invalid">Invalid name</mat-error>  </mat-form-field>  <mat-form-field class="new-label-input" appearance="outline">    <mat-label>Description</mat-label>    <input #labelDescription matInput [formControl]="validationLabelDescription" />  </mat-form-field>  <mat-form-field class="new-label-input" floatLabel="always" appearance="outline">    <mat-label>Color</mat-label>    <input      matInput      readonly      [style.background]="color"      autocomplete="off"      [(colorPicker)]="this.color"      [cpAlphaChannel]="\'disabled\'"      [cpPosition]="\'bottom\'"    />    <button mat-icon-button class="color-randomize-button" matSuffix (click)="this.randomizeColor()">      <mat-icon>refresh</mat-icon>    </button>  </mat-form-field></div><div mat-dialog-actions class="actions">  <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">Cancel</button>  <button    mat-raised-button    color="success"    [disabled]="loading || validationLabelName.invalid || !list.totalCount"    (click)="this.onConfirmClick(labelName.value, labelDescription.value)"  >    <ng-container *ngIf="data.editExisting"> Apply </ng-container>    <ng-container *ngIf="!data.editExisting"> Create </ng-container>  </button></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'CreateEditLabelDialogComponent'};

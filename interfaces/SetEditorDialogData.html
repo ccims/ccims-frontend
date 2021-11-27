@@ -584,8 +584,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnDestroy, OnInit, TemplateRef } from &#x27;@angular/core&#x27;;
-import { MAT_DIALOG_DATA, MatDialogRef } from &#x27;@angular/material/dialog&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Inject, OnDestroy, OnInit, TemplateRef} from &#x27;@angular/core&#x27;;
+import {MAT_DIALOG_DATA, MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
 import {
   decodeListId,
   decodeNodeId,
@@ -597,11 +597,11 @@ import {
   NodeIdEnc,
   nodeTypeFromTypename
 } from &#x27;@app/data-dgql/id&#x27;;
-import { DataList } from &#x27;@app/data-dgql/query&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
+import {DataList} from &#x27;@app/data-dgql/query&#x27;;
+import {Subscription} from &#x27;rxjs&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
-import { UserNotifyService } from &#x27;@app/user-notify/user-notify.service&#x27;;
-import { quickScore } from &#x27;quick-score&#x27;;
+import {UserNotifyService} from &#x27;@app/user-notify/user-notify.service&#x27;;
+import {quickScore} from &#x27;quick-score&#x27;;
 
 /**
  * This interface is used to source items from multiple sources in the set editor.
@@ -623,7 +623,7 @@ export interface SetMultiSource {
  */
 class MultiSourceList&lt;T, F&gt; {
   /** A DataList that loads the value of sourceNodes, if it&#x27;s a ListId. */
-  public sourceNodeList?: DataList&lt;{ __typename: string }, unknown&gt;;
+  public sourceNodeList?: DataList&lt;{__typename: string}, unknown&gt;;
   /**
    * @ignore
    * Internal: subscription to the sourceNodeList.
@@ -662,7 +662,7 @@ class MultiSourceList&lt;T, F&gt; {
 
   /** Creates a new MultiSourceList that actually just loads a single list. */
   static fromSingleList&lt;T, F&gt;(list: ListId, scoreKeys: string[], dataService: DataService) {
-    return new this&lt;T, F&gt;({ staticSources: [list] }, scoreKeys, dataService);
+    return new this&lt;T, F&gt;({staticSources: [list]}, scoreKeys, dataService);
   }
 
   /** Updates lists. */
@@ -684,7 +684,10 @@ class MultiSourceList&lt;T, F&gt; {
         const list &#x3D; this.dataService.getList&lt;T, F&gt;(decodeListId(source));
         list.interactive &#x3D; true;
         this.sources.set(source, list);
-        this.sourceSubs.set(source, list.subscribe(() &#x3D;&gt; this.updateResults()));
+        this.sourceSubs.set(
+          source,
+          list.subscribe(() &#x3D;&gt; this.updateResults())
+        );
       }
     }
     for (const source of [...this.sources.keys()]) {
@@ -738,7 +741,7 @@ class MultiSourceList&lt;T, F&gt; {
           items.push(item);
         }
       }
-      this.hasMore &#x3D; this.hasMore || (source.current.size &lt; source.totalCount);
+      this.hasMore &#x3D; this.hasMore || source.current.size &lt; source.totalCount;
     }
 
     items.sort((a, b) &#x3D;&gt; this.score(a) - this.score(b));
@@ -764,7 +767,7 @@ class MultiSourceList&lt;T, F&gt; {
   /** Unsubscribes from all subscriptions. This object should no longer be used afterwards. */
   unsubscribe() {
     this.sourceNodeListSub?.unsubscribe();
-    this.sourceSubs.forEach(sub &#x3D;&gt; sub.unsubscribe());
+    this.sourceSubs.forEach((sub) &#x3D;&gt; sub.unsubscribe());
   }
 }
 
@@ -782,8 +785,8 @@ export interface SetEditorDialogData&lt;T, F&gt; {
   emptySuggestionsLabel: string;
   emptyResultsLabel: string;
   createItem?: () &#x3D;&gt; Promise&lt;NodeId | null | undefined&gt;;
-  editItem?: ({ id: NodeId, preview: T }) &#x3D;&gt; void;
-  deleteItem?: ({ id: NodeId, preview: T }) &#x3D;&gt; void;
+  editItem?: ({id: NodeId, preview: T}) &#x3D;&gt; void;
+  deleteItem?: ({id: NodeId, preview: T}) &#x3D;&gt; void;
 }
 
 /** This is an internal component used in the set editor. */
@@ -792,7 +795,7 @@ export interface SetEditorDialogData&lt;T, F&gt; {
   templateUrl: &#x27;./set-editor-dialog.component.html&#x27;,
   styleUrls: [&#x27;./set-editor-dialog.component.scss&#x27;]
 })
-export class SetEditorDialogComponent&lt;T extends { id: string, __typename: string }, F&gt; implements OnInit, OnDestroy {
+export class SetEditorDialogComponent&lt;T extends {id: string; __typename: string}, F&gt; implements OnInit, OnDestroy {
   public isLocalSet &#x3D; false;
   public localSet: NodeIdEnc[] &#x3D; [];
   public listSet$: DataList&lt;T, F&gt;;
@@ -812,13 +815,14 @@ export class SetEditorDialogComponent&lt;T extends { id: string, __typename: str
   ngOnInit() {
     if (Array.isArray(this.data.listSet)) {
       this.isLocalSet &#x3D; true;
-      this.localSet &#x3D; [...this.data.listSet].map(id &#x3D;&gt; encodeNodeId(id));
+      this.localSet &#x3D; [...this.data.listSet].map((id) &#x3D;&gt; encodeNodeId(id));
     } else {
       this.listSet$ &#x3D; this.dataService.getList(this.data.listSet);
     }
-    this.listAll &#x3D; (&#x27;staticSources&#x27; in this.data.listAll)
-      ? new MultiSourceList&lt;T, F&gt;(this.data.listAll, this.data.scoreKeys, this.dataService)
-      : MultiSourceList.fromSingleList&lt;T, F&gt;(this.data.listAll, this.data.scoreKeys, this.dataService);
+    this.listAll &#x3D;
+      &#x27;staticSources&#x27; in this.data.listAll
+        ? new MultiSourceList&lt;T, F&gt;(this.data.listAll, this.data.scoreKeys, this.dataService)
+        : MultiSourceList.fromSingleList&lt;T, F&gt;(this.data.listAll, this.data.scoreKeys, this.dataService);
 
     if (this.listSet$) {
       this.listSetSub &#x3D; this.listSet$?.subscribe();
@@ -837,7 +841,7 @@ export class SetEditorDialogComponent&lt;T extends { id: string, __typename: str
 
   getNodeId(item): NodeId {
     const type &#x3D; nodeTypeFromTypename(item.__typename);
-    return { type, id: item.id };
+    return {type, id: item.id};
   }
 
   getEncodedId(item): NodeIdEnc {
@@ -875,15 +879,18 @@ export class SetEditorDialogComponent&lt;T extends { id: string, __typename: str
       return;
     }
 
-    this.data.applyChangeset([...this.additions].map(decodeNodeId), [...this.deletions].map(decodeNodeId)).then(() &#x3D;&gt; {
-      this.dialogRef.close(null);
-    }).catch(error &#x3D;&gt; {
-      this.notifyService.notifyError(&#x27;Failed to apply changes&#x27;, error);
-    });
+    this.data
+      .applyChangeset([...this.additions].map(decodeNodeId), [...this.deletions].map(decodeNodeId))
+      .then(() &#x3D;&gt; {
+        this.dialogRef.close(null);
+      })
+      .catch((error) &#x3D;&gt; {
+        this.notifyService.notifyError(&#x27;Failed to apply changes&#x27;, error);
+      });
   }
 
   createItem() {
-    this.data.createItem().then(node &#x3D;&gt; {
+    this.data.createItem().then((node) &#x3D;&gt; {
       if (node) {
         this.additions.add(encodeNodeId(node));
       }

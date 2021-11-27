@@ -123,7 +123,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -198,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -281,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -393,8 +393,8 @@ the filter$ or reload$ observables emit a value.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -481,7 +481,7 @@ the filter$ or reload$ observables emit a value.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/data/issue-graph/issue-graph-state.service.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -506,11 +506,9 @@ import {FilterState} from &#x27;@app/graphs/shared&#x27;;
   providedIn: &#x27;root&#x27;
 })
 export class IssueGraphStateService {
-
   state$: Observable&lt;GraphData&gt;;
 
-  constructor(private apiService: IssueGraphApiService, private ss: StateService) {
-  }
+  constructor(private apiService: IssueGraphApiService, private ss: StateService) {}
 
   /**
    * Maps an observable of the state of the graph filters (toggles and queries in search bar) onto an observable
@@ -521,14 +519,23 @@ export class IssueGraphStateService {
    * @returns observable emitting sequence of graph states containing e.g. components and interfaces. It will emit new values when
    * the filter$ or reload$ observables emit a value.
    */
-  graphDataForFilter(filter$: BehaviorSubject&lt;FilterState&gt;, reload$: BehaviorSubject&lt;void&gt;,
-                     destroy$: ReplaySubject&lt;void&gt;): Observable&lt;GraphData&gt; {
+  graphDataForFilter(
+    filter$: BehaviorSubject&lt;FilterState&gt;,
+    reload$: BehaviorSubject&lt;void&gt;,
+    destroy$: ReplaySubject&lt;void&gt;
+  ): Observable&lt;GraphData&gt; {
     // Whenever a new value arrives from reload$, loadIssueGraphData is executed
     this.state$ &#x3D; combineLatest([this.ss.state$, filter$, reload$]).pipe(
       takeUntil(destroy$),
       filter(([appState, _]) &#x3D;&gt; appState.project?.node.id !&#x3D; null),
-      switchMap(([appState, filterState]) &#x3D;&gt; this.apiService.loadIssueGraphData(appState.project.node.id,
-        filterState.selectedCategories, filterState.selectedFilter.labels, filterState.selectedFilter.texts)),
+      switchMap(([appState, filterState]) &#x3D;&gt;
+        this.apiService.loadIssueGraphData(
+          appState.project.node.id,
+          filterState.selectedCategories,
+          filterState.selectedFilter.labels,
+          filterState.selectedFilter.texts
+        )
+      ),
       shareReplay(1)
     );
     return this.state$;

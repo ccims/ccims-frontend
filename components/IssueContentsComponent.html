@@ -517,13 +517,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnDestroy, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
-import { DataList, DataNode } from &#x27;@app/data-dgql/query&#x27;;
-import { Issue } from &#x27;../../generated/graphql&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnDestroy, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
+import {DataList, DataNode} from &#x27;@app/data-dgql/query&#x27;;
+import {Issue} from &#x27;../../generated/graphql&#x27;;
+import {Subscription} from &#x27;rxjs&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
-import { CURRENT_USER_NODE, ListType, NodeType } from &#x27;@app/data-dgql/id&#x27;;
-import { User } from &#x27;../../generated/graphql-dgql&#x27;;
+import {CURRENT_USER_NODE, ListType, NodeType} from &#x27;@app/data-dgql/id&#x27;;
+import {User} from &#x27;../../generated/graphql-dgql&#x27;;
 
 /**
  * This component renders the contents of the issue: the issue body, timeline, and comment box.
@@ -584,16 +584,15 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
   /** Adds a comment to the current issue with the data provided in the comment box. */
   public commentIssue(): void {
     this.savingComment &#x3D; true;
-    this.dataService.mutations.addIssueComment(
-      Math.random().toString(),
-      this.issue$.id,
-      this.commentEditor.code
-    ).then(() &#x3D;&gt; {
-      // only clear if successful
-      this.commentEditor.code &#x3D; &#x27;&#x27;;
-    }).finally(() &#x3D;&gt; {
-      this.savingComment &#x3D; false;
-    });
+    this.dataService.mutations
+      .addIssueComment(Math.random().toString(), this.issue$.id, this.commentEditor.code)
+      .then(() &#x3D;&gt; {
+        // only clear if successful
+        this.commentEditor.code &#x3D; &#x27;&#x27;;
+      })
+      .finally(() &#x3D;&gt; {
+        this.savingComment &#x3D; false;
+      });
   }
 }
 </code></pre>
@@ -601,61 +600,56 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;issue-contents&quot; *ngIf&#x3D;&quot;issue$?.current as issue&quot;&gt;
-    &lt;!--Part 3: Issue body--&gt;
-    &lt;app-comment class&#x3D;&quot;issue-body&quot; [commentId]&#x3D;&quot;issue$.id&quot; [isIssueBody]&#x3D;&quot;true&quot;&gt;&lt;/app-comment&gt;
+  &lt;!--Part 3: Issue body--&gt;
+  &lt;app-comment class&#x3D;&quot;issue-body&quot; [commentId]&#x3D;&quot;issue$.id&quot; [isIssueBody]&#x3D;&quot;true&quot;&gt;&lt;/app-comment&gt;
 
-    &lt;!--Part 4: Linked issues--&gt;
-    &lt;div *ngIf&#x3D;&quot;linkedIssues$.totalCount &gt; 0&quot; class&#x3D;&quot;timeline-item&quot;&gt;
-        &lt;div class&#x3D;&quot;item-box&quot;&gt;
-            &lt;div class&#x3D;&quot;item-header&quot;&gt;
-                &lt;mat-icon&gt;link&lt;/mat-icon&gt;
-                &lt;h3 class&#x3D;&quot;item-title&quot;&gt;
-                    &lt;b&gt;Linked Issues&lt;/b&gt;
-                &lt;/h3&gt;
-            &lt;/div&gt;
-            &lt;div class&#x3D;&quot;item-body&quot;&gt;
-                &lt;div class&#x3D;&quot;linked-issues-container&quot;&gt;
-                    &lt;mat-accordion&gt;
-                        &lt;ng-container *ngFor&#x3D;&quot;let currentIssue of linkedIssues$.currentItems&quot;&gt;
-                            &lt;app-issue-detail-linked-issue-item [issueStub]&#x3D;&quot;currentIssue&quot; [projectId]&#x3D;&quot;projectId&quot;&gt;
-                            &lt;/app-issue-detail-linked-issue-item&gt;
-                        &lt;/ng-container&gt;
-                    &lt;/mat-accordion&gt;
-                &lt;/div&gt;
-                &lt;app-cursor-paginator
-                    *ngIf&#x3D;&quot;linkedIssues$.totalCount &gt; 10&quot;
-                    [list]&#x3D;&quot;linkedIssues$&quot;
-                    [pageSizes]&#x3D;&quot;[10]&quot;&gt;&lt;/app-cursor-paginator&gt;
-            &lt;/div&gt;
+  &lt;!--Part 4: Linked issues--&gt;
+  &lt;div *ngIf&#x3D;&quot;linkedIssues$.totalCount &gt; 0&quot; class&#x3D;&quot;timeline-item&quot;&gt;
+    &lt;div class&#x3D;&quot;item-box&quot;&gt;
+      &lt;div class&#x3D;&quot;item-header&quot;&gt;
+        &lt;mat-icon&gt;link&lt;/mat-icon&gt;
+        &lt;h3 class&#x3D;&quot;item-title&quot;&gt;
+          &lt;b&gt;Linked Issues&lt;/b&gt;
+        &lt;/h3&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;item-body&quot;&gt;
+        &lt;div class&#x3D;&quot;linked-issues-container&quot;&gt;
+          &lt;mat-accordion&gt;
+            &lt;ng-container *ngFor&#x3D;&quot;let currentIssue of linkedIssues$.currentItems&quot;&gt;
+              &lt;app-issue-detail-linked-issue-item [issueStub]&#x3D;&quot;currentIssue&quot; [projectId]&#x3D;&quot;projectId&quot;&gt; &lt;/app-issue-detail-linked-issue-item&gt;
+            &lt;/ng-container&gt;
+          &lt;/mat-accordion&gt;
         &lt;/div&gt;
+        &lt;app-cursor-paginator *ngIf&#x3D;&quot;linkedIssues$.totalCount &gt; 10&quot; [list]&#x3D;&quot;linkedIssues$&quot; [pageSizes]&#x3D;&quot;[10]&quot;&gt;&lt;/app-cursor-paginator&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
+  &lt;/div&gt;
 
-    &lt;app-timeline [issueId]&#x3D;&quot;issue$.id&quot; [projectID]&#x3D;&quot;projectId&quot;&gt;&lt;/app-timeline&gt;
+  &lt;app-timeline [issueId]&#x3D;&quot;issue$.id&quot; [projectID]&#x3D;&quot;projectId&quot;&gt;&lt;/app-timeline&gt;
 
-    &lt;mat-divider&gt;&lt;/mat-divider&gt;
+  &lt;mat-divider&gt;&lt;/mat-divider&gt;
 
-    &lt;!--Part 6: Comment creation box--&gt;
-    &lt;div class&#x3D;&quot;timeline-item comment-form&quot;&gt;
-        &lt;div class&#x3D;&quot;item-box&quot;&gt;
-            &lt;div class&#x3D;&quot;item-header&quot;&gt;
-                &lt;h3 class&#x3D;&quot;item-title&quot;&gt;
-                    Comment this issue as &lt;app-user-item [user]&#x3D;&quot;currentUser$.current&quot; [short]&#x3D;&quot;true&quot;&gt;&lt;/app-user-item&gt;
-                &lt;/h3&gt;
-            &lt;/div&gt;
-            &lt;div class&#x3D;&quot;item-body&quot;&gt;
-                &lt;app-markdown-editor #comment&gt;&lt;/app-markdown-editor&gt;
-                &lt;div class&#x3D;&quot;comment-buttons&quot;&gt;
-                    &lt;button *ngIf&#x3D;&quot;issue.isOpen&quot; mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;this.closeIssue()&quot;&gt;Close Issue
-                    &lt;/button&gt;
-                    &lt;button *ngIf&#x3D;&quot;!issue.isOpen&quot; mat-raised-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;this.reopenIssue()&quot;&gt;Reopen
-                        Issue
-                    &lt;/button&gt;
-                    &lt;button mat-raised-button color&#x3D;&quot;primary&quot; style&#x3D;&quot;margin-left: 6px&quot; [class.spinner]&#x3D;&quot;savingComment&quot; (click)&#x3D;&quot;this.commentIssue()&quot;&gt;Comment
-                    &lt;/button&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
+  &lt;!--Part 6: Comment creation box--&gt;
+  &lt;div class&#x3D;&quot;timeline-item comment-form&quot;&gt;
+    &lt;div class&#x3D;&quot;item-box&quot;&gt;
+      &lt;div class&#x3D;&quot;item-header&quot;&gt;
+        &lt;h3 class&#x3D;&quot;item-title&quot;&gt;
+          Comment this issue as
+          &lt;app-user-item [user]&#x3D;&quot;currentUser$.current&quot; [short]&#x3D;&quot;true&quot;&gt;&lt;/app-user-item&gt;
+        &lt;/h3&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;item-body&quot;&gt;
+        &lt;app-markdown-editor #comment&gt;&lt;/app-markdown-editor&gt;
+        &lt;div class&#x3D;&quot;comment-buttons&quot;&gt;
+          &lt;button *ngIf&#x3D;&quot;issue.isOpen&quot; mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;this.closeIssue()&quot;&gt;Close Issue&lt;/button&gt;
+          &lt;button *ngIf&#x3D;&quot;!issue.isOpen&quot; mat-raised-button color&#x3D;&quot;accent&quot; (click)&#x3D;&quot;this.reopenIssue()&quot;&gt;Reopen Issue&lt;/button&gt;
+          &lt;button mat-raised-button color&#x3D;&quot;primary&quot; style&#x3D;&quot;margin-left: 6px&quot; [class.spinner]&#x3D;&quot;savingComment&quot; (click)&#x3D;&quot;this.commentIssue()&quot;&gt;
+            Comment
+          &lt;/button&gt;
         &lt;/div&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
     </div>
@@ -664,7 +658,7 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
                 <p class="comment">
                     <code>issue-contents.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;src/styles/spinner&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &quot;src/styles/spinner&quot;;
 
 .timeline-item {
   position: relative;
@@ -676,7 +670,7 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
   }
 
   &amp;::before {
-    content: &#x27;&#x27;;
+    content: &quot;&quot;;
     position: absolute;
     top: 0;
     left: -1px;
@@ -769,7 +763,7 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="issue-contents" *ngIf="issue$?.current as issue">    <!--Part 3: Issue body-->    <app-comment class="issue-body" [commentId]="issue$.id" [isIssueBody]="true"></app-comment>    <!--Part 4: Linked issues-->    <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">        <div class="item-box">            <div class="item-header">                <mat-icon>link</mat-icon>                <h3 class="item-title">                    <b>Linked Issues</b>                </h3>            </div>            <div class="item-body">                <div class="linked-issues-container">                    <mat-accordion>                        <ng-container *ngFor="let currentIssue of linkedIssues$.currentItems">                            <app-issue-detail-linked-issue-item [issueStub]="currentIssue" [projectId]="projectId">                            </app-issue-detail-linked-issue-item>                        </ng-container>                    </mat-accordion>                </div>                <app-cursor-paginator                    *ngIf="linkedIssues$.totalCount > 10"                    [list]="linkedIssues$"                    [pageSizes]="[10]"></app-cursor-paginator>            </div>        </div>    </div>    <app-timeline [issueId]="issue$.id" [projectID]="projectId"></app-timeline>    <mat-divider></mat-divider>    <!--Part 6: Comment creation box-->    <div class="timeline-item comment-form">        <div class="item-box">            <div class="item-header">                <h3 class="item-title">                    Comment this issue as <app-user-item [user]="currentUser$.current" [short]="true"></app-user-item>                </h3>            </div>            <div class="item-body">                <app-markdown-editor #comment></app-markdown-editor>                <div class="comment-buttons">                    <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue                    </button>                    <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen                        Issue                    </button>                    <button mat-raised-button color="primary" style="margin-left: 6px" [class.spinner]="savingComment" (click)="this.commentIssue()">Comment                    </button>                </div>            </div>        </div>    </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="issue-contents" *ngIf="issue$?.current as issue">  <!--Part 3: Issue body-->  <app-comment class="issue-body" [commentId]="issue$.id" [isIssueBody]="true"></app-comment>  <!--Part 4: Linked issues-->  <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">    <div class="item-box">      <div class="item-header">        <mat-icon>link</mat-icon>        <h3 class="item-title">          <b>Linked Issues</b>        </h3>      </div>      <div class="item-body">        <div class="linked-issues-container">          <mat-accordion>            <ng-container *ngFor="let currentIssue of linkedIssues$.currentItems">              <app-issue-detail-linked-issue-item [issueStub]="currentIssue" [projectId]="projectId"> </app-issue-detail-linked-issue-item>            </ng-container>          </mat-accordion>        </div>        <app-cursor-paginator *ngIf="linkedIssues$.totalCount > 10" [list]="linkedIssues$" [pageSizes]="[10]"></app-cursor-paginator>      </div>    </div>  </div>  <app-timeline [issueId]="issue$.id" [projectID]="projectId"></app-timeline>  <mat-divider></mat-divider>  <!--Part 6: Comment creation box-->  <div class="timeline-item comment-form">    <div class="item-box">      <div class="item-header">        <h3 class="item-title">          Comment this issue as          <app-user-item [user]="currentUser$.current" [short]="true"></app-user-item>        </h3>      </div>      <div class="item-body">        <app-markdown-editor #comment></app-markdown-editor>        <div class="comment-buttons">          <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue</button>          <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen Issue</button>          <button mat-raised-button color="primary" style="margin-left: 6px" [class.spinner]="savingComment" (click)="this.commentIssue()">            Comment          </button>        </div>      </div>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'IssueContentsComponent'};

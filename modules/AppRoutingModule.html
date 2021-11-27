@@ -72,77 +72,100 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { Routes, RouterModule } from &#x27;@angular/router&#x27;;
-import { ProjectListComponent } from &#x27;./project-list-component/project-list.component&#x27;;
-import { ProjectOverviewComponent } from &#x27;./project-overview/project-overview.component&#x27;;
-import { IssueDetailComponent } from &#x27;./issue-detail/issue-detail.component&#x27;;
-import { IssueGraphControlsComponent } from &#x27;./graphs/issue-graph-controls/issue-graph-controls.component&#x27;;
-import { LoginComponent } from &#x27;./login/login.component&#x27;;
-import { FrameComponent } from &#x27;./frame/frame.component&#x27;;
-import { AuthGuard } from &#x27;./auth/auth.guard&#x27;;
-import { RegisterComponent } from &#x27;./register/register.component&#x27;;
-import { ProjectIssueListComponent } from &#x27;./project-issue-list/project-issue-list.component&#x27;;
-import { ProjectMembersComponent } from &#x27;./project-members/project-members.component&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {NgModule} from &#x27;@angular/core&#x27;;
+import {Routes, RouterModule} from &#x27;@angular/router&#x27;;
+import {ProjectListComponent} from &#x27;./project-list-component/project-list.component&#x27;;
+import {ProjectOverviewComponent} from &#x27;./project-overview/project-overview.component&#x27;;
+import {IssueDetailComponent} from &#x27;./issue-detail/issue-detail.component&#x27;;
+import {IssueGraphControlsComponent} from &#x27;./graphs/issue-graph-controls/issue-graph-controls.component&#x27;;
+import {LoginComponent} from &#x27;./login/login.component&#x27;;
+import {FrameComponent} from &#x27;./frame/frame.component&#x27;;
+import {AuthGuard} from &#x27;./auth/auth.guard&#x27;;
+import {RegisterComponent} from &#x27;./register/register.component&#x27;;
+import {ProjectIssueListComponent} from &#x27;./project-issue-list/project-issue-list.component&#x27;;
+import {ProjectMembersComponent} from &#x27;./project-members/project-members.component&#x27;;
 import {NodeDetailsPageComponent} from &#x27;@app/node-details-page/node-details-page.component&#x27;;
-
 
 const routes: Routes &#x3D; [
   {
-    path: &#x27;&#x27;, component: FrameComponent, canActivate: [AuthGuard],
+    path: &#x27;&#x27;,
+    component: FrameComponent,
+    canActivate: [AuthGuard],
     children: [
-      { path: &#x27;&#x27;, redirectTo: &#x27;projects&#x27;, pathMatch: &#x27;full&#x27; },
-      { path: &#x27;projects&#x27;, component: ProjectListComponent },
+      {path: &#x27;&#x27;, redirectTo: &#x27;projects&#x27;, pathMatch: &#x27;full&#x27;},
+      {path: &#x27;projects&#x27;, component: ProjectListComponent},
       {
         path: &#x27;projects/:id&#x27;,
         children: [
-          { path: &#x27;&#x27;, pathMatch: &#x27;full&#x27;, component: ProjectOverviewComponent },
-          { path: &#x27;graph&#x27;, component: IssueGraphControlsComponent },
+          {path: &#x27;&#x27;, pathMatch: &#x27;full&#x27;, component: ProjectOverviewComponent},
+          {path: &#x27;graph&#x27;, component: IssueGraphControlsComponent},
           {
             path: &#x27;issues&#x27;,
             children: [
-              { path: &#x27;&#x27;, pathMatch: &#x27;full&#x27;, component: ProjectIssueListComponent },
-              { path: &#x27;:issueId&#x27;, pathMatch: &#x27;full&#x27;, component: IssueDetailComponent },
+              {
+                path: &#x27;&#x27;,
+                pathMatch: &#x27;full&#x27;,
+                component: ProjectIssueListComponent
+              },
+              {
+                path: &#x27;:issueId&#x27;,
+                pathMatch: &#x27;full&#x27;,
+                component: IssueDetailComponent
+              }
             ]
           },
-          { path: &#x27;members&#x27;, component: ProjectMembersComponent },
+          {path: &#x27;members&#x27;, component: ProjectMembersComponent},
           {
             path: &#x27;component/:componentId&#x27;,
             children: [
-              { path: &#x27;&#x27;, pathMatch: &#x27;full&#x27;, component: NodeDetailsPageComponent},
+              {
+                path: &#x27;&#x27;,
+                pathMatch: &#x27;full&#x27;,
+                component: NodeDetailsPageComponent
+              },
               {
                 path: &#x27;interface/:interfaceId&#x27;,
                 children: [
-                  { path: &#x27;&#x27;, pathMatch: &#x27;full&#x27;, component: NodeDetailsPageComponent},
-                  { path: &#x27;component/:componentId/issue/:issueId&#x27;, pathMatch: &#x27;full&#x27;, component: IssueDetailComponent }
+                  {
+                    path: &#x27;&#x27;,
+                    pathMatch: &#x27;full&#x27;,
+                    component: NodeDetailsPageComponent
+                  },
+                  {
+                    path: &#x27;component/:componentId/issue/:issueId&#x27;,
+                    pathMatch: &#x27;full&#x27;,
+                    component: IssueDetailComponent
+                  }
                 ]
-              },
+              }
             ]
           },
           {
             path: &#x27;interface/:interfaceId&#x27;,
             children: [
-              { path: &#x27;&#x27;, pathMatch: &#x27;full&#x27;, component: NodeDetailsPageComponent},
+              {
+                path: &#x27;&#x27;,
+                pathMatch: &#x27;full&#x27;,
+                component: NodeDetailsPageComponent
+              }
             ]
           }
         ]
       },
-      { path: &#x27;issue&#x27;, component: IssueDetailComponent },
-    ],
+      {path: &#x27;issue&#x27;, component: IssueDetailComponent}
+    ]
   },
-  { path: &#x27;login&#x27;, component: LoginComponent },
-  { path: &#x27;register&#x27;, component: RegisterComponent },
+  {path: &#x27;login&#x27;, component: LoginComponent},
+  {path: &#x27;register&#x27;, component: RegisterComponent},
   // otherwise redirect to home
-  { path: &#x27;**&#x27;, redirectTo: &#x27;&#x27; }
+  {path: &#x27;**&#x27;, redirectTo: &#x27;&#x27;}
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}
 </code></pre>
     </div>
 </div>

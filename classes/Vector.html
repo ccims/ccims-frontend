@@ -777,8 +777,8 @@ from the <code>source</code> to the <code>target</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">src/app/graphs/automatic-layout.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">src/app/graphs/automatic-layout.ts:135</a></div>
                 </td>
             </tr>
 
@@ -1276,8 +1276,10 @@ class Vector {
    */
   public distanceToLine(sourcePoint: Vector, targetPoint: Vector): number {
     const length &#x3D; targetPoint.subtract(sourcePoint).length();
-    return Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) -
-      (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)) / length;
+    return (
+      Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) - (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)) /
+      length
+    );
   }
 
   /**
@@ -1366,8 +1368,8 @@ export class LayoutNode {
       // If both nodes are at an identical position, add a small randomized offset to this nodes position
       let towardsOther &#x3D; otherNode.position.subtract(this.position);
       if (towardsOther.isZero()) {
-        this.position.x +&#x3D; Math.random() - .5;
-        this.position.y +&#x3D; Math.random() - .5;
+        this.position.x +&#x3D; Math.random() - 0.5;
+        this.position.y +&#x3D; Math.random() - 0.5;
         towardsOther &#x3D; otherNode.position.subtract(this.position);
       }
 
@@ -1404,8 +1406,10 @@ export class LayoutNode {
         otherNodesVisited.add(edgeNode.id).add(otherNode.id);
 
         // Check if this node is next to the edge connecting two nodes
-        if (Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
-          Vector.isBehind(edgeNode.position, otherNode.position, this.position)) {
+        if (
+          Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
+          Vector.isBehind(edgeNode.position, otherNode.position, this.position)
+        ) {
           continue;
         }
 
@@ -1459,7 +1463,7 @@ export function doGraphLayout(nodes: Array&lt;LayoutNode&gt;): void {
     for (let i &#x3D; 0; i &lt; nodes.length; ++i) {
       const node &#x3D; nodes[i];
       if (!node.fixed) {
-        node.position &#x3D; node.position.add(directions[i].scale(.1));
+        node.position &#x3D; node.position.add(directions[i].scale(0.1));
       }
     }
   }

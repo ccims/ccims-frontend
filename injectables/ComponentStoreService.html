@@ -765,15 +765,15 @@ import {map} from &#x27;rxjs/operators&#x27;;
   providedIn: &#x27;root&#x27;
 })
 export class ComponentStoreService {
-
-  constructor(private updateComponentMutation: UpdateComponentGQL,
-              private deleteComponentMutation: DeleteComponentGQL,
-              private getFullComponentQuery: GetComponentGQL,
-              private createComponentMutation: CreateComponentGQL,
-              private getLabelsQuery: GetComponentLabelsGQL,
-              private getBasicComponentQuery: GetBasicComponentGQL,
-              private getComponentInterfacesQuery: GetComponentInterfacesGQL) {
-  }
+  constructor(
+    private updateComponentMutation: UpdateComponentGQL,
+    private deleteComponentMutation: DeleteComponentGQL,
+    private getFullComponentQuery: GetComponentGQL,
+    private createComponentMutation: CreateComponentGQL,
+    private getLabelsQuery: GetComponentLabelsGQL,
+    private getBasicComponentQuery: GetBasicComponentGQL,
+    private getComponentInterfacesQuery: GetComponentInterfacesGQL
+  ) {}
 
   getComponentLabels(id: string): Observable&lt;GetComponentLabelsQuery&gt; {
     return this.getLabelsQuery.fetch({id}).pipe(map(({data}) &#x3D;&gt; data));

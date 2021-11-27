@@ -263,15 +263,14 @@ import {DomSanitizer} from &#x27;@angular/platform-browser&#x27;;
 export class AppComponent {
   title &#x3D; &#x27;Gropius&#x27;;
 
-  constructor(private matIconRegistry: MatIconRegistry,
-              private domSanitizer: DomSanitizer) {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     const ccimsIcons &#x3D; {
       &#x27;relation-edge&#x27;: &#x27;relation-edge.svg&#x27;,
       &#x27;resize-corner&#x27;: &#x27;resize-corner.svg&#x27;
     };
 
     for (const [key, value] of Object.entries(ccimsIcons)) {
-      console.log(&#x27;register&#x27;, key, &#x27;as&#x27;, &#x27;../assets/icons/svg/&#x27; + value );
+      console.log(&#x27;register&#x27;, key, &#x27;as&#x27;, &#x27;../assets/icons/svg/&#x27; + value);
       this.matIconRegistry.addSvgIcon(key, this.domSanitizer.bypassSecurityTrustResourceUrl(&#x27;../assets/icons/svg/&#x27; + value));
     }
 
@@ -281,18 +280,26 @@ export class AppComponent {
         for (const isClosed of [false, true]) {
           for (const edgeType of [null, &#x27;in&#x27;, &#x27;out&#x27;, &#x27;inout&#x27;]) {
             const assetUrl &#x3D; [
-              &#x27;../assets/icons/issues/&#x27;, type, &#x27;/&#x27;, category, isClosed ? &#x27;-closed&#x27; : null, edgeType &amp;&amp; &#x27;-&#x27;, edgeType, &#x27;.svg&#x27;
-            ].filter(part &#x3D;&gt; !!part).join(&#x27;&#x27;);
-            const iconName &#x3D; [
-              &#x27;issue&#x27;, type &#x3D;&#x3D;&#x3D; &#x27;assigned&#x27; ? &#x27;assigned&#x27; : null, category, isClosed ? &#x27;closed&#x27; : null, edgeType
-            ].filter(part &#x3D;&gt; !!part).join(&#x27;-&#x27;);
+              &#x27;../assets/icons/issues/&#x27;,
+              type,
+              &#x27;/&#x27;,
+              category,
+              isClosed ? &#x27;-closed&#x27; : null,
+              edgeType &amp;&amp; &#x27;-&#x27;,
+              edgeType,
+              &#x27;.svg&#x27;
+            ]
+              .filter((part) &#x3D;&gt; !!part)
+              .join(&#x27;&#x27;);
+            const iconName &#x3D; [&#x27;issue&#x27;, type &#x3D;&#x3D;&#x3D; &#x27;assigned&#x27; ? &#x27;assigned&#x27; : null, category, isClosed ? &#x27;closed&#x27; : null, edgeType]
+              .filter((part) &#x3D;&gt; !!part)
+              .join(&#x27;-&#x27;);
             this.matIconRegistry.addSvgIcon(iconName, this.domSanitizer.bypassSecurityTrustResourceUrl(assetUrl));
           }
         }
       }
     }
   }
-
 }
 </code></pre>
     </div>

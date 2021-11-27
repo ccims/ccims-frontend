@@ -277,7 +277,7 @@ Lists are identified by a <a href="../interfaces/ListId.html">ListId</a>.</p>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:56</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:48</a></code>
 </div>
                         </td>
                     </tr>
@@ -315,7 +315,7 @@ Lists are identified by a <a href="../interfaces/ListId.html">ListId</a>.</p>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:145</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:137</a></code>
 </div>
                         </td>
                     </tr>
@@ -353,7 +353,7 @@ Lists are identified by a <a href="../interfaces/ListId.html">ListId</a>.</p>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:57</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:49</a></code>
 </div>
                         </td>
                     </tr>
@@ -707,7 +707,7 @@ this method to insert that data directly and avoid triggering a redundant API re
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:179</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:171</a></code>
 </div>
                 </td>
             </tr>
@@ -758,7 +758,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:234</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:231</a></code>
 </div>
                 </td>
             </tr>
@@ -880,7 +880,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:225</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:222</a></code>
 </div>
                 </td>
             </tr>
@@ -925,7 +925,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:253</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:250</a></code>
 </div>
                 </td>
             </tr>
@@ -1002,7 +1002,7 @@ node.dataAsPromise().then(data =&gt; {
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:243</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classess/DataQuery.html#source" target="_self" >DataQuery:240</a></code>
 </div>
                 </td>
             </tr>
@@ -1610,19 +1610,11 @@ node.dataAsPromise().then(data =&gt; {
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable, Subscriber } from &#x27;rxjs&#x27;;
-import {
-  decodeNodeId,
-  encodeNodeId,
-  ListId,
-  ListParams,
-  NodeId,
-  NodeIdEnc,
-  nodeTypeFromTypename,
-} from &#x27;./id&#x27;;
-import { QueriesService } from &#x27;./queries/queries.service&#x27;;
-import { ListResult, queryList, queryNode } from &#x27;./load&#x27;;
-import { PageInfo } from &#x27;../../generated/graphql-dgql&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Observable, Subscriber} from &#x27;rxjs&#x27;;
+import {decodeNodeId, encodeNodeId, ListId, ListParams, NodeId, NodeIdEnc, nodeTypeFromTypename} from &#x27;./id&#x27;;
+import {QueriesService} from &#x27;./queries/queries.service&#x27;;
+import {ListResult, queryList, queryNode} from &#x27;./load&#x27;;
+import {PageInfo} from &#x27;../../generated/graphql-dgql&#x27;;
 
 /** How long {@link DataQuery} will wait to debounce requests until actually sending a request, in milliseconds. */
 const CACHE_FAST_DEBOUNCE_TIME_MS &#x3D; 200;
@@ -1765,7 +1757,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
    * @param map maps returned data from the query R to usable data T
    */
   protected constructor(id: I, query: (id: I, p: P) &#x3D;&gt; Promise&lt;R&gt;, map: (r: R) &#x3D;&gt; T) {
-    super(subscriber &#x3D;&gt; {
+    super((subscriber) &#x3D;&gt; {
       this.addSubscriber(subscriber, this.isNextSubLazy);
       this.isNextSubLazy &#x3D; false;
     });
@@ -1793,13 +1785,16 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
       return Promise.resolve(this.current);
     }
     return new Promise((resolve, reject) &#x3D;&gt; {
-      const sub &#x3D; this.subscribe(data &#x3D;&gt; {
-        resolve(data);
-        sub.unsubscribe();
-      }, error &#x3D;&gt; {
-        reject(error);
-        sub.unsubscribe();
-      });
+      const sub &#x3D; this.subscribe(
+        (data) &#x3D;&gt; {
+          resolve(data);
+          sub.unsubscribe();
+        },
+        (error) &#x3D;&gt; {
+          reject(error);
+          sub.unsubscribe();
+        }
+      );
     });
   }
 
@@ -1816,21 +1811,23 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
     // if load is called twice; only the newest load call will have an effect
     const stateLock &#x3D; ++this.stateLock;
 
-    fut.then(data &#x3D;&gt; {
-      if (stateLock !&#x3D;&#x3D; this.stateLock) {
-        return;
-      }
-      this.insertResult(data);
-      this.loading &#x3D; false;
-      this.hydrated &#x3D; false;
-    }).catch(error &#x3D;&gt; {
-      if (stateLock !&#x3D;&#x3D; this.stateLock) {
-        return;
-      }
-      this.emitErrorToAllSubscribers(error);
-      this.loading &#x3D; false;
-      this.hydrated &#x3D; false;
-    });
+    fut
+      .then((data) &#x3D;&gt; {
+        if (stateLock !&#x3D;&#x3D; this.stateLock) {
+          return;
+        }
+        this.insertResult(data);
+        this.loading &#x3D; false;
+        this.hydrated &#x3D; false;
+      })
+      .catch((error) &#x3D;&gt; {
+        if (stateLock !&#x3D;&#x3D; this.stateLock) {
+          return;
+        }
+        this.emitErrorToAllSubscribers(error);
+        this.loading &#x3D; false;
+        this.hydrated &#x3D; false;
+      });
   }
 
   /** Loads data. */
@@ -1866,10 +1863,13 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
     if (this.loadTimeout) {
       return;
     }
-    this.loadTimeout &#x3D; setTimeout(() &#x3D;&gt; {
-      this.loadTimeout &#x3D; null;
-      this.load();
-    }, interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS);
+    this.loadTimeout &#x3D; setTimeout(
+      () &#x3D;&gt; {
+        this.loadTimeout &#x3D; null;
+        this.load();
+      },
+      interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS
+    );
   }
 
   /** Deletes current data. */
@@ -1896,7 +1896,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
     return {
       unsubscribe: () &#x3D;&gt; {
         this.subscribers.delete(subscriber);
-      },
+      }
     };
   }
 
@@ -1987,7 +1987,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
 export class DataNode&lt;T&gt; extends DataQuery&lt;NodeId, T, T, void&gt; {
   /** @ignore */
   constructor(queries: QueriesService, id: NodeId) {
-    super(id, queryNode(queries), data &#x3D;&gt; data);
+    super(id, queryNode(queries), (data) &#x3D;&gt; data);
   }
 
   set params(p) {
@@ -2088,7 +2088,7 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
 
   /** @ignore */
   constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
-    super(id, queryList(queries, nodes), result &#x3D;&gt; {
+    super(id, queryList(queries, nodes), (result) &#x3D;&gt; {
       this.pageInfo &#x3D; result.pageInfo;
       this.pTotalCount &#x3D; result.totalCount;
 
@@ -2118,7 +2118,7 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
       cursor: this.pCursor,
       count: this.pCount,
       forward: this.pForward,
-      filter: this.pFilter,
+      filter: this.pFilter
     };
   }
 
@@ -2238,21 +2238,23 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
    * @param data a promise that returns the API data
    * @typeParam IdT - equivalent to T
    */
-  hydrateInitial&lt;IdT extends T &amp; { id: string, __typename: string }&gt;(data: Promise&lt;HydrateList&lt;IdT&gt;&gt;) {
-    this.hydrateRaw(data.then(value &#x3D;&gt; ({
-      totalCount: value.totalCount,
-      pageInfo: value.pageInfo,
-      items: this.pNodes.insertNodes(value.nodes || [])
-    })));
+  hydrateInitial&lt;IdT extends T &amp; {id: string; __typename: string}&gt;(data: Promise&lt;HydrateList&lt;IdT&gt;&gt;) {
+    this.hydrateRaw(
+      data.then((value) &#x3D;&gt; ({
+        totalCount: value.totalCount,
+        pageInfo: value.pageInfo,
+        items: this.pNodes.insertNodes(value.nodes || [])
+      }))
+    );
   }
 }
 
 /** List hydration object (constructing this manually shouldn&#x27;t be necessary as it mirrors the structure of GQL objects) */
 export type HydrateList&lt;T&gt; &#x3D; {
-  totalCount: number,
-  pageInfo: PageInfo,
+  totalCount: number;
+  pageInfo: PageInfo;
   /** This is nullable because it&#x27;s nullable in the GQL schema. In practice it should always exist */
-  nodes?: (T | null)[]
+  nodes?: (T | null)[];
 };
 
 /** Keeps a cache of DataNodes such that each NodeId has at most one associated DataNode. */
@@ -2287,7 +2289,7 @@ export class NodeCache {
    * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
    * Nodes without an ID will be ignored.
    */
-  insertNodes&lt;T extends { id?: string, __typename?: string }&gt;(nodes: T[]): Map&lt;NodeIdEnc, T&gt; {
+  insertNodes&lt;T extends {id?: string; __typename?: string}&gt;(nodes: T[]): Map&lt;NodeIdEnc, T&gt; {
     const map &#x3D; new Map();
 
     for (const node of nodes) {
@@ -2295,7 +2297,7 @@ export class NodeCache {
         continue;
       }
       const type &#x3D; nodeTypeFromTypename(node.__typename);
-      const id &#x3D; { type, id: node.id };
+      const id &#x3D; {type, id: node.id};
       const dataNode: DataNode&lt;T&gt; &#x3D; this.getNode(id);
       if (!dataNode.hasData) {
         // FIXME: different queries load different amounts of data, simple overwriting doesn&#x27;t always have the desired effect
@@ -2309,7 +2311,6 @@ export class NodeCache {
     return map;
   }
 }
-
 </code></pre>
     </div>
 </div>

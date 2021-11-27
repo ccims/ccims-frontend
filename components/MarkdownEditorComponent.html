@@ -211,7 +211,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:19</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -241,7 +241,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:23</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -280,8 +280,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:28</a></div>
                 </td>
             </tr>
 
@@ -329,7 +329,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/markdown/markdown-editor/markdown-editor.component.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -348,7 +348,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, Output } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, EventEmitter, Input, Output} from &#x27;@angular/core&#x27;;
 
 /**
  * This component contains a monaco markdown editor with syntax highlighting
@@ -359,7 +359,6 @@
   styleUrls: [&#x27;./markdown-editor.component.scss&#x27;]
 })
 export class MarkdownEditorComponent {
-
   /**
    * necessary options for usage of ngx-monaco-editor
    */
@@ -379,14 +378,12 @@ export class MarkdownEditorComponent {
   codeDidChange() {
     this.codeChange.emit(this.code);
   }
-
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">
-&lt;div class&#x3D;&quot;editorContainer&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;editorContainer&quot;&gt;
   &lt;ngx-monaco-editor [options]&#x3D;&quot;editorOptions&quot; [(ngModel)]&#x3D;&quot;code&quot; (ngModelChange)&#x3D;&quot;codeDidChange()&quot;&gt;&lt;/ngx-monaco-editor&gt;
 &lt;/div&gt;
 </code></pre>
@@ -396,16 +393,15 @@ export class MarkdownEditorComponent {
                 <p class="comment">
                     <code>./markdown-editor.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">.editorContainer{
+                <pre class="line-numbers"><code class="language-scss">.editorContainer {
   margin-bottom: 20px;
   border-color: #e6e6e6;
   border-style: solid;
   border-width: 1px;
   border-radius: 6px;
-
 }
 
-.preview{
+.preview {
   white-space: pre-wrap;
 }
 </code></pre>

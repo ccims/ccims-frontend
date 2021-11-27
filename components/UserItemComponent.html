@@ -260,8 +260,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input } from &#x27;@angular/core&#x27;;
-import { User } from &#x27;src/generated/graphql-dgql&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
+import {User} from &#x27;src/generated/graphql-dgql&#x27;;
 
 /** This component displays a user. */
 @Component({
@@ -282,11 +282,16 @@ export class UserItemComponent {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;user&quot;&gt;
-  &lt;span class&#x3D;&quot;display-name&quot; *ngIf&#x3D;&quot;!noDisplay &amp;&amp; user.displayName &amp;&amp; user.displayName !&#x3D;&#x3D; user.username&quot;&gt;
-    {{user.displayName}}
-  &lt;/span&gt;
-    &lt;span *ngIf&#x3D;&quot;!short || !user.displayName&quot; [ngClass]&#x3D;&quot;(!noDisplay &amp;&amp; user.displayName &amp;&amp; user.displayName !&#x3D;&#x3D; user.username) ? &#x27;username has-display-name&#x27; : &#x27;username&#x27;&quot;&gt;
-    {{user.username}}
+  &lt;span class&#x3D;&quot;display-name&quot; *ngIf&#x3D;&quot;!noDisplay &amp;&amp; user.displayName &amp;&amp; user.displayName !&#x3D;&#x3D; user.username&quot;&gt; {{ user.displayName }} &lt;/span&gt;
+  &lt;span
+    *ngIf&#x3D;&quot;!short || !user.displayName&quot;
+    [ngClass]&#x3D;&quot;
+      !noDisplay &amp;&amp; user.displayName &amp;&amp; user.displayName !&#x3D;&#x3D; user.username
+        ? &#x27;username has-display-name&#x27;
+        : &#x27;username&#x27;
+    &quot;
+  &gt;
+    {{ user.username }}
   &lt;/span&gt;
 &lt;/ng-container&gt;
 </code></pre>
@@ -335,7 +340,7 @@ export class UserItemComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="user">  <span class="display-name" *ngIf="!noDisplay && user.displayName && user.displayName !== user.username">    {{user.displayName}}  </span>    <span *ngIf="!short || !user.displayName" [ngClass]="(!noDisplay && user.displayName && user.displayName !== user.username) ? \'username has-display-name\' : \'username\'">    {{user.username}}  </span></ng-container></div>'
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="user">  <span class="display-name" *ngIf="!noDisplay && user.displayName && user.displayName !== user.username"> {{ user.displayName }} </span>  <span    *ngIf="!short || !user.displayName"    [ngClass]="      !noDisplay && user.displayName && user.displayName !== user.username        ? \'username has-display-name\'        : \'username\'    "  >    {{ user.username }}  </span></ng-container></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'UserItemComponent'};

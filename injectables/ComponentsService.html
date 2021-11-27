@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/data-dgql/queries/components.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/data-dgql/queries/components.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -211,8 +211,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:31</a></div>
                 </td>
             </tr>
 
@@ -280,8 +280,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:35</a></div>
                 </td>
             </tr>
 
@@ -349,8 +349,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -430,8 +430,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/app/data-dgql/queries/components.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -497,13 +497,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
 import {
-  ComponentFilter, ComponentInterfaceFilter,
-  GetComponentGQL, GetInterfaceGQL,
-  ListProjectComponentsGQL, ListProjectInterfacesGQL,
+  ComponentFilter,
+  ComponentInterfaceFilter,
+  GetComponentGQL,
+  GetInterfaceGQL,
+  ListProjectComponentsGQL,
+  ListProjectInterfacesGQL
 } from &#x27;src/generated/graphql-dgql&#x27;;
-import { promisifyApolloFetch, QueryListParams } from &#x27;@app/data-dgql/queries/util&#x27;;
+import {promisifyApolloFetch, QueryListParams} from &#x27;@app/data-dgql/queries/util&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;
@@ -513,23 +516,23 @@ export class ComponentsService {
     private qListProjectComponents: ListProjectComponentsGQL,
     private qListProjectInterfaces: ListProjectInterfacesGQL,
     private qGetComponent: GetComponentGQL,
-    private qGetInterface: GetInterfaceGQL,
+    private qGetInterface: GetInterfaceGQL
   ) {}
 
   listProjectComponents(project: string, list: QueryListParams&lt;ComponentFilter&gt;) {
-    return promisifyApolloFetch(this.qListProjectComponents.fetch({ project, ...list }));
+    return promisifyApolloFetch(this.qListProjectComponents.fetch({project, ...list}));
   }
 
   listProjectInterfaces(project: string, list: QueryListParams&lt;ComponentInterfaceFilter&gt;) {
-    return promisifyApolloFetch(this.qListProjectInterfaces.fetch({ project, ...list }));
+    return promisifyApolloFetch(this.qListProjectInterfaces.fetch({project, ...list}));
   }
 
   getComponent(id: string) {
-    return promisifyApolloFetch(this.qGetComponent.fetch({ id }));
+    return promisifyApolloFetch(this.qGetComponent.fetch({id}));
   }
 
   getInterface(id: string) {
-    return promisifyApolloFetch(this.qGetInterface.fetch({ id }));
+    return promisifyApolloFetch(this.qGetInterface.fetch({id}));
   }
 }
 </code></pre>

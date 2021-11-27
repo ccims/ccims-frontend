@@ -509,9 +509,9 @@ The view is just mocked, so no interaction with the backend or database is provi
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnInit } from &#x27;@angular/core&#x27;;
-import { FormControl, Validators } from &#x27;@angular/forms&#x27;;
-import { MatDialogRef, MAT_DIALOG_DATA } from &#x27;@angular/material/dialog&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Inject, OnInit} from &#x27;@angular/core&#x27;;
+import {FormControl, Validators} from &#x27;@angular/forms&#x27;;
+import {MatDialogRef, MAT_DIALOG_DATA} from &#x27;@angular/material/dialog&#x27;;
 /**
  * This component provides a view to add a member to a project
  * The view is just mocked, so no interaction with the backend or database is provided yet
@@ -524,20 +524,20 @@ import { MatDialogRef, MAT_DIALOG_DATA } from &#x27;@angular/material/dialog&#x2
 export class AddProjectMemberDialogComponent implements OnInit {
   loading &#x3D; false;
   selectedUsers &#x3D; [];
-  constructor(public dialogRef: MatDialogRef&lt;AddProjectMemberDialogComponent&gt;,@Inject(MAT_DIALOG_DATA) public data) { }
+  constructor(public dialogRef: MatDialogRef&lt;AddProjectMemberDialogComponent&gt;, @Inject(MAT_DIALOG_DATA) public data) {}
   validation &#x3D; new FormControl(&#x27;&#x27;, [Validators.required]);
   validationRole &#x3D; new FormControl(&#x27;&#x27;, [Validators.required]);
   ngOnInit(): void {
-    this.validationRole.setValue(&#x27;administrator&#x27;)
+    this.validationRole.setValue(&#x27;administrator&#x27;);
   }
 
   //cancel button
-  onNoClick(){
+  onNoClick() {
     this.dialogRef.close();
   }
 
   //add member button
-  onOkClick(){
+  onOkClick() {
     const data &#x3D; {usersToAdd: this.selectedUsers};
     this.dialogRef.close(data);
   }
@@ -548,15 +548,17 @@ export class AddProjectMemberDialogComponent implements OnInit {
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;h1 mat-dialog-title&gt;Add Project Member&lt;/h1&gt;
 &lt;div class&#x3D;&quot;dialog-content&quot; mat-dialog-content&gt;
-
   &lt;!-- select a user to add --&gt;
-  &lt;ng-select [formControl]&#x3D;&quot;validation&quot; class&#x3D;&quot;ng-select-label&quot; [dropdownPosition]&#x3D;&quot;&#x27;bottom&#x27;&quot; [multiple]&#x3D;&quot;true&quot;
-    [(ngModel)]&#x3D;&quot;this.selectedUsers&quot; [ngModelOptions]&#x3D;&quot;{standalone: true}&quot; placeholder&#x3D;&quot;Select User(s)&quot;&gt;
-
-    &lt;ng-option *ngFor&#x3D;&quot;let user of this.data.addableMembers&quot; [value]&#x3D;&quot;user.id&quot;&gt;
-
-      {{user.displayName}}
-    &lt;/ng-option&gt;
+  &lt;ng-select
+    [formControl]&#x3D;&quot;validation&quot;
+    class&#x3D;&quot;ng-select-label&quot;
+    [dropdownPosition]&#x3D;&quot;&#x27;bottom&#x27;&quot;
+    [multiple]&#x3D;&quot;true&quot;
+    [(ngModel)]&#x3D;&quot;this.selectedUsers&quot;
+    [ngModelOptions]&#x3D;&quot;{ standalone: true }&quot;
+    placeholder&#x3D;&quot;Select User(s)&quot;
+  &gt;
+    &lt;ng-option *ngFor&#x3D;&quot;let user of this.data.addableMembers&quot; [value]&#x3D;&quot;user.id&quot;&gt; {{ user.displayName }} &lt;/ng-option&gt;
   &lt;/ng-select&gt;
 
   &lt;!-- select the role of the user to be added --&gt;
@@ -566,13 +568,13 @@ export class AddProjectMemberDialogComponent implements OnInit {
       &lt;mat-option value&#x3D;&quot;administrator&quot;&gt;Administrator&lt;/mat-option&gt;
     &lt;/mat-select&gt;
   &lt;/mat-form-field&gt;
-
 &lt;/div&gt;
 &lt;!-- close window or add user and close window --&gt;
 &lt;div mat-dialog-actions class&#x3D;&quot;actions&quot;&gt;
   &lt;button mat-raised-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;onNoClick()&quot;&gt;Cancel&lt;/button&gt;
-  &lt;button mat-raised-button color&#x3D;&quot;success&quot; [class.spinner]&#x3D;&quot;loading&quot; [disabled]&#x3D;&quot;loading || validation.invalid&quot;
-    (click)&#x3D;&quot;onOkClick()&quot;&gt;Add&lt;/button&gt;
+  &lt;button mat-raised-button color&#x3D;&quot;success&quot; [class.spinner]&#x3D;&quot;loading&quot; [disabled]&#x3D;&quot;loading || validation.invalid&quot; (click)&#x3D;&quot;onOkClick()&quot;&gt;
+    Add
+  &lt;/button&gt;
 &lt;/div&gt;
 </code></pre>
     </div>
@@ -587,7 +589,7 @@ export class AddProjectMemberDialogComponent implements OnInit {
   max-width: 600px;
 }
 .actions {
-  float:right
+  float: right;
 }
 .stretch {
   width: 100%;
@@ -596,7 +598,8 @@ export class AddProjectMemberDialogComponent implements OnInit {
 .mat-success {
   background-color: green;
   color: #fff;
-}</code></pre>
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -624,7 +627,7 @@ export class AddProjectMemberDialogComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><h1 mat-dialog-title>Add Project Member</h1><div class="dialog-content" mat-dialog-content>  <!-- select a user to add -->  <ng-select [formControl]="validation" class="ng-select-label" [dropdownPosition]="\'bottom\'" [multiple]="true"    [(ngModel)]="this.selectedUsers" [ngModelOptions]="{standalone: true}" placeholder="Select User(s)">    <ng-option *ngFor="let user of this.data.addableMembers" [value]="user.id">      {{user.displayName}}    </ng-option>  </ng-select>  <!-- select the role of the user to be added -->  <mat-form-field class="stretch" appearance="outline">    <mat-label>Role</mat-label>    <mat-select [formControl]="validationRole" #role>      <mat-option value="administrator">Administrator</mat-option>    </mat-select>  </mat-form-field></div><!-- close window or add user and close window --><div mat-dialog-actions class="actions">  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>  <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validation.invalid"    (click)="onOkClick()">Add</button></div></div>'
+        var COMPONENT_TEMPLATE = '<div><h1 mat-dialog-title>Add Project Member</h1><div class="dialog-content" mat-dialog-content>  <!-- select a user to add -->  <ng-select    [formControl]="validation"    class="ng-select-label"    [dropdownPosition]="\'bottom\'"    [multiple]="true"    [(ngModel)]="this.selectedUsers"    [ngModelOptions]="{ standalone: true }"    placeholder="Select User(s)"  >    <ng-option *ngFor="let user of this.data.addableMembers" [value]="user.id"> {{ user.displayName }} </ng-option>  </ng-select>  <!-- select the role of the user to be added -->  <mat-form-field class="stretch" appearance="outline">    <mat-label>Role</mat-label>    <mat-select [formControl]="validationRole" #role>      <mat-option value="administrator">Administrator</mat-option>    </mat-select>  </mat-form-field></div><!-- close window or add user and close window --><div mat-dialog-actions class="actions">  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>  <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validation.invalid" (click)="onOkClick()">    Add  </button></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'AddProjectMemberDialogComponent'};
