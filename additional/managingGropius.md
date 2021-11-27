@@ -1,32 +1,46 @@
 # Managing the Project
 
 ## Development server
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.12.
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Project structure
+
 Have a look at the [routing module](src/app/app-routing.module.ts) to get a nice overview
 of the primary components of the app.
 
-| Aspect | Code |
-| --- | --- |
-| App Layout | [FrameComponent](src/app/frame/frame.component.ts) |
-| Graph | [GraphsModule](src/app/graphs/graphs.module.ts), look at the *declarations* |
-| Project Context | [StateService](src/app/state.service.ts)
-| Account Management and Auth with Backend | [LoginComponent](src/app/login/login.component.ts), [RegisterComponent](src/app/login/register.component.ts), [AuthenticationService](src/app/auth/authentication.service.ts), [AuthGuard](src/app/auth/auth.guard.ts) |
-| Apollo GraphQL Client Setup | [GraphQLModule](src/app/graphql.module.ts) |
-| Type Definitions for Data from Backend <br /> Helper Objects for Queries & Mutations <br /> All of this is *output of code generator* | [generated](src/generated)
+| Aspect                                                                                                                                | Code                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App Layout                                                                                                                            | [FrameComponent](src/app/frame/frame.component.ts)                                                                                                                                                                     |
+| Graph                                                                                                                                 | [GraphsModule](src/app/graphs/graphs.module.ts), look at the _declarations_                                                                                                                                            |
+| Project Context                                                                                                                       | [StateService](src/app/state.service.ts)                                                                                                                                                                               |
+| Account Management and Auth with Backend                                                                                              | [LoginComponent](src/app/login/login.component.ts), [RegisterComponent](src/app/login/register.component.ts), [AuthenticationService](src/app/auth/authentication.service.ts), [AuthGuard](src/app/auth/auth.guard.ts) |
+| Apollo GraphQL Client Setup                                                                                                           | [GraphQLModule](src/app/graphql.module.ts)                                                                                                                                                                             |
+| Type Definitions for Data from Backend <br /> Helper Objects for Queries & Mutations <br /> All of this is _output of code generator_ | [generated](src/generated)                                                                                                                                                                                             |
 
 ## Documentation generation
+
 The documentation is generated with [Compodoc](https://github.com/compodoc/compodoc). Run `npm run compodoc`for a documentation server. Navigate to `http://localhost:6060/`. The documentation will automatically reload if you change any of the source files. The configuration for the documentation is managed in [tsconfig.doc.json](tsconfig.doc.json).
 
+## Code quality
+
+Code quality concerns are handled with [ESLint](https://eslint.org/) and code formatting concerns with [Prettier](https://prettier.io/). The Prettier code formatter is integrated in the ESLint configuration.
+Run `ng lint --fix` for a static code analysis and code formatting of all files except the ones excluded in [.eslintignore](.eslintignore).
+
+## Code formatting
+
+Consistent code formatting is guaranteed with [Prettier](https://prettier.io/). Run `npx prettier --write .` to format all files except the ones that are excluded in the [.prettierignore](.prettierignore) file.
+
 ## Bindings to the Backend API
+
 The app uses GraphQL to communicate with the backend.
 The following documentation will assume you are familiar with the CCIMS backend API.
 
 There are currently two different APIs for communicating with the backend:
 
 ### `data` API
+
 The data API provides simple wrappers around the inner GraphQL queries
 (e.g. `ComponentStoreService`) that can be included into any Angular class using dependency
 injection.
@@ -44,6 +58,7 @@ It is not recommended that you use the `data` API for new code, as it has severa
   areas. This is, however, sort of canceled out by the fact that data is reloaded every time.
 
 ### `data-dgql` API
+
 The declarative data API attempts to improve upon the data API by introducing following new
 concepts:
 
@@ -67,6 +82,7 @@ concepts:
 Also see the code documentation for more information.
 
 ### Code generation from .graphql files
+
 We use a code generator (<https://graphql-code-generator.com/>) to create typescript classes from
 .graphql files containing queries and mutations. The code generator generates one Angular service
 class per query/mutation. These can then be included using dependency injection. These objects make
@@ -81,6 +97,7 @@ definition accessible to the generator via the urls defined in the codegen [conf
 Run `npm run generate` to execute the code generator when this condition is met.
 
 ## Mocked Members Page
+
 Every project offers a mocked 'Members' page. It shows a list of users in the project and
 offers a dialog to add users. However this area is purely a mock, changes are not persisted
 and there are no other users who really have access to your project.

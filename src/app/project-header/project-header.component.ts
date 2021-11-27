@@ -12,4 +12,3 @@ export class ProjectHeaderComponent {
   @Input() projectName: string;
   @Input() projectId: string;
 }
-

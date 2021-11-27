@@ -27,15 +27,16 @@ export class LoginComponent implements OnInit {
    * If login fails, set this.invalidCredentials so that gui shows error.
    */
   submitForm(): void {
-    Object.keys(this.validateForm.controls).forEach(controlKey => {
+    Object.keys(this.validateForm.controls).forEach((controlKey) => {
       this.validateForm.controls[controlKey].markAsDirty();
       this.validateForm.controls[controlKey].updateValueAndValidity();
     });
     this.isLoading = true;
-    this.authService.login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
+    this.authService
+      .login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
       .pipe(first())
       .subscribe(
-        data => {
+        (data) => {
           this.validateForm.controls.password.reset();
           this.isLoading = false;
           this.router.navigate([this.returnUrl]);
@@ -45,19 +46,17 @@ export class LoginComponent implements OnInit {
           this.isLoading = false;
           this.invalidCredentials = error.status === 401;
           this.unknownError = error.status === 0;
-        });
+        }
+      );
   }
 
-  constructor(private route: ActivatedRoute, private router: Router,
-              private authService: AuthenticationService, private fb: FormBuilder) {
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthenticationService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+      password: [null, [Validators.required]]
     });
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
-
 }

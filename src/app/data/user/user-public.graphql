@@ -1,9 +1,9 @@
-mutation RegisterUser($input: RegisterUserInput!){
-	registerUser(input: $input) {
-	  userId
-	}
+mutation RegisterUser($input: RegisterUserInput!) {
+  registerUser(input: $input) {
+    userId
+  }
 }
 
 query CheckUsername($username: String!) {
-    checkUsername(username: $username)
+  checkUsername(username: $username)
 }

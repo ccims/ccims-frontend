@@ -21,10 +21,7 @@ export class ProjectListComponent implements OnInit {
   projects: Pick<Project, 'id' | 'name'>[] = [];
   loading: boolean;
 
-  constructor(private projectStore: ProjectStoreService,
-              private dialog: MatDialog,
-              private notify: UserNotifyService) {
-  }
+  constructor(private projectStore: ProjectStoreService, private dialog: MatDialog, private notify: UserNotifyService) {}
 
   ngOnInit(): void {
     // get all projects from the database
@@ -37,19 +34,22 @@ export class ProjectListComponent implements OnInit {
     }
 
     this.loading = true;
-    this.projectStore.getAll(this.projectName).subscribe(projects => {
-      this.loading = false;
-      this.projects = projects;
-      this.lastQueriedProjectName = this.projectName;
-    }, error => {
-      this.loading = false;
-      this.notify.notifyError('Failed to load projects', error);
-    });
+    this.projectStore.getAll(this.projectName).subscribe(
+      (projects) => {
+        this.loading = false;
+        this.projects = projects;
+        this.lastQueriedProjectName = this.projectName;
+      },
+      (error) => {
+        this.loading = false;
+        this.notify.notifyError('Failed to load projects', error);
+      }
+    );
   }
 
   public openCreateProjectDialog(): void {
     const createProjectDialogRef = this.dialog.open(CreateProjectDialogComponent);
-    createProjectDialogRef.afterClosed().subscribe(result => {
+    createProjectDialogRef.afterClosed().subscribe((result) => {
       this.changeColour();
       if (result?.createdProjectId) {
         this.projectName = '';
@@ -71,6 +71,4 @@ export class ProjectListComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
   }
-
 }
-

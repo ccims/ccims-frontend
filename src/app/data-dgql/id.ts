@@ -56,7 +56,7 @@ export function decodeNodeId(id: NodeIdEnc): NodeId {
     throw new Error('Could not decode node ID: no id given');
   }
   const parts = id.split('/');
-  return { type: NodeType[parts[0]], id: parts[1] };
+  return {type: NodeType[parts[0]], id: parts[1]};
 }
 
 /**
@@ -71,10 +71,10 @@ export function encodeNodeId(nd: NodeId): NodeIdEnc {
 }
 
 /** The ID of the root node. */
-export const ROOT_NODE = { type: NodeType.Root, id: '' };
+export const ROOT_NODE = {type: NodeType.Root, id: ''};
 
 /** The special ID of the current user node. */
-export const CURRENT_USER_NODE = { type: NodeType.User, id: 'self' };
+export const CURRENT_USER_NODE = {type: NodeType.User, id: 'self'};
 
 /**
  * All list types represent their respective list queries in the backend API.
@@ -148,7 +148,7 @@ export function decodeListId(id: ListIdEnc): ListId {
     throw new Error('Could not decode list ID: no id given');
   }
   const parts = id.split('#');
-  return { node: decodeNodeId(parts[0]), type: ListType[parts[1]] };
+  return {node: decodeNodeId(parts[0]), type: ListType[parts[1]]};
 }
 
 /**

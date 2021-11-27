@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { IssueGraphApiService } from './issue-graph-api.service';
+import {IssueGraphApiService} from './issue-graph-api.service';
 
 describe('IssueGraphApiService', () => {
   let service: IssueGraphApiService;

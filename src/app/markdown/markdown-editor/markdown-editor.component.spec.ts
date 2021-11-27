@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MarkdownEditorComponent } from './markdown-editor.component';
+import {MarkdownEditorComponent} from './markdown-editor.component';
 
 describe('MarkdownEditorComponent', () => {
   let component: MarkdownEditorComponent;
@@ -8,9 +8,8 @@ describe('MarkdownEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MarkdownEditorComponent ]
-    })
-    .compileComponents();
+      declarations: [MarkdownEditorComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

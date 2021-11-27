@@ -17,7 +17,9 @@ mutation AddConsumedInterface($input: AddConsumedComponentInterfaceInput!) {
   }
 }
 
-mutation RemoveConsumedInterface($input: RemoveConsumedComponentInterfaceInput!) {
+mutation RemoveConsumedInterface(
+  $input: RemoveConsumedComponentInterfaceInput!
+) {
   removeConsumedInterface(input: $input) {
     component {
       id
@@ -28,11 +30,11 @@ mutation RemoveConsumedInterface($input: RemoveConsumedComponentInterfaceInput!)
   }
 }
 
-query GetComponentLabels($id: ID!){
+query GetComponentLabels($id: ID!) {
   node(id: $id) {
-    ... on Component{
-      labels{
-        nodes{
+    ... on Component {
+      labels {
+        nodes {
           id
           createdAt
           name
@@ -45,15 +47,15 @@ query GetComponentLabels($id: ID!){
 }
 
 query GetBasicComponent($id: ID!) {
-  node(id: $id){
-    ...on Component {
+  node(id: $id) {
+    ... on Component {
       id
       name
       description
       repositoryURL
-      imsComponents{
-        nodes{
-          ims{
+      imsComponents {
+        nodes {
+          ims {
             imsType
           }
         }
@@ -64,10 +66,10 @@ query GetBasicComponent($id: ID!) {
 
 query GetComponentInterfaces($id: ID!) {
   node(id: $id) {
-    ...on Component {
+    ... on Component {
       id
       interfaces {
-        nodes{
+        nodes {
           id
           name
           consumedBy {
@@ -84,7 +86,7 @@ query GetComponentInterfaces($id: ID!) {
 
 query GetComponent($id: ID!) {
   node(id: $id) {
-    ...on Component {
+    ... on Component {
       id
       name
       createdBy {
@@ -93,42 +95,41 @@ query GetComponent($id: ID!) {
         id
       }
       description
-      labels{
-        nodes{
+      labels {
+        nodes {
           name
           id
           color
         }
       }
       imsComponents {
-        edges{
-          node{
-            ims{
+        edges {
+          node {
+            ims {
               imsType
             }
           }
         }
       }
-      issues
-      {
-        nodes{
+      issues {
+        nodes {
           id
           title
           isOpen
           category
-          createdBy{
+          createdBy {
             id
             displayName
           }
-          labels{
-            nodes{
+          labels {
+            nodes {
               name
               id
               color
             }
           }
-          assignees{
-            nodes{
+          assignees {
+            nodes {
               id
               displayName
             }
@@ -136,14 +137,14 @@ query GetComponent($id: ID!) {
           body
         }
       }
-      interfaces{
-        nodes{
+      interfaces {
+        nodes {
           name
           id
         }
       }
-      consumedInterfaces{
-        nodes{
+      consumedInterfaces {
+        nodes {
           name
         }
       }
@@ -152,11 +153,12 @@ query GetComponent($id: ID!) {
 }
 
 mutation DeleteComponent($input: DeleteComponentInput!) {
-  deleteComponent(input: $input){
+  deleteComponent(input: $input) {
     clientMutationID
   }
 }
 mutation UpdateComponent($input: UpdateComponentInput!) {
-  updateComponent(input: $input){
+  updateComponent(input: $input) {
     clientMutationID
-  }}
+  }
+}

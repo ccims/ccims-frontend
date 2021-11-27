@@ -16,8 +16,7 @@ export class IssueLocationComponent {
   /** The location object that will be displayed. */
   @Input() location: IssueLocation;
 
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   /** Returns true if the location refers to a component. */
   isComponent(): boolean {

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RemoveProjectMemberComponentComponent } from './remove-project-member-component.component';
+import {RemoveProjectMemberComponentComponent} from './remove-project-member-component.component';
 
 describe('RemoveProjectMemberComponentComponent', () => {
   let component: RemoveProjectMemberComponentComponent;
@@ -8,9 +8,8 @@ describe('RemoveProjectMemberComponentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RemoveProjectMemberComponentComponent ]
-    })
-    .compileComponents();
+      declarations: [RemoveProjectMemberComponentComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

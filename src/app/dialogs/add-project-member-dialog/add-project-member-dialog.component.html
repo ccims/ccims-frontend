@@ -1,14 +1,16 @@
 <h1 mat-dialog-title>Add Project Member</h1>
 <div class="dialog-content" mat-dialog-content>
-
   <!-- select a user to add -->
-  <ng-select [formControl]="validation" class="ng-select-label" [dropdownPosition]="'bottom'" [multiple]="true"
-    [(ngModel)]="this.selectedUsers" [ngModelOptions]="{standalone: true}" placeholder="Select User(s)">
-
-    <ng-option *ngFor="let user of this.data.addableMembers" [value]="user.id">
-
-      {{user.displayName}}
-    </ng-option>
+  <ng-select
+    [formControl]="validation"
+    class="ng-select-label"
+    [dropdownPosition]="'bottom'"
+    [multiple]="true"
+    [(ngModel)]="this.selectedUsers"
+    [ngModelOptions]="{ standalone: true }"
+    placeholder="Select User(s)"
+  >
+    <ng-option *ngFor="let user of this.data.addableMembers" [value]="user.id"> {{ user.displayName }} </ng-option>
   </ng-select>
 
   <!-- select the role of the user to be added -->
@@ -18,11 +20,11 @@
       <mat-option value="administrator">Administrator</mat-option>
     </mat-select>
   </mat-form-field>
-
 </div>
 <!-- close window or add user and close window -->
 <div mat-dialog-actions class="actions">
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validation.invalid"
-    (click)="onOkClick()">Add</button>
+  <button mat-raised-button color="success" [class.spinner]="loading" [disabled]="loading || validation.invalid" (click)="onOkClick()">
+    Add
+  </button>
 </div>

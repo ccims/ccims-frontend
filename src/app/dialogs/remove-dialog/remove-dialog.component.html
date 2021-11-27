@@ -1,21 +1,21 @@
 <div mat-dialog-title class="title">
   <mat-icon style="font-size: 60px; height: 60px; width: 60px">delete</mat-icon>
-  {{data.title}}
+  {{ data.title }}
 </div>
 
 <div mat-dialog-content cdkFocusInitial>
   <div class="content">
     <ng-container *ngFor="let message of data.messages">
       <ng-container *ngIf="message.startsWith(' ')">&nbsp;&nbsp;&nbsp;&nbsp;</ng-container>
-      {{message.startsWith(' ') ? message.substring(1) : message}}<br>
+      {{ message.startsWith(" ") ? message.substring(1) : message }}<br />
     </ng-container>
   </div>
   <div style="flex: 0 0 auto">
     <div *ngIf="data.verificationName; else spacing" style="margin-top: 20px">
-      Type &quot;<b>{{data.verificationName}}</b>&quot; to confirm:
+      Type &quot;<b>{{ data.verificationName }}</b>&quot; to confirm:
       <mat-form-field style="width: 100%; margin-top: 4px" appearance="outline">
         <mat-label>Confirm name</mat-label>
-        <input required matInput [formControl]="verificationNameInput" autocomplete="off">
+        <input required matInput [formControl]="verificationNameInput" autocomplete="off" />
         <mat-error *ngIf="verificationNameInput.invalid">Names don't match!</mat-error>
       </mat-form-field>
     </div>
@@ -28,8 +28,7 @@
 
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button color="warn" (click)="onDeleteClick()"
-          [disabled]="data.verificationName && verificationNameInput.invalid">
-    {{this.data.confirmButtonText ? this.data.confirmButtonText : 'Delete'}}
+  <button mat-raised-button color="warn" (click)="onDeleteClick()" [disabled]="data.verificationName && verificationNameInput.invalid">
+    {{ this.data.confirmButtonText ? this.data.confirmButtonText : "Delete" }}
   </button>
 </div>

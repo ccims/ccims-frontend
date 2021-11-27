@@ -1,10 +1,10 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { AuthenticationService } from '@app/auth/authentication.service';
-import { MatDialog } from '@angular/material/dialog';
-import { SettingsDialogComponent } from '@app/dialogs/settings-dialog/settings-dialog.component';
+import {Component, Output, EventEmitter, Input} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
+import {AuthenticationService} from '@app/auth/authentication.service';
+import {MatDialog} from '@angular/material/dialog';
+import {SettingsDialogComponent} from '@app/dialogs/settings-dialog/settings-dialog.component';
 
 /**
  * This component is responsible for showing the top bar containing the home icon
@@ -24,14 +24,13 @@ export class TopToolbarComponent {
   @Output()
   public menuClick = new EventEmitter();
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
+    shareReplay()
+  );
 
-  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog) { }
-  
+  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog) {}
+
   public handleClick() {
     this.menuClick.emit();
   }

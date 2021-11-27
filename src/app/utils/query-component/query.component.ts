@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  Directive,
-  Input,
-  OnDestroy,
-  TemplateRef
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ContentChild, Directive, Input, OnDestroy, TemplateRef} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
 import {MatButton} from '@angular/material/button';
@@ -32,8 +23,7 @@ export enum QueryComponentState {
   selector: '[appQueryBody]'
 })
 export class QueryBodyDirective {
-  constructor(public template: TemplateRef<unknown>) {
-  }
+  constructor(public template: TemplateRef<unknown>) {}
 }
 
 /**
@@ -44,8 +34,7 @@ export class QueryBodyDirective {
   selector: '[appQueryButton]'
 })
 export class QueryButtonDirective {
-  constructor(public element: MatButton) {
-  }
+  constructor(public element: MatButton) {}
 }
 
 /**
@@ -143,9 +132,7 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
   /** If true, a button is in the query body, not a template*/
   buttonMode: boolean;
 
-  constructor(private notify: UserNotifyService,
-              private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(private notify: UserNotifyService, private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.buttonMode = !this.body && !!this.button;
@@ -176,27 +163,30 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
     this.subscription?.unsubscribe();
     this.updateButton();
 
-    this.subscription = query.subscribe((value: T) => {
-      if (success) {
-        success(value);
+    this.subscription = query.subscribe(
+      (value: T) => {
+        if (success) {
+          success(value);
 
-        // Check if the callback changed the query state, e.g. by calling setError()
-        if (this.queryState === QueryComponentState.Error) {
-          return;
+          // Check if the callback changed the query state, e.g. by calling setError()
+          if (this.queryState === QueryComponentState.Error) {
+            return;
+          }
         }
-      }
 
-      this.queryState = QueryComponentState.Ready;
-      this.changeDetector.detectChanges();
-      this.updateButton();
-    }, err => {
-      if (error) {
-        error(err);
-      }
+        this.queryState = QueryComponentState.Ready;
+        this.changeDetector.detectChanges();
+        this.updateButton();
+      },
+      (err) => {
+        if (error) {
+          error(err);
+        }
 
-      this.setError();
-      this.notify.notifyError(this.errorMessage, err);
-    });
+        this.setError();
+        this.notify.notifyError(this.errorMessage, err);
+      }
+    );
   }
 
   /**

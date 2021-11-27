@@ -3,25 +3,29 @@
 </div>
 <div class="list-header">
   <h2 class="list-h2">Project-List</h2>
-  <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()"
-          class="floating-button">Create Project
+  <button mat-raised-button color="accent" id="buttonCreateProject" (click)="openCreateProjectDialog()" class="floating-button">
+    Create Project
   </button>
   <!--  <button mat-raised-button color="primary" (click)="this.createDemoProject()"-->
   <!--          class="floating-button">Create Demo Project-->
   <!--  </button>-->
 </div>
 
-
 <!-- list wrapper including search input field and list of projects -->
 <div class="listWrapper">
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input type="text" [(ngModel)]="projectName" nz-input placeholder="Search projects..."
-           (keydown.enter)="reloadProjects()"/>
+    <input type="text" [(ngModel)]="projectName" nz-input placeholder="Search projects..." (keydown.enter)="reloadProjects()" />
   </nz-input-group>
   <!-- search button -->
   <ng-template #suffixIconButton>
-    <button nz-button nzType="primary" [nzLoading]="pendingCreate" nzSearch (click)="reloadProjects()"
-            [disabled]="projectName === lastQueriedProjectName">
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="pendingCreate"
+      nzSearch
+      (click)="reloadProjects()"
+      [disabled]="projectName === lastQueriedProjectName"
+    >
       <i nz-icon nzType="search"></i>
     </button>
   </ng-template>
@@ -30,11 +34,14 @@
   <!-- list of projects -->
   <mat-nav-list class="mat-nav-list-padding-removed">
     <a *ngFor="let project of projects" mat-list-item [routerLink]="['/projects', project.id]">
-
       <!-- name of project -->
       <span matLine>{{ project.name }}</span>
-      <a [routerLink]="['/projects', project.id,'graph']" mat-icon-button (click)="this.nothing($event)"
-         title="Open project in graph view">
+      <a
+        [routerLink]="['/projects', project.id, 'graph']"
+        mat-icon-button
+        (click)="this.nothing($event)"
+        title="Open project in graph view"
+      >
         <mat-icon class="graph-icon">account_tree</mat-icon>
       </a>
       <mat-divider></mat-divider>

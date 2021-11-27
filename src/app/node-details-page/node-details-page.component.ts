@@ -11,10 +11,7 @@ export class NodeDetailsPageComponent implements OnInit {
   nodeId: string = null;
   projectId: string = null;
 
-  constructor(private route: ActivatedRoute,
-              private changeDetector: ChangeDetectorRef,
-              private router: Router) {
-  }
+  constructor(private route: ActivatedRoute, private changeDetector: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit() {
     this.projectId = this.route.snapshot.paramMap.get('id');

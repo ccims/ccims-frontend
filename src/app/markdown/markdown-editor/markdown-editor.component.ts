@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 /**
  * This component contains a monaco markdown editor with syntax highlighting
@@ -9,7 +9,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./markdown-editor.component.scss']
 })
 export class MarkdownEditorComponent {
-
   /**
    * necessary options for usage of ngx-monaco-editor
    */
@@ -29,5 +28,4 @@ export class MarkdownEditorComponent {
   codeDidChange() {
     this.codeChange.emit(this.code);
   }
-
 }

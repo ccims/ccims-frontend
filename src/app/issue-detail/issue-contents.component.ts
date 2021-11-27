@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DataList, DataNode } from '@app/data-dgql/query';
-import { Issue } from '../../generated/graphql';
-import { Subscription } from 'rxjs';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {DataList, DataNode} from '@app/data-dgql/query';
+import {Issue} from '../../generated/graphql';
+import {Subscription} from 'rxjs';
 import DataService from '@app/data-dgql';
-import { CURRENT_USER_NODE, ListType, NodeType } from '@app/data-dgql/id';
-import { User } from '../../generated/graphql-dgql';
+import {CURRENT_USER_NODE, ListType, NodeType} from '@app/data-dgql/id';
+import {User} from '../../generated/graphql-dgql';
 
 /**
  * This component renders the contents of the issue: the issue body, timeline, and comment box.
@@ -65,15 +65,14 @@ export class IssueContentsComponent implements OnInit, OnDestroy {
   /** Adds a comment to the current issue with the data provided in the comment box. */
   public commentIssue(): void {
     this.savingComment = true;
-    this.dataService.mutations.addIssueComment(
-      Math.random().toString(),
-      this.issue$.id,
-      this.commentEditor.code
-    ).then(() => {
-      // only clear if successful
-      this.commentEditor.code = '';
-    }).finally(() => {
-      this.savingComment = false;
-    });
+    this.dataService.mutations
+      .addIssueComment(Math.random().toString(), this.issue$.id, this.commentEditor.code)
+      .then(() => {
+        // only clear if successful
+        this.commentEditor.code = '';
+      })
+      .finally(() => {
+        this.savingComment = false;
+      });
   }
 }

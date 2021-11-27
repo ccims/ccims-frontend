@@ -28,15 +28,15 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ComponentStoreService {
-
-  constructor(private updateComponentMutation: UpdateComponentGQL,
-              private deleteComponentMutation: DeleteComponentGQL,
-              private getFullComponentQuery: GetComponentGQL,
-              private createComponentMutation: CreateComponentGQL,
-              private getLabelsQuery: GetComponentLabelsGQL,
-              private getBasicComponentQuery: GetBasicComponentGQL,
-              private getComponentInterfacesQuery: GetComponentInterfacesGQL) {
-  }
+  constructor(
+    private updateComponentMutation: UpdateComponentGQL,
+    private deleteComponentMutation: DeleteComponentGQL,
+    private getFullComponentQuery: GetComponentGQL,
+    private createComponentMutation: CreateComponentGQL,
+    private getLabelsQuery: GetComponentLabelsGQL,
+    private getBasicComponentQuery: GetBasicComponentGQL,
+    private getComponentInterfacesQuery: GetComponentInterfacesGQL
+  ) {}
 
   getComponentLabels(id: string): Observable<GetComponentLabelsQuery> {
     return this.getLabelsQuery.fetch({id}).pipe(map(({data}) => data));

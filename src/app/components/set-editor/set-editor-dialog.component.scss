@@ -40,9 +40,15 @@
           background: currentColor;
           margin: 0 auto 3px auto;
 
-          &:nth-child(2) { opacity: 0.6; }
-          &:nth-child(3) { opacity: 0.27; }
-          &:nth-child(4) { opacity: 0.08; }
+          &:nth-child(2) {
+            opacity: 0.6;
+          }
+          &:nth-child(3) {
+            opacity: 0.27;
+          }
+          &:nth-child(4) {
+            opacity: 0.08;
+          }
         }
       }
     }

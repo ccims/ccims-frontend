@@ -6,7 +6,7 @@ import {IssueCategory} from 'src/generated/graphql';
 import {IssueGroupContainerNode, NodeType} from './issue-graph-nodes';
 
 function distance(x, y, x2, y2) {
-  return ((x - x2) ** 2) + ((y - y2) ** 2);
+  return (x - x2) ** 2 + (y - y2) ** 2;
 }
 
 /**
@@ -18,8 +18,7 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
   moveChildrenAlongGoup = true;
   childNodePositions = new Map();
 
-  constructor(private initialPosition: string) {
-  }
+  constructor(private initialPosition: string) {}
 
   beforeNodeMove(group: string, childGroup: string, groupNode: Node, childNode: Node, newPosition: Point, graphEditor: GraphEditor) {
     // calculate groupNode (the parent node) dimensions
@@ -28,10 +27,10 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
     // find nearest side
     let best = 'bottom';
     if (newPosition != null && (newPosition.x !== 0 || newPosition.y !== 0)) {
-      let bestDistance = distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y + (height / 2) + 25);
-      const rightDistance = distance(newPosition.x, newPosition.y, groupNode.x + (width / 2) + 30, groupNode.y);
-      const leftDistance = distance(newPosition.x, newPosition.y, groupNode.x - (width / 2) - 30, groupNode.y);
-      const topDistance = distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y - (height / 2) - 25);
+      let bestDistance = distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y + height / 2 + 25);
+      const rightDistance = distance(newPosition.x, newPosition.y, groupNode.x + width / 2 + 30, groupNode.y);
+      const leftDistance = distance(newPosition.x, newPosition.y, groupNode.x - width / 2 - 30, groupNode.y);
+      const topDistance = distance(newPosition.x, newPosition.y, groupNode.x, groupNode.y - height / 2 - 25);
       if (rightDistance < bestDistance) {
         bestDistance = rightDistance;
         best = 'right';
@@ -53,30 +52,30 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
 
     // set position
     if (best === 'bottom') {
-      this.childNodePositions.set(childGroup, {x: 0, y: (height / 2) + 25});
+      this.childNodePositions.set(childGroup, {x: 0, y: height / 2 + 25});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x;
-        childNode.y = groupNode.y + (height / 2) + 25;
+        childNode.y = groupNode.y + height / 2 + 25;
       }
     }
     if (best === 'top') {
       this.childNodePositions.set(childGroup, {x: 0, y: -(height / 2) - 25});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
         childNode.x = groupNode.x;
-        childNode.y = groupNode.y - (height / 2) - 25;
+        childNode.y = groupNode.y - height / 2 - 25;
       }
     }
     if (best === 'right') {
-      this.childNodePositions.set(childGroup, {x: (width / 2) + 30, y: 0});
+      this.childNodePositions.set(childGroup, {x: width / 2 + 30, y: 0});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
-        childNode.x = groupNode.x + (width / 2) + 30;
+        childNode.x = groupNode.x + width / 2 + 30;
         childNode.y = groupNode.y;
       }
     }
     if (best === 'left') {
       this.childNodePositions.set(childGroup, {x: -(width / 2) - 30, y: 0});
       if (childNode != null && (newPosition == null || (newPosition.x === 0 && newPosition.y === 0))) {
-        childNode.x = groupNode.x - (width / 2) - 30;
+        childNode.x = groupNode.x - width / 2 - 30;
         childNode.y = groupNode.y;
       }
     }
@@ -98,7 +97,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
     const children = graphEditor.groupingManager.getChildrenOf(group);
 
     const places = children.size - 1;
-    const startOffset = places > 0 ? (places / 2) : 0;
+    const startOffset = places > 0 ? places / 2 : 0;
     let xOffset = 0;
     let yOffset = 0;
 
@@ -111,8 +110,8 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
 
     // order of sortedChildIds decides order of rendering
     const sortedChildIds = Object.keys(IssueCategory)
-      .map(key => `${parent}__${IssueCategory[key]}`)
-      .filter(childId => children.has(childId));
+      .map((key) => `${parent}__${IssueCategory[key]}`)
+      .filter((childId) => children.has(childId));
 
     // pre sorted list
     /*
@@ -146,7 +145,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
           allowedAnchors.add('top');
         }
       }
-      if (index === (sortedChildIds.length - 1)) {
+      if (index === sortedChildIds.length - 1) {
         if (groupNode.position === 'bottom' || groupNode.position === 'top') {
           allowedAnchors.add('left');
         }

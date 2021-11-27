@@ -21,10 +21,8 @@ export class SideNavComponent {
   issuesLink = ['/'];
   membersLink = ['/'];
 
-  constructor(public ss: StateService,
-              public router: Router,
-              public notify: UserNotifyService) {
-    ss.state$.subscribe(appState => {
+  constructor(public ss: StateService, public router: Router, public notify: UserNotifyService) {
+    ss.state$.subscribe((appState) => {
       if (!appState.project) {
         return;
       }
@@ -41,6 +39,4 @@ export class SideNavComponent {
       }
     });
   }
-
-
 }

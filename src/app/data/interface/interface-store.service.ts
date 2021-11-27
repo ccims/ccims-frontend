@@ -23,13 +23,13 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class InterfaceStoreService {
-
-  constructor(private createInterfaceMutation: CreateComponentInterfaceGQL,
-              private updateInterfaceMutation: UpdateComponentInterfaceGQL,
-              private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
-              private getInterfaceQuery: GetInterfaceGQL,
-              private getConsumingComponentsQuery: GetConsumingComponentsGQL) {
-  }
+  constructor(
+    private createInterfaceMutation: CreateComponentInterfaceGQL,
+    private updateInterfaceMutation: UpdateComponentInterfaceGQL,
+    private deleteInterfaceMutation: DeleteComponentInterfaceGQL,
+    private getInterfaceQuery: GetInterfaceGQL,
+    private getConsumingComponentsQuery: GetConsumingComponentsGQL
+  ) {}
 
   public create(name: string, offeringComponentId: string, description?: string) {
     const input: CreateComponentInterfaceInput = {
@@ -41,9 +41,7 @@ export class InterfaceStoreService {
   }
 
   public getInterface(id: string): Observable<GetInterfaceQuery> {
-    return this.getInterfaceQuery.fetch({id}).pipe(
-      map(({data}) => data)
-    );
+    return this.getInterfaceQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
   public getConsumingComponents(id: string): Observable<GetConsumingComponentsQuery> {
@@ -60,5 +58,4 @@ export class InterfaceStoreService {
     };
     return this.deleteInterfaceMutation.mutate({input});
   }
-
 }

@@ -1,16 +1,8 @@
-import { Observable, Subscriber } from 'rxjs';
-import {
-  decodeNodeId,
-  encodeNodeId,
-  ListId,
-  ListParams,
-  NodeId,
-  NodeIdEnc,
-  nodeTypeFromTypename,
-} from './id';
-import { QueriesService } from './queries/queries.service';
-import { ListResult, queryList, queryNode } from './load';
-import { PageInfo } from '../../generated/graphql-dgql';
+import {Observable, Subscriber} from 'rxjs';
+import {decodeNodeId, encodeNodeId, ListId, ListParams, NodeId, NodeIdEnc, nodeTypeFromTypename} from './id';
+import {QueriesService} from './queries/queries.service';
+import {ListResult, queryList, queryNode} from './load';
+import {PageInfo} from '../../generated/graphql-dgql';
 
 /** How long {@link DataQuery} will wait to debounce requests until actually sending a request, in milliseconds. */
 const CACHE_FAST_DEBOUNCE_TIME_MS = 200;
@@ -153,7 +145,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @param map maps returned data from the query R to usable data T
    */
   protected constructor(id: I, query: (id: I, p: P) => Promise<R>, map: (r: R) => T) {
-    super(subscriber => {
+    super((subscriber) => {
       this.addSubscriber(subscriber, this.isNextSubLazy);
       this.isNextSubLazy = false;
     });
@@ -181,13 +173,16 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
       return Promise.resolve(this.current);
     }
     return new Promise((resolve, reject) => {
-      const sub = this.subscribe(data => {
-        resolve(data);
-        sub.unsubscribe();
-      }, error => {
-        reject(error);
-        sub.unsubscribe();
-      });
+      const sub = this.subscribe(
+        (data) => {
+          resolve(data);
+          sub.unsubscribe();
+        },
+        (error) => {
+          reject(error);
+          sub.unsubscribe();
+        }
+      );
     });
   }
 
@@ -204,21 +199,23 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     // if load is called twice; only the newest load call will have an effect
     const stateLock = ++this.stateLock;
 
-    fut.then(data => {
-      if (stateLock !== this.stateLock) {
-        return;
-      }
-      this.insertResult(data);
-      this.loading = false;
-      this.hydrated = false;
-    }).catch(error => {
-      if (stateLock !== this.stateLock) {
-        return;
-      }
-      this.emitErrorToAllSubscribers(error);
-      this.loading = false;
-      this.hydrated = false;
-    });
+    fut
+      .then((data) => {
+        if (stateLock !== this.stateLock) {
+          return;
+        }
+        this.insertResult(data);
+        this.loading = false;
+        this.hydrated = false;
+      })
+      .catch((error) => {
+        if (stateLock !== this.stateLock) {
+          return;
+        }
+        this.emitErrorToAllSubscribers(error);
+        this.loading = false;
+        this.hydrated = false;
+      });
   }
 
   /** Loads data. */
@@ -254,10 +251,13 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     if (this.loadTimeout) {
       return;
     }
-    this.loadTimeout = setTimeout(() => {
-      this.loadTimeout = null;
-      this.load();
-    }, interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS);
+    this.loadTimeout = setTimeout(
+      () => {
+        this.loadTimeout = null;
+        this.load();
+      },
+      interactive ? CACHE_INTERACTIVE_DEBOUNCE_TIME_MS : CACHE_FAST_DEBOUNCE_TIME_MS
+    );
   }
 
   /** Deletes current data. */
@@ -284,7 +284,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
     return {
       unsubscribe: () => {
         this.subscribers.delete(subscriber);
-      },
+      }
     };
   }
 
@@ -375,7 +375,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
 export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
   /** @ignore */
   constructor(queries: QueriesService, id: NodeId) {
-    super(id, queryNode(queries), data => data);
+    super(id, queryNode(queries), (data) => data);
   }
 
   set params(p) {
@@ -476,7 +476,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
 
   /** @ignore */
   constructor(queries: QueriesService, nodes: NodeCache, id: ListId) {
-    super(id, queryList(queries, nodes), result => {
+    super(id, queryList(queries, nodes), (result) => {
       this.pageInfo = result.pageInfo;
       this.pTotalCount = result.totalCount;
 
@@ -506,7 +506,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
       cursor: this.pCursor,
       count: this.pCount,
       forward: this.pForward,
-      filter: this.pFilter,
+      filter: this.pFilter
     };
   }
 
@@ -626,21 +626,23 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
    * @param data a promise that returns the API data
    * @typeParam IdT - equivalent to T
    */
-  hydrateInitial<IdT extends T & { id: string, __typename: string }>(data: Promise<HydrateList<IdT>>) {
-    this.hydrateRaw(data.then(value => ({
-      totalCount: value.totalCount,
-      pageInfo: value.pageInfo,
-      items: this.pNodes.insertNodes(value.nodes || [])
-    })));
+  hydrateInitial<IdT extends T & {id: string; __typename: string}>(data: Promise<HydrateList<IdT>>) {
+    this.hydrateRaw(
+      data.then((value) => ({
+        totalCount: value.totalCount,
+        pageInfo: value.pageInfo,
+        items: this.pNodes.insertNodes(value.nodes || [])
+      }))
+    );
   }
 }
 
 /** List hydration object (constructing this manually shouldn't be necessary as it mirrors the structure of GQL objects) */
 export type HydrateList<T> = {
-  totalCount: number,
-  pageInfo: PageInfo,
+  totalCount: number;
+  pageInfo: PageInfo;
   /** This is nullable because it's nullable in the GQL schema. In practice it should always exist */
-  nodes?: (T | null)[]
+  nodes?: (T | null)[];
 };
 
 /** Keeps a cache of DataNodes such that each NodeId has at most one associated DataNode. */
@@ -675,7 +677,7 @@ export class NodeCache {
    * Note: the ID parameter of the node is only optional for type compatibility with the GQL schema.
    * Nodes without an ID will be ignored.
    */
-  insertNodes<T extends { id?: string, __typename?: string }>(nodes: T[]): Map<NodeIdEnc, T> {
+  insertNodes<T extends {id?: string; __typename?: string}>(nodes: T[]): Map<NodeIdEnc, T> {
     const map = new Map();
 
     for (const node of nodes) {
@@ -683,7 +685,7 @@ export class NodeCache {
         continue;
       }
       const type = nodeTypeFromTypename(node.__typename);
-      const id = { type, id: node.id };
+      const id = {type, id: node.id};
       const dataNode: DataNode<T> = this.getNode(id);
       if (!dataNode.hasData) {
         // FIXME: different queries load different amounts of data, simple overwriting doesn't always have the desired effect
@@ -697,4 +699,3 @@ export class NodeCache {
     return map;
   }
 }
-

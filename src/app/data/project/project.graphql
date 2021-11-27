@@ -1,4 +1,4 @@
-query GetAllProjects($filter: ProjectFilter){
+query GetAllProjects($filter: ProjectFilter) {
   projects(filterBy: $filter) {
     edges {
       node {
@@ -11,7 +11,7 @@ query GetAllProjects($filter: ProjectFilter){
 
 query GetBasicProject($id: ID!) {
   node(id: $id) {
-    ...on Project {
+    ... on Project {
       id
       name
       description
@@ -21,7 +21,7 @@ query GetBasicProject($id: ID!) {
 
 query GetFullProject($id: ID!) {
   node(id: $id) {
-    ...on Project {
+    ... on Project {
       id
       name
       description
@@ -34,19 +34,19 @@ query GetFullProject($id: ID!) {
               nodes {
                 id
                 title
-                createdBy{
+                createdBy {
                   id
                   displayName
                 }
-                labels{
-                  nodes{
+                labels {
+                  nodes {
                     id
                     name
                     color
                   }
                 }
-                assignees{
-                  nodes{
+                assignees {
+                  nodes {
                     id
                     displayName
                   }
@@ -58,11 +58,11 @@ query GetFullProject($id: ID!) {
         }
       }
       interfaces {
-        nodes{
+        nodes {
           name
           id
-          issuesOnLocation{
-            nodes{
+          issuesOnLocation {
+            nodes {
               id
               title
             }
@@ -73,34 +73,32 @@ query GetFullProject($id: ID!) {
         nodes {
           id
           title
-          createdBy{
+          createdBy {
             id
             displayName
           }
-          labels{
-            nodes{
+          labels {
+            nodes {
               id
               name
               color
             }
           }
-          assignees{
-            nodes{
+          assignees {
+            nodes {
               id
               displayName
             }
           }
           category
-
         }
       }
     }
   }
 }
 
-
-mutation CreateProject($input: CreateProjectInput!){
-  createProject(input: $input){
+mutation CreateProject($input: CreateProjectInput!) {
+  createProject(input: $input) {
     project {
       id
     }
@@ -108,9 +106,7 @@ mutation CreateProject($input: CreateProjectInput!){
 }
 
 mutation DeleteProject($input: DeleteProjectInput!) {
-  deleteProject(input: $input){
+  deleteProject(input: $input) {
     clientMutationID
   }
 }
-
-

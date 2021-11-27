@@ -7,7 +7,7 @@ import {
   UpdateComponentInterfaceInput
 } from '../../generated/graphql';
 import {FormControl, Validators} from '@angular/forms';
-import { ListId, ListType, NodeType } from '@app/data-dgql/id';
+import {ListId, ListType, NodeType} from '@app/data-dgql/id';
 import {Router} from '@angular/router';
 import {ComponentStoreService} from '@app/data/component/component-store.service';
 import {InterfaceStoreService} from '@app/data/interface/interface-store.service';
@@ -36,7 +36,6 @@ export declare type NodeUpdatedCallbackFn = (nodeDeleted: boolean) => void;
   styleUrls: ['./node-details.component.scss']
 })
 export class NodeDetailsComponent implements OnInit, AfterViewInit {
-
   /**
    * The project that contains the node
    */
@@ -78,18 +77,22 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
   validationType = new FormControl('');
   validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
-  constructor(private router: Router,
-              private componentStoreService: ComponentStoreService,
-              private interfaceStoreService: InterfaceStoreService,
-              private dialog: MatDialog,
-              private notify: UserNotifyService) {
-  }
+  constructor(
+    private router: Router,
+    private componentStoreService: ComponentStoreService,
+    private interfaceStoreService: InterfaceStoreService,
+    private dialog: MatDialog,
+    private notify: UserNotifyService
+  ) {}
 
   ngOnInit(): void {
     this.editMode = false;
 
     if (this.nodeType === NodeDetailsType.Component) {
-      this.issueListId = {node: {type: NodeType.Component, id: this.nodeId}, type: ListType.Issues};
+      this.issueListId = {
+        node: {type: NodeType.Component, id: this.nodeId},
+        type: ListType.Issues
+      };
     } else {
       this.issueListId = {
         node: {type: NodeType.ComponentInterface, id: this.nodeId},
@@ -97,14 +100,13 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
       };
     }
 
-
     this.validationIMS.setValue('?');
     this.validationUrl.setValue('?');
   }
 
   ngAfterViewInit() {
     if (this.nodeType === NodeDetailsType.Component) {
-      this.nodeQuery.listenTo(this.componentStoreService.getBasicComponent(this.nodeId), component => {
+      this.nodeQuery.listenTo(this.componentStoreService.getBasicComponent(this.nodeId), (component) => {
         if (component.node) {
           this.component = component;
           this.validationIMS.setValue('This is a placeholder');
@@ -114,7 +116,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
         }
       });
     } else if (this.nodeType === NodeDetailsType.Interface) {
-      this.nodeQuery.listenTo(this.interfaceStoreService.getInterface(this.nodeId), int => {
+      this.nodeQuery.listenTo(this.interfaceStoreService.getInterface(this.nodeId), (int) => {
         if (int.node) {
           this.interface = int;
         } else {
@@ -143,7 +145,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
    * Get the type of the node as a formatted string
    */
   public getNodeTypeString(): string {
-    return (this.nodeType === NodeDetailsType.Interface ? 'Interface' : 'Component');
+    return this.nodeType === NodeDetailsType.Interface ? 'Interface' : 'Component';
   }
 
   /**
@@ -170,7 +172,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     const affected: string[] = [];
     // Collect affected interfaces and components, then show the delete dialog
     if (this.nodeType === NodeDetailsType.Component) {
-      this.deleteQuery.listenTo(this.componentStoreService.getComponentInterfaces(this.nodeId), interfaces => {
+      this.deleteQuery.listenTo(this.componentStoreService.getComponentInterfaces(this.nodeId), (interfaces) => {
         for (const i of interfaces.node.interfaces.nodes) {
           let affectedInterface = 'Interface "' + i.name + '" will be deleted';
           if (i.consumedBy.nodes.length > 0) {
@@ -186,7 +188,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
         this.showDeleteDialog(affected);
       });
     } else if (this.nodeType === NodeDetailsType.Interface) {
-      this.deleteQuery.listenTo(this.interfaceStoreService.getConsumingComponents(this.nodeId), components => {
+      this.deleteQuery.listenTo(this.interfaceStoreService.getConsumingComponents(this.nodeId), (components) => {
         affected.push('Deleting this interface will affect the following component(s):');
         affected.push(' ' + components.node.component.name);
         for (const c of components.node.consumedBy.nodes) {
@@ -200,43 +202,44 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
 
   private showDeleteDialog(affected: string[]): void {
     if (this.nodeType === NodeDetailsType.Component) {
-      const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
-        {
-          data: {
-            title: 'Really delete component \"' + this.component.node.name + '\"?',
-            messages: ['Are you sure you want to delete the component \"' + this.component.node.name + '\"?',
-              'This action cannot be undone!'].concat(affected),
-            verificationName: this.component.node.name
-          }
-        });
+      const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, {
+        data: {
+          title: 'Really delete component "' + this.component.node.name + '"?',
+          messages: [
+            'Are you sure you want to delete the component "' + this.component.node.name + '"?',
+            'This action cannot be undone!'
+          ].concat(affected),
+          verificationName: this.component.node.name
+        }
+      });
 
-      confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
+      confirmDeleteDialogRef.afterClosed().subscribe((deleteData) => {
         if (deleteData) {
           this.deleteQuery.listenTo(this.componentStoreService.deleteComponent(this.nodeId), () => {
-              this.notify.notifyInfo('Successfully deleted component \"' + this.component.node.name + '\""');
-              if (this.callback) {
-                this.callback(true);
-              }
+            this.notify.notifyInfo('Successfully deleted component "' + this.component.node.name + '""');
+            if (this.callback) {
+              this.callback(true);
             }
-          );
+          });
         }
       });
     } else if (this.nodeType === NodeDetailsType.Interface) {
-      const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
-        {
-          data: {
-            title: 'Really delete interface \"' + this.interface.node.name + '\"?',
-            messages: ['Are you sure you want to delete the interface \"' + this.interface.node.name + '\"?',
-              'This action cannot be undone!'].concat(affected),
-            verificationName: this.interface.node.name
-          }
-        });
+      const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, {
+        data: {
+          title: 'Really delete interface "' + this.interface.node.name + '"?',
+          messages: [
+            'Are you sure you want to delete the interface "' + this.interface.node.name + '"?',
+            'This action cannot be undone!'
+          ].concat(affected),
+          verificationName: this.interface.node.name
+        }
+      });
 
-      confirmDeleteDialogRef.afterClosed().subscribe(deleteData => {
+      confirmDeleteDialogRef.afterClosed().subscribe((deleteData) => {
         // dialog returns if the deleting was successful
         if (deleteData) {
           this.deleteQuery.listenTo(this.interfaceStoreService.delete(this.nodeId), () => {
-            this.notify.notifyInfo('Successfully deleted interface \"' + this.interface.node.name + '\"');
+            this.notify.notifyInfo('Successfully deleted interface "' + this.interface.node.name + '"');
             if (this.callback) {
               this.callback(true);
             }

@@ -1,57 +1,52 @@
 <div class="issue-contents" *ngIf="issue$?.current as issue">
-    <!--Part 3: Issue body-->
-    <app-comment class="issue-body" [commentId]="issue$.id" [isIssueBody]="true"></app-comment>
+  <!--Part 3: Issue body-->
+  <app-comment class="issue-body" [commentId]="issue$.id" [isIssueBody]="true"></app-comment>
 
-    <!--Part 4: Linked issues-->
-    <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">
-        <div class="item-box">
-            <div class="item-header">
-                <mat-icon>link</mat-icon>
-                <h3 class="item-title">
-                    <b>Linked Issues</b>
-                </h3>
-            </div>
-            <div class="item-body">
-                <div class="linked-issues-container">
-                    <mat-accordion>
-                        <ng-container *ngFor="let currentIssue of linkedIssues$.currentItems">
-                            <app-issue-detail-linked-issue-item [issueStub]="currentIssue" [projectId]="projectId">
-                            </app-issue-detail-linked-issue-item>
-                        </ng-container>
-                    </mat-accordion>
-                </div>
-                <app-cursor-paginator
-                    *ngIf="linkedIssues$.totalCount > 10"
-                    [list]="linkedIssues$"
-                    [pageSizes]="[10]"></app-cursor-paginator>
-            </div>
+  <!--Part 4: Linked issues-->
+  <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">
+    <div class="item-box">
+      <div class="item-header">
+        <mat-icon>link</mat-icon>
+        <h3 class="item-title">
+          <b>Linked Issues</b>
+        </h3>
+      </div>
+      <div class="item-body">
+        <div class="linked-issues-container">
+          <mat-accordion>
+            <ng-container *ngFor="let currentIssue of linkedIssues$.currentItems">
+              <app-issue-detail-linked-issue-item [issueStub]="currentIssue" [projectId]="projectId"> </app-issue-detail-linked-issue-item>
+            </ng-container>
+          </mat-accordion>
         </div>
+        <app-cursor-paginator *ngIf="linkedIssues$.totalCount > 10" [list]="linkedIssues$" [pageSizes]="[10]"></app-cursor-paginator>
+      </div>
     </div>
+  </div>
 
-    <app-timeline [issueId]="issue$.id" [projectID]="projectId"></app-timeline>
+  <app-timeline [issueId]="issue$.id" [projectID]="projectId"></app-timeline>
 
-    <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-    <!--Part 6: Comment creation box-->
-    <div class="timeline-item comment-form">
-        <div class="item-box">
-            <div class="item-header">
-                <h3 class="item-title">
-                    Comment this issue as <app-user-item [user]="currentUser$.current" [short]="true"></app-user-item>
-                </h3>
-            </div>
-            <div class="item-body">
-                <app-markdown-editor #comment></app-markdown-editor>
-                <div class="comment-buttons">
-                    <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue
-                    </button>
-                    <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen
-                        Issue
-                    </button>
-                    <button mat-raised-button color="primary" style="margin-left: 6px" [class.spinner]="savingComment" (click)="this.commentIssue()">Comment
-                    </button>
-                </div>
-            </div>
+  <!--Part 6: Comment creation box-->
+  <div class="timeline-item comment-form">
+    <div class="item-box">
+      <div class="item-header">
+        <h3 class="item-title">
+          Comment this issue as
+          <app-user-item [user]="currentUser$.current" [short]="true"></app-user-item>
+        </h3>
+      </div>
+      <div class="item-body">
+        <app-markdown-editor #comment></app-markdown-editor>
+        <div class="comment-buttons">
+          <button *ngIf="issue.isOpen" mat-raised-button color="warn" (click)="this.closeIssue()">Close Issue</button>
+          <button *ngIf="!issue.isOpen" mat-raised-button color="accent" (click)="this.reopenIssue()">Reopen Issue</button>
+          <button mat-raised-button color="primary" style="margin-left: 6px" [class.spinner]="savingComment" (click)="this.commentIssue()">
+            Comment
+          </button>
         </div>
+      </div>
     </div>
+  </div>
 </div>

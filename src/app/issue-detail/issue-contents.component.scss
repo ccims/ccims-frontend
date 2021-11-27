@@ -1,4 +1,4 @@
-@import 'src/styles/spinner';
+@import "src/styles/spinner";
 
 .timeline-item {
   position: relative;
@@ -10,7 +10,7 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -1px;

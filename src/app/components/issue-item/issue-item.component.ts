@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Issue } from 'src/generated/graphql-dgql';
-import { Router } from '@angular/router';
+import {Component, Input} from '@angular/core';
+import {Issue} from 'src/generated/graphql-dgql';
+import {Router} from '@angular/router';
 
 /** This component displays an issue (for use in e.g. a list). */
 @Component({
@@ -22,8 +22,6 @@ export class IssueItemComponent {
 
   /** Returns the link URL for the issue. */
   getIssueLink() {
-    return this.router.serializeUrl(this.router.createUrlTree(
-      ['/projects', this.projectId, 'issues', this.issue.id]
-    ));
+    return this.router.serializeUrl(this.router.createUrlTree(['/projects', this.projectId, 'issues', this.issue.id]));
   }
 }

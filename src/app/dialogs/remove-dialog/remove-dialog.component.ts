@@ -40,15 +40,13 @@ import {FormControl, ValidatorFn} from '@angular/forms';
   styleUrls: ['./remove-dialog.component.scss']
 })
 export class RemoveDialogComponent implements OnInit {
-  matchValidator: ValidatorFn = control => {
-    return control.value === this.data.verificationName ? null : {'Names don\'t match': true};
-  }
+  matchValidator: ValidatorFn = (control) => {
+    return control.value === this.data.verificationName ? null : {"Names don't match": true};
+  };
 
   verificationNameInput = new FormControl('', this.matchValidator);
 
-  constructor(public dialogRef: MatDialogRef<RemoveDialogComponent, boolean>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-  }
+  constructor(public dialogRef: MatDialogRef<RemoveDialogComponent, boolean>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit(): void {
     this.verificationNameInput.markAsTouched();

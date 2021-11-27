@@ -22,8 +22,7 @@ export class UserNotifyService {
     enableHtml: true
   };
 
-  constructor(private toastr: ToastrService) {
-  }
+  constructor(private toastr: ToastrService) {}
 
   /**
    * Notify the user that an error occurred
@@ -46,4 +45,3 @@ export class UserNotifyService {
     this.toastr.info(message, 'Info', this.infoConfig);
   }
 }
-

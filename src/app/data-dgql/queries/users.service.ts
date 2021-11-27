@@ -1,20 +1,14 @@
-import { Injectable } from '@angular/core';
-import {
-  CurrentUserGQL,
-  SearchUsersGQL
-} from 'src/generated/graphql-dgql';
-import { promisifyApolloFetch } from '@app/data-dgql/queries/util';
+import {Injectable} from '@angular/core';
+import {CurrentUserGQL, SearchUsersGQL} from 'src/generated/graphql-dgql';
+import {promisifyApolloFetch} from '@app/data-dgql/queries/util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  constructor(
-    private qSearchUsers: SearchUsersGQL,
-    private qCurrentUser: CurrentUserGQL,
-  ) {}
+  constructor(private qSearchUsers: SearchUsersGQL, private qCurrentUser: CurrentUserGQL) {}
 
-  searchUsers(filter: { username: string }) {
+  searchUsers(filter: {username: string}) {
     let query = '';
     // The searchUser query is special in that it does not use a filter object.
     // However, this is not compatible with the rest of our API, which uses UserFilter
@@ -30,7 +24,7 @@ export class UsersService {
       return Promise.resolve([]);
     }
 
-    return promisifyApolloFetch(this.qSearchUsers.fetch({ query })).then(data => data.searchUser);
+    return promisifyApolloFetch(this.qSearchUsers.fetch({query})).then((data) => data.searchUser);
   }
 
   currentUser() {

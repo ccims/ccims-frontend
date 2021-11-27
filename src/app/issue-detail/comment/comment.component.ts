@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { IssueComment } from '../../../generated/graphql-dgql';
-import { TimeFormatter } from '@app/issue-detail/time-formatter';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {IssueComment} from '../../../generated/graphql-dgql';
+import {TimeFormatter} from '@app/issue-detail/time-formatter';
 import DataService from '@app/data-dgql';
-import { NodeId } from '@app/data-dgql/id';
-import { DataNode } from '@app/data-dgql/query';
-import { Subscription } from 'rxjs';
+import {NodeId} from '@app/data-dgql/id';
+import {DataNode} from '@app/data-dgql/query';
+import {Subscription} from 'rxjs';
 import {RemoveDialogComponent} from '@app/dialogs/remove-dialog/remove-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
@@ -44,9 +44,7 @@ export class CommentComponent implements OnInit, OnDestroy {
    */
   commentSub: Subscription;
 
-  constructor(private dataService: DataService,
-              private dialog: MatDialog,
-              private notify: UserNotifyService) {}
+  constructor(private dataService: DataService, private dialog: MatDialog, private notify: UserNotifyService) {}
 
   ngOnInit() {
     this.comment$ = this.dataService.getNode(this.commentId);
@@ -64,44 +62,38 @@ export class CommentComponent implements OnInit, OnDestroy {
    */
   public editComment(body: string): void {
     this.savingBody = true;
-    this.dataService.mutations.updateIssueComment(
-      Math.random().toString(),
-      this.commentId,
-      body
-    ).then(() => {
-      // only exit if successful
-      this.editBody = false;
-    }).finally(() => {
-      this.savingBody = false;
-    });
+    this.dataService.mutations
+      .updateIssueComment(Math.random().toString(), this.commentId, body)
+      .then(() => {
+        // only exit if successful
+        this.editBody = false;
+      })
+      .finally(() => {
+        this.savingBody = false;
+      });
   }
 
   /**
    * Deletes the current comment.
    */
   public deleteComment(): void {
-
-    const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent,
-      {
-        data: {
-          title: 'Really delete comment ?',
-          messages: ['Are you sure you want to delete this comment ?',
-            'This action cannot be undone!']
-        }
-      });
-
-    confirmDeleteDialogRef.afterClosed().subscribe(del => {
-      if (del) {
-        // User confirmed deletion
-        this.dataService.mutations.deleteIssueComment(
-          Math.random().toString(),
-          this.issueId,
-          this.commentId
-        ).then(() => {
-          this.notify.notifyInfo('Successfully deleted comment');
-        });
+    const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, {
+      data: {
+        title: 'Really delete comment ?',
+        messages: ['Are you sure you want to delete this comment ?', 'This action cannot be undone!']
       }
-    },
-      error => this.notify.notifyError('Failed to delete project!', error));
+    });
+
+    confirmDeleteDialogRef.afterClosed().subscribe(
+      (del) => {
+        if (del) {
+          // User confirmed deletion
+          this.dataService.mutations.deleteIssueComment(Math.random().toString(), this.issueId, this.commentId).then(() => {
+            this.notify.notifyInfo('Successfully deleted comment');
+          });
+        }
+      },
+      (error) => this.notify.notifyError('Failed to delete project!', error)
+    );
   }
 }

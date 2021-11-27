@@ -6,7 +6,7 @@
 
 2. Jimmy Wagner, [Jimmy-Wagner](https://github.com/Jimmy-Wagner)
 
-3. Kliment Klimentov, [KKlimentov1618](https://github.com/KKlimentov1618) 
+3. Kliment Klimentov, [KKlimentov1618](https://github.com/KKlimentov1618)
 
 4. Kristina Pencheva, [Kristinapn](https://github.com/Kristinapn)
 

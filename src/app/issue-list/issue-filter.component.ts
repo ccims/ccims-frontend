@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IssueCategory, IssueFilter } from '../../generated/graphql-dgql';
-import { ListId, ListType, NodeType, ROOT_NODE } from '@app/data-dgql/id';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {IssueCategory, IssueFilter} from '../../generated/graphql-dgql';
+import {ListId, ListType, NodeType, ROOT_NODE} from '@app/data-dgql/id';
 
 /** Returns the ListId for listing all project issues. */
 const listAllIssues = (self: IssueFilterComponent) => ({
-  node: { type: NodeType.Project, id: self.projectId },
+  node: {type: NodeType.Project, id: self.projectId},
   type: ListType.Issues
 });
 
@@ -15,8 +15,8 @@ const listAllIssues = (self: IssueFilterComponent) => ({
  * and possibly additional options depending on their type.
  */
 const PREDICATES = {
-  isOpen: { type: 'bool', label: 'Is open' },
-  isDuplicate: { type: 'bool', label: 'Is duplicate' },
+  isOpen: {type: 'bool', label: 'Is open'},
+  isDuplicate: {type: 'bool', label: 'Is duplicate'},
   category: {
     type: 'enum',
     label: 'Category',
@@ -32,37 +32,37 @@ const PREDICATES = {
     dataType: 'label',
     scoreKeys: ['name'],
     listAll: (self: IssueFilterComponent) => self.allLabelsList,
-    makeFilter: (query: string) => ({ name: query }),
-    ifEmpty: 'No labels selected',
+    makeFilter: (query: string) => ({name: query}),
+    ifEmpty: 'No labels selected'
   },
-  linksIssues: { type: 'bool', label: 'Has linked issues' },
+  linksIssues: {type: 'bool', label: 'Has linked issues'},
   linkedIssues: {
     type: 'ids',
     label: 'Linked issues',
     dataType: 'issue',
     scoreKeys: ['title'],
     listAll: listAllIssues,
-    makeFilter: (query: string) => ({ title: query }),
-    ifEmpty: 'No issues selected',
+    makeFilter: (query: string) => ({title: query}),
+    ifEmpty: 'No issues selected'
   },
-  isLinkedByIssues: { type: 'bool', label: 'Is linked by issues' },
+  isLinkedByIssues: {type: 'bool', label: 'Is linked by issues'},
   linkedByIssues: {
     type: 'ids',
     label: 'Linked by issues',
     dataType: 'issue',
     scoreKeys: ['title'],
     listAll: listAllIssues,
-    makeFilter: (query: string) => ({ title: query }),
-    ifEmpty: 'No issues selected',
+    makeFilter: (query: string) => ({title: query}),
+    ifEmpty: 'No issues selected'
   },
   participants: {
     type: 'ids',
     label: 'Participants',
     dataType: 'user',
     scoreKeys: ['username', 'displayName'],
-    listAll: () => ({ node: ROOT_NODE, type: ListType.SearchUsers }),
-    makeFilter: (query: string) => ({ username: query }),
-    ifEmpty: 'No users selected',
+    listAll: () => ({node: ROOT_NODE, type: ListType.SearchUsers}),
+    makeFilter: (query: string) => ({username: query}),
+    ifEmpty: 'No users selected'
   },
   locations: {
     type: 'ids',
@@ -71,13 +71,19 @@ const PREDICATES = {
     scoreKeys: ['name'],
     listAll: (self: IssueFilterComponent) => ({
       staticSources: [
-        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.Components },
-        { node: { type: NodeType.Project, id: self.projectId }, type: ListType.ComponentInterfaces },
+        {
+          node: {type: NodeType.Project, id: self.projectId},
+          type: ListType.Components
+        },
+        {
+          node: {type: NodeType.Project, id: self.projectId},
+          type: ListType.ComponentInterfaces
+        }
       ]
     }),
-    makeFilter: (query: string) => ({ title: query }),
-    ifEmpty: 'No locations selected',
-  },
+    makeFilter: (query: string) => ({title: query}),
+    ifEmpty: 'No locations selected'
+  }
 };
 
 /** Returns the default value for a predicate type. */
@@ -97,7 +103,7 @@ function getDefaultForType(type: string) {
 function convertValueForFilter(type: string, value: any) {
   switch (type) {
     case 'ids':
-      return value.map(item => item.id);
+      return value.map((item) => item.id);
     default:
       return value;
   }
@@ -126,7 +132,7 @@ export class IssueFilterComponent {
   /** The names of currently active predicates. */
   activePredicates: string[] = [];
   /** The values of currently active predicates. */
-  predicateValues: { [key: string]: any } = {};
+  predicateValues: {[key: string]: any} = {};
   /** Current search query. */
   searchQuery = '';
 
@@ -136,7 +142,7 @@ export class IssueFilterComponent {
    */
   getRemainingTypes(index: number): string[] {
     const previousItems = this.activePredicates.slice(0, index);
-    return Object.keys(PREDICATES).filter(id => !previousItems.includes(id));
+    return Object.keys(PREDICATES).filter((id) => !previousItems.includes(id));
   }
 
   /**
@@ -210,7 +216,7 @@ export class IssueFilterComponent {
   buildFilter(): IssueFilter {
     const filter: IssueFilter = {};
     if (this.searchQuery.trim()) {
-      filter.fullSearch = { text: this.searchQuery.trim() };
+      filter.fullSearch = {text: this.searchQuery.trim()};
     }
     for (const id of this.activePredicates) {
       filter[id] = convertValueForFilter(PREDICATES[id].type, this.predicateValues[id]);

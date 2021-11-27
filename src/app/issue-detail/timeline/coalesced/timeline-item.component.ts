@@ -10,8 +10,7 @@ import {TimeFormatter} from '@app/issue-detail/time-formatter';
   selector: '[appSingleTimelineItem]'
 })
 export class TimelineSingleItemDirective {
-  constructor(public template: TemplateRef<unknown>) {
-  }
+  constructor(public template: TemplateRef<unknown>) {}
 }
 
 /**
@@ -22,8 +21,7 @@ export class TimelineSingleItemDirective {
   selector: '[appCoalescedTimelineItems]'
 })
 export class TimelineCoalescedItemsDirective {
-  constructor(public template: TemplateRef<unknown>) {
-  }
+  constructor(public template: TemplateRef<unknown>) {}
 }
 
 /**
@@ -35,8 +33,7 @@ export class TimelineCoalescedItemsDirective {
   selector: '[appTimelineItemDeleted]'
 })
 export class TimelineItemDeletedDirective {
-  constructor(public template: TemplateRef<unknown>) {
-  }
+  constructor(public template: TemplateRef<unknown>) {}
 }
 
 /**
@@ -56,17 +53,19 @@ export class TimelineItemComponent implements AfterViewInit {
   @Input() showDeleted = false;
 
   /** The content to be shown if the timeline item was not coalesced */
-  @ContentChild(TimelineSingleItemDirective) timelineItemContent: TimelineSingleItemDirective;
+  @ContentChild(TimelineSingleItemDirective)
+  timelineItemContent: TimelineSingleItemDirective;
   /** The content to be shown if the timeline item was coalesced */
-  @ContentChild(TimelineCoalescedItemsDirective) timelineItemsContent: TimelineCoalescedItemsDirective;
+  @ContentChild(TimelineCoalescedItemsDirective)
+  timelineItemsContent: TimelineCoalescedItemsDirective;
   /** The content to be shown if the timeline item contains deleted data */
-  @ContentChild(TimelineItemDeletedDirective) timelineItemDeletedContent: TimelineItemDeletedDirective;
+  @ContentChild(TimelineItemDeletedDirective)
+  timelineItemDeletedContent: TimelineItemDeletedDirective;
 
   timeFormatter: TimeFormatter = new TimeFormatter();
   activeItemContent: TemplateRef<unknown> = null;
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     if (this.showDeleted) {

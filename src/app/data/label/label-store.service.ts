@@ -1,16 +1,12 @@
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
-import {
-  GetLabelsGQL,
-  Label,
-} from '../../../generated/graphql';
+import {GetLabelsGQL, Label} from '../../../generated/graphql';
 import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LabelStoreService {
-
   constructor(private getLabelsGQL: GetLabelsGQL) {}
 
   /**
@@ -25,7 +21,7 @@ export class LabelStoreService {
       return this.getAllFilter(projectId);
     }
     return this.getAllFilter(projectId).pipe(
-      map(items => items.filter(x => x.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) > -1))
+      map((items) => items.filter((x) => x.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) > -1))
     );
   }
 
@@ -34,9 +30,7 @@ export class LabelStoreService {
    * @param projectId id of current project
    */
   private getAllFilter(projectId: string): Observable<FilterLabel[]> {
-    return this.getLabelsGQL.fetch({projectId}).pipe(
-      map(({data}) => data.node.labels.nodes)
-    );
+    return this.getLabelsGQL.fetch({projectId}).pipe(map(({data}) => data.node.labels.nodes));
   }
 }
 

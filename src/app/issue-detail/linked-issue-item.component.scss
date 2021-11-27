@@ -4,7 +4,7 @@
 
   .linked-issue-component {
     &::after {
-      content: ',';
+      content: ",";
       margin-right: 0.3em;
     }
     &:last-child::after {

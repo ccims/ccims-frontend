@@ -1,23 +1,19 @@
-<mat-toolbar>{{menuTitle}}</mat-toolbar>
+<mat-toolbar>{{ menuTitle }}</mat-toolbar>
 <mat-nav-list>
-    <mat-list-item [routerLink]="overviewLink" routerLinkActive="list-item-active"
-                   [routerLinkActiveOptions]="{exact: true}">
-        <mat-icon>info</mat-icon>
-        <a>Overview</a>
-    </mat-list-item>
-    <mat-list-item [routerLink]="graphLink"
-                   routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
-        <mat-icon>account_tree</mat-icon>
-        <a>Graph</a>
-    </mat-list-item>
-    <mat-list-item [routerLink]="issuesLink"
-                   routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
-        <mat-icon>bug_report</mat-icon>
-        <a>Issues</a>
-    </mat-list-item>
-    <mat-list-item [routerLink]="membersLink"
-                   routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}">
-        <mat-icon>group</mat-icon>
-        <a>Members</a>
-    </mat-list-item>
+  <mat-list-item [routerLink]="overviewLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>info</mat-icon>
+    <a>Overview</a>
+  </mat-list-item>
+  <mat-list-item [routerLink]="graphLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>account_tree</mat-icon>
+    <a>Graph</a>
+  </mat-list-item>
+  <mat-list-item [routerLink]="issuesLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>bug_report</mat-icon>
+    <a>Issues</a>
+  </mat-list-item>
+  <mat-list-item [routerLink]="membersLink" routerLinkActive="list-item-active" [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>group</mat-icon>
+    <a>Members</a>
+  </mat-list-item>
 </mat-nav-list>

@@ -22,12 +22,12 @@ import {FilterLabel} from '../label/label-store.service';
   providedIn: 'root'
 })
 export class IssueGraphApiService {
-
-  constructor(private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
-              private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
-              private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
-              private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL) {
-  }
+  constructor(
+    private getFullIssueGraphDataQuery: GetIssueGraphDataGQL,
+    private addConsumedInterfaceMutation: AddConsumedInterfaceGQL,
+    private removeConsumedInterfaceMutation: RemoveConsumedInterfaceGQL,
+    private getSearchIssueGraphDataQuery: GetIssueGraphDataForSearchGQL
+  ) {}
 
   /**
    * Queries backend for data needed to render graph when given parameters restricting what information is requested.
@@ -47,15 +47,15 @@ export class IssueGraphApiService {
       }
     }
     if (labels.length === 0 && texts.length === 0) {
-      return this.getFullIssueGraphDataQuery.fetch({projectId, activeCategories}).pipe(
-        map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-        ));
+      return this.getFullIssueGraphDataQuery
+        .fetch({projectId, activeCategories})
+        .pipe(map((result) => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     } else {
-      const selectedLabels: string[] = labels.map(label => label.id);
+      const selectedLabels: string[] = labels.map((label) => label.id);
       const issueRegex = this.textsToRegex(texts);
-      return this.getSearchIssueGraphDataQuery.fetch({projectId, activeCategories, selectedLabels, issueRegex}).pipe(
-        map(result => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)
-        ));
+      return this.getSearchIssueGraphDataQuery
+        .fetch({projectId, activeCategories, selectedLabels, issueRegex})
+        .pipe(map((result) => GraphDataFactory.removeFilteredData(GraphDataFactory.graphDataFromGQL(result.data), activeCategories)));
     }
   }
 
@@ -69,7 +69,7 @@ export class IssueGraphApiService {
     if (texts.length === 0) {
       return undefined;
     }
-    return texts.map(text => '(' + text + ')').join('|');
+    return texts.map((text) => '(' + text + ')').join('|');
   }
 
   /**
@@ -78,7 +78,9 @@ export class IssueGraphApiService {
    * @param componentInterface
    */
   addConsumedInterface(component: string, componentInterface: string) {
-    return this.addConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
+    return this.addConsumedInterfaceMutation.mutate({
+      input: {component, componentInterface}
+    });
   }
 
   /**
@@ -87,7 +89,8 @@ export class IssueGraphApiService {
    * @param componentInterface
    */
   removeConsumedInterface(component: string, componentInterface: string) {
-    return this.removeConsumedInterfaceMutation.mutate({input: {component, componentInterface}});
+    return this.removeConsumedInterfaceMutation.mutate({
+      input: {component, componentInterface}
+    });
   }
 }
-

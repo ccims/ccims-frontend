@@ -16,21 +16,25 @@ import {UserNotifyService} from '@app/user-notify/user-notify.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-
   validateForm: FormGroup;
   isLoading = false;
   publicClientName = environment.publicClientName;
 
-  constructor(private fb: FormBuilder, private apollo: Apollo, private router: Router,
-              private registerUserMutation: RegisterUserGQL, private userAvailablyQuery: CheckUsernameGQL,
-              private notify: UserNotifyService) {
+  constructor(
+    private fb: FormBuilder,
+    private apollo: Apollo,
+    private router: Router,
+    private registerUserMutation: RegisterUserGQL,
+    private userAvailablyQuery: CheckUsernameGQL,
+    private notify: UserNotifyService
+  ) {
     this.registerUserMutation.client = this.publicClientName;
     this.userAvailablyQuery.client = this.publicClientName;
     this.validateForm = this.fb.group({
       username: ['', [Validators.required], [this.userNameAsyncValidator]],
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
-      confirm: ['', [this.confirmValidator]],
+      confirm: ['', [this.confirmValidator]]
     });
   }
 
@@ -42,35 +46,36 @@ export class RegisterComponent {
    * control is not a valid username. Emits null when username is valid
    */
   userNameAsyncValidator = (control: FormControl) =>
-   new Observable((observer: Observer<ValidationErrors | null>) => {
-     this.userAvailablyQuery.fetch({username: control.value}).subscribe(({data}) => {
-
-       // case: username already taken
-       // => marks event as error
-       if (!data.checkUsername) {
-         // returns `{error: true}` to mark event as an error
-         observer.next({error: true, duplicated: true});
-       } else {
-         observer.next(null);
-       }
-       observer.complete();
-     }, (error) => {
-       this.notify.notifyError('Failed to verify user name!', error);
-     });
-   });
+    new Observable((observer: Observer<ValidationErrors | null>) => {
+      this.userAvailablyQuery.fetch({username: control.value}).subscribe(
+        ({data}) => {
+          // case: username already taken
+          // => marks event as error
+          if (!data.checkUsername) {
+            // returns `{error: true}` to mark event as an error
+            observer.next({error: true, duplicated: true});
+          } else {
+            observer.next(null);
+          }
+          observer.complete();
+        },
+        (error) => {
+          this.notify.notifyError('Failed to verify user name!', error);
+        }
+      );
+    });
 
   /**
-   * Checks that the password in the Confirm Password field 
+   * Checks that the password in the Confirm Password field
    * matches the password in the Password field.
    * @param control Password that is handled.
    */
-  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
-
+  confirmValidator = (control: FormControl): {[s: string]: boolean} => {
     // case: no password given
     if (!control.value) {
       return {error: true, required: true};
     }
-    
+
     // case: password does not match
     else if (control.value !== this.validateForm.controls.password.value) {
       return {confirm: true, error: true};
@@ -88,11 +93,11 @@ export class RegisterComponent {
 
   /**
    * Given data needed for account creation
-   * and carries out the creation by issuing a mutation to the backend. 
+   * and carries out the creation by issuing a mutation to the backend.
    * If successfull, the user is redirected to the Login page.
    * @param value - Data (from the register form) that is handled.
    */
-  submitForm(value: { username: string; email: string; password: string; confirm: string }): void {
+  submitForm(value: {username: string; email: string; password: string; confirm: string}): void {
     for (const key of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
@@ -104,11 +109,14 @@ export class RegisterComponent {
       email: value.email
     };
 
-    this.registerUserMutation.mutate({input}).subscribe(({data}) => {
-      this.router.navigate(['login']);
-    }, (error) => {
-      this.notify.notifyError('Failed to register the user!', error);
-    });
+    this.registerUserMutation.mutate({input}).subscribe(
+      ({data}) => {
+        this.router.navigate(['login']);
+      },
+      (error) => {
+        this.notify.notifyError('Failed to register the user!', error);
+      }
+    );
   }
 
   /**
@@ -123,7 +131,7 @@ export class RegisterComponent {
       this.validateForm.controls[key].updateValueAndValidity();
     }
   }
-  
+
   /**
    * Loads the login page.
    * @param e - Event affecting the form reset.

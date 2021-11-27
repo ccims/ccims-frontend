@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { User } from 'src/generated/graphql-dgql';
+import {Component, Input} from '@angular/core';
+import {User} from 'src/generated/graphql-dgql';
 
 /** This component displays a user. */
 @Component({

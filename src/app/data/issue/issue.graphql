@@ -1,5 +1,5 @@
 mutation CreateIssue($input: CreateIssueInput!) {
-  createIssue(input: $input){
+  createIssue(input: $input) {
     issue {
       id
       title
@@ -8,16 +8,16 @@ mutation CreateIssue($input: CreateIssueInput!) {
 }
 
 mutation LinkIssue($input: LinkIssueInput!) {
-  linkIssue(input: $input){
-    issue{
+  linkIssue(input: $input) {
+    issue {
       id
     }
   }
 }
 
 mutation UnlinkIssue($input: UnlinkIssueInput!) {
-  unlinkIssue(input: $input){
-    issue{
+  unlinkIssue(input: $input) {
+    issue {
       id
     }
   }
@@ -25,46 +25,46 @@ mutation UnlinkIssue($input: UnlinkIssueInput!) {
 
 query GetIssue($id: ID!) {
   node(id: $id) {
-    ...on Issue {
+    ... on Issue {
       id
       title
       body
       bodyRendered
       isOpen
       createdAt
-      locations{
-        nodes{
+      locations {
+        nodes {
           id
           name
         }
       }
-      linkedByIssues{
-        nodes{
+      linkedByIssues {
+        nodes {
           id
           title
         }
       }
-      linksToIssues{
-        nodes{
+      linksToIssues {
+        nodes {
           title
           id
           body
         }
       }
-      createdBy{
+      createdBy {
         id
         displayName
         username
       }
-      issueComments{
-        nodes{
+      issueComments {
+        nodes {
           id
-          issue{
+          issue {
             id
           }
           body
           bodyRendered
-          createdBy{
+          createdBy {
             id
             username
             displayName
@@ -72,15 +72,15 @@ query GetIssue($id: ID!) {
           createdAt
         }
       }
-      labels{
-        nodes{
+      labels {
+        nodes {
           name
           id
           color
         }
       }
-      assignees{
-        nodes{
+      assignees {
+        nodes {
           id
           displayName
         }
@@ -90,11 +90,11 @@ query GetIssue($id: ID!) {
 }
 
 mutation CommentIssue($input: AddIssueCommentInput!) {
-  addIssueComment(input: $input){
+  addIssueComment(input: $input) {
     comment {
       id
       body
-      createdBy{
+      createdBy {
         id
         username
         displayName
@@ -105,10 +105,10 @@ mutation CommentIssue($input: AddIssueCommentInput!) {
 }
 
 mutation DeleteIssueComment($input: DeleteIssueCommentInput!) {
-  deleteIssueComment(input: $input){
+  deleteIssueComment(input: $input) {
     deletedComment {
       id
-      createdBy{
+      createdBy {
         id
         username
         displayName
@@ -119,65 +119,65 @@ mutation DeleteIssueComment($input: DeleteIssueCommentInput!) {
 }
 
 mutation CloseIssue($input: CloseIssueInput!) {
-  closeIssue(input: $input){
+  closeIssue(input: $input) {
     clientMutationID
   }
 }
 
 mutation ReopenIssue($input: ReopenIssueInput!) {
-  reopenIssue(input: $input){
+  reopenIssue(input: $input) {
     clientMutationID
   }
 }
 
 mutation RenameIssueTitle($input: RenameIssueTitleInput!) {
-  renameIssueTitle(input: $input){
+  renameIssueTitle(input: $input) {
     clientMutationID
   }
 }
 
-mutation ChangeIssueCategory($input: ChangeIssueCategoryInput!){
+mutation ChangeIssueCategory($input: ChangeIssueCategoryInput!) {
   changeIssueCategory(input: $input) {
-    clientMutationID,
+    clientMutationID
     event {
-      id,
-      oldCategory,
+      id
+      oldCategory
       newCategory
     }
   }
 }
 
 mutation RemoveIssueFromLocation($input: RemoveIssueFromLocationInput!) {
-  removeIssueFromLocation(input: $input){
+  removeIssueFromLocation(input: $input) {
     clientMutationID
   }
 }
 
 mutation AddIssueToLocation($input: AddIssueToLocationInput!) {
-  addIssueToLocation(input: $input){
+  addIssueToLocation(input: $input) {
     clientMutationID
   }
 }
 
 mutation UpdateComment($input: UpdateCommentInput!) {
-  updateComment(input: $input){
-    clientMutationID,
+  updateComment(input: $input) {
+    clientMutationID
     comment {
+      id
+      createdBy {
+        id
+        displayName
+      }
+      createdAt
+      body
+      lastEditedAt
+      editedBy {
+        nodes {
           id
-          createdBy {
-            id
-            displayName
-          }
-          createdAt
-          body
-          lastEditedAt
-          editedBy {
-            nodes {
-              id
-              displayName
-            }
-          }
+          displayName
         }
+      }
+    }
   }
 }
 
@@ -197,14 +197,14 @@ query getAllTimelineItems($input: ID!) {
             createdAt
             ... on AddedToComponentEvent {
               component {
-                id,
+                id
                 name
               }
             }
             ... on AddedToLocationEvent {
               location {
-                __typename,
-                id,
+                __typename
+                id
                 name
               }
             }
@@ -233,8 +233,8 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on LabelledEvent {
               label {
-                id,
-                name,
+                id
+                name
                 color
               }
             }
@@ -251,13 +251,13 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on MarkedAsDuplicateEvent {
               originalIssue {
-                id,
-                title,
-                category,
-                linksToIssues{
+                id
+                title
+                category
+                linksToIssues {
                   totalCount
                 }
-                linkedByIssues{
+                linkedByIssues {
                   totalCount
                 }
                 isOpen
@@ -265,9 +265,9 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on LinkEvent {
               linkedIssue {
-                id,
-                title,
-                category,
+                id
+                title
+                category
                 linksToIssues {
                   totalCount
                 }
@@ -279,19 +279,19 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on PinnedEvent {
               component {
-                id,
+                id
                 name
               }
             }
             ... on ReferencedByIssueEvent {
               mentionedAt {
-                id,
-                title,
-                category,
-                linksToIssues{
+                id
+                title
+                category
+                linksToIssues {
                   totalCount
                 }
-                linkedByIssues{
+                linkedByIssues {
                   totalCount
                 }
                 isOpen
@@ -306,7 +306,7 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on RemovedFromComponentEvent {
               removedComponent {
-                id,
+                id
                 name
               }
             }
@@ -320,7 +320,7 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on RemovedFromLocationEvent {
               removedLocation {
-                id,
+                id
                 name
               }
             }
@@ -342,29 +342,29 @@ query getAllTimelineItems($input: ID!) {
                 id
               }
             }
-            ...on WasLinkedEvent {
-              linkedBy{
-                id,
-                title,
-                category,
-                linksToIssues{
+            ... on WasLinkedEvent {
+              linkedBy {
+                id
+                title
+                category
+                linksToIssues {
                   totalCount
                 }
-                linkedByIssues{
+                linkedByIssues {
                   totalCount
                 }
                 isOpen
               }
             }
-            ...on UnmarkedAsDuplicateEvent {
-              issue{
-                id,
-                title,
-                category,
-                linksToIssues{
+            ... on UnmarkedAsDuplicateEvent {
+              issue {
+                id
+                title
+                category
+                linksToIssues {
                   totalCount
                 }
-                linkedByIssues{
+                linkedByIssues {
                   totalCount
                 }
                 isOpen
@@ -372,13 +372,13 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on WasUnlinkedEvent {
               unlinkedBy {
-                id,
-                title,
-                category,
-                linksToIssues{
+                id
+                title
+                category
+                linksToIssues {
                   totalCount
                 }
-                linkedByIssues{
+                linkedByIssues {
                   totalCount
                 }
                 isOpen
@@ -386,19 +386,19 @@ query getAllTimelineItems($input: ID!) {
             }
             ... on UnpinnedEvent {
               component {
-                id,
+                id
                 name
               }
             }
             ... on UnlinkEvent {
               removedLinkedIssue {
-                id,
-                title,
-                category,
-                linksToIssues{
+                id
+                title
+                category
+                linksToIssues {
                   totalCount
                 }
-                linkedByIssues{
+                linkedByIssues {
                   totalCount
                 }
                 isOpen
@@ -430,4 +430,3 @@ query getAllTimelineItems($input: ID!) {
     }
   }
 }
-

@@ -11,7 +11,6 @@ import {map} from 'rxjs/operators';
  */
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-
   readonly userStorageKey = 'currentUser';
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -41,8 +40,8 @@ export class AuthenticationService {
    * @returns the logged in user, errors if login is not successful
    */
   login(username: string, password: string): Observable<User> {
-    return this.http.post<any>(environment.loginUrl, {username, password})
-      .pipe(map(response => {
+    return this.http.post<any>(environment.loginUrl, {username, password}).pipe(
+      map((response) => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('token', response.token);
         const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
@@ -50,7 +49,8 @@ export class AuthenticationService {
         this.saveUserToStorage(user);
         this.currentUserSubject.next(user);
         return user;
-      }));
+      })
+    );
   }
 
   /**

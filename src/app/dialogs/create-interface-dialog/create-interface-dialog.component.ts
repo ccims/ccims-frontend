@@ -21,13 +21,15 @@ export class CreateInterfaceDialogComponent {
   validationName = new FormControl('', [CCIMSValidators.nameFormatValidator, Validators.required]);
   validationDescription = new FormControl('', CCIMSValidators.contentValidator);
 
-  constructor(public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
-              private fb: FormBuilder,
-              private gs: IssueGraphStateService,
-              private authService: AuthenticationService,
-              private interfaceStore: InterfaceStoreService,
-              private notify: UserNotifyService) {
+  constructor(
+    public dialogRef: MatDialogRef<CreateInterfaceDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CreateInterfaceData,
+    private fb: FormBuilder,
+    private gs: IssueGraphStateService,
+    private authService: AuthenticationService,
+    private interfaceStore: InterfaceStoreService,
+    private notify: UserNotifyService
+  ) {
     this.loading = false;
   }
 
@@ -39,16 +41,19 @@ export class CreateInterfaceDialogComponent {
     this.loading = true;
 
     // db mutation to create an interface
-    this.interfaceStore.create(name, this.data.offeredById, description).subscribe(({data}) => {
-      this.loading = false;
+    this.interfaceStore.create(name, this.data.offeredById, description).subscribe(
+      ({data}) => {
+        this.loading = false;
 
-      // close dialog and return the interface id of the created dialog
-      this.dialogRef.close(data.createComponentInterface.componentInterface.id);
-    }, (error) => {
-      this.notify.notifyError('Failed to create interface!', error);
-      this.loading = false;
-      this.saveFailed = true;
-    });
+        // close dialog and return the interface id of the created dialog
+        this.dialogRef.close(data.createComponentInterface.componentInterface.id);
+      },
+      (error) => {
+        this.notify.notifyError('Failed to create interface!', error);
+        this.loading = false;
+        this.saveFailed = true;
+      }
+    );
   }
 
   afterAlertClose(): void {
@@ -57,6 +62,6 @@ export class CreateInterfaceDialogComponent {
 }
 
 export interface CreateInterfaceData {
-  position: { x: number, y: number };
+  position: {x: number; y: number};
   offeredById: string;
 }

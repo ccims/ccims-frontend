@@ -1,15 +1,17 @@
-<ng-select class="label-select"
-          [items]="labels$ | async"
-           bindLabel="name"
-           [addTag]="true"
-           [multiple]="true"
-           [hideSelected]="true"
-           [trackByFn]="trackByFn"
-           [loading]="labelsLoading"
-           typeToSearchText="Search by label or text"
-           addTagText="Search text in issue title & body"
-           [typeahead]="labelsInput$"
-           [(ngModel)]="selectedLabels"
-           ngDefaultControl
-           (change)="emitSelectedLabels()">
+<ng-select
+  class="label-select"
+  [items]="labels$ | async"
+  bindLabel="name"
+  [addTag]="true"
+  [multiple]="true"
+  [hideSelected]="true"
+  [trackByFn]="trackByFn"
+  [loading]="labelsLoading"
+  typeToSearchText="Search by label or text"
+  addTagText="Search text in issue title & body"
+  [typeahead]="labelsInput$"
+  [(ngModel)]="selectedLabels"
+  ngDefaultControl
+  (change)="emitSelectedLabels()"
+>
 </ng-select>

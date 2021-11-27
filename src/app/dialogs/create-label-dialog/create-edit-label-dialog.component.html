@@ -1,36 +1,33 @@
 <h1 mat-dialog-title>
-  <ng-container *ngIf="data.editExisting">
-    Update label
-  </ng-container>
-  <ng-container *ngIf="!data.editExisting">
-    Create a new label
-  </ng-container>
+  <ng-container *ngIf="data.editExisting"> Update label </ng-container>
+  <ng-container *ngIf="!data.editExisting"> Create a new label </ng-container>
 </h1>
 <div mat-dialog-content>
   <app-set-editor
-      class="component-selector"
-      [makeFilter]="makeComponentFilter"
-      [scoreKeys]="['name']"
-      [listSet]="componentList"
-      [listAll]="allComponentsList"
-      [applyChangeset]="applyComponentChangeset"
-      #list>
+    class="component-selector"
+    [makeFilter]="makeComponentFilter"
+    [scoreKeys]="['name']"
+    [listSet]="componentList"
+    [listAll]="allComponentsList"
+    [applyChangeset]="applyComponentChangeset"
+    #list
+  >
     <span title>Components</span>
     <span if-empty style="color: red">Assign the label to a component</span>
     <ng-container *appItem="let item">
-      <div>{{item.name}}</div>
+      <div>{{ item.name }}</div>
     </ng-container>
   </app-set-editor>
 
   <mat-form-field class="new-label-input" appearance="outline">
     <mat-label>Label Name</mat-label>
-    <input #labelName required matInput [formControl]="validationLabelName">
+    <input #labelName required matInput [formControl]="validationLabelName" />
     <mat-error *ngIf="validationLabelName.invalid">Invalid name</mat-error>
   </mat-form-field>
 
   <mat-form-field class="new-label-input" appearance="outline">
     <mat-label>Description</mat-label>
-    <input #labelDescription matInput [formControl]="validationLabelDescription">
+    <input #labelDescription matInput [formControl]="validationLabelDescription" />
   </mat-form-field>
 
   <mat-form-field class="new-label-input" floatLabel="always" appearance="outline">
@@ -42,7 +39,8 @@
       autocomplete="off"
       [(colorPicker)]="this.color"
       [cpAlphaChannel]="'disabled'"
-      [cpPosition]="'bottom'"/>
+      [cpPosition]="'bottom'"
+    />
     <button mat-icon-button class="color-randomize-button" matSuffix (click)="this.randomizeColor()">
       <mat-icon>refresh</mat-icon>
     </button>
@@ -51,14 +49,13 @@
 
 <div mat-dialog-actions class="actions">
   <button mat-raised-button color="warn" (click)="this.onLabelCancelClick()">Cancel</button>
-  <button mat-raised-button color="success"
-          [disabled]="loading || validationLabelName.invalid || !list.totalCount"
-          (click)="this.onConfirmClick(labelName.value, labelDescription.value)">
-    <ng-container *ngIf="data.editExisting">
-      Apply
-    </ng-container>
-    <ng-container *ngIf="!data.editExisting">
-      Create
-    </ng-container>
+  <button
+    mat-raised-button
+    color="success"
+    [disabled]="loading || validationLabelName.invalid || !list.totalCount"
+    (click)="this.onConfirmClick(labelName.value, labelDescription.value)"
+  >
+    <ng-container *ngIf="data.editExisting"> Apply </ng-container>
+    <ng-container *ngIf="!data.editExisting"> Create </ng-container>
   </button>
 </div>

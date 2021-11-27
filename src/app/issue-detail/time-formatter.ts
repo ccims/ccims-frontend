@@ -2,7 +2,6 @@
  * This class contains functionality for time formatting which is needed for correct time representation
  */
 export class TimeFormatter {
-
   /**
    * E.g. converts (2021-10-01T19:44:04.813Z) to
    * (Fri Oct 01 2021 21:44:04 GMT+0200 (Mitteleuropäische Sommerzeit))
@@ -20,7 +19,7 @@ export class TimeFormatter {
     const now = new Date();
     const pastTime = new Date(dateString);
 
-    const months = (now.getMonth() - pastTime.getMonth()) + (now.getFullYear() - pastTime.getFullYear()) * 12;
+    const months = now.getMonth() - pastTime.getMonth() + (now.getFullYear() - pastTime.getFullYear()) * 12;
     const minutes = Math.round((+now - +pastTime) / 1000 / 60);
     const hours = Math.round(minutes / 60);
     const days = Math.round(hours / 24);
@@ -46,6 +45,6 @@ export class TimeFormatter {
    * @param singular singular form of the word
    */
   pluralize(n: number, singular: string): string {
-    return (n === 1 ? n + ' ' + singular : n + ' ' + singular + 's');
+    return n === 1 ? n + ' ' + singular : n + ' ' + singular + 's';
   }
 }

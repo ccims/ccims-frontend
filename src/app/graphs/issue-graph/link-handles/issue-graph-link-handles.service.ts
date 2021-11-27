@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {DraggedEdge, Edge} from '@ustutt/grapheditor-webcomponent/lib/edge';
 import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
-import { LinkHandle } from '@ustutt/grapheditor-webcomponent/lib/link-handle';
+import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
@@ -13,14 +13,12 @@ import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
   providedIn: 'root'
 })
 export class IssueGraphLinkHandlesService {
-
   /**
    * Manages calculation of the link handles of given GraphEditor instances.
    * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
    * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
-
     // calculation for link handles
     const linkHandleCalculation = (
       edge: Edge | DraggedEdge,
@@ -29,11 +27,10 @@ export class IssueGraphLinkHandlesService {
       targetHandles: LinkHandle[],
       target: Node
     ) => {
-
       // handles at the source / target of a given edge
       const handles = {
         sourceHandles,
-        targetHandles,
+        targetHandles
       };
 
       // case: source of edge has allowed anchors
@@ -62,12 +59,12 @@ export class IssueGraphLinkHandlesService {
    * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
    * @param  {LinkHandle[]} sourceHandles - Source handles of the edge.
    */
-  private calculateSourceHandles(source: Node, 
-    handles: { sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]; }, 
-    sourceHandles: LinkHandle[]) {
-
+  private calculateSourceHandles(
+    source: Node,
+    handles: {sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]},
+    sourceHandles: LinkHandle[]
+  ) {
     handles.sourceHandles = sourceHandles.filter((linkHandle) => {
-
       // case: X coordinate of link handle further than the Y coordinate
       if (Math.abs(linkHandle.x) > Math.abs(linkHandle.y)) {
         if (linkHandle.x > 0 && source.allowedAnchors.has('right')) {
@@ -76,8 +73,8 @@ export class IssueGraphLinkHandlesService {
         if (linkHandle.x < 0 && source.allowedAnchors.has('left')) {
           return true;
         }
-      } 
-      
+      }
+
       // case: X coordinate of link handle as close as / closer than the Y coordinate
       else {
         if (linkHandle.y > 0 && source.allowedAnchors.has('bottom')) {
@@ -98,12 +95,12 @@ export class IssueGraphLinkHandlesService {
    * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
    * @param  {LinkHandle[]} targetHandles - Target handles of the edge.
    */
-  private calculateTargetHandles(target: Node, 
-    handles: { sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]; }, 
-    targetHandles: LinkHandle[]) {
-
+  private calculateTargetHandles(
+    target: Node,
+    handles: {sourceHandles: LinkHandle[]; targetHandles: LinkHandle[]},
+    targetHandles: LinkHandle[]
+  ) {
     handles.targetHandles = targetHandles.filter((linkHandle) => {
-
       // case: X coordinate of link handle further than the Y coordinate
       if (Math.abs(linkHandle.x) > Math.abs(linkHandle.y)) {
         if (linkHandle.x > 0 && target.allowedAnchors.has('right')) {
@@ -112,8 +109,8 @@ export class IssueGraphLinkHandlesService {
         if (linkHandle.x < 0 && target.allowedAnchors.has('left')) {
           return true;
         }
-      } 
-      
+      }
+
       // case: X coordinate of link handle as close as / closer than the Y coordinate
       else {
         if (linkHandle.y > 0 && target.allowedAnchors.has('bottom')) {
@@ -123,7 +120,7 @@ export class IssueGraphLinkHandlesService {
           return true;
         }
       }
-      
+
       return false;
     });
   }

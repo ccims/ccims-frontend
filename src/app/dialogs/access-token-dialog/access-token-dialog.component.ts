@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-access-token-dialog',
@@ -9,10 +9,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class AccessTokenDialogComponent implements OnInit {
   selected = 'option2';
 
-  constructor(public dialogRef: MatDialogRef<boolean>, private dialog: MatDialog) { }
+  constructor(public dialogRef: MatDialogRef<boolean>, private dialog: MatDialog) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   //close access token settings dialog
   public closeDialog() {
@@ -22,5 +21,4 @@ export class AccessTokenDialogComponent implements OnInit {
   public generateToken() {
     //TODO
   }
-
 }

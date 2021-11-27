@@ -27,11 +27,14 @@ import {AuthenticationService} from '@app/auth/authentication.service';
   providedIn: 'root'
 })
 export class ProjectStoreService {
-
-  constructor(private authService: AuthenticationService, private getAllQuery: GetAllProjectsGQL,
-              private getBasicProjectQuery: GetBasicProjectGQL, private getFullQuery: GetFullProjectGQL,
-              private createProject: CreateProjectGQL, private deleteProject: DeleteProjectGQL) {
-  }
+  constructor(
+    private authService: AuthenticationService,
+    private getAllQuery: GetAllProjectsGQL,
+    private getBasicProjectQuery: GetBasicProjectGQL,
+    private getFullQuery: GetFullProjectGQL,
+    private createProject: CreateProjectGQL,
+    private deleteProject: DeleteProjectGQL
+  ) {}
 
   create(name: string, description: string) {
     const input: CreateProjectInput = {
@@ -60,8 +63,6 @@ export class ProjectStoreService {
     const filter: ProjectFilter = {
       name: filterText
     };
-    return this.getAllQuery.fetch({filter}).pipe(
-      map(({data}) => data.projects.edges.map(edge => edge.node))
-    );
+    return this.getAllQuery.fetch({filter}).pipe(map(({data}) => data.projects.edges.map((edge) => edge.node)));
   }
 }

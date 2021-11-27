@@ -10,15 +10,14 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class AppComponent {
   title = 'Gropius';
 
-  constructor(private matIconRegistry: MatIconRegistry,
-              private domSanitizer: DomSanitizer) {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     const ccimsIcons = {
       'relation-edge': 'relation-edge.svg',
       'resize-corner': 'resize-corner.svg'
     };
 
     for (const [key, value] of Object.entries(ccimsIcons)) {
-      console.log('register', key, 'as', '../assets/icons/svg/' + value );
+      console.log('register', key, 'as', '../assets/icons/svg/' + value);
       this.matIconRegistry.addSvgIcon(key, this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/svg/' + value));
     }
 
@@ -28,16 +27,24 @@ export class AppComponent {
         for (const isClosed of [false, true]) {
           for (const edgeType of [null, 'in', 'out', 'inout']) {
             const assetUrl = [
-              '../assets/icons/issues/', type, '/', category, isClosed ? '-closed' : null, edgeType && '-', edgeType, '.svg'
-            ].filter(part => !!part).join('');
-            const iconName = [
-              'issue', type === 'assigned' ? 'assigned' : null, category, isClosed ? 'closed' : null, edgeType
-            ].filter(part => !!part).join('-');
+              '../assets/icons/issues/',
+              type,
+              '/',
+              category,
+              isClosed ? '-closed' : null,
+              edgeType && '-',
+              edgeType,
+              '.svg'
+            ]
+              .filter((part) => !!part)
+              .join('');
+            const iconName = ['issue', type === 'assigned' ? 'assigned' : null, category, isClosed ? 'closed' : null, edgeType]
+              .filter((part) => !!part)
+              .join('-');
             this.matIconRegistry.addSvgIcon(iconName, this.domSanitizer.bypassSecurityTrustResourceUrl(assetUrl));
           }
         }
       }
     }
   }
-
 }

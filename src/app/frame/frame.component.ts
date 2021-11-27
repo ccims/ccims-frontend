@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs/operators';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { StateService } from '@app/state.service';
-import { RouterOutlet } from '@angular/router';
-import { slider } from '../route-animations';
+import {Component} from '@angular/core';
+import {map, shareReplay} from 'rxjs/operators';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Observable, BehaviorSubject} from 'rxjs';
+import {StateService} from '@app/state.service';
+import {RouterOutlet} from '@angular/router';
+import {slider} from '../route-animations';
 
 /**
  * This component holds the 'frame' of the application
@@ -27,16 +27,13 @@ export class FrameComponent {
   public isProjectSet$ = new BehaviorSubject<boolean>(false);
   public showDrawer = true;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-  .pipe(
-    map(result => result.matches),
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
     shareReplay()
   );
 
   constructor(private breakpointObserver: BreakpointObserver, public ss: StateService) {
-    ss.state$.pipe(
-      map(state => (state.project != null))
-    ).subscribe(this.isProjectSet$);
+    ss.state$.pipe(map((state) => state.project != null)).subscribe(this.isProjectSet$);
   }
 
   /**

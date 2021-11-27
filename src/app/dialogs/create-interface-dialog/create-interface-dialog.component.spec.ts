@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CreateInterfaceDialogComponent } from './create-interface-dialog.component';
+import {CreateInterfaceDialogComponent} from './create-interface-dialog.component';
 
 describe('CreateInterfaceDialogComponent', () => {
   let component: CreateInterfaceDialogComponent;
@@ -8,9 +8,8 @@ describe('CreateInterfaceDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateInterfaceDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [CreateInterfaceDialogComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

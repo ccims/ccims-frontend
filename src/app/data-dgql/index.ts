@@ -1,8 +1,8 @@
-import { NodeId, ListId, ListType, encodeListId, decodeListId, ListIdEnc } from './id';
-import { Injectable } from '@angular/core';
-import { QueriesService } from './queries/queries.service';
-import { DataNode, DataList, NodeCache } from './query';
-import { Mutations } from '@app/data-dgql/mutate';
+import {NodeId, ListId, ListType, encodeListId, decodeListId, ListIdEnc} from './id';
+import {Injectable} from '@angular/core';
+import {QueriesService} from './queries/queries.service';
+import {DataNode, DataList, NodeCache} from './query';
+import {Mutations} from '@app/data-dgql/mutate';
 
 /**
  * The data service provides access to the backend API.
@@ -29,9 +29,7 @@ export default class DataService {
   /** Data mutations. */
   mutations: Mutations;
 
-  constructor(
-    private queries: QueriesService
-  ) {
+  constructor(private queries: QueriesService) {
     this.nodes = new NodeCache(queries);
     this.mutations = new Mutations(queries, this.nodes, this.invalidateLists.bind(this));
   }

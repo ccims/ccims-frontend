@@ -1,5 +1,5 @@
-import { IssueCategory } from 'src/generated/graphql';
-import { FilterSelection } from './label-search/label-search.component';
+import {IssueCategory} from 'src/generated/graphql';
+import {FilterSelection} from './label-search/label-search.component';
 
 type EnumDictionary<T extends string | symbol | number, U> = {
   [K in T]: U;

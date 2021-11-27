@@ -4,9 +4,18 @@ import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 import {Edge} from '@ustutt/grapheditor-webcomponent/lib/edge';
 
 export {
-  IssueNode, ComponentNode, InterfaceNode, IssueGroupContainerNode, RelationEdge,
-  createComponentNode, createInterfaceNode, createIssueGroupContainerNode, createIssueFolderNode,
-  createRelationEdge, createConsumptionEdge, createInterfaceProvisionEdge,
+  IssueNode,
+  ComponentNode,
+  InterfaceNode,
+  IssueGroupContainerNode,
+  RelationEdge,
+  createComponentNode,
+  createInterfaceNode,
+  createIssueGroupContainerNode,
+  createIssueFolderNode,
+  createRelationEdge,
+  createConsumptionEdge,
+  createInterfaceProvisionEdge,
   Position,
   getIssueFolderId
 };
@@ -57,7 +66,7 @@ function createInterfaceNode(intrface: GraphInterface, position: Position): Inte
     id: intrface.id,
     title: intrface.name,
     type: NodeType.Interface,
-    offeredById: intrface.offeredBy,
+    offeredById: intrface.offeredBy
   };
 }
 
@@ -74,7 +83,7 @@ function createIssueGroupContainerNode(node: IssueNode): IssueGroupContainerNode
     x: 0,
     y: 0,
     position: 'bottom',
-    issueGroupNodeIds: new Set<string>(),
+    issueGroupNodeIds: new Set<string>()
   };
 }
 
@@ -106,7 +115,7 @@ function createRelationEdge(sourceId: string, targetId: string, edgeType = folde
     type: folderEdgeTypes.RelatedTo,
     markerEnd: {
       template: 'arrow',
-      relativeRotation: 0,
+      relativeRotation: 0
     },
     dragHandles: [],
     sourceIssues: new Set<string>()
@@ -120,8 +129,8 @@ function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
     type: NodeType.InterfaceConsumer,
     markerEnd: {
       template: 'interface-connector',
-      relativeRotation: 0,
-    },
+      relativeRotation: 0
+    }
   };
 }
 
@@ -130,7 +139,7 @@ function createInterfaceProvisionEdge(componentId: string, interfaceId: string):
     source: componentId,
     target: interfaceId,
     type: NodeType.Interface,
-    dragHandles: [],
+    dragHandles: []
   };
 }
 

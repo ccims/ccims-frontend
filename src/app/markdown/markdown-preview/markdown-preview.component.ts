@@ -10,7 +10,6 @@ import {Component, Input, OnInit} from '@angular/core';
   preserveWhitespaces: true
 })
 export class MarkdownPreviewComponent implements OnInit {
-
   /**
    * The markdown code as a string which will be rendered
    */
@@ -19,9 +18,7 @@ export class MarkdownPreviewComponent implements OnInit {
   /**
    * @ignore (Keyword for compodoc documentation generator)
    */
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

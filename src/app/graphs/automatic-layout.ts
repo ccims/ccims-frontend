@@ -122,8 +122,10 @@ class Vector {
    */
   public distanceToLine(sourcePoint: Vector, targetPoint: Vector): number {
     const length = targetPoint.subtract(sourcePoint).length();
-    return Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) -
-      (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)) / length;
+    return (
+      Math.abs((targetPoint.x - sourcePoint.x) * (sourcePoint.y - this.y) - (sourcePoint.x - this.x) * (targetPoint.y - sourcePoint.y)) /
+      length
+    );
   }
 
   /**
@@ -212,8 +214,8 @@ export class LayoutNode {
       // If both nodes are at an identical position, add a small randomized offset to this nodes position
       let towardsOther = otherNode.position.subtract(this.position);
       if (towardsOther.isZero()) {
-        this.position.x += Math.random() - .5;
-        this.position.y += Math.random() - .5;
+        this.position.x += Math.random() - 0.5;
+        this.position.y += Math.random() - 0.5;
         towardsOther = otherNode.position.subtract(this.position);
       }
 
@@ -250,8 +252,10 @@ export class LayoutNode {
         otherNodesVisited.add(edgeNode.id).add(otherNode.id);
 
         // Check if this node is next to the edge connecting two nodes
-        if (Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
-          Vector.isBehind(edgeNode.position, otherNode.position, this.position)) {
+        if (
+          Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
+          Vector.isBehind(edgeNode.position, otherNode.position, this.position)
+        ) {
           continue;
         }
 
@@ -305,7 +309,7 @@ export function doGraphLayout(nodes: Array<LayoutNode>): void {
     for (let i = 0; i < nodes.length; ++i) {
       const node = nodes[i];
       if (!node.fixed) {
-        node.position = node.position.add(directions[i].scale(.1));
+        node.position = node.position.add(directions[i].scale(0.1));
       }
     }
   }

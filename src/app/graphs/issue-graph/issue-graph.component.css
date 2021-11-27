@@ -15,13 +15,16 @@
   left: 1rem;
 }
 
-.minimap, .minimap::before, .minimap::after {
+.minimap,
+.minimap::before,
+.minimap::after {
   position: absolute;
   width: 8rem;
   height: 6rem;
 }
 
-.minimap::before, .minimap::after {
+.minimap::before,
+.minimap::after {
   content: "";
   opacity: 0.5;
 }

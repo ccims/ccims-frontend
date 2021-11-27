@@ -29,15 +29,22 @@ fragment fInterfaceStub on ComponentInterface {
   }
 }
 
-query ListProjectComponents($project: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
+query ListProjectComponents(
+  $project: ID!
+  $after: String
+  $before: String
+  $filterBy: ComponentFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $project) {
-    ...on Project {
+    ... on Project {
       components(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
-        last: $last,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
       ) {
         totalCount
         pageInfo {
@@ -54,15 +61,22 @@ query ListProjectComponents($project: ID!, $after: String, $before: String, $fil
   }
 }
 
-query ListProjectInterfaces($project: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+query ListProjectInterfaces(
+  $project: ID!
+  $after: String
+  $before: String
+  $filterBy: ComponentInterfaceFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $project) {
-    ...on Project {
+    ... on Project {
       interfaces(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
-        last: $last,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
+        last: $last
       ) {
         totalCount
         pageInfo {
@@ -81,20 +95,27 @@ query ListProjectInterfaces($project: ID!, $after: String, $before: String, $fil
 
 query GetComponent($id: ID!) {
   node(id: $id) {
-    ...on Component {
+    ... on Component {
       ...fComponentStub
     }
   }
 }
 
-query ListComponentInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+query ListComponentInterfaces(
+  $component: ID!
+  $after: String
+  $before: String
+  $filterBy: ComponentInterfaceFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $component) {
-    ...on Component {
+    ... on Component {
       interfaces(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -112,14 +133,21 @@ query ListComponentInterfaces($component: ID!, $after: String, $before: String, 
   }
 }
 
-query ListComponentConsumedInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
+query ListComponentConsumedInterfaces(
+  $component: ID!
+  $after: String
+  $before: String
+  $filterBy: ComponentInterfaceFilter
+  $first: Int
+  $last: Int
+) {
   node(id: $component) {
-    ...on Component {
+    ... on Component {
       consumedInterfaces(
-        after: $after,
-        before: $before,
-        filterBy: $filterBy,
-        first: $first,
+        after: $after
+        before: $before
+        filterBy: $filterBy
+        first: $first
         last: $last
       ) {
         totalCount
@@ -142,7 +170,7 @@ query ListComponentConsumedInterfaces($component: ID!, $after: String, $before: 
 
 query GetInterface($id: ID!) {
   node(id: $id) {
-    ...on ComponentInterface {
+    ... on ComponentInterface {
       ...fInterfaceStub
     }
   }

@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { IssueGraphLinkHandlesService } from './issue-graph-link-handles.service';
+import {IssueGraphLinkHandlesService} from './issue-graph-link-handles.service';
 
 describe('IssueGraphLinkHandlesService', () => {
   let service: IssueGraphLinkHandlesService;

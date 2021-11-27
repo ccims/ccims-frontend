@@ -43,8 +43,7 @@ const COMPONENT_CONTEXT_MENU_DATA = new InjectionToken<ComponentContextMenuData>
  */
 @Injectable({providedIn: 'root'})
 export class ComponentContextMenuService {
-  constructor(private overlay: Overlay, private injector: Injector) {
-  }
+  constructor(private overlay: Overlay, private injector: Injector) {}
 
   /**
    * Open a new component context menu
@@ -57,12 +56,15 @@ export class ComponentContextMenuService {
    * @param issueGraph A reference to the issue graph
    * @return A reference to the context menu
    */
-  open(parent: Element,
-       x: number, y: number,
-       projectID: string,
-       nodeID: string,
-       nodeType: NodeDetailsType,
-       issueGraph: IssueGraphComponent): ComponentContextMenuComponent {
+  open(
+    parent: Element,
+    x: number,
+    y: number,
+    projectID: string,
+    nodeID: string,
+    nodeType: NodeDetailsType,
+    issueGraph: IssueGraphComponent
+  ): ComponentContextMenuComponent {
     const position = this.overlay.position().flexibleConnectedTo(parent);
     const pos: ConnectedPosition = {
       originX: 'start',
@@ -126,16 +128,14 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   /** @ignore */
   @ViewChild('resizeCorner') set resizeCorner(content: ElementRef) {
     if (content) {
-      content.nativeElement.addEventListener('mousedown', () => this.resize = true);
+      content.nativeElement.addEventListener('mousedown', () => (this.resize = true));
     }
   }
 
   /** @ignore */
   @ViewChild(NodeDetailsComponent) nodeDetails: NodeDetailsComponent;
 
-  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData,
-              private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(@Inject(COMPONENT_CONTEXT_MENU_DATA) public data: ComponentContextMenuData, private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.frame.nativeElement.style.minWidth = ComponentContextMenuComponent.MIN_WIDTH + 'px';
@@ -156,7 +156,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
     if (nodeDeleted) {
       this.close();
     }
-  }
+  };
 
   /**
    * Update the position of the context menu
@@ -181,7 +181,7 @@ export class ComponentContextMenuComponent implements AfterViewInit, OnDestroy {
   private onMouseUp() {
     this.resize = false;
   }
-  
+
   /** @ignore */
   @HostListener('window:mousemove', ['$event'])
   private onMouseMove(event: MouseEvent) {

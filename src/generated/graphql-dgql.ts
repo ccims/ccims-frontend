@@ -2,7 +2,9 @@ import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -19,30 +21,28 @@ export type Scalars = {
   Color: any;
   /**
    * The `Date` scalar is a sting containing a date in a format compatible with _ISO-8601_
-   * 
+   *
    * Example: `2011-10 - 10T14: 48: 00``
    */
   Date: any;
   /**
    * The `JSON` scalar is a string in the a JSON format
-   * 
+   *
    * Example: `{"numbers": [1,2,3,4]}`
    */
   JSON: any;
   /**
    * A integer number representing the length of the time span in milliseconds
-   * 
+   *
    * Example: `60000` (equivalent to a time span of one minute)
    */
   TimeSpan: any;
 };
 
-
-
 /** The type of the Issue management system. Currently only GitHub and ccims internal are available */
 export enum ImsType {
   /** GitHub (or GitHub enterprise server) is the IMS for the component */
-  Github = 'GITHUB'
+  Github = 'GITHUB',
 }
 
 /** The category of an issue. The issue will be displayed accordingly in the ccims */
@@ -52,7 +52,7 @@ export enum IssueCategory {
   /** If an issue is defined a _feature request_, it describes a functionality that is to be implemented at some point */
   FeatureRequest = 'FEATURE_REQUEST',
   /** The category for issues, that either weren't yet assigned to a category or that don't fit into one of the other categories */
-  Unclassified = 'UNCLASSIFIED'
+  Unclassified = 'UNCLASSIFIED',
 }
 
 /** The type of a timeline item/event so it can be filtered for <sup>(because GraphQL doesn't allow to filter for a type)</sup> */
@@ -79,13 +79,13 @@ export enum IssueTimelineItemType {
   UnlabelledEvent = 'UNLABELLED_EVENT',
   /**
    * This issue was pinned as important issue in the ccims.
-   * 
+   *
    * __This event won't be synced along all subscribed issue management systems__
    */
   PinnedEvent = 'PINNED_EVENT',
   /**
    * This issue was unpinned in the ccims.
-   * 
+   *
    * __This event won't be synced along all subscribed issue management systems__
    */
   UnpinnedEvent = 'UNPINNED_EVENT',
@@ -101,7 +101,7 @@ export enum IssueTimelineItemType {
   ClosedEvent = 'CLOSED_EVENT',
   /**
    * Happens if the issue has been reopened after being closed by anybody.
-   * 
+   *
    * _This event doesn't occur on the first opening of the issue_
    */
   ReopenedEvent = 'REOPENED_EVENT',
@@ -119,7 +119,7 @@ export enum IssueTimelineItemType {
   RemovedLocationEvent = 'REMOVED_LOCATION_EVENT',
   /**
    * Occurs if this issue was marked as duplicate of some other issue which is known to the ccims.
-   * 
+   *
    * (if the issue in unknown to the ccims at time of marking it as a duplicate; it's not guaranteed, that the mark will be synced)
    */
   MarkedAsDuplicateEvent = 'MARKED_AS_DUPLICATE_EVENT',
@@ -136,7 +136,7 @@ export enum IssueTimelineItemType {
   /** An event if a non functional constraint has been added to the issue */
   AddedNonFunctionalConstraintEvent = 'ADDED_NON_FUNCTIONAL_CONSTRAINT_EVENT',
   /** An event if a non functional constraint has been removed from the issue */
-  RemovedNonFunctionalConstrainEvent = 'REMOVED_NON_FUNCTIONAL_CONSTRAIN_EVENT'
+  RemovedNonFunctionalConstrainEvent = 'REMOVED_NON_FUNCTIONAL_CONSTRAIN_EVENT',
 }
 
 /** The Priority which an issue has - how urgent it needs to be resolved */
@@ -146,18 +146,14 @@ export enum Priority {
   /** The issue has a priority higher than low bot is not absolutely urgent */
   Default = 'DEFAULT',
   /** Issues with this priority are __very__ urgent and need to be resolved quickly */
-  High = 'HIGH'
+  High = 'HIGH',
 }
-
-
-
-
 
 /** An object which can be identified by an ID - called a Node */
 export type Node = {
   /**
    * The ID of this Node. Every Node will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -315,7 +311,7 @@ export type IssueCommentFilter = {
 
 /**
  * Filters for Issues. All parameters given in this filter will be connected via _AND_
- * 
+ *
  * Not specific issues in issue management systems but the issue in the ccims
  */
 export type IssueFilter = {
@@ -407,7 +403,7 @@ export type IssueLocationFilter = {
 
 /**
  * Filters for certain timeline events. All parameters given in this filter will be connected via _AND_
- * 
+ *
  * __Please note:__ It's currently __not__ possible to filter for specific properties of an event. Might be added in future
  */
 export type IssueTimelineItemFilter = {
@@ -487,7 +483,7 @@ export type ComponentInterfacePage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -503,7 +499,7 @@ export type ComponentPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -519,7 +515,7 @@ export type IssueCommentPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -535,7 +531,7 @@ export type IssueLocationPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -551,7 +547,7 @@ export type IssuePage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -567,7 +563,7 @@ export type LabelPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -583,7 +579,7 @@ export type IssueTimelineItemPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -591,7 +587,7 @@ export type IssueTimelineItemPage = Page & {
 
 /**
  * A page of elements
- * 
+ *
  * Contains edges and nodes as well as some information and a node count
  */
 export type Page = {
@@ -599,7 +595,7 @@ export type Page = {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -627,7 +623,7 @@ export type UserPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -643,7 +639,7 @@ export type ReactionGroupPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -659,7 +655,7 @@ export type ProjectPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -669,7 +665,7 @@ export type ProjectPage = Page & {
 export type Comment = {
   /**
    * The ID of this Comment. Every Comment will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -680,7 +676,7 @@ export type Comment = {
   /**
    * The body text of the Comment.
    * Markdown supported.
-   * 
+   *
    * Max. 65536 characters
    */
   body: Scalars['String'];
@@ -688,7 +684,7 @@ export type Comment = {
   bodyRendered: Scalars['String'];
   /**
    * `true` iff the User authenticated by the given JWT is permitted to edit this Comment.
-   * 
+   *
    * This only refers to editing the core comment (title, body, etc.)
    */
   currentUserCanEdit: Scalars['Boolean'];
@@ -700,7 +696,6 @@ export type Comment = {
   reactions?: Maybe<ReactionGroupPage>;
 };
 
-
 /** An interface specifying an editable text block (e.g. Issue, Comment) */
 export type CommentEditedByArgs = {
   after?: Maybe<Scalars['String']>;
@@ -709,7 +704,6 @@ export type CommentEditedByArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** An interface specifying an editable text block (e.g. Issue, Comment) */
 export type CommentReactionsArgs = {
@@ -722,62 +716,62 @@ export type CommentReactionsArgs = {
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
-export type Component = Node & IssueLocation & {
-  /**
-   * The ID of this Component. Every Component will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the Component (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the Component was first created on */
-  createdAt: Scalars['Date'];
-  /**
-   * The (non unique) display name of this Component
-   * 
-   * Max. 256 characters
-   */
-  name: Scalars['String'];
-  /**
-   * A textual description (of the function) of this Component.
-   * 
-   * Max. 65536 characters
-   */
-  description: Scalars['String'];
-  /** Date when the name, description or any other field directly on Component was last updated */
-  lastUpdatedAt: Scalars['Date'];
-  /** All Issues that are assinged to on this Component matching (if given) `filterBy` */
-  issuesOnLocation?: Maybe<IssuePage>;
-  /**
-   * The URL where the code repository of this component is located
-   * 
-   * Max. 65536 characters
-   */
-  repositoryURL?: Maybe<Scalars['String']>;
-  /** All issues that are mirrored on this component (not the issue location but the ims) matching (if given) `filterBy` */
-  issues?: Maybe<IssuePage>;
-  /** All projects that this component is assigned to matching the `filterBy` */
-  projects?: Maybe<ProjectPage>;
-  /** Requests component interfaces which this component offers */
-  interfaces?: Maybe<ComponentInterfacePage>;
-  /** Requests component interfaces that are used/consumed by this component */
-  consumedInterfaces?: Maybe<ComponentInterfacePage>;
-  /** All labels which are available on this component, matching (if given) `filterBy` */
-  labels?: Maybe<LabelPage>;
-  /** All IMSComponents which this component is synced to, matching (if given) `filterBy` */
-  imsComponents?: Maybe<ImsComponentPage>;
-  /** All Artifacts on this Component, matching (if given) `filterBy` */
-  artifacts?: Maybe<ArtifactPage>;
-};
-
+export type Component = Node &
+  IssueLocation & {
+    /**
+     * The ID of this Component. Every Component will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the Component (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the Component was first created on */
+    createdAt: Scalars['Date'];
+    /**
+     * The (non unique) display name of this Component
+     *
+     * Max. 256 characters
+     */
+    name: Scalars['String'];
+    /**
+     * A textual description (of the function) of this Component.
+     *
+     * Max. 65536 characters
+     */
+    description: Scalars['String'];
+    /** Date when the name, description or any other field directly on Component was last updated */
+    lastUpdatedAt: Scalars['Date'];
+    /** All Issues that are assinged to on this Component matching (if given) `filterBy` */
+    issuesOnLocation?: Maybe<IssuePage>;
+    /**
+     * The URL where the code repository of this component is located
+     *
+     * Max. 65536 characters
+     */
+    repositoryURL?: Maybe<Scalars['String']>;
+    /** All issues that are mirrored on this component (not the issue location but the ims) matching (if given) `filterBy` */
+    issues?: Maybe<IssuePage>;
+    /** All projects that this component is assigned to matching the `filterBy` */
+    projects?: Maybe<ProjectPage>;
+    /** Requests component interfaces which this component offers */
+    interfaces?: Maybe<ComponentInterfacePage>;
+    /** Requests component interfaces that are used/consumed by this component */
+    consumedInterfaces?: Maybe<ComponentInterfacePage>;
+    /** All labels which are available on this component, matching (if given) `filterBy` */
+    labels?: Maybe<LabelPage>;
+    /** All IMSComponents which this component is synced to, matching (if given) `filterBy` */
+    imsComponents?: Maybe<ImsComponentPage>;
+    /** All Artifacts on this Component, matching (if given) `filterBy` */
+    artifacts?: Maybe<ArtifactPage>;
+  };
 
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentIssuesOnLocationArgs = {
@@ -788,10 +782,9 @@ export type ComponentIssuesOnLocationArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentIssuesArgs = {
@@ -802,10 +795,9 @@ export type ComponentIssuesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentProjectsArgs = {
@@ -816,10 +808,9 @@ export type ComponentProjectsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentInterfacesArgs = {
@@ -830,10 +821,9 @@ export type ComponentInterfacesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentConsumedInterfacesArgs = {
@@ -844,10 +834,9 @@ export type ComponentConsumedInterfacesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentLabelsArgs = {
@@ -858,10 +847,9 @@ export type ComponentLabelsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentImsComponentsArgs = {
@@ -872,10 +860,9 @@ export type ComponentImsComponentsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * A component known to ccims.
- * 
+ *
  * A component can have issues and can be assigned to multiple projects. (NOTE: One IMS per component)
  */
 export type ComponentArtifactsArgs = {
@@ -887,45 +874,45 @@ export type ComponentArtifactsArgs = {
 };
 
 /** An interface offered by a component which can be counsumed by other components */
-export type ComponentInterface = Node & IssueLocation & {
-  /**
-   * The ID of this ComponentInterface. Every ComponentInterface will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the ComponentInterface (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the ComponentInterface was first created on */
-  createdAt: Scalars['Date'];
-  /**
-   * The (non unique) display name of this ComponentInterface
-   * 
-   * Max. 256 characters
-   */
-  name: Scalars['String'];
-  /**
-   * A textual description (of the function) of this ComponentInterface.
-   * 
-   * Max. 65536 characters
-   */
-  description: Scalars['String'];
-  /** Date when the name, description or any other field directly on ComponentInterface was last updated */
-  lastUpdatedAt: Scalars['Date'];
-  /** All Issues that are assinged to on this ComponentInterface matching (if given) `filterBy` */
-  issuesOnLocation?: Maybe<IssuePage>;
-  /** The type of the ComponentInterface */
-  type: Scalars['String'];
-  /** The parent component of this interface which offers it, null if deleted */
-  component?: Maybe<Component>;
-  /**
-   * Components which consume the interface and match the filter.
-   * 
-   * If no filter is given, all components will be returned
-   */
-  consumedBy?: Maybe<ComponentPage>;
-};
-
+export type ComponentInterface = Node &
+  IssueLocation & {
+    /**
+     * The ID of this ComponentInterface. Every ComponentInterface will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the ComponentInterface (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the ComponentInterface was first created on */
+    createdAt: Scalars['Date'];
+    /**
+     * The (non unique) display name of this ComponentInterface
+     *
+     * Max. 256 characters
+     */
+    name: Scalars['String'];
+    /**
+     * A textual description (of the function) of this ComponentInterface.
+     *
+     * Max. 65536 characters
+     */
+    description: Scalars['String'];
+    /** Date when the name, description or any other field directly on ComponentInterface was last updated */
+    lastUpdatedAt: Scalars['Date'];
+    /** All Issues that are assinged to on this ComponentInterface matching (if given) `filterBy` */
+    issuesOnLocation?: Maybe<IssuePage>;
+    /** The type of the ComponentInterface */
+    type: Scalars['String'];
+    /** The parent component of this interface which offers it, null if deleted */
+    component?: Maybe<Component>;
+    /**
+     * Components which consume the interface and match the filter.
+     *
+     * If no filter is given, all components will be returned
+     */
+    consumedBy?: Maybe<ComponentPage>;
+  };
 
 /** An interface offered by a component which can be counsumed by other components */
 export type ComponentInterfaceIssuesOnLocationArgs = {
@@ -935,7 +922,6 @@ export type ComponentInterfaceIssuesOnLocationArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** An interface offered by a component which can be counsumed by other components */
 export type ComponentInterfaceConsumedByArgs = {
@@ -947,126 +933,126 @@ export type ComponentInterfaceConsumedByArgs = {
 };
 
 /** A cross component issue within ccims which links multiple issues from single ims */
-export type Issue = Comment & Node & {
-  /**
-   * The ID of this Issue. Every Issue will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the Issue (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the Issue was first created on */
-  createdAt: Scalars['Date'];
-  /**
-   * The body text of the Issue.
-   * Markdown supported.
-   * 
-   * Max. 65536 characters
-   */
-  body: Scalars['String'];
-  /** The body text of the Issue rendered to html */
-  bodyRendered: Scalars['String'];
-  /**
-   * `true` iff the User authenticated by the given JWT is permitted to edit this Issue.
-   * 
-   * This only refers to editing the core comment (title, body, etc.)
-   */
-  currentUserCanEdit: Scalars['Boolean'];
-  /** Date when the Issue's body was last edited */
-  lastEditedAt: Scalars['Date'];
-  /** All Users who edited this Issue (body and/or title) */
-  editedBy?: Maybe<UserPage>;
-  /** All reactions that have been added to the body of this issue */
-  reactions?: Maybe<ReactionGroupPage>;
-  /**
-   * The title to display for this issue.
-   * 
-   * Not unique; Max. 256 characters
-   */
-  title: Scalars['String'];
-  /** Date when any update / activity was made to any part of the issue (__including__ title, commens, reactions) */
-  lastUpdatedAt: Scalars['Date'];
-  /** `true` iff the issue is open at this point */
-  isOpen: Scalars['Boolean'];
-  /** Weather or not this issue has been marked as duplicate of another issue */
-  isDuplicate: Scalars['Boolean'];
-  /**
-   * The ccims-issue-category the issue belongs to.
-   * 
-   * This can be one of BUG,FEATURE_REQUEST or UNCLASSIFIED
-   */
-  category: IssueCategory;
-  /** `true` iff the user authenticated by the given JWT is permitted to comment on this issue. */
-  currentUserCanComment: Scalars['Boolean'];
-  /**
-   * A start date set for start of work on this issue.
-   * 
-   * This is only for displaying and has no effect on the ccims but will be synce to other ims
-   */
-  startDate?: Maybe<Scalars['Date']>;
-  /**
-   * A due date set when work on the issue must be done.
-   * 
-   * This is only for displaying and has no effect on the ccims but will be synce to other ims
-   */
-  dueDate?: Maybe<Scalars['Date']>;
-  /**
-   * The time estimated needed for work on this issue.
-   * 
-   * This is only for displaying and has no effect on the ccims but will be synce to other ims
-   */
-  estimatedTime?: Maybe<Scalars['TimeSpan']>;
-  /**
-   * The time already spent on work on this issue.
-   * 
-   * This is only for displaying and has no effect on the ccims but will be synce to other ims
-   */
-  spentTime?: Maybe<Scalars['TimeSpan']>;
-  /** All issue comments on this issue */
-  issueComments?: Maybe<IssueCommentPage>;
-  /**
-   * All issues linked to from issue (this issue is __origin__ of relation, matching the given filter.
-   * If no filter is given, all issues will be returned
-   */
-  linksToIssues?: Maybe<IssuePage>;
-  /**
-   * All issues linking to this issue (this issue is __destination__ of relation), matching the given filter.
-   * If no filter is given, all issues will be returned
-   */
-  linkedByIssues?: Maybe<IssuePage>;
-  /**
-   * All users who are explicitely assigned to issue, matching the given filter.
-   * If no filter is given, all issues will be returned
-   */
-  assignees?: Maybe<UserPage>;
-  /** All labels that are currently assigned to this issue */
-  labels?: Maybe<LabelPage>;
-  /**
-   * All users participating on this issue (by writing a comment, etc.), matching the given filter.
-   * If no filter is given, all users will be returned
-   */
-  participants?: Maybe<UserPage>;
-  /**
-   * All components where this issue has been pinned, matching the given filter.
-   * If no filter is given, all components will be returned
-   */
-  pinnedOn?: Maybe<ComponentPage>;
-  /** All timeline events for this issue in chonological order from oldest to newest, matching (if given) `filterBy` */
-  timeline?: Maybe<IssueTimelineItemPage>;
-  /** All issue locations this issue is assigned to, matching (if given) `filterBy` */
-  locations?: Maybe<IssueLocationPage>;
-  /** All components this issue is on */
-  components?: Maybe<ComponentPage>;
-  /** All Artifacts that are currently assigned to this Issue, matching (if given) `filterBy */
-  artifacts?: Maybe<ArtifactPage>;
-  /**
-   * All NonFunctionalConstraints on this Issue, matching (if given) `filterBy.
-   * WARNING: if filterBy.isActive is not set, ALL NonFunctionalConstraints are returned
-   */
-  nonFunctionalConstraints?: Maybe<NonFunctionalConstraintPage>;
-};
-
+export type Issue = Comment &
+  Node & {
+    /**
+     * The ID of this Issue. Every Issue will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the Issue (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the Issue was first created on */
+    createdAt: Scalars['Date'];
+    /**
+     * The body text of the Issue.
+     * Markdown supported.
+     *
+     * Max. 65536 characters
+     */
+    body: Scalars['String'];
+    /** The body text of the Issue rendered to html */
+    bodyRendered: Scalars['String'];
+    /**
+     * `true` iff the User authenticated by the given JWT is permitted to edit this Issue.
+     *
+     * This only refers to editing the core comment (title, body, etc.)
+     */
+    currentUserCanEdit: Scalars['Boolean'];
+    /** Date when the Issue's body was last edited */
+    lastEditedAt: Scalars['Date'];
+    /** All Users who edited this Issue (body and/or title) */
+    editedBy?: Maybe<UserPage>;
+    /** All reactions that have been added to the body of this issue */
+    reactions?: Maybe<ReactionGroupPage>;
+    /**
+     * The title to display for this issue.
+     *
+     * Not unique; Max. 256 characters
+     */
+    title: Scalars['String'];
+    /** Date when any update / activity was made to any part of the issue (__including__ title, commens, reactions) */
+    lastUpdatedAt: Scalars['Date'];
+    /** `true` iff the issue is open at this point */
+    isOpen: Scalars['Boolean'];
+    /** Weather or not this issue has been marked as duplicate of another issue */
+    isDuplicate: Scalars['Boolean'];
+    /**
+     * The ccims-issue-category the issue belongs to.
+     *
+     * This can be one of BUG,FEATURE_REQUEST or UNCLASSIFIED
+     */
+    category: IssueCategory;
+    /** `true` iff the user authenticated by the given JWT is permitted to comment on this issue. */
+    currentUserCanComment: Scalars['Boolean'];
+    /**
+     * A start date set for start of work on this issue.
+     *
+     * This is only for displaying and has no effect on the ccims but will be synce to other ims
+     */
+    startDate?: Maybe<Scalars['Date']>;
+    /**
+     * A due date set when work on the issue must be done.
+     *
+     * This is only for displaying and has no effect on the ccims but will be synce to other ims
+     */
+    dueDate?: Maybe<Scalars['Date']>;
+    /**
+     * The time estimated needed for work on this issue.
+     *
+     * This is only for displaying and has no effect on the ccims but will be synce to other ims
+     */
+    estimatedTime?: Maybe<Scalars['TimeSpan']>;
+    /**
+     * The time already spent on work on this issue.
+     *
+     * This is only for displaying and has no effect on the ccims but will be synce to other ims
+     */
+    spentTime?: Maybe<Scalars['TimeSpan']>;
+    /** All issue comments on this issue */
+    issueComments?: Maybe<IssueCommentPage>;
+    /**
+     * All issues linked to from issue (this issue is __origin__ of relation, matching the given filter.
+     * If no filter is given, all issues will be returned
+     */
+    linksToIssues?: Maybe<IssuePage>;
+    /**
+     * All issues linking to this issue (this issue is __destination__ of relation), matching the given filter.
+     * If no filter is given, all issues will be returned
+     */
+    linkedByIssues?: Maybe<IssuePage>;
+    /**
+     * All users who are explicitely assigned to issue, matching the given filter.
+     * If no filter is given, all issues will be returned
+     */
+    assignees?: Maybe<UserPage>;
+    /** All labels that are currently assigned to this issue */
+    labels?: Maybe<LabelPage>;
+    /**
+     * All users participating on this issue (by writing a comment, etc.), matching the given filter.
+     * If no filter is given, all users will be returned
+     */
+    participants?: Maybe<UserPage>;
+    /**
+     * All components where this issue has been pinned, matching the given filter.
+     * If no filter is given, all components will be returned
+     */
+    pinnedOn?: Maybe<ComponentPage>;
+    /** All timeline events for this issue in chonological order from oldest to newest, matching (if given) `filterBy` */
+    timeline?: Maybe<IssueTimelineItemPage>;
+    /** All issue locations this issue is assigned to, matching (if given) `filterBy` */
+    locations?: Maybe<IssueLocationPage>;
+    /** All components this issue is on */
+    components?: Maybe<ComponentPage>;
+    /** All Artifacts that are currently assigned to this Issue, matching (if given) `filterBy */
+    artifacts?: Maybe<ArtifactPage>;
+    /**
+     * All NonFunctionalConstraints on this Issue, matching (if given) `filterBy.
+     * WARNING: if filterBy.isActive is not set, ALL NonFunctionalConstraints are returned
+     */
+    nonFunctionalConstraints?: Maybe<NonFunctionalConstraintPage>;
+  };
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueEditedByArgs = {
@@ -1077,7 +1063,6 @@ export type IssueEditedByArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueReactionsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1086,7 +1071,6 @@ export type IssueReactionsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueIssueCommentsArgs = {
@@ -1097,7 +1081,6 @@ export type IssueIssueCommentsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueLinksToIssuesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1106,7 +1089,6 @@ export type IssueLinksToIssuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueLinkedByIssuesArgs = {
@@ -1117,7 +1099,6 @@ export type IssueLinkedByIssuesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueAssigneesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1126,7 +1107,6 @@ export type IssueAssigneesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueLabelsArgs = {
@@ -1137,7 +1117,6 @@ export type IssueLabelsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueParticipantsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1146,7 +1125,6 @@ export type IssueParticipantsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssuePinnedOnArgs = {
@@ -1157,7 +1135,6 @@ export type IssuePinnedOnArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueTimelineArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1166,7 +1143,6 @@ export type IssueTimelineArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueLocationsArgs = {
@@ -1177,7 +1153,6 @@ export type IssueLocationsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueComponentsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1187,7 +1162,6 @@ export type IssueComponentsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueArtifactsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1196,7 +1170,6 @@ export type IssueArtifactsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A cross component issue within ccims which links multiple issues from single ims */
 export type IssueNonFunctionalConstraintsArgs = {
@@ -1209,13 +1182,13 @@ export type IssueNonFunctionalConstraintsArgs = {
 
 /**
  * A location an issue can be assigned to
- * 
+ *
  * Currently this can be either a component or an interface
  */
 export type IssueLocation = {
   /**
    * The ID of this IssueLocation. Every IssueLocation will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -1225,13 +1198,13 @@ export type IssueLocation = {
   createdAt: Scalars['Date'];
   /**
    * The (non unique) display name of this IssueLocation
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * A textual description (of the function) of this IssueLocation.
-   * 
+   *
    * Max. 65536 characters
    */
   description: Scalars['String'];
@@ -1241,10 +1214,9 @@ export type IssueLocation = {
   issuesOnLocation?: Maybe<IssuePage>;
 };
 
-
 /**
  * A location an issue can be assigned to
- * 
+ *
  * Currently this can be either a component or an interface
  */
 export type IssueLocationIssuesOnLocationArgs = {
@@ -1259,7 +1231,7 @@ export type IssueLocationIssuesOnLocationArgs = {
 export type IssueTimelineItem = {
   /**
    * The ID of this IssueTimelineItem. Every IssueTimelineItem will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -1275,7 +1247,7 @@ export type IssueTimelineItem = {
 export type Label = Node & {
   /**
    * The ID of this Label. Every Label will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -1285,13 +1257,13 @@ export type Label = Node & {
   createdAt: Scalars['Date'];
   /**
    * The (non unique) display name of this Label
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * A textual description (of the function) of this Label.
-   * 
+   *
    * Max. 65536 characters
    */
   description: Scalars['String'];
@@ -1305,7 +1277,6 @@ export type Label = Node & {
   projects?: Maybe<ProjectPage>;
 };
 
-
 /** A label assignable to issues. A label is per-component */
 export type LabelComponentsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1314,7 +1285,6 @@ export type LabelComponentsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A label assignable to issues. A label is per-component */
 export type LabelProjectsArgs = {
@@ -1329,7 +1299,7 @@ export type LabelProjectsArgs = {
 export type ReactionGroup = Node & {
   /**
    * The ID of this ReactionGroup. Every ReactionGroup will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -1338,7 +1308,6 @@ export type ReactionGroup = Node & {
   /** Users who reacted with this reaction. */
   users?: Maybe<UserPage>;
 };
-
 
 /** A relation of users who have reacted with a certain reaction to something */
 export type ReactionGroupUsersArgs = {
@@ -1353,19 +1322,19 @@ export type ReactionGroupUsersArgs = {
 export type Project = Node & {
   /**
    * The ID of this Project. Every Project will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
   /**
    * The (non unique) display name of this Project
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * A textual description (of the function) of this Project.
-   * 
+   *
    * Max. 65536 characters
    */
   description: Scalars['String'];
@@ -1384,7 +1353,6 @@ export type Project = Node & {
   artifacts?: Maybe<ArtifactPage>;
 };
 
-
 /** A project is a one unit in which the participating components colaborate */
 export type ProjectComponentsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1393,7 +1361,6 @@ export type ProjectComponentsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A project is a one unit in which the participating components colaborate */
 export type ProjectInterfacesArgs = {
@@ -1404,7 +1371,6 @@ export type ProjectInterfacesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A project is a one unit in which the participating components colaborate */
 export type ProjectIssuesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1414,7 +1380,6 @@ export type ProjectIssuesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A project is a one unit in which the participating components colaborate */
 export type ProjectLabelsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1423,7 +1388,6 @@ export type ProjectLabelsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A project is a one unit in which the participating components colaborate */
 export type ProjectArtifactsArgs = {
@@ -1438,7 +1402,7 @@ export type ProjectArtifactsArgs = {
 export type User = {
   /**
    * The ID of this User. Every User will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -1456,7 +1420,6 @@ export type User = {
   issueComments?: Maybe<IssueCommentPage>;
 };
 
-
 /** A user registered  */
 export type UserAssignedToIssuesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1466,7 +1429,6 @@ export type UserAssignedToIssuesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A user registered  */
 export type UserParticipantOfIssuesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -1475,7 +1437,6 @@ export type UserParticipantOfIssuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A user registered  */
 export type UserIssueCommentsArgs = {
@@ -1487,210 +1448,220 @@ export type UserIssueCommentsArgs = {
 };
 
 /** An AddedToComponentEvent in the timeline of an issue with a date and a creator */
-export type AddedToComponentEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this AddedToComponentEvent. Every AddedToComponentEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the AddedToComponentEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the AddedToComponentEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this AddedToComponentEvent belongs to */
-  issue: Issue;
-  /** The component the issue was added to, null if deleted */
-  component?: Maybe<Component>;
-};
+export type AddedToComponentEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this AddedToComponentEvent. Every AddedToComponentEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the AddedToComponentEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the AddedToComponentEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this AddedToComponentEvent belongs to */
+    issue: Issue;
+    /** The component the issue was added to, null if deleted */
+    component?: Maybe<Component>;
+  };
 
 /** An AddedToLocationEvent in the timeline of an issue with a date and a creator */
-export type AddedToLocationEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this AddedToLocationEvent. Every AddedToLocationEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the AddedToLocationEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the AddedToLocationEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this AddedToLocationEvent belongs to */
-  issue: Issue;
-  /** The location the issue was added to, null if deleted */
-  location?: Maybe<IssueLocation>;
-};
+export type AddedToLocationEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this AddedToLocationEvent. Every AddedToLocationEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the AddedToLocationEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the AddedToLocationEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this AddedToLocationEvent belongs to */
+    issue: Issue;
+    /** The location the issue was added to, null if deleted */
+    location?: Maybe<IssueLocation>;
+  };
 
 /** An ClosedEvent in the timeline of an issue with a date and a creator */
-export type ClosedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this ClosedEvent. Every ClosedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the ClosedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the ClosedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this ClosedEvent belongs to */
-  issue: Issue;
-};
+export type ClosedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this ClosedEvent. Every ClosedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the ClosedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the ClosedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this ClosedEvent belongs to */
+    issue: Issue;
+  };
 
 /** An AssignedEvent in the timeline of an issue with a date and a creator */
-export type AssignedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this AssignedEvent. Every AssignedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the AssignedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the AssignedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this AssignedEvent belongs to */
-  issue: Issue;
-  /** The user which was newly assigned to this issue, null if deleted */
-  assignee?: Maybe<User>;
-};
+export type AssignedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this AssignedEvent. Every AssignedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the AssignedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the AssignedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this AssignedEvent belongs to */
+    issue: Issue;
+    /** The user which was newly assigned to this issue, null if deleted */
+    assignee?: Maybe<User>;
+  };
 
 /** An CategoryChangedEvent in the timeline of an issue with a date and a creator */
-export type CategoryChangedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this CategoryChangedEvent. Every CategoryChangedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the CategoryChangedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the CategoryChangedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this CategoryChangedEvent belongs to */
-  issue: Issue;
-  /** The old category of the issue */
-  oldCategory: IssueCategory;
-  /** The new updated issue category */
-  newCategory: IssueCategory;
-};
+export type CategoryChangedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this CategoryChangedEvent. Every CategoryChangedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the CategoryChangedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the CategoryChangedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this CategoryChangedEvent belongs to */
+    issue: Issue;
+    /** The old category of the issue */
+    oldCategory: IssueCategory;
+    /** The new updated issue category */
+    newCategory: IssueCategory;
+  };
 
 /** An DueDateChangedEvent in the timeline of an issue with a date and a creator */
-export type DueDateChangedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this DueDateChangedEvent. Every DueDateChangedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the DueDateChangedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the DueDateChangedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this DueDateChangedEvent belongs to */
-  issue: Issue;
-  /** The old due date */
-  oldDueDate?: Maybe<Scalars['Date']>;
-  /** The new due date for the issue */
-  newDueDate?: Maybe<Scalars['Date']>;
-};
+export type DueDateChangedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this DueDateChangedEvent. Every DueDateChangedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the DueDateChangedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the DueDateChangedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this DueDateChangedEvent belongs to */
+    issue: Issue;
+    /** The old due date */
+    oldDueDate?: Maybe<Scalars['Date']>;
+    /** The new due date for the issue */
+    newDueDate?: Maybe<Scalars['Date']>;
+  };
 
 /** An DeletedIssueComment in the timeline of an issue with a date and a creator */
-export type DeletedIssueComment = IssueTimelineItem & Node & {
-  /**
-   * The ID of this DeletedIssueComment. Every DeletedIssueComment will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the DeletedIssueComment (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the DeletedIssueComment was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this DeletedIssueComment belongs to */
-  issue: Issue;
-  /** The user who __deleted__ the comment */
-  deletedBy?: Maybe<User>;
-  /** The date the comment was deleted */
-  deletedAt?: Maybe<Scalars['Date']>;
-};
+export type DeletedIssueComment = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this DeletedIssueComment. Every DeletedIssueComment will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the DeletedIssueComment (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the DeletedIssueComment was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this DeletedIssueComment belongs to */
+    issue: Issue;
+    /** The user who __deleted__ the comment */
+    deletedBy?: Maybe<User>;
+    /** The date the comment was deleted */
+    deletedAt?: Maybe<Scalars['Date']>;
+  };
 
 /** An EstimatedTimeChangedEvent in the timeline of an issue with a date and a creator */
-export type EstimatedTimeChangedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this EstimatedTimeChangedEvent. Every EstimatedTimeChangedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the EstimatedTimeChangedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the EstimatedTimeChangedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this EstimatedTimeChangedEvent belongs to */
-  issue: Issue;
-  /** The old time estimate for the issue */
-  oldEstimatedTime?: Maybe<Scalars['TimeSpan']>;
-  /** The new updated time estimate for the issue */
-  newEstimatedTime?: Maybe<Scalars['TimeSpan']>;
-};
+export type EstimatedTimeChangedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this EstimatedTimeChangedEvent. Every EstimatedTimeChangedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the EstimatedTimeChangedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the EstimatedTimeChangedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this EstimatedTimeChangedEvent belongs to */
+    issue: Issue;
+    /** The old time estimate for the issue */
+    oldEstimatedTime?: Maybe<Scalars['TimeSpan']>;
+    /** The new updated time estimate for the issue */
+    newEstimatedTime?: Maybe<Scalars['TimeSpan']>;
+  };
 
 /** An LabelledEvent in the timeline of an issue with a date and a creator */
-export type LabelledEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this LabelledEvent. Every LabelledEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the LabelledEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the LabelledEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this LabelledEvent belongs to */
-  issue: Issue;
-  /** The label which was added to the issue, null if deleted */
-  label?: Maybe<Label>;
-};
+export type LabelledEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this LabelledEvent. Every LabelledEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the LabelledEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the LabelledEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this LabelledEvent belongs to */
+    issue: Issue;
+    /** The label which was added to the issue, null if deleted */
+    label?: Maybe<Label>;
+  };
 
 /** A commemt on an issue. Not including th issue body itself */
-export type IssueComment = IssueTimelineItem & Comment & Node & {
-  /**
-   * The ID of this IssueComment. Every IssueComment will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the IssueComment (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the IssueComment was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this IssueComment belongs to */
-  issue: Issue;
-  /**
-   * The body text of the IssueComment.
-   * Markdown supported.
-   * 
-   * Max. 65536 characters
-   */
-  body: Scalars['String'];
-  /** The body text of the IssueComment rendered to html */
-  bodyRendered: Scalars['String'];
-  /**
-   * `true` iff the User authenticated by the given JWT is permitted to edit this IssueComment.
-   * 
-   * This only refers to editing the core comment (title, body, etc.)
-   */
-  currentUserCanEdit: Scalars['Boolean'];
-  /** Date when the IssueComment's body was last edited */
-  lastEditedAt: Scalars['Date'];
-  /** All Users who edited this IssueComment (body and/or title) */
-  editedBy?: Maybe<UserPage>;
-  /** All reactions that have been added to this IssueComment */
-  reactions?: Maybe<ReactionGroupPage>;
-};
-
+export type IssueComment = IssueTimelineItem &
+  Comment &
+  Node & {
+    /**
+     * The ID of this IssueComment. Every IssueComment will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the IssueComment (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the IssueComment was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this IssueComment belongs to */
+    issue: Issue;
+    /**
+     * The body text of the IssueComment.
+     * Markdown supported.
+     *
+     * Max. 65536 characters
+     */
+    body: Scalars['String'];
+    /** The body text of the IssueComment rendered to html */
+    bodyRendered: Scalars['String'];
+    /**
+     * `true` iff the User authenticated by the given JWT is permitted to edit this IssueComment.
+     *
+     * This only refers to editing the core comment (title, body, etc.)
+     */
+    currentUserCanEdit: Scalars['Boolean'];
+    /** Date when the IssueComment's body was last edited */
+    lastEditedAt: Scalars['Date'];
+    /** All Users who edited this IssueComment (body and/or title) */
+    editedBy?: Maybe<UserPage>;
+    /** All reactions that have been added to this IssueComment */
+    reactions?: Maybe<ReactionGroupPage>;
+  };
 
 /** A commemt on an issue. Not including th issue body itself */
 export type IssueCommentEditedByArgs = {
@@ -1700,7 +1671,6 @@ export type IssueCommentEditedByArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A commemt on an issue. Not including th issue body itself */
 export type IssueCommentReactionsArgs = {
@@ -1712,369 +1682,387 @@ export type IssueCommentReactionsArgs = {
 };
 
 /** An MarkedAsDuplicateEvent in the timeline of an issue with a date and a creator */
-export type MarkedAsDuplicateEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this MarkedAsDuplicateEvent. Every MarkedAsDuplicateEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the MarkedAsDuplicateEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the MarkedAsDuplicateEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this MarkedAsDuplicateEvent belongs to */
-  issue: Issue;
-  /** The issue of which __this__ issue is a duplicate, null if deleted */
-  originalIssue?: Maybe<Issue>;
-};
+export type MarkedAsDuplicateEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this MarkedAsDuplicateEvent. Every MarkedAsDuplicateEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the MarkedAsDuplicateEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the MarkedAsDuplicateEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this MarkedAsDuplicateEvent belongs to */
+    issue: Issue;
+    /** The issue of which __this__ issue is a duplicate, null if deleted */
+    originalIssue?: Maybe<Issue>;
+  };
 
 /** An LinkEvent in the timeline of an issue with a date and a creator */
-export type LinkEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this LinkEvent. Every LinkEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the LinkEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the LinkEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this LinkEvent belongs to */
-  issue: Issue;
-  /** The issue that was linked __to__ (__from__ this issue), nul if deleted */
-  linkedIssue?: Maybe<Issue>;
-};
+export type LinkEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this LinkEvent. Every LinkEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the LinkEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the LinkEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this LinkEvent belongs to */
+    issue: Issue;
+    /** The issue that was linked __to__ (__from__ this issue), nul if deleted */
+    linkedIssue?: Maybe<Issue>;
+  };
 
 /** An PinnedEvent in the timeline of an issue with a date and a creator */
-export type PinnedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this PinnedEvent. Every PinnedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the PinnedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the PinnedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this PinnedEvent belongs to */
-  issue: Issue;
-  /** The component the issue was pinned on, null if deleted */
-  component?: Maybe<Component>;
-};
+export type PinnedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this PinnedEvent. Every PinnedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the PinnedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the PinnedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this PinnedEvent belongs to */
+    issue: Issue;
+    /** The component the issue was pinned on, null if deleted */
+    component?: Maybe<Component>;
+  };
 
 /**
  * An ReferencedByIssueEvent in the timeline of an issue with a date and a creator
- * 
+ *
  * This occurs if this issue is referenced by another known issue
  */
-export type ReferencedByIssueEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this ReferencedByIssueEvent. Every ReferencedByIssueEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the ReferencedByIssueEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the ReferencedByIssueEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this ReferencedByIssueEvent belongs to */
-  issue: Issue;
-  /** The issue by which this issue was referenced */
-  mentionedAt?: Maybe<Issue>;
-  /** The comment in which the reference to this issue was made */
-  mentionedInComment?: Maybe<IssueComment>;
-};
+export type ReferencedByIssueEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this ReferencedByIssueEvent. Every ReferencedByIssueEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the ReferencedByIssueEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the ReferencedByIssueEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this ReferencedByIssueEvent belongs to */
+    issue: Issue;
+    /** The issue by which this issue was referenced */
+    mentionedAt?: Maybe<Issue>;
+    /** The comment in which the reference to this issue was made */
+    mentionedInComment?: Maybe<IssueComment>;
+  };
 
 /** An PriorityChangedEvent in the timeline of an issue with a date and a creator */
-export type PriorityChangedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this PriorityChangedEvent. Every PriorityChangedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the PriorityChangedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the PriorityChangedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this PriorityChangedEvent belongs to */
-  issue: Issue;
-  /** The old priority of the issue */
-  oldPriority?: Maybe<Priority>;
-  /** The new updated priority of the issue */
-  newPriority?: Maybe<Priority>;
-};
+export type PriorityChangedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this PriorityChangedEvent. Every PriorityChangedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the PriorityChangedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the PriorityChangedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this PriorityChangedEvent belongs to */
+    issue: Issue;
+    /** The old priority of the issue */
+    oldPriority?: Maybe<Priority>;
+    /** The new updated priority of the issue */
+    newPriority?: Maybe<Priority>;
+  };
 
 /** An RemovedFromComponentEvent in the timeline of an issue with a date and a creator */
-export type RemovedFromComponentEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this RemovedFromComponentEvent. Every RemovedFromComponentEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the RemovedFromComponentEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the RemovedFromComponentEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this RemovedFromComponentEvent belongs to */
-  issue: Issue;
-  /** The component the issue was removed from, null if deleted */
-  removedComponent?: Maybe<Component>;
-};
+export type RemovedFromComponentEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this RemovedFromComponentEvent. Every RemovedFromComponentEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the RemovedFromComponentEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the RemovedFromComponentEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this RemovedFromComponentEvent belongs to */
+    issue: Issue;
+    /** The component the issue was removed from, null if deleted */
+    removedComponent?: Maybe<Component>;
+  };
 
 /**
  * An ReferencedByOtherEvent in the timeline of an issue with a date and a creator.
- * 
+ *
  * This occures if this issue is referenced outside of an issue (e.g. pull request etc.)
  */
-export type ReferencedByOtherEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this ReferencedByOtherEvent. Every ReferencedByOtherEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the ReferencedByOtherEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the ReferencedByOtherEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this ReferencedByOtherEvent belongs to */
-  issue: Issue;
-  /** The component from which this issue was referenced, null if deleted */
-  component?: Maybe<Component>;
-  /** A human readable name of the source of the reference (e.g. 'Pull request #2') */
-  source?: Maybe<Scalars['String']>;
-  /** An URL to where the issue was linked from */
-  sourceURL?: Maybe<Scalars['String']>;
-};
+export type ReferencedByOtherEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this ReferencedByOtherEvent. Every ReferencedByOtherEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the ReferencedByOtherEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the ReferencedByOtherEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this ReferencedByOtherEvent belongs to */
+    issue: Issue;
+    /** The component from which this issue was referenced, null if deleted */
+    component?: Maybe<Component>;
+    /** A human readable name of the source of the reference (e.g. 'Pull request #2') */
+    source?: Maybe<Scalars['String']>;
+    /** An URL to where the issue was linked from */
+    sourceURL?: Maybe<Scalars['String']>;
+  };
 
 /** An RemovedFromLocationEvent in the timeline of an issue with a date and a creator */
-export type RemovedFromLocationEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this RemovedFromLocationEvent. Every RemovedFromLocationEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the RemovedFromLocationEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the RemovedFromLocationEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this RemovedFromLocationEvent belongs to */
-  issue: Issue;
-  /** The location the issue was removed from, null if deleted */
-  removedLocation?: Maybe<IssueLocation>;
-};
+export type RemovedFromLocationEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this RemovedFromLocationEvent. Every RemovedFromLocationEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the RemovedFromLocationEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the RemovedFromLocationEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this RemovedFromLocationEvent belongs to */
+    issue: Issue;
+    /** The location the issue was removed from, null if deleted */
+    removedLocation?: Maybe<IssueLocation>;
+  };
 
 /** An ReopenedEvent in the timeline of an issue with a date and a creator */
-export type ReopenedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this ReopenedEvent. Every ReopenedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the ReopenedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the ReopenedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this ReopenedEvent belongs to */
-  issue: Issue;
-};
+export type ReopenedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this ReopenedEvent. Every ReopenedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the ReopenedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the ReopenedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this ReopenedEvent belongs to */
+    issue: Issue;
+  };
 
 /** An StartDateChangedEvent in the timeline of an issue with a date and a creator */
-export type StartDateChangedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this StartDateChangedEvent. Every StartDateChangedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the StartDateChangedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the StartDateChangedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this StartDateChangedEvent belongs to */
-  issue: Issue;
-  /** The start date set for the issue before it was changed */
-  oldStartDate?: Maybe<Scalars['Date']>;
-  /** The new set start date for the issue */
-  newStartDate?: Maybe<Scalars['Date']>;
-};
+export type StartDateChangedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this StartDateChangedEvent. Every StartDateChangedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the StartDateChangedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the StartDateChangedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this StartDateChangedEvent belongs to */
+    issue: Issue;
+    /** The start date set for the issue before it was changed */
+    oldStartDate?: Maybe<Scalars['Date']>;
+    /** The new set start date for the issue */
+    newStartDate?: Maybe<Scalars['Date']>;
+  };
 
 /** An RenamedTitleEvent in the timeline of an issue with a date and a creator */
-export type RenamedTitleEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this RenamedTitleEvent. Every RenamedTitleEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the RenamedTitleEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the RenamedTitleEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this RenamedTitleEvent belongs to */
-  issue: Issue;
-  /** The title of the issue before the change */
-  oldTitle: Scalars['String'];
-  /** The new updated title of the issue */
-  newTitle: Scalars['String'];
-};
+export type RenamedTitleEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this RenamedTitleEvent. Every RenamedTitleEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the RenamedTitleEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the RenamedTitleEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this RenamedTitleEvent belongs to */
+    issue: Issue;
+    /** The title of the issue before the change */
+    oldTitle: Scalars['String'];
+    /** The new updated title of the issue */
+    newTitle: Scalars['String'];
+  };
 
 /** An UnassignedEvent in the timeline of an issue with a date and a creator */
-export type UnassignedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this UnassignedEvent. Every UnassignedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the UnassignedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the UnassignedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this UnassignedEvent belongs to */
-  issue: Issue;
-  /** The user which was unassigned from this issue, null if deleted */
-  removedAssignee?: Maybe<User>;
-};
+export type UnassignedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this UnassignedEvent. Every UnassignedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the UnassignedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the UnassignedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this UnassignedEvent belongs to */
+    issue: Issue;
+    /** The user which was unassigned from this issue, null if deleted */
+    removedAssignee?: Maybe<User>;
+  };
 
 /** An UnlabelledEvent in the timeline of an issue with a date and a creator */
-export type UnlabelledEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this UnlabelledEvent. Every UnlabelledEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the UnlabelledEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the UnlabelledEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this UnlabelledEvent belongs to */
-  issue: Issue;
-  /** The label which was removed from the issue on this event, null if deleted */
-  removedLabel?: Maybe<Label>;
-};
+export type UnlabelledEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this UnlabelledEvent. Every UnlabelledEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the UnlabelledEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the UnlabelledEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this UnlabelledEvent belongs to */
+    issue: Issue;
+    /** The label which was removed from the issue on this event, null if deleted */
+    removedLabel?: Maybe<Label>;
+  };
 
 /** An WasLinkedEvent in the timeline of an issue with a date and a creator */
-export type WasLinkedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this WasLinkedEvent. Every WasLinkedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the WasLinkedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the WasLinkedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this WasLinkedEvent belongs to */
-  issue: Issue;
-  /** The issue which this issue is linked to after this event, null if deleted */
-  linkedBy?: Maybe<Issue>;
-};
+export type WasLinkedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this WasLinkedEvent. Every WasLinkedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the WasLinkedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the WasLinkedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this WasLinkedEvent belongs to */
+    issue: Issue;
+    /** The issue which this issue is linked to after this event, null if deleted */
+    linkedBy?: Maybe<Issue>;
+  };
 
 /** An UnmarkedAsDuplicateEvent in the timeline of an issue with a date and a creator */
-export type UnmarkedAsDuplicateEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this UnmarkedAsDuplicateEvent. Every UnmarkedAsDuplicateEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the UnmarkedAsDuplicateEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the UnmarkedAsDuplicateEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this UnmarkedAsDuplicateEvent belongs to */
-  issue: Issue;
-};
+export type UnmarkedAsDuplicateEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this UnmarkedAsDuplicateEvent. Every UnmarkedAsDuplicateEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the UnmarkedAsDuplicateEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the UnmarkedAsDuplicateEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this UnmarkedAsDuplicateEvent belongs to */
+    issue: Issue;
+  };
 
 /** An WasUnlinkedEvent in the timeline of an issue with a date and a creator */
-export type WasUnlinkedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this WasUnlinkedEvent. Every WasUnlinkedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the WasUnlinkedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the WasUnlinkedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this WasUnlinkedEvent belongs to */
-  issue: Issue;
-  /** The issue which this issue was linked to before this event, null if deleted */
-  unlinkedBy?: Maybe<Issue>;
-};
+export type WasUnlinkedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this WasUnlinkedEvent. Every WasUnlinkedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the WasUnlinkedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the WasUnlinkedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this WasUnlinkedEvent belongs to */
+    issue: Issue;
+    /** The issue which this issue was linked to before this event, null if deleted */
+    unlinkedBy?: Maybe<Issue>;
+  };
 
 /** An UnpinnedEvent in the timeline of an issue with a date and a creator */
-export type UnpinnedEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this UnpinnedEvent. Every UnpinnedEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the UnpinnedEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the UnpinnedEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this UnpinnedEvent belongs to */
-  issue: Issue;
-  /** The component the issue was previously pinned on, null if deleted */
-  component?: Maybe<Component>;
-};
+export type UnpinnedEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this UnpinnedEvent. Every UnpinnedEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the UnpinnedEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the UnpinnedEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this UnpinnedEvent belongs to */
+    issue: Issue;
+    /** The component the issue was previously pinned on, null if deleted */
+    component?: Maybe<Component>;
+  };
 
 /** An UnlinkEvent in the timeline of an issue with a date and a creator */
-export type UnlinkEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this UnlinkEvent. Every UnlinkEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the UnlinkEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the UnlinkEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this UnlinkEvent belongs to */
-  issue: Issue;
-  /** The issue this issue __linked to__ before this event */
-  removedLinkedIssue?: Maybe<Issue>;
-};
+export type UnlinkEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this UnlinkEvent. Every UnlinkEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the UnlinkEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the UnlinkEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this UnlinkEvent belongs to */
+    issue: Issue;
+    /** The issue this issue __linked to__ before this event */
+    removedLinkedIssue?: Maybe<Issue>;
+  };
 
 /** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
-export type CcimsUser = Node & User & {
-  /**
-   * The ID of this CCIMSUser. Every CCIMSUser will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The unique username used for login */
-  username: Scalars['String'];
-  /** The name of the CCIMSUser to display in the GUI */
-  displayName: Scalars['String'];
-  /** The mail address of the CCIMSUser */
-  email?: Maybe<Scalars['String']>;
-  /** All Issues that this the CCIMSUser is assigned to matching (if given) `filterBy` */
-  assignedToIssues?: Maybe<IssuePage>;
-  /** All Issues that this the CCIMSUser is a participant of matching (if given) `filterBy` */
-  participantOfIssues?: Maybe<IssuePage>;
-  /** All IssueComments (not including Issues) written by this CCIMSUser */
-  issueComments?: Maybe<IssueCommentPage>;
-  /** All IMSUsers of this CCIMSUser which match `filterBy` */
-  imsUsers?: Maybe<ImsUserPage>;
-};
-
+export type CcimsUser = Node &
+  User & {
+    /**
+     * The ID of this CCIMSUser. Every CCIMSUser will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The unique username used for login */
+    username: Scalars['String'];
+    /** The name of the CCIMSUser to display in the GUI */
+    displayName: Scalars['String'];
+    /** The mail address of the CCIMSUser */
+    email?: Maybe<Scalars['String']>;
+    /** All Issues that this the CCIMSUser is assigned to matching (if given) `filterBy` */
+    assignedToIssues?: Maybe<IssuePage>;
+    /** All Issues that this the CCIMSUser is a participant of matching (if given) `filterBy` */
+    participantOfIssues?: Maybe<IssuePage>;
+    /** All IssueComments (not including Issues) written by this CCIMSUser */
+    issueComments?: Maybe<IssueCommentPage>;
+    /** All IMSUsers of this CCIMSUser which match `filterBy` */
+    imsUsers?: Maybe<ImsUserPage>;
+  };
 
 /** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
 export type CcimsUserAssignedToIssuesArgs = {
@@ -2085,7 +2073,6 @@ export type CcimsUserAssignedToIssuesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
 export type CcimsUserParticipantOfIssuesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2095,7 +2082,6 @@ export type CcimsUserParticipantOfIssuesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
 export type CcimsUserIssueCommentsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2104,7 +2090,6 @@ export type CcimsUserIssueCommentsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A user of the ccims. Can be assigned to projects, components and can have multiple ims accounts */
 export type CcimsUserImsUsersArgs = {
@@ -2125,7 +2110,7 @@ export type ImsUserPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -2158,29 +2143,29 @@ export type ImsUserFilter = {
 };
 
 /** A user of the ims. Can be assigned to projects, components */
-export type ImsUser = Node & User & {
-  /**
-   * The ID of this IMSUser. Every IMSUser will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The unique username used */
-  username: Scalars['String'];
-  /** The name of the IMSUser to display in the GUI */
-  displayName: Scalars['String'];
-  /** The mail address of the IMSUser */
-  email?: Maybe<Scalars['String']>;
-  /** All Issues that this the IMSUser is assigned to matching (if given) `filterBy` */
-  assignedToIssues?: Maybe<IssuePage>;
-  /** All Issues that this the IMSUser is a participant of matching (if given) `filterBy` */
-  participantOfIssues?: Maybe<IssuePage>;
-  /** All IssueComments (not including Issues) written by this IMSUser */
-  issueComments?: Maybe<IssueCommentPage>;
-  /** The associated IMS of the user */
-  ims?: Maybe<Ims>;
-};
-
+export type ImsUser = Node &
+  User & {
+    /**
+     * The ID of this IMSUser. Every IMSUser will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The unique username used */
+    username: Scalars['String'];
+    /** The name of the IMSUser to display in the GUI */
+    displayName: Scalars['String'];
+    /** The mail address of the IMSUser */
+    email?: Maybe<Scalars['String']>;
+    /** All Issues that this the IMSUser is assigned to matching (if given) `filterBy` */
+    assignedToIssues?: Maybe<IssuePage>;
+    /** All Issues that this the IMSUser is a participant of matching (if given) `filterBy` */
+    participantOfIssues?: Maybe<IssuePage>;
+    /** All IssueComments (not including Issues) written by this IMSUser */
+    issueComments?: Maybe<IssueCommentPage>;
+    /** The associated IMS of the user */
+    ims?: Maybe<Ims>;
+  };
 
 /** A user of the ims. Can be assigned to projects, components */
 export type ImsUserAssignedToIssuesArgs = {
@@ -2191,7 +2176,6 @@ export type ImsUserAssignedToIssuesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** A user of the ims. Can be assigned to projects, components */
 export type ImsUserParticipantOfIssuesArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2200,7 +2184,6 @@ export type ImsUserParticipantOfIssuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** A user of the ims. Can be assigned to projects, components */
 export type ImsUserIssueCommentsArgs = {
@@ -2213,13 +2196,13 @@ export type ImsUserIssueCommentsArgs = {
 
 /**
  * An issue management system. This will be an __instance__ of one of the available IMS Types.
- * 
+ *
  * E.g. a GitHub Enterprise instance, or GitHub itself.
  */
 export type Ims = Node & {
   /**
    * The ID of this IMS. Every IMS will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -2231,10 +2214,9 @@ export type Ims = Node & {
   imsComponents?: Maybe<ImsComponentPage>;
 };
 
-
 /**
  * An issue management system. This will be an __instance__ of one of the available IMS Types.
- * 
+ *
  * E.g. a GitHub Enterprise instance, or GitHub itself.
  */
 export type ImsUsersArgs = {
@@ -2245,10 +2227,9 @@ export type ImsUsersArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /**
  * An issue management system. This will be an __instance__ of one of the available IMS Types.
- * 
+ *
  * E.g. a GitHub Enterprise instance, or GitHub itself.
  */
 export type ImsImsComponentsArgs = {
@@ -2269,7 +2250,7 @@ export type ImsPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -2295,7 +2276,7 @@ export type ImsFilter = {
 export type ImsComponent = Node & {
   /**
    * The ID of this IMSComponent. Every IMSComponent will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -2331,7 +2312,7 @@ export type ImsComponentPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -2341,7 +2322,7 @@ export type ImsComponentPage = Page & {
 export type Artifact = Node & {
   /**
    * The ID of this Artifact. Every Artifact will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -2360,7 +2341,6 @@ export type Artifact = Node & {
   /** All issues that have the given artifact */
   issues?: Maybe<IssuePage>;
 };
-
 
 /** An artifact assignable to issues. An artifact is per-component */
 export type ArtifactIssuesArgs = {
@@ -2401,7 +2381,7 @@ export type ArtifactPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
@@ -2411,7 +2391,7 @@ export type ArtifactPage = Page & {
 export type NonFunctionalConstraint = Node & {
   /**
    * The ID of this NonFunctionalConstraint. Every NonFunctionalConstraint will have an non-empty and non-null edge.
-   * 
+   *
    * If this is ever empty or null, something went wrong.
    */
   id?: Maybe<Scalars['ID']>;
@@ -2423,7 +2403,7 @@ export type NonFunctionalConstraint = Node & {
   content: Scalars['String'];
   /**
    * A textual description (of the function) of this NonFunctionalConstraint.
-   * 
+   *
    * Max. 65536 characters
    */
   description: Scalars['String'];
@@ -2467,83 +2447,87 @@ export type NonFunctionalConstraintPage = Page & {
   pageInfo: PageInfo;
   /**
    * The total number of elements matching the filter
-   * 
+   *
    * (Even ones that don't match the current page)
    */
   totalCount: Scalars['Int'];
 };
 
 /** An AddedArtifactEvent in the timeline of an issue with a date and a creator */
-export type AddedArtifactEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this AddedArtifactEvent. Every AddedArtifactEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the AddedArtifactEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the AddedArtifactEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this AddedArtifactEvent belongs to */
-  issue: Issue;
-  /** The Artifact which was added to the Issue, null if deleted */
-  artifact?: Maybe<Artifact>;
-};
+export type AddedArtifactEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this AddedArtifactEvent. Every AddedArtifactEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the AddedArtifactEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the AddedArtifactEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this AddedArtifactEvent belongs to */
+    issue: Issue;
+    /** The Artifact which was added to the Issue, null if deleted */
+    artifact?: Maybe<Artifact>;
+  };
 
 /** An RemovedArtifactEvent in the timeline of an issue with a date and a creator */
-export type RemovedArtifactEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this RemovedArtifactEvent. Every RemovedArtifactEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the RemovedArtifactEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the RemovedArtifactEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this RemovedArtifactEvent belongs to */
-  issue: Issue;
-  /** The Artifact which was removed from the Issue, null if deleted */
-  removedArtifact?: Maybe<Artifact>;
-};
+export type RemovedArtifactEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this RemovedArtifactEvent. Every RemovedArtifactEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the RemovedArtifactEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the RemovedArtifactEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this RemovedArtifactEvent belongs to */
+    issue: Issue;
+    /** The Artifact which was removed from the Issue, null if deleted */
+    removedArtifact?: Maybe<Artifact>;
+  };
 
 /** An AddedNonFunctionalConstraintEvent in the timeline of an issue with a date and a creator */
-export type AddedNonFunctionalConstraintEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this AddedNonFunctionalConstraintEvent. Every AddedNonFunctionalConstraintEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the AddedNonFunctionalConstraintEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the AddedNonFunctionalConstraintEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this AddedNonFunctionalConstraintEvent belongs to */
-  issue: Issue;
-  /** The NonFunctionalConstraint which was added to the Issue, null if deleted */
-  nonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
-};
+export type AddedNonFunctionalConstraintEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this AddedNonFunctionalConstraintEvent. Every AddedNonFunctionalConstraintEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the AddedNonFunctionalConstraintEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the AddedNonFunctionalConstraintEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this AddedNonFunctionalConstraintEvent belongs to */
+    issue: Issue;
+    /** The NonFunctionalConstraint which was added to the Issue, null if deleted */
+    nonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
+  };
 
 /** An RemovedNonFunctionalConstraintEvent in the timeline of an issue with a date and a creator */
-export type RemovedNonFunctionalConstraintEvent = IssueTimelineItem & Node & {
-  /**
-   * The ID of this RemovedNonFunctionalConstraintEvent. Every RemovedNonFunctionalConstraintEvent will have an non-empty and non-null edge.
-   * 
-   * If this is ever empty or null, something went wrong.
-   */
-  id?: Maybe<Scalars['ID']>;
-  /** The user who originally created the RemovedNonFunctionalConstraintEvent (in ccims or any ims) */
-  createdBy?: Maybe<User>;
-  /** The date the RemovedNonFunctionalConstraintEvent was first created on */
-  createdAt: Scalars['Date'];
-  /** The Issue this RemovedNonFunctionalConstraintEvent belongs to */
-  issue: Issue;
-  /** The NonFunctionalConstraint which was removed from the Issue, null if deleted */
-  removedNonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
-};
+export type RemovedNonFunctionalConstraintEvent = IssueTimelineItem &
+  Node & {
+    /**
+     * The ID of this RemovedNonFunctionalConstraintEvent. Every RemovedNonFunctionalConstraintEvent will have an non-empty and non-null edge.
+     *
+     * If this is ever empty or null, something went wrong.
+     */
+    id?: Maybe<Scalars['ID']>;
+    /** The user who originally created the RemovedNonFunctionalConstraintEvent (in ccims or any ims) */
+    createdBy?: Maybe<User>;
+    /** The date the RemovedNonFunctionalConstraintEvent was first created on */
+    createdAt: Scalars['Date'];
+    /** The Issue this RemovedNonFunctionalConstraintEvent belongs to */
+    issue: Issue;
+    /** The NonFunctionalConstraint which was removed from the Issue, null if deleted */
+    removedNonFunctionalConstraint?: Maybe<NonFunctionalConstraint>;
+  };
 
 /** All queries for requesting stuff */
 export type Query = {
@@ -2561,7 +2545,7 @@ export type Query = {
   currentUser?: Maybe<User>;
   /**
    * Checks wether the given username is still available or already taken.
-   * 
+   *
    * `true` is returned if the username is available and __NOT__ take
    * `false, if it __IS__ already taken and can't be used for a new user
    */
@@ -2570,18 +2554,15 @@ export type Query = {
   searchUser: Array<User>;
 };
 
-
 /** All queries for requesting stuff */
 export type QueryNodeArgs = {
   id: Scalars['ID'];
 };
 
-
 /** All queries for requesting stuff */
 export type QueryEchoArgs = {
   input?: Maybe<Scalars['String']>;
 };
-
 
 /** All queries for requesting stuff */
 export type QueryProjectsArgs = {
@@ -2592,7 +2573,6 @@ export type QueryProjectsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** All queries for requesting stuff */
 export type QueryComponentsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -2601,7 +2581,6 @@ export type QueryComponentsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
 };
-
 
 /** All queries for requesting stuff */
 export type QueryImssArgs = {
@@ -2612,12 +2591,10 @@ export type QueryImssArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-
 /** All queries for requesting stuff */
 export type QueryCheckUsernameArgs = {
   username: Scalars['String'];
 };
-
 
 /** All queries for requesting stuff */
 export type QuerySearchUserArgs = {
@@ -2636,9 +2613,9 @@ export type Mutation = {
   updateComment?: Maybe<UpdateCommentPayload>;
   /**
    * Deletes an issue comment.
-   * 
+   *
    * Comments don't get fully deleted but replaced by a
-   * 
+   *
    * `DeletedComment` (only contains creation/deletion date/user) which is for conversation completness
    */
   deleteIssueComment?: Maybe<DeleteIssueCommentPayload>;
@@ -2758,372 +2735,310 @@ export type Mutation = {
   updateNonFunctionalConstraint?: Maybe<UpdateNonFunctionalConstraintPayload>;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationCreateIssueArgs = {
   input: CreateIssueInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationDeleteIssueArgs = {
   input: DeleteIssueInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueCommentArgs = {
   input: AddIssueCommentInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationUpdateCommentArgs = {
   input: UpdateCommentInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationDeleteIssueCommentArgs = {
   input?: Maybe<DeleteIssueCommentInput>;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationLinkIssueArgs = {
   input: LinkIssueInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationUnlinkIssueArgs = {
   input: UnlinkIssueInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationAddLabelToIssueArgs = {
   input: AddLabelToIssueInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRemoveLabelFromIssueArgs = {
   input: RemoveLabelFromIssueInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationPinIssueArgs = {
   input?: Maybe<PinIssueInput>;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationUnpinIssueArgs = {
   input?: Maybe<UnpinIssueInput>;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationRenameIssueTitleArgs = {
   input: RenameIssueTitleInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssueCategoryArgs = {
   input: ChangeIssueCategoryInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationAddAssigneeArgs = {
   input: AddAssigneeInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRemoveAssigneeArgs = {
   input: RemoveAssigneeInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationCloseIssueArgs = {
   input: CloseIssueInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationReopenIssueArgs = {
   input: ReopenIssueInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssuePriorityArgs = {
   input?: Maybe<ChangeIssuePriorityInput>;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssueStartDateArgs = {
   input: ChangeIssueStartDateInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssueDueDateArgs = {
   input: ChangeIssueDueDateInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationChangeIssueEstimatedTimeArgs = {
   input?: Maybe<ChangeIssueEstimatedTimeInput>;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueToLocationArgs = {
   input: AddIssueToLocationInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRemoveIssueFromLocationArgs = {
   input: RemoveIssueFromLocationInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationAddIssueToComponentArgs = {
   input: AddIssueToComponentInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRemoveIssueFromComponentArgs = {
   input: RemoveIssueFromComponentInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationMarkIssueAsDuplicateArgs = {
   input?: Maybe<MarkIssueAsDuplicateInput>;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationUnmarkIssueAsDuplicateArgs = {
   input?: Maybe<UnmarkIssueAsDuplicateInput>;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationAddReactionToCommentArgs = {
   input?: Maybe<AddReactionToCommentInput>;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRemoveReactionFromCommentArgs = {
   input?: Maybe<RemoveReactionFromCommentInput>;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationAddArtifactToIssueArgs = {
   input: AddArtifactToIssueInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRemoveArtifactFromIssueArgs = {
   input: RemoveArtifactFromIssueInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationAddNonFunctionalConstraintToIssueArgs = {
   input: AddNonFunctionalConstraintToIssueInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRemoveNonFunctionalConstraintFromIssueArgs = {
   input: RemoveNonFunctionalConstraintFromIssueInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationDeleteProjectArgs = {
   input: DeleteProjectInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationUpdateProjectArgs = {
   input: UpdateProjectInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationAddComponentToProjectArgs = {
   input: AddComponentToProjectInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveComponentFromProjectArgs = {
   input: RemoveComponentFromProjectInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationCreateComponentInterfaceArgs = {
   input: CreateComponentInterfaceInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationDeleteComponentInterfaceArgs = {
   input: DeleteComponentInterfaceInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationUpdateComponentInterfaceArgs = {
   input: UpdateComponentInterfaceInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateComponentArgs = {
   input: CreateComponentInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationDeleteComponentArgs = {
   input: DeleteComponentInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationUpdateComponentArgs = {
   input: UpdateComponentInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationAddConsumedInterfaceArgs = {
   input: AddConsumedComponentInterfaceInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveConsumedInterfaceArgs = {
   input: RemoveConsumedComponentInterfaceInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationLinkUserToImsArgs = {
   input: LinkUserToImsInputConfig;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateLabelArgs = {
   input: CreateLabelInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationDeleteLabelArgs = {
   input: DeleteLabelInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationUpdateLabelArgs = {
   input: UpdateLabelInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationAddLabelToComponentArgs = {
   input: AddLabelToComponentInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationRemoveLabelFromComponentArgs = {
   input: RemoveLabelFromComponentInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationCreateImsArgs = {
   input: CreateImsInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateImsComponentArgs = {
   input: CreateImsComponentInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationCreateArtifactArgs = {
   input: CreateArtifactInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationDeleteArtifactArgs = {
   input: DeleteArtifactInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationUpdateArtifactArgs = {
   input: UpdateArtifactInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationCreateNonFunctionalConstraintArgs = {
   input: CreateNonFunctionalConstraintInput;
 };
 
-
 /** Mutations to change the data within the ccims */
 export type MutationDeleteNonFunctionalConstraintArgs = {
   input: DeleteNonFunctionalConstraintInput;
 };
-
 
 /** Mutations to change the data within the ccims */
 export type MutationUpdateNonFunctionalConstraintArgs = {
@@ -3144,67 +3059,67 @@ export type CreateIssueInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The human readable title for the new issue.
-   * 
+   *
    * This can't be `null`. Max. 256 caracters.
    */
   title: Scalars['String'];
   /**
    * The body text for the issue as markdown.
-   * 
+   *
    * This can be `null` (will result in an empty body). Max. 65536 characters
    */
   body?: Maybe<Scalars['String']>;
   /**
    * The IDs of the components the issue is mirrored to.
-   * 
+   *
    * At least one valid component must be given.
    */
   components: Array<Scalars['ID']>;
   /**
    * The category to assign the issue to.
-   * 
+   *
    * If none is given, the issue wil have the category `UNCLASSIFIED`.
    */
   category?: Maybe<IssueCategory>;
   /**
    * A list of all label IDs to assign to the new issue.
-   * 
+   *
    * If `null`, none will be assigned.
    */
   labels?: Maybe<Array<Scalars['ID']>>;
   /**
    * A list of user IDs to added as assignees to the issue.
-   * 
+   *
    * If `null`, no users will be assigned
    */
   assignees?: Maybe<Array<Scalars['ID']>>;
   /**
    * A list of IDs of issue locations to add the issue to.
-   * 
+   *
    * If `null`, the issue will not be assigned to any locations
    */
   locations?: Maybe<Array<Scalars['ID']>>;
   /**
    * A list of IDs of Artifacts to add to the issue to.
-   * 
+   *
    *  If `null`, none will be added.
    */
   artifacts?: Maybe<Array<Scalars['ID']>>;
   /**
    * The start date to be set for the issue.
-   * 
+   *
    * If `null`, none will be set
    */
   startDate?: Maybe<Scalars['Date']>;
   /**
    * The due date to be set for the issue.
-   * 
+   *
    * If `null`, none will be set
    */
   dueDate?: Maybe<Scalars['Date']>;
   /**
    * The estimated time to be set for the issue.
-   * 
+   *
    * If `null`, none will be set
    */
   estimatedTime?: Maybe<Scalars['TimeSpan']>;
@@ -3230,7 +3145,7 @@ export type AddIssueCommentPayload = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The issue comment object that was created.
-   * 
+   *
    * __NOTE:__This is also the timeline event!
    */
   comment?: Maybe<IssueComment>;
@@ -3248,7 +3163,7 @@ export type AddIssueCommentInput = {
   issue: Scalars['ID'];
   /**
    * The body text of the comment to be added.
-   * 
+   *
    * Max. 65536 characters.
    */
   body: Scalars['String'];
@@ -3270,7 +3185,7 @@ export type UpdateCommentInput = {
   comment: Scalars['ID'];
   /**
    * The body text of the comment to be updated.
-   * 
+   *
    * Max. 65536 characters.
    */
   body: Scalars['String'];
@@ -3460,7 +3375,7 @@ export type RenameIssueTitleInput = {
   issue: Scalars['ID'];
   /**
    * The new title to set for the issue.
-   * 
+   *
    * Max. 256 characters
    */
   newTitle: Scalars['String'];
@@ -3756,7 +3671,7 @@ export type RemoveIssueFromComponentInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The ID of the issue to remove from the specified component
-   * 
+   *
    * (it will be deleted in the components IMS)
    */
   issue: Scalars['ID'];
@@ -3950,19 +3865,19 @@ export type CreateProjectInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The name of the project
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * The description of the project
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The list of components for the project to be initialized with.
-   * 
+   *
    * If `null`, the peoject will contain no components (However, they can be added later)
    */
   components?: Maybe<Array<Scalars['ID']>>;
@@ -3998,13 +3913,13 @@ export type UpdateProjectInput = {
   project: Scalars['ID'];
   /**
    * The name of the project
-   * 
+   *
    * Max. 256 characters
    */
   name?: Maybe<Scalars['String']>;
   /**
    * The description of the project
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
@@ -4064,19 +3979,19 @@ export type CreateComponentInterfaceInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The name of the componentInterface
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * The description of the componentInterface
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The type of the ComponentInterface
-   * 
+   *
    * Max. 65536 characters
    */
   type?: Maybe<Scalars['String']>;
@@ -4114,19 +4029,19 @@ export type UpdateComponentInterfaceInput = {
   componentInterface: Scalars['ID'];
   /**
    * The name of the componentinterface
-   * 
+   *
    * Max. 256 characters
    */
   name?: Maybe<Scalars['String']>;
   /**
    * The description of the componentinterface
-   * 
+   *
    * Max. 65536 characters
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The type of the ComponentInterface
-   * 
+   *
    * Max. 65536 characters
    */
   type?: Maybe<Scalars['String']>;
@@ -4148,31 +4063,31 @@ export type CreateComponentInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The (non unique) display name of this component
-   * 
+   *
    * Max. 256 characters
    */
   name: Scalars['String'];
   /**
    * A textual description (of the function) of this component.
-   * 
+   *
    * Max. 65536 characters. `null` equivalent to ""
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The URL where the code repository of this component is located
-   * 
+   *
    * Max. 65536 characters
    */
   repositoryURL?: Maybe<Scalars['String']>;
   /**
    * If given, the component will be added to the projects with those IDs.
-   * 
+   *
    * Can be `null`
    */
   projects?: Maybe<Array<Scalars['ID']>>;
   /**
    * If given, the new component will consume the interfacs with the given IDs.
-   * 
+   *
    * Can be `null`
    */
   consumedInterfaces?: Maybe<Array<Scalars['ID']>>;
@@ -4208,19 +4123,19 @@ export type UpdateComponentInput = {
   component: Scalars['ID'];
   /**
    * The (non unique) display name of this component
-   * 
+   *
    * Max. 256 characters
    */
   name?: Maybe<Scalars['String']>;
   /**
    * A textual description (of the function) of this component.
-   * 
+   *
    * Max. 65536 characters.
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The URL where the code repository of this component is located
-   * 
+   *
    * Max. 65536 characters
    */
   repositoryURL?: Maybe<Scalars['String']>;
@@ -4280,13 +4195,13 @@ export type CreateUserInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The unique username used for login.
-   * 
+   *
    * Max. 100 characters.
    */
   username: Scalars['String'];
   /**
    * The name of the user to display in the GUI.
-   * 
+   *
    * Max. 200 characters.
    */
   displayName: Scalars['String'];
@@ -4294,7 +4209,7 @@ export type CreateUserInput = {
   password: Scalars['String'];
   /**
    * The mail address of the user.
-   * 
+   *
    * Max. 320 characters. Must be a valid email address
    */
   email?: Maybe<Scalars['String']>;
@@ -4330,13 +4245,13 @@ export type RegisterUserPayload = {
 export type RegisterUserInput = {
   /**
    * The unique username used for login.
-   * 
+   *
    * Max. 100 characters.
    */
   username: Scalars['String'];
   /**
    * The name of the user to display in the GUI.
-   * 
+   *
    * Max. 200 characters.
    */
   displayName: Scalars['String'];
@@ -4344,7 +4259,7 @@ export type RegisterUserInput = {
   password: Scalars['String'];
   /**
    * The mail address of the user.
-   * 
+   *
    * Max. 320 characters. Must be a valid email address
    */
   email?: Maybe<Scalars['String']>;
@@ -4364,25 +4279,25 @@ export type CreateLabelInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The name of the label which to show in the GUI.
-   * 
+   *
    * Max. 256 characters.
    */
   name: Scalars['String'];
   /**
    * The description text for the label.
-   * 
+   *
    * Max. 65536 characters.
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The color of the label
-   * 
+   *
    * Must be a valid Color string
    */
   color: Scalars['Color'];
   /**
    * A list of components to which to add the label. At least one component is required
-   * 
+   *
    * This must be a valid component ids
    */
   components: Array<Scalars['ID']>;
@@ -4418,19 +4333,19 @@ export type UpdateLabelInput = {
   label: Scalars['ID'];
   /**
    * The name of the label which to show in the GUI.
-   * 
+   *
    * Max. 256 characters.
    */
   name?: Maybe<Scalars['String']>;
   /**
    * The description text for the label.
-   * 
+   *
    * Max. 65536 characters.
    */
   description?: Maybe<Scalars['String']>;
   /**
    * The color of the label
-   * 
+   *
    * Must be a valid Color string
    */
   color?: Maybe<Scalars['Color']>;
@@ -4492,7 +4407,7 @@ export type CreateImsInput = {
   imsType: ImsType;
   /**
    * Data needed for the connection to the IMS API.
-   * 
+   *
    * See the documentation for the IMS extensions for information which keys are expected.
    * This must be a valid JSON-string
    */
@@ -4517,7 +4432,7 @@ export type CreateImsComponentInput = {
   ims: Scalars['ID'];
   /**
    * Data needed for the connection to the IMS API to this specific component.
-   * 
+   *
    * See the documentation for the IMS extensions for information which keys are expected.
    * This must be a valid JSON-string
    */
@@ -4598,13 +4513,13 @@ export type CreateNonFunctionalConstraintInput = {
   clientMutationID?: Maybe<Scalars['String']>;
   /**
    * The name of the NonFunctionalConstraint which to show in the GUI.
-   * 
+   *
    * Max. 256 characters.
    */
   content: Scalars['String'];
   /**
    * The description text for the NonFunctionalConstraint.
-   * 
+   *
    * Max. 65536 characters.
    */
   description?: Maybe<Scalars['String']>;
@@ -4642,24 +4557,27 @@ export type UpdateNonFunctionalConstraintInput = {
   nonFunctionalConstraint: Scalars['ID'];
   /**
    * The name of the NonFunctionalConstraint which to show in the GUI.
-   * 
+   *
    * Max. 256 characters.
    */
   content?: Maybe<Scalars['String']>;
   /**
    * The description text for the NonFunctionalConstraint.
-   * 
+   *
    * Max. 65536 characters.
    */
   description?: Maybe<Scalars['String']>;
 };
 
-export type FComponentStubFragment = Pick<Component, 'id' | 'name' | 'description' | 'repositoryURL' | 'lastUpdatedAt'>;
+export type FComponentStubFragment = Pick<
+  Component,
+  'id' | 'name' | 'description' | 'repositoryURL' | 'lastUpdatedAt'
+>;
 
-export type FInterfaceStubFragment = (
-  Pick<ComponentInterface, 'id' | 'type' | 'name' | 'description' | 'lastUpdatedAt'>
-  & { component?: Maybe<Pick<Component, 'id' | 'name'>> }
-);
+export type FInterfaceStubFragment = Pick<
+  ComponentInterface,
+  'id' | 'type' | 'name' | 'description' | 'lastUpdatedAt'
+> & { component?: Maybe<Pick<Component, 'id' | 'name'>> };
 
 export type ListProjectComponentsQueryVariables = Exact<{
   project: Scalars['ID'];
@@ -4670,11 +4588,19 @@ export type ListProjectComponentsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListProjectComponentsQuery = { node?: Maybe<{ components?: Maybe<(
-      Pick<ComponentPage, 'totalCount'>
-      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
-    )> }> };
+export type ListProjectComponentsQuery = {
+  node?: Maybe<{
+    components?: Maybe<
+      Pick<ComponentPage, 'totalCount'> & {
+        pageInfo: Pick<
+          PageInfo,
+          'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'
+        >;
+        nodes?: Maybe<Array<Maybe<FComponentStubFragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type ListProjectInterfacesQueryVariables = Exact<{
   project: Scalars['ID'];
@@ -4685,16 +4611,23 @@ export type ListProjectInterfacesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListProjectInterfacesQuery = { node?: Maybe<{ interfaces?: Maybe<(
-      Pick<ComponentInterfacePage, 'totalCount'>
-      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FInterfaceStubFragment>>> }
-    )> }> };
+export type ListProjectInterfacesQuery = {
+  node?: Maybe<{
+    interfaces?: Maybe<
+      Pick<ComponentInterfacePage, 'totalCount'> & {
+        pageInfo: Pick<
+          PageInfo,
+          'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'
+        >;
+        nodes?: Maybe<Array<Maybe<FInterfaceStubFragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type GetComponentQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
-
 
 export type GetComponentQuery = { node?: Maybe<FComponentStubFragment> };
 
@@ -4707,11 +4640,19 @@ export type ListComponentInterfacesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListComponentInterfacesQuery = { node?: Maybe<{ interfaces?: Maybe<(
-      Pick<ComponentInterfacePage, 'totalCount'>
-      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FInterfaceStubFragment>>> }
-    )> }> };
+export type ListComponentInterfacesQuery = {
+  node?: Maybe<{
+    interfaces?: Maybe<
+      Pick<ComponentInterfacePage, 'totalCount'> & {
+        pageInfo: Pick<
+          PageInfo,
+          'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'
+        >;
+        nodes?: Maybe<Array<Maybe<FInterfaceStubFragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type ListComponentConsumedInterfacesQueryVariables = Exact<{
   component: Scalars['ID'];
@@ -4722,74 +4663,169 @@ export type ListComponentConsumedInterfacesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListComponentConsumedInterfacesQuery = { node?: Maybe<{ consumedInterfaces?: Maybe<(
-      Pick<ComponentInterfacePage, 'totalCount'>
-      & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<(
-        { component?: Maybe<FComponentStubFragment> }
-        & FInterfaceStubFragment
-      )>>> }
-    )> }> };
+export type ListComponentConsumedInterfacesQuery = {
+  node?: Maybe<{
+    consumedInterfaces?: Maybe<
+      Pick<ComponentInterfacePage, 'totalCount'> & {
+        pageInfo: Pick<
+          PageInfo,
+          'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'
+        >;
+        nodes?: Maybe<
+          Array<
+            Maybe<
+              {
+                component?: Maybe<FComponentStubFragment>;
+              } & FInterfaceStubFragment
+            >
+          >
+        >;
+      }
+    >;
+  }>;
+};
 
 export type GetInterfaceQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
 export type GetInterfaceQuery = { node?: Maybe<FInterfaceStubFragment> };
 
-type FLocationStub_Component_Fragment = Pick<Component, 'id' | 'name' | 'description'>;
+type FLocationStub_Component_Fragment = Pick<
+  Component,
+  'id' | 'name' | 'description'
+>;
 
-type FLocationStub_ComponentInterface_Fragment = Pick<ComponentInterface, 'id' | 'name' | 'description'>;
+type FLocationStub_ComponentInterface_Fragment = Pick<
+  ComponentInterface,
+  'id' | 'name' | 'description'
+>;
 
-export type FLocationStubFragment = FLocationStub_Component_Fragment | FLocationStub_ComponentInterface_Fragment;
+export type FLocationStubFragment =
+  | FLocationStub_Component_Fragment
+  | FLocationStub_ComponentInterface_Fragment;
 
 export type FLabelStubFragment = Pick<Label, 'id' | 'name' | 'color'>;
 
-type FAssigneeStub_CcimsUser_Fragment = Pick<CcimsUser, 'id' | 'username' | 'displayName'>;
+type FAssigneeStub_CcimsUser_Fragment = Pick<
+  CcimsUser,
+  'id' | 'username' | 'displayName'
+>;
 
-type FAssigneeStub_ImsUser_Fragment = Pick<ImsUser, 'id' | 'username' | 'displayName'>;
+type FAssigneeStub_ImsUser_Fragment = Pick<
+  ImsUser,
+  'id' | 'username' | 'displayName'
+>;
 
-export type FAssigneeStubFragment = FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment;
+export type FAssigneeStubFragment =
+  | FAssigneeStub_CcimsUser_Fragment
+  | FAssigneeStub_ImsUser_Fragment;
 
-export type FIssueStubFragment = (
-  Pick<Issue, 'id' | 'title' | 'createdAt' | 'lastUpdatedAt' | 'isOpen' | 'isDuplicate' | 'category'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, components?: Maybe<(
-    Pick<ComponentPage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
-  )>, locations?: Maybe<(
-    Pick<IssueLocationPage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment | FLocationStub_ComponentInterface_Fragment>>> }
-  )>, labels?: Maybe<(
-    Pick<LabelPage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
-  )>, assignees?: Maybe<(
-    Pick<UserPage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
-  )>, participants?: Maybe<(
-    Pick<UserPage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment>>> }
-  )>, linksToIssues?: Maybe<(
-    Pick<IssuePage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
-      Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'>
-      & { linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
-    )>>> }
-  )>, linkedByIssues?: Maybe<(
-    Pick<IssuePage, 'totalCount'>
-    & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
-      Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'>
-      & { linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>, linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>> }
-    )>>> }
-  )>, issueComments?: Maybe<Pick<IssueCommentPage, 'totalCount'>> }
-);
+export type FIssueStubFragment = Pick<
+  Issue,
+  | 'id'
+  | 'title'
+  | 'createdAt'
+  | 'lastUpdatedAt'
+  | 'isOpen'
+  | 'isDuplicate'
+  | 'category'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+  components?: Maybe<
+    Pick<ComponentPage, 'totalCount'> & {
+      pageInfo: AllPageInfoFragment;
+      nodes?: Maybe<Array<Maybe<FComponentStubFragment>>>;
+    }
+  >;
+  locations?: Maybe<
+    Pick<IssueLocationPage, 'totalCount'> & {
+      pageInfo: AllPageInfoFragment;
+      nodes?: Maybe<
+        Array<
+          Maybe<
+            | FLocationStub_Component_Fragment
+            | FLocationStub_ComponentInterface_Fragment
+          >
+        >
+      >;
+    }
+  >;
+  labels?: Maybe<
+    Pick<LabelPage, 'totalCount'> & {
+      pageInfo: AllPageInfoFragment;
+      nodes?: Maybe<Array<Maybe<FLabelStubFragment>>>;
+    }
+  >;
+  assignees?: Maybe<
+    Pick<UserPage, 'totalCount'> & {
+      pageInfo: AllPageInfoFragment;
+      nodes?: Maybe<
+        Array<
+          Maybe<
+            FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment
+          >
+        >
+      >;
+    }
+  >;
+  participants?: Maybe<
+    Pick<UserPage, 'totalCount'> & {
+      pageInfo: AllPageInfoFragment;
+      nodes?: Maybe<
+        Array<
+          Maybe<
+            FAssigneeStub_CcimsUser_Fragment | FAssigneeStub_ImsUser_Fragment
+          >
+        >
+      >;
+    }
+  >;
+  linksToIssues?: Maybe<
+    Pick<IssuePage, 'totalCount'> & {
+      pageInfo: AllPageInfoFragment;
+      nodes?: Maybe<
+        Array<
+          Maybe<
+            Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'> & {
+              linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>;
+              linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>;
+            }
+          >
+        >
+      >;
+    }
+  >;
+  linkedByIssues?: Maybe<
+    Pick<IssuePage, 'totalCount'> & {
+      pageInfo: AllPageInfoFragment;
+      nodes?: Maybe<
+        Array<
+          Maybe<
+            Pick<Issue, 'id' | 'title' | 'isOpen' | 'category'> & {
+              linkedByIssues?: Maybe<Pick<IssuePage, 'totalCount'>>;
+              linksToIssues?: Maybe<Pick<IssuePage, 'totalCount'>>;
+            }
+          >
+        >
+      >;
+    }
+  >;
+  issueComments?: Maybe<Pick<IssueCommentPage, 'totalCount'>>;
+};
 
-export type AllPageInfoFragment = Pick<PageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>;
+export type AllPageInfoFragment = Pick<
+  PageInfo,
+  'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'
+>;
 
-export type IssueListPageFragment = (
-  Pick<IssuePage, 'totalCount'>
-  & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FIssueStubFragment>>> }
-);
+export type IssueListPageFragment = Pick<IssuePage, 'totalCount'> & {
+  pageInfo: AllPageInfoFragment;
+  nodes?: Maybe<Array<Maybe<FIssueStubFragment>>>;
+};
 
 export type ListProjectIssuesQueryVariables = Exact<{
   project: Scalars['ID'];
@@ -4800,8 +4836,9 @@ export type ListProjectIssuesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListProjectIssuesQuery = { node?: Maybe<{ issues?: Maybe<IssueListPageFragment> }> };
+export type ListProjectIssuesQuery = {
+  node?: Maybe<{ issues?: Maybe<IssueListPageFragment> }>;
+};
 
 export type ListComponentIssuesQueryVariables = Exact<{
   component: Scalars['ID'];
@@ -4812,8 +4849,9 @@ export type ListComponentIssuesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListComponentIssuesQuery = { node?: Maybe<{ issues?: Maybe<IssueListPageFragment> }> };
+export type ListComponentIssuesQuery = {
+  node?: Maybe<{ issues?: Maybe<IssueListPageFragment> }>;
+};
 
 export type ListComponentIssuesOnLocationQueryVariables = Exact<{
   component: Scalars['ID'];
@@ -4824,8 +4862,9 @@ export type ListComponentIssuesOnLocationQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListComponentIssuesOnLocationQuery = { node?: Maybe<{ issuesOnLocation?: Maybe<IssueListPageFragment> }> };
+export type ListComponentIssuesOnLocationQuery = {
+  node?: Maybe<{ issuesOnLocation?: Maybe<IssueListPageFragment> }>;
+};
 
 export type ListComponentInterfaceIssuesOnLocationQueryVariables = Exact<{
   interface: Scalars['ID'];
@@ -4836,8 +4875,9 @@ export type ListComponentInterfaceIssuesOnLocationQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListComponentInterfaceIssuesOnLocationQuery = { node?: Maybe<{ issuesOnLocation?: Maybe<IssueListPageFragment> }> };
+export type ListComponentInterfaceIssuesOnLocationQuery = {
+  node?: Maybe<{ issuesOnLocation?: Maybe<IssueListPageFragment> }>;
+};
 
 export type ListIssueLinksToIssuesQueryVariables = Exact<{
   issue: Scalars['ID'];
@@ -4848,8 +4888,9 @@ export type ListIssueLinksToIssuesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueLinksToIssuesQuery = { node?: Maybe<{ linksToIssues?: Maybe<IssueListPageFragment> }> };
+export type ListIssueLinksToIssuesQuery = {
+  node?: Maybe<{ linksToIssues?: Maybe<IssueListPageFragment> }>;
+};
 
 export type ListIssueLinkedByIssuesQueryVariables = Exact<{
   issue: Scalars['ID'];
@@ -4860,8 +4901,9 @@ export type ListIssueLinkedByIssuesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueLinkedByIssuesQuery = { node?: Maybe<{ linkedByIssues?: Maybe<IssueListPageFragment> }> };
+export type ListIssueLinkedByIssuesQuery = {
+  node?: Maybe<{ linkedByIssues?: Maybe<IssueListPageFragment> }>;
+};
 
 export type ListArtifactIssuesQueryVariables = Exact<{
   artifact: Scalars['ID'];
@@ -4872,221 +4914,536 @@ export type ListArtifactIssuesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
+export type ListArtifactIssuesQuery = {
+  node?: Maybe<{ issues?: Maybe<IssueListPageFragment> }>;
+};
 
-export type ListArtifactIssuesQuery = { node?: Maybe<{ issues?: Maybe<IssueListPageFragment> }> };
+export type FArtifactStubFragment = Pick<
+  Artifact,
+  'id' | 'createdAt' | 'uri' | 'lineRangeStart' | 'lineRangeEnd'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+  component?: Maybe<Pick<Component, 'id' | 'name'>>;
+};
 
-export type FArtifactStubFragment = (
-  Pick<Artifact, 'id' | 'createdAt' | 'uri' | 'lineRangeStart' | 'lineRangeEnd'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, component?: Maybe<Pick<Component, 'id' | 'name'>> }
-);
+export type FNonFunctionalConstraintStubFragment = Pick<
+  NonFunctionalConstraint,
+  'id' | 'createdAt' | 'content' | 'description' | 'isActive'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-export type FNonFunctionalConstraintStubFragment = (
-  Pick<NonFunctionalConstraint, 'id' | 'createdAt' | 'content' | 'description' | 'isActive'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+export type FReactionsStubFragment = Pick<ReactionGroupPage, 'totalCount'> & {
+  pageInfo: AllPageInfoFragment;
+  nodes?: Maybe<
+    Array<
+      Maybe<
+        Pick<ReactionGroup, 'id' | 'reaction'> & {
+          users?: Maybe<
+            Pick<UserPage, 'totalCount'> & {
+              nodes?: Maybe<
+                Array<
+                  Maybe<
+                    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+                    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+                  >
+                >
+              >;
+            }
+          >;
+        }
+      >
+    >
+  >;
+};
 
-export type FReactionsStubFragment = (
-  Pick<ReactionGroupPage, 'totalCount'>
-  & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<(
-    Pick<ReactionGroup, 'id' | 'reaction'>
-    & { users?: Maybe<(
-      Pick<UserPage, 'totalCount'>
-      & { nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
-    )> }
-  )>>> }
-);
+type FComment_Issue_Fragment = Pick<
+  Issue,
+  'body' | 'createdAt' | 'lastEditedAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+  reactions?: Maybe<FReactionsStubFragment>;
+};
 
-type FComment_Issue_Fragment = (
-  Pick<Issue, 'body' | 'createdAt' | 'lastEditedAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, reactions?: Maybe<FReactionsStubFragment> }
-);
+type FComment_IssueComment_Fragment = Pick<
+  IssueComment,
+  'body' | 'createdAt' | 'lastEditedAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+  reactions?: Maybe<FReactionsStubFragment>;
+};
 
-type FComment_IssueComment_Fragment = (
-  Pick<IssueComment, 'body' | 'createdAt' | 'lastEditedAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, reactions?: Maybe<FReactionsStubFragment> }
-);
+export type FCommentFragment =
+  | FComment_Issue_Fragment
+  | FComment_IssueComment_Fragment;
 
-export type FCommentFragment = FComment_Issue_Fragment | FComment_IssueComment_Fragment;
+type FTimelineItem_AddedToComponentEvent_Fragment = Pick<
+  AddedToComponentEvent,
+  'id' | 'createdAt'
+> & {
+  component?: Maybe<Pick<Component, 'id' | 'name'>>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_AddedToComponentEvent_Fragment = (
-  Pick<AddedToComponentEvent, 'id' | 'createdAt'>
-  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_AddedToLocationEvent_Fragment = Pick<
+  AddedToLocationEvent,
+  'id' | 'createdAt'
+> & {
+  location?: Maybe<
+    Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>
+  >;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_AddedToLocationEvent_Fragment = (
-  Pick<AddedToLocationEvent, 'id' | 'createdAt'>
-  & { location?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_ClosedEvent_Fragment = Pick<
+  ClosedEvent,
+  'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_ClosedEvent_Fragment = (
-  Pick<ClosedEvent, 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_AssignedEvent_Fragment = Pick<
+  AssignedEvent,
+  'id' | 'createdAt'
+> & {
+  assignee?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_AssignedEvent_Fragment = (
-  Pick<AssignedEvent, 'id' | 'createdAt'>
-  & { assignee?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_CategoryChangedEvent_Fragment = Pick<
+  CategoryChangedEvent,
+  'oldCategory' | 'newCategory' | 'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_CategoryChangedEvent_Fragment = (
-  Pick<CategoryChangedEvent, 'oldCategory' | 'newCategory' | 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_DueDateChangedEvent_Fragment = Pick<
+  DueDateChangedEvent,
+  'oldDueDate' | 'newDueDate' | 'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_DueDateChangedEvent_Fragment = (
-  Pick<DueDateChangedEvent, 'oldDueDate' | 'newDueDate' | 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_DeletedIssueComment_Fragment = Pick<
+  DeletedIssueComment,
+  'deletedAt' | 'id' | 'createdAt'
+> & {
+  deletedBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_DeletedIssueComment_Fragment = (
-  Pick<DeletedIssueComment, 'deletedAt' | 'id' | 'createdAt'>
-  & { deletedBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_EstimatedTimeChangedEvent_Fragment = Pick<
+  EstimatedTimeChangedEvent,
+  'oldEstimatedTime' | 'newEstimatedTime' | 'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_EstimatedTimeChangedEvent_Fragment = (
-  Pick<EstimatedTimeChangedEvent, 'oldEstimatedTime' | 'newEstimatedTime' | 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_LabelledEvent_Fragment = Pick<
+  LabelledEvent,
+  'id' | 'createdAt'
+> & {
+  label?: Maybe<FLabelStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_LabelledEvent_Fragment = (
-  Pick<LabelledEvent, 'id' | 'createdAt'>
-  & { label?: Maybe<FLabelStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_IssueComment_Fragment = Pick<
+  IssueComment,
+  'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+} & FComment_IssueComment_Fragment;
 
-type FTimelineItem_IssueComment_Fragment = (
-  Pick<IssueComment, 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-  & FComment_IssueComment_Fragment
-);
+type FTimelineItem_MarkedAsDuplicateEvent_Fragment = Pick<
+  MarkedAsDuplicateEvent,
+  'id' | 'createdAt'
+> & {
+  originalIssue?: Maybe<FIssueStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_MarkedAsDuplicateEvent_Fragment = (
-  Pick<MarkedAsDuplicateEvent, 'id' | 'createdAt'>
-  & { originalIssue?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_LinkEvent_Fragment = Pick<LinkEvent, 'id' | 'createdAt'> & {
+  linkedIssue?: Maybe<FIssueStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_LinkEvent_Fragment = (
-  Pick<LinkEvent, 'id' | 'createdAt'>
-  & { linkedIssue?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_PinnedEvent_Fragment = Pick<
+  PinnedEvent,
+  'id' | 'createdAt'
+> & {
+  component?: Maybe<Pick<Component, 'id' | 'name'>>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_PinnedEvent_Fragment = (
-  Pick<PinnedEvent, 'id' | 'createdAt'>
-  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_ReferencedByIssueEvent_Fragment = Pick<
+  ReferencedByIssueEvent,
+  'id' | 'createdAt'
+> & {
+  mentionedAt?: Maybe<FIssueStubFragment>;
+  mentionedInComment?: Maybe<
+    Pick<IssueComment, 'id'> & {
+      createdBy?: Maybe<
+        | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+        | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+      >;
+    }
+  >;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_ReferencedByIssueEvent_Fragment = (
-  Pick<ReferencedByIssueEvent, 'id' | 'createdAt'>
-  & { mentionedAt?: Maybe<FIssueStubFragment>, mentionedInComment?: Maybe<(
-    Pick<IssueComment, 'id'>
-    & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-  )>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_PriorityChangedEvent_Fragment = Pick<
+  PriorityChangedEvent,
+  'oldPriority' | 'newPriority' | 'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_PriorityChangedEvent_Fragment = (
-  Pick<PriorityChangedEvent, 'oldPriority' | 'newPriority' | 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_RemovedFromComponentEvent_Fragment = Pick<
+  RemovedFromComponentEvent,
+  'id' | 'createdAt'
+> & {
+  removedComponent?: Maybe<Pick<Component, 'id' | 'name'>>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_RemovedFromComponentEvent_Fragment = (
-  Pick<RemovedFromComponentEvent, 'id' | 'createdAt'>
-  & { removedComponent?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_ReferencedByOtherEvent_Fragment = Pick<
+  ReferencedByOtherEvent,
+  'source' | 'sourceURL' | 'id' | 'createdAt'
+> & {
+  component?: Maybe<Pick<Component, 'id' | 'name'>>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_ReferencedByOtherEvent_Fragment = (
-  Pick<ReferencedByOtherEvent, 'source' | 'sourceURL' | 'id' | 'createdAt'>
-  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_RemovedFromLocationEvent_Fragment = Pick<
+  RemovedFromLocationEvent,
+  'id' | 'createdAt'
+> & {
+  removedLocation?: Maybe<
+    Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>
+  >;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_RemovedFromLocationEvent_Fragment = (
-  Pick<RemovedFromLocationEvent, 'id' | 'createdAt'>
-  & { removedLocation?: Maybe<Pick<Component, 'id' | 'name'> | Pick<ComponentInterface, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_ReopenedEvent_Fragment = Pick<
+  ReopenedEvent,
+  'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_ReopenedEvent_Fragment = (
-  Pick<ReopenedEvent, 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_StartDateChangedEvent_Fragment = Pick<
+  StartDateChangedEvent,
+  'oldStartDate' | 'newStartDate' | 'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_StartDateChangedEvent_Fragment = (
-  Pick<StartDateChangedEvent, 'oldStartDate' | 'newStartDate' | 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_RenamedTitleEvent_Fragment = Pick<
+  RenamedTitleEvent,
+  'oldTitle' | 'newTitle' | 'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_RenamedTitleEvent_Fragment = (
-  Pick<RenamedTitleEvent, 'oldTitle' | 'newTitle' | 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_UnassignedEvent_Fragment = Pick<
+  UnassignedEvent,
+  'id' | 'createdAt'
+> & {
+  removedAssignee?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_UnassignedEvent_Fragment = (
-  Pick<UnassignedEvent, 'id' | 'createdAt'>
-  & { removedAssignee?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_UnlabelledEvent_Fragment = Pick<
+  UnlabelledEvent,
+  'id' | 'createdAt'
+> & {
+  removedLabel?: Maybe<FLabelStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_UnlabelledEvent_Fragment = (
-  Pick<UnlabelledEvent, 'id' | 'createdAt'>
-  & { removedLabel?: Maybe<FLabelStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_WasLinkedEvent_Fragment = Pick<
+  WasLinkedEvent,
+  'id' | 'createdAt'
+> & {
+  linkedBy?: Maybe<FIssueStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_WasLinkedEvent_Fragment = (
-  Pick<WasLinkedEvent, 'id' | 'createdAt'>
-  & { linkedBy?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_UnmarkedAsDuplicateEvent_Fragment = Pick<
+  UnmarkedAsDuplicateEvent,
+  'id' | 'createdAt'
+> & {
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_UnmarkedAsDuplicateEvent_Fragment = (
-  Pick<UnmarkedAsDuplicateEvent, 'id' | 'createdAt'>
-  & { createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_WasUnlinkedEvent_Fragment = Pick<
+  WasUnlinkedEvent,
+  'id' | 'createdAt'
+> & {
+  unlinkedBy?: Maybe<FIssueStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_WasUnlinkedEvent_Fragment = (
-  Pick<WasUnlinkedEvent, 'id' | 'createdAt'>
-  & { unlinkedBy?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_UnpinnedEvent_Fragment = Pick<
+  UnpinnedEvent,
+  'id' | 'createdAt'
+> & {
+  component?: Maybe<Pick<Component, 'id' | 'name'>>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_UnpinnedEvent_Fragment = (
-  Pick<UnpinnedEvent, 'id' | 'createdAt'>
-  & { component?: Maybe<Pick<Component, 'id' | 'name'>>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_UnlinkEvent_Fragment = Pick<
+  UnlinkEvent,
+  'id' | 'createdAt'
+> & {
+  removedLinkedIssue?: Maybe<FIssueStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_UnlinkEvent_Fragment = (
-  Pick<UnlinkEvent, 'id' | 'createdAt'>
-  & { removedLinkedIssue?: Maybe<FIssueStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_AddedArtifactEvent_Fragment = Pick<
+  AddedArtifactEvent,
+  'id' | 'createdAt'
+> & {
+  artifact?: Maybe<FArtifactStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_AddedArtifactEvent_Fragment = (
-  Pick<AddedArtifactEvent, 'id' | 'createdAt'>
-  & { artifact?: Maybe<FArtifactStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_RemovedArtifactEvent_Fragment = Pick<
+  RemovedArtifactEvent,
+  'id' | 'createdAt'
+> & {
+  removedArtifact?: Maybe<FArtifactStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_RemovedArtifactEvent_Fragment = (
-  Pick<RemovedArtifactEvent, 'id' | 'createdAt'>
-  & { removedArtifact?: Maybe<FArtifactStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment = Pick<
+  AddedNonFunctionalConstraintEvent,
+  'id' | 'createdAt'
+> & {
+  nonFunctionalConstraint?: Maybe<FNonFunctionalConstraintStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment = (
-  Pick<AddedNonFunctionalConstraintEvent, 'id' | 'createdAt'>
-  & { nonFunctionalConstraint?: Maybe<FNonFunctionalConstraintStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
+type FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment = Pick<
+  RemovedNonFunctionalConstraintEvent,
+  'id' | 'createdAt'
+> & {
+  removedNonFunctionalConstraint?: Maybe<FNonFunctionalConstraintStubFragment>;
+  createdBy?: Maybe<
+    | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+    | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+  >;
+};
 
-type FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment = (
-  Pick<RemovedNonFunctionalConstraintEvent, 'id' | 'createdAt'>
-  & { removedNonFunctionalConstraint?: Maybe<FNonFunctionalConstraintStubFragment>, createdBy?: Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>> }
-);
-
-export type FTimelineItemFragment = FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment;
+export type FTimelineItemFragment =
+  | FTimelineItem_AddedToComponentEvent_Fragment
+  | FTimelineItem_AddedToLocationEvent_Fragment
+  | FTimelineItem_ClosedEvent_Fragment
+  | FTimelineItem_AssignedEvent_Fragment
+  | FTimelineItem_CategoryChangedEvent_Fragment
+  | FTimelineItem_DueDateChangedEvent_Fragment
+  | FTimelineItem_DeletedIssueComment_Fragment
+  | FTimelineItem_EstimatedTimeChangedEvent_Fragment
+  | FTimelineItem_LabelledEvent_Fragment
+  | FTimelineItem_IssueComment_Fragment
+  | FTimelineItem_MarkedAsDuplicateEvent_Fragment
+  | FTimelineItem_LinkEvent_Fragment
+  | FTimelineItem_PinnedEvent_Fragment
+  | FTimelineItem_ReferencedByIssueEvent_Fragment
+  | FTimelineItem_PriorityChangedEvent_Fragment
+  | FTimelineItem_RemovedFromComponentEvent_Fragment
+  | FTimelineItem_ReferencedByOtherEvent_Fragment
+  | FTimelineItem_RemovedFromLocationEvent_Fragment
+  | FTimelineItem_ReopenedEvent_Fragment
+  | FTimelineItem_StartDateChangedEvent_Fragment
+  | FTimelineItem_RenamedTitleEvent_Fragment
+  | FTimelineItem_UnassignedEvent_Fragment
+  | FTimelineItem_UnlabelledEvent_Fragment
+  | FTimelineItem_WasLinkedEvent_Fragment
+  | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment
+  | FTimelineItem_WasUnlinkedEvent_Fragment
+  | FTimelineItem_UnpinnedEvent_Fragment
+  | FTimelineItem_UnlinkEvent_Fragment
+  | FTimelineItem_AddedArtifactEvent_Fragment
+  | FTimelineItem_RemovedArtifactEvent_Fragment
+  | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment
+  | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment;
 
 export type GetIssueHeaderQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type GetIssueHeaderQuery = { node?: Maybe<(
-    Pick<Issue, 'body' | 'lastEditedAt' | 'startDate' | 'dueDate' | 'estimatedTime' | 'spentTime'>
-    & { reactions?: Maybe<FReactionsStubFragment>, timeline?: Maybe<(
-      Pick<IssueTimelineItemPage, 'totalCount'>
-      & { nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
-    )> }
-    & FIssueStubFragment
-  )> };
+export type GetIssueHeaderQuery = {
+  node?: Maybe<
+    Pick<
+      Issue,
+      | 'body'
+      | 'lastEditedAt'
+      | 'startDate'
+      | 'dueDate'
+      | 'estimatedTime'
+      | 'spentTime'
+    > & {
+      reactions?: Maybe<FReactionsStubFragment>;
+      timeline?: Maybe<
+        Pick<IssueTimelineItemPage, 'totalCount'> & {
+          nodes?: Maybe<
+            Array<
+              Maybe<
+                | FTimelineItem_AddedToComponentEvent_Fragment
+                | FTimelineItem_AddedToLocationEvent_Fragment
+                | FTimelineItem_ClosedEvent_Fragment
+                | FTimelineItem_AssignedEvent_Fragment
+                | FTimelineItem_CategoryChangedEvent_Fragment
+                | FTimelineItem_DueDateChangedEvent_Fragment
+                | FTimelineItem_DeletedIssueComment_Fragment
+                | FTimelineItem_EstimatedTimeChangedEvent_Fragment
+                | FTimelineItem_LabelledEvent_Fragment
+                | FTimelineItem_IssueComment_Fragment
+                | FTimelineItem_MarkedAsDuplicateEvent_Fragment
+                | FTimelineItem_LinkEvent_Fragment
+                | FTimelineItem_PinnedEvent_Fragment
+                | FTimelineItem_ReferencedByIssueEvent_Fragment
+                | FTimelineItem_PriorityChangedEvent_Fragment
+                | FTimelineItem_RemovedFromComponentEvent_Fragment
+                | FTimelineItem_ReferencedByOtherEvent_Fragment
+                | FTimelineItem_RemovedFromLocationEvent_Fragment
+                | FTimelineItem_ReopenedEvent_Fragment
+                | FTimelineItem_StartDateChangedEvent_Fragment
+                | FTimelineItem_RenamedTitleEvent_Fragment
+                | FTimelineItem_UnassignedEvent_Fragment
+                | FTimelineItem_UnlabelledEvent_Fragment
+                | FTimelineItem_WasLinkedEvent_Fragment
+                | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment
+                | FTimelineItem_WasUnlinkedEvent_Fragment
+                | FTimelineItem_UnpinnedEvent_Fragment
+                | FTimelineItem_UnlinkEvent_Fragment
+                | FTimelineItem_AddedArtifactEvent_Fragment
+                | FTimelineItem_RemovedArtifactEvent_Fragment
+                | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment
+                | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment
+              >
+            >
+          >;
+        }
+      >;
+    } & FIssueStubFragment
+  >;
+};
 
 export type ListIssueTimelineItemsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -5097,11 +5454,53 @@ export type ListIssueTimelineItemsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueTimelineItemsQuery = { node?: Maybe<{ timeline?: Maybe<(
-      Pick<IssueTimelineItemPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FTimelineItem_AddedToComponentEvent_Fragment | FTimelineItem_AddedToLocationEvent_Fragment | FTimelineItem_ClosedEvent_Fragment | FTimelineItem_AssignedEvent_Fragment | FTimelineItem_CategoryChangedEvent_Fragment | FTimelineItem_DueDateChangedEvent_Fragment | FTimelineItem_DeletedIssueComment_Fragment | FTimelineItem_EstimatedTimeChangedEvent_Fragment | FTimelineItem_LabelledEvent_Fragment | FTimelineItem_IssueComment_Fragment | FTimelineItem_MarkedAsDuplicateEvent_Fragment | FTimelineItem_LinkEvent_Fragment | FTimelineItem_PinnedEvent_Fragment | FTimelineItem_ReferencedByIssueEvent_Fragment | FTimelineItem_PriorityChangedEvent_Fragment | FTimelineItem_RemovedFromComponentEvent_Fragment | FTimelineItem_ReferencedByOtherEvent_Fragment | FTimelineItem_RemovedFromLocationEvent_Fragment | FTimelineItem_ReopenedEvent_Fragment | FTimelineItem_StartDateChangedEvent_Fragment | FTimelineItem_RenamedTitleEvent_Fragment | FTimelineItem_UnassignedEvent_Fragment | FTimelineItem_UnlabelledEvent_Fragment | FTimelineItem_WasLinkedEvent_Fragment | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment | FTimelineItem_WasUnlinkedEvent_Fragment | FTimelineItem_UnpinnedEvent_Fragment | FTimelineItem_UnlinkEvent_Fragment | FTimelineItem_AddedArtifactEvent_Fragment | FTimelineItem_RemovedArtifactEvent_Fragment | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment>>> }
-    )> }> };
+export type ListIssueTimelineItemsQuery = {
+  node?: Maybe<{
+    timeline?: Maybe<
+      Pick<IssueTimelineItemPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<
+          Array<
+            Maybe<
+              | FTimelineItem_AddedToComponentEvent_Fragment
+              | FTimelineItem_AddedToLocationEvent_Fragment
+              | FTimelineItem_ClosedEvent_Fragment
+              | FTimelineItem_AssignedEvent_Fragment
+              | FTimelineItem_CategoryChangedEvent_Fragment
+              | FTimelineItem_DueDateChangedEvent_Fragment
+              | FTimelineItem_DeletedIssueComment_Fragment
+              | FTimelineItem_EstimatedTimeChangedEvent_Fragment
+              | FTimelineItem_LabelledEvent_Fragment
+              | FTimelineItem_IssueComment_Fragment
+              | FTimelineItem_MarkedAsDuplicateEvent_Fragment
+              | FTimelineItem_LinkEvent_Fragment
+              | FTimelineItem_PinnedEvent_Fragment
+              | FTimelineItem_ReferencedByIssueEvent_Fragment
+              | FTimelineItem_PriorityChangedEvent_Fragment
+              | FTimelineItem_RemovedFromComponentEvent_Fragment
+              | FTimelineItem_ReferencedByOtherEvent_Fragment
+              | FTimelineItem_RemovedFromLocationEvent_Fragment
+              | FTimelineItem_ReopenedEvent_Fragment
+              | FTimelineItem_StartDateChangedEvent_Fragment
+              | FTimelineItem_RenamedTitleEvent_Fragment
+              | FTimelineItem_UnassignedEvent_Fragment
+              | FTimelineItem_UnlabelledEvent_Fragment
+              | FTimelineItem_WasLinkedEvent_Fragment
+              | FTimelineItem_UnmarkedAsDuplicateEvent_Fragment
+              | FTimelineItem_WasUnlinkedEvent_Fragment
+              | FTimelineItem_UnpinnedEvent_Fragment
+              | FTimelineItem_UnlinkEvent_Fragment
+              | FTimelineItem_AddedArtifactEvent_Fragment
+              | FTimelineItem_RemovedArtifactEvent_Fragment
+              | FTimelineItem_AddedNonFunctionalConstraintEvent_Fragment
+              | FTimelineItem_RemovedNonFunctionalConstraintEvent_Fragment
+            >
+          >
+        >;
+      }
+    >;
+  }>;
+};
 
 export type ListProjectLabelsQueryVariables = Exact<{
   project: Scalars['ID'];
@@ -5112,11 +5511,16 @@ export type ListProjectLabelsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListProjectLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
-      Pick<LabelPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
-    )> }> };
+export type ListProjectLabelsQuery = {
+  node?: Maybe<{
+    labels?: Maybe<
+      Pick<LabelPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<Array<Maybe<FLabelStubFragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type ListComponentLabelsQueryVariables = Exact<{
   project: Scalars['ID'];
@@ -5127,11 +5531,16 @@ export type ListComponentLabelsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListComponentLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
-      Pick<LabelPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
-    )> }> };
+export type ListComponentLabelsQuery = {
+  node?: Maybe<{
+    labels?: Maybe<
+      Pick<LabelPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<Array<Maybe<FLabelStubFragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type ListIssueLabelsQueryVariables = Exact<{
   issue: Scalars['ID'];
@@ -5142,11 +5551,16 @@ export type ListIssueLabelsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueLabelsQuery = { node?: Maybe<{ labels?: Maybe<(
-      Pick<LabelPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLabelStubFragment>>> }
-    )> }> };
+export type ListIssueLabelsQuery = {
+  node?: Maybe<{
+    labels?: Maybe<
+      Pick<LabelPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<Array<Maybe<FLabelStubFragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type ListIssueLocationsQueryVariables = Exact<{
   issue: Scalars['ID'];
@@ -5157,11 +5571,23 @@ export type ListIssueLocationsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueLocationsQuery = { node?: Maybe<{ locations?: Maybe<(
-      Pick<IssueLocationPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment | FLocationStub_ComponentInterface_Fragment>>> }
-    )> }> };
+export type ListIssueLocationsQuery = {
+  node?: Maybe<{
+    locations?: Maybe<
+      Pick<IssueLocationPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<
+          Array<
+            Maybe<
+              | FLocationStub_Component_Fragment
+              | FLocationStub_ComponentInterface_Fragment
+            >
+          >
+        >;
+      }
+    >;
+  }>;
+};
 
 export type ListIssueComponentsQueryVariables = Exact<{
   issue: Scalars['ID'];
@@ -5172,11 +5598,16 @@ export type ListIssueComponentsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueComponentsQuery = { node?: Maybe<{ components?: Maybe<(
-      Pick<ComponentPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment>>> }
-    )> }> };
+export type ListIssueComponentsQuery = {
+  node?: Maybe<{
+    components?: Maybe<
+      Pick<ComponentPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<Array<Maybe<FLocationStub_Component_Fragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type ListIssueParticipantsQueryVariables = Exact<{
   issue: Scalars['ID'];
@@ -5187,11 +5618,23 @@ export type ListIssueParticipantsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueParticipantsQuery = { node?: Maybe<{ participants?: Maybe<(
-      Pick<UserPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
-    )> }> };
+export type ListIssueParticipantsQuery = {
+  node?: Maybe<{
+    participants?: Maybe<
+      Pick<UserPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<
+          Array<
+            Maybe<
+              | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+              | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+            >
+          >
+        >;
+      }
+    >;
+  }>;
+};
 
 export type ListIssueAssigneesQueryVariables = Exact<{
   issue: Scalars['ID'];
@@ -5202,25 +5645,42 @@ export type ListIssueAssigneesQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListIssueAssigneesQuery = { node?: Maybe<{ assignees?: Maybe<(
-      Pick<UserPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<Pick<CcimsUser, 'id' | 'username' | 'displayName'> | Pick<ImsUser, 'id' | 'username' | 'displayName'>>>> }
-    )> }> };
+export type ListIssueAssigneesQuery = {
+  node?: Maybe<{
+    assignees?: Maybe<
+      Pick<UserPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<
+          Array<
+            Maybe<
+              | Pick<CcimsUser, 'id' | 'username' | 'displayName'>
+              | Pick<ImsUser, 'id' | 'username' | 'displayName'>
+            >
+          >
+        >;
+      }
+    >;
+  }>;
+};
 
 export type GetLabelQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type GetLabelQuery = { node?: Maybe<(
-    Pick<Label, 'id' | 'description' | 'createdAt'>
-    & { components?: Maybe<(
-      Pick<ComponentPage, 'totalCount'>
-      & { nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
-    )>, createdBy?: Maybe<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> }
-    & FLabelStubFragment
-  )> };
+export type GetLabelQuery = {
+  node?: Maybe<
+    Pick<Label, 'id' | 'description' | 'createdAt'> & {
+      components?: Maybe<
+        Pick<ComponentPage, 'totalCount'> & {
+          nodes?: Maybe<Array<Maybe<FComponentStubFragment>>>;
+        }
+      >;
+      createdBy?: Maybe<
+        FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment
+      >;
+    } & FLabelStubFragment
+  >;
+};
 
 export type ListLabelComponentsQueryVariables = Exact<{
   label: Scalars['ID'];
@@ -5231,18 +5691,24 @@ export type ListLabelComponentsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListLabelComponentsQuery = { node?: Maybe<{ components?: Maybe<(
-      Pick<ComponentPage, 'totalCount'>
-      & { pageInfo: AllPageInfoFragment, nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
-    )> }> };
+export type ListLabelComponentsQuery = {
+  node?: Maybe<{
+    components?: Maybe<
+      Pick<ComponentPage, 'totalCount'> & {
+        pageInfo: AllPageInfoFragment;
+        nodes?: Maybe<Array<Maybe<FComponentStubFragment>>>;
+      }
+    >;
+  }>;
+};
 
 export type MutCreateIssueMutationVariables = Exact<{
   issue: CreateIssueInput;
 }>;
 
-
-export type MutCreateIssueMutation = { createIssue?: Maybe<{ issue?: Maybe<FIssueStubFragment> }> };
+export type MutCreateIssueMutation = {
+  createIssue?: Maybe<{ issue?: Maybe<FIssueStubFragment> }>;
+};
 
 export type MutRenameIssueTitleMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5250,8 +5716,11 @@ export type MutRenameIssueTitleMutationVariables = Exact<{
   title: Scalars['String'];
 }>;
 
-
-export type MutRenameIssueTitleMutation = { renameIssueTitle?: Maybe<{ event?: Maybe<FTimelineItem_RenamedTitleEvent_Fragment> }> };
+export type MutRenameIssueTitleMutation = {
+  renameIssueTitle?: Maybe<{
+    event?: Maybe<FTimelineItem_RenamedTitleEvent_Fragment>;
+  }>;
+};
 
 export type MutChangeIssueCategoryMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5259,27 +5728,33 @@ export type MutChangeIssueCategoryMutationVariables = Exact<{
   category: IssueCategory;
 }>;
 
-
-export type MutChangeIssueCategoryMutation = { changeIssueCategory?: Maybe<(
-    Pick<ChangeIssueCategoryPayload, 'clientMutationID'>
-    & { event?: Maybe<Pick<CategoryChangedEvent, 'id' | 'oldCategory' | 'newCategory'>> }
-  )> };
+export type MutChangeIssueCategoryMutation = {
+  changeIssueCategory?: Maybe<
+    Pick<ChangeIssueCategoryPayload, 'clientMutationID'> & {
+      event?: Maybe<
+        Pick<CategoryChangedEvent, 'id' | 'oldCategory' | 'newCategory'>
+      >;
+    }
+  >;
+};
 
 export type MutCloseIssueMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   issue: Scalars['ID'];
 }>;
 
-
-export type MutCloseIssueMutation = { closeIssue?: Maybe<{ event?: Maybe<FTimelineItem_ClosedEvent_Fragment> }> };
+export type MutCloseIssueMutation = {
+  closeIssue?: Maybe<{ event?: Maybe<FTimelineItem_ClosedEvent_Fragment> }>;
+};
 
 export type MutReopenIssueMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   issue: Scalars['ID'];
 }>;
 
-
-export type MutReopenIssueMutation = { reopenIssue?: Maybe<{ event?: Maybe<FTimelineItem_ReopenedEvent_Fragment> }> };
+export type MutReopenIssueMutation = {
+  reopenIssue?: Maybe<{ event?: Maybe<FTimelineItem_ReopenedEvent_Fragment> }>;
+};
 
 export type MutAddIssueCommentMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5287,8 +5762,9 @@ export type MutAddIssueCommentMutationVariables = Exact<{
   body: Scalars['String'];
 }>;
 
-
-export type MutAddIssueCommentMutation = { addIssueComment?: Maybe<{ comment?: Maybe<FComment_IssueComment_Fragment> }> };
+export type MutAddIssueCommentMutation = {
+  addIssueComment?: Maybe<{ comment?: Maybe<FComment_IssueComment_Fragment> }>;
+};
 
 export type MutUpdateIssueCommentMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5296,16 +5772,22 @@ export type MutUpdateIssueCommentMutationVariables = Exact<{
   body: Scalars['String'];
 }>;
 
-
-export type MutUpdateIssueCommentMutation = { updateComment?: Maybe<{ comment?: Maybe<FComment_Issue_Fragment | FComment_IssueComment_Fragment> }> };
+export type MutUpdateIssueCommentMutation = {
+  updateComment?: Maybe<{
+    comment?: Maybe<FComment_Issue_Fragment | FComment_IssueComment_Fragment>;
+  }>;
+};
 
 export type MutDeleteIssueCommentMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   comment: Scalars['ID'];
 }>;
 
-
-export type MutDeleteIssueCommentMutation = { deleteIssueComment?: Maybe<{ event?: Maybe<FTimelineItem_DeletedIssueComment_Fragment> }> };
+export type MutDeleteIssueCommentMutation = {
+  deleteIssueComment?: Maybe<{
+    event?: Maybe<FTimelineItem_DeletedIssueComment_Fragment>;
+  }>;
+};
 
 export type MutAddIssueLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5313,8 +5795,11 @@ export type MutAddIssueLabelMutationVariables = Exact<{
   label: Scalars['ID'];
 }>;
 
-
-export type MutAddIssueLabelMutation = { addLabelToIssue?: Maybe<{ event?: Maybe<FTimelineItem_LabelledEvent_Fragment> }> };
+export type MutAddIssueLabelMutation = {
+  addLabelToIssue?: Maybe<{
+    event?: Maybe<FTimelineItem_LabelledEvent_Fragment>;
+  }>;
+};
 
 export type MutRemoveIssueLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5322,8 +5807,11 @@ export type MutRemoveIssueLabelMutationVariables = Exact<{
   label: Scalars['ID'];
 }>;
 
-
-export type MutRemoveIssueLabelMutation = { removeLabelFromIssue?: Maybe<{ event?: Maybe<FTimelineItem_UnlabelledEvent_Fragment> }> };
+export type MutRemoveIssueLabelMutation = {
+  removeLabelFromIssue?: Maybe<{
+    event?: Maybe<FTimelineItem_UnlabelledEvent_Fragment>;
+  }>;
+};
 
 export type MutAddIssueToComponentMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5331,8 +5819,11 @@ export type MutAddIssueToComponentMutationVariables = Exact<{
   component: Scalars['ID'];
 }>;
 
-
-export type MutAddIssueToComponentMutation = { addIssueToComponent?: Maybe<{ event?: Maybe<FTimelineItem_AddedToComponentEvent_Fragment> }> };
+export type MutAddIssueToComponentMutation = {
+  addIssueToComponent?: Maybe<{
+    event?: Maybe<FTimelineItem_AddedToComponentEvent_Fragment>;
+  }>;
+};
 
 export type MutRemoveIssueFromComponentMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5340,8 +5831,11 @@ export type MutRemoveIssueFromComponentMutationVariables = Exact<{
   component: Scalars['ID'];
 }>;
 
-
-export type MutRemoveIssueFromComponentMutation = { removeIssueFromComponent?: Maybe<{ event?: Maybe<FTimelineItem_RemovedFromComponentEvent_Fragment> }> };
+export type MutRemoveIssueFromComponentMutation = {
+  removeIssueFromComponent?: Maybe<{
+    event?: Maybe<FTimelineItem_RemovedFromComponentEvent_Fragment>;
+  }>;
+};
 
 export type MutAddIssueToLocationMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5349,8 +5843,11 @@ export type MutAddIssueToLocationMutationVariables = Exact<{
   location: Scalars['ID'];
 }>;
 
-
-export type MutAddIssueToLocationMutation = { addIssueToLocation?: Maybe<{ event?: Maybe<FTimelineItem_AddedToLocationEvent_Fragment> }> };
+export type MutAddIssueToLocationMutation = {
+  addIssueToLocation?: Maybe<{
+    event?: Maybe<FTimelineItem_AddedToLocationEvent_Fragment>;
+  }>;
+};
 
 export type MutRemoveIssueFromLocationMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5358,8 +5855,11 @@ export type MutRemoveIssueFromLocationMutationVariables = Exact<{
   location: Scalars['ID'];
 }>;
 
-
-export type MutRemoveIssueFromLocationMutation = { removeIssueFromLocation?: Maybe<{ event?: Maybe<FTimelineItem_RemovedFromLocationEvent_Fragment> }> };
+export type MutRemoveIssueFromLocationMutation = {
+  removeIssueFromLocation?: Maybe<{
+    event?: Maybe<FTimelineItem_RemovedFromLocationEvent_Fragment>;
+  }>;
+};
 
 export type MutAddIssueAssigneeMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5367,8 +5867,9 @@ export type MutAddIssueAssigneeMutationVariables = Exact<{
   assignee: Scalars['ID'];
 }>;
 
-
-export type MutAddIssueAssigneeMutation = { addAssignee?: Maybe<{ event?: Maybe<FTimelineItem_AssignedEvent_Fragment> }> };
+export type MutAddIssueAssigneeMutation = {
+  addAssignee?: Maybe<{ event?: Maybe<FTimelineItem_AssignedEvent_Fragment> }>;
+};
 
 export type MutRemoveIssueAssigneeMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5376,8 +5877,11 @@ export type MutRemoveIssueAssigneeMutationVariables = Exact<{
   assignee: Scalars['ID'];
 }>;
 
-
-export type MutRemoveIssueAssigneeMutation = { removeAssignee?: Maybe<{ event?: Maybe<FTimelineItem_UnassignedEvent_Fragment> }> };
+export type MutRemoveIssueAssigneeMutation = {
+  removeAssignee?: Maybe<{
+    event?: Maybe<FTimelineItem_UnassignedEvent_Fragment>;
+  }>;
+};
 
 export type MutLinkIssueMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5385,8 +5889,9 @@ export type MutLinkIssueMutationVariables = Exact<{
   link: Scalars['ID'];
 }>;
 
-
-export type MutLinkIssueMutation = { linkIssue?: Maybe<{ event?: Maybe<FTimelineItem_LinkEvent_Fragment> }> };
+export type MutLinkIssueMutation = {
+  linkIssue?: Maybe<{ event?: Maybe<FTimelineItem_LinkEvent_Fragment> }>;
+};
 
 export type MutUnlinkIssueMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5394,8 +5899,9 @@ export type MutUnlinkIssueMutationVariables = Exact<{
   link: Scalars['ID'];
 }>;
 
-
-export type MutUnlinkIssueMutation = { unlinkIssue?: Maybe<{ event?: Maybe<FTimelineItem_UnlinkEvent_Fragment> }> };
+export type MutUnlinkIssueMutation = {
+  unlinkIssue?: Maybe<{ event?: Maybe<FTimelineItem_UnlinkEvent_Fragment> }>;
+};
 
 export type MutCreateLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5405,14 +5911,19 @@ export type MutCreateLabelMutationVariables = Exact<{
   components: Array<Scalars['ID']>;
 }>;
 
-
-export type MutCreateLabelMutation = { createLabel?: Maybe<{ label?: Maybe<(
-      { components?: Maybe<(
-        Pick<ComponentPage, 'totalCount'>
-        & { nodes?: Maybe<Array<Maybe<FComponentStubFragment>>> }
-      )> }
-      & FLabelStubFragment
-    )> }> };
+export type MutCreateLabelMutation = {
+  createLabel?: Maybe<{
+    label?: Maybe<
+      {
+        components?: Maybe<
+          Pick<ComponentPage, 'totalCount'> & {
+            nodes?: Maybe<Array<Maybe<FComponentStubFragment>>>;
+          }
+        >;
+      } & FLabelStubFragment
+    >;
+  }>;
+};
 
 export type MutUpdateLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5422,8 +5933,9 @@ export type MutUpdateLabelMutationVariables = Exact<{
   color?: Maybe<Scalars['Color']>;
 }>;
 
-
-export type MutUpdateLabelMutation = { updateLabel?: Maybe<{ label?: Maybe<FLabelStubFragment> }> };
+export type MutUpdateLabelMutation = {
+  updateLabel?: Maybe<{ label?: Maybe<FLabelStubFragment> }>;
+};
 
 export type MutAddLabelToComponentMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5431,8 +5943,11 @@ export type MutAddLabelToComponentMutationVariables = Exact<{
   component: Scalars['ID'];
 }>;
 
-
-export type MutAddLabelToComponentMutation = { addLabelToComponent?: Maybe<Pick<AddLabelToComponentPayload, 'clientMutationID'>> };
+export type MutAddLabelToComponentMutation = {
+  addLabelToComponent?: Maybe<
+    Pick<AddLabelToComponentPayload, 'clientMutationID'>
+  >;
+};
 
 export type MutRemoveLabelFromComponentMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
@@ -5440,16 +5955,20 @@ export type MutRemoveLabelFromComponentMutationVariables = Exact<{
   component: Scalars['ID'];
 }>;
 
-
-export type MutRemoveLabelFromComponentMutation = { removeLabelFromComponent?: Maybe<Pick<RemoveLabelFromComponentPayload, 'clientMutationID'>> };
+export type MutRemoveLabelFromComponentMutation = {
+  removeLabelFromComponent?: Maybe<
+    Pick<RemoveLabelFromComponentPayload, 'clientMutationID'>
+  >;
+};
 
 export type MutDeleteLabelMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   label: Scalars['ID'];
 }>;
 
-
-export type MutDeleteLabelMutation = { deleteLabel?: Maybe<Pick<DeleteLabelPayload, 'clientMutationID'>> };
+export type MutDeleteLabelMutation = {
+  deleteLabel?: Maybe<Pick<DeleteLabelPayload, 'clientMutationID'>>;
+};
 
 export type FProjectStubFragment = Pick<Project, 'id' | 'name' | 'description'>;
 
@@ -5461,1673 +5980,2245 @@ export type ListProjectsQueryVariables = Exact<{
   last?: Maybe<Scalars['Int']>;
 }>;
 
-
-export type ListProjectsQuery = { projects?: Maybe<(
-    Pick<ProjectPage, 'totalCount'>
-    & { pageInfo: Pick<PageInfo, 'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'>, nodes?: Maybe<Array<Maybe<FProjectStubFragment>>> }
-  )> };
+export type ListProjectsQuery = {
+  projects?: Maybe<
+    Pick<ProjectPage, 'totalCount'> & {
+      pageInfo: Pick<
+        PageInfo,
+        'hasNextPage' | 'hasPreviousPage' | 'startCursor' | 'endCursor'
+      >;
+      nodes?: Maybe<Array<Maybe<FProjectStubFragment>>>;
+    }
+  >;
+};
 
 export type GetProjectQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
 export type GetProjectQuery = { node?: Maybe<FProjectStubFragment> };
 
-type FUserStub_CcimsUser_Fragment = Pick<CcimsUser, 'id' | 'username' | 'displayName'>;
+type FUserStub_CcimsUser_Fragment = Pick<
+  CcimsUser,
+  'id' | 'username' | 'displayName'
+>;
 
-type FUserStub_ImsUser_Fragment = Pick<ImsUser, 'id' | 'username' | 'displayName'>;
+type FUserStub_ImsUser_Fragment = Pick<
+  ImsUser,
+  'id' | 'username' | 'displayName'
+>;
 
-export type FUserStubFragment = FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment;
+export type FUserStubFragment =
+  | FUserStub_CcimsUser_Fragment
+  | FUserStub_ImsUser_Fragment;
 
 export type SearchUsersQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
+export type SearchUsersQuery = {
+  searchUser: Array<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment>;
+};
 
-export type SearchUsersQuery = { searchUser: Array<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> };
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CurrentUserQuery = { currentUser?: Maybe<FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment> };
+export type CurrentUserQuery = {
+  currentUser?: Maybe<
+    FUserStub_CcimsUser_Fragment | FUserStub_ImsUser_Fragment
+  >;
+};
 
 export const FInterfaceStubFragmentDoc = gql`
-    fragment fInterfaceStub on ComponentInterface {
-  id
-  type
-  name
-  description
-  lastUpdatedAt
-  component {
+  fragment fInterfaceStub on ComponentInterface {
     id
+    type
     name
+    description
+    lastUpdatedAt
+    component {
+      id
+      name
+    }
   }
-}
-    `;
+`;
 export const AllPageInfoFragmentDoc = gql`
-    fragment allPageInfo on PageInfo {
-  startCursor
-  endCursor
-  hasNextPage
-  hasPreviousPage
-}
-    `;
+  fragment allPageInfo on PageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+`;
 export const FComponentStubFragmentDoc = gql`
-    fragment fComponentStub on Component {
-  id
-  name
-  description
-  repositoryURL
-  lastUpdatedAt
-}
-    `;
-export const FLocationStubFragmentDoc = gql`
-    fragment fLocationStub on IssueLocation {
-  id
-  name
-  description
-}
-    `;
-export const FLabelStubFragmentDoc = gql`
-    fragment fLabelStub on Label {
-  id
-  name
-  color
-}
-    `;
-export const FAssigneeStubFragmentDoc = gql`
-    fragment fAssigneeStub on User {
-  id
-  username
-  displayName
-}
-    `;
-export const FIssueStubFragmentDoc = gql`
-    fragment fIssueStub on Issue {
-  id
-  title
-  createdAt
-  createdBy {
-    id
-    username
-    displayName
-  }
-  lastUpdatedAt
-  isOpen
-  isDuplicate
-  category
-  components(first: 10) {
-    totalCount
-    pageInfo {
-      ...allPageInfo
-    }
-    nodes {
-      ...fComponentStub
-    }
-  }
-  locations(first: 10) {
-    totalCount
-    pageInfo {
-      ...allPageInfo
-    }
-    nodes {
-      ...fLocationStub
-    }
-  }
-  labels(first: 10) {
-    totalCount
-    pageInfo {
-      ...allPageInfo
-    }
-    nodes {
-      ...fLabelStub
-    }
-  }
-  assignees(first: 10) {
-    totalCount
-    pageInfo {
-      ...allPageInfo
-    }
-    nodes {
-      ...fAssigneeStub
-    }
-  }
-  participants(first: 10) {
-    totalCount
-    pageInfo {
-      ...allPageInfo
-    }
-    nodes {
-      ...fAssigneeStub
-    }
-  }
-  linksToIssues(first: 10) {
-    totalCount
-    pageInfo {
-      ...allPageInfo
-    }
-    nodes {
-      ... on Issue {
-        id
-        title
-        isOpen
-        category
-        linkedByIssues {
-          totalCount
-        }
-        linksToIssues {
-          totalCount
-        }
-      }
-    }
-  }
-  linkedByIssues(first: 10) {
-    totalCount
-    pageInfo {
-      ...allPageInfo
-    }
-    nodes {
-      ... on Issue {
-        id
-        title
-        isOpen
-        category
-        linkedByIssues {
-          totalCount
-        }
-        linksToIssues {
-          totalCount
-        }
-      }
-    }
-  }
-  issueComments(first: 0) {
-    totalCount
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FComponentStubFragmentDoc}
-${FLocationStubFragmentDoc}
-${FLabelStubFragmentDoc}
-${FAssigneeStubFragmentDoc}`;
-export const IssueListPageFragmentDoc = gql`
-    fragment issueListPage on IssuePage {
-  totalCount
-  pageInfo {
-    ...allPageInfo
-  }
-  nodes {
-    ...fIssueStub
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FIssueStubFragmentDoc}`;
-export const FReactionsStubFragmentDoc = gql`
-    fragment fReactionsStub on ReactionGroupPage {
-  totalCount
-  pageInfo {
-    ...allPageInfo
-  }
-  nodes {
-    id
-    reaction
-    users(first: 5) {
-      totalCount
-      nodes {
-        id
-        username
-        displayName
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}`;
-export const FCommentFragmentDoc = gql`
-    fragment fComment on Comment {
-  body
-  createdAt
-  createdBy {
-    id
-    username
-    displayName
-  }
-  lastEditedAt
-  reactions(first: 10) {
-    ...fReactionsStub
-  }
-}
-    ${FReactionsStubFragmentDoc}`;
-export const FArtifactStubFragmentDoc = gql`
-    fragment fArtifactStub on Artifact {
-  id
-  createdAt
-  createdBy {
-    id
-    username
-    displayName
-  }
-  component {
+  fragment fComponentStub on Component {
     id
     name
+    description
+    repositoryURL
+    lastUpdatedAt
   }
-  uri
-  lineRangeStart
-  lineRangeEnd
-}
-    `;
+`;
+export const FLocationStubFragmentDoc = gql`
+  fragment fLocationStub on IssueLocation {
+    id
+    name
+    description
+  }
+`;
+export const FLabelStubFragmentDoc = gql`
+  fragment fLabelStub on Label {
+    id
+    name
+    color
+  }
+`;
+export const FAssigneeStubFragmentDoc = gql`
+  fragment fAssigneeStub on User {
+    id
+    username
+    displayName
+  }
+`;
+export const FIssueStubFragmentDoc = gql`
+  fragment fIssueStub on Issue {
+    id
+    title
+    createdAt
+    createdBy {
+      id
+      username
+      displayName
+    }
+    lastUpdatedAt
+    isOpen
+    isDuplicate
+    category
+    components(first: 10) {
+      totalCount
+      pageInfo {
+        ...allPageInfo
+      }
+      nodes {
+        ...fComponentStub
+      }
+    }
+    locations(first: 10) {
+      totalCount
+      pageInfo {
+        ...allPageInfo
+      }
+      nodes {
+        ...fLocationStub
+      }
+    }
+    labels(first: 10) {
+      totalCount
+      pageInfo {
+        ...allPageInfo
+      }
+      nodes {
+        ...fLabelStub
+      }
+    }
+    assignees(first: 10) {
+      totalCount
+      pageInfo {
+        ...allPageInfo
+      }
+      nodes {
+        ...fAssigneeStub
+      }
+    }
+    participants(first: 10) {
+      totalCount
+      pageInfo {
+        ...allPageInfo
+      }
+      nodes {
+        ...fAssigneeStub
+      }
+    }
+    linksToIssues(first: 10) {
+      totalCount
+      pageInfo {
+        ...allPageInfo
+      }
+      nodes {
+        ... on Issue {
+          id
+          title
+          isOpen
+          category
+          linkedByIssues {
+            totalCount
+          }
+          linksToIssues {
+            totalCount
+          }
+        }
+      }
+    }
+    linkedByIssues(first: 10) {
+      totalCount
+      pageInfo {
+        ...allPageInfo
+      }
+      nodes {
+        ... on Issue {
+          id
+          title
+          isOpen
+          category
+          linkedByIssues {
+            totalCount
+          }
+          linksToIssues {
+            totalCount
+          }
+        }
+      }
+    }
+    issueComments(first: 0) {
+      totalCount
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FComponentStubFragmentDoc}
+  ${FLocationStubFragmentDoc}
+  ${FLabelStubFragmentDoc}
+  ${FAssigneeStubFragmentDoc}
+`;
+export const IssueListPageFragmentDoc = gql`
+  fragment issueListPage on IssuePage {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      ...fIssueStub
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FIssueStubFragmentDoc}
+`;
+export const FReactionsStubFragmentDoc = gql`
+  fragment fReactionsStub on ReactionGroupPage {
+    totalCount
+    pageInfo {
+      ...allPageInfo
+    }
+    nodes {
+      id
+      reaction
+      users(first: 5) {
+        totalCount
+        nodes {
+          id
+          username
+          displayName
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+`;
+export const FCommentFragmentDoc = gql`
+  fragment fComment on Comment {
+    body
+    createdAt
+    createdBy {
+      id
+      username
+      displayName
+    }
+    lastEditedAt
+    reactions(first: 10) {
+      ...fReactionsStub
+    }
+  }
+  ${FReactionsStubFragmentDoc}
+`;
+export const FArtifactStubFragmentDoc = gql`
+  fragment fArtifactStub on Artifact {
+    id
+    createdAt
+    createdBy {
+      id
+      username
+      displayName
+    }
+    component {
+      id
+      name
+    }
+    uri
+    lineRangeStart
+    lineRangeEnd
+  }
+`;
 export const FNonFunctionalConstraintStubFragmentDoc = gql`
-    fragment fNonFunctionalConstraintStub on NonFunctionalConstraint {
-  id
-  createdAt
-  createdBy {
+  fragment fNonFunctionalConstraintStub on NonFunctionalConstraint {
     id
-    username
-    displayName
+    createdAt
+    createdBy {
+      id
+      username
+      displayName
+    }
+    content
+    description
+    isActive
   }
-  content
-  description
-  isActive
-}
-    `;
+`;
 export const FTimelineItemFragmentDoc = gql`
-    fragment fTimelineItem on IssueTimelineItem {
-  id
-  createdAt
-  createdBy {
+  fragment fTimelineItem on IssueTimelineItem {
     id
-    username
-    displayName
-  }
-  ... on AddedToComponentEvent {
-    component {
-      id
-      name
-    }
-  }
-  ... on AddedToLocationEvent {
-    location {
-      id
-      name
-    }
-  }
-  ... on AssignedEvent {
-    assignee {
+    createdAt
+    createdBy {
       id
       username
       displayName
     }
-  }
-  ... on CategoryChangedEvent {
-    oldCategory
-    newCategory
-  }
-  ... on DueDateChangedEvent {
-    oldDueDate
-    newDueDate
-  }
-  ... on DeletedIssueComment {
-    deletedAt
-    deletedBy {
-      id
-      username
-      displayName
+    ... on AddedToComponentEvent {
+      component {
+        id
+        name
+      }
     }
-  }
-  ... on EstimatedTimeChangedEvent {
-    oldEstimatedTime
-    newEstimatedTime
-  }
-  ... on LabelledEvent {
-    label {
-      ...fLabelStub
+    ... on AddedToLocationEvent {
+      location {
+        id
+        name
+      }
     }
-  }
-  ... on IssueComment {
-    ...fComment
-  }
-  ... on MarkedAsDuplicateEvent {
-    originalIssue {
-      ...fIssueStub
-    }
-  }
-  ... on LinkEvent {
-    linkedIssue {
-      ...fIssueStub
-    }
-  }
-  ... on PinnedEvent {
-    component {
-      id
-      name
-    }
-  }
-  ... on ReferencedByIssueEvent {
-    mentionedAt {
-      ...fIssueStub
-    }
-    mentionedInComment {
-      id
-      createdBy {
+    ... on AssignedEvent {
+      assignee {
         id
         username
         displayName
       }
     }
-  }
-  ... on PriorityChangedEvent {
-    oldPriority
-    newPriority
-  }
-  ... on RemovedFromComponentEvent {
-    removedComponent {
-      id
-      name
-    }
-  }
-  ... on ReferencedByOtherEvent {
-    component {
-      id
-      name
-    }
-    source
-    sourceURL
-  }
-  ... on RemovedFromLocationEvent {
-    removedLocation {
-      id
-      name
-    }
-  }
-  ... on StartDateChangedEvent {
-    oldStartDate
-    newStartDate
-  }
-  ... on RenamedTitleEvent {
-    oldTitle
-    newTitle
-  }
-  ... on UnassignedEvent {
-    removedAssignee {
-      id
-      username
-      displayName
-    }
-  }
-  ... on UnlabelledEvent {
-    removedLabel {
-      ...fLabelStub
-    }
-  }
-  ... on WasLinkedEvent {
-    linkedBy {
-      ...fIssueStub
-    }
-  }
-  ... on WasUnlinkedEvent {
-    unlinkedBy {
-      ...fIssueStub
-    }
-  }
-  ... on UnpinnedEvent {
-    component {
-      id
-      name
-    }
-  }
-  ... on UnlinkEvent {
-    removedLinkedIssue {
-      ...fIssueStub
-    }
-  }
-  ... on AddedArtifactEvent {
-    artifact {
-      ...fArtifactStub
-    }
-  }
-  ... on RemovedArtifactEvent {
-    removedArtifact {
-      ...fArtifactStub
-    }
-  }
-  ... on AddedNonFunctionalConstraintEvent {
-    nonFunctionalConstraint {
-      ...fNonFunctionalConstraintStub
-    }
-  }
-  ... on RemovedNonFunctionalConstraintEvent {
-    removedNonFunctionalConstraint {
-      ...fNonFunctionalConstraintStub
-    }
-  }
-}
-    ${FLabelStubFragmentDoc}
-${FCommentFragmentDoc}
-${FIssueStubFragmentDoc}
-${FArtifactStubFragmentDoc}
-${FNonFunctionalConstraintStubFragmentDoc}`;
-export const FProjectStubFragmentDoc = gql`
-    fragment fProjectStub on Project {
-  id
-  name
-  description
-}
-    `;
-export const FUserStubFragmentDoc = gql`
-    fragment fUserStub on User {
-  id
-  username
-  displayName
-}
-    `;
-export const ListProjectComponentsDocument = gql`
-    query ListProjectComponents($project: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
-  node(id: $project) {
-    ... on Project {
-      components(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
-        }
-        nodes {
-          ...fComponentStub
-        }
-      }
-    }
-  }
-}
-    ${FComponentStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListProjectComponentsGQL extends Apollo.Query<ListProjectComponentsQuery, ListProjectComponentsQueryVariables> {
-    document = ListProjectComponentsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListProjectInterfacesDocument = gql`
-    query ListProjectInterfaces($project: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
-  node(id: $project) {
-    ... on Project {
-      interfaces(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
-        }
-        nodes {
-          ...fInterfaceStub
-        }
-      }
-    }
-  }
-}
-    ${FInterfaceStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListProjectInterfacesGQL extends Apollo.Query<ListProjectInterfacesQuery, ListProjectInterfacesQueryVariables> {
-    document = ListProjectInterfacesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetComponentDocument = gql`
-    query GetComponent($id: ID!) {
-  node(id: $id) {
-    ... on Component {
-      ...fComponentStub
-    }
-  }
-}
-    ${FComponentStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetComponentGQL extends Apollo.Query<GetComponentQuery, GetComponentQueryVariables> {
-    document = GetComponentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListComponentInterfacesDocument = gql`
-    query ListComponentInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
-  node(id: $component) {
-    ... on Component {
-      interfaces(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
-        }
-        nodes {
-          ...fInterfaceStub
-        }
-      }
-    }
-  }
-}
-    ${FInterfaceStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListComponentInterfacesGQL extends Apollo.Query<ListComponentInterfacesQuery, ListComponentInterfacesQueryVariables> {
-    document = ListComponentInterfacesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListComponentConsumedInterfacesDocument = gql`
-    query ListComponentConsumedInterfaces($component: ID!, $after: String, $before: String, $filterBy: ComponentInterfaceFilter, $first: Int, $last: Int) {
-  node(id: $component) {
-    ... on Component {
-      consumedInterfaces(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
-        }
-        nodes {
-          ...fInterfaceStub
-          component {
-            ...fComponentStub
-          }
-        }
-      }
-    }
-  }
-}
-    ${FInterfaceStubFragmentDoc}
-${FComponentStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListComponentConsumedInterfacesGQL extends Apollo.Query<ListComponentConsumedInterfacesQuery, ListComponentConsumedInterfacesQueryVariables> {
-    document = ListComponentConsumedInterfacesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetInterfaceDocument = gql`
-    query GetInterface($id: ID!) {
-  node(id: $id) {
-    ... on ComponentInterface {
-      ...fInterfaceStub
-    }
-  }
-}
-    ${FInterfaceStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetInterfaceGQL extends Apollo.Query<GetInterfaceQuery, GetInterfaceQueryVariables> {
-    document = GetInterfaceDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListProjectIssuesDocument = gql`
-    query ListProjectIssues($project: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
-  node(id: $project) {
-    ... on Project {
-      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        ...issueListPage
-      }
-    }
-  }
-}
-    ${IssueListPageFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListProjectIssuesGQL extends Apollo.Query<ListProjectIssuesQuery, ListProjectIssuesQueryVariables> {
-    document = ListProjectIssuesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListComponentIssuesDocument = gql`
-    query ListComponentIssues($component: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
-  node(id: $component) {
-    ... on Component {
-      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        ...issueListPage
-      }
-    }
-  }
-}
-    ${IssueListPageFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListComponentIssuesGQL extends Apollo.Query<ListComponentIssuesQuery, ListComponentIssuesQueryVariables> {
-    document = ListComponentIssuesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListComponentIssuesOnLocationDocument = gql`
-    query ListComponentIssuesOnLocation($component: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
-  node(id: $component) {
-    ... on Component {
-      issuesOnLocation(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        ...issueListPage
-      }
-    }
-  }
-}
-    ${IssueListPageFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListComponentIssuesOnLocationGQL extends Apollo.Query<ListComponentIssuesOnLocationQuery, ListComponentIssuesOnLocationQueryVariables> {
-    document = ListComponentIssuesOnLocationDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListComponentInterfaceIssuesOnLocationDocument = gql`
-    query ListComponentInterfaceIssuesOnLocation($interface: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
-  node(id: $interface) {
-    ... on ComponentInterface {
-      issuesOnLocation(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        ...issueListPage
-      }
-    }
-  }
-}
-    ${IssueListPageFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListComponentInterfaceIssuesOnLocationGQL extends Apollo.Query<ListComponentInterfaceIssuesOnLocationQuery, ListComponentInterfaceIssuesOnLocationQueryVariables> {
-    document = ListComponentInterfaceIssuesOnLocationDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueLinksToIssuesDocument = gql`
-    query ListIssueLinksToIssues($issue: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
-  node(id: $issue) {
-    ... on Issue {
-      linksToIssues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        ...issueListPage
-      }
-    }
-  }
-}
-    ${IssueListPageFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueLinksToIssuesGQL extends Apollo.Query<ListIssueLinksToIssuesQuery, ListIssueLinksToIssuesQueryVariables> {
-    document = ListIssueLinksToIssuesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueLinkedByIssuesDocument = gql`
-    query ListIssueLinkedByIssues($issue: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
-  node(id: $issue) {
-    ... on Issue {
-      linkedByIssues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        ...issueListPage
-      }
-    }
-  }
-}
-    ${IssueListPageFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueLinkedByIssuesGQL extends Apollo.Query<ListIssueLinkedByIssuesQuery, ListIssueLinkedByIssuesQueryVariables> {
-    document = ListIssueLinkedByIssuesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListArtifactIssuesDocument = gql`
-    query ListArtifactIssues($artifact: ID!, $after: String, $before: String, $filterBy: IssueFilter, $first: Int, $last: Int) {
-  node(id: $artifact) {
-    ... on Artifact {
-      issues(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        ...issueListPage
-      }
-    }
-  }
-}
-    ${IssueListPageFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListArtifactIssuesGQL extends Apollo.Query<ListArtifactIssuesQuery, ListArtifactIssuesQueryVariables> {
-    document = ListArtifactIssuesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetIssueHeaderDocument = gql`
-    query GetIssueHeader($id: ID!) {
-  node(id: $id) {
-    ... on Issue {
-      ...fIssueStub
-      body
-      lastEditedAt
-      reactions(first: 10) {
-        ...fReactionsStub
-      }
-      startDate
-      dueDate
-      estimatedTime
-      spentTime
-      timeline(first: 20) {
-        totalCount
-        nodes {
-          ...fTimelineItem
-        }
-      }
-    }
-  }
-}
-    ${FIssueStubFragmentDoc}
-${FReactionsStubFragmentDoc}
-${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetIssueHeaderGQL extends Apollo.Query<GetIssueHeaderQuery, GetIssueHeaderQueryVariables> {
-    document = GetIssueHeaderDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueTimelineItemsDocument = gql`
-    query ListIssueTimelineItems($id: ID!, $after: String, $before: String, $filterBy: IssueTimelineItemFilter, $first: Int, $last: Int) {
-  node(id: $id) {
-    ... on Issue {
-      timeline(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ...fTimelineItem
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueTimelineItemsGQL extends Apollo.Query<ListIssueTimelineItemsQuery, ListIssueTimelineItemsQueryVariables> {
-    document = ListIssueTimelineItemsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListProjectLabelsDocument = gql`
-    query ListProjectLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
-  node(id: $project) {
-    ... on Project {
-      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ...fLabelStub
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FLabelStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListProjectLabelsGQL extends Apollo.Query<ListProjectLabelsQuery, ListProjectLabelsQueryVariables> {
-    document = ListProjectLabelsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListComponentLabelsDocument = gql`
-    query ListComponentLabels($project: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
-  node(id: $project) {
-    ... on Component {
-      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ...fLabelStub
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FLabelStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListComponentLabelsGQL extends Apollo.Query<ListComponentLabelsQuery, ListComponentLabelsQueryVariables> {
-    document = ListComponentLabelsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueLabelsDocument = gql`
-    query ListIssueLabels($issue: ID!, $after: String, $before: String, $filterBy: LabelFilter, $first: Int, $last: Int) {
-  node(id: $issue) {
-    ... on Issue {
-      labels(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ...fLabelStub
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FLabelStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueLabelsGQL extends Apollo.Query<ListIssueLabelsQuery, ListIssueLabelsQueryVariables> {
-    document = ListIssueLabelsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueLocationsDocument = gql`
-    query ListIssueLocations($issue: ID!, $after: String, $before: String, $filterBy: IssueLocationFilter, $first: Int, $last: Int) {
-  node(id: $issue) {
-    ... on Issue {
-      locations(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ...fLocationStub
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FLocationStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueLocationsGQL extends Apollo.Query<ListIssueLocationsQuery, ListIssueLocationsQueryVariables> {
-    document = ListIssueLocationsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueComponentsDocument = gql`
-    query ListIssueComponents($issue: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
-  node(id: $issue) {
-    ... on Issue {
-      components(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ...fLocationStub
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FLocationStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueComponentsGQL extends Apollo.Query<ListIssueComponentsQuery, ListIssueComponentsQueryVariables> {
-    document = ListIssueComponentsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueParticipantsDocument = gql`
-    query ListIssueParticipants($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
-  node(id: $issue) {
-    ... on Issue {
-      participants(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ... on User {
-            id
-            username
-            displayName
-          }
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueParticipantsGQL extends Apollo.Query<ListIssueParticipantsQuery, ListIssueParticipantsQueryVariables> {
-    document = ListIssueParticipantsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListIssueAssigneesDocument = gql`
-    query ListIssueAssignees($issue: ID!, $after: String, $before: String, $filterBy: UserFilter, $first: Int, $last: Int) {
-  node(id: $issue) {
-    ... on Issue {
-      assignees(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ... on User {
-            id
-            username
-            displayName
-          }
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListIssueAssigneesGQL extends Apollo.Query<ListIssueAssigneesQuery, ListIssueAssigneesQueryVariables> {
-    document = ListIssueAssigneesDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetLabelDocument = gql`
-    query GetLabel($id: ID!) {
-  node(id: $id) {
-    ... on Label {
-      id
-      ...fLabelStub
-      description
-      components(first: 10) {
-        totalCount
-        nodes {
-          ...fComponentStub
-        }
-      }
-      createdBy {
-        ...fUserStub
-      }
-      createdAt
-    }
-  }
-}
-    ${FLabelStubFragmentDoc}
-${FComponentStubFragmentDoc}
-${FUserStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetLabelGQL extends Apollo.Query<GetLabelQuery, GetLabelQueryVariables> {
-    document = GetLabelDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ListLabelComponentsDocument = gql`
-    query ListLabelComponents($label: ID!, $after: String, $before: String, $filterBy: ComponentFilter, $first: Int, $last: Int) {
-  node(id: $label) {
-    ... on Label {
-      components(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-        totalCount
-        pageInfo {
-          ...allPageInfo
-        }
-        nodes {
-          ... on Component {
-            ...fComponentStub
-          }
-        }
-      }
-    }
-  }
-}
-    ${AllPageInfoFragmentDoc}
-${FComponentStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListLabelComponentsGQL extends Apollo.Query<ListLabelComponentsQuery, ListLabelComponentsQueryVariables> {
-    document = ListLabelComponentsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutCreateIssueDocument = gql`
-    mutation MutCreateIssue($issue: CreateIssueInput!) {
-  createIssue(input: $issue) {
-    issue {
-      ...fIssueStub
-    }
-  }
-}
-    ${FIssueStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutCreateIssueGQL extends Apollo.Mutation<MutCreateIssueMutation, MutCreateIssueMutationVariables> {
-    document = MutCreateIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutRenameIssueTitleDocument = gql`
-    mutation MutRenameIssueTitle($id: String, $issue: ID!, $title: String!) {
-  renameIssueTitle(input: {clientMutationID: $id, issue: $issue, newTitle: $title}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutRenameIssueTitleGQL extends Apollo.Mutation<MutRenameIssueTitleMutation, MutRenameIssueTitleMutationVariables> {
-    document = MutRenameIssueTitleDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutChangeIssueCategoryDocument = gql`
-    mutation MutChangeIssueCategory($id: String, $issue: ID!, $category: IssueCategory!) {
-  changeIssueCategory(input: {clientMutationID: $id, issue: $issue, newCategory: $category}) {
-    clientMutationID
-    event {
-      id
+    ... on CategoryChangedEvent {
       oldCategory
       newCategory
     }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutChangeIssueCategoryGQL extends Apollo.Mutation<MutChangeIssueCategoryMutation, MutChangeIssueCategoryMutationVariables> {
-    document = MutChangeIssueCategoryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+    ... on DueDateChangedEvent {
+      oldDueDate
+      newDueDate
     }
-  }
-export const MutCloseIssueDocument = gql`
-    mutation MutCloseIssue($id: String, $issue: ID!) {
-  closeIssue(input: {clientMutationID: $id, issue: $issue}) {
-    event {
-      ...fTimelineItem
+    ... on DeletedIssueComment {
+      deletedAt
+      deletedBy {
+        id
+        username
+        displayName
+      }
     }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutCloseIssueGQL extends Apollo.Mutation<MutCloseIssueMutation, MutCloseIssueMutationVariables> {
-    document = MutCloseIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+    ... on EstimatedTimeChangedEvent {
+      oldEstimatedTime
+      newEstimatedTime
     }
-  }
-export const MutReopenIssueDocument = gql`
-    mutation MutReopenIssue($id: String, $issue: ID!) {
-  reopenIssue(input: {clientMutationID: $id, issue: $issue}) {
-    event {
-      ...fTimelineItem
+    ... on LabelledEvent {
+      label {
+        ...fLabelStub
+      }
     }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutReopenIssueGQL extends Apollo.Mutation<MutReopenIssueMutation, MutReopenIssueMutationVariables> {
-    document = MutReopenIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutAddIssueCommentDocument = gql`
-    mutation MutAddIssueComment($id: String, $issue: ID!, $body: String!) {
-  addIssueComment(input: {clientMutationID: $id, issue: $issue, body: $body}) {
-    comment {
+    ... on IssueComment {
       ...fComment
     }
-  }
-}
-    ${FCommentFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutAddIssueCommentGQL extends Apollo.Mutation<MutAddIssueCommentMutation, MutAddIssueCommentMutationVariables> {
-    document = MutAddIssueCommentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+    ... on MarkedAsDuplicateEvent {
+      originalIssue {
+        ...fIssueStub
+      }
+    }
+    ... on LinkEvent {
+      linkedIssue {
+        ...fIssueStub
+      }
+    }
+    ... on PinnedEvent {
+      component {
+        id
+        name
+      }
+    }
+    ... on ReferencedByIssueEvent {
+      mentionedAt {
+        ...fIssueStub
+      }
+      mentionedInComment {
+        id
+        createdBy {
+          id
+          username
+          displayName
+        }
+      }
+    }
+    ... on PriorityChangedEvent {
+      oldPriority
+      newPriority
+    }
+    ... on RemovedFromComponentEvent {
+      removedComponent {
+        id
+        name
+      }
+    }
+    ... on ReferencedByOtherEvent {
+      component {
+        id
+        name
+      }
+      source
+      sourceURL
+    }
+    ... on RemovedFromLocationEvent {
+      removedLocation {
+        id
+        name
+      }
+    }
+    ... on StartDateChangedEvent {
+      oldStartDate
+      newStartDate
+    }
+    ... on RenamedTitleEvent {
+      oldTitle
+      newTitle
+    }
+    ... on UnassignedEvent {
+      removedAssignee {
+        id
+        username
+        displayName
+      }
+    }
+    ... on UnlabelledEvent {
+      removedLabel {
+        ...fLabelStub
+      }
+    }
+    ... on WasLinkedEvent {
+      linkedBy {
+        ...fIssueStub
+      }
+    }
+    ... on WasUnlinkedEvent {
+      unlinkedBy {
+        ...fIssueStub
+      }
+    }
+    ... on UnpinnedEvent {
+      component {
+        id
+        name
+      }
+    }
+    ... on UnlinkEvent {
+      removedLinkedIssue {
+        ...fIssueStub
+      }
+    }
+    ... on AddedArtifactEvent {
+      artifact {
+        ...fArtifactStub
+      }
+    }
+    ... on RemovedArtifactEvent {
+      removedArtifact {
+        ...fArtifactStub
+      }
+    }
+    ... on AddedNonFunctionalConstraintEvent {
+      nonFunctionalConstraint {
+        ...fNonFunctionalConstraintStub
+      }
+    }
+    ... on RemovedNonFunctionalConstraintEvent {
+      removedNonFunctionalConstraint {
+        ...fNonFunctionalConstraintStub
+      }
     }
   }
-export const MutUpdateIssueCommentDocument = gql`
-    mutation MutUpdateIssueComment($id: String, $comment: ID!, $body: String!) {
-  updateComment(input: {clientMutationID: $id, comment: $comment, body: $body}) {
-    comment {
-      ...fComment
-    }
+  ${FLabelStubFragmentDoc}
+  ${FCommentFragmentDoc}
+  ${FIssueStubFragmentDoc}
+  ${FArtifactStubFragmentDoc}
+  ${FNonFunctionalConstraintStubFragmentDoc}
+`;
+export const FProjectStubFragmentDoc = gql`
+  fragment fProjectStub on Project {
+    id
+    name
+    description
   }
-}
-    ${FCommentFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutUpdateIssueCommentGQL extends Apollo.Mutation<MutUpdateIssueCommentMutation, MutUpdateIssueCommentMutationVariables> {
-    document = MutUpdateIssueCommentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
+`;
+export const FUserStubFragmentDoc = gql`
+  fragment fUserStub on User {
+    id
+    username
+    displayName
   }
-export const MutDeleteIssueCommentDocument = gql`
-    mutation MutDeleteIssueComment($id: String, $comment: ID!) {
-  deleteIssueComment(input: {clientMutationID: $id, issueComment: $comment}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutDeleteIssueCommentGQL extends Apollo.Mutation<MutDeleteIssueCommentMutation, MutDeleteIssueCommentMutationVariables> {
-    document = MutDeleteIssueCommentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutAddIssueLabelDocument = gql`
-    mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
-  addLabelToIssue(input: {clientMutationID: $id, issue: $issue, label: $label}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutAddIssueLabelGQL extends Apollo.Mutation<MutAddIssueLabelMutation, MutAddIssueLabelMutationVariables> {
-    document = MutAddIssueLabelDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutRemoveIssueLabelDocument = gql`
-    mutation MutRemoveIssueLabel($id: String, $issue: ID!, $label: ID!) {
-  removeLabelFromIssue(input: {clientMutationID: $id, issue: $issue, label: $label}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutRemoveIssueLabelGQL extends Apollo.Mutation<MutRemoveIssueLabelMutation, MutRemoveIssueLabelMutationVariables> {
-    document = MutRemoveIssueLabelDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutAddIssueToComponentDocument = gql`
-    mutation MutAddIssueToComponent($id: String, $issue: ID!, $component: ID!) {
-  addIssueToComponent(input: {clientMutationID: $id, issue: $issue, component: $component}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutAddIssueToComponentGQL extends Apollo.Mutation<MutAddIssueToComponentMutation, MutAddIssueToComponentMutationVariables> {
-    document = MutAddIssueToComponentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutRemoveIssueFromComponentDocument = gql`
-    mutation MutRemoveIssueFromComponent($id: String, $issue: ID!, $component: ID!) {
-  removeIssueFromComponent(input: {clientMutationID: $id, issue: $issue, component: $component}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutRemoveIssueFromComponentGQL extends Apollo.Mutation<MutRemoveIssueFromComponentMutation, MutRemoveIssueFromComponentMutationVariables> {
-    document = MutRemoveIssueFromComponentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutAddIssueToLocationDocument = gql`
-    mutation MutAddIssueToLocation($id: String, $issue: ID!, $location: ID!) {
-  addIssueToLocation(input: {clientMutationID: $id, issue: $issue, location: $location}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutAddIssueToLocationGQL extends Apollo.Mutation<MutAddIssueToLocationMutation, MutAddIssueToLocationMutationVariables> {
-    document = MutAddIssueToLocationDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutRemoveIssueFromLocationDocument = gql`
-    mutation MutRemoveIssueFromLocation($id: String, $issue: ID!, $location: ID!) {
-  removeIssueFromLocation(input: {clientMutationID: $id, issue: $issue, location: $location}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutRemoveIssueFromLocationGQL extends Apollo.Mutation<MutRemoveIssueFromLocationMutation, MutRemoveIssueFromLocationMutationVariables> {
-    document = MutRemoveIssueFromLocationDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutAddIssueAssigneeDocument = gql`
-    mutation MutAddIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
-  addAssignee(input: {clientMutationID: $id, issue: $issue, user: $assignee}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutAddIssueAssigneeGQL extends Apollo.Mutation<MutAddIssueAssigneeMutation, MutAddIssueAssigneeMutationVariables> {
-    document = MutAddIssueAssigneeDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutRemoveIssueAssigneeDocument = gql`
-    mutation MutRemoveIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
-  removeAssignee(input: {clientMutationID: $id, issue: $issue, user: $assignee}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutRemoveIssueAssigneeGQL extends Apollo.Mutation<MutRemoveIssueAssigneeMutation, MutRemoveIssueAssigneeMutationVariables> {
-    document = MutRemoveIssueAssigneeDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutLinkIssueDocument = gql`
-    mutation MutLinkIssue($id: String, $issue: ID!, $link: ID!) {
-  linkIssue(input: {clientMutationID: $id, issue: $issue, issueToLink: $link}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutLinkIssueGQL extends Apollo.Mutation<MutLinkIssueMutation, MutLinkIssueMutationVariables> {
-    document = MutLinkIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutUnlinkIssueDocument = gql`
-    mutation MutUnlinkIssue($id: String, $issue: ID!, $link: ID!) {
-  unlinkIssue(input: {clientMutationID: $id, issue: $issue, issueToUnlink: $link}) {
-    event {
-      ...fTimelineItem
-    }
-  }
-}
-    ${FTimelineItemFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutUnlinkIssueGQL extends Apollo.Mutation<MutUnlinkIssueMutation, MutUnlinkIssueMutationVariables> {
-    document = MutUnlinkIssueDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MutCreateLabelDocument = gql`
-    mutation MutCreateLabel($id: String, $name: String!, $description: String, $color: Color!, $components: [ID!]!) {
-  createLabel(input: {clientMutationID: $id, components: $components, name: $name, description: $description, color: $color}) {
-    label {
-      ...fLabelStub
-      components {
-        totalCount
-        nodes {
-          ...fComponentStub
+`;
+export const ListProjectComponentsDocument = gql`
+  query ListProjectComponents(
+    $project: ID!
+    $after: String
+    $before: String
+    $filterBy: ComponentFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $project) {
+      ... on Project {
+        components(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+          }
+          nodes {
+            ...fComponentStub
+          }
         }
       }
     }
   }
-}
-    ${FLabelStubFragmentDoc}
-${FComponentStubFragmentDoc}`;
+  ${FComponentStubFragmentDoc}
+`;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutCreateLabelGQL extends Apollo.Mutation<MutCreateLabelMutation, MutCreateLabelMutationVariables> {
-    document = MutCreateLabelDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+@Injectable({
+  providedIn: 'root',
+})
+export class ListProjectComponentsGQL extends Apollo.Query<
+  ListProjectComponentsQuery,
+  ListProjectComponentsQueryVariables
+> {
+  document = ListProjectComponentsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListProjectInterfacesDocument = gql`
+  query ListProjectInterfaces(
+    $project: ID!
+    $after: String
+    $before: String
+    $filterBy: ComponentInterfaceFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $project) {
+      ... on Project {
+        interfaces(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+          }
+          nodes {
+            ...fInterfaceStub
+          }
+        }
+      }
     }
   }
+  ${FInterfaceStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListProjectInterfacesGQL extends Apollo.Query<
+  ListProjectInterfacesQuery,
+  ListProjectInterfacesQueryVariables
+> {
+  document = ListProjectInterfacesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetComponentDocument = gql`
+  query GetComponent($id: ID!) {
+    node(id: $id) {
+      ... on Component {
+        ...fComponentStub
+      }
+    }
+  }
+  ${FComponentStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetComponentGQL extends Apollo.Query<
+  GetComponentQuery,
+  GetComponentQueryVariables
+> {
+  document = GetComponentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListComponentInterfacesDocument = gql`
+  query ListComponentInterfaces(
+    $component: ID!
+    $after: String
+    $before: String
+    $filterBy: ComponentInterfaceFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $component) {
+      ... on Component {
+        interfaces(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+          }
+          nodes {
+            ...fInterfaceStub
+          }
+        }
+      }
+    }
+  }
+  ${FInterfaceStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListComponentInterfacesGQL extends Apollo.Query<
+  ListComponentInterfacesQuery,
+  ListComponentInterfacesQueryVariables
+> {
+  document = ListComponentInterfacesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListComponentConsumedInterfacesDocument = gql`
+  query ListComponentConsumedInterfaces(
+    $component: ID!
+    $after: String
+    $before: String
+    $filterBy: ComponentInterfaceFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $component) {
+      ... on Component {
+        consumedInterfaces(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+          }
+          nodes {
+            ...fInterfaceStub
+            component {
+              ...fComponentStub
+            }
+          }
+        }
+      }
+    }
+  }
+  ${FInterfaceStubFragmentDoc}
+  ${FComponentStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListComponentConsumedInterfacesGQL extends Apollo.Query<
+  ListComponentConsumedInterfacesQuery,
+  ListComponentConsumedInterfacesQueryVariables
+> {
+  document = ListComponentConsumedInterfacesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetInterfaceDocument = gql`
+  query GetInterface($id: ID!) {
+    node(id: $id) {
+      ... on ComponentInterface {
+        ...fInterfaceStub
+      }
+    }
+  }
+  ${FInterfaceStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetInterfaceGQL extends Apollo.Query<
+  GetInterfaceQuery,
+  GetInterfaceQueryVariables
+> {
+  document = GetInterfaceDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListProjectIssuesDocument = gql`
+  query ListProjectIssues(
+    $project: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $project) {
+      ... on Project {
+        issues(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          ...issueListPage
+        }
+      }
+    }
+  }
+  ${IssueListPageFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListProjectIssuesGQL extends Apollo.Query<
+  ListProjectIssuesQuery,
+  ListProjectIssuesQueryVariables
+> {
+  document = ListProjectIssuesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListComponentIssuesDocument = gql`
+  query ListComponentIssues(
+    $component: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $component) {
+      ... on Component {
+        issues(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          ...issueListPage
+        }
+      }
+    }
+  }
+  ${IssueListPageFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListComponentIssuesGQL extends Apollo.Query<
+  ListComponentIssuesQuery,
+  ListComponentIssuesQueryVariables
+> {
+  document = ListComponentIssuesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListComponentIssuesOnLocationDocument = gql`
+  query ListComponentIssuesOnLocation(
+    $component: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $component) {
+      ... on Component {
+        issuesOnLocation(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          ...issueListPage
+        }
+      }
+    }
+  }
+  ${IssueListPageFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListComponentIssuesOnLocationGQL extends Apollo.Query<
+  ListComponentIssuesOnLocationQuery,
+  ListComponentIssuesOnLocationQueryVariables
+> {
+  document = ListComponentIssuesOnLocationDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListComponentInterfaceIssuesOnLocationDocument = gql`
+  query ListComponentInterfaceIssuesOnLocation(
+    $interface: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $interface) {
+      ... on ComponentInterface {
+        issuesOnLocation(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          ...issueListPage
+        }
+      }
+    }
+  }
+  ${IssueListPageFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListComponentInterfaceIssuesOnLocationGQL extends Apollo.Query<
+  ListComponentInterfaceIssuesOnLocationQuery,
+  ListComponentInterfaceIssuesOnLocationQueryVariables
+> {
+  document = ListComponentInterfaceIssuesOnLocationDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueLinksToIssuesDocument = gql`
+  query ListIssueLinksToIssues(
+    $issue: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $issue) {
+      ... on Issue {
+        linksToIssues(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          ...issueListPage
+        }
+      }
+    }
+  }
+  ${IssueListPageFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueLinksToIssuesGQL extends Apollo.Query<
+  ListIssueLinksToIssuesQuery,
+  ListIssueLinksToIssuesQueryVariables
+> {
+  document = ListIssueLinksToIssuesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueLinkedByIssuesDocument = gql`
+  query ListIssueLinkedByIssues(
+    $issue: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $issue) {
+      ... on Issue {
+        linkedByIssues(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          ...issueListPage
+        }
+      }
+    }
+  }
+  ${IssueListPageFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueLinkedByIssuesGQL extends Apollo.Query<
+  ListIssueLinkedByIssuesQuery,
+  ListIssueLinkedByIssuesQueryVariables
+> {
+  document = ListIssueLinkedByIssuesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListArtifactIssuesDocument = gql`
+  query ListArtifactIssues(
+    $artifact: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $artifact) {
+      ... on Artifact {
+        issues(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          ...issueListPage
+        }
+      }
+    }
+  }
+  ${IssueListPageFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListArtifactIssuesGQL extends Apollo.Query<
+  ListArtifactIssuesQuery,
+  ListArtifactIssuesQueryVariables
+> {
+  document = ListArtifactIssuesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetIssueHeaderDocument = gql`
+  query GetIssueHeader($id: ID!) {
+    node(id: $id) {
+      ... on Issue {
+        ...fIssueStub
+        body
+        lastEditedAt
+        reactions(first: 10) {
+          ...fReactionsStub
+        }
+        startDate
+        dueDate
+        estimatedTime
+        spentTime
+        timeline(first: 20) {
+          totalCount
+          nodes {
+            ...fTimelineItem
+          }
+        }
+      }
+    }
+  }
+  ${FIssueStubFragmentDoc}
+  ${FReactionsStubFragmentDoc}
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetIssueHeaderGQL extends Apollo.Query<
+  GetIssueHeaderQuery,
+  GetIssueHeaderQueryVariables
+> {
+  document = GetIssueHeaderDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueTimelineItemsDocument = gql`
+  query ListIssueTimelineItems(
+    $id: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueTimelineItemFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $id) {
+      ... on Issue {
+        timeline(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ...fTimelineItem
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueTimelineItemsGQL extends Apollo.Query<
+  ListIssueTimelineItemsQuery,
+  ListIssueTimelineItemsQueryVariables
+> {
+  document = ListIssueTimelineItemsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListProjectLabelsDocument = gql`
+  query ListProjectLabels(
+    $project: ID!
+    $after: String
+    $before: String
+    $filterBy: LabelFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $project) {
+      ... on Project {
+        labels(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ...fLabelStub
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FLabelStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListProjectLabelsGQL extends Apollo.Query<
+  ListProjectLabelsQuery,
+  ListProjectLabelsQueryVariables
+> {
+  document = ListProjectLabelsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListComponentLabelsDocument = gql`
+  query ListComponentLabels(
+    $project: ID!
+    $after: String
+    $before: String
+    $filterBy: LabelFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $project) {
+      ... on Component {
+        labels(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ...fLabelStub
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FLabelStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListComponentLabelsGQL extends Apollo.Query<
+  ListComponentLabelsQuery,
+  ListComponentLabelsQueryVariables
+> {
+  document = ListComponentLabelsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueLabelsDocument = gql`
+  query ListIssueLabels(
+    $issue: ID!
+    $after: String
+    $before: String
+    $filterBy: LabelFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $issue) {
+      ... on Issue {
+        labels(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ...fLabelStub
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FLabelStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueLabelsGQL extends Apollo.Query<
+  ListIssueLabelsQuery,
+  ListIssueLabelsQueryVariables
+> {
+  document = ListIssueLabelsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueLocationsDocument = gql`
+  query ListIssueLocations(
+    $issue: ID!
+    $after: String
+    $before: String
+    $filterBy: IssueLocationFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $issue) {
+      ... on Issue {
+        locations(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ...fLocationStub
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FLocationStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueLocationsGQL extends Apollo.Query<
+  ListIssueLocationsQuery,
+  ListIssueLocationsQueryVariables
+> {
+  document = ListIssueLocationsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueComponentsDocument = gql`
+  query ListIssueComponents(
+    $issue: ID!
+    $after: String
+    $before: String
+    $filterBy: ComponentFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $issue) {
+      ... on Issue {
+        components(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ...fLocationStub
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FLocationStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueComponentsGQL extends Apollo.Query<
+  ListIssueComponentsQuery,
+  ListIssueComponentsQueryVariables
+> {
+  document = ListIssueComponentsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueParticipantsDocument = gql`
+  query ListIssueParticipants(
+    $issue: ID!
+    $after: String
+    $before: String
+    $filterBy: UserFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $issue) {
+      ... on Issue {
+        participants(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ... on User {
+              id
+              username
+              displayName
+            }
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueParticipantsGQL extends Apollo.Query<
+  ListIssueParticipantsQuery,
+  ListIssueParticipantsQueryVariables
+> {
+  document = ListIssueParticipantsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListIssueAssigneesDocument = gql`
+  query ListIssueAssignees(
+    $issue: ID!
+    $after: String
+    $before: String
+    $filterBy: UserFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $issue) {
+      ... on Issue {
+        assignees(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ... on User {
+              id
+              username
+              displayName
+            }
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListIssueAssigneesGQL extends Apollo.Query<
+  ListIssueAssigneesQuery,
+  ListIssueAssigneesQueryVariables
+> {
+  document = ListIssueAssigneesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetLabelDocument = gql`
+  query GetLabel($id: ID!) {
+    node(id: $id) {
+      ... on Label {
+        id
+        ...fLabelStub
+        description
+        components(first: 10) {
+          totalCount
+          nodes {
+            ...fComponentStub
+          }
+        }
+        createdBy {
+          ...fUserStub
+        }
+        createdAt
+      }
+    }
+  }
+  ${FLabelStubFragmentDoc}
+  ${FComponentStubFragmentDoc}
+  ${FUserStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetLabelGQL extends Apollo.Query<
+  GetLabelQuery,
+  GetLabelQueryVariables
+> {
+  document = GetLabelDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const ListLabelComponentsDocument = gql`
+  query ListLabelComponents(
+    $label: ID!
+    $after: String
+    $before: String
+    $filterBy: ComponentFilter
+    $first: Int
+    $last: Int
+  ) {
+    node(id: $label) {
+      ... on Label {
+        components(
+          after: $after
+          before: $before
+          filterBy: $filterBy
+          first: $first
+          last: $last
+        ) {
+          totalCount
+          pageInfo {
+            ...allPageInfo
+          }
+          nodes {
+            ... on Component {
+              ...fComponentStub
+            }
+          }
+        }
+      }
+    }
+  }
+  ${AllPageInfoFragmentDoc}
+  ${FComponentStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListLabelComponentsGQL extends Apollo.Query<
+  ListLabelComponentsQuery,
+  ListLabelComponentsQueryVariables
+> {
+  document = ListLabelComponentsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutCreateIssueDocument = gql`
+  mutation MutCreateIssue($issue: CreateIssueInput!) {
+    createIssue(input: $issue) {
+      issue {
+        ...fIssueStub
+      }
+    }
+  }
+  ${FIssueStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutCreateIssueGQL extends Apollo.Mutation<
+  MutCreateIssueMutation,
+  MutCreateIssueMutationVariables
+> {
+  document = MutCreateIssueDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutRenameIssueTitleDocument = gql`
+  mutation MutRenameIssueTitle($id: String, $issue: ID!, $title: String!) {
+    renameIssueTitle(
+      input: { clientMutationID: $id, issue: $issue, newTitle: $title }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutRenameIssueTitleGQL extends Apollo.Mutation<
+  MutRenameIssueTitleMutation,
+  MutRenameIssueTitleMutationVariables
+> {
+  document = MutRenameIssueTitleDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutChangeIssueCategoryDocument = gql`
+  mutation MutChangeIssueCategory(
+    $id: String
+    $issue: ID!
+    $category: IssueCategory!
+  ) {
+    changeIssueCategory(
+      input: { clientMutationID: $id, issue: $issue, newCategory: $category }
+    ) {
+      clientMutationID
+      event {
+        id
+        oldCategory
+        newCategory
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutChangeIssueCategoryGQL extends Apollo.Mutation<
+  MutChangeIssueCategoryMutation,
+  MutChangeIssueCategoryMutationVariables
+> {
+  document = MutChangeIssueCategoryDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutCloseIssueDocument = gql`
+  mutation MutCloseIssue($id: String, $issue: ID!) {
+    closeIssue(input: { clientMutationID: $id, issue: $issue }) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutCloseIssueGQL extends Apollo.Mutation<
+  MutCloseIssueMutation,
+  MutCloseIssueMutationVariables
+> {
+  document = MutCloseIssueDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutReopenIssueDocument = gql`
+  mutation MutReopenIssue($id: String, $issue: ID!) {
+    reopenIssue(input: { clientMutationID: $id, issue: $issue }) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutReopenIssueGQL extends Apollo.Mutation<
+  MutReopenIssueMutation,
+  MutReopenIssueMutationVariables
+> {
+  document = MutReopenIssueDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutAddIssueCommentDocument = gql`
+  mutation MutAddIssueComment($id: String, $issue: ID!, $body: String!) {
+    addIssueComment(
+      input: { clientMutationID: $id, issue: $issue, body: $body }
+    ) {
+      comment {
+        ...fComment
+      }
+    }
+  }
+  ${FCommentFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutAddIssueCommentGQL extends Apollo.Mutation<
+  MutAddIssueCommentMutation,
+  MutAddIssueCommentMutationVariables
+> {
+  document = MutAddIssueCommentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutUpdateIssueCommentDocument = gql`
+  mutation MutUpdateIssueComment($id: String, $comment: ID!, $body: String!) {
+    updateComment(
+      input: { clientMutationID: $id, comment: $comment, body: $body }
+    ) {
+      comment {
+        ...fComment
+      }
+    }
+  }
+  ${FCommentFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutUpdateIssueCommentGQL extends Apollo.Mutation<
+  MutUpdateIssueCommentMutation,
+  MutUpdateIssueCommentMutationVariables
+> {
+  document = MutUpdateIssueCommentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutDeleteIssueCommentDocument = gql`
+  mutation MutDeleteIssueComment($id: String, $comment: ID!) {
+    deleteIssueComment(
+      input: { clientMutationID: $id, issueComment: $comment }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutDeleteIssueCommentGQL extends Apollo.Mutation<
+  MutDeleteIssueCommentMutation,
+  MutDeleteIssueCommentMutationVariables
+> {
+  document = MutDeleteIssueCommentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutAddIssueLabelDocument = gql`
+  mutation MutAddIssueLabel($id: String, $issue: ID!, $label: ID!) {
+    addLabelToIssue(
+      input: { clientMutationID: $id, issue: $issue, label: $label }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutAddIssueLabelGQL extends Apollo.Mutation<
+  MutAddIssueLabelMutation,
+  MutAddIssueLabelMutationVariables
+> {
+  document = MutAddIssueLabelDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutRemoveIssueLabelDocument = gql`
+  mutation MutRemoveIssueLabel($id: String, $issue: ID!, $label: ID!) {
+    removeLabelFromIssue(
+      input: { clientMutationID: $id, issue: $issue, label: $label }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutRemoveIssueLabelGQL extends Apollo.Mutation<
+  MutRemoveIssueLabelMutation,
+  MutRemoveIssueLabelMutationVariables
+> {
+  document = MutRemoveIssueLabelDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutAddIssueToComponentDocument = gql`
+  mutation MutAddIssueToComponent($id: String, $issue: ID!, $component: ID!) {
+    addIssueToComponent(
+      input: { clientMutationID: $id, issue: $issue, component: $component }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutAddIssueToComponentGQL extends Apollo.Mutation<
+  MutAddIssueToComponentMutation,
+  MutAddIssueToComponentMutationVariables
+> {
+  document = MutAddIssueToComponentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutRemoveIssueFromComponentDocument = gql`
+  mutation MutRemoveIssueFromComponent(
+    $id: String
+    $issue: ID!
+    $component: ID!
+  ) {
+    removeIssueFromComponent(
+      input: { clientMutationID: $id, issue: $issue, component: $component }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutRemoveIssueFromComponentGQL extends Apollo.Mutation<
+  MutRemoveIssueFromComponentMutation,
+  MutRemoveIssueFromComponentMutationVariables
+> {
+  document = MutRemoveIssueFromComponentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutAddIssueToLocationDocument = gql`
+  mutation MutAddIssueToLocation($id: String, $issue: ID!, $location: ID!) {
+    addIssueToLocation(
+      input: { clientMutationID: $id, issue: $issue, location: $location }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutAddIssueToLocationGQL extends Apollo.Mutation<
+  MutAddIssueToLocationMutation,
+  MutAddIssueToLocationMutationVariables
+> {
+  document = MutAddIssueToLocationDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutRemoveIssueFromLocationDocument = gql`
+  mutation MutRemoveIssueFromLocation(
+    $id: String
+    $issue: ID!
+    $location: ID!
+  ) {
+    removeIssueFromLocation(
+      input: { clientMutationID: $id, issue: $issue, location: $location }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutRemoveIssueFromLocationGQL extends Apollo.Mutation<
+  MutRemoveIssueFromLocationMutation,
+  MutRemoveIssueFromLocationMutationVariables
+> {
+  document = MutRemoveIssueFromLocationDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutAddIssueAssigneeDocument = gql`
+  mutation MutAddIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+    addAssignee(
+      input: { clientMutationID: $id, issue: $issue, user: $assignee }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutAddIssueAssigneeGQL extends Apollo.Mutation<
+  MutAddIssueAssigneeMutation,
+  MutAddIssueAssigneeMutationVariables
+> {
+  document = MutAddIssueAssigneeDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutRemoveIssueAssigneeDocument = gql`
+  mutation MutRemoveIssueAssignee($id: String, $issue: ID!, $assignee: ID!) {
+    removeAssignee(
+      input: { clientMutationID: $id, issue: $issue, user: $assignee }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutRemoveIssueAssigneeGQL extends Apollo.Mutation<
+  MutRemoveIssueAssigneeMutation,
+  MutRemoveIssueAssigneeMutationVariables
+> {
+  document = MutRemoveIssueAssigneeDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutLinkIssueDocument = gql`
+  mutation MutLinkIssue($id: String, $issue: ID!, $link: ID!) {
+    linkIssue(
+      input: { clientMutationID: $id, issue: $issue, issueToLink: $link }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutLinkIssueGQL extends Apollo.Mutation<
+  MutLinkIssueMutation,
+  MutLinkIssueMutationVariables
+> {
+  document = MutLinkIssueDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutUnlinkIssueDocument = gql`
+  mutation MutUnlinkIssue($id: String, $issue: ID!, $link: ID!) {
+    unlinkIssue(
+      input: { clientMutationID: $id, issue: $issue, issueToUnlink: $link }
+    ) {
+      event {
+        ...fTimelineItem
+      }
+    }
+  }
+  ${FTimelineItemFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutUnlinkIssueGQL extends Apollo.Mutation<
+  MutUnlinkIssueMutation,
+  MutUnlinkIssueMutationVariables
+> {
+  document = MutUnlinkIssueDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const MutCreateLabelDocument = gql`
+  mutation MutCreateLabel(
+    $id: String
+    $name: String!
+    $description: String
+    $color: Color!
+    $components: [ID!]!
+  ) {
+    createLabel(
+      input: {
+        clientMutationID: $id
+        components: $components
+        name: $name
+        description: $description
+        color: $color
+      }
+    ) {
+      label {
+        ...fLabelStub
+        components {
+          totalCount
+          nodes {
+            ...fComponentStub
+          }
+        }
+      }
+    }
+  }
+  ${FLabelStubFragmentDoc}
+  ${FComponentStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutCreateLabelGQL extends Apollo.Mutation<
+  MutCreateLabelMutation,
+  MutCreateLabelMutationVariables
+> {
+  document = MutCreateLabelDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const MutUpdateLabelDocument = gql`
-    mutation MutUpdateLabel($id: String, $label: ID!, $name: String, $description: String, $color: Color) {
-  updateLabel(input: {clientMutationID: $id, label: $label, name: $name, description: $description, color: $color}) {
-    label {
-      ...fLabelStub
+  mutation MutUpdateLabel(
+    $id: String
+    $label: ID!
+    $name: String
+    $description: String
+    $color: Color
+  ) {
+    updateLabel(
+      input: {
+        clientMutationID: $id
+        label: $label
+        name: $name
+        description: $description
+        color: $color
+      }
+    ) {
+      label {
+        ...fLabelStub
+      }
     }
+  }
+  ${FLabelStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutUpdateLabelGQL extends Apollo.Mutation<
+  MutUpdateLabelMutation,
+  MutUpdateLabelMutationVariables
+> {
+  document = MutUpdateLabelDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
   }
 }
-    ${FLabelStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutUpdateLabelGQL extends Apollo.Mutation<MutUpdateLabelMutation, MutUpdateLabelMutationVariables> {
-    document = MutUpdateLabelDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const MutAddLabelToComponentDocument = gql`
-    mutation MutAddLabelToComponent($id: String, $label: ID!, $component: ID!) {
-  addLabelToComponent(input: {clientMutationID: $id, label: $label, component: $component}) {
-    clientMutationID
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutAddLabelToComponentGQL extends Apollo.Mutation<MutAddLabelToComponentMutation, MutAddLabelToComponentMutationVariables> {
-    document = MutAddLabelToComponentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+  mutation MutAddLabelToComponent($id: String, $label: ID!, $component: ID!) {
+    addLabelToComponent(
+      input: { clientMutationID: $id, label: $label, component: $component }
+    ) {
+      clientMutationID
     }
   }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutAddLabelToComponentGQL extends Apollo.Mutation<
+  MutAddLabelToComponentMutation,
+  MutAddLabelToComponentMutationVariables
+> {
+  document = MutAddLabelToComponentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const MutRemoveLabelFromComponentDocument = gql`
-    mutation MutRemoveLabelFromComponent($id: String, $label: ID!, $component: ID!) {
-  removeLabelFromComponent(input: {clientMutationID: $id, label: $label, component: $component}) {
-    clientMutationID
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutRemoveLabelFromComponentGQL extends Apollo.Mutation<MutRemoveLabelFromComponentMutation, MutRemoveLabelFromComponentMutationVariables> {
-    document = MutRemoveLabelFromComponentDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+  mutation MutRemoveLabelFromComponent(
+    $id: String
+    $label: ID!
+    $component: ID!
+  ) {
+    removeLabelFromComponent(
+      input: { clientMutationID: $id, label: $label, component: $component }
+    ) {
+      clientMutationID
     }
   }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutRemoveLabelFromComponentGQL extends Apollo.Mutation<
+  MutRemoveLabelFromComponentMutation,
+  MutRemoveLabelFromComponentMutationVariables
+> {
+  document = MutRemoveLabelFromComponentDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const MutDeleteLabelDocument = gql`
-    mutation MutDeleteLabel($id: String, $label: ID!) {
-  deleteLabel(input: {clientMutationID: $id, label: $label}) {
-    clientMutationID
+  mutation MutDeleteLabel($id: String, $label: ID!) {
+    deleteLabel(input: { clientMutationID: $id, label: $label }) {
+      clientMutationID
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MutDeleteLabelGQL extends Apollo.Mutation<
+  MutDeleteLabelMutation,
+  MutDeleteLabelMutationVariables
+> {
+  document = MutDeleteLabelDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
   }
 }
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MutDeleteLabelGQL extends Apollo.Mutation<MutDeleteLabelMutation, MutDeleteLabelMutationVariables> {
-    document = MutDeleteLabelDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+export const ListProjectsDocument = gql`
+  query ListProjects(
+    $after: String
+    $before: String
+    $filterBy: ProjectFilter
+    $first: Int
+    $last: Int
+  ) {
+    projects(
+      after: $after
+      before: $before
+      filterBy: $filterBy
+      first: $first
+      last: $last
+    ) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      nodes {
+        ... on Project {
+          ...fProjectStub
+        }
+      }
     }
   }
-export const ListProjectsDocument = gql`
-    query ListProjects($after: String, $before: String, $filterBy: ProjectFilter, $first: Int, $last: Int) {
-  projects(after: $after, before: $before, filterBy: $filterBy, first: $first, last: $last) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-    nodes {
+  ${FProjectStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ListProjectsGQL extends Apollo.Query<
+  ListProjectsQuery,
+  ListProjectsQueryVariables
+> {
+  document = ListProjectsDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetProjectDocument = gql`
+  query GetProject($id: ID!) {
+    node(id: $id) {
       ... on Project {
         ...fProjectStub
       }
     }
   }
-}
-    ${FProjectStubFragmentDoc}`;
+  ${FProjectStubFragmentDoc}
+`;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ListProjectsGQL extends Apollo.Query<ListProjectsQuery, ListProjectsQueryVariables> {
-    document = ListProjectsDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const GetProjectDocument = gql`
-    query GetProject($id: ID!) {
-  node(id: $id) {
-    ... on Project {
-      ...fProjectStub
-    }
+@Injectable({
+  providedIn: 'root',
+})
+export class GetProjectGQL extends Apollo.Query<
+  GetProjectQuery,
+  GetProjectQueryVariables
+> {
+  document = GetProjectDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
   }
 }
-    ${FProjectStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetProjectGQL extends Apollo.Query<GetProjectQuery, GetProjectQueryVariables> {
-    document = GetProjectDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const SearchUsersDocument = gql`
-    query SearchUsers($query: String!) {
-  searchUser(text: $query) {
-    ...fUserStub
-  }
-}
-    ${FUserStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SearchUsersGQL extends Apollo.Query<SearchUsersQuery, SearchUsersQueryVariables> {
-    document = SearchUsersDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+  query SearchUsers($query: String!) {
+    searchUser(text: $query) {
+      ...fUserStub
     }
   }
+  ${FUserStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SearchUsersGQL extends Apollo.Query<
+  SearchUsersQuery,
+  SearchUsersQueryVariables
+> {
+  document = SearchUsersDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const CurrentUserDocument = gql`
-    query CurrentUser {
-  currentUser {
-    ...fUserStub
-  }
-}
-    ${FUserStubFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CurrentUserGQL extends Apollo.Query<CurrentUserQuery, CurrentUserQueryVariables> {
-    document = CurrentUserDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
+  query CurrentUser {
+    currentUser {
+      ...fUserStub
     }
   }
+  ${FUserStubFragmentDoc}
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CurrentUserGQL extends Apollo.Query<
+  CurrentUserQuery,
+  CurrentUserQueryVariables
+> {
+  document = CurrentUserDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}

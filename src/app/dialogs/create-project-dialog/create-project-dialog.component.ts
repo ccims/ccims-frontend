@@ -3,7 +3,7 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ProjectStoreService} from '@app/data/project/project-store.service';
 import {UserNotifyService} from '@app/user-notify/user-notify.service';
-import {CCIMSValidators} from "@app/utils/validators";
+import {CCIMSValidators} from '@app/utils/validators';
 
 /**
  * This component provides a dialog for the project creation
@@ -21,10 +21,12 @@ export class CreateProjectDialogComponent {
   public loading: boolean;
   public saveFailed: boolean;
 
-  constructor(public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
-              private ps: ProjectStoreService,
-              private fb: FormBuilder,
-              private notify: UserNotifyService) {
+  constructor(
+    public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
+    private ps: ProjectStoreService,
+    private fb: FormBuilder,
+    private notify: UserNotifyService
+  ) {
     this.loading = false;
   }
 
@@ -42,13 +44,18 @@ export class CreateProjectDialogComponent {
   // after the user clicked on the create button the project creation mutation is fired
   onOkClick(name: string, description: string): void {
     this.loading = true;
-    this.ps.create(name, description).subscribe(({data}) => {
-      this.loading = false;
-      this.dialogRef.close({createdProjectId: data.createProject.project.id});
-    }, (error) => {
-      this.notify.notifyError('Failed to create project!', error);
-      this.loading = false;
-      this.saveFailed = true;
-    });
+    this.ps.create(name, description).subscribe(
+      ({data}) => {
+        this.loading = false;
+        this.dialogRef.close({
+          createdProjectId: data.createProject.project.id
+        });
+      },
+      (error) => {
+        this.notify.notifyError('Failed to create project!', error);
+        this.loading = false;
+        this.saveFailed = true;
+      }
+    );
   }
 }

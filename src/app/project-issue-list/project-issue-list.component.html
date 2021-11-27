@@ -1,5 +1,5 @@
 <div class="margin-left-top p-3" style="display: flex; flex-direction: column">
-  <div *ngIf="(project$ | async) as project">
+  <div *ngIf="project$ | async as project">
     <app-project-header [projectId]="projectId" [projectName]="project.name"></app-project-header>
   </div>
 

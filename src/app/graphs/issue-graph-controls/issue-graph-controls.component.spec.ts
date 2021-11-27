@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { IssueGraphControlsComponent } from './issue-graph-controls.component';
+import {IssueGraphControlsComponent} from './issue-graph-controls.component';
 
 describe('IssueGraphControlsComponent', () => {
   let component: IssueGraphControlsComponent;
@@ -8,9 +8,8 @@ describe('IssueGraphControlsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IssueGraphControlsComponent ]
-    })
-    .compileComponents();
+      declarations: [IssueGraphControlsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

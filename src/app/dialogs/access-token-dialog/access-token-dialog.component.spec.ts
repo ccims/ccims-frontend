@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AccessTokenDialogComponent } from './access-token-dialog.component';
+import {AccessTokenDialogComponent} from './access-token-dialog.component';
 
 describe('AccessTokenDialogComponent', () => {
   let component: AccessTokenDialogComponent;
@@ -8,9 +8,8 @@ describe('AccessTokenDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccessTokenDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [AccessTokenDialogComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

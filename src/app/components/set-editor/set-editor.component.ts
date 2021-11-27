@@ -1,22 +1,24 @@
 import {
   Component,
   ContentChild,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit, Output,
+  OnInit,
+  Output,
   SimpleChanges,
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { ListId, NodeId } from '@app/data-dgql/id';
-import { DataList, HydrateList } from '@app/data-dgql/query';
+import {ListId, NodeId} from '@app/data-dgql/id';
+import {DataList, HydrateList} from '@app/data-dgql/query';
 import DataService from '@app/data-dgql';
-import { Subscription } from 'rxjs';
-import { ItemDirective } from '@app/components/item.directive';
-import { MatDialog } from '@angular/material/dialog';
-import { SetEditorDialogComponent, SetEditorDialogData, SetMultiSource } from './set-editor-dialog.component';
+import {Subscription} from 'rxjs';
+import {ItemDirective} from '@app/components/item.directive';
+import {MatDialog} from '@angular/material/dialog';
+import {SetEditorDialogComponent, SetEditorDialogData, SetMultiSource} from './set-editor-dialog.component';
 
 type ItemOps = 'none' | 'edit' | 'create-edit' | 'create-edit-delete';
 
@@ -33,7 +35,7 @@ type ItemOps = 'none' | 'edit' | 'create-edit' | 'create-edit-delete';
   templateUrl: './set-editor.component.html',
   styleUrls: ['./set-editor.component.scss']
 })
-export class SetEditorComponent<T extends { id: string, __typename: string }, F> implements OnInit, OnChanges, OnDestroy {
+export class SetEditorComponent<T extends {id: string; __typename: string}, F> implements OnInit, OnChanges, OnDestroy {
   /** The list that contains all nodes that are part of the set. string[] is treated as local state. */
   @Input() listSet: ListId | NodeId[];
   /** The list of all possible items. Should be a superset of listSet, as otherwise the user may not be able to deselect items. */
@@ -58,9 +60,9 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   /** Callback to create a new item (enabled using itemOps). If the promise returns a node ID, it will be added to the set. */
   @Input() createItem: () => Promise<NodeId | null | undefined>;
   /** Callback to edit an item. */
-  @Output() editItem = new EventEmitter<{ id: NodeId, preview: T }>();
+  @Output() editItem = new EventEmitter<{id: NodeId; preview: T}>();
   /** Callback to delete an item. */
-  @Output() deleteItem = new EventEmitter<{ id: NodeId, preview: T }>();
+  @Output() deleteItem = new EventEmitter<{id: NodeId; preview: T}>();
 
   /**
    * @ignore
@@ -71,7 +73,7 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
    * @ignore
    * Pointer to the *appItem directive. Used to instantiate list items.
    */
-  @ContentChild(ItemDirective, { read: TemplateRef }) itemTemplate;
+  @ContentChild(ItemDirective, {read: TemplateRef}) itemTemplate;
 
   /**
    * @ignore
@@ -90,10 +92,7 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
    */
   public isLocalSet = false;
 
-  constructor(
-    private dataService: DataService,
-    private dialogService: MatDialog
-  ) {}
+  constructor(private dataService: DataService, private dialogService: MatDialog) {}
 
   /**
    * @ignore
@@ -156,7 +155,7 @@ export class SetEditorComponent<T extends { id: string, __typename: string }, F>
   /** @ignore */
   private onDialogApplyChangeset = (additions: NodeId[], deletions: NodeId[]): Promise<void> => {
     return this.applyChangeset(additions, deletions);
-  }
+  };
   /** @ignore */
   private onDialogCreateItem = () => this.createItem();
   /** @ignore */

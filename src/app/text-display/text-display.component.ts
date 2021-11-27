@@ -6,7 +6,6 @@ import {Component, Input} from '@angular/core';
  */
 export type TextDisplayEditCallbackFn = (saved: boolean) => void;
 
-
 /**
  * The text display component shows text in a labeled box, and if desired, allows the user to edit and save the
  * text
