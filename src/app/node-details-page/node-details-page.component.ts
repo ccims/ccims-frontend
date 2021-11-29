@@ -30,7 +30,7 @@ export class NodeDetailsPageComponent implements OnInit {
 
   onNodeUpdate(deleted: boolean): void {
     if (deleted) {
-      this.router.navigate(['/projects/' + this.projectId + '/graph']);
+      this.router.navigate([`/projects/${this.projectId}/graph`]);
     }
   }
 }

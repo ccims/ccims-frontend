@@ -67,7 +67,7 @@ export function decodeNodeId(id: NodeIdEnc): NodeId {
  * @param nd the node ID
  */
 export function encodeNodeId(nd: NodeId): NodeIdEnc {
-  return NodeType[nd.type] + '/' + nd.id;
+  return `${NodeType[nd.type]}/${nd.id}`;
 }
 
 /** The ID of the root node. */
@@ -158,5 +158,5 @@ export function decodeListId(id: ListIdEnc): ListId {
  * @param ld a List ID
  */
 export function encodeListId(ld: ListId): ListIdEnc {
-  return encodeNodeId(ld.node) + '#' + ListType[ld.type];
+  return `${encodeNodeId(ld.node)}#${ListType[ld.type]}`;
 }

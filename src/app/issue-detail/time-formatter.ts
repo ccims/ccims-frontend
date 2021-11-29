@@ -45,6 +45,6 @@ export class TimeFormatter {
    * @param singular singular form of the word
    */
   pluralize(n: number, singular: string): string {
-    return n === 1 ? n + ' ' + singular : n + ' ' + singular + 's';
+    return n === 1 ? `${n} ${singular}` : `${n} ${singular}s`;
   }
 }
