@@ -216,8 +216,6 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private subscribeToSubject() {
     this.savePositionsSubject.pipe(takeUntil(this.destroy$), debounceTime(300)).subscribe(() => {
-      console.log('Setting: ', this.projectStorageKey);
-
       // case: there are saved positions
       if (this.savedPositions != null) {
         const newData = JSON.stringify(this.savedPositions);

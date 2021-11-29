@@ -17,7 +17,6 @@ export class AppComponent {
     };
 
     for (const [key, value] of Object.entries(ccimsIcons)) {
-      console.log('register', key, 'as', `../assets/icons/svg/${value}`);
       this.matIconRegistry.addSvgIcon(key, this.domSanitizer.bypassSecurityTrustResourceUrl(`../assets/icons/svg/${value}`));
     }
 
