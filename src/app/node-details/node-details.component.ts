@@ -174,7 +174,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     if (this.nodeType === NodeDetailsType.Component) {
       this.deleteQuery.listenTo(this.componentStoreService.getComponentInterfaces(this.nodeId), (interfaces) => {
         for (const i of interfaces.node.interfaces.nodes) {
-          let affectedInterface = 'Interface "' + i.name + '" will be deleted';
+          let affectedInterface = `Interface "${i.name}" will be deleted`;
           if (i.consumedBy.nodes.length > 0) {
             affectedInterface += ', which will affect the following component(s):';
           }
@@ -204,9 +204,9 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     if (this.nodeType === NodeDetailsType.Component) {
       const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, {
         data: {
-          title: 'Really delete component "' + this.component.node.name + '"?',
+          title: `Really delete component "${this.component.node.name}"?`,
           messages: [
-            'Are you sure you want to delete the component "' + this.component.node.name + '"?',
+            `Are you sure you want to delete the component "${this.component.node.name}"?`,
             'This action cannot be undone!'
           ].concat(affected),
           verificationName: this.component.node.name
@@ -216,7 +216,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
       confirmDeleteDialogRef.afterClosed().subscribe((deleteData) => {
         if (deleteData) {
           this.deleteQuery.listenTo(this.componentStoreService.deleteComponent(this.nodeId), () => {
-            this.notify.notifyInfo('Successfully deleted component "' + this.component.node.name + '""');
+            this.notify.notifyInfo(`Successfully deleted component "${this.component.node.name}"`);
             if (this.callback) {
               this.callback(true);
             }
@@ -226,9 +226,9 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     } else if (this.nodeType === NodeDetailsType.Interface) {
       const confirmDeleteDialogRef = this.dialog.open(RemoveDialogComponent, {
         data: {
-          title: 'Really delete interface "' + this.interface.node.name + '"?',
+          title: `Really delete interface "${this.interface.node.name}"?`,
           messages: [
-            'Are you sure you want to delete the interface "' + this.interface.node.name + '"?',
+            `Are you sure you want to delete the interface "${this.interface.node.name}"?`,
             'This action cannot be undone!'
           ].concat(affected),
           verificationName: this.interface.node.name
@@ -239,7 +239,7 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
         // dialog returns if the deleting was successful
         if (deleteData) {
           this.deleteQuery.listenTo(this.interfaceStoreService.delete(this.nodeId), () => {
-            this.notify.notifyInfo('Successfully deleted interface "' + this.interface.node.name + '"');
+            this.notify.notifyInfo(`Successfully deleted interface "${this.interface.node.name}"`);
             if (this.callback) {
               this.callback(true);
             }

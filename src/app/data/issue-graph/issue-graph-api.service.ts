@@ -69,7 +69,7 @@ export class IssueGraphApiService {
     if (texts.length === 0) {
       return undefined;
     }
-    return texts.map((text) => '(' + text + ')').join('|');
+    return texts.map((text) => `(${text})`).join('|');
   }
 
   /**

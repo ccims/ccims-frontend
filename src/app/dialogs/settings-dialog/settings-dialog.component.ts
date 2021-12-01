@@ -49,7 +49,5 @@ export class SettingsDialogComponent implements OnInit {
     } else {
       this.modeIcon = 'light_mode';
     }
-
-    console.log('dark mode / light mode');
   }
 }

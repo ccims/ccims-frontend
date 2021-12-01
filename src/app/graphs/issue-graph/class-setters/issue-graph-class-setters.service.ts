@@ -4,7 +4,7 @@ import GraphEditor from '@ustutt/grapheditor-webcomponent/lib/grapheditor';
 import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
- * This service is respoonsible for managing the class setters
+ * This service is responsible for managing the class setters
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
@@ -17,16 +17,13 @@ export class IssueGraphClassSettersService {
    * of given GraphEditor instances match their corresponding class names.
    * The setters return true if the class name is applied to the corresponding node / edge.
    * They are called on all nodes, pairs of edges and class names.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
+   * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageClassSetters(graph: GraphEditor, minimap: GraphEditor) {
     // node class setter
     const nodeClassSetter = (className: string, node: Node) => {
-      if (className === node.type) {
-        return true;
-      }
-      return false;
+      return className === node.type;
     };
 
     // applies noce class setter
@@ -41,10 +38,8 @@ export class IssueGraphClassSettersService {
       if (className === 'related-to' && edge.type === 'relatedTo') {
         return true;
       }
-      if (className === 'issue-relation' && (edge.type === 'relatedTo' || edge.type === 'duplicate' || edge.type === 'dependency')) {
-        return true;
-      }
-      return false;
+
+      return className === 'issue-relation' && (edge.type === 'relatedTo' || edge.type === 'duplicate' || edge.type === 'dependency');
     };
 
     // applies edge class setter

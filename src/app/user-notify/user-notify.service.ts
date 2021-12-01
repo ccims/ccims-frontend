@@ -31,7 +31,7 @@ export class UserNotifyService {
    */
   notifyError(message: string, error?: Error) {
     if (error !== undefined) {
-      console.log('Error:', error);
+      console.error('Error:', error);
     }
 
     this.toastr.error(message, 'Error!', this.errorConfig);

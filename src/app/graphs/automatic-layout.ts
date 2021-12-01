@@ -190,6 +190,83 @@ export class LayoutNode {
   }
 
   /**
+   * Calculate the force pointing away from all edges that are connected to the other node
+   * @param otherNode The other node
+   * @param ignoredEdges A list of edges that can be ignored
+   * @return The total force pointing away from all edges
+   */
+  private repelFromEdges(otherNode: LayoutNode, ignoredEdges: Set<string | number>): Vector {
+    const sum = new Vector();
+    const pad = this.padding + otherNode.padding;
+
+    for (const edgeNode of otherNode.connectedTo) {
+      // Ignore edges that were already visited
+      if (edgeNode.id === this.id || (ignoredEdges.has(otherNode.id) && ignoredEdges.has(edgeNode.id))) {
+        continue;
+      }
+
+      ignoredEdges.add(edgeNode.id).add(otherNode.id);
+
+      // Check if this node is next to the edge connecting two nodes
+      if (
+        Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
+        Vector.isBehind(edgeNode.position, otherNode.position, this.position)
+      ) {
+        continue;
+      }
+
+      // If this is the case, determine the distance of the node to the edge, and if necessary, add a force pointing
+      // away from the edge
+      const distanceToEdge = Math.max(1, this.position.distanceToLine(otherNode.position, edgeNode.position) - pad);
+      if (distanceToEdge < LayoutNode.MIN_DISTANCE_EDGE) {
+        const edge = edgeNode.position.subtract(otherNode.position);
+        const point = this.position.subtract(otherNode.position);
+        const scale = Math.max(LayoutNode.MIN_DISTANCE_EDGE - distanceToEdge, 0);
+
+        // Always point away from edge
+        if (edge.x * -point.y + edge.y * point.x < 0) {
+          sum.addSelf(edge.normalize().perpendicularCounterClockwise().scale(scale));
+        } else {
+          sum.addSelf(edge.normalize().perpendicularClockwise().scale(scale));
+        }
+      }
+    }
+
+    return sum;
+  }
+
+  /**
+   * Calculate the direction this node has to move to be closer to connected nodes and to be further away from
+   * non-connected nodes
+   * @param otherNode The other node, connected or not
+   * @return The force on this node
+   */
+  private repelOrAttractToOtherNode(otherNode: LayoutNode): Vector {
+    const pad = this.padding + otherNode.padding;
+    let towardsOther = otherNode.position.subtract(this.position);
+    const distance = Math.max(1, towardsOther.length() - pad);
+    towardsOther = towardsOther.scale(1 / distance);
+
+    // Move this node towards connected nodes, and away from non-connected nodes.
+    // Also make sure that a minimum spacing between nodes exists, regardless of connection.
+    let scale = 0;
+    if (this.connectedTo.has(otherNode)) {
+      if (distance < LayoutNode.MIN_DISTANCE_CONNECTED) {
+        // Connected nodes have a minimum distance to each other
+        scale = -Math.max(LayoutNode.MIN_DISTANCE_CONNECTED - distance, 0);
+      } else {
+        // Node attracted to connected nodes
+        scale = Math.max(distance - LayoutNode.MAX_DISTANCE_CONNECTED, 0);
+      }
+    } else {
+      // Node repelled by non-connected nodes
+      scale = -Math.max(LayoutNode.MIN_DISTANCE_NOT_CONNECTED - distance, 0);
+    }
+
+    return towardsOther.scale(scale);
+  }
+
+  /**
    * Calculate the movement direction that this node should move in, based on all other nodes around it
    * @param allNodes All nodes, can include this node as well
    * @returns The direction in which this node wants to travel
@@ -203,7 +280,7 @@ export class LayoutNode {
     const result = new Vector();
 
     // Keeps track of edges already visited
-    const otherNodesVisited = new Set<string | number>();
+    const ignoredEdges = new Set<string | number>();
 
     for (const otherNode of allNodes) {
       // Iterate over all other nodes
@@ -212,69 +289,13 @@ export class LayoutNode {
       }
 
       // If both nodes are at an identical position, add a small randomized offset to this nodes position
-      let towardsOther = otherNode.position.subtract(this.position);
-      if (towardsOther.isZero()) {
+      if (otherNode.position.subtract(this.position).isZero()) {
         this.position.x += Math.random() - 0.5;
         this.position.y += Math.random() - 0.5;
-        towardsOther = otherNode.position.subtract(this.position);
       }
 
-      const pad = this.padding + otherNode.padding;
-      const distance = Math.max(1, towardsOther.length() - pad);
-      towardsOther = towardsOther.scale(1 / distance);
-
-      // Move this node towards connected nodes, and away from non-connected nodes.
-      // Also make sure that a minimum spacing between nodes exists, regardless of connection.
-      let scale = 0;
-      if (this.connectedTo.has(otherNode)) {
-        if (distance < LayoutNode.MIN_DISTANCE_CONNECTED) {
-          // Connected nodes have a minimum distance to each other
-          scale = -Math.max(LayoutNode.MIN_DISTANCE_CONNECTED - distance, 0);
-        } else {
-          // Node attracted to connected nodes
-          scale = Math.max(distance - LayoutNode.MAX_DISTANCE_CONNECTED, 0);
-        }
-      } else {
-        // Node repelled by non-connected nodes
-        scale = -Math.max(LayoutNode.MIN_DISTANCE_NOT_CONNECTED - distance, 0);
-      }
-
-      // Add this to the total force
-      result.addSelf(towardsOther.scale(scale));
-
-      // Now make this node repel from edges connecting nodes
-      for (const edgeNode of otherNode.connectedTo) {
-        // Ignore edges that were already visited
-        if (edgeNode.id === this.id || (otherNodesVisited.has(otherNode.id) && otherNodesVisited.has(edgeNode.id))) {
-          continue;
-        }
-
-        otherNodesVisited.add(edgeNode.id).add(otherNode.id);
-
-        // Check if this node is next to the edge connecting two nodes
-        if (
-          Vector.isBehind(otherNode.position, edgeNode.position, this.position) ||
-          Vector.isBehind(edgeNode.position, otherNode.position, this.position)
-        ) {
-          continue;
-        }
-
-        // If this is the case, determine the distance of the node to the edge, and if necessary, add a force pointing
-        // away from the edge
-        const distanceToEdge = Math.max(1, this.position.distanceToLine(otherNode.position, edgeNode.position) - pad);
-        if (distanceToEdge < LayoutNode.MIN_DISTANCE_EDGE) {
-          const edge = edgeNode.position.subtract(otherNode.position);
-          const point = this.position.subtract(otherNode.position);
-          scale = Math.max(LayoutNode.MIN_DISTANCE_EDGE - distanceToEdge, 0);
-
-          // Always point away from edge
-          if (edge.x * -point.y + edge.y * point.x < 0) {
-            result.addSelf(edge.normalize().perpendicularCounterClockwise().scale(scale));
-          } else {
-            result.addSelf(edge.normalize().perpendicularClockwise().scale(scale));
-          }
-        }
-      }
+      result.addSelf(this.repelOrAttractToOtherNode(otherNode));
+      result.addSelf(this.repelFromEdges(otherNode, ignoredEdges));
     }
 
     return result;

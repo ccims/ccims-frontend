@@ -69,6 +69,37 @@ import {
   TimelineItemDeletedDirective,
   TimelineSingleItemDirective
 } from '@app/issue-detail/timeline/coalesced/timeline-item.component';
+import {TimelineEventClosedComponent} from '@app/issue-detail/timeline/items/timeline-event-closed.component';
+import {TimelineEventAssignedComponent} from '@app/issue-detail/timeline/items/timeline-event-assigned.component';
+import {TimelineEventDueDateChangedComponent} from '@app/issue-detail/timeline/items/timeline-event-due-date-changed.component';
+import {TimelineEventEstimatedTimeChangedComponent} from '@app/issue-detail/timeline/items/timeline-event-estimated-time-changed.component';
+import {TimelineEventLabelledComponent} from '@app/issue-detail/timeline/items/timeline-event-labelled.component';
+import {TimelineEventDeletedIssueCommentComponent} from '@app/issue-detail/timeline/items/timeline-event-deleted-issue-comment.component';
+import {TimelineEventMarkedDuplicateComponent} from '@app/issue-detail/timeline/items/timeline-event-marked-duplicate.component';
+import {TimelineEventLinkComponent} from '@app/issue-detail/timeline/items/timeline-event-link.component';
+import {TimelineEventPinnedComponent} from '@app/issue-detail/timeline/items/timeline-event-pinned.component';
+import {TimelineEventReferencedByIssueComponent} from '@app/issue-detail/timeline/items/timeline-event-referenced-by-issue.component';
+import {TimelineEventPriorityChangedComponent} from '@app/issue-detail/timeline/items/timeline-event-priority-changed.component';
+import {TimelineEventRemovedFromComponentComponent} from '@app/issue-detail/timeline/items/timeline-event-removed-from-component.component';
+import {TimelineEventReferencedByOtherComponent} from '@app/issue-detail/timeline/items/timeline-event-referenced-by-other.component';
+import {TimelineEventRemovedFromLocationComponent} from '@app/issue-detail/timeline/items/timeline-event-removed-from-location.component';
+import {TimelineEventReopenedComponent} from '@app/issue-detail/timeline/items/timeline-event-reopened.component';
+import {TimelineEventStartDateChangedComponent} from '@app/issue-detail/timeline/items/timeline-event-start-date-changed.component';
+import {TimelineEventUnassignedComponent} from '@app/issue-detail/timeline/items/timeline-event-unassigned.component';
+import {TimelineEventRenamedComponent} from '@app/issue-detail/timeline/items/timeline-event-renamed.component';
+import {TimelineEventUnlabelledComponent} from '@app/issue-detail/timeline/items/timeline-event-unlabelled.component';
+import {TimelineEventWasLinkedComponent} from '@app/issue-detail/timeline/items/timeline-event-was-linked.component';
+import {TimelineEventUnmarkedDuplicateComponent} from '@app/issue-detail/timeline/items/timeline-event-unmarked-duplicate.component';
+import {TimelineEventWasUnlinkedComponent} from '@app/issue-detail/timeline/items/timeline-event-was-unlinked.component';
+import {TimelineEventUnpinnedComponent} from '@app/issue-detail/timeline/items/timeline-event-unpinned.component';
+import {TimelineEventUnlinkComponent} from '@app/issue-detail/timeline/items/timeline-event-unlink.component';
+import {TimelineEventAddedArtifactComponent} from '@app/issue-detail/timeline/items/timeline-event-added-artifact.component';
+import {TimelineEventRemovedArtifactComponent} from '@app/issue-detail/timeline/items/timeline-event-removed-artifact.component';
+import {TimelineEventAddedNfcComponent} from '@app/issue-detail/timeline/items/timeline-event-added-nfc.component';
+import {TimelineEventRemovedNfcComponent} from '@app/issue-detail/timeline/items/timeline-event-removed-nfc.component';
+import {TimelineEventAddedToComponentComponent} from '@app/issue-detail/timeline/items/timeline-event-added-to-component.component';
+import {TimelineEventCategoryChangedComponent} from '@app/issue-detail/timeline/items/timeline-event-category-changed.component';
+import {TimelineEventAddedToLocationComponent} from '@app/issue-detail/timeline/items/timeline-event-added-to-location.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -116,7 +147,38 @@ const toasterConfig: Partial<GlobalConfig> = {
     TimelineItemComponent,
     TimelineSingleItemDirective,
     TimelineCoalescedItemsDirective,
-    TimelineItemDeletedDirective
+    TimelineItemDeletedDirective,
+    TimelineEventClosedComponent,
+    TimelineEventAssignedComponent,
+    TimelineEventDueDateChangedComponent,
+    TimelineEventEstimatedTimeChangedComponent,
+    TimelineEventLabelledComponent,
+    TimelineEventDeletedIssueCommentComponent,
+    TimelineEventMarkedDuplicateComponent,
+    TimelineEventLinkComponent,
+    TimelineEventPinnedComponent,
+    TimelineEventReferencedByIssueComponent,
+    TimelineEventPriorityChangedComponent,
+    TimelineEventRemovedFromComponentComponent,
+    TimelineEventReferencedByOtherComponent,
+    TimelineEventRemovedFromLocationComponent,
+    TimelineEventReopenedComponent,
+    TimelineEventStartDateChangedComponent,
+    TimelineEventRenamedComponent,
+    TimelineEventUnassignedComponent,
+    TimelineEventUnlabelledComponent,
+    TimelineEventWasLinkedComponent,
+    TimelineEventUnmarkedDuplicateComponent,
+    TimelineEventWasUnlinkedComponent,
+    TimelineEventUnpinnedComponent,
+    TimelineEventUnlinkComponent,
+    TimelineEventAddedArtifactComponent,
+    TimelineEventRemovedArtifactComponent,
+    TimelineEventAddedNfcComponent,
+    TimelineEventRemovedNfcComponent,
+    TimelineEventAddedToComponentComponent,
+    TimelineEventCategoryChangedComponent,
+    TimelineEventAddedToLocationComponent
   ],
   imports: [
     BrowserModule,

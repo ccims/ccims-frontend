@@ -1,8 +1,9 @@
-<div class="timeline-body">
-  <ng-container [ngTemplateOutlet]="activeItemContent"></ng-container><br />
+<div class="timeline-panel timeline-body" *ngIf="item">
+  <ng-container [ngTemplateOutlet]="activeItemContent"></ng-container>
+  <br/>
   <small class="text-muted">
-    <time [dateTime]="timelineItem.time" [title]="this.timeFormatter.formatTime(timelineItem.time)">
-      {{ this.timeFormatter.formatTimeDifference(timelineItem.time) }}
+    <time [dateTime]="item.time" [title]="this.timeFormatter.formatTime(item.time)">
+      {{ this.timeFormatter.formatTimeDifference(item.time) }}
     </time>
   </small>
 </div>

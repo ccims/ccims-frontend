@@ -1,9 +1,8 @@
 <div class="timeline-item">
   <div class="item-box" *ngIf="comment$.hasData && comment$.current as comment">
-    <!--Part 1: Header-->
     <div class="item-header">
-      <!--Text-->
       <h3 class="item-title">
+        <!-- Comment title, with user name and creation time -->
         <app-user-item [short]="true" [user]="comment.createdBy"></app-user-item>
         commented
         <time [dateTime]="comment.createdAt" [title]="this.timeFormatter.formatTime(comment.createdAt)">
@@ -18,9 +17,10 @@
         </span>
       </h3>
 
-      <!--Edit-->
+      <!-- Edit and delete comment buttons -->
       <!-- Delete button is only for comments and not for issue description displayed -->
-      <button *ngIf="!this.editBody && !this.isIssueBody" class="item-edit" color="warn" mat-flat-button (click)="this.deleteComment()">
+      <button *ngIf="!this.editBody && !this.isIssueBody" class="item-edit" color="warn" mat-flat-button
+              (click)="this.deleteComment()">
         Delete
       </button>
       <button
@@ -29,27 +29,25 @@
         style="margin-left: 6px"
         color="primary"
         mat-flat-button
-        (click)="this.editBody = !this.editBody"
-      >
+        (click)="this.editBody = !this.editBody">
         Edit
       </button>
     </div>
 
-    <!--Part 2: Description-->
+    <!-- Comment body -->
     <div *ngIf="!this.editBody" class="item-body">
       <app-markdown-preview [displayedCode]="comment.body"></app-markdown-preview>
     </div>
 
-    <!--Part 3: Editing-->
+    <!-- Comment body during editing -->
     <div *ngIf="this.editBody" class="item-body is-editing" [ngStyle]="{ height: this.editBody ? '280px' : 'auto' }">
-      <!--Text-->
       <app-markdown-editor #bodyEdit [code]="comment.body"></app-markdown-editor>
 
+      <!-- Save/Cancel buttons -->
       <div class="edit-body-buttons">
-        <!--Cancel-->
         <button mat-raised-button (click)="this.editBody = !this.editBody">Cancel</button>
-        <!--Save-->
-        <button mat-raised-button style="margin-left: 6px" color="accent" [class.spinner]="savingBody" (click)="editComment(bodyEdit.code)">
+        <button mat-raised-button style="margin-left: 6px" color="accent" [class.spinner]="savingBody"
+                (click)="editComment(bodyEdit.code)">
           Save
         </button>
       </div>

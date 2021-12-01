@@ -5,7 +5,7 @@ import {LinkHandle} from '@ustutt/grapheditor-webcomponent/lib/link-handle';
 import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 
 /**
- * This service is respoonsible for managing the link handles
+ * This service is responsible for managing the link handles
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
@@ -15,8 +15,8 @@ import {Node} from '@ustutt/grapheditor-webcomponent/lib/node';
 export class IssueGraphLinkHandlesService {
   /**
    * Manages calculation of the link handles of given GraphEditor instances.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
+   * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
     // calculation for link handles
@@ -55,9 +55,9 @@ export class IssueGraphLinkHandlesService {
 
   /**
    * Calculates the source handles of a given edge.
-   * @param  {Node} source - Source of the edge that is handled.
-   * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
-   * @param  {LinkHandle[]} sourceHandles - Source handles of the edge.
+   * @param source Source of the edge that is handled.
+   * @param handles Handles of the edge.
+   * @param sourceHandles Source handles of the edge.
    */
   private calculateSourceHandles(
     source: Node,
@@ -91,9 +91,9 @@ export class IssueGraphLinkHandlesService {
 
   /**
    * Calculates the target handles of a given edge.
-   * @param  {Node} target - Target of the edge that is handled.
-   * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
-   * @param  {LinkHandle[]} targetHandles - Target handles of the edge.
+   * @param target Target of the edge that is handled.
+   * @param handles Handles of the edge.
+   * @param targetHandles Target handles of the edge.
    */
   private calculateTargetHandles(
     target: Node,
