@@ -43,7 +43,7 @@ export class FrameComponent {
     this.showDrawer = !this.showDrawer;
   }
 
-  prepareRoute(outlet: RouterOutlet) {
+  prepareRoute(outlet: RouterOutlet): any {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 }

@@ -21,7 +21,7 @@ export class IssueItemComponent {
   constructor(private router: Router) {}
 
   /** Returns the link URL for the issue. */
-  getIssueLink() {
+  getIssueLink(): string {
     return this.router.serializeUrl(this.router.createUrlTree(['/projects', this.projectId, 'issues', this.issue.id]));
   }
 }

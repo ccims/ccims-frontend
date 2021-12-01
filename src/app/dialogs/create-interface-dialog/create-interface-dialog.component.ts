@@ -37,7 +37,7 @@ export class CreateInterfaceDialogComponent {
     this.dialogRef.close();
   }
 
-  onOkClick(name: string, description: string, type: string): void {
+  onOkClick(name: string, description: string): void {
     this.loading = true;
 
     // db mutation to create an interface

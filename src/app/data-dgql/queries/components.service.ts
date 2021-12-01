@@ -3,9 +3,13 @@ import {
   ComponentFilter,
   ComponentInterfaceFilter,
   GetComponentGQL,
+  GetComponentQuery,
   GetInterfaceGQL,
+  GetInterfaceQuery,
   ListProjectComponentsGQL,
-  ListProjectInterfacesGQL
+  ListProjectComponentsQuery,
+  ListProjectInterfacesGQL,
+  ListProjectInterfacesQuery
 } from 'src/generated/graphql-dgql';
 import {promisifyApolloFetch, QueryListParams} from '@app/data-dgql/queries/util';
 
@@ -20,19 +24,19 @@ export class ComponentsService {
     private qGetInterface: GetInterfaceGQL
   ) {}
 
-  listProjectComponents(project: string, list: QueryListParams<ComponentFilter>) {
+  listProjectComponents(project: string, list: QueryListParams<ComponentFilter>): Promise<ListProjectComponentsQuery> {
     return promisifyApolloFetch(this.qListProjectComponents.fetch({project, ...list}));
   }
 
-  listProjectInterfaces(project: string, list: QueryListParams<ComponentInterfaceFilter>) {
+  listProjectInterfaces(project: string, list: QueryListParams<ComponentInterfaceFilter>): Promise<ListProjectInterfacesQuery> {
     return promisifyApolloFetch(this.qListProjectInterfaces.fetch({project, ...list}));
   }
 
-  getComponent(id: string) {
+  getComponent(id: string): Promise<GetComponentQuery> {
     return promisifyApolloFetch(this.qGetComponent.fetch({id}));
   }
 
-  getInterface(id: string) {
+  getInterface(id: string): Promise<GetInterfaceQuery> {
     return promisifyApolloFetch(this.qGetInterface.fetch({id}));
   }
 }

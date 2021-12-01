@@ -72,7 +72,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
    * 1) the issue title and
    * 2) the issue category can be changed.
    */
-  beginEditing() {
+  beginEditing(): void {
     // marks the issue as editable
     this.issueEditable = true;
 

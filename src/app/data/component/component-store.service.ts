@@ -54,18 +54,18 @@ export class ComponentStoreService {
     return this.getComponentInterfacesQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
-  deleteComponent(id: string) {
+  deleteComponent(id: string): Observable<any> {
     const input: DeleteComponentInput = {
       component: id
     };
     return this.deleteComponentMutation.mutate({input});
   }
 
-  createComponent(input: CreateComponentInput) {
+  createComponent(input: CreateComponentInput): Observable<any> {
     return this.createComponentMutation.mutate({input});
   }
 
-  updateComponent(input: UpdateComponentInput) {
+  updateComponent(input: UpdateComponentInput): Observable<any> {
     return this.updateComponentMutation.mutate({input});
   }
 }

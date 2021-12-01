@@ -47,7 +47,7 @@ import {IssueFilterComponent} from '@app/issue-list/issue-filter.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {QueryBodyDirective, QueryButtonDirective, QueryComponent} from '@app/utils/query-component/query.component';
-import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {IssueLocationComponent} from '@app/components/issue-location/issue-location.component';
 import {IssueCategoryComponent} from '@app/components/issue-category/issue-category.component';
 

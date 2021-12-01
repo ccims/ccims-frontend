@@ -3,7 +3,7 @@ import {DataList, DataNode} from '@app/data-dgql/query';
 import {Issue} from '../../generated/graphql';
 import {Subscription} from 'rxjs';
 import DataService from '@app/data-dgql';
-import {CURRENT_USER_NODE, ListType, NodeType} from '@app/data-dgql/id';
+import {CURRENT_USER_NODE, ListType} from '@app/data-dgql/id';
 import {User} from '../../generated/graphql-dgql';
 
 /**

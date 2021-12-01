@@ -57,57 +57,57 @@ export class IssueStoreService {
     private getAllTimelineItemsQuery: GetAllTimelineItemsGQL
   ) {}
 
-  create(issueInput: CreateIssueInput) {
+  create(issueInput: CreateIssueInput): Observable<any> {
     return this.createIssue.mutate({input: issueInput});
   }
 
-  link(linkIssueInput: LinkIssueInput) {
+  link(linkIssueInput: LinkIssueInput): Observable<any> {
     return this.linkIssue.mutate({input: linkIssueInput});
   }
 
-  unlink(unlinkIssueInput: UnlinkIssueInput) {
+  unlink(unlinkIssueInput: UnlinkIssueInput): Observable<any> {
     return this.unlinkIssueMutation.mutate({input: unlinkIssueInput});
   }
 
-  commentIssue(commentIssueInput: AddIssueCommentInput) {
+  commentIssue(commentIssueInput: AddIssueCommentInput): Observable<any> {
     return this.commentIssueMutation.mutate({input: commentIssueInput});
   }
 
-  deleteComment(deleteIssueCommentInput: DeleteIssueCommentInput) {
+  deleteComment(deleteIssueCommentInput: DeleteIssueCommentInput): Observable<any> {
     return this.deleteIssueCommentMutation.mutate({
       input: deleteIssueCommentInput
     });
   }
 
-  close(closeInput: CloseIssueInput) {
+  close(closeInput: CloseIssueInput): Observable<any> {
     return this.closeIssueMutation.mutate({input: closeInput});
   }
 
-  reopen(reopenInput: ReopenIssueInput) {
+  reopen(reopenInput: ReopenIssueInput): Observable<any> {
     return this.reopenIssueMutation.mutate({input: reopenInput});
   }
 
-  rename(renameInput: RenameIssueTitleInput) {
+  rename(renameInput: RenameIssueTitleInput): Observable<any> {
     return this.renameIssueMutation.mutate({input: renameInput});
   }
 
-  changeIssueCategory(changeIssueCategoryInput: ChangeIssueCategoryInput) {
+  changeIssueCategory(changeIssueCategoryInput: ChangeIssueCategoryInput): Observable<any> {
     return this.changeIssueCategoryMutation.mutate({
       input: changeIssueCategoryInput
     });
   }
 
-  addToLocation(addLocationInput: AddIssueToLocationInput) {
+  addToLocation(addLocationInput: AddIssueToLocationInput): Observable<any> {
     return this.addIssueToLocationMutation.mutate({input: addLocationInput});
   }
 
-  removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput) {
+  removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput): Observable<any> {
     return this.removeIssueFromLocationMutation.mutate({
       input: removeLocationInput
     });
   }
 
-  updateComment(updateCommentInput: UpdateCommentInput) {
+  updateComment(updateCommentInput: UpdateCommentInput): Observable<any> {
     return this.updateCommentMutation.mutate({input: updateCommentInput});
   }
 

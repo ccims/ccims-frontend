@@ -12,7 +12,7 @@ import {Issue, IssueCategory} from 'src/generated/graphql-dgql';
 export class IssueIconComponent {
   @Input() issue: Issue;
 
-  getIconName() {
+  getIconName(): string {
     let category;
     if (this.issue.category === IssueCategory.Bug) {
       category = 'bug';
@@ -30,7 +30,7 @@ export class IssueIconComponent {
     return ['issue-', category, closed, edgeType && '-', edgeType].filter((part) => part).join('');
   }
 
-  getIconLabel() {
+  getIconLabel(): string {
     const category =
       this.issue.category === IssueCategory.Bug ? 'bug' : this.issue.category === IssueCategory.FeatureRequest ? 'feature' : 'issue';
     return this.issue.isOpen ? `Open ${category}` : `Closed ${category}`;

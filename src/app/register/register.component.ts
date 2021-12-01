@@ -45,7 +45,7 @@ export class RegisterComponent {
    * @returns Observable emitting values indicating error when string entered in
    * control is not a valid username. Emits null when username is valid
    */
-  userNameAsyncValidator = (control: FormControl) =>
+  userNameAsyncValidator = (control: FormControl): Observable<any> =>
     new Observable((observer: Observer<ValidationErrors | null>) => {
       this.userAvailablyQuery.fetch({username: control.value}).subscribe(
         ({data}) => {

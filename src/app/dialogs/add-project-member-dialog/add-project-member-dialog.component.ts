@@ -21,12 +21,12 @@ export class AddProjectMemberDialogComponent implements OnInit {
   }
 
   //cancel button
-  onNoClick() {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 
   //add member button
-  onOkClick() {
+  onOkClick(): void {
     const data = {usersToAdd: this.selectedUsers};
     this.dialogRef.close(data);
   }

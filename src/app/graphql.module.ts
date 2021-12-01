@@ -72,7 +72,6 @@ export function provideDefaultApollo(
   authService: AuthenticationService,
   toastr: ToastrService
 ): ApolloClientOptions<any> {
-  const token = localStorage.getItem('token');
   const auth = setContext((_, {headers}) => {
     // get the authentication token from local storage if it exists
     // return the headers to the context so httpLink can read them

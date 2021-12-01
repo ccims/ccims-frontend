@@ -16,7 +16,6 @@ export type TextDisplayEditCallbackFn = (saved: boolean) => void;
   styleUrls: ['./text-display.component.scss']
 })
 export class TextDisplayComponent {
-
   private value: string;
   editMode = false;
   editText = '';
@@ -40,7 +39,6 @@ export class TextDisplayComponent {
   @Input() readonly: boolean;
   /** The placeholder will be shown if the content is empty */
   @Input() placeholder = '';
-
 
   finishEditing(saved: boolean): void {
     this.editMode = false;

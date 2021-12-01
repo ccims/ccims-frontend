@@ -40,7 +40,7 @@ export default class DataService {
   }
 
   /** Invalidates all lists with the given id or type. */
-  invalidateLists(selector: ListId | ListType) {
+  invalidateLists(selector: ListId | ListType): void {
     if (typeof selector === 'object') {
       const id = encodeListId(selector);
       if (!this.lists.has(id)) {

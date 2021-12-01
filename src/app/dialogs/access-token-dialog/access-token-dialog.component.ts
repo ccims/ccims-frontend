@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -6,19 +6,17 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
   templateUrl: './access-token-dialog.component.html',
   styleUrls: ['./access-token-dialog.component.scss']
 })
-export class AccessTokenDialogComponent implements OnInit {
+export class AccessTokenDialogComponent {
   selected = 'option2';
 
   constructor(public dialogRef: MatDialogRef<boolean>, private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
-
   //close access token settings dialog
-  public closeDialog() {
+  public closeDialog(): void {
     this.dialogRef.close();
   }
 
-  public generateToken() {
+  public generateToken(): void {
     //TODO
   }
 }
