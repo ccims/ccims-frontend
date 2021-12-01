@@ -48,7 +48,7 @@ An issue can be a bug, a feature request, and an unclassified issue. Issues can 
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/createIssue.png" width="700"/>
 </p>
 
-The issues are also displayed as a list in a separate view. Said view is either displayed as a component / interface pop-up, or it is shown in page "Issues". Each issue has a title, author, assignees, labels and a category. The list of issues can be filtered so that specific ones will be targeted. After selecting an issue, its details are displayed on its own issue details page. There the issue can be edited, commented and closed. What's more, the details page for each issue includes a timeline, more about which can be found in section Timeline.
+The issues are also displayed as a list in a separate view. The aforementioned view is either displayed as a component / interface pop-up, or it is shown in page "Issues". Each issue has a title, author, assignees, labels and a category. The list of issues can be filtered so that specific ones will be targeted. After selecting an issue, its details are displayed on its own issue details page. There the issue can be edited, commented and closed. What's more, the details page for each issue includes a timeline, more about which can be found in section Timeline.
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/issues.png" width="700"/>
@@ -73,7 +73,7 @@ To use the app, the user must first sign up (if no account has been created yet)
 ## Mocked Members Page
 
 Every project offers a mocked "Members" page. It shows a list of users in the project and
-offers a dialog to add users. However, this area is purely a mock, changes are not persistent
+offers dialogs to add and delete users. However, this area is purely a mock, changes are not persistent
 and there are no other users who have access to the currently handled project.
 
 <p align="center">
