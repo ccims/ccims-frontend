@@ -2,26 +2,23 @@
 <div class="canvas-background">
   <div class="form-container">
     <div class="logo-wrapper">
-      <!--1. Logo-->
+      <!-- Logo-->
       <div class="logo-container">
         <div class="logo-image">
           <img src="../../assets/Gropius.png" alt="CCIMS-Logo" height="80" />
         </div>
       </div>
 
-      <!--2. Headline-->
       <div class="headline">
         <h2>Register</h2>
       </div>
     </div>
 
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
-      <!--3. Username form item-->
+      <!-- Username form item-->
       <nz-form-item>
-        <!--form label-->
         <nz-form-label [nzSpan]="7" nzRequired> Username </nz-form-label>
 
-        <!--form control-->
         <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
           <input nz-input formControlName="username" placeholder="" />
           <ng-template #userErrorTpl let-control>
@@ -31,12 +28,10 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!--4. Email form item-->
+      <!-- Email form item-->
       <nz-form-item>
-        <!--form label-->
         <nz-form-label [nzSpan]="7" nzRequired> Email </nz-form-label>
 
-        <!--form control-->
         <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
           <input nz-input formControlName="email" placeholder="" type="email" />
           <ng-template #emailErrorTpl let-control>
@@ -46,23 +41,19 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!--5. Password form item-->
+      <!-- Password form item-->
       <nz-form-item>
-        <!--form label-->
         <nz-form-label [nzSpan]="7" nzRequired> Password </nz-form-label>
 
-        <!--form control-->
         <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please enter a Password">
           <input nz-input type="password" formControlName="password" (ngModelChange)="validateConfirmPassword()" />
         </nz-form-control>
       </nz-form-item>
 
-      <!--6. Confirm Password form item-->
+      <!-- Confirm Password form item-->
       <nz-form-item>
-        <!--form label-->
         <nz-form-label [nzSpan]="7" nzRequired> Confirm Password </nz-form-label>
 
-        <!--form control-->
         <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
           <input nz-input type="password" formControlName="confirm" placeholder="" />
           <ng-template #passwordErrorTpl let-control>
@@ -72,17 +63,11 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!--7. Buttons form item-->
+      <!-- Buttons form item-->
       <nz-form-item>
-        <!--form control-->
         <nz-form-control [nzOffset]="7" [nzSpan]="12">
-          <!--Register button-->
           <button nz-button nzType="primary" [disabled]="!validateForm.valid">Register</button>
-
-          <!--Reset button-->
           <button nz-button (click)="resetForm($event)">Reset</button>
-
-          <!--Back button-->
           <button nz-button (click)="backToLogin($event)">Back</button>
         </nz-form-control>
       </nz-form-item>

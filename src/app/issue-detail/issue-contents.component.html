@@ -1,8 +1,8 @@
 <div class="issue-contents" *ngIf="issue$?.current as issue">
-  <!--Part 3: Issue body-->
+  <!-- Issue body -->
   <app-comment class="issue-body" [commentId]="issue$.id" [isIssueBody]="true"></app-comment>
 
-  <!--Part 4: Linked issues-->
+  <!-- Linked issues -->
   <div *ngIf="linkedIssues$.totalCount > 0" class="timeline-item">
     <div class="item-box">
       <div class="item-header">
@@ -28,7 +28,7 @@
 
   <mat-divider></mat-divider>
 
-  <!--Part 6: Comment creation box-->
+  <!-- Comment creation box-->
   <div class="timeline-item comment-form">
     <div class="item-box">
       <div class="item-header">

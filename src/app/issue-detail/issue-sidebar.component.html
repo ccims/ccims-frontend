@@ -1,16 +1,13 @@
-<!--Issue data, shown in the Create Issue dialog-->
-
-<!--1. Issue components-->
+<!-- Components this issue is assigned to -->
 <div class="issue-sidebar-row">
   <app-set-editor
-    #componentSet
-    [makeFilter]="makeComponentFilter"
-    [scoreKeys]="['name']"
-    [listSet]="componentList"
-    [listAll]="allComponentsList"
-    [hydrate]="componentListPromise"
-    [applyChangeset]="applyComponentChangeset"
-  >
+      #componentSet
+      [makeFilter]="makeComponentFilter"
+      [scoreKeys]="['name']"
+      [listSet]="componentList"
+      [listAll]="allComponentsList"
+      [hydrate]="componentListPromise"
+      [applyChangeset]="applyComponentChangeset">
     <span title>Components</span>
     <span if-empty>No components assigned</span>
     <ng-container *appItem="let item">
@@ -21,7 +18,7 @@
 
 <mat-divider></mat-divider>
 
-<!--2. Issue locations aka. components, interfaces-->
+<!-- Issue locations, interfaces as well as components -->
 <div class="issue-sidebar-row">
   <app-set-editor
     [makeFilter]="makeLocationFilter"
@@ -29,8 +26,7 @@
     [listSet]="locationList"
     [listAll]="allLocationsList"
     [hydrate]="locationListPromise"
-    [applyChangeset]="applyLocationChangeset"
-  >
+    [applyChangeset]="applyLocationChangeset">
     <span title>Locations</span>
     <span if-empty>No locations assigned</span>
     <ng-container *appItem="let item">
@@ -45,7 +41,7 @@
 
 <mat-divider></mat-divider>
 
-<!--3. Issue labels-->
+<!-- Issue labels -->
 <div class="issue-sidebar-row">
   <app-set-editor
     [makeFilter]="makeLabelFilter"
@@ -57,8 +53,7 @@
     itemOps="create-edit-delete"
     [createItem]="onCreateLabel"
     (editItem)="onEditLabel($event)"
-    (deleteItem)="onDeleteLabel($event)"
-  >
+    (deleteItem)="onDeleteLabel($event)">
     <span title>Labels</span>
     <span if-empty>No labels assigned</span>
     <ng-container *appItem="let item">
@@ -69,7 +64,7 @@
 
 <mat-divider></mat-divider>
 
-<!--4. Issue assignees-->
+<!-- Issue assignees -->
 <div class="issue-sidebar-row">
   <app-set-editor
     [makeFilter]="makeUserFilter"
@@ -78,8 +73,7 @@
     [listSet]="assigneeList"
     [listAll]="allAssigneeCandidatesList"
     [hydrate]="assigneeListPromise"
-    [applyChangeset]="applyAssigneeChangeset"
-  >
+    [applyChangeset]="applyAssigneeChangeset">
     <span title>Assignees</span>
     <span if-empty>No one</span>
     <div *appItem="let item">
@@ -90,7 +84,7 @@
 
 <mat-divider></mat-divider>
 
-<!--5. Issues the current issue is linked to-->
+<!-- Issues the current issue is linked to -->
 <div class="issue-sidebar-row">
   <app-set-editor
     [makeFilter]="makeIssueFilter"
@@ -103,14 +97,15 @@
     <span title>Linked Issues</span>
     <span if-empty>No issues linked</span>
     <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
-      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
+      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive"
+                      [projectId]="projectId"></app-issue-item>
     </div>
   </app-set-editor>
 </div>
 
 <mat-divider></mat-divider>
 
-<!--6. Issues the current issue is linked by-->
+<!-- Issues the current issue is linked by -->
 <div class="issue-sidebar-row" *ngIf="!localIssue">
   <app-set-editor
     [makeFilter]="makeIssueFilter"
@@ -123,16 +118,17 @@
     <span title>Linked By Issues</span>
     <span if-empty>No issues link to this issue</span>
     <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
-      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
+      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive"
+                      [projectId]="projectId"></app-issue-item>
     </div>
   </app-set-editor>
 </div>
 
 <mat-divider></mat-divider>
 
-<!--7. Issue interfaces, artefacts and NFR-->
+<!-- Issue interfaces, artefacts and NFR -->
 <div class="issue-sidebar-row">
   <mat-label><strong>Interfaces, Artefacts & NFR</strong></mat-label>
   unimplemented
-  <br />
+  <br/>
 </div>
