@@ -416,9 +416,9 @@ export class CreateEditLabelDialogComponent implements OnInit {
 
   /** Randomizes the label color. */
   randomizeColor(): void {
-    const r &#x3D; &#x60;00${(Math.random() * 0xff).toString(16)}&#x60;.slice(-2);
-    const g &#x3D; &#x60;00${(Math.random() * 0xff).toString(16)}&#x60;.slice(-2);
-    const b &#x3D; &#x60;00${(Math.random() * 0xff).toString(16)}&#x60;.slice(-2);
+    const r &#x3D; (&#x27;00&#x27; + (Math.random() * 0xff).toString(16)).slice(-2);
+    const g &#x3D; (&#x27;00&#x27; + (Math.random() * 0xff).toString(16)).slice(-2);
+    const b &#x3D; (&#x27;00&#x27; + (Math.random() * 0xff).toString(16)).slice(-2);
 
     this.color &#x3D; &#x27;#&#x27; + r + g + b;
   }

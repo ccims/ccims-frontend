@@ -68,13 +68,6 @@
         </p>
 
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>A point on the component graph</p>
-
-            </p>
 
 
         <section>
@@ -205,9 +198,6 @@ export {
   getIssueFolderId
 };
 
-/**
- * The type of node shown in the graph
- */
 export enum NodeType {
   Component &#x3D; &#x27;component&#x27;,
   Interface &#x3D; &#x27;interface&#x27;,
@@ -216,27 +206,25 @@ export enum NodeType {
 }
 
 /**
- * An abstract node on the component graph
+ * This file includes type definitions and creation functions (think constructors)
+ * for nodes and edges that are added to the graph editor in order to visualize the project.
+ * Since the data that is stored with these differs based on what they represent (e.g.
+ * interface vs component node) we give each their own type. We do this by extending
+ * the Node class or the Edge class of the grapheditor. These classes are instantiated
+ * via calls to the contained create* functions within the drawGraph method of the IssueGraphComponent.
  */
+
 interface IssueNode extends Node {
   id: string;
   title: string;
   issueGroupContainer?: IssueGroupContainerNode;
 }
 
-/**
- * A component node on the graph
- */
 interface ComponentNode extends IssueNode {
   data: GraphComponent;
 }
 
-/**
- * Create a new {@link ComponentNode}
- * @param component The component data
- * @param position The initial position, nullable
- */
-function createComponentNode(component: GraphComponent, position?: Position): ComponentNode {
+function createComponentNode(component: GraphComponent, position: Position): ComponentNode {
   return {
     ...(position || zeroPosition),
     id: component.id,
@@ -246,22 +234,11 @@ function createComponentNode(component: GraphComponent, position?: Position): Co
   };
 }
 
-/**
- * An interface node on the graph
- */
 interface InterfaceNode extends IssueNode {
-  /**
-   * The component id, which offers this interface
-   */
   offeredById: string;
 }
 
-/**
- * Create a new {@link InterfaceNode}
- * @param intrface The interface data
- * @param position The initial position, nullable
- */
-function createInterfaceNode(intrface: GraphInterface, position?: Position): InterfaceNode {
+function createInterfaceNode(intrface: GraphInterface, position: Position): InterfaceNode {
   return {
     ...(position || zeroPosition),
     id: intrface.id,
@@ -271,22 +248,11 @@ function createInterfaceNode(intrface: GraphInterface, position?: Position): Int
   };
 }
 
-/**
- * An invisible node, containing multiple {@link IssueFolderNode}
- */
 interface IssueGroupContainerNode extends Node {
-  /**
-   * The position of this container relative to the component node it belongs to.
-   * Can be either &#x27;top&#x27;, &#x27;bottom&#x27;, &#x27;left&#x27; or &#x27;right&#x27;
-   */
   position: string;
   issueGroupNodeIds: Set&lt;string&gt;;
 }
 
-/**
- * Create a new {@link IssueGroupContainerNode}
- * @param node The node (e.g. {@link InterfaceNode} or {@link ComponentNode}) to which this container belongs to
- */
 function createIssueGroupContainerNode(node: IssueNode): IssueGroupContainerNode {
   return {
     id: &#x60;${node.id}__issue-group-container&#x60;,
@@ -299,20 +265,11 @@ function createIssueGroupContainerNode(node: IssueNode): IssueGroupContainerNode
   };
 }
 
-/**
- * A node showing the issue folder icon
- */
 interface IssueFolderNode extends Node {
   type: IssueCategory;
   issueCount: string;
 }
 
-/**
- * Creates a new {@link IssueFolderNode}
- * @param node The node (e.g. a {@link ComponentNode}) to which this issue folder belongs to
- * @param issueCategory The issue category
- * @param issueCount How many issues of this category the node has assigned to it
- */
 function createIssueFolderNode(node: IssueNode, issueCategory: IssueCategory, issueCount: string): IssueFolderNode {
   return {
     id: getIssueFolderId(node.id, issueCategory),
@@ -324,25 +281,16 @@ function createIssueFolderNode(node: IssueNode, issueCategory: IssueCategory, is
   };
 }
 
-/**
- * The arrow showing the relation between issues
- */
 interface RelationEdge extends Edge {
   sourceIssues: Set&lt;string&gt;;
 }
 
-/**
- * Create a new {@link RelationEdge}
- * @param sourceId The source node id
- * @param targetId The target node id
- * @param edgeType The type of edge
- */
-function createRelationEdge(sourceId: string, targetId: string, edgeType &#x3D; FolderEdgeType.RelatedTo): RelationEdge {
+function createRelationEdge(sourceId: string, targetId: string, edgeType &#x3D; folderEdgeTypes.RelatedTo): RelationEdge {
   return {
     id: &#x60;s${sourceId}t${targetId}r${edgeType}&#x60;,
     source: sourceId,
     target: targetId,
-    type: FolderEdgeType.RelatedTo,
+    type: folderEdgeTypes.RelatedTo,
     markerEnd: {
       template: &#x27;arrow&#x27;,
       relativeRotation: 0
@@ -352,11 +300,6 @@ function createRelationEdge(sourceId: string, targetId: string, edgeType &#x3D; 
   };
 }
 
-/**
- * Create an edge consuming an interface
- * @param componentId The component node id consuming the interface
- * @param interfaceId The interface node id providing the interface
- */
 function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
   return {
     source: componentId,
@@ -369,11 +312,6 @@ function createConsumptionEdge(componentId: string, interfaceId: string): Edge {
   };
 }
 
-/**
- * Create an edge connecting the component with the interface this component provides
- * @param componentId The component node id providing the interface
- * @param interfaceId The interface node id
- */
 function createInterfaceProvisionEdge(componentId: string, interfaceId: string): Edge {
   return {
     source: componentId,
@@ -383,32 +321,18 @@ function createInterfaceProvisionEdge(componentId: string, interfaceId: string):
   };
 }
 
-/**
- * Encode the node id and the issue category into a folder id
- * @param id The id of the node the folder belongs to, e.g. a {@link ComponentNode}
- * @param issueCategory The category of the issue
- */
 function getIssueFolderId(id: string, issueCategory: IssueCategory): string {
   return &#x60;${id}__${issueCategory}&#x60;;
 }
 
-/**
- * A point on the component graph
- */
 interface Position {
   x: number;
   y: number;
 }
 
-/**
- * The zero position on the graph
- */
 const zeroPosition &#x3D; {x: 0, y: 0};
 
-/**
- * The type of the relation edge shown in between issue folders
- */
-enum FolderEdgeType {
+enum folderEdgeTypes {
   RelatedTo &#x3D; &#x27;relatedTo&#x27;,
   Depends &#x3D; &#x27;dependency&#x27;,
   Duplicates &#x3D; &#x27;duplicate&#x27;

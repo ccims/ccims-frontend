@@ -174,11 +174,11 @@ with all its timeline events for a given issue.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#addSingleCoalesceItem" >addSingleCoalesceItem</a>
+                                <a href="#addCoalesceItems" >addCoalesceItems</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#finishCoalescing" >finishCoalescing</a>
+                                <a href="#addSingleCoalesceItem" >addSingleCoalesceItem</a>
                             </li>
                             <li>
                                 <a href="#makeCommentId" >makeCommentId</a>
@@ -190,9 +190,11 @@ with all its timeline events for a given issue.</p>
                                 <a href="#requestTimelineItems" >requestTimelineItems</a>
                             </li>
                             <li>
+                                <a href="#selfAssigned" >selfAssigned</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
-                                    <span class="modifier">Static</span>
-                                <a href="#shouldStopCoalescing" >shouldStopCoalescing</a>
+                                <a href="#stopCoalescing" >stopCoalescing</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -238,7 +240,7 @@ with all its timeline events for a given issue.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:126</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:114</a></div>
                             </td>
                         </tr>
 
@@ -301,7 +303,7 @@ with all its timeline events for a given issue.</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:105</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:106</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -328,7 +330,7 @@ with all its timeline events for a given issue.</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:109</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:110</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -352,6 +354,102 @@ with all its timeline events for a given issue.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="addCoalesceItems"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>addCoalesceItems</b></span>
+                        <a href="#addCoalesceItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: <a href="../interfaces/CoalescedTimelineItem.html" target="_self">CoalescedTimelineItem[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds items from a given coalesce list
+to a given list containing all coalesced timeline items.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>coalesceList</td>
+                                    <td>
+                                            <code>IssueTimelineItem[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The given coalesce list.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>coalesced</td>
+                                    <td>
+                                                <code><a href="../interfaces/CoalescedTimelineItem.html" target="_self" >CoalescedTimelineItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The given list containing all coalesced timeline items.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CoalescedTimelineItem.html" target="_self" >CoalescedTimelineItem[]</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The given list containing all coalesced timeline items.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="addSingleCoalesceItem"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -370,8 +468,8 @@ with all its timeline events for a given issue.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="266"
-                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:266</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="273"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:273</a></div>
                 </td>
             </tr>
 
@@ -406,7 +504,9 @@ with all its timeline events for a given issue.</p>
 
 
                                     <td>
-                                        <p>The given item.</p>
+                                        <ul>
+<li>The given item.</li>
+</ul>
 
                                     </td>
                                 </tr>
@@ -422,7 +522,9 @@ with all its timeline events for a given issue.</p>
 
 
                                     <td>
-                                        <p>Filter used on the given item.</p>
+                                        <ul>
+<li>Filter used on the given item.</li>
+</ul>
 
                                     </td>
                                 </tr>
@@ -438,8 +540,6 @@ with all its timeline events for a given issue.</p>
 
 
                                     <td>
-                                        <p>The list of coalesced timeline items</p>
-
                                     </td>
                                 </tr>
                             </tbody>
@@ -448,105 +548,12 @@ with all its timeline events for a given issue.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/CoalescedTimelineItem.html" target="_self" >CoalescedTimelineItem[]</a></code>
 
                     </div>
                     <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="finishCoalescing"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>finishCoalescing</b></span>
-                        <a href="#finishCoalescing"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>finishCoalescing(coalesceList: IssueTimelineItem[], coalesced: <a href="../interfaces/CoalescedTimelineItem.html" target="_self">CoalescedTimelineItem[]</a>)</code>
-                </td>
-            </tr>
+                        <p>The given list containing all coalesced timeline items.</p>
 
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="230"
-                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:230</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Turns a list of timeline items into a coalesced timeline item, and adds them to a list of coalesced timeline items.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>coalesceList</td>
-                                    <td>
-                                            <code>IssueTimelineItem[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>The list of timeline items</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>coalesced</td>
-                                    <td>
-                                                <code><a href="../interfaces/CoalescedTimelineItem.html" target="_self" >CoalescedTimelineItem[]</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>The list of all coalesced timeline items</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -572,8 +579,8 @@ with all its timeline events for a given issue.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="285"
-                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:285</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="329"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:329</a></div>
                 </td>
             </tr>
 
@@ -639,8 +646,8 @@ with all its timeline events for a given issue.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="162"
-                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:162</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:149</a></div>
                 </td>
             </tr>
 
@@ -675,7 +682,9 @@ with all its timeline events for a given issue.</p>
 
 
                                     <td>
-                                        <p>Timeline items to prepare.</p>
+                                        <ul>
+<li>Timeline items to prepare.</li>
+</ul>
 
                                     </td>
                                 </tr>
@@ -715,8 +724,8 @@ with all its timeline events for a given issue.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="143"
-                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:143</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:130</a></div>
                 </td>
             </tr>
 
@@ -739,36 +748,110 @@ Use in ngAfterViewInit() lifecycle hook</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="shouldStopCoalescing"></a>
+                    <a name="selfAssigned"></a>
+                    <span class="name">
+                        <span ><b>selfAssigned</b></span>
+                        <a href="#selfAssigned"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selfAssigned(assignedEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:318</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if the user self-assigned this issue for text representation.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>assignedEvent</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Assigned event handled.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stopCoalescing"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
-                        <span class="modifier">Static</span>
-                        <span ><b>shouldStopCoalescing</b></span>
-                        <a href="#shouldStopCoalescing"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>stopCoalescing</b></span>
+                        <a href="#stopCoalescing"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>shouldStopCoalescing(previousItem: IssueTimelineItem, nextItem: IssueTimelineItem)</code>
+                    <code>stopCoalescing(coalescingType: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, coalesceList: IssueTimelineItem[], stopCoalescing: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, timelineItem: IssueTimelineItem)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="303"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:303</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Check if a timeline item can be coalesced with another timeline item. This is the case if
-a) the user is the same and
-b) both items were created within the span of a minute</p>
+                    <div class="io-description"><p>Stops the coalescing process in case
+a) the user differs or
+b) the current item was already added
+60 seconds after the first one added.</p>
 </div>
 
                     <div class="io-description">
@@ -785,9 +868,9 @@ b) both items were created within the span of a minute</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>previousItem</td>
+                                    <td>coalescingType</td>
                                     <td>
-                                            <code>IssueTimelineItem</code>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -796,12 +879,50 @@ b) both items were created within the span of a minute</p>
 
 
                                     <td>
-                                        <p>The previous item</p>
+                                        <ul>
+<li>Coalescing type handled.</li>
+</ul>
 
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>nextItem</td>
+                                    <td>coalesceList</td>
+                                    <td>
+                                            <code>IssueTimelineItem[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Coalesce list handled.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>stopCoalescing</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Value that determines whether the coalescing should stop.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>timelineItem</td>
                                     <td>
                                             <code>IssueTimelineItem</code>
                                     </td>
@@ -812,7 +933,9 @@ b) both items were created within the span of a minute</p>
 
 
                                     <td>
-                                        <p>The item to be coalesced with the previous item</p>
+                                        <ul>
+<li>Timeline item handled.</li>
+</ul>
 
                                     </td>
                                 </tr>
@@ -826,7 +949,7 @@ b) both items were created within the span of a minute</p>
 
                     </div>
                     <div class="io-description">
-                        <p>True if both items can be coalesced</p>
+                        <p>The value that determines whether the coalescing should stop.</p>
 
                     </div>
                 </td>
@@ -855,8 +978,8 @@ b) both items were created within the span of a minute</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="215"
-                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:215</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:220</a></div>
                 </td>
             </tr>
 
@@ -893,7 +1016,9 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
 
 
                                     <td>
-                                        <p>The given timeline item.</p>
+                                        <ul>
+<li>The given timeline item.</li>
+</ul>
 
                                     </td>
                                 </tr>
@@ -907,7 +1032,9 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
 
                     </div>
                     <div class="io-description">
-                        <p>Name of the timeline item creator.</p>
+                        <ul>
+<li>Name of the timeline item creator.</li>
+</ul>
 
                     </div>
                 </td>
@@ -995,7 +1122,7 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1036,7 +1163,7 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:113</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:114</a></div>
                         </td>
                     </tr>
 
@@ -1068,7 +1195,7 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:93</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:94</a></div>
                         </td>
                     </tr>
 
@@ -1105,7 +1232,7 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:97</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:98</a></div>
                         </td>
                     </tr>
 
@@ -1138,7 +1265,7 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:101</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/issue-detail/timeline/timeline.component.ts:102</a></div>
                         </td>
                     </tr>
 
@@ -1159,6 +1286,7 @@ or just &quot;Deleted User&quot; in case the user no longer exists.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {AfterViewInit, Component, Input, ViewChild} from &#x27;@angular/core&#x27;;
 import {TimeFormatter} from &#x27;@app/issue-detail/time-formatter&#x27;;
+import {Router} from &#x27;@angular/router&#x27;;
 import {IssueTimelineItem} from &#x27;../../../generated/graphql-dgql&#x27;;
 import {DataList} from &#x27;@app/data-dgql/query&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
@@ -1272,24 +1400,10 @@ export class TimelineComponent implements AfterViewInit {
   @ViewChild(QueryComponent) query: QueryComponent;
 
   /**
-   * Check if a timeline item can be coalesced with another timeline item. This is the case if
-   * a) the user is the same and
-   * b) both items were created within the span of a minute
-   * @param previousItem The previous item
-   * @param nextItem The item to be coalesced with the previous item
-   * @returns True if both items can be coalesced
-   */
-  private static shouldStopCoalescing(previousItem: IssueTimelineItem, nextItem: IssueTimelineItem): boolean {
-    return previousItem.createdBy.id !&#x3D;&#x3D; previousItem.createdBy.id ||
-      Math.abs(Date.parse(nextItem.createdAt) - Date.parse(nextItem.createdAt)) &gt; 60000;
-  }
-
-  /**
    * Service for handling API connection is required
-   * @param dataService handling api connection
+   * @param {DataService} dataService handling api connection
    */
-  constructor(private dataService: DataService) {
-  }
+  constructor(private dataService: DataService) {}
 
   ngAfterViewInit(): void {
     this.requestTimelineItems();
@@ -1306,7 +1420,7 @@ export class TimelineComponent implements AfterViewInit {
       type: ListType.TimelineItems
     });
 
-    // FIXME: decide on the count
+    //FIXME: decide on the count
     this.timelineItems$.count &#x3D; 99999;
 
     this.query.listenTo(this.timelineItems$, (value) &#x3D;&gt; {
@@ -1316,41 +1430,59 @@ export class TimelineComponent implements AfterViewInit {
 
   /**
    * Prepares the timeline items (aka. the timeline events).
-   * @param items Timeline items to prepare.
+   * @param  {Map&lt;string, IssueTimelineItem&gt;} items - Timeline items to prepare.
    */
   prepareTimelineItems(items: Map&lt;string, IssueTimelineItem&gt;): void {
-    let coalescingType: string &#x3D; null;
+    let coalescingType &#x3D; null;
     let coalesceList &#x3D; new Array&lt;IssueTimelineItem&gt;();
-    const coalesced: Array&lt;CoalescedTimelineItem&gt; &#x3D; [];
+    let coalesced: Array&lt;CoalescedTimelineItem&gt; &#x3D; [];
+
+    /**
+     * Adds items from the coalesce list {@link coalesceList}
+     * to a list containing all coalesced timeline items {@link coalesced}
+     * in case the coalesce list is not empty.
+     */
+    const finishCoalescing &#x3D; () &#x3D;&gt; {
+      // case: the coalesce list is empty
+      if (coalesceList.length &#x3D;&#x3D;&#x3D; 0) {
+        return;
+      }
+
+      // case: the coalesce list is not empty
+      else {
+        coalesced &#x3D; this.addCoalesceItems(coalesceList, coalesced);
+        coalesceList &#x3D; [];
+      }
+    };
 
     for (const timelineItem of items.values()) {
-      const itemType: string &#x3D; (timelineItem as any).__typename;
+      const itemType &#x3D; (timelineItem as any).__typename;
       const filter &#x3D; TimelineComponent.COALESCABLE_EVENTS.get(itemType);
       let stopCoalescing &#x3D; false;
 
       // decides whether to stop coalescing
-      if (coalescingType) {
-        stopCoalescing &#x3D; TimelineComponent.shouldStopCoalescing(coalesceList[0], timelineItem);
-      }
+      stopCoalescing &#x3D; this.stopCoalescing(coalescingType, coalesceList, stopCoalescing, timelineItem);
 
       // case: the coalescing type equals the current item type
       // or coalescing should stop
       if (coalescingType !&#x3D;&#x3D; itemType || stopCoalescing) {
         // adds remaining items
-        this.finishCoalescing(coalesceList, coalesced);
-        coalesceList &#x3D; [];
+        finishCoalescing();
 
         if (filter &amp;&amp; filter(timelineItem)) {
           coalescingType &#x3D; itemType;
           coalesceList.push(timelineItem);
         } else {
           coalescingType &#x3D; null;
-          this.addSingleCoalesceItem(timelineItem, filter, coalesced);
+          coalesced &#x3D; this.addSingleCoalesceItem(timelineItem, filter, coalesced);
         }
 
         continue;
-      } else if (coalescingType &#x3D;&#x3D;&#x3D; null) {
-        this.addSingleCoalesceItem(timelineItem, filter, coalesced);
+      }
+
+      // case: the coalescing type is null
+      else if (coalescingType &#x3D;&#x3D; null) {
+        coalesced &#x3D; this.addSingleCoalesceItem(timelineItem, filter, coalesced);
         continue;
       }
 
@@ -1360,7 +1492,7 @@ export class TimelineComponent implements AfterViewInit {
     }
 
     // adds remaining items
-    this.finishCoalescing(coalesceList, coalesced);
+    finishCoalescing();
     this.timelineItems &#x3D; coalesced;
   }
 
@@ -1368,8 +1500,8 @@ export class TimelineComponent implements AfterViewInit {
    * Returns the name of the user
    * that created a given timeline item (aka. timeline event)
    * or just &quot;Deleted User&quot; in case the user no longer exists.
-   * @param item The given timeline item.
-   * @returns Name of the timeline item creator.
+   * @param  {IssueTimelineItem} item - The given timeline item.
+   * @returns - Name of the timeline item creator.
    */
   private userName(item: IssueTimelineItem) {
     // case: the timeline item&#x27;s creator&#x27;s name can be retrieved
@@ -1381,22 +1513,19 @@ export class TimelineComponent implements AfterViewInit {
   }
 
   /**
-   * Turns a list of timeline items into a coalesced timeline item, and adds them to a list of coalesced timeline items.
-   *
-   * @param coalesceList The list of timeline items
-   * @param coalesced The list of all coalesced timeline items
+   * Adds items from a given coalesce list
+   * to a given list containing all coalesced timeline items.
+   * @param  {IssueTimelineItem[]} coalesceList  The given coalesce list.
+   * @param  {CoalescedTimelineItem[]} coalesced  The given list containing all coalesced timeline items.
+   * @returns The given list containing all coalesced timeline items.
    */
-  private finishCoalescing(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): void {
-    if (coalesceList.length &#x3D;&#x3D;&#x3D; 0) {
-      return;
-    }
-
+  private addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
     const firstItem: any &#x3D; coalesceList[0];
     const itemType &#x3D; firstItem.__typename;
     const createdBy &#x3D; this.userName(firstItem);
 
+    // case: the coalesce list has more than one item
     if (coalesceList.length &gt; 1) {
-      // Combine multiple timeline items into one
       coalesced.push({
         type: itemType,
         isCoalesced: true,
@@ -1404,8 +1533,10 @@ export class TimelineComponent implements AfterViewInit {
         user: createdBy,
         time: coalesceList[0].createdAt
       });
-    } else if (coalesceList.length &#x3D;&#x3D;&#x3D; 1) {
-      // Wrap a single timeline item into a coalesced timeline item
+    }
+
+    // case: the coalesce list has only one item
+    else if (coalesceList.length &#x3D;&#x3D;&#x3D; 1) {
       coalesced.push({
         type: itemType,
         isCoalesced: false,
@@ -1414,19 +1545,22 @@ export class TimelineComponent implements AfterViewInit {
         time: coalesceList[0].createdAt
       });
     }
+
+    // returns the list containing all coalesced timeline items
+    return coalesced;
   }
 
   /**
    * Adds a single item to a list containing all coalesced timeline items.
-   * @param timelineItem The given item.
-   * @param filter Filter used on the given item.
-   * @param coalesced The list of coalesced timeline items
+   * @param  {IssueTimelineItem} timelineItem - The given item.
+   * @param  {ItemFilterFunction|undefined} filter - Filter used on the given item.
+   * @returns The given list containing all coalesced timeline items.
    */
   private addSingleCoalesceItem(
     timelineItem: IssueTimelineItem,
     filter: ItemFilterFunction | undefined,
     coalesced: CoalescedTimelineItem[]
-  ): void {
+  ): CoalescedTimelineItem[] {
     if (!filter || filter(timelineItem)) {
       coalesced.push({
         type: (timelineItem as any).__typename,
@@ -1436,6 +1570,43 @@ export class TimelineComponent implements AfterViewInit {
         time: timelineItem.createdAt
       });
     }
+
+    // returns the list containing all coalesced timeline items
+    return coalesced;
+  }
+
+  /**
+   * Stops the coalescing process in case
+   * a) the user differs or
+   * b) the current item was already added
+   * 60 seconds after the first one added.
+   * @param  {any} coalescingType - Coalescing type handled.
+   * @param  {IssueTimelineItem[]} coalesceList - Coalesce list handled.
+   * @param  {boolean} stopCoalescing - Value that determines whether the coalescing should stop.
+   * @param  {IssueTimelineItem} timelineItem - Timeline item handled.
+   * @returns The value that determines whether the coalescing should stop.
+   */
+  private stopCoalescing(coalescingType: any, coalesceList: IssueTimelineItem[], stopCoalescing: boolean, timelineItem: IssueTimelineItem) {
+    if (coalescingType) {
+      const firstItem &#x3D; coalesceList[0];
+      stopCoalescing &#x3D;
+        firstItem.createdBy.id !&#x3D;&#x3D; timelineItem.createdBy.id ||
+        Math.abs(Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)) &gt; 60000;
+    }
+
+    return stopCoalescing;
+  }
+
+  /**
+   * Checks if the user self-assigned this issue for text representation.
+   * @param assignedEvent - Assigned event handled.
+   */
+  selfAssigned(assignedEvent): boolean {
+    if (assignedEvent.createdBy.id &#x3D;&#x3D;&#x3D; assignedEvent.removedAssignee?.id) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -1450,6 +1621,8 @@ export class TimelineComponent implements AfterViewInit {
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;!--Timeline of a given issue showing all its events--&gt;
+
+&lt;!------ Include the above in your HEAD tag ----------&gt;
 &lt;app-query-component errorMessage&#x3D;&quot;Failed to load timeline items&quot;&gt;
   &lt;ng-template appQueryBody&gt;
     &lt;div class&#x3D;&quot;container&quot;&gt;
@@ -1549,137 +1722,420 @@ export class TimelineComponent implements AfterViewInit {
             &lt;mat-icon&gt;border_style&lt;/mat-icon&gt;
           &lt;/div&gt;
           &lt;div class&#x3D;&quot;timeline-badge&quot; *ngSwitchCase&#x3D;&quot;&#x27;RemovedNonFunctionalConstraintEvent&#x27;&quot;&gt;
-            &lt;mat-icon&gt;border_style&lt;/mat-icon&gt;
+            &lt;mat-icon&gt;border_style &lt;/mat-icon&gt;
           &lt;/div&gt;
 
           &lt;!--Timeline events--&gt;
 
+          &lt;!--1. Event: issue comment is added--&gt;
           &lt;div class&#x3D;&quot;commentContainer&quot; *ngSwitchCase&#x3D;&quot;&#x27;IssueComment&#x27;&quot;&gt;
-            &lt;app-comment [commentId]&#x3D;&quot;makeCommentId(timelineItem.item)&quot; [issueId]&#x3D;&quot;issueId&quot;
-                         [isIssueBody]&#x3D;&quot;false&quot;&gt;&lt;/app-comment&gt;
+            &lt;app-comment [commentId]&#x3D;&quot;makeCommentId(timelineItem.item)&quot; [issueId]&#x3D;&quot;issueId&quot; [isIssueBody]&#x3D;&quot;false&quot;&gt;&lt;/app-comment&gt;
           &lt;/div&gt;
 
-          &lt;app-timeline-event-closed class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; *ngSwitchCase&#x3D;&quot;&#x27;ClosedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-closed&gt;
+          &lt;!--2. Event: issue is closed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;ClosedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;Issue was closed by &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt;&lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-assigned class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; *ngSwitchCase&#x3D;&quot;&#x27;AssignedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-assigned&gt;
+          &lt;!--3. Event: issue is assigned--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;AssignedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.assignee&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;span *ngIf&#x3D;&quot;selfAssigned(timelineItem.item); else notSelfAssigned&quot;&gt;
+                  &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; self-assigned this issue
+                &lt;/span&gt;
+                &lt;ng-template #notSelfAssigned&gt;
+                  &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; assigned this issue to user
+                  &lt;a&gt;{{ timelineItem.item.assignee.displayName }}&lt;/a&gt;
+                &lt;/ng-template&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-due-date-changed class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                               *ngSwitchCase&#x3D;&quot;&#x27;DueDateChangedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-due-date-changed&gt;
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; assigned this issue to deleted user &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-estimated-time-changed class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                     *ngSwitchCase&#x3D;&quot;&#x27;EstimatedTimeChangedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-estimated-time-changed&gt;
+          &lt;!--4. Event: issue date is changed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;DueDateChangedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; changed due date from {{ timelineItem.item.oldDueDate }} to {{ timelineItem.item.newDueDate
+                }}
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-labelled class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; *ngSwitchCase&#x3D;&quot;&#x27;LabelledEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-labelled&gt;
+          &lt;!--5. Event: issue estimated time changed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;EstimatedTimeChangedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; changed the estimated time from {{ timelineItem.item.oldEstimatedTime }} to {{
+                timelineItem.item.newEstimatedTime }}
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-deleted-issue-comment class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                    *ngSwitchCase&#x3D;&quot;&#x27;DeletedIssueComment&#x27;&quot;&gt;
-          &lt;/app-timeline-event-deleted-issue-comment&gt;
+          &lt;!--6. Event: issue is labelled--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;LabelledEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added label
+                &lt;span style&#x3D;&quot;display: inline-block&quot;&gt;
+                  &lt;app-issue-label [label]&#x3D;&quot;timelineItem.item.label&quot;&gt;&lt;/app-issue-label&gt;
+                &lt;/span&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-marked-duplicate class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                               *ngSwitchCase&#x3D;&quot;&#x27;MarkedAsDuplicateEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-marked-duplicate&gt;
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added labels
+                &lt;span style&#x3D;&quot;display: inline-block&quot; *ngFor&#x3D;&quot;let node of timelineItem.item&quot;&gt;
+                  &lt;app-issue-label [label]&#x3D;&quot;node.label&quot;&gt;&lt;/app-issue-label&gt;
+                &lt;/span&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-link class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                   *ngSwitchCase&#x3D;&quot;&#x27;LinkEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-link&gt;
+          &lt;!--7. Event: issue comment is deleted--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;DeletedIssueComment&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.item.deletedBy?.displayName }}&lt;/a&gt; deleted comment by &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-pinned class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                     *ngSwitchCase&#x3D;&quot;&#x27;PinnedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-pinned&gt;
+          &lt;!--8. Event: issue is marked ad duplicate--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;MarkedAsDuplicateEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.originalIssue&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; marked this issue as duplicate of issue
+                &lt;app-issue-item [issue]&#x3D;&quot;timelineItem.item.originalIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt; &lt;/app-issue-item&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-referenced-by-issue class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                  [projectID]&#x3D;&quot;projectID&quot; *ngSwitchCase&#x3D;&quot;&#x27;ReferencedByIssueEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-referenced-by-issue&gt;
+              &lt;ng-template appTimelineItemDeleted&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; marked this issue as duplicate of deleted issue
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-priority-changed class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                               *ngSwitchCase&#x3D;&quot;&#x27;PriorityChangedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-priority-changed&gt;
+          &lt;!--9. Event: issue is linked to another issue--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;LinkEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked this issue to issue
+                &lt;app-issue-item [issue]&#x3D;&quot;timelineItem.item.linkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt; &lt;/app-issue-item&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-removed-from-component class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                     [projectID]&#x3D;&quot;projectID&quot;
-                                                     *ngSwitchCase&#x3D;&quot;&#x27;RemovedFromComponentEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-removed-from-component&gt;
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked this issue to issues
+                &lt;ng-container *ngFor&#x3D;&quot;let item of timelineItem.item&quot;&gt;
+                  &lt;app-issue-item [issue]&#x3D;&quot;item.linkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt; &lt;/app-issue-item&gt;
+                &lt;/ng-container&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-referenced-by-other class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                  [projectID]&#x3D;&quot;projectID&quot; *ngSwitchCase&#x3D;&quot;&#x27;ReferencedByOtherEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-referenced-by-other&gt;
+          &lt;!--10. Event: issue is pinnned on a (dleeted) component--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;PinnedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [checkDeletedFn]&#x3D;&quot;!timelineItem.item.component&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; pinned this issue on component
+                &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;timelineItem.item.component&quot;&gt;&lt;/app-issue-location&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-removed-from-location class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                    [projectID]&#x3D;&quot;projectID&quot; *ngSwitchCase&#x3D;&quot;&#x27;RemovedFromLocationEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-removed-from-location&gt;
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; pinned this issue on deleted component &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-reopened class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; *ngSwitchCase&#x3D;&quot;&#x27;ReopenedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-reopened&gt;
+          &lt;!--11. Event: issue is referenced by another (deleted) issue--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;ReferencedByIssueEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [checkDeletedFn]&#x3D;&quot;!timelineItem.item.mentionedAt&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                This issue was referenced by issue
+                &lt;app-issue-item [issue]&#x3D;&quot;timelineItem.item.mentionedAt&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt; &lt;/app-issue-item&gt;
+                in comment
+                &lt;a&gt;{{ timelineItem.item.mentionedInComment?.id }}&lt;/a&gt; by
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-start-date-changed class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                 *ngSwitchCase&#x3D;&quot;&#x27;StartDateChangedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-start-date-changed&gt;
+              &lt;ng-template appTimelineItemDeleted&gt;This issue was referenced by a deleted issue&lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-renamed class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                      *ngSwitchCase&#x3D;&quot;&#x27;RenamedTitleEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-renamed&gt;
+          &lt;!--12. Event: issue&#x27;s priority is changed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;PriorityChangedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; changed priority from {{ timelineItem.item.oldPriority }} to {{ timelineItem.item.newPriority
+                }}
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-unassigned class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                         *ngSwitchCase&#x3D;&quot;&#x27;UnassignedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-unassigned&gt;
+          &lt;!--13. Event: issue is removed from a component / components--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;RemovedFromComponentEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed this issue from component
+                &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;timelineItem.item.removedComponent&quot;&gt; &lt;/app-issue-location&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-unlabelled class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                         *ngSwitchCase&#x3D;&quot;&#x27;UnlabelledEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-unlabelled&gt;
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed this issue from components
+                &lt;ng-container *ngFor&#x3D;&quot;let item of timelineItem.item&quot;&gt;
+                  &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;item.removedComponent&quot;&gt; &lt;/app-issue-location&gt;
+                &lt;/ng-container&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-was-linked class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                         *ngSwitchCase&#x3D;&quot;&#x27;WasLinkedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-was-linked&gt;
+          &lt;!--14. Event: issue is referenced in a (deleted) component--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;ReferencedByOtherEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.component&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; referenced this issue in component
+                &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;timelineItem.item.component&quot;&gt;&lt;/app-issue-location&gt;
+                with
+                &lt;a href&#x3D;&quot;{{ timelineItem.item.sourceURL }}&quot;&gt;{{ timelineItem.item.source }}&lt;/a&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-unmarked-duplicate class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                 *ngSwitchCase&#x3D;&quot;&#x27;UnmarkedAsDuplicateEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-unmarked-duplicate&gt;
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; referenced this issue in deleted component &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-was-unlinked class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                           *ngSwitchCase&#x3D;&quot;&#x27;WasUnlinkedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-was-unlinked&gt;
+          &lt;!--15. Event: issue is removed from a location / locations--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;RemovedFromLocationEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed this issue from location
+                &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;timelineItem.item.removedLocation&quot;&gt; &lt;/app-issue-location&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-unpinned class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                       *ngSwitchCase&#x3D;&quot;&#x27;UnpinnedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-unpinned&gt;
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed this issue from locations
+                &lt;ng-container *ngFor&#x3D;&quot;let item of timelineItem.item&quot;&gt;
+                  &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;item.removedLocation&quot;&gt; &lt;/app-issue-location&gt;
+                &lt;/ng-container&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-unlink class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                     *ngSwitchCase&#x3D;&quot;&#x27;UnlinkEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-unlink&gt;
+          &lt;!--16. Event: issue is reopened--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;ReopenedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;&lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; reopened this issue&lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-added-artifact class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                             *ngSwitchCase&#x3D;&quot;&#x27;AddedArtifactEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-added-artifact&gt;
+          &lt;!--17. Event: issue&#x27;s start date is changed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;StartDateChangedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; changed start date from {{ timelineItem.item.oldStartDate }} to {{
+                timelineItem.item.newStartDate }}
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-removed-artifact class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                               *ngSwitchCase&#x3D;&quot;&#x27;RemovedArtifactEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-removed-artifact&gt;
+          &lt;!--18. Event: issue&#x27;s title is renamed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;RenamedTitleEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; changed title of this issue from {{ timelineItem.item.oldTitle }} to {{
+                timelineItem.item.newTitle }}
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-added-nfc class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                        *ngSwitchCase&#x3D;&quot;&#x27;AddedNonFunctionalConstraintEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-added-nfc&gt;
+          &lt;!--19. Event: issue is unassigned--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;UnassignedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.removedAssignee&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;span *ngIf&#x3D;&quot;selfAssigned(timelineItem.item); else notSelfAssigned&quot;&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; self-unassigned &lt;/span&gt;
+                &lt;ng-template #notSelfAssigned&gt;
+                  &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; unassigned
+                  &lt;a&gt;{{ timelineItem.item.removedAssignee.displayName }}&lt;/a&gt;
+                &lt;/ng-template&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-removed-nfc class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                          *ngSwitchCase&#x3D;&quot;&#x27;RemovedNonFunctionalConstraintEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-removed-nfc&gt;
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; unassigned deleted User &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-added-to-component class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                                 [projectID]&#x3D;&quot;projectID&quot;
-                                                 *ngSwitchCase&#x3D;&quot;&#x27;AddedToComponentEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-added-to-component&gt;
+          &lt;!--20. Event: issue is unlabelled--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;UnlabelledEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed label
+                &lt;span style&#x3D;&quot;display: inline-block&quot;&gt;
+                  &lt;app-issue-label [label]&#x3D;&quot;timelineItem.item.removedLabel&quot;&gt;&lt;/app-issue-label&gt;
+                &lt;/span&gt;
+              &lt;/ng-template&gt;
 
-          &lt;app-timeline-event-category-changed class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot;
-                                               *ngSwitchCase&#x3D;&quot;&#x27;CategoryChangedEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-category-changed&gt;
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed labels
+                &lt;span style&#x3D;&quot;display: inline-block&quot; *ngFor&#x3D;&quot;let node of timelineItem.item&quot;&gt;
+                  &lt;app-issue-label [label]&#x3D;&quot;node.removedLabel&quot;&gt;&lt;/app-issue-label&gt;
+                &lt;/span&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
 
-          &lt;app-timeline-event-added-to-location class&#x3D;&quot;fill-width&quot; [timelineItem]&#x3D;&quot;timelineItem&quot; [projectID]&#x3D;&quot;projectID&quot;
-                                                *ngSwitchCase&#x3D;&quot;&#x27;AddedToLocationEvent&#x27;&quot;&gt;
-          &lt;/app-timeline-event-added-to-location&gt;
+          &lt;!--21. Event: issue was linked by another (deleted) issue--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;WasLinkedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.linkedBy&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked issue
+                &lt;app-issue-item [issue]&#x3D;&quot;timelineItem.item.linkedBy&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt; &lt;/app-issue-item&gt;
+                to this issue
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked deleted issue to this issue &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--22. Event: issue is unmarked as a duplicate--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;UnmarkedAsDuplicateEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;&lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; unmarked this issue as duplicate&lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--23. Event: issue is unlinked by another (deleted) issue--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;WasUnlinkedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.unlinkedBy&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; unlinked this issue in issue
+                &lt;app-issue-item [issue]&#x3D;&quot;timelineItem.item.unlinkedBy&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt; &lt;/app-issue-item&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; unlinked this issue in deleted issue &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--24. Event: issue is unpinned in a (deleted) component--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;UnpinnedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.component&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; unpinned this issue in component
+                &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;timelineItem.item.component&quot;&gt;&lt;/app-issue-location&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; unpinned this issue in deleted component &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--25. Event: issue is unlinked to another issue / issues--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;UnlinkEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed link to issue
+                &lt;app-issue-item [issue]&#x3D;&quot;timelineItem.item.removedLinkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt;
+                &lt;/app-issue-item&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed links to issues
+                &lt;ng-container *ngFor&#x3D;&quot;let item of timelineItem.item&quot;&gt;
+                  &lt;app-issue-item [issue]&#x3D;&quot;item.removedLinkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt; &lt;/app-issue-item&gt;
+                &lt;/ng-container&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--26. Event: issue has (deleted) artifacts added--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;AddedArtifactEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.removedLinkedIssue&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added artifact
+                &lt;a&gt;{{ timelineItem.item.artifact.id }}&lt;/a&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added deleted artifact &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--27. Event: issue has (deleted) artifacts removed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;RemovedArtifactEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.removedLinkedIssue&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed artifact
+                &lt;a&gt;{{ timelineItem.item.removedArtifact.id }}&lt;/a&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed deleted artifact &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--28. Event: issue has a (deleted) non functional constraint added--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;AddedNonFunctionalConstraintEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.nonFunctionalConstraint&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added non functional constraint
+                &lt;a&gt;{{ timelineItem.item.nonFunctionalConstraint.id }}&lt;/a&gt;
+              &lt;/ng-template&gt;
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added deleted non functional constraint &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--29. Event: issue has a (deleted) non functional constraint removed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;RemovedNonFunctionalConstraintEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!timelineItem.item.removedNonFunctionalConstraint&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed non functional constraint
+                &lt;a&gt;{{ timelineItem.item.removedNonFunctionalConstraint.id }}&lt;/a&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appTimelineItemDeleted&gt; &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; removed deleted non functional constraint &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--30. Event: issue is added to a component / components--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;AddedToComponentEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added this issue to component
+                &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;timelineItem.item.component&quot;&gt;&lt;/app-issue-location&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added this issue to components
+                &lt;ng-container *ngFor&#x3D;&quot;let item of timelineItem.item&quot;&gt;
+                  &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;item.component&quot;&gt;&lt;/app-issue-location&gt;
+                &lt;/ng-container&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--31. Event: issue&#x27;s category is changed--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;CategoryChangedEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt;
+                changed category from
+                &lt;app-issue-category [category]&#x3D;&quot;timelineItem.item.oldCategory&quot;&gt;&lt;/app-issue-category&gt;
+                &amp;nbsp;to&amp;nbsp;
+                &lt;app-issue-category [category]&#x3D;&quot;timelineItem.item.newCategory&quot;&gt;&lt;/app-issue-category&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
+
+          &lt;!--32. Event: issue is added to a location / locations--&gt;
+          &lt;div class&#x3D;&quot;timeline-panel&quot; *ngSwitchCase&#x3D;&quot;&#x27;AddedToLocationEvent&#x27;&quot;&gt;
+            &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+              &lt;ng-template appSingleTimelineItem&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added this issue to location
+                &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;timelineItem.item.location&quot;&gt;&lt;/app-issue-location&gt;
+              &lt;/ng-template&gt;
+
+              &lt;ng-template appCoalescedTimelineItems&gt;
+                &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; added this issue to locations
+                &lt;ng-container *ngFor&#x3D;&quot;let item of timelineItem.item&quot;&gt;
+                  &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;item.location&quot;&gt;&lt;/app-issue-location&gt;
+                &lt;/ng-container&gt;
+              &lt;/ng-template&gt;
+            &lt;/app-timeline-item&gt;
+          &lt;/div&gt;
         &lt;/li&gt;
       &lt;/ul&gt;
     &lt;/div&gt;
@@ -1731,6 +2187,46 @@ export class TimelineComponent implements AfterViewInit {
       border-radius: 50%;
     }
 
+    &amp; &gt; .timeline-panel {
+      flex: 1;
+      border: 1px solid #d4d4d4;
+      border-radius: 2px;
+      padding: 20px;
+      position: relative;
+      -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+
+      &amp;::before {
+        position: absolute;
+        top: 26px;
+        display: inline-block;
+        border-top: 15px solid transparent;
+        border-left: 15px solid #ccc;
+        border-right: 0 solid #ccc;
+        border-bottom: 15px solid transparent;
+        content: &quot; &quot;;
+        border-left-width: 0;
+        border-right-width: 15px;
+        left: -15px;
+        right: auto;
+      }
+
+      &amp;::after {
+        position: absolute;
+        top: 27px;
+        display: inline-block;
+        border-top: 14px solid transparent;
+        border-left: 14px solid #fafafa;
+        border-right: 0 solid #fafafa;
+        border-bottom: 14px solid transparent;
+        content: &quot; &quot;;
+        border-left-width: 0;
+        border-right-width: 14px;
+        left: -14px;
+        right: auto;
+      }
+    }
+
     &amp; &gt; .commentContainer {
       flex: 1;
       left: -36px;
@@ -1759,10 +2255,6 @@ export class TimelineComponent implements AfterViewInit {
   color: inherit;
 }
 
-.fill-width {
-  width: 100%;
-}
-
 .timeline-body &gt; p,
 .timeline-body &gt; ul {
   margin-bottom: 0;
@@ -1770,46 +2262,6 @@ export class TimelineComponent implements AfterViewInit {
 
 .timeline-body &gt; p + p {
   margin-top: 5px;
-}
-
-.timeline-panel {
-  flex: 1;
-  border: 1px solid #d4d4d4;
-  border-radius: 2px;
-  padding: 20px;
-  position: relative;
-  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-
-  &amp;::before {
-    position: absolute;
-    top: 26px;
-    display: inline-block;
-    border-top: 15px solid transparent;
-    border-left: 15px solid #ccc;
-    border-right: 0 solid #ccc;
-    border-bottom: 15px solid transparent;
-    content: &quot; &quot;;
-    border-left-width: 0;
-    border-right-width: 15px;
-    left: -15px;
-    right: auto;
-  }
-
-  &amp;::after {
-    position: absolute;
-    top: 27px;
-    display: inline-block;
-    border-top: 14px solid transparent;
-    border-left: 14px solid #fafafa;
-    border-right: 0 solid #fafafa;
-    border-bottom: 14px solid transparent;
-    content: &quot; &quot;;
-    border-left-width: 0;
-    border-right-width: 14px;
-    left: -14px;
-    right: auto;
-  }
 }
 </code></pre>
     </div>
@@ -1839,8 +2291,8 @@ export class TimelineComponent implements AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!--Timeline of a given issue showing all its events--><app-query-component errorMessage="Failed to load timeline items">  <ng-template appQueryBody>    <div class="container">      <div class="page-header"></div>      <ul class="timeline">        <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.type" class="timeline-inverted">          <!--Icons used in the timeline-->          <div class="timeline-badge" *ngSwitchCase="\'AddedToComponentEvent\'">            <mat-icon>add</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedFromComponentEvent\'">            <mat-icon>remove</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AddedToLocationEvent\'">            <mat-icon>add</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedFromLocationEvent\'">            <mat-icon>remove</mat-icon>          </div>          <div class="timeline-badge closed" *ngSwitchCase="\'ClosedEvent\'">            <mat-icon>task_alt</mat-icon>          </div>          <div class="timeline-badge reopened" *ngSwitchCase="\'ReopenedEvent\'">            <mat-icon>add_task</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AssignedEvent\'">            <mat-icon>person_add</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnassignedEvent\'">            <mat-icon>person_remove</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'CategoryChangedEvent\'">            <mat-icon>category</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'DueDateChangedEvent\'">            <mat-icon>event</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'EstimatedTimeChangedEvent\'">            <mat-icon>date_range</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'LabelledEvent\'">            <mat-icon>new_label</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnlabelledEvent\'">            <mat-icon>label</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'DeletedIssueComment\'">            <mat-icon>speaker_notes_off</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'MarkedAsDuplicateEvent\'">            <mat-icon>plagiarism</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnmarkedAsDuplicateEvent\'">            <mat-icon>file_copy</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'LinkEvent\'">            <mat-icon>add_link</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnlinkEvent\'">            <mat-icon>link_off</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'PinnedEvent\'">            <mat-icon>push_pin</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnpinnedEvent\'">            <mat-icon>push_pin</mat-icon>          </div>          <div class="timeline-badge warning" *ngSwitchCase="\'ReferencedByIssueEvent\'">            <mat-icon>switch_access_shortcut_add</mat-icon>          </div>          <div class="timeline-badge warning" *ngSwitchCase="\'ReferencedByOtherEvent\'">            <mat-icon>switch_access_shortcut</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'StartDateChangedEvent\'">            <mat-icon>event</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'PriorityChangedEvent\'">            <mat-icon>reorder</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RenamedTitleEvent\'">            <mat-icon>drive_file_rename_outline</mat-icon>          </div>          <div class="timeline-badge warning" *ngSwitchCase="\'WasLinkedEvent\'">            <mat-icon>add_link</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'WasUnlinkedEvent\'">            <mat-icon>link_off</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AddedArtifactEvent\'">            <mat-icon>data_object</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedArtifactEvent\'">            <mat-icon>data_object</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AddedNonFunctionalConstraintEvent\'">            <mat-icon>border_style</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedNonFunctionalConstraintEvent\'">            <mat-icon>border_style</mat-icon>          </div>          <!--Timeline events-->          <div class="commentContainer" *ngSwitchCase="\'IssueComment\'">            <app-comment [commentId]="makeCommentId(timelineItem.item)" [issueId]="issueId"                         [isIssueBody]="false"></app-comment>          </div>          <app-timeline-event-closed class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="\'ClosedEvent\'">          </app-timeline-event-closed>          <app-timeline-event-assigned class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="\'AssignedEvent\'">          </app-timeline-event-assigned>          <app-timeline-event-due-date-changed class="fill-width" [timelineItem]="timelineItem"                                               *ngSwitchCase="\'DueDateChangedEvent\'">          </app-timeline-event-due-date-changed>          <app-timeline-event-estimated-time-changed class="fill-width" [timelineItem]="timelineItem"                                                     *ngSwitchCase="\'EstimatedTimeChangedEvent\'">          </app-timeline-event-estimated-time-changed>          <app-timeline-event-labelled class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="\'LabelledEvent\'">          </app-timeline-event-labelled>          <app-timeline-event-deleted-issue-comment class="fill-width" [timelineItem]="timelineItem"                                                    *ngSwitchCase="\'DeletedIssueComment\'">          </app-timeline-event-deleted-issue-comment>          <app-timeline-event-marked-duplicate class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                               *ngSwitchCase="\'MarkedAsDuplicateEvent\'">          </app-timeline-event-marked-duplicate>          <app-timeline-event-link class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                   *ngSwitchCase="\'LinkEvent\'">          </app-timeline-event-link>          <app-timeline-event-pinned class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                     *ngSwitchCase="\'PinnedEvent\'">          </app-timeline-event-pinned>          <app-timeline-event-referenced-by-issue class="fill-width" [timelineItem]="timelineItem"                                                  [projectID]="projectID" *ngSwitchCase="\'ReferencedByIssueEvent\'">          </app-timeline-event-referenced-by-issue>          <app-timeline-event-priority-changed class="fill-width" [timelineItem]="timelineItem"                                               *ngSwitchCase="\'PriorityChangedEvent\'">          </app-timeline-event-priority-changed>          <app-timeline-event-removed-from-component class="fill-width" [timelineItem]="timelineItem"                                                     [projectID]="projectID"                                                     *ngSwitchCase="\'RemovedFromComponentEvent\'">          </app-timeline-event-removed-from-component>          <app-timeline-event-referenced-by-other class="fill-width" [timelineItem]="timelineItem"                                                  [projectID]="projectID" *ngSwitchCase="\'ReferencedByOtherEvent\'">          </app-timeline-event-referenced-by-other>          <app-timeline-event-removed-from-location class="fill-width" [timelineItem]="timelineItem"                                                    [projectID]="projectID" *ngSwitchCase="\'RemovedFromLocationEvent\'">          </app-timeline-event-removed-from-location>          <app-timeline-event-reopened class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="\'ReopenedEvent\'">          </app-timeline-event-reopened>          <app-timeline-event-start-date-changed class="fill-width" [timelineItem]="timelineItem"                                                 *ngSwitchCase="\'StartDateChangedEvent\'">          </app-timeline-event-start-date-changed>          <app-timeline-event-renamed class="fill-width" [timelineItem]="timelineItem"                                      *ngSwitchCase="\'RenamedTitleEvent\'">          </app-timeline-event-renamed>          <app-timeline-event-unassigned class="fill-width" [timelineItem]="timelineItem"                                         *ngSwitchCase="\'UnassignedEvent\'">          </app-timeline-event-unassigned>          <app-timeline-event-unlabelled class="fill-width" [timelineItem]="timelineItem"                                         *ngSwitchCase="\'UnlabelledEvent\'">          </app-timeline-event-unlabelled>          <app-timeline-event-was-linked class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                         *ngSwitchCase="\'WasLinkedEvent\'">          </app-timeline-event-was-linked>          <app-timeline-event-unmarked-duplicate class="fill-width" [timelineItem]="timelineItem"                                                 *ngSwitchCase="\'UnmarkedAsDuplicateEvent\'">          </app-timeline-event-unmarked-duplicate>          <app-timeline-event-was-unlinked class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                           *ngSwitchCase="\'WasUnlinkedEvent\'">          </app-timeline-event-was-unlinked>          <app-timeline-event-unpinned class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                       *ngSwitchCase="\'UnpinnedEvent\'">          </app-timeline-event-unpinned>          <app-timeline-event-unlink class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                     *ngSwitchCase="\'UnlinkEvent\'">          </app-timeline-event-unlink>          <app-timeline-event-added-artifact class="fill-width" [timelineItem]="timelineItem"                                             *ngSwitchCase="\'AddedArtifactEvent\'">          </app-timeline-event-added-artifact>          <app-timeline-event-removed-artifact class="fill-width" [timelineItem]="timelineItem"                                               *ngSwitchCase="\'RemovedArtifactEvent\'">          </app-timeline-event-removed-artifact>          <app-timeline-event-added-nfc class="fill-width" [timelineItem]="timelineItem"                                        *ngSwitchCase="\'AddedNonFunctionalConstraintEvent\'">          </app-timeline-event-added-nfc>          <app-timeline-event-removed-nfc class="fill-width" [timelineItem]="timelineItem"                                          *ngSwitchCase="\'RemovedNonFunctionalConstraintEvent\'">          </app-timeline-event-removed-nfc>          <app-timeline-event-added-to-component class="fill-width" [timelineItem]="timelineItem"                                                 [projectID]="projectID"                                                 *ngSwitchCase="\'AddedToComponentEvent\'">          </app-timeline-event-added-to-component>          <app-timeline-event-category-changed class="fill-width" [timelineItem]="timelineItem"                                               *ngSwitchCase="\'CategoryChangedEvent\'">          </app-timeline-event-category-changed>          <app-timeline-event-added-to-location class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"                                                *ngSwitchCase="\'AddedToLocationEvent\'">          </app-timeline-event-added-to-location>        </li>      </ul>    </div>  </ng-template></app-query-component></div>'
-    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineEventAddedArtifactComponent', 'selector': 'app-timeline-event-added-artifact'},{'name': 'TimelineEventAddedNfcComponent', 'selector': 'app-timeline-event-added-nfc'},{'name': 'TimelineEventAddedToComponentComponent', 'selector': 'app-timeline-event-added-to-component'},{'name': 'TimelineEventAddedToLocationComponent', 'selector': 'app-timeline-event-added-to-location'},{'name': 'TimelineEventAssignedComponent', 'selector': 'app-timeline-event-assigned'},{'name': 'TimelineEventCategoryChangedComponent', 'selector': 'app-timeline-event-category-changed'},{'name': 'TimelineEventClosedComponent', 'selector': 'app-timeline-event-closed'},{'name': 'TimelineEventDeletedIssueCommentComponent', 'selector': 'app-timeline-event-deleted-issue-comment'},{'name': 'TimelineEventDueDateChangedComponent', 'selector': 'app-timeline-event-due-date-changed'},{'name': 'TimelineEventEstimatedTimeChangedComponent', 'selector': 'app-timeline-event-estimated-time-changed'},{'name': 'TimelineEventLabelledComponent', 'selector': 'app-timeline-event-labelled'},{'name': 'TimelineEventLinkComponent', 'selector': 'app-timeline-event-link'},{'name': 'TimelineEventMarkedDuplicateComponent', 'selector': 'app-timeline-event-marked-duplicate'},{'name': 'TimelineEventPinnedComponent', 'selector': 'app-timeline-event-pinned'},{'name': 'TimelineEventPriorityChangedComponent', 'selector': 'app-timeline-event-priority-changed'},{'name': 'TimelineEventReferencedByIssueComponent', 'selector': 'app-timeline-event-referenced-by-issue'},{'name': 'TimelineEventReferencedByOtherComponent', 'selector': 'app-timeline-event-referenced-by-other'},{'name': 'TimelineEventRemovedArtifactComponent', 'selector': 'app-timeline-event-removed-artifact'},{'name': 'TimelineEventRemovedFromComponentComponent', 'selector': 'app-timeline-event-removed-from-component'},{'name': 'TimelineEventRemovedFromLocationComponent', 'selector': 'app-timeline-event-removed-from-location'},{'name': 'TimelineEventRemovedNfcComponent', 'selector': 'app-timeline-event-removed-nfc'},{'name': 'TimelineEventRenamedComponent', 'selector': 'app-timeline-event-renamed'},{'name': 'TimelineEventReopenedComponent', 'selector': 'app-timeline-event-reopened'},{'name': 'TimelineEventStartDateChangedComponent', 'selector': 'app-timeline-event-start-date-changed'},{'name': 'TimelineEventUnassignedComponent', 'selector': 'app-timeline-event-unassigned'},{'name': 'TimelineEventUnlabelledComponent', 'selector': 'app-timeline-event-unlabelled'},{'name': 'TimelineEventUnlinkComponent', 'selector': 'app-timeline-event-unlink'},{'name': 'TimelineEventUnmarkedDuplicateComponent', 'selector': 'app-timeline-event-unmarked-duplicate'},{'name': 'TimelineEventUnpinnedComponent', 'selector': 'app-timeline-event-unpinned'},{'name': 'TimelineEventWasLinkedComponent', 'selector': 'app-timeline-event-was-linked'},{'name': 'TimelineEventWasUnlinkedComponent', 'selector': 'app-timeline-event-was-unlinked'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
+        var COMPONENT_TEMPLATE = '<div><!--Timeline of a given issue showing all its events--><!------ Include the above in your HEAD tag ----------><app-query-component errorMessage="Failed to load timeline items">  <ng-template appQueryBody>    <div class="container">      <div class="page-header"></div>      <ul class="timeline">        <li *ngFor="let timelineItem of timelineItems" [ngSwitch]="timelineItem.type" class="timeline-inverted">          <!--Icons used in the timeline-->          <div class="timeline-badge" *ngSwitchCase="\'AddedToComponentEvent\'">            <mat-icon>add</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedFromComponentEvent\'">            <mat-icon>remove</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AddedToLocationEvent\'">            <mat-icon>add</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedFromLocationEvent\'">            <mat-icon>remove</mat-icon>          </div>          <div class="timeline-badge closed" *ngSwitchCase="\'ClosedEvent\'">            <mat-icon>task_alt</mat-icon>          </div>          <div class="timeline-badge reopened" *ngSwitchCase="\'ReopenedEvent\'">            <mat-icon>add_task</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AssignedEvent\'">            <mat-icon>person_add</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnassignedEvent\'">            <mat-icon>person_remove</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'CategoryChangedEvent\'">            <mat-icon>category</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'DueDateChangedEvent\'">            <mat-icon>event</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'EstimatedTimeChangedEvent\'">            <mat-icon>date_range</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'LabelledEvent\'">            <mat-icon>new_label</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnlabelledEvent\'">            <mat-icon>label</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'DeletedIssueComment\'">            <mat-icon>speaker_notes_off</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'MarkedAsDuplicateEvent\'">            <mat-icon>plagiarism</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnmarkedAsDuplicateEvent\'">            <mat-icon>file_copy</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'LinkEvent\'">            <mat-icon>add_link</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnlinkEvent\'">            <mat-icon>link_off</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'PinnedEvent\'">            <mat-icon>push_pin</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'UnpinnedEvent\'">            <mat-icon>push_pin</mat-icon>          </div>          <div class="timeline-badge warning" *ngSwitchCase="\'ReferencedByIssueEvent\'">            <mat-icon>switch_access_shortcut_add</mat-icon>          </div>          <div class="timeline-badge warning" *ngSwitchCase="\'ReferencedByOtherEvent\'">            <mat-icon>switch_access_shortcut</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'StartDateChangedEvent\'">            <mat-icon>event</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'PriorityChangedEvent\'">            <mat-icon>reorder</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RenamedTitleEvent\'">            <mat-icon>drive_file_rename_outline</mat-icon>          </div>          <div class="timeline-badge warning" *ngSwitchCase="\'WasLinkedEvent\'">            <mat-icon>add_link</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'WasUnlinkedEvent\'">            <mat-icon>link_off</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AddedArtifactEvent\'">            <mat-icon>data_object</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedArtifactEvent\'">            <mat-icon>data_object</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'AddedNonFunctionalConstraintEvent\'">            <mat-icon>border_style</mat-icon>          </div>          <div class="timeline-badge" *ngSwitchCase="\'RemovedNonFunctionalConstraintEvent\'">            <mat-icon>border_style </mat-icon>          </div>          <!--Timeline events-->          <!--1. Event: issue comment is added-->          <div class="commentContainer" *ngSwitchCase="\'IssueComment\'">            <app-comment [commentId]="makeCommentId(timelineItem.item)" [issueId]="issueId" [isIssueBody]="false"></app-comment>          </div>          <!--2. Event: issue is closed-->          <div class="timeline-panel" *ngSwitchCase="\'ClosedEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>Issue was closed by <a>{{ timelineItem.user }}</a></ng-template>            </app-timeline-item>          </div>          <!--3. Event: issue is assigned-->          <div class="timeline-panel" *ngSwitchCase="\'AssignedEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.assignee">              <ng-template appSingleTimelineItem>                <span *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned">                  <a>{{ timelineItem.user }}</a> self-assigned this issue                </span>                <ng-template #notSelfAssigned>                  <a>{{ timelineItem.user }}</a> assigned this issue to user                  <a>{{ timelineItem.item.assignee.displayName }}</a>                </ng-template>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> assigned this issue to deleted user </ng-template>            </app-timeline-item>          </div>          <!--4. Event: issue date is changed-->          <div class="timeline-panel" *ngSwitchCase="\'DueDateChangedEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> changed due date from {{ timelineItem.item.oldDueDate }} to {{ timelineItem.item.newDueDate                }}              </ng-template>            </app-timeline-item>          </div>          <!--5. Event: issue estimated time changed-->          <div class="timeline-panel" *ngSwitchCase="\'EstimatedTimeChangedEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> changed the estimated time from {{ timelineItem.item.oldEstimatedTime }} to {{                timelineItem.item.newEstimatedTime }}              </ng-template>            </app-timeline-item>          </div>          <!--6. Event: issue is labelled-->          <div class="timeline-panel" *ngSwitchCase="\'LabelledEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> added label                <span style="display: inline-block">                  <app-issue-label [label]="timelineItem.item.label"></app-issue-label>                </span>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> added labels                <span style="display: inline-block" *ngFor="let node of timelineItem.item">                  <app-issue-label [label]="node.label"></app-issue-label>                </span>              </ng-template>            </app-timeline-item>          </div>          <!--7. Event: issue comment is deleted-->          <div class="timeline-panel" *ngSwitchCase="\'DeletedIssueComment\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.item.deletedBy?.displayName }}</a> deleted comment by <a>{{ timelineItem.user }}</a>              </ng-template>            </app-timeline-item>          </div>          <!--8. Event: issue is marked ad duplicate-->          <div class="timeline-panel" *ngSwitchCase="\'MarkedAsDuplicateEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.originalIssue">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> marked this issue as duplicate of issue                <app-issue-item [issue]="timelineItem.item.originalIssue" [interactive]="true" [projectId]="projectID"> </app-issue-item>              </ng-template>              <ng-template appTimelineItemDeleted>                <a>{{ timelineItem.user }}</a> marked this issue as duplicate of deleted issue              </ng-template>            </app-timeline-item>          </div>          <!--9. Event: issue is linked to another issue-->          <div class="timeline-panel" *ngSwitchCase="\'LinkEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> linked this issue to issue                <app-issue-item [issue]="timelineItem.item.linkedIssue" [interactive]="true" [projectId]="projectID"> </app-issue-item>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> linked this issue to issues                <ng-container *ngFor="let item of timelineItem.item">                  <app-issue-item [issue]="item.linkedIssue" [interactive]="true" [projectId]="projectID"> </app-issue-item>                </ng-container>              </ng-template>            </app-timeline-item>          </div>          <!--10. Event: issue is pinnned on a (dleeted) component-->          <div class="timeline-panel" *ngSwitchCase="\'PinnedEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [checkDeletedFn]="!timelineItem.item.component">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> pinned this issue on component                <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> pinned this issue on deleted component </ng-template>            </app-timeline-item>          </div>          <!--11. Event: issue is referenced by another (deleted) issue-->          <div class="timeline-panel" *ngSwitchCase="\'ReferencedByIssueEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [checkDeletedFn]="!timelineItem.item.mentionedAt">              <ng-template appSingleTimelineItem>                This issue was referenced by issue                <app-issue-item [issue]="timelineItem.item.mentionedAt" [interactive]="true" [projectId]="projectID"> </app-issue-item>                in comment                <a>{{ timelineItem.item.mentionedInComment?.id }}</a> by                <a>{{ timelineItem.user }}</a>              </ng-template>              <ng-template appTimelineItemDeleted>This issue was referenced by a deleted issue</ng-template>            </app-timeline-item>          </div>          <!--12. Event: issue\'s priority is changed-->          <div class="timeline-panel" *ngSwitchCase="\'PriorityChangedEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> changed priority from {{ timelineItem.item.oldPriority }} to {{ timelineItem.item.newPriority                }}              </ng-template>            </app-timeline-item>          </div>          <!--13. Event: issue is removed from a component / components-->          <div class="timeline-panel" *ngSwitchCase="\'RemovedFromComponentEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> removed this issue from component                <app-issue-location [projectId]="projectID" [location]="timelineItem.item.removedComponent"> </app-issue-location>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> removed this issue from components                <ng-container *ngFor="let item of timelineItem.item">                  <app-issue-location [projectId]="projectID" [location]="item.removedComponent"> </app-issue-location>                </ng-container>              </ng-template>            </app-timeline-item>          </div>          <!--14. Event: issue is referenced in a (deleted) component-->          <div class="timeline-panel" *ngSwitchCase="\'ReferencedByOtherEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.component">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> referenced this issue in component                <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>                with                <a href="{{ timelineItem.item.sourceURL }}">{{ timelineItem.item.source }}</a>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> referenced this issue in deleted component </ng-template>            </app-timeline-item>          </div>          <!--15. Event: issue is removed from a location / locations-->          <div class="timeline-panel" *ngSwitchCase="\'RemovedFromLocationEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> removed this issue from location                <app-issue-location [projectId]="projectID" [location]="timelineItem.item.removedLocation"> </app-issue-location>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> removed this issue from locations                <ng-container *ngFor="let item of timelineItem.item">                  <app-issue-location [projectId]="projectID" [location]="item.removedLocation"> </app-issue-location>                </ng-container>              </ng-template>            </app-timeline-item>          </div>          <!--16. Event: issue is reopened-->          <div class="timeline-panel" *ngSwitchCase="\'ReopenedEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem><a>{{ timelineItem.user }}</a> reopened this issue</ng-template>            </app-timeline-item>          </div>          <!--17. Event: issue\'s start date is changed-->          <div class="timeline-panel" *ngSwitchCase="\'StartDateChangedEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> changed start date from {{ timelineItem.item.oldStartDate }} to {{                timelineItem.item.newStartDate }}              </ng-template>            </app-timeline-item>          </div>          <!--18. Event: issue\'s title is renamed-->          <div class="timeline-panel" *ngSwitchCase="\'RenamedTitleEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> changed title of this issue from {{ timelineItem.item.oldTitle }} to {{                timelineItem.item.newTitle }}              </ng-template>            </app-timeline-item>          </div>          <!--19. Event: issue is unassigned-->          <div class="timeline-panel" *ngSwitchCase="\'UnassignedEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedAssignee">              <ng-template appSingleTimelineItem>                <span *ngIf="selfAssigned(timelineItem.item); else notSelfAssigned"> <a>{{ timelineItem.user }}</a> self-unassigned </span>                <ng-template #notSelfAssigned>                  <a>{{ timelineItem.user }}</a> unassigned                  <a>{{ timelineItem.item.removedAssignee.displayName }}</a>                </ng-template>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> unassigned deleted User </ng-template>            </app-timeline-item>          </div>          <!--20. Event: issue is unlabelled-->          <div class="timeline-panel" *ngSwitchCase="\'UnlabelledEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> removed label                <span style="display: inline-block">                  <app-issue-label [label]="timelineItem.item.removedLabel"></app-issue-label>                </span>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> removed labels                <span style="display: inline-block" *ngFor="let node of timelineItem.item">                  <app-issue-label [label]="node.removedLabel"></app-issue-label>                </span>              </ng-template>            </app-timeline-item>          </div>          <!--21. Event: issue was linked by another (deleted) issue-->          <div class="timeline-panel" *ngSwitchCase="\'WasLinkedEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.linkedBy">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> linked issue                <app-issue-item [issue]="timelineItem.item.linkedBy" [interactive]="true" [projectId]="projectID"> </app-issue-item>                to this issue              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> linked deleted issue to this issue </ng-template>            </app-timeline-item>          </div>          <!--22. Event: issue is unmarked as a duplicate-->          <div class="timeline-panel" *ngSwitchCase="\'UnmarkedAsDuplicateEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem><a>{{ timelineItem.user }}</a> unmarked this issue as duplicate</ng-template>            </app-timeline-item>          </div>          <!--23. Event: issue is unlinked by another (deleted) issue-->          <div class="timeline-panel" *ngSwitchCase="\'WasUnlinkedEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.unlinkedBy">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> unlinked this issue in issue                <app-issue-item [issue]="timelineItem.item.unlinkedBy" [interactive]="true" [projectId]="projectID"> </app-issue-item>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> unlinked this issue in deleted issue </ng-template>            </app-timeline-item>          </div>          <!--24. Event: issue is unpinned in a (deleted) component-->          <div class="timeline-panel" *ngSwitchCase="\'UnpinnedEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.component">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> unpinned this issue in component                <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> unpinned this issue in deleted component </ng-template>            </app-timeline-item>          </div>          <!--25. Event: issue is unlinked to another issue / issues-->          <div class="timeline-panel" *ngSwitchCase="\'UnlinkEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> removed link to issue                <app-issue-item [issue]="timelineItem.item.removedLinkedIssue" [interactive]="true" [projectId]="projectID">                </app-issue-item>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> removed links to issues                <ng-container *ngFor="let item of timelineItem.item">                  <app-issue-item [issue]="item.removedLinkedIssue" [interactive]="true" [projectId]="projectID"> </app-issue-item>                </ng-container>              </ng-template>            </app-timeline-item>          </div>          <!--26. Event: issue has (deleted) artifacts added-->          <div class="timeline-panel" *ngSwitchCase="\'AddedArtifactEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedLinkedIssue">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> added artifact                <a>{{ timelineItem.item.artifact.id }}</a>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> added deleted artifact </ng-template>            </app-timeline-item>          </div>          <!--27. Event: issue has (deleted) artifacts removed-->          <div class="timeline-panel" *ngSwitchCase="\'RemovedArtifactEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedLinkedIssue">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> removed artifact                <a>{{ timelineItem.item.removedArtifact.id }}</a>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> removed deleted artifact </ng-template>            </app-timeline-item>          </div>          <!--28. Event: issue has a (deleted) non functional constraint added-->          <div class="timeline-panel" *ngSwitchCase="\'AddedNonFunctionalConstraintEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.nonFunctionalConstraint">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> added non functional constraint                <a>{{ timelineItem.item.nonFunctionalConstraint.id }}</a>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> added deleted non functional constraint </ng-template>            </app-timeline-item>          </div>          <!--29. Event: issue has a (deleted) non functional constraint removed-->          <div class="timeline-panel" *ngSwitchCase="\'RemovedNonFunctionalConstraintEvent\'">            <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!timelineItem.item.removedNonFunctionalConstraint">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> removed non functional constraint                <a>{{ timelineItem.item.removedNonFunctionalConstraint.id }}</a>              </ng-template>              <ng-template appTimelineItemDeleted> <a>{{ timelineItem.user }}</a> removed deleted non functional constraint </ng-template>            </app-timeline-item>          </div>          <!--30. Event: issue is added to a component / components-->          <div class="timeline-panel" *ngSwitchCase="\'AddedToComponentEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> added this issue to component                <app-issue-location [projectId]="projectID" [location]="timelineItem.item.component"></app-issue-location>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> added this issue to components                <ng-container *ngFor="let item of timelineItem.item">                  <app-issue-location [projectId]="projectID" [location]="item.component"></app-issue-location>                </ng-container>              </ng-template>            </app-timeline-item>          </div>          <!--31. Event: issue\'s category is changed-->          <div class="timeline-panel" *ngSwitchCase="\'CategoryChangedEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a>                changed category from                <app-issue-category [category]="timelineItem.item.oldCategory"></app-issue-category>                &nbsp;to&nbsp;                <app-issue-category [category]="timelineItem.item.newCategory"></app-issue-category>              </ng-template>            </app-timeline-item>          </div>          <!--32. Event: issue is added to a location / locations-->          <div class="timeline-panel" *ngSwitchCase="\'AddedToLocationEvent\'">            <app-timeline-item [timelineItem]="timelineItem">              <ng-template appSingleTimelineItem>                <a>{{ timelineItem.user }}</a> added this issue to location                <app-issue-location [projectId]="projectID" [location]="timelineItem.item.location"></app-issue-location>              </ng-template>              <ng-template appCoalescedTimelineItems>                <a>{{ timelineItem.user }}</a> added this issue to locations                <ng-container *ngFor="let item of timelineItem.item">                  <app-issue-location [projectId]="projectID" [location]="item.location"></app-issue-location>                </ng-container>              </ng-template>            </app-timeline-item>          </div>        </li>      </ul>    </div>  </ng-template></app-query-component></div>'
+    var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'TimelineComponent'};
 </script>

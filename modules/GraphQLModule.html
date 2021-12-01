@@ -118,12 +118,12 @@ export function createErrorLink(authService: AuthenticationService, toastr: Toas
   const errorLink &#x3D; onError(({graphQLErrors, networkError, operation, forward}) &#x3D;&gt; {
     if (graphQLErrors) {
       const message &#x3D; graphQLErrors.map((err) &#x3D;&gt; err.message).join(&#x27;&lt;br&gt;&#x27;);
-      console.error(&#x60;[Graphql errors]: ${message}&#x60;);
+      console.log(&#x60;[Graphql errors]: ${message}&#x60;);
       toastr.error(message, &#x27;GraphQL error&#x27;, networkErrorToast);
     }
 
     if (networkError) {
-      console.error(&#x60;[Network error]: ${networkError.name}\n${networkError.message}\n${networkError.stack}&#x60;);
+      console.log(&#x60;[Network error]: ${networkError.name}\n${networkError.message}\n${networkError.stack}&#x60;);
       // @ts-ignore
       if (networkError.status &#x3D;&#x3D;&#x3D; 401) {
         authService.logout();

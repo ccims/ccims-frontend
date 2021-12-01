@@ -305,6 +305,7 @@ Instead of representing them as to individual items/events, they will be represe
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {AfterViewInit, Component, Input, ViewChild} from &#x27;@angular/core&#x27;;
 import {TimeFormatter} from &#x27;@app/issue-detail/time-formatter&#x27;;
+import {Router} from &#x27;@angular/router&#x27;;
 import {IssueTimelineItem} from &#x27;../../../generated/graphql-dgql&#x27;;
 import {DataList} from &#x27;@app/data-dgql/query&#x27;;
 import DataService from &#x27;@app/data-dgql&#x27;;
@@ -418,24 +419,10 @@ export class TimelineComponent implements AfterViewInit {
   @ViewChild(QueryComponent) query: QueryComponent;
 
   /**
-   * Check if a timeline item can be coalesced with another timeline item. This is the case if
-   * a) the user is the same and
-   * b) both items were created within the span of a minute
-   * @param previousItem The previous item
-   * @param nextItem The item to be coalesced with the previous item
-   * @returns True if both items can be coalesced
-   */
-  private static shouldStopCoalescing(previousItem: IssueTimelineItem, nextItem: IssueTimelineItem): boolean {
-    return previousItem.createdBy.id !&#x3D;&#x3D; previousItem.createdBy.id ||
-      Math.abs(Date.parse(nextItem.createdAt) - Date.parse(nextItem.createdAt)) &gt; 60000;
-  }
-
-  /**
    * Service for handling API connection is required
-   * @param dataService handling api connection
+   * @param {DataService} dataService handling api connection
    */
-  constructor(private dataService: DataService) {
-  }
+  constructor(private dataService: DataService) {}
 
   ngAfterViewInit(): void {
     this.requestTimelineItems();
@@ -452,7 +439,7 @@ export class TimelineComponent implements AfterViewInit {
       type: ListType.TimelineItems
     });
 
-    // FIXME: decide on the count
+    //FIXME: decide on the count
     this.timelineItems$.count &#x3D; 99999;
 
     this.query.listenTo(this.timelineItems$, (value) &#x3D;&gt; {
@@ -462,41 +449,59 @@ export class TimelineComponent implements AfterViewInit {
 
   /**
    * Prepares the timeline items (aka. the timeline events).
-   * @param items Timeline items to prepare.
+   * @param  {Map&lt;string, IssueTimelineItem&gt;} items - Timeline items to prepare.
    */
   prepareTimelineItems(items: Map&lt;string, IssueTimelineItem&gt;): void {
-    let coalescingType: string &#x3D; null;
+    let coalescingType &#x3D; null;
     let coalesceList &#x3D; new Array&lt;IssueTimelineItem&gt;();
-    const coalesced: Array&lt;CoalescedTimelineItem&gt; &#x3D; [];
+    let coalesced: Array&lt;CoalescedTimelineItem&gt; &#x3D; [];
+
+    /**
+     * Adds items from the coalesce list {@link coalesceList}
+     * to a list containing all coalesced timeline items {@link coalesced}
+     * in case the coalesce list is not empty.
+     */
+    const finishCoalescing &#x3D; () &#x3D;&gt; {
+      // case: the coalesce list is empty
+      if (coalesceList.length &#x3D;&#x3D;&#x3D; 0) {
+        return;
+      }
+
+      // case: the coalesce list is not empty
+      else {
+        coalesced &#x3D; this.addCoalesceItems(coalesceList, coalesced);
+        coalesceList &#x3D; [];
+      }
+    };
 
     for (const timelineItem of items.values()) {
-      const itemType: string &#x3D; (timelineItem as any).__typename;
+      const itemType &#x3D; (timelineItem as any).__typename;
       const filter &#x3D; TimelineComponent.COALESCABLE_EVENTS.get(itemType);
       let stopCoalescing &#x3D; false;
 
       // decides whether to stop coalescing
-      if (coalescingType) {
-        stopCoalescing &#x3D; TimelineComponent.shouldStopCoalescing(coalesceList[0], timelineItem);
-      }
+      stopCoalescing &#x3D; this.stopCoalescing(coalescingType, coalesceList, stopCoalescing, timelineItem);
 
       // case: the coalescing type equals the current item type
       // or coalescing should stop
       if (coalescingType !&#x3D;&#x3D; itemType || stopCoalescing) {
         // adds remaining items
-        this.finishCoalescing(coalesceList, coalesced);
-        coalesceList &#x3D; [];
+        finishCoalescing();
 
         if (filter &amp;&amp; filter(timelineItem)) {
           coalescingType &#x3D; itemType;
           coalesceList.push(timelineItem);
         } else {
           coalescingType &#x3D; null;
-          this.addSingleCoalesceItem(timelineItem, filter, coalesced);
+          coalesced &#x3D; this.addSingleCoalesceItem(timelineItem, filter, coalesced);
         }
 
         continue;
-      } else if (coalescingType &#x3D;&#x3D;&#x3D; null) {
-        this.addSingleCoalesceItem(timelineItem, filter, coalesced);
+      }
+
+      // case: the coalescing type is null
+      else if (coalescingType &#x3D;&#x3D; null) {
+        coalesced &#x3D; this.addSingleCoalesceItem(timelineItem, filter, coalesced);
         continue;
       }
 
@@ -506,7 +511,7 @@ export class TimelineComponent implements AfterViewInit {
     }
 
     // adds remaining items
-    this.finishCoalescing(coalesceList, coalesced);
+    finishCoalescing();
     this.timelineItems &#x3D; coalesced;
   }
 
@@ -514,8 +519,8 @@ export class TimelineComponent implements AfterViewInit {
    * Returns the name of the user
    * that created a given timeline item (aka. timeline event)
    * or just &quot;Deleted User&quot; in case the user no longer exists.
-   * @param item The given timeline item.
-   * @returns Name of the timeline item creator.
+   * @param  {IssueTimelineItem} item - The given timeline item.
+   * @returns - Name of the timeline item creator.
    */
   private userName(item: IssueTimelineItem) {
     // case: the timeline item&#x27;s creator&#x27;s name can be retrieved
@@ -527,22 +532,19 @@ export class TimelineComponent implements AfterViewInit {
   }
 
   /**
-   * Turns a list of timeline items into a coalesced timeline item, and adds them to a list of coalesced timeline items.
-   *
-   * @param coalesceList The list of timeline items
-   * @param coalesced The list of all coalesced timeline items
+   * Adds items from a given coalesce list
+   * to a given list containing all coalesced timeline items.
+   * @param  {IssueTimelineItem[]} coalesceList  The given coalesce list.
+   * @param  {CoalescedTimelineItem[]} coalesced  The given list containing all coalesced timeline items.
+   * @returns The given list containing all coalesced timeline items.
    */
-  private finishCoalescing(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): void {
-    if (coalesceList.length &#x3D;&#x3D;&#x3D; 0) {
-      return;
-    }
-
+  private addCoalesceItems(coalesceList: IssueTimelineItem[], coalesced: CoalescedTimelineItem[]): CoalescedTimelineItem[] {
     const firstItem: any &#x3D; coalesceList[0];
     const itemType &#x3D; firstItem.__typename;
     const createdBy &#x3D; this.userName(firstItem);
 
+    // case: the coalesce list has more than one item
     if (coalesceList.length &gt; 1) {
-      // Combine multiple timeline items into one
       coalesced.push({
         type: itemType,
         isCoalesced: true,
@@ -550,8 +552,10 @@ export class TimelineComponent implements AfterViewInit {
         user: createdBy,
         time: coalesceList[0].createdAt
       });
-    } else if (coalesceList.length &#x3D;&#x3D;&#x3D; 1) {
-      // Wrap a single timeline item into a coalesced timeline item
+    }
+
+    // case: the coalesce list has only one item
+    else if (coalesceList.length &#x3D;&#x3D;&#x3D; 1) {
       coalesced.push({
         type: itemType,
         isCoalesced: false,
@@ -560,19 +564,22 @@ export class TimelineComponent implements AfterViewInit {
         time: coalesceList[0].createdAt
       });
     }
+
+    // returns the list containing all coalesced timeline items
+    return coalesced;
   }
 
   /**
    * Adds a single item to a list containing all coalesced timeline items.
-   * @param timelineItem The given item.
-   * @param filter Filter used on the given item.
-   * @param coalesced The list of coalesced timeline items
+   * @param  {IssueTimelineItem} timelineItem - The given item.
+   * @param  {ItemFilterFunction|undefined} filter - Filter used on the given item.
+   * @returns The given list containing all coalesced timeline items.
    */
   private addSingleCoalesceItem(
     timelineItem: IssueTimelineItem,
     filter: ItemFilterFunction | undefined,
     coalesced: CoalescedTimelineItem[]
-  ): void {
+  ): CoalescedTimelineItem[] {
     if (!filter || filter(timelineItem)) {
       coalesced.push({
         type: (timelineItem as any).__typename,
@@ -582,6 +589,43 @@ export class TimelineComponent implements AfterViewInit {
         time: timelineItem.createdAt
       });
     }
+
+    // returns the list containing all coalesced timeline items
+    return coalesced;
+  }
+
+  /**
+   * Stops the coalescing process in case
+   * a) the user differs or
+   * b) the current item was already added
+   * 60 seconds after the first one added.
+   * @param  {any} coalescingType - Coalescing type handled.
+   * @param  {IssueTimelineItem[]} coalesceList - Coalesce list handled.
+   * @param  {boolean} stopCoalescing - Value that determines whether the coalescing should stop.
+   * @param  {IssueTimelineItem} timelineItem - Timeline item handled.
+   * @returns The value that determines whether the coalescing should stop.
+   */
+  private stopCoalescing(coalescingType: any, coalesceList: IssueTimelineItem[], stopCoalescing: boolean, timelineItem: IssueTimelineItem) {
+    if (coalescingType) {
+      const firstItem &#x3D; coalesceList[0];
+      stopCoalescing &#x3D;
+        firstItem.createdBy.id !&#x3D;&#x3D; timelineItem.createdBy.id ||
+        Math.abs(Date.parse(timelineItem.createdAt) - Date.parse(firstItem.createdAt)) &gt; 60000;
+    }
+
+    return stopCoalescing;
+  }
+
+  /**
+   * Checks if the user self-assigned this issue for text representation.
+   * @param assignedEvent - Assigned event handled.
+   */
+  selfAssigned(assignedEvent): boolean {
+    if (assignedEvent.createdBy.id &#x3D;&#x3D;&#x3D; assignedEvent.removedAssignee?.id) {
+      return true;
+    }
+
+    return false;
   }
 
   /**

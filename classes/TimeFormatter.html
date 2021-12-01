@@ -416,7 +416,7 @@
    * @param singular singular form of the word
    */
   pluralize(n: number, singular: string): string {
-    return n &#x3D;&#x3D;&#x3D; 1 ? &#x60;${n} ${singular}&#x60; : &#x60;${n} ${singular}s&#x60;;
+    return n &#x3D;&#x3D;&#x3D; 1 ? n + &#x27; &#x27; + singular : n + &#x27; &#x27; + singular + &#x27;s&#x27;;
   }
 }
 </code></pre>
