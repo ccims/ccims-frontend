@@ -104,8 +104,7 @@
           <!--Timeline events-->
 
           <div class="commentContainer" *ngSwitchCase="'IssueComment'">
-            <app-comment [commentId]="makeCommentId(timelineItem.item)" [issueId]="issueId"
-                         [isIssueBody]="false"></app-comment>
+            <app-comment [commentId]="makeCommentId(timelineItem.item)" [issueId]="issueId" [isIssueBody]="false"></app-comment>
           </div>
 
           <app-timeline-event-closed class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'ClosedEvent'">
@@ -114,120 +113,157 @@
           <app-timeline-event-assigned class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'AssignedEvent'">
           </app-timeline-event-assigned>
 
-          <app-timeline-event-due-date-changed class="fill-width" [timelineItem]="timelineItem"
-                                               *ngSwitchCase="'DueDateChangedEvent'">
+          <app-timeline-event-due-date-changed class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'DueDateChangedEvent'">
           </app-timeline-event-due-date-changed>
 
-          <app-timeline-event-estimated-time-changed class="fill-width" [timelineItem]="timelineItem"
-                                                     *ngSwitchCase="'EstimatedTimeChangedEvent'">
+          <app-timeline-event-estimated-time-changed
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            *ngSwitchCase="'EstimatedTimeChangedEvent'"
+          >
           </app-timeline-event-estimated-time-changed>
 
           <app-timeline-event-labelled class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'LabelledEvent'">
           </app-timeline-event-labelled>
 
-          <app-timeline-event-deleted-issue-comment class="fill-width" [timelineItem]="timelineItem"
-                                                    *ngSwitchCase="'DeletedIssueComment'">
+          <app-timeline-event-deleted-issue-comment class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'DeletedIssueComment'">
           </app-timeline-event-deleted-issue-comment>
 
-          <app-timeline-event-marked-duplicate class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                               *ngSwitchCase="'MarkedAsDuplicateEvent'">
+          <app-timeline-event-marked-duplicate
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'MarkedAsDuplicateEvent'"
+          >
           </app-timeline-event-marked-duplicate>
 
-          <app-timeline-event-link class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                   *ngSwitchCase="'LinkEvent'">
+          <app-timeline-event-link class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID" *ngSwitchCase="'LinkEvent'">
           </app-timeline-event-link>
 
-          <app-timeline-event-pinned class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                     *ngSwitchCase="'PinnedEvent'">
+          <app-timeline-event-pinned class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID" *ngSwitchCase="'PinnedEvent'">
           </app-timeline-event-pinned>
 
-          <app-timeline-event-referenced-by-issue class="fill-width" [timelineItem]="timelineItem"
-                                                  [projectID]="projectID" *ngSwitchCase="'ReferencedByIssueEvent'">
+          <app-timeline-event-referenced-by-issue
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'ReferencedByIssueEvent'"
+          >
           </app-timeline-event-referenced-by-issue>
 
-          <app-timeline-event-priority-changed class="fill-width" [timelineItem]="timelineItem"
-                                               *ngSwitchCase="'PriorityChangedEvent'">
+          <app-timeline-event-priority-changed class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'PriorityChangedEvent'">
           </app-timeline-event-priority-changed>
 
-          <app-timeline-event-removed-from-component class="fill-width" [timelineItem]="timelineItem"
-                                                     [projectID]="projectID"
-                                                     *ngSwitchCase="'RemovedFromComponentEvent'">
+          <app-timeline-event-removed-from-component
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'RemovedFromComponentEvent'"
+          >
           </app-timeline-event-removed-from-component>
 
-          <app-timeline-event-referenced-by-other class="fill-width" [timelineItem]="timelineItem"
-                                                  [projectID]="projectID" *ngSwitchCase="'ReferencedByOtherEvent'">
+          <app-timeline-event-referenced-by-other
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'ReferencedByOtherEvent'"
+          >
           </app-timeline-event-referenced-by-other>
 
-          <app-timeline-event-removed-from-location class="fill-width" [timelineItem]="timelineItem"
-                                                    [projectID]="projectID" *ngSwitchCase="'RemovedFromLocationEvent'">
+          <app-timeline-event-removed-from-location
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'RemovedFromLocationEvent'"
+          >
           </app-timeline-event-removed-from-location>
 
           <app-timeline-event-reopened class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'ReopenedEvent'">
           </app-timeline-event-reopened>
 
-          <app-timeline-event-start-date-changed class="fill-width" [timelineItem]="timelineItem"
-                                                 *ngSwitchCase="'StartDateChangedEvent'">
+          <app-timeline-event-start-date-changed class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'StartDateChangedEvent'">
           </app-timeline-event-start-date-changed>
 
-          <app-timeline-event-renamed class="fill-width" [timelineItem]="timelineItem"
-                                      *ngSwitchCase="'RenamedTitleEvent'">
+          <app-timeline-event-renamed class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'RenamedTitleEvent'">
           </app-timeline-event-renamed>
 
-          <app-timeline-event-unassigned class="fill-width" [timelineItem]="timelineItem"
-                                         *ngSwitchCase="'UnassignedEvent'">
+          <app-timeline-event-unassigned class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'UnassignedEvent'">
           </app-timeline-event-unassigned>
 
-          <app-timeline-event-unlabelled class="fill-width" [timelineItem]="timelineItem"
-                                         *ngSwitchCase="'UnlabelledEvent'">
+          <app-timeline-event-unlabelled class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'UnlabelledEvent'">
           </app-timeline-event-unlabelled>
 
-          <app-timeline-event-was-linked class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                         *ngSwitchCase="'WasLinkedEvent'">
+          <app-timeline-event-was-linked
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'WasLinkedEvent'"
+          >
           </app-timeline-event-was-linked>
 
-          <app-timeline-event-unmarked-duplicate class="fill-width" [timelineItem]="timelineItem"
-                                                 *ngSwitchCase="'UnmarkedAsDuplicateEvent'">
+          <app-timeline-event-unmarked-duplicate
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            *ngSwitchCase="'UnmarkedAsDuplicateEvent'"
+          >
           </app-timeline-event-unmarked-duplicate>
 
-          <app-timeline-event-was-unlinked class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                           *ngSwitchCase="'WasUnlinkedEvent'">
+          <app-timeline-event-was-unlinked
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'WasUnlinkedEvent'"
+          >
           </app-timeline-event-was-unlinked>
 
-          <app-timeline-event-unpinned class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                       *ngSwitchCase="'UnpinnedEvent'">
+          <app-timeline-event-unpinned
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'UnpinnedEvent'"
+          >
           </app-timeline-event-unpinned>
 
-          <app-timeline-event-unlink class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                     *ngSwitchCase="'UnlinkEvent'">
+          <app-timeline-event-unlink class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID" *ngSwitchCase="'UnlinkEvent'">
           </app-timeline-event-unlink>
 
-          <app-timeline-event-added-artifact class="fill-width" [timelineItem]="timelineItem"
-                                             *ngSwitchCase="'AddedArtifactEvent'">
+          <app-timeline-event-added-artifact class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'AddedArtifactEvent'">
           </app-timeline-event-added-artifact>
 
-          <app-timeline-event-removed-artifact class="fill-width" [timelineItem]="timelineItem"
-                                               *ngSwitchCase="'RemovedArtifactEvent'">
+          <app-timeline-event-removed-artifact class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'RemovedArtifactEvent'">
           </app-timeline-event-removed-artifact>
 
-          <app-timeline-event-added-nfc class="fill-width" [timelineItem]="timelineItem"
-                                        *ngSwitchCase="'AddedNonFunctionalConstraintEvent'">
+          <app-timeline-event-added-nfc
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            *ngSwitchCase="'AddedNonFunctionalConstraintEvent'"
+          >
           </app-timeline-event-added-nfc>
 
-          <app-timeline-event-removed-nfc class="fill-width" [timelineItem]="timelineItem"
-                                          *ngSwitchCase="'RemovedNonFunctionalConstraintEvent'">
+          <app-timeline-event-removed-nfc
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            *ngSwitchCase="'RemovedNonFunctionalConstraintEvent'"
+          >
           </app-timeline-event-removed-nfc>
 
-          <app-timeline-event-added-to-component class="fill-width" [timelineItem]="timelineItem"
-                                                 [projectID]="projectID"
-                                                 *ngSwitchCase="'AddedToComponentEvent'">
+          <app-timeline-event-added-to-component
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'AddedToComponentEvent'"
+          >
           </app-timeline-event-added-to-component>
 
-          <app-timeline-event-category-changed class="fill-width" [timelineItem]="timelineItem"
-                                               *ngSwitchCase="'CategoryChangedEvent'">
+          <app-timeline-event-category-changed class="fill-width" [timelineItem]="timelineItem" *ngSwitchCase="'CategoryChangedEvent'">
           </app-timeline-event-category-changed>
 
-          <app-timeline-event-added-to-location class="fill-width" [timelineItem]="timelineItem" [projectID]="projectID"
-                                                *ngSwitchCase="'AddedToLocationEvent'">
+          <app-timeline-event-added-to-location
+            class="fill-width"
+            [timelineItem]="timelineItem"
+            [projectID]="projectID"
+            *ngSwitchCase="'AddedToLocationEvent'"
+          >
           </app-timeline-event-added-to-location>
         </li>
       </ul>

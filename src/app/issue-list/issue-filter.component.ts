@@ -3,7 +3,7 @@ import {IssueCategory, IssueFilter} from '../../generated/graphql-dgql';
 import {ListId, ListType, NodeType, ROOT_NODE} from '@app/data-dgql/id';
 
 /** Returns the ListId for listing all project issues. */
-const listAllIssues = (self: IssueFilterComponent) => ({
+const listAllIssues = (self: IssueFilterComponent): {node: {id: string; type: NodeType}; type: ListType} => ({
   node: {type: NodeType.Project, id: self.projectId},
   type: ListType.Issues
 });
@@ -31,8 +31,8 @@ const PREDICATES = {
     label: 'Labels',
     dataType: 'label',
     scoreKeys: ['name'],
-    listAll: (self: IssueFilterComponent) => self.allLabelsList,
-    makeFilter: (query: string) => ({name: query}),
+    listAll: (self: IssueFilterComponent): ListId => self.allLabelsList,
+    makeFilter: (query: string): {name: string} => ({name: query}),
     ifEmpty: 'No labels selected'
   },
   linksIssues: {type: 'bool', label: 'Has linked issues'},
@@ -42,7 +42,7 @@ const PREDICATES = {
     dataType: 'issue',
     scoreKeys: ['title'],
     listAll: listAllIssues,
-    makeFilter: (query: string) => ({title: query}),
+    makeFilter: (query: string): {title: string} => ({title: query}),
     ifEmpty: 'No issues selected'
   },
   isLinkedByIssues: {type: 'bool', label: 'Is linked by issues'},
@@ -52,7 +52,7 @@ const PREDICATES = {
     dataType: 'issue',
     scoreKeys: ['title'],
     listAll: listAllIssues,
-    makeFilter: (query: string) => ({title: query}),
+    makeFilter: (query: string): {title: string} => ({title: query}),
     ifEmpty: 'No issues selected'
   },
   participants: {
@@ -60,8 +60,8 @@ const PREDICATES = {
     label: 'Participants',
     dataType: 'user',
     scoreKeys: ['username', 'displayName'],
-    listAll: () => ({node: ROOT_NODE, type: ListType.SearchUsers}),
-    makeFilter: (query: string) => ({username: query}),
+    listAll: (): {node: {id: string; type: NodeType}; type: ListType} => ({node: ROOT_NODE, type: ListType.SearchUsers}),
+    makeFilter: (query: string): {username: string} => ({username: query}),
     ifEmpty: 'No users selected'
   },
   locations: {
@@ -69,7 +69,11 @@ const PREDICATES = {
     label: 'Locations',
     dataType: 'location',
     scoreKeys: ['name'],
-    listAll: (self: IssueFilterComponent) => ({
+    listAll: (
+      self: IssueFilterComponent
+    ): {
+      staticSources: ({node: {id: string; type: NodeType}; type: ListType} | {node: {id: string; type: NodeType}; type: ListType})[];
+    } => ({
       staticSources: [
         {
           node: {type: NodeType.Project, id: self.projectId},
@@ -81,7 +85,7 @@ const PREDICATES = {
         }
       ]
     }),
-    makeFilter: (query: string) => ({title: query}),
+    makeFilter: (query: string): {title: string} => ({title: query}),
     ifEmpty: 'No locations selected'
   }
 };
@@ -150,7 +154,7 @@ export class IssueFilterComponent {
    * @param index index in activePredicates
    * @param type new type (must be unique!)
    */
-  setPredicateType(index: number, type: string) {
+  setPredicateType(index: number, type: string): void {
     this.activePredicates[index] = type;
     this.predicateValues[type] = getDefaultForType(PREDICATES[type].type);
     this.update();
@@ -160,7 +164,7 @@ export class IssueFilterComponent {
    * Removes the predicate at the given index in activePredicates.
    * @param index index in activePredicates
    */
-  removePredicateAt(index: number) {
+  removePredicateAt(index: number): void {
     const type = this.activePredicates.splice(index, 1)[0];
     delete this.predicateValues[type];
     this.update();
@@ -170,7 +174,7 @@ export class IssueFilterComponent {
    * Adds a new predicate after the given index in activePredicates.
    * @param index index in activePredicates
    */
-  addPredicateAfter(index: number) {
+  addPredicateAfter(index: number): void {
     const type = this.getRemainingTypes(index + 1)[0];
     this.activePredicates.splice(index + 1, 0, type);
     this.predicateValues[type] = getDefaultForType(PREDICATES[type].type);
@@ -183,7 +187,7 @@ export class IssueFilterComponent {
    * @param item the enum variant
    * @param inArray whether or not it should be in the array
    */
-  setInEnumArray(array, item, inArray) {
+  setInEnumArray(array, item, inArray): void {
     if (inArray && !array.includes(item)) {
       array.push(item);
     }
@@ -198,7 +202,7 @@ export class IssueFilterComponent {
    * value of the id predicate.
    * @param id predicate name
    */
-  applyIdChangeset(id) {
+  applyIdChangeset(id: string): (added: any, removed: any) => Promise<void> {
     return async (added, removed) => {
       for (const item of added) {
         this.predicateValues[id].push(item);
@@ -225,7 +229,7 @@ export class IssueFilterComponent {
   }
 
   /** Emits a change event. */
-  update() {
+  update(): void {
     this.filterChange.emit(this.buildFilter());
   }
 }

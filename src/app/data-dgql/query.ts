@@ -1,4 +1,4 @@
-import {Observable, Subscriber} from 'rxjs';
+import {Observable, Subscriber, Subscription} from 'rxjs';
 import {decodeNodeId, encodeNodeId, ListId, ListParams, NodeId, NodeIdEnc, nodeTypeFromTypename} from './id';
 import {QueriesService} from './queries/queries.service';
 import {ListResult, queryList, queryNode} from './load';
@@ -219,7 +219,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
   }
 
   /** Loads data. */
-  load() {
+  load(): void {
     this.hydrated = false;
     this.loadImpl(this.innerQueryFn(this.id, this.currentQueryParams));
   }
@@ -228,7 +228,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @internal
    * Use when data has not yet been loaded but is available from elsewhere.
    */
-  hydrateRaw(preparedData: Promise<R>) {
+  hydrateRaw(preparedData: Promise<R>): void {
     if (this.hasData) {
       return; // don't need hydration
     }
@@ -237,7 +237,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
   }
 
   /** Will load data if it's stale or not present. */
-  loadIfNeeded() {
+  loadIfNeeded(): void {
     if (this.loading) {
       return;
     }
@@ -247,7 +247,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
   }
 
   /** Loads data after a short delay. Will debounce. */
-  loadDebounced(interactive = this.interactive) {
+  loadDebounced(interactive = this.interactive): void {
     if (this.loadTimeout) {
       return;
     }
@@ -261,7 +261,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
   }
 
   /** Deletes current data. */
-  invalidate() {
+  invalidate(): void {
     this.currentData = undefined;
     this.emitUpdateToAllSubscribers();
   }
@@ -270,7 +270,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @ignore
    * Private: callback for adding a new subscriber.
    */
-  protected addSubscriber(subscriber: Subscriber<T>, lazy: boolean) {
+  protected addSubscriber(subscriber: Subscriber<T>, lazy: boolean): {unsubscribe: () => void} {
     this.subscribers.add(subscriber);
     if (this.current !== undefined) {
       // data is available right now! emit current state
@@ -292,7 +292,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * Will subscribe to the data, but not cause a reload unless there is no data.
    * @param args passed verbatim to [#subscribe]{@link Observable#subscribe}
    */
-  subscribeLazy(...args) {
+  subscribeLazy(...args): Subscription {
     this.isNextSubLazy = true;
     return this.subscribe(...args);
   }
@@ -301,7 +301,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @ignore
    * Internal: will send an update with the current data (.current) to all subscribers.
    */
-  emitUpdateToAllSubscribers() {
+  emitUpdateToAllSubscribers(): void {
     for (const sub of this.subscribers) {
       sub.next(this.current);
     }
@@ -311,7 +311,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @ignore
    * Internal: will send the given error to all subscribers.
    */
-  emitErrorToAllSubscribers(error: unknown) {
+  emitErrorToAllSubscribers(error: unknown): void {
     for (const sub of this.subscribers) {
       sub.error(error);
     }
@@ -321,7 +321,7 @@ export abstract class DataQuery<I, T, R, P> extends Observable<T> {
    * @ignore
    * Updates current data with a result from innerQueryFn, and emits an update.
    */
-  insertResult(result: R) {
+  insertResult(result: R): void {
     this.currentData = this.innerMapFn(result);
     this.emitUpdateToAllSubscribers();
   }
@@ -382,7 +382,7 @@ export class DataNode<T> extends DataQuery<NodeId, T, T, void> {
     throw new Error('parameters not available on nodes');
   }
 
-  loadIfNeeded() {
+  loadIfNeeded(): void {
     if (!this.loading && Date.now() - this.lastLoadTime > CACHE_STALE_TIME_MS) {
       this.load();
     }
@@ -501,7 +501,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
    * @internal
    * Updates the `params` value from list parameters
    */
-  setParams() {
+  setParams(): void {
     this.params = {
       cursor: this.pCursor,
       count: this.pCount,
@@ -511,7 +511,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
   }
 
   /** Returns the total number of items. Null if not loaded. */
-  get totalCount() {
+  get totalCount(): number {
     return this.pTotalCount;
   }
 
@@ -579,15 +579,15 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
     return this.current?.has(encodeNodeId(key));
   }
 
-  get hasPrevPage() {
+  get hasPrevPage(): boolean {
     return !this.pageInfo || this.pageInfo.hasPreviousPage;
   }
-  get hasNextPage() {
+  get hasNextPage(): boolean {
     return !this.pageInfo || this.pageInfo.hasNextPage;
   }
 
   /** Moves the view to the first page. */
-  firstPage() {
+  firstPage(): boolean {
     this.cursor = null;
     this.forward = true;
     this.previouslyHadPageContents = false;
@@ -596,7 +596,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
   }
 
   /** Moves the view to the previous page. */
-  prevPage() {
+  prevPage(): boolean {
     if (this.pageInfo && !this.pageInfo.hasPreviousPage) {
       return false;
     }
@@ -607,7 +607,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
   }
 
   /** Moves the view to the next page. */
-  nextPage() {
+  nextPage(): boolean {
     if (this.pageInfo && !this.pageInfo.hasNextPage) {
       return false;
     }
@@ -626,7 +626,7 @@ export class DataList<T, F> extends DataQuery<ListId, Map<NodeIdEnc, T>, ListRes
    * @param data a promise that returns the API data
    * @typeParam IdT - equivalent to T
    */
-  hydrateInitial<IdT extends T & {id: string; __typename: string}>(data: Promise<HydrateList<IdT>>) {
+  hydrateInitial<IdT extends T & {id: string; __typename: string}>(data: Promise<HydrateList<IdT>>): void {
     this.hydrateRaw(
       data.then((value) => ({
         totalCount: value.totalCount,

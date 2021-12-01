@@ -3,149 +3,150 @@
     class="graph"
     mode="layout"
     classes="component interface issue bug done interface-connect component-connect issue-relation related-to duplicate dependency"
-    #graph>
+    #graph
+  >
     <style slot="style">
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     </style>
     <svg slot="graph">
       <style>
-          /* The show-relations variable is used to show/hide dashed issue relation edges */
-          /* It is toggled by the IssueGraphComponent when the user changes the dashed edges switch */
-          :root {
-              --show-relations: initial;
-          }
+        /* The show-relations variable is used to show/hide dashed issue relation edges */
+        /* It is toggled by the IssueGraphComponent when the user changes the dashed edges switch */
+        :root {
+          --show-relations: initial;
+        }
 
-          .ghost {
-              opacity: 0.5;
-          }
+        .ghost {
+          opacity: 0.5;
+        }
 
-          .link-handle {
-              display: none;
-              fill: black;
-              opacity: 0.1;
-          }
+        .link-handle {
+          display: none;
+          fill: black;
+          opacity: 0.1;
+        }
 
-          .link-handle > * {
-              transition: transform 0.25s ease-out;
-          }
+        .link-handle > * {
+          transition: transform 0.25s ease-out;
+        }
 
-          .edge-group .link-handle {
-              display: initial;
-          }
+        .edge-group .link-handle {
+          display: initial;
+        }
 
-          .link-handle:hover {
-              opacity: 0.7;
-          }
+        .link-handle:hover {
+          opacity: 0.7;
+        }
 
-          .link-handle:hover > * {
-              transform: scale(1.5);
-          }
+        .link-handle:hover > * {
+          transform: scale(1.5);
+        }
 
-          .text {
-              text-overflow: ellipsis;
-              word-break: break-word;
-          }
+        .text {
+          text-overflow: ellipsis;
+          word-break: break-word;
+        }
 
-          .text.title {
-              font-size: 12pt;
-              text-overflow: ellipsis;
-              word-break: break-all;
-          }
+        .text.title {
+          font-size: 12pt;
+          text-overflow: ellipsis;
+          word-break: break-all;
+        }
 
-          .badge-background {
-              fill: white;
-              opacity: 0.85;
-          }
+        .badge-background {
+          fill: white;
+          opacity: 0.85;
+        }
 
-          .text.badge {
-              font-size: 6pt;
-              text-anchor: middle;
-              text-overflow: clip;
-          }
+        .text.badge {
+          font-size: 6pt;
+          text-anchor: middle;
+          text-overflow: clip;
+        }
 
-          .background {
-              opacity: 0;
-          }
+        .background {
+          opacity: 0;
+        }
 
-          .dropzone {
-              stroke-dasharray: 2 1;
-              opacity: 0.3;
-              transition: opacity 0.2s ease-out;
-          }
+        .dropzone {
+          stroke-dasharray: 2 1;
+          opacity: 0.3;
+          transition: opacity 0.2s ease-out;
+        }
 
-          .dropzone:hover {
-              opacity: 1;
-          }
+        .dropzone:hover {
+          opacity: 1;
+        }
 
-          .component.hovered .link-handle {
-              display: initial;
-          }
+        .component.hovered .link-handle {
+          display: initial;
+        }
 
-          .node.component rect {
-              fill: #096dd9;
-              stroke: black;
-              stroke-width: 1.5;
-              fill-opacity: 0.5;
-          }
+        .node.component rect {
+          fill: #096dd9;
+          stroke: black;
+          stroke-width: 1.5;
+          fill-opacity: 0.5;
+        }
 
-          .component-name {
-              font-size: 8pt;
-              font-family: 'Arial Narrow', Arial, sans-serif;
-              word-break: break-word;
-              user-select: none;
-          }
+        .component-name {
+          font-size: 8pt;
+          font-family: 'Arial Narrow', Arial, sans-serif;
+          word-break: break-word;
+          user-select: none;
+        }
 
-          .interface-name {
-              font-size: 8pt;
-              font-family: 'Arial Narrow', Arial, sans-serif;
-              word-break: break-word;
-              user-select: none;
-          }
+        .interface-name {
+          font-size: 8pt;
+          font-family: 'Arial Narrow', Arial, sans-serif;
+          word-break: break-word;
+          user-select: none;
+        }
 
-          .edge-group.issue-relation {
-              opacity: 0.7;
-          }
+        .edge-group.issue-relation {
+          opacity: 0.7;
+        }
 
-          /* issue relation edge styling (use '.related-to', '.duplicate' and '.dependency' to style the individual types) */
-          .edge-group.issue-relation .edge {
-              stroke: grey;
-              stroke-dasharray: 3 5;
-              stroke-width: 3px;
-              stroke-linecap: round;
-          }
+        /* issue relation edge styling (use '.related-to', '.duplicate' and '.dependency' to style the individual types) */
+        .edge-group.issue-relation .edge {
+          stroke: grey;
+          stroke-dasharray: 3 5;
+          stroke-width: 3px;
+          stroke-linecap: round;
+        }
 
-          /* coloring of issue relation edges when issue folder is hovered */
-          .edge-group.issue-relation.highlight-outgoing .edge {
-              stroke: purple;
-          }
+        /* coloring of issue relation edges when issue folder is hovered */
+        .edge-group.issue-relation.highlight-outgoing .edge {
+          stroke: purple;
+        }
 
-          .edge-group.issue-relation.highlight-incoming .edge {
-              stroke: #008b8b;
-          }
+        .edge-group.issue-relation.highlight-incoming .edge {
+          stroke: #008b8b;
+        }
 
-          .related-to {
-              display: var(--show-relations);
-          }
+        .related-to {
+          display: var(--show-relations);
+        }
 
-          .related-to.edge-group.issue-relation.highlight-incoming,
-          .related-to.edge-group.issue-relation.highlight-outgoing {
-              display: initial;
-          }
+        .related-to.edge-group.issue-relation.highlight-incoming,
+        .related-to.edge-group.issue-relation.highlight-outgoing {
+          display: initial;
+        }
 
-          .edge-group.issue-relation .marker {
-              fill: grey;
-          }
+        .edge-group.issue-relation .marker {
+          fill: grey;
+        }
 
-          .edge-group.issue-relation.highlight-outgoing .marker {
-              fill: purple;
-          }
+        .edge-group.issue-relation.highlight-outgoing .marker {
+          fill: purple;
+        }
 
-          .edge-group.issue-relation.highlight-incoming .marker {
-              fill: #008b8b;
-          }
+        .edge-group.issue-relation.highlight-incoming .marker {
+          fill: #008b8b;
+        }
       </style>
       <defs class="templates">
         <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>
@@ -182,7 +183,7 @@
 
         <!-- ? container -->
         <clipPath id="clip1">
-          <rect x="5" y="5" width="57" height="90"/>
+          <rect x="5" y="5" width="57" height="90" />
         </clipPath>
 
         <!-- Interface container (for interface provision edge) -->
@@ -197,8 +198,8 @@
             data-width="90"
             data-height="38"
             y="-20"
-            text-overflow="hidden">
-          </text>
+            text-overflow="hidden"
+          ></text>
           <title data-content="title"></title>
         </g>
 
@@ -238,12 +239,12 @@
 
         <!-- Arrow container (for issue relation edge) -->
         <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">
-          <path d="M -9 -4 L 0 0 L -9 4 z"/>
+          <path d="M -9 -4 L 0 0 L -9 4 z" />
         </g>
 
         <!-- Interface (Consumption) Connector container (for interface consumption edge) -->
         <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">
-          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z"/>
+          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z" />
         </g>
 
         <!--Interface (Provision) Connector container (for interface provision edge, before being created) -->
@@ -256,7 +257,8 @@
             data-height="38"
             y="20"
             text-overflow="hidden"
-            fill="red">
+            fill="red"
+          >
             Create Interface / Connect
           </text>
         </g>
@@ -266,21 +268,21 @@
 
   <network-graph class="minimap" mode="display" classes="component interface issue bug done" #minimap>
     <style slot="style">
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     </style>
     <svg slot="graph">
       <style>
-          .view-box {
-              fill: orange;
-              opacity: 0.5;
-          }
+        .view-box {
+          fill: orange;
+          opacity: 0.5;
+        }
 
-          .link-handle {
-              display: none;
-          }
+        .link-handle {
+          display: none;
+        }
       </style>
       <defs class="templates">
         <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>
@@ -321,10 +323,10 @@
           <use href="#icon-bug" fill="red" x="-12" y="-9"></use>
         </g>
         <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">
-          <path d="M -9 -4 L 0 0 L -9 4 z"/>
+          <path d="M -9 -4 L 0 0 L -9 4 z" />
         </g>
         <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">
-          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z"/>
+          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z" />
         </g>
       </defs>
       <g class="zoom-group">

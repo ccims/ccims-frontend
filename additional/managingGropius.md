@@ -28,10 +28,6 @@ The documentation is generated with [Compodoc](https://github.com/compodoc/compo
 Code quality concerns are handled with [ESLint](https://eslint.org/) and code formatting concerns with [Prettier](https://prettier.io/). The Prettier code formatter is integrated in the ESLint configuration.
 Run `ng lint --fix` for a static code analysis and code formatting of all files except the ones excluded in [.eslintignore](.eslintignore).
 
-## Code formatting
-
-Consistent code formatting is guaranteed with [Prettier](https://prettier.io/). Run `npx prettier --write .` to format all files except the ones that are excluded in the [.prettierignore](.prettierignore) file.
-
 ## Bindings to the Backend API
 
 The app uses GraphQL to communicate with the backend.

@@ -68,7 +68,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
           this.color = data.color;
           this.validationLabelDescription.setValue(data.description);
         })
-        .catch((error) => {
+        .catch(() => {
           this.notify.notifyError('Could not load label data for editing');
           this.dialog.close(null);
         })
@@ -94,7 +94,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
     return {name: search};
   }
   /** @ignore used for set editor */
-  applyComponentChangeset = async (additions: NodeId[], deletions: NodeId[]) => {
+  applyComponentChangeset = async (additions: NodeId[], deletions: NodeId[]): Promise<void> => {
     if (Array.isArray(this.componentList)) {
       const keySet = new Set(this.componentList.map((id) => encodeNodeId(id)));
       for (const item of additions) {
@@ -125,7 +125,7 @@ export class CreateEditLabelDialogComponent implements OnInit {
   }
 
   /** When the user confirms their changes, attempt to mutate and return with the label data. */
-  onConfirmClick(name: string, description?: string) {
+  onConfirmClick(name: string, description?: string): void {
     this.loading = true;
 
     if (this.data.editExisting) {

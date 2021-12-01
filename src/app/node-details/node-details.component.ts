@@ -159,12 +159,12 @@ export class NodeDetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onCancelClick() {
+  public onCancelClick(): void {
     this.resetValues();
     this.editMode = false;
   }
 
-  public onEditClick() {
+  public onEditClick(): void {
     this.editMode = true;
   }
 

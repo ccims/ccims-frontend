@@ -30,14 +30,14 @@ export class LabelSearchComponent implements OnInit {
     this.loadLabels();
   }
 
-  trackByFn(item: FilterLabel) {
+  trackByFn(item: FilterLabel): string {
     return item.id;
   }
 
   /**
    * Emit value representing label and text fragments in the search bar via this.filterSelection$
    */
-  emitSelectedLabels() {
+  emitSelectedLabels(): void {
     const selection: FilterSelection = {texts: [], labels: []};
     // find out which elements in search bar correspond to an existing label on the backend and which to a text fragment
     selection.texts = this.selectedLabels.filter((item) => !isFilterLabel(item)).map((item) => item.name);

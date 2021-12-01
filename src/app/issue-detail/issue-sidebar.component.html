@@ -1,13 +1,14 @@
 <!-- Components this issue is assigned to -->
 <div class="issue-sidebar-row">
   <app-set-editor
-      #componentSet
-      [makeFilter]="makeComponentFilter"
-      [scoreKeys]="['name']"
-      [listSet]="componentList"
-      [listAll]="allComponentsList"
-      [hydrate]="componentListPromise"
-      [applyChangeset]="applyComponentChangeset">
+    #componentSet
+    [makeFilter]="makeComponentFilter"
+    [scoreKeys]="['name']"
+    [listSet]="componentList"
+    [listAll]="allComponentsList"
+    [hydrate]="componentListPromise"
+    [applyChangeset]="applyComponentChangeset"
+  >
     <span title>Components</span>
     <span if-empty>No components assigned</span>
     <ng-container *appItem="let item">
@@ -26,7 +27,8 @@
     [listSet]="locationList"
     [listAll]="allLocationsList"
     [hydrate]="locationListPromise"
-    [applyChangeset]="applyLocationChangeset">
+    [applyChangeset]="applyLocationChangeset"
+  >
     <span title>Locations</span>
     <span if-empty>No locations assigned</span>
     <ng-container *appItem="let item">
@@ -53,7 +55,8 @@
     itemOps="create-edit-delete"
     [createItem]="onCreateLabel"
     (editItem)="onEditLabel($event)"
-    (deleteItem)="onDeleteLabel($event)">
+    (deleteItem)="onDeleteLabel($event)"
+  >
     <span title>Labels</span>
     <span if-empty>No labels assigned</span>
     <ng-container *appItem="let item">
@@ -73,7 +76,8 @@
     [listSet]="assigneeList"
     [listAll]="allAssigneeCandidatesList"
     [hydrate]="assigneeListPromise"
-    [applyChangeset]="applyAssigneeChangeset">
+    [applyChangeset]="applyAssigneeChangeset"
+  >
     <span title>Assignees</span>
     <span if-empty>No one</span>
     <div *appItem="let item">
@@ -97,8 +101,7 @@
     <span title>Linked Issues</span>
     <span if-empty>No issues linked</span>
     <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
-      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive"
-                      [projectId]="projectId"></app-issue-item>
+      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
     </div>
   </app-set-editor>
 </div>
@@ -118,8 +121,7 @@
     <span title>Linked By Issues</span>
     <span if-empty>No issues link to this issue</span>
     <div class="linked-issue-item" *appItem="let item; let interactive = interactive">
-      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive"
-                      [projectId]="projectId"></app-issue-item>
+      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>
     </div>
   </app-set-editor>
 </div>
@@ -130,5 +132,5 @@
 <div class="issue-sidebar-row">
   <mat-label><strong>Interfaces, Artefacts & NFR</strong></mat-label>
   unimplemented
-  <br/>
+  <br />
 </div>

@@ -20,7 +20,7 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
 
   constructor(private initialPosition: string) {}
 
-  beforeNodeMove(group: string, childGroup: string, groupNode: Node, childNode: Node, newPosition: Point, graphEditor: GraphEditor) {
+  beforeNodeMove(group: string, childGroup: string, groupNode: Node, childNode: Node, newPosition: Point, graphEditor: GraphEditor): void {
     // calculate groupNode (the parent node) dimensions
     const width = groupNode.type === NodeType.Interface ? 10 : 100;
     const height = groupNode.type === NodeType.Interface ? 10 : 60;
@@ -92,7 +92,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
   moveChildrenAlongGoup = true;
   childNodePositions = new Map();
 
-  relativePositionChanged(group: string, groupNode: Node, graphEditor: GraphEditor) {
+  relativePositionChanged(group: string, groupNode: Node, graphEditor: GraphEditor): void {
     const parent = graphEditor.groupingManager.getTreeParentOf(group);
     const children = graphEditor.groupingManager.getChildrenOf(group);
 
@@ -160,12 +160,24 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
     });
   }
 
-  afterNodeJoinedGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
+  afterNodeJoinedGroup(
+    group: string,
+    childGroup: string,
+    groupNode: IssueGroupContainerNode,
+    childNode: Node,
+    graphEditor: GraphEditor
+  ): void {
     this.relativePositionChanged(group, groupNode, graphEditor);
     groupNode.issueGroupNodeIds.add(childGroup);
   }
 
-  afterNodeLeftGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
+  afterNodeLeftGroup(
+    group: string,
+    childGroup: string,
+    groupNode: IssueGroupContainerNode,
+    childNode: Node,
+    graphEditor: GraphEditor
+  ): void {
     this.relativePositionChanged(group, groupNode, graphEditor);
     groupNode.issueGroupNodeIds.delete(childGroup);
   }

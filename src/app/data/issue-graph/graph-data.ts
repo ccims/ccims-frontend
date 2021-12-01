@@ -1,7 +1,6 @@
 import {
   Component,
   ComponentInterface,
-  GetIssueGraphDataDocument,
   GetIssueGraphDataQuery,
   Issue,
   IssueCategory,
@@ -34,9 +33,9 @@ export class GraphDataFactory {
    * @param graphData the data with the unnecessary counts
    * @param activeCategories the categories corresponding to the activated toggles of the graph component
    */
-  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
+  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]): GraphData {
     for (const location of graphData.graphLocations.values()) {
-      location.issues = new Map([...location.issues].filter(([category, count]) => activeCategories.includes(category)));
+      location.issues = new Map([...location.issues].filter(([category]) => activeCategories.includes(category)));
     }
     return graphData;
   }

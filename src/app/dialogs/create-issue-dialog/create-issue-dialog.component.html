@@ -4,7 +4,7 @@
     <!-- Issue title -->
     <mat-form-field class="stretch" appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput [formControl]="title" required/>
+      <input matInput [formControl]="title" required />
       <mat-error *ngIf="title.invalid">Invalid issue title</mat-error>
     </mat-form-field>
 
@@ -47,9 +47,7 @@
 
 <div mat-dialog-actions class="actions">
   <!-- Cancel button, stops the issue creation process -->
-  <button mat-raised-button color="warn" (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)">
-    Cancel
-  </button>
+  <button mat-raised-button color="warn" (click)="onNoClick(body.code?.length > 0 || title.value.length > 0)">Cancel</button>
 
   <!-- Create button, finishes the issue creation process -->
   <button
@@ -57,7 +55,8 @@
     color="success"
     [class.spinner]="loading"
     [disabled]="loading || title.invalid || category.invalid"
-    (click)="onCreate()">
+    (click)="onCreate()"
+  >
     Create
   </button>
 </div>

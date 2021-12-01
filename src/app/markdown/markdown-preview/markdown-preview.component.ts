@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 /**
  * This component renders and displays markdown
@@ -9,16 +9,9 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./markdown-preview.component.scss'],
   preserveWhitespaces: true
 })
-export class MarkdownPreviewComponent implements OnInit {
+export class MarkdownPreviewComponent {
   /**
    * The markdown code as a string which will be rendered
    */
   @Input() displayedCode: string;
-
-  /**
-   * @ignore (Keyword for compodoc documentation generator)
-   */
-  constructor() {}
-
-  ngOnInit(): void {}
 }

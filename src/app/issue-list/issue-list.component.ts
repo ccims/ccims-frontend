@@ -178,7 +178,7 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
    * Applies a given filter.
    * @param filter - Given filter to be applied.
    */
-  applyFilter(filter: IssueFilter) {
+  applyFilter(filter: IssueFilter): void {
     this.list$.filter = filter;
   }
 
@@ -187,7 +187,7 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
    * Navigates the user to the corresponding issue page.
    * @param row - Issue that is clicked.
    */
-  clickedOnRow(row: any) {
+  clickedOnRow(row: any): void {
     this.router.navigate(['/projects', this.projectId, 'issues', row.id]);
   }
 
@@ -234,7 +234,7 @@ export class IssueListComponent implements OnInit, AfterViewInit, OnDestroy {
    * ex. Interface I1 with Prvider Component C1 lead to an Interface Issue
    * with components: Component C1 and locations: Component C1, Interface I1
    */
-  onAddClick() {
+  onAddClick(): void {
     // FIXME move functionality so that the component can be reusable as a list
 
     // case: node is a component

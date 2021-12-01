@@ -28,7 +28,7 @@ export class StateService {
    * @param router allows to listen for routing events
    * @param ps
    */
-  syncStateWithUrl(router: Router, ps: ProjectStoreService) {
+  syncStateWithUrl(router: Router, ps: ProjectStoreService): void {
     router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd && this.isProjectURL(event.url)),
@@ -41,7 +41,7 @@ export class StateService {
         this.state$.next(this.state);
       });
     // set project to null if new url is not specific to a project
-    router.events.pipe(filter((event) => event instanceof NavigationEnd && !this.isProjectURL(event.url))).subscribe((_) => {
+    router.events.pipe(filter((event) => event instanceof NavigationEnd && !this.isProjectURL(event.url))).subscribe(() => {
       this.state.project = null;
       this.state$.next(this.state);
     });

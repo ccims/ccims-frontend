@@ -54,7 +54,7 @@ export class IssueGraphControlsComponent implements AfterViewInit, OnDestroy {
   /**
    * Emit newly selected categories via this.selectedCategories$
    */
-  public updateSelectedCategories() {
+  public updateSelectedCategories(): void {
     this.selectedCategories$.next(this.getSelectedCategories());
   }
 

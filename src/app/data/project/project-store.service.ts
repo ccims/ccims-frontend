@@ -36,7 +36,7 @@ export class ProjectStoreService {
     private deleteProject: DeleteProjectGQL
   ) {}
 
-  create(name: string, description: string) {
+  create(name: string, description: string): Observable<any> {
     const input: CreateProjectInput = {
       name,
       description
@@ -44,7 +44,7 @@ export class ProjectStoreService {
     return this.createProject.mutate({input});
   }
 
-  delete(id: string) {
+  delete(id: string): Observable<any> {
     const input: DeleteProjectInput = {
       project: id
     };

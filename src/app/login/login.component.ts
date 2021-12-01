@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       .login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
       .pipe(first())
       .subscribe(
-        (data) => {
+        () => {
           this.validateForm.controls.password.reset();
           this.isLoading = false;
           this.router.navigate([this.returnUrl]);

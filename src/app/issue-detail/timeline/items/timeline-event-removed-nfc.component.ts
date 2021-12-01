@@ -5,18 +5,17 @@ import {RemovedNonFunctionalConstraintEvent} from '../../../../generated/graphql
 @Component({
   selector: 'app-timeline-event-removed-nfc',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!event.removedNonFunctionalConstraint">
-        <ng-template appSingleTimelineItem>
-          <a>{{ timelineItem.user }}</a> removed non functional constraint
-          <a>{{ event.removedNonFunctionalConstraint.id }}</a>
-        </ng-template>
-        <ng-template appTimelineItemDeleted>
-          <a>{{ timelineItem.user }}</a> removed deleted non functional constraint
-        </ng-template>
-      </app-timeline-item>
-    `
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!event.removedNonFunctionalConstraint">
+      <ng-template appSingleTimelineItem>
+        <a>{{ timelineItem.user }}</a> removed non functional constraint
+        <a>{{ event.removedNonFunctionalConstraint.id }}</a>
+      </ng-template>
+      <ng-template appTimelineItemDeleted>
+        <a>{{ timelineItem.user }}</a> removed deleted non functional constraint
+      </ng-template>
+    </app-timeline-item>
+  `
 })
 export class TimelineEventRemovedNfcComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

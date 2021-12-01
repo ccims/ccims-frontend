@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
    * @param state router state when guard was invoked, used to redirect the user after login
    * @returns true iff the user is logged in according to the AuthenticationService
    */
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const currentUser = this.authenticationService.currentUserValue;
     if (currentUser) {
       // logged in so return true

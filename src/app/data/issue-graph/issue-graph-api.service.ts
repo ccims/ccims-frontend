@@ -77,7 +77,7 @@ export class IssueGraphApiService {
    * @param component
    * @param componentInterface
    */
-  addConsumedInterface(component: string, componentInterface: string) {
+  addConsumedInterface(component: string, componentInterface: string): Observable<any> {
     return this.addConsumedInterfaceMutation.mutate({
       input: {component, componentInterface}
     });
@@ -88,7 +88,7 @@ export class IssueGraphApiService {
    * @param component
    * @param componentInterface
    */
-  removeConsumedInterface(component: string, componentInterface: string) {
+  removeConsumedInterface(component: string, componentInterface: string): Observable<any> {
     return this.removeConsumedInterfaceMutation.mutate({
       input: {component, componentInterface}
     });

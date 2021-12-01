@@ -31,7 +31,7 @@ export class IssueGraphStateService {
     // Whenever a new value arrives from reload$, loadIssueGraphData is executed
     this.state$ = combineLatest([this.ss.state$, filter$, reload$]).pipe(
       takeUntil(destroy$),
-      filter(([appState, _]) => appState.project?.node.id != null),
+      filter(([appState]) => appState.project?.node.id != null),
       switchMap(([appState, filterState]) =>
         this.apiService.loadIssueGraphData(
           appState.project.node.id,
@@ -48,14 +48,14 @@ export class IssueGraphStateService {
   /**
    * Make the interface with interfaceId a consumed interface of the component with id componentId
    */
-  addConsumedInterface(componentId: string, interfaceId: string) {
+  addConsumedInterface(componentId: string, interfaceId: string): Observable<any> {
     return this.apiService.addConsumedInterface(componentId, interfaceId);
   }
 
   /**
    * Remove the interface with interfaceId from consumed interfaces of the component with id componentId
    */
-  removeConsumedInterface(componentId: string, interfaceId: string) {
+  removeConsumedInterface(componentId: string, interfaceId: string): Observable<any> {
     return this.apiService.removeConsumedInterface(componentId, interfaceId);
   }
 }

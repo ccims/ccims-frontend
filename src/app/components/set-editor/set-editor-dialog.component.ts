@@ -246,7 +246,7 @@ export class SetEditorDialogComponent<T extends {id: string; __typename: string}
     }
   }
 
-  searchQueryDidChange() {
+  searchQueryDidChange(): void {
     if (this.listSet$) {
       this.listSet$.filter = this.data.makeFilter(this.searchQuery);
     }
@@ -287,7 +287,7 @@ export class SetEditorDialogComponent<T extends {id: string; __typename: string}
     }
   }
 
-  apply() {
+  apply(): void {
     if (this.additions.size + this.deletions.size === 0) {
       this.dialogRef.close(null);
       return;
@@ -303,7 +303,7 @@ export class SetEditorDialogComponent<T extends {id: string; __typename: string}
       });
   }
 
-  createItem() {
+  createItem(): void {
     this.data.createItem().then((node) => {
       if (node) {
         this.additions.add(encodeNodeId(node));

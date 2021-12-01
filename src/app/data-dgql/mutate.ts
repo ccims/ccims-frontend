@@ -1,7 +1,7 @@
 import {NodeCache} from '@app/data-dgql/query';
 import {QueriesService} from '@app/data-dgql/queries/queries.service';
 import {encodeNodeId, ListId, ListType, NodeId, NodeType} from '@app/data-dgql/id';
-import {CreateIssueInput, IssueCategory} from '../../generated/graphql-dgql';
+import {CreateIssueInput, FIssueStubFragment, IssueCategory} from '../../generated/graphql-dgql';
 
 /**
  * Contains functions for mutating backend data and automatically invalidating local caches.
@@ -10,18 +10,18 @@ export class Mutations {
   constructor(private qs: QueriesService, private nc: NodeCache, private invalidateLists: (id: ListType | ListId) => void) {}
 
   /** Invalidates a node. */
-  invalidateNode(id: NodeId) {
+  invalidateNode(id: NodeId): void {
     if (this.nc.nodes.has(encodeNodeId(id))) {
       this.nc.getNode(id).loadDebounced();
     }
   }
 
   /** Inserts new data into a node. */
-  updateNode<T>(id: NodeId, data: unknown) {
+  updateNode<T>(id: NodeId, data: unknown): void {
     this.nc.getNode(id).insertResult(data);
   }
 
-  createIssue(issue: CreateIssueInput) {
+  createIssue(issue: CreateIssueInput): Promise<FIssueStubFragment> {
     return this.qs.issues.mutCreateIssue(issue).then((data) => {
       for (const id of issue.components) {
         const component = {type: NodeType.Component, id};
@@ -45,35 +45,35 @@ export class Mutations {
     });
   }
 
-  closeIssue(id: string, issue: NodeId) {
+  closeIssue(id: string, issue: NodeId): Promise<void> {
     return this.qs.issues.mutCloseIssue(id, issue.id).then(() => {
       this.invalidateNode(issue);
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
   }
 
-  reopenIssue(id: string, issue: NodeId) {
+  reopenIssue(id: string, issue: NodeId): Promise<void> {
     return this.qs.issues.mutReopenIssue(id, issue.id).then(() => {
       this.invalidateNode(issue);
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
   }
 
-  renameIssueTitle(id: string, issue: NodeId, title: string) {
+  renameIssueTitle(id: string, issue: NodeId, title: string): Promise<void> {
     return this.qs.issues.mutRenameIssueTitle(id, issue.id, title).then(() => {
       this.invalidateNode(issue);
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
   }
 
-  changeIssueCategory(id: string, issue: NodeId, category: IssueCategory) {
+  changeIssueCategory(id: string, issue: NodeId, category: IssueCategory): Promise<void> {
     return this.qs.issues.mutChangeIssueCategory(id, issue.id, category).then(() => {
       this.invalidateNode(issue);
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
   }
 
-  addIssueComment(id: string, issue: NodeId, commentBody: string) {
+  addIssueComment(id: string, issue: NodeId, commentBody: string): Promise<void> {
     return this.qs.issues.mutAddIssueComment(id, issue.id, commentBody).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
@@ -86,7 +86,7 @@ export class Mutations {
    * @param comment - either an issue ID or a comment ID. Pass an issue ID to edit the issue body
    * @param commentBody - plain text body
    */
-  updateIssueComment(id: string, comment: NodeId, commentBody: string) {
+  updateIssueComment(id: string, comment: NodeId, commentBody: string): Promise<void> {
     return this.qs.issues.mutUpdateIssueComment(id, comment.id, commentBody).then((data) => {
       if (comment.type === NodeType.Issue) {
         // this is actually an issue. we can't use the result data because it's incomplete
@@ -98,13 +98,13 @@ export class Mutations {
     });
   }
 
-  deleteIssueComment(id: string, issue: NodeId, comment: NodeId) {
+  deleteIssueComment(id: string, issue: NodeId, comment: NodeId): Promise<void> {
     return this.qs.issues.mutDeleteIssueComment(id, comment.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
   }
 
-  addIssueLabel(id: string, issue: NodeId, label: NodeId) {
+  addIssueLabel(id: string, issue: NodeId, label: NodeId): Promise<void> {
     return this.qs.issues.mutAddIssueLabel(id, issue.id, label.id).then(() => {
       // FIXME: while we do have the new timeline item,
       // there's currently no way in the API to just append it to the end,
@@ -113,14 +113,14 @@ export class Mutations {
       this.invalidateLists({node: issue, type: ListType.Labels});
     });
   }
-  removeIssueLabel(id: string, issue: NodeId, label: NodeId) {
+  removeIssueLabel(id: string, issue: NodeId, label: NodeId): Promise<void> {
     return this.qs.issues.mutRemoveIssueLabel(id, issue.id, label.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
       this.invalidateLists({node: issue, type: ListType.Labels});
     });
   }
 
-  addIssueComponent(id: string, issue: NodeId, component: NodeId) {
+  addIssueComponent(id: string, issue: NodeId, component: NodeId): Promise<void> {
     return this.qs.issues.mutAddIssueComponent(id, issue.id, component.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
       this.invalidateLists({node: issue, type: ListType.Components});
@@ -131,7 +131,7 @@ export class Mutations {
       });
     });
   }
-  removeIssueComponent(id: string, issue: NodeId, component: NodeId) {
+  removeIssueComponent(id: string, issue: NodeId, component: NodeId): Promise<void> {
     return this.qs.issues.mutRemoveIssueComponent(id, issue.id, component.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
       this.invalidateLists({node: issue, type: ListType.Components});
@@ -144,7 +144,7 @@ export class Mutations {
     });
   }
 
-  addIssueLocation(id: string, issue: NodeId, location: NodeId) {
+  addIssueLocation(id: string, issue: NodeId, location: NodeId): Promise<void> {
     return this.qs.issues.mutAddIssueLocation(id, issue.id, location.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
       this.invalidateLists({node: issue, type: ListType.Components});
@@ -156,7 +156,7 @@ export class Mutations {
       });
     });
   }
-  removeIssueLocation(id: string, issue: NodeId, location: NodeId) {
+  removeIssueLocation(id: string, issue: NodeId, location: NodeId): Promise<void> {
     return this.qs.issues.mutRemoveIssueLocation(id, issue.id, location.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
       this.invalidateLists({node: issue, type: ListType.IssueLocations});
@@ -168,21 +168,21 @@ export class Mutations {
     });
   }
 
-  addIssueAssignee(id: string, issue: NodeId, assignee: NodeId) {
+  addIssueAssignee(id: string, issue: NodeId, assignee: NodeId): Promise<void> {
     return this.qs.issues.mutAddIssueAssignee(id, issue.id, assignee.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.Assignees});
       this.invalidateLists({node: issue, type: ListType.Participants});
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
   }
-  removeIssueAssignee(id: string, issue: NodeId, assignee: NodeId) {
+  removeIssueAssignee(id: string, issue: NodeId, assignee: NodeId): Promise<void> {
     return this.qs.issues.mutRemoveIssueAssignee(id, issue.id, assignee.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.Assignees});
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
     });
   }
 
-  linkIssue(id: string, issue: NodeId, linkedIssue: NodeId) {
+  linkIssue(id: string, issue: NodeId, linkedIssue: NodeId): Promise<void> {
     return this.qs.issues.mutLinkIssue(id, issue.id, linkedIssue.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
       this.invalidateLists({node: issue, type: ListType.LinkedIssues});
@@ -196,7 +196,7 @@ export class Mutations {
       });
     });
   }
-  unlinkIssue(id: string, issue: NodeId, linkedIssue: NodeId) {
+  unlinkIssue(id: string, issue: NodeId, linkedIssue: NodeId): Promise<void> {
     return this.qs.issues.mutUnlinkIssue(id, issue.id, linkedIssue.id).then(() => {
       this.invalidateLists({node: issue, type: ListType.TimelineItems});
       this.invalidateLists({node: issue, type: ListType.LinkedIssues});
@@ -211,7 +211,7 @@ export class Mutations {
     });
   }
 
-  createLabel(id: string, components: NodeId[], name: string, color: string, description?: string) {
+  createLabel(id: string, components: NodeId[], name: string, color: string, description?: string): Promise<any> {
     return this.qs.issues
       .mutCreateLabel(
         id,
@@ -227,27 +227,27 @@ export class Mutations {
         return data.createLabel.label;
       });
   }
-  updateLabel(id: string, label: NodeId, name?: string, color?: string, description?: string) {
+  updateLabel(id: string, label: NodeId, name?: string, color?: string, description?: string): Promise<void> {
     return this.qs.issues.mutUpdateLabel(id, label.id, name, color, description).then(() => {
       this.invalidateNode(label);
       // invalidate all label lists because the label might've been loaded directly from a list elsewhere
       this.invalidateLists(ListType.Labels);
     });
   }
-  addLabelToComponent(id: string, label: NodeId, component: NodeId) {
+  addLabelToComponent(id: string, label: NodeId, component: NodeId): Promise<void> {
     return this.qs.issues.mutAddLabelToComponent(id, label.id, component.id).then(() => {
       this.invalidateLists({node: label, type: ListType.Components});
       this.invalidateLists({node: component, type: ListType.Labels});
     });
   }
-  removeLabelFromComponent(id: string, label: NodeId, component: NodeId) {
+  removeLabelFromComponent(id: string, label: NodeId, component: NodeId): Promise<void> {
     return this.qs.issues.mutRemoveLabelFromComponent(id, label.id, component.id).then(() => {
       this.invalidateLists({node: label, type: ListType.Components});
       // invalidate all label lists because the label might've been in an issue
       this.invalidateLists(ListType.Labels);
     });
   }
-  deleteLabel(id: string, label: NodeId) {
+  deleteLabel(id: string, label: NodeId): Promise<void> {
     return this.qs.issues.mutDeleteLabel(id, label.id).then(() => {
       // invalidate all label lists because the label might've been in an issue
       this.invalidateLists(ListType.Labels);

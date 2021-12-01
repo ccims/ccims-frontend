@@ -56,7 +56,7 @@ export class AuthenticationService {
   /**
    * remove user from local storage and set subject holding the current user to null
    */
-  logout() {
+  logout(): void {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     this.router.navigate(['login']);

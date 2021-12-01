@@ -3,8 +3,7 @@
   <app-query-component errorMessage="Failed to load issues">
     <ng-template appQueryBody>
       <!-- Filter field -->
-      <app-issue-filter [projectId]="projectId" [allLabelsList]="allLabelsList" (filterChange)="applyFilter($event)">
-      </app-issue-filter>
+      <app-issue-filter [projectId]="projectId" [allLabelsList]="allLabelsList" (filterChange)="applyFilter($event)"> </app-issue-filter>
 
       <!-- Create Issue button -->
       <div style="display: flex; justify-content: flex-start">
@@ -14,7 +13,8 @@
           color="primary"
           (click)="this.onAddClick()"
           title="Create a new issue"
-          style="margin: 4px 8px 16px 8px; height: 50px">
+          style="margin: 4px 8px 16px 8px; height: 50px"
+        >
           Create issue
         </button>
       </div>
@@ -25,7 +25,8 @@
           mat-table
           style="width: 100%; min-width: 50%"
           [dataSource]="this.dataSource"
-          aria-label="This table shows all issues of the given component or interface.">
+          aria-label="This table shows all issues of the given component or interface."
+        >
           <!-- Title column -->
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef mat-sort-header scope="Title column.">Title</th>

@@ -31,7 +31,7 @@ export class InterfaceStoreService {
     private getConsumingComponentsQuery: GetConsumingComponentsGQL
   ) {}
 
-  public create(name: string, offeringComponentId: string, description?: string) {
+  public create(name: string, offeringComponentId: string, description?: string): Observable<any> {
     const input: CreateComponentInterfaceInput = {
       name,
       description,
@@ -48,11 +48,11 @@ export class InterfaceStoreService {
     return this.getConsumingComponentsQuery.fetch({id}).pipe(map(({data}) => data));
   }
 
-  public update(input: UpdateComponentInterfaceInput) {
+  public update(input: UpdateComponentInterfaceInput): Observable<any> {
     return this.updateInterfaceMutation.mutate({input});
   }
 
-  public delete(id: string) {
+  public delete(id: string): Observable<any> {
     const input: DeleteComponentInterfaceInput = {
       componentInterface: id
     };

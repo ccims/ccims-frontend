@@ -5,14 +5,13 @@ import {StartDateChangedEvent} from '../../../../generated/graphql-dgql';
 @Component({
   selector: 'app-timeline-event-start-date-changed',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem">
-        <ng-template appSingleTimelineItem>
-          <a>{{ timelineItem.user }}</a> changed start date from {{ event.oldStartDate }} to {{ event.newStartDate }}
-        </ng-template>
-      </app-timeline-item>
-    `
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem">
+      <ng-template appSingleTimelineItem>
+        <a>{{ timelineItem.user }}</a> changed start date from {{ event.oldStartDate }} to {{ event.newStartDate }}
+      </ng-template>
+    </app-timeline-item>
+  `
 })
 export class TimelineEventStartDateChangedComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

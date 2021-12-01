@@ -29,7 +29,7 @@ export class UserNotifyService {
    * @param message The message to be shown
    * @param error Optionally, the error. This will be logged in the console, if defined.
    */
-  notifyError(message: string, error?: Error) {
+  notifyError(message: string, error?: Error): void {
     if (error !== undefined) {
       console.error('Error:', error);
     }
@@ -41,7 +41,7 @@ export class UserNotifyService {
    * Notify the user
    * @param message The message to be shown
    */
-  notifyInfo(message: string) {
+  notifyInfo(message: string): void {
     this.toastr.info(message, 'Info', this.infoConfig);
   }
 }

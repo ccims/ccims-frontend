@@ -1,5 +1,5 @@
 import {Inject} from '@angular/core';
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
@@ -7,19 +7,17 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
   templateUrl: './remove-project-member-component.component.html',
   styleUrls: ['./remove-project-member-component.component.scss']
 })
-export class RemoveProjectMemberComponentComponent implements OnInit {
+export class RemoveProjectMemberComponentComponent {
   constructor(public dialogRef: MatDialogRef<RemoveProjectMemberComponentComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   //users selected in the dialog to be deleted
   selectedUsers = [];
 
-  ngOnInit(): void {}
-
-  onNoClick() {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onDeleteClick() {
+  onDeleteClick(): void {
     const data = {usersToDelete: this.selectedUsers};
     this.dialogRef.close(data);
   }

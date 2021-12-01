@@ -178,7 +178,7 @@ export class IssueSidebarComponent implements OnInit {
     return {username: search};
   }
 
-  applyLocalChangeset(key: keyof LocalIssueData, add: NodeId[], remove: NodeId[]) {
+  applyLocalChangeset(key: keyof LocalIssueData, add: NodeId[], remove: NodeId[]): void {
     const set = this.localIssue[key];
     const keySet = new Set([...set].map((id) => encodeNodeId(id)));
 
@@ -200,7 +200,7 @@ export class IssueSidebarComponent implements OnInit {
     this.localIssueChange.emit(this.localIssue);
   }
 
-  applyComponentChangeset = async (add: NodeId[], remove: NodeId[]) => {
+  applyComponentChangeset = async (add: NodeId[], remove: NodeId[]): Promise<void> => {
     if (this.localIssue) {
       return this.applyLocalChangeset('components', add, remove);
     }
@@ -215,7 +215,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueComponent(mutId, issue, id);
     }
   };
-  applyLocationChangeset = async (add: NodeId[], remove: NodeId[]) => {
+  applyLocationChangeset = async (add: NodeId[], remove: NodeId[]): Promise<void> => {
     if (this.localIssue) {
       return this.applyLocalChangeset('locations', add, remove);
     }
@@ -230,7 +230,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueLocation(mutId, issue, id);
     }
   };
-  applyLabelChangeset = async (add: NodeId[], remove: NodeId[]) => {
+  applyLabelChangeset = async (add: NodeId[], remove: NodeId[]): Promise<void> => {
     if (this.localIssue) {
       return this.applyLocalChangeset('labels', add, remove);
     }
@@ -244,7 +244,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueLabel(mutId, issue, id);
     }
   };
-  applyAssigneeChangeset = async (add: NodeId[], remove: NodeId[]) => {
+  applyAssigneeChangeset = async (add: NodeId[], remove: NodeId[]): Promise<void> => {
     if (this.localIssue) {
       return this.applyLocalChangeset('assignees', add, remove);
     }
@@ -258,7 +258,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueAssignee(mutId, issue, id);
     }
   };
-  applyLinkedIssueChangeset = async (add: NodeId[], remove: NodeId[]) => {
+  applyLinkedIssueChangeset = async (add: NodeId[], remove: NodeId[]): Promise<void> => {
     if (this.localIssue) {
       return this.applyLocalChangeset('linksToIssues', add, remove);
     }
@@ -319,7 +319,7 @@ export class IssueSidebarComponent implements OnInit {
         });
     });
   };
-  onEditLabel({id}) {
+  onEditLabel({id}): void {
     this.dialogService.open(CreateEditLabelDialogComponent, {
       width: '400px',
       data: {
@@ -328,7 +328,7 @@ export class IssueSidebarComponent implements OnInit {
       }
     });
   }
-  onDeleteLabel({id, preview}) {
+  onDeleteLabel({id, preview}): void {
     this.dialogService
       .open(RemoveDialogComponent, {
         data: {

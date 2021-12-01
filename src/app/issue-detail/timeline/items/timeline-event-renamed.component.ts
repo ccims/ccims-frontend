@@ -5,14 +5,13 @@ import {RenamedTitleEvent} from '../../../../generated/graphql-dgql';
 @Component({
   selector: 'app-timeline-event-renamed',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem">
-        <ng-template appSingleTimelineItem>
-          <a>{{ timelineItem.user }}</a> changed title of this issue from {{ event.oldTitle }} to {{ event.newTitle }}
-        </ng-template>
-      </app-timeline-item>
-    `
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem">
+      <ng-template appSingleTimelineItem>
+        <a>{{ timelineItem.user }}</a> changed title of this issue from {{ event.oldTitle }} to {{ event.newTitle }}
+      </ng-template>
+    </app-timeline-item>
+  `
 })
 export class TimelineEventRenamedComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

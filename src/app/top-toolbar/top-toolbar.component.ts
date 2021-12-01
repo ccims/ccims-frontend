@@ -31,11 +31,11 @@ export class TopToolbarComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, public authService: AuthenticationService, private dialog: MatDialog) {}
 
-  public handleClick() {
+  public handleClick(): void {
     this.menuClick.emit();
   }
 
-  public openSettingsDialog() {
+  public openSettingsDialog(): void {
     this.dialog.open(SettingsDialogComponent);
   }
 }
