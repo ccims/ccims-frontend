@@ -301,13 +301,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/GraphsModule.html" data-type="entity-link" >GraphsModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' : 'data-target="#xs-components-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' }>
+                                            'data-target="#components-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' : 'data-target="#xs-components-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' :
-                                            'id="xs-components-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' :
+                                            'id="xs-components-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' }>
                                             <li class="link">
                                                 <a href="components/AddProjectMemberDialogComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AddProjectMemberDialogComponent</a>
                                             </li>
@@ -375,13 +375,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' : 'data-target="#xs-directives-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' }>
+                                        'data-target="#directives-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' : 'data-target="#xs-directives-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' :
-                                        'id="xs-directives-links-module-GraphsModule-714cc65bf34636de44c11a8feae4cde3"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' :
+                                        'id="xs-directives-links-module-GraphsModule-a65944bebe357e5564a8d06c7ee13fc4"' }>
                                         <li class="link">
                                             <a href="directives/ItemDirective.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ItemDirective</a>
                                         </li>

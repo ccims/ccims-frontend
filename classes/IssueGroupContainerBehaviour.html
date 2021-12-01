@@ -354,8 +354,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">src/app/graphs/issue-graph/group-behaviours.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/app/graphs/issue-graph/group-behaviours.ts:174</a></div>
                 </td>
             </tr>
 
@@ -576,7 +576,7 @@ export class IssueGroupContainerParentBehaviour implements GroupBehaviour {
 
   constructor(private initialPosition: string) {}
 
-  beforeNodeMove(group: string, childGroup: string, groupNode: Node, childNode: Node, newPosition: Point, graphEditor: GraphEditor) {
+  beforeNodeMove(group: string, childGroup: string, groupNode: Node, childNode: Node, newPosition: Point, graphEditor: GraphEditor): void {
     // calculate groupNode (the parent node) dimensions
     const width &#x3D; groupNode.type &#x3D;&#x3D;&#x3D; NodeType.Interface ? 10 : 100;
     const height &#x3D; groupNode.type &#x3D;&#x3D;&#x3D; NodeType.Interface ? 10 : 60;
@@ -648,7 +648,7 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
   moveChildrenAlongGoup &#x3D; true;
   childNodePositions &#x3D; new Map();
 
-  relativePositionChanged(group: string, groupNode: Node, graphEditor: GraphEditor) {
+  relativePositionChanged(group: string, groupNode: Node, graphEditor: GraphEditor): void {
     const parent &#x3D; graphEditor.groupingManager.getTreeParentOf(group);
     const children &#x3D; graphEditor.groupingManager.getChildrenOf(group);
 
@@ -716,12 +716,24 @@ export class IssueGroupContainerBehaviour implements GroupBehaviour {
     });
   }
 
-  afterNodeJoinedGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
+  afterNodeJoinedGroup(
+    group: string,
+    childGroup: string,
+    groupNode: IssueGroupContainerNode,
+    childNode: Node,
+    graphEditor: GraphEditor
+  ): void {
     this.relativePositionChanged(group, groupNode, graphEditor);
     groupNode.issueGroupNodeIds.add(childGroup);
   }
 
-  afterNodeLeftGroup(group: string, childGroup: string, groupNode: IssueGroupContainerNode, childNode: Node, graphEditor: GraphEditor) {
+  afterNodeLeftGroup(
+    group: string,
+    childGroup: string,
+    groupNode: IssueGroupContainerNode,
+    childNode: Node,
+    graphEditor: GraphEditor
+  ): void {
     this.relativePositionChanged(group, groupNode, graphEditor);
     groupNode.issueGroupNodeIds.delete(childGroup);
   }

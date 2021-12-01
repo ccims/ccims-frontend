@@ -251,7 +251,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -446,7 +446,7 @@ the filter$ or reload$ observables emit a value.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -527,7 +527,7 @@ export class IssueGraphStateService {
     // Whenever a new value arrives from reload$, loadIssueGraphData is executed
     this.state$ &#x3D; combineLatest([this.ss.state$, filter$, reload$]).pipe(
       takeUntil(destroy$),
-      filter(([appState, _]) &#x3D;&gt; appState.project?.node.id !&#x3D; null),
+      filter(([appState]) &#x3D;&gt; appState.project?.node.id !&#x3D; null),
       switchMap(([appState, filterState]) &#x3D;&gt;
         this.apiService.loadIssueGraphData(
           appState.project.node.id,
@@ -544,14 +544,14 @@ export class IssueGraphStateService {
   /**
    * Make the interface with interfaceId a consumed interface of the component with id componentId
    */
-  addConsumedInterface(componentId: string, interfaceId: string) {
+  addConsumedInterface(componentId: string, interfaceId: string): Observable&lt;any&gt; {
     return this.apiService.addConsumedInterface(componentId, interfaceId);
   }
 
   /**
    * Remove the interface with interfaceId from consumed interfaces of the component with id componentId
    */
-  removeConsumedInterface(componentId: string, interfaceId: string) {
+  removeConsumedInterface(componentId: string, interfaceId: string): Observable&lt;any&gt; {
     return this.apiService.removeConsumedInterface(componentId, interfaceId);
   }
 }

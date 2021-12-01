@@ -426,16 +426,17 @@ export class TimelineComponent implements AfterViewInit {
    * @returns True if both items can be coalesced
    */
   private static shouldStopCoalescing(previousItem: IssueTimelineItem, nextItem: IssueTimelineItem): boolean {
-    return previousItem.createdBy.id !&#x3D;&#x3D; previousItem.createdBy.id ||
-      Math.abs(Date.parse(nextItem.createdAt) - Date.parse(nextItem.createdAt)) &gt; 60000;
+    return (
+      previousItem.createdBy.id !&#x3D;&#x3D; previousItem.createdBy.id ||
+      Math.abs(Date.parse(nextItem.createdAt) - Date.parse(nextItem.createdAt)) &gt; 60000
+    );
   }
 
   /**
    * Service for handling API connection is required
    * @param dataService handling api connection
    */
-  constructor(private dataService: DataService) {
-  }
+  constructor(private dataService: DataService) {}
 
   ngAfterViewInit(): void {
     this.requestTimelineItems();

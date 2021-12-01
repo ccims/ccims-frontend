@@ -280,7 +280,7 @@ import {Observable} from &#x27;rxjs&#x27;;
 import {FormControl} from &#x27;@angular/forms&#x27;;
 import {MatTableDataSource} from &#x27;@angular/material/table&#x27;;
 import {MatSort, MatSortable} from &#x27;@angular/material/sort&#x27;;
-import {MatPaginator, MatPaginatorModule, PageEvent} from &#x27;@angular/material/paginator&#x27;;
+import {MatPaginator, MatPaginatorModule} from &#x27;@angular/material/paginator&#x27;;
 import {AddProjectMemberDialogComponent} from &#x27;@app/dialogs/add-project-member-dialog/add-project-member-dialog.component&#x27;;
 import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
 import {RemoveProjectMemberComponentComponent} from &#x27;@app/dialogs/remove-project-member-component/remove-project-member-component.component&#x27;;
@@ -347,8 +347,10 @@ export class ProjectMembersComponent implements OnInit {
     });
   }
 
-  // This method adds a user to the project members list without processing a task in the back-end
-  onAddClick() {
+  /**
+   * This method adds a user to the project members list without processing a task in the back-end
+   */
+  onAddClick(): void {
     const addMemberDialogRef &#x3D; this.dialog.open(AddProjectMemberDialogComponent, {
       data: {addableMembers: this.addableUsers, projectId: this.projectId}
     });
@@ -366,8 +368,10 @@ export class ProjectMembersComponent implements OnInit {
     });
   }
 
-  // This method deletes a user to the project members list without processing a task in the back-end
-  onDeleteClick() {
+  /**
+   * This method deletes a user to the project members list without processing a task in the back-end
+   */
+  onDeleteClick(): void {
     const deleteMemberDialogRef &#x3D; this.dialog.open(RemoveProjectMemberComponentComponent, {
       data: {mockMembers: this.mockUsers, projectId: this.projectId}
     });
@@ -385,19 +389,13 @@ export class ProjectMembersComponent implements OnInit {
     });
   }
 
-  //change pages
-  onPageChange(event: PageEvent) {}
-
-  // on every key pressed in the filter-field this method is triggered and reduces the shown users in the list (table)
-  applyFilter(filterValue: string) {
+  /**
+   * On every key pressed in the filter-field this method is triggered and reduces the shown users in the list (table)
+   */
+  applyFilter(filterValue: string): void {
     filterValue &#x3D; filterValue.trim(); // Remove whitespace
     filterValue &#x3D; filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter &#x3D; filterValue;
-  }
-
-  clickedOnRow(rowData) {
-    // there schould be the code when a user is selected
-    // TODO jump to the user information page
   }
 }
 

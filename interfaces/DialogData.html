@@ -321,7 +321,7 @@ export class CreateIssueDialogComponent implements OnInit {
     this.saveFailed &#x3D; false;
   }
 
-  onCreate() {
+  onCreate(): void {
     const issueData: CreateIssueInput &#x3D; {
       title: this.title.value,
       body: this.body.code,

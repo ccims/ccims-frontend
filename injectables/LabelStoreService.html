@@ -373,7 +373,7 @@ export class LabelStoreService {
 
 export type FilterLabel &#x3D; Pick&lt;Label, &#x27;id&#x27; | &#x27;name&#x27; | &#x27;color&#x27;&gt;;
 
-export function isFilterLabel(label: any) {
+export function isFilterLabel(label: any): boolean {
   return &#x27;id&#x27; in label &amp;&amp; &#x27;name&#x27; in label &amp;&amp; &#x27;color&#x27; in label;
 }
 </code></pre>

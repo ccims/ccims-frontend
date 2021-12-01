@@ -300,7 +300,7 @@ transfered data while showing the projects list</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -369,7 +369,7 @@ transfered data while showing the projects list</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -630,7 +630,7 @@ export class ProjectStoreService {
     private deleteProject: DeleteProjectGQL
   ) {}
 
-  create(name: string, description: string) {
+  create(name: string, description: string): Observable&lt;any&gt; {
     const input: CreateProjectInput &#x3D; {
       name,
       description
@@ -638,7 +638,7 @@ export class ProjectStoreService {
     return this.createProject.mutate({input});
   }
 
-  delete(id: string) {
+  delete(id: string): Observable&lt;any&gt; {
     const input: DeleteProjectInput &#x3D; {
       project: id
     };

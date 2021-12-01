@@ -131,8 +131,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:47</a></div>
                 </td>
             </tr>
 
@@ -205,8 +205,8 @@ GraphData object as needed by the IssueGraphComponent for rendering.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:36</a></div>
                 </td>
             </tr>
 
@@ -291,7 +291,6 @@ needed because the backend doesn&#39;t allow us to only ask for the counts of no
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Component,
   ComponentInterface,
-  GetIssueGraphDataDocument,
   GetIssueGraphDataQuery,
   Issue,
   IssueCategory,
@@ -324,9 +323,9 @@ export class GraphDataFactory {
    * @param graphData the data with the unnecessary counts
    * @param activeCategories the categories corresponding to the activated toggles of the graph component
    */
-  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
+  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]): GraphData {
     for (const location of graphData.graphLocations.values()) {
-      location.issues &#x3D; new Map([...location.issues].filter(([category, count]) &#x3D;&gt; activeCategories.includes(category)));
+      location.issues &#x3D; new Map([...location.issues].filter(([category]) &#x3D;&gt; activeCategories.includes(category)));
     }
     return graphData;
   }

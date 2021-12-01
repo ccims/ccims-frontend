@@ -196,7 +196,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-assigned.component.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-assigned.component.ts:26</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -230,7 +230,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-assigned.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-assigned.component.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -255,7 +255,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-assigned.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-assigned.component.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -275,23 +275,22 @@ import {AssignedEvent} from &#x27;../../../../generated/graphql-dgql&#x27;;
 @Component({
   selector: &#x27;app-timeline-event-assigned&#x27;,
   styleUrls: [&#x27;../timeline.component.scss&#x27;],
-  template:
-    &#x60;
-      &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!event.assignee&quot;&gt;
-        &lt;ng-template appSingleTimelineItem&gt;
-          &lt;span *ngIf&#x3D;&quot;selfAssigned; else notSelfAssigned&quot;&gt;
-            &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; self-assigned this issue
-          &lt;/span&gt;
-          &lt;ng-template #notSelfAssigned&gt;
-            &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; assigned this issue to user
-            &lt;a&gt;{{ event.assignee.displayName }}&lt;/a&gt;
-          &lt;/ng-template&gt;
+  template: &#x60;
+    &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!event.assignee&quot;&gt;
+      &lt;ng-template appSingleTimelineItem&gt;
+        &lt;span *ngIf&#x3D;&quot;selfAssigned; else notSelfAssigned&quot;&gt;
+          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; self-assigned this issue
+        &lt;/span&gt;
+        &lt;ng-template #notSelfAssigned&gt;
+          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; assigned this issue to user
+          &lt;a&gt;{{ event.assignee.displayName }}&lt;/a&gt;
         &lt;/ng-template&gt;
-        &lt;ng-template appTimelineItemDeleted&gt;
-          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; assigned this issue to a deleted user
-        &lt;/ng-template&gt;
-      &lt;/app-timeline-item&gt;
-    &#x60;
+      &lt;/ng-template&gt;
+      &lt;ng-template appTimelineItemDeleted&gt;
+        &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; assigned this issue to a deleted user
+      &lt;/ng-template&gt;
+    &lt;/app-timeline-item&gt;
+  &#x60;
 })
 export class TimelineEventAssignedComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

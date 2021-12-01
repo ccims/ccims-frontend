@@ -495,7 +495,7 @@ export class LoginComponent implements OnInit {
       .login(this.validateForm.controls.userName.value, this.validateForm.controls.password.value)
       .pipe(first())
       .subscribe(
-        (data) &#x3D;&gt; {
+        () &#x3D;&gt; {
           this.validateForm.controls.password.reset();
           this.isLoading &#x3D; false;
           this.router.navigate([this.returnUrl]);

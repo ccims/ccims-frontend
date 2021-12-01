@@ -230,7 +230,7 @@ export class IssueGraphClassSettersService {
    * @param graph Reference to the GraphEditor instance of the graph that is handled.
    * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
    */
-  manageClassSetters(graph: GraphEditor, minimap: GraphEditor) {
+  manageClassSetters(graph: GraphEditor, minimap: GraphEditor): void {
     // node class setter
     const nodeClassSetter &#x3D; (className: string, node: Node) &#x3D;&gt; {
       return className &#x3D;&#x3D;&#x3D; node.type;

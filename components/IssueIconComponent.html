@@ -267,7 +267,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                 </td>
@@ -294,7 +294,7 @@ import {Issue, IssueCategory} from &#x27;src/generated/graphql-dgql&#x27;;
 export class IssueIconComponent {
   @Input() issue: Issue;
 
-  getIconName() {
+  getIconName(): string {
     let category;
     if (this.issue.category &#x3D;&#x3D;&#x3D; IssueCategory.Bug) {
       category &#x3D; &#x27;bug&#x27;;
@@ -312,7 +312,7 @@ export class IssueIconComponent {
     return [&#x27;issue-&#x27;, category, closed, edgeType &amp;&amp; &#x27;-&#x27;, edgeType].filter((part) &#x3D;&gt; part).join(&#x27;&#x27;);
   }
 
-  getIconLabel() {
+  getIconLabel(): string {
     const category &#x3D;
       this.issue.category &#x3D;&#x3D;&#x3D; IssueCategory.Bug ? &#x27;bug&#x27; : this.issue.category &#x3D;&#x3D;&#x3D; IssueCategory.FeatureRequest ? &#x27;feature&#x27; : &#x27;issue&#x27;;
     return this.issue.isOpen ? &#x60;Open ${category}&#x60; : &#x60;Closed ${category}&#x60;;

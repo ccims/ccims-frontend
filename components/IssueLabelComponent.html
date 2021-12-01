@@ -331,7 +331,7 @@ export class IssueLabelComponent {
    *
    * @param color label color - any CSS color string
    */
-  public isColorDark(color?: string) {
+  public isColorDark(color?: string): boolean {
     if (!color) {
       return false;
     }

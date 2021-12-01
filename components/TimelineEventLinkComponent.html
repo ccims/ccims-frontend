@@ -197,7 +197,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:25</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -218,7 +218,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -252,7 +252,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -278,7 +278,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-link.component.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -298,21 +298,20 @@ import {LinkEvent} from &#x27;../../../../generated/graphql-dgql&#x27;;
 @Component({
   selector: &#x27;app-timeline-event-link&#x27;,
   styleUrls: [&#x27;../timeline.component.scss&#x27;],
-  template:
-    &#x60;
-      &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
-        &lt;ng-template appSingleTimelineItem&gt;
-          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked this issue to issue
-          &lt;app-issue-item [issue]&#x3D;&quot;event.linkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt;&lt;/app-issue-item&gt;
-        &lt;/ng-template&gt;
-        &lt;ng-template appCoalescedTimelineItems&gt;
-          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked this issue to issues
-          &lt;ng-container *ngFor&#x3D;&quot;let item of events&quot;&gt;
-            &lt;app-issue-item [issue]&#x3D;&quot;item.linkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt;&lt;/app-issue-item&gt;
-          &lt;/ng-container&gt;
-        &lt;/ng-template&gt;
-      &lt;/app-timeline-item&gt;
-    &#x60;
+  template: &#x60;
+    &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+      &lt;ng-template appSingleTimelineItem&gt;
+        &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked this issue to issue
+        &lt;app-issue-item [issue]&#x3D;&quot;event.linkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt;&lt;/app-issue-item&gt;
+      &lt;/ng-template&gt;
+      &lt;ng-template appCoalescedTimelineItems&gt;
+        &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; linked this issue to issues
+        &lt;ng-container *ngFor&#x3D;&quot;let item of events&quot;&gt;
+          &lt;app-issue-item [issue]&#x3D;&quot;item.linkedIssue&quot; [interactive]&#x3D;&quot;true&quot; [projectId]&#x3D;&quot;projectID&quot;&gt;&lt;/app-issue-item&gt;
+        &lt;/ng-container&gt;
+      &lt;/ng-template&gt;
+    &lt;/app-timeline-item&gt;
+  &#x60;
 })
 export class TimelineEventLinkComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

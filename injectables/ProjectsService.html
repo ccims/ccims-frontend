@@ -220,7 +220,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;GetProjectQuery&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -289,7 +289,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;ListProjectsQuery&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -306,7 +306,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
-import {GetProjectGQL, ListProjectsGQL, ProjectFilter} from &#x27;src/generated/graphql-dgql&#x27;;
+import {GetProjectGQL, GetProjectQuery, ListProjectsGQL, ListProjectsQuery, ProjectFilter} from &#x27;src/generated/graphql-dgql&#x27;;
 import {promisifyApolloFetch, QueryListParams} from &#x27;@app/data-dgql/queries/util&#x27;;
 
 @Injectable({
@@ -315,11 +315,11 @@ import {promisifyApolloFetch, QueryListParams} from &#x27;@app/data-dgql/queries
 export class ProjectsService {
   constructor(private qListProjects: ListProjectsGQL, private qGetProject: GetProjectGQL) {}
 
-  listProjects(list: QueryListParams&lt;ProjectFilter&gt;) {
+  listProjects(list: QueryListParams&lt;ProjectFilter&gt;): Promise&lt;ListProjectsQuery&gt; {
     return promisifyApolloFetch(this.qListProjects.fetch({...list}));
   }
 
-  getProject(id: string) {
+  getProject(id: string): Promise&lt;GetProjectQuery&gt; {
     return promisifyApolloFetch(this.qGetProject.fetch({id}));
   }
 }

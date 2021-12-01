@@ -184,7 +184,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-due-date-changed.component.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-due-date-changed.component.ts:17</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -218,7 +218,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-due-date-changed.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-due-date-changed.component.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -238,14 +238,13 @@ import {DueDateChangedEvent} from &#x27;../../../../generated/graphql-dgql&#x27;
 @Component({
   selector: &#x27;app-timeline-event-due-date-changed&#x27;,
   styleUrls: [&#x27;../timeline.component.scss&#x27;],
-  template:
-    &#x60;
-      &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
-        &lt;ng-template appSingleTimelineItem&gt;
-          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; changed due date from {{ event.oldDueDate }} to {{ event.newDueDate }}
-        &lt;/ng-template&gt;
-      &lt;/app-timeline-item&gt;
-    &#x60;
+  template: &#x60;
+    &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot;&gt;
+      &lt;ng-template appSingleTimelineItem&gt;
+        &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; changed due date from {{ event.oldDueDate }} to {{ event.newDueDate }}
+      &lt;/ng-template&gt;
+    &lt;/app-timeline-item&gt;
+  &#x60;
 })
 export class TimelineEventDueDateChangedComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

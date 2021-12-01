@@ -409,7 +409,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -478,7 +478,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -547,7 +547,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -616,7 +616,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -685,7 +685,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -754,7 +754,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -961,7 +961,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1030,7 +1030,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1099,7 +1099,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1168,7 +1168,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1237,7 +1237,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1306,7 +1306,7 @@ based on the definitions in the issue.graphql file in the same folder</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1381,57 +1381,57 @@ export class IssueStoreService {
     private getAllTimelineItemsQuery: GetAllTimelineItemsGQL
   ) {}
 
-  create(issueInput: CreateIssueInput) {
+  create(issueInput: CreateIssueInput): Observable&lt;any&gt; {
     return this.createIssue.mutate({input: issueInput});
   }
 
-  link(linkIssueInput: LinkIssueInput) {
+  link(linkIssueInput: LinkIssueInput): Observable&lt;any&gt; {
     return this.linkIssue.mutate({input: linkIssueInput});
   }
 
-  unlink(unlinkIssueInput: UnlinkIssueInput) {
+  unlink(unlinkIssueInput: UnlinkIssueInput): Observable&lt;any&gt; {
     return this.unlinkIssueMutation.mutate({input: unlinkIssueInput});
   }
 
-  commentIssue(commentIssueInput: AddIssueCommentInput) {
+  commentIssue(commentIssueInput: AddIssueCommentInput): Observable&lt;any&gt; {
     return this.commentIssueMutation.mutate({input: commentIssueInput});
   }
 
-  deleteComment(deleteIssueCommentInput: DeleteIssueCommentInput) {
+  deleteComment(deleteIssueCommentInput: DeleteIssueCommentInput): Observable&lt;any&gt; {
     return this.deleteIssueCommentMutation.mutate({
       input: deleteIssueCommentInput
     });
   }
 
-  close(closeInput: CloseIssueInput) {
+  close(closeInput: CloseIssueInput): Observable&lt;any&gt; {
     return this.closeIssueMutation.mutate({input: closeInput});
   }
 
-  reopen(reopenInput: ReopenIssueInput) {
+  reopen(reopenInput: ReopenIssueInput): Observable&lt;any&gt; {
     return this.reopenIssueMutation.mutate({input: reopenInput});
   }
 
-  rename(renameInput: RenameIssueTitleInput) {
+  rename(renameInput: RenameIssueTitleInput): Observable&lt;any&gt; {
     return this.renameIssueMutation.mutate({input: renameInput});
   }
 
-  changeIssueCategory(changeIssueCategoryInput: ChangeIssueCategoryInput) {
+  changeIssueCategory(changeIssueCategoryInput: ChangeIssueCategoryInput): Observable&lt;any&gt; {
     return this.changeIssueCategoryMutation.mutate({
       input: changeIssueCategoryInput
     });
   }
 
-  addToLocation(addLocationInput: AddIssueToLocationInput) {
+  addToLocation(addLocationInput: AddIssueToLocationInput): Observable&lt;any&gt; {
     return this.addIssueToLocationMutation.mutate({input: addLocationInput});
   }
 
-  removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput) {
+  removeFromLocation(removeLocationInput: RemoveIssueFromLocationInput): Observable&lt;any&gt; {
     return this.removeIssueFromLocationMutation.mutate({
       input: removeLocationInput
     });
   }
 
-  updateComment(updateCommentInput: UpdateCommentInput) {
+  updateComment(updateCommentInput: UpdateCommentInput): Observable&lt;any&gt; {
     return this.updateCommentMutation.mutate({input: updateCommentInput});
   }
 

@@ -502,7 +502,7 @@ export class SetEditorDialogComponent&lt;T extends {id: string; __typename: stri
     }
   }
 
-  searchQueryDidChange() {
+  searchQueryDidChange(): void {
     if (this.listSet$) {
       this.listSet$.filter &#x3D; this.data.makeFilter(this.searchQuery);
     }
@@ -543,7 +543,7 @@ export class SetEditorDialogComponent&lt;T extends {id: string; __typename: stri
     }
   }
 
-  apply() {
+  apply(): void {
     if (this.additions.size + this.deletions.size &#x3D;&#x3D;&#x3D; 0) {
       this.dialogRef.close(null);
       return;
@@ -559,7 +559,7 @@ export class SetEditorDialogComponent&lt;T extends {id: string; __typename: stri
       });
   }
 
-  createItem() {
+  createItem(): void {
     this.data.createItem().then((node) &#x3D;&gt; {
       if (node) {
         this.additions.add(encodeNodeId(node));

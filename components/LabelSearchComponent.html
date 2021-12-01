@@ -400,7 +400,7 @@ It allows for filtering issues by multiple labels and text fragments.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
@@ -590,14 +590,14 @@ export class LabelSearchComponent implements OnInit {
     this.loadLabels();
   }
 
-  trackByFn(item: FilterLabel) {
+  trackByFn(item: FilterLabel): string {
     return item.id;
   }
 
   /**
    * Emit value representing label and text fragments in the search bar via this.filterSelection$
    */
-  emitSelectedLabels() {
+  emitSelectedLabels(): void {
     const selection: FilterSelection &#x3D; {texts: [], labels: []};
     // find out which elements in search bar correspond to an existing label on the backend and which to a text fragment
     selection.texts &#x3D; this.selectedLabels.filter((item) &#x3D;&gt; !isFilterLabel(item)).map((item) &#x3D;&gt; item.name);

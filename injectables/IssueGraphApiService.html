@@ -271,7 +271,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -479,7 +479,7 @@ it invokes GraphDataFactory.graphDataFromGQL</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -650,7 +650,7 @@ export class IssueGraphApiService {
    * @param component
    * @param componentInterface
    */
-  addConsumedInterface(component: string, componentInterface: string) {
+  addConsumedInterface(component: string, componentInterface: string): Observable&lt;any&gt; {
     return this.addConsumedInterfaceMutation.mutate({
       input: {component, componentInterface}
     });
@@ -661,7 +661,7 @@ export class IssueGraphApiService {
    * @param component
    * @param componentInterface
    */
-  removeConsumedInterface(component: string, componentInterface: string) {
+  removeConsumedInterface(component: string, componentInterface: string): Observable&lt;any&gt; {
     return this.removeConsumedInterfaceMutation.mutate({
       input: {component, componentInterface}
     });

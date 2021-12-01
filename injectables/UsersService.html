@@ -191,7 +191,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/User.html" target="_self" >Promise&lt;CurrentUserQuery&gt;</a></code>
 
                     </div>
                 </td>
@@ -257,7 +257,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;any[]&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -274,7 +274,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &#x27;@angular/core&#x27;;
-import {CurrentUserGQL, SearchUsersGQL} from &#x27;src/generated/graphql-dgql&#x27;;
+import {CurrentUserGQL, CurrentUserQuery, SearchUsersGQL} from &#x27;src/generated/graphql-dgql&#x27;;
 import {promisifyApolloFetch} from &#x27;@app/data-dgql/queries/util&#x27;;
 
 @Injectable({
@@ -283,7 +283,7 @@ import {promisifyApolloFetch} from &#x27;@app/data-dgql/queries/util&#x27;;
 export class UsersService {
   constructor(private qSearchUsers: SearchUsersGQL, private qCurrentUser: CurrentUserGQL) {}
 
-  searchUsers(filter: {username: string}) {
+  searchUsers(filter: {username: string}): Promise&lt;any[]&gt; {
     let query &#x3D; &#x27;&#x27;;
     // The searchUser query is special in that it does not use a filter object.
     // However, this is not compatible with the rest of our API, which uses UserFilter
@@ -302,7 +302,7 @@ export class UsersService {
     return promisifyApolloFetch(this.qSearchUsers.fetch({query})).then((data) &#x3D;&gt; data.searchUser);
   }
 
-  currentUser() {
+  currentUser(): Promise&lt;CurrentUserQuery&gt; {
     return promisifyApolloFetch(this.qCurrentUser.fetch());
   }
 }

@@ -193,7 +193,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-referenced-by-other.component.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-referenced-by-other.component.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -214,7 +214,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-referenced-by-other.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-referenced-by-other.component.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -248,7 +248,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-referenced-by-other.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/issue-detail/timeline/items/timeline-event-referenced-by-other.component.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -268,20 +268,19 @@ import {ReferencedByOtherEvent} from &#x27;../../../../generated/graphql-dgql&#x
 @Component({
   selector: &#x27;app-timeline-event-referenced-by-other&#x27;,
   styleUrls: [&#x27;../timeline.component.scss&#x27;],
-  template:
-    &#x60;
-      &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!event.component&quot;&gt;
-        &lt;ng-template appSingleTimelineItem&gt;
-          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; referenced this issue in component
-          &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;event.component&quot;&gt;&lt;/app-issue-location&gt;
-          with
-          &lt;a href&#x3D;&quot;{{ event.sourceURL }}&quot;&gt;{{ event.source }}&lt;/a&gt;
-        &lt;/ng-template&gt;
-        &lt;ng-template appTimelineItemDeleted&gt;
-          &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; referenced this issue in deleted component
-        &lt;/ng-template&gt;
-      &lt;/app-timeline-item&gt;
-    &#x60;
+  template: &#x60;
+    &lt;app-timeline-item [timelineItem]&#x3D;&quot;timelineItem&quot; [showDeleted]&#x3D;&quot;!event.component&quot;&gt;
+      &lt;ng-template appSingleTimelineItem&gt;
+        &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; referenced this issue in component
+        &lt;app-issue-location [projectId]&#x3D;&quot;projectID&quot; [location]&#x3D;&quot;event.component&quot;&gt;&lt;/app-issue-location&gt;
+        with
+        &lt;a href&#x3D;&quot;{{ event.sourceURL }}&quot;&gt;{{ event.source }}&lt;/a&gt;
+      &lt;/ng-template&gt;
+      &lt;ng-template appTimelineItemDeleted&gt;
+        &lt;a&gt;{{ timelineItem.user }}&lt;/a&gt; referenced this issue in deleted component
+      &lt;/ng-template&gt;
+    &lt;/app-timeline-item&gt;
+  &#x60;
 })
 export class TimelineEventReferencedByOtherComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

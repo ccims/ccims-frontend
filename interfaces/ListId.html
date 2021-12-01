@@ -228,7 +228,7 @@ export enum NodeType {
  *
  * @param typename the __typename value
  */
-export function nodeTypeFromTypename(typename: string) {
+export function nodeTypeFromTypename(typename: string): NodeType | null {
   return NodeType[typename] || null;
 }
 

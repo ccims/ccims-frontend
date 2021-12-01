@@ -440,7 +440,7 @@ export class LinkedIssueItemComponent implements OnInit, OnDestroy {
   }
 
   /** Event handler for when the accordion is opened. Loads the full issue if it hasn&#x27;t been loaded yet. */
-  didOpen() {
+  didOpen(): void {
     if (!this.fullIssue) {
       this.fullIssue &#x3D; this.dataService.getNode({
         type: NodeType.Issue,

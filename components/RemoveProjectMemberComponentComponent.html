@@ -70,12 +70,6 @@
 
 
 
-    <p class="comment">
-        <h3>Implements</h3>
-    </p>
-    <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-    </p>
 
 
 <section>
@@ -263,8 +257,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">src/app/dialogs/remove-project-member-component/remove-project-member-component.component.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">src/app/dialogs/remove-project-member-component/remove-project-member-component.component.ts:20</a></div>
                 </td>
             </tr>
 
@@ -300,8 +294,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/app/dialogs/remove-project-member-component/remove-project-member-component.component.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">src/app/dialogs/remove-project-member-component/remove-project-member-component.component.ts:16</a></div>
                 </td>
             </tr>
 
@@ -418,7 +412,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Inject} from &#x27;@angular/core&#x27;;
-import {Component, OnInit} from &#x27;@angular/core&#x27;;
+import {Component} from &#x27;@angular/core&#x27;;
 import {MatDialogRef, MAT_DIALOG_DATA} from &#x27;@angular/material/dialog&#x27;;
 
 @Component({
@@ -426,19 +420,17 @@ import {MatDialogRef, MAT_DIALOG_DATA} from &#x27;@angular/material/dialog&#x27;
   templateUrl: &#x27;./remove-project-member-component.component.html&#x27;,
   styleUrls: [&#x27;./remove-project-member-component.component.scss&#x27;]
 })
-export class RemoveProjectMemberComponentComponent implements OnInit {
+export class RemoveProjectMemberComponentComponent {
   constructor(public dialogRef: MatDialogRef&lt;RemoveProjectMemberComponentComponent&gt;, @Inject(MAT_DIALOG_DATA) public data) {}
 
   //users selected in the dialog to be deleted
   selectedUsers &#x3D; [];
 
-  ngOnInit(): void {}
-
-  onNoClick() {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onDeleteClick() {
+  onDeleteClick(): void {
     const data &#x3D; {usersToDelete: this.selectedUsers};
     this.dialogRef.close(data);
   }

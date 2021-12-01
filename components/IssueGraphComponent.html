@@ -3729,9 +3729,9 @@ import {IssueGraphDynamicTemplateRegistryService} from &#x27;./dynamic-template-
  */
 interface Positions {
   /** Positions of the nodes as the user arranged them */
-  nodes: { [prop: string]: Point };
+  nodes: {[prop: string]: Point};
   /** Positions (north, south, east, west) of the issue groups */
-  issueGroups: { [node: string]: string };
+  issueGroups: {[node: string]: string};
 }
 
 /**
@@ -3963,7 +3963,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return edge;
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets dragged
@@ -4008,7 +4008,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return edge;
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets added.
@@ -4037,7 +4037,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() &#x3D;&gt; this.reload$.next(null));
       }
     }
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets dropped.
@@ -4061,7 +4061,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (edge.type &#x3D;&#x3D;&#x3D; issueGraphNodes.NodeType.Interface) {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
-  }
+  };
 
   /**
    * Opens the interface creation dialog. If the user actually creates the interface
@@ -4121,7 +4121,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() &#x3D;&gt; this.reload$.next(null));
       }
     }
-  }
+  };
 
   /**
    * Adds event listeners to a given GraphEditor instance.
@@ -4202,7 +4202,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.zoomOnRedraw &#x3D; false;
       this.reload();
     }
-  }
+  };
 
   /**
    * Method gets triggered after a node is clicked.
@@ -4259,7 +4259,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // case: clicked issue folder
     // &#x3D;&gt; determines issue count, opens corresponding issue page
     this.nodeClickIssueFolder(node);
-  }
+  };
 
   /**
    * Sets the context menu type.
@@ -4767,11 +4767,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     return rect
       ? {
-        x: rect.xMin,
-        y: rect.yMin,
-        width: rect.xMax - rect.xMin,
-        height: rect.yMax - rect.yMin
-      }
+          x: rect.xMin,
+          y: rect.yMin,
+          width: rect.xMax - rect.xMin,
+          height: rect.yMax - rect.yMin
+        }
       : null;
   }
 
@@ -4839,149 +4839,150 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     class&#x3D;&quot;graph&quot;
     mode&#x3D;&quot;layout&quot;
     classes&#x3D;&quot;component interface issue bug done interface-connect component-connect issue-relation related-to duplicate dependency&quot;
-    #graph&gt;
+    #graph
+  &gt;
     &lt;style slot&#x3D;&quot;style&quot;&gt;
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     &lt;/style&gt;
     &lt;svg slot&#x3D;&quot;graph&quot;&gt;
       &lt;style&gt;
-          /* The show-relations variable is used to show/hide dashed issue relation edges */
-          /* It is toggled by the IssueGraphComponent when the user changes the dashed edges switch */
-          :root {
-              --show-relations: initial;
-          }
+        /* The show-relations variable is used to show/hide dashed issue relation edges */
+        /* It is toggled by the IssueGraphComponent when the user changes the dashed edges switch */
+        :root {
+          --show-relations: initial;
+        }
 
-          .ghost {
-              opacity: 0.5;
-          }
+        .ghost {
+          opacity: 0.5;
+        }
 
-          .link-handle {
-              display: none;
-              fill: black;
-              opacity: 0.1;
-          }
+        .link-handle {
+          display: none;
+          fill: black;
+          opacity: 0.1;
+        }
 
-          .link-handle &gt; * {
-              transition: transform 0.25s ease-out;
-          }
+        .link-handle &gt; * {
+          transition: transform 0.25s ease-out;
+        }
 
-          .edge-group .link-handle {
-              display: initial;
-          }
+        .edge-group .link-handle {
+          display: initial;
+        }
 
-          .link-handle:hover {
-              opacity: 0.7;
-          }
+        .link-handle:hover {
+          opacity: 0.7;
+        }
 
-          .link-handle:hover &gt; * {
-              transform: scale(1.5);
-          }
+        .link-handle:hover &gt; * {
+          transform: scale(1.5);
+        }
 
-          .text {
-              text-overflow: ellipsis;
-              word-break: break-word;
-          }
+        .text {
+          text-overflow: ellipsis;
+          word-break: break-word;
+        }
 
-          .text.title {
-              font-size: 12pt;
-              text-overflow: ellipsis;
-              word-break: break-all;
-          }
+        .text.title {
+          font-size: 12pt;
+          text-overflow: ellipsis;
+          word-break: break-all;
+        }
 
-          .badge-background {
-              fill: white;
-              opacity: 0.85;
-          }
+        .badge-background {
+          fill: white;
+          opacity: 0.85;
+        }
 
-          .text.badge {
-              font-size: 6pt;
-              text-anchor: middle;
-              text-overflow: clip;
-          }
+        .text.badge {
+          font-size: 6pt;
+          text-anchor: middle;
+          text-overflow: clip;
+        }
 
-          .background {
-              opacity: 0;
-          }
+        .background {
+          opacity: 0;
+        }
 
-          .dropzone {
-              stroke-dasharray: 2 1;
-              opacity: 0.3;
-              transition: opacity 0.2s ease-out;
-          }
+        .dropzone {
+          stroke-dasharray: 2 1;
+          opacity: 0.3;
+          transition: opacity 0.2s ease-out;
+        }
 
-          .dropzone:hover {
-              opacity: 1;
-          }
+        .dropzone:hover {
+          opacity: 1;
+        }
 
-          .component.hovered .link-handle {
-              display: initial;
-          }
+        .component.hovered .link-handle {
+          display: initial;
+        }
 
-          .node.component rect {
-              fill: #096dd9;
-              stroke: black;
-              stroke-width: 1.5;
-              fill-opacity: 0.5;
-          }
+        .node.component rect {
+          fill: #096dd9;
+          stroke: black;
+          stroke-width: 1.5;
+          fill-opacity: 0.5;
+        }
 
-          .component-name {
-              font-size: 8pt;
-              font-family: &#x27;Arial Narrow&#x27;, Arial, sans-serif;
-              word-break: break-word;
-              user-select: none;
-          }
+        .component-name {
+          font-size: 8pt;
+          font-family: &#x27;Arial Narrow&#x27;, Arial, sans-serif;
+          word-break: break-word;
+          user-select: none;
+        }
 
-          .interface-name {
-              font-size: 8pt;
-              font-family: &#x27;Arial Narrow&#x27;, Arial, sans-serif;
-              word-break: break-word;
-              user-select: none;
-          }
+        .interface-name {
+          font-size: 8pt;
+          font-family: &#x27;Arial Narrow&#x27;, Arial, sans-serif;
+          word-break: break-word;
+          user-select: none;
+        }
 
-          .edge-group.issue-relation {
-              opacity: 0.7;
-          }
+        .edge-group.issue-relation {
+          opacity: 0.7;
+        }
 
-          /* issue relation edge styling (use &#x27;.related-to&#x27;, &#x27;.duplicate&#x27; and &#x27;.dependency&#x27; to style the individual types) */
-          .edge-group.issue-relation .edge {
-              stroke: grey;
-              stroke-dasharray: 3 5;
-              stroke-width: 3px;
-              stroke-linecap: round;
-          }
+        /* issue relation edge styling (use &#x27;.related-to&#x27;, &#x27;.duplicate&#x27; and &#x27;.dependency&#x27; to style the individual types) */
+        .edge-group.issue-relation .edge {
+          stroke: grey;
+          stroke-dasharray: 3 5;
+          stroke-width: 3px;
+          stroke-linecap: round;
+        }
 
-          /* coloring of issue relation edges when issue folder is hovered */
-          .edge-group.issue-relation.highlight-outgoing .edge {
-              stroke: purple;
-          }
+        /* coloring of issue relation edges when issue folder is hovered */
+        .edge-group.issue-relation.highlight-outgoing .edge {
+          stroke: purple;
+        }
 
-          .edge-group.issue-relation.highlight-incoming .edge {
-              stroke: #008b8b;
-          }
+        .edge-group.issue-relation.highlight-incoming .edge {
+          stroke: #008b8b;
+        }
 
-          .related-to {
-              display: var(--show-relations);
-          }
+        .related-to {
+          display: var(--show-relations);
+        }
 
-          .related-to.edge-group.issue-relation.highlight-incoming,
-          .related-to.edge-group.issue-relation.highlight-outgoing {
-              display: initial;
-          }
+        .related-to.edge-group.issue-relation.highlight-incoming,
+        .related-to.edge-group.issue-relation.highlight-outgoing {
+          display: initial;
+        }
 
-          .edge-group.issue-relation .marker {
-              fill: grey;
-          }
+        .edge-group.issue-relation .marker {
+          fill: grey;
+        }
 
-          .edge-group.issue-relation.highlight-outgoing .marker {
-              fill: purple;
-          }
+        .edge-group.issue-relation.highlight-outgoing .marker {
+          fill: purple;
+        }
 
-          .edge-group.issue-relation.highlight-incoming .marker {
-              fill: #008b8b;
-          }
+        .edge-group.issue-relation.highlight-incoming .marker {
+          fill: #008b8b;
+        }
       &lt;/style&gt;
       &lt;defs class&#x3D;&quot;templates&quot;&gt;
         &lt;path id&#x3D;&quot;icon-folder&quot; d&#x3D;&quot;M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z&quot;&gt;&lt;/path&gt;
@@ -5018,7 +5019,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
         &lt;!-- ? container --&gt;
         &lt;clipPath id&#x3D;&quot;clip1&quot;&gt;
-          &lt;rect x&#x3D;&quot;5&quot; y&#x3D;&quot;5&quot; width&#x3D;&quot;57&quot; height&#x3D;&quot;90&quot;/&gt;
+          &lt;rect x&#x3D;&quot;5&quot; y&#x3D;&quot;5&quot; width&#x3D;&quot;57&quot; height&#x3D;&quot;90&quot; /&gt;
         &lt;/clipPath&gt;
 
         &lt;!-- Interface container (for interface provision edge) --&gt;
@@ -5033,8 +5034,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             data-width&#x3D;&quot;90&quot;
             data-height&#x3D;&quot;38&quot;
             y&#x3D;&quot;-20&quot;
-            text-overflow&#x3D;&quot;hidden&quot;&gt;
-          &lt;/text&gt;
+            text-overflow&#x3D;&quot;hidden&quot;
+          &gt;&lt;/text&gt;
           &lt;title data-content&#x3D;&quot;title&quot;&gt;&lt;/title&gt;
         &lt;/g&gt;
 
@@ -5074,12 +5075,12 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
         &lt;!-- Arrow container (for issue relation edge) --&gt;
         &lt;g id&#x3D;&quot;arrow&quot; data-template-type&#x3D;&quot;marker&quot; data-line-attachement-point&#x3D;&quot;-9 0&quot;&gt;
-          &lt;path d&#x3D;&quot;M -9 -4 L 0 0 L -9 4 z&quot;/&gt;
+          &lt;path d&#x3D;&quot;M -9 -4 L 0 0 L -9 4 z&quot; /&gt;
         &lt;/g&gt;
 
         &lt;!-- Interface (Consumption) Connector container (for interface consumption edge) --&gt;
         &lt;g id&#x3D;&quot;interface-connector&quot; data-template-type&#x3D;&quot;marker&quot; data-line-attachement-point&#x3D;&quot;-1 0&quot;&gt;
-          &lt;path d&#x3D;&quot;M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z&quot;/&gt;
+          &lt;path d&#x3D;&quot;M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z&quot; /&gt;
         &lt;/g&gt;
 
         &lt;!--Interface (Provision) Connector container (for interface provision edge, before being created) --&gt;
@@ -5092,7 +5093,8 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
             data-height&#x3D;&quot;38&quot;
             y&#x3D;&quot;20&quot;
             text-overflow&#x3D;&quot;hidden&quot;
-            fill&#x3D;&quot;red&quot;&gt;
+            fill&#x3D;&quot;red&quot;
+          &gt;
             Create Interface / Connect
           &lt;/text&gt;
         &lt;/g&gt;
@@ -5102,21 +5104,21 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
   &lt;network-graph class&#x3D;&quot;minimap&quot; mode&#x3D;&quot;display&quot; classes&#x3D;&quot;component interface issue bug done&quot; #minimap&gt;
     &lt;style slot&#x3D;&quot;style&quot;&gt;
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     &lt;/style&gt;
     &lt;svg slot&#x3D;&quot;graph&quot;&gt;
       &lt;style&gt;
-          .view-box {
-              fill: orange;
-              opacity: 0.5;
-          }
+        .view-box {
+          fill: orange;
+          opacity: 0.5;
+        }
 
-          .link-handle {
-              display: none;
-          }
+        .link-handle {
+          display: none;
+        }
       &lt;/style&gt;
       &lt;defs class&#x3D;&quot;templates&quot;&gt;
         &lt;path id&#x3D;&quot;icon-folder&quot; d&#x3D;&quot;M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z&quot;&gt;&lt;/path&gt;
@@ -5157,10 +5159,10 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
           &lt;use href&#x3D;&quot;#icon-bug&quot; fill&#x3D;&quot;red&quot; x&#x3D;&quot;-12&quot; y&#x3D;&quot;-9&quot;&gt;&lt;/use&gt;
         &lt;/g&gt;
         &lt;g id&#x3D;&quot;arrow&quot; data-template-type&#x3D;&quot;marker&quot; data-line-attachement-point&#x3D;&quot;-9 0&quot;&gt;
-          &lt;path d&#x3D;&quot;M -9 -4 L 0 0 L -9 4 z&quot;/&gt;
+          &lt;path d&#x3D;&quot;M -9 -4 L 0 0 L -9 4 z&quot; /&gt;
         &lt;/g&gt;
         &lt;g id&#x3D;&quot;interface-connector&quot; data-template-type&#x3D;&quot;marker&quot; data-line-attachement-point&#x3D;&quot;-1 0&quot;&gt;
-          &lt;path d&#x3D;&quot;M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z&quot;/&gt;
+          &lt;path d&#x3D;&quot;M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z&quot; /&gt;
         &lt;/g&gt;
       &lt;/defs&gt;
       &lt;g class&#x3D;&quot;zoom-group&quot;&gt;
@@ -5246,7 +5248,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="graph-container">  <network-graph    class="graph"    mode="layout"    classes="component interface issue bug done interface-connect component-connect issue-relation related-to duplicate dependency"    #graph>    <style slot="style">        svg {            width: 100%;            height: 100%;        }    </style>    <svg slot="graph">      <style>          /* The show-relations variable is used to show/hide dashed issue relation edges */          /* It is toggled by the IssueGraphComponent when the user changes the dashed edges switch */          :root {              --show-relations: initial;          }          .ghost {              opacity: 0.5;          }          .link-handle {              display: none;              fill: black;              opacity: 0.1;          }          .link-handle > * {              transition: transform 0.25s ease-out;          }          .edge-group .link-handle {              display: initial;          }          .link-handle:hover {              opacity: 0.7;          }          .link-handle:hover > * {              transform: scale(1.5);          }          .text {              text-overflow: ellipsis;              word-break: break-word;          }          .text.title {              font-size: 12pt;              text-overflow: ellipsis;              word-break: break-all;          }          .badge-background {              fill: white;              opacity: 0.85;          }          .text.badge {              font-size: 6pt;              text-anchor: middle;              text-overflow: clip;          }          .background {              opacity: 0;          }          .dropzone {              stroke-dasharray: 2 1;              opacity: 0.3;              transition: opacity 0.2s ease-out;          }          .dropzone:hover {              opacity: 1;          }          .component.hovered .link-handle {              display: initial;          }          .node.component rect {              fill: #096dd9;              stroke: black;              stroke-width: 1.5;              fill-opacity: 0.5;          }          .component-name {              font-size: 8pt;              font-family: \'Arial Narrow\', Arial, sans-serif;              word-break: break-word;              user-select: none;          }          .interface-name {              font-size: 8pt;              font-family: \'Arial Narrow\', Arial, sans-serif;              word-break: break-word;              user-select: none;          }          .edge-group.issue-relation {              opacity: 0.7;          }          /* issue relation edge styling (use \'.related-to\', \'.duplicate\' and \'.dependency\' to style the individual types) */          .edge-group.issue-relation .edge {              stroke: grey;              stroke-dasharray: 3 5;              stroke-width: 3px;              stroke-linecap: round;          }          /* coloring of issue relation edges when issue folder is hovered */          .edge-group.issue-relation.highlight-outgoing .edge {              stroke: purple;          }          .edge-group.issue-relation.highlight-incoming .edge {              stroke: #008b8b;          }          .related-to {              display: var(--show-relations);          }          .related-to.edge-group.issue-relation.highlight-incoming,          .related-to.edge-group.issue-relation.highlight-outgoing {              display: initial;          }          .edge-group.issue-relation .marker {              fill: grey;          }          .edge-group.issue-relation.highlight-outgoing .marker {              fill: purple;          }          .edge-group.issue-relation.highlight-incoming .marker {              fill: #008b8b;          }      </style>      <defs class="templates">        <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>        <path          id="icon-undecided"          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"        ></path>        <path          id="icon-bug"          d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"        ></path>        <path          id="icon-feature"          d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z"        ></path>        <!-- Containers to group SVG elements -->        <!-- Component container -->        <g id="component" data-template-type="node">          <rect width="100" height="60" rx="10" ry="10" x="-50" y="-30" data-link-handles="edges"></rect>          <text            class="component-name text"            data-content="title"            data-click="title"            dominant-baseline="middle"            text-anchor="middle"            data-width="90"            data-height="38"            text-overflow="hidden"          ></text>          <title data-content="title"></title>        </g>        <!-- ? container -->        <clipPath id="clip1">          <rect x="5" y="5" width="57" height="90"/>        </clipPath>        <!-- Interface container (for interface provision edge) -->        <g id="interface" data-template-type="node">          <circle cx="0" cy="0" r="7"></circle>          <text            class="interface-name text"            data-content="title"            data-click="title"            dominant-baseline="middle"            text-anchor="middle"            data-width="90"            data-height="38"            y="-20"            text-overflow="hidden">          </text>          <title data-content="title"></title>        </g>        <!-- Issue Group container -->        <g id="issue-group-container" data-template-type="node">          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" class="dropzone" stroke="black" fill="white" x="-19" y="-15"></use>        </g>        <!-- Unclassified container -->        <g id="UNCLASSIFIED" data-template-type="node">          <!-- first entry for link handle calculation only -->          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>          <use href="#icon-undecided" fill="black" x="-12" y="-11"></use>          <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>          <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>        </g>        <!-- Feature Request container -->        <g id="FEATURE_REQUEST" data-template-type="node">          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>          <use href="#icon-feature" fill="#005eff" x="-12" y="-11"></use>          <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>          <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>        </g>        <!-- Bug container -->        <g id="BUG" data-template-type="node">          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>          <use href="#icon-bug" fill="red" x="-12" y="-11"></use>          <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>          <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>        </g>        <!-- Arrow container (for issue relation edge) -->        <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">          <path d="M -9 -4 L 0 0 L -9 4 z"/>        </g>        <!-- Interface (Consumption) Connector container (for interface consumption edge) -->        <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z"/>        </g>        <!--Interface (Provision) Connector container (for interface provision edge, before being created) -->        <g id="interface-connector-initial" data-template-type="marker" data-line-attachement-point="-1 0">          <text            class="interface-name text"            dominant-baseline="middle"            text-anchor="middle"            data-width="90"            data-height="38"            y="20"            text-overflow="hidden"            fill="red">            Create Interface / Connect          </text>        </g>      </defs>    </svg>  </network-graph>  <network-graph class="minimap" mode="display" classes="component interface issue bug done" #minimap>    <style slot="style">        svg {            width: 100%;            height: 100%;        }    </style>    <svg slot="graph">      <style>          .view-box {              fill: orange;              opacity: 0.5;          }          .link-handle {              display: none;          }      </style>      <defs class="templates">        <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>        <path          id="icon-undecided"          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"        ></path>        <path          id="icon-bug"          d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"        ></path>        <path          id="icon-feature"          d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z"        ></path>        <g id="component" data-template-type="node">          <rect width="100" height="60" x="-50" y="-30" data-link-handles="edges"></rect>        </g>        <g id="interface" data-template-type="node">          <circle cx="0" cy="0" r="7"></circle>        </g>        <g id="issue" data-template-type="node">          <rect width="30" height="30" x="-15" y="-15" data-link-handles="edges"></rect>        </g>        <g id="bug" data-template-type="node">          <rect width="30" height="30" x="-15" y="-15" data-link-handles="edges"></rect>        </g>        <g id="UNCLASSIFIED" data-template-type="node">          <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges"></use>          <use href="#icon-undecided" fill="black" x="-12" y="-9"></use>        </g>        <g id="FEATURE_REQUEST" data-template-type="node">          <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges"></use>          <use href="#icon-feature" fill="#005eff" x="-12" y="-9"></use>        </g>        <g id="BUG" data-template-type="node">          <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges"></use>          <use href="#icon-bug" fill="red" x="-12" y="-9"></use>        </g>        <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">          <path d="M -9 -4 L 0 0 L -9 4 z"/>        </g>        <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z"/>        </g>      </defs>      <g class="zoom-group">        <g class="edges"></g>        <g class="nodes"></g>        <rect          class="view-box"          [attr.x]="currentVisibleArea?.x"          [attr.y]="currentVisibleArea?.y"          [attr.width]="currentVisibleArea?.width"          [attr.height]="currentVisibleArea?.height"        ></rect>      </g>    </svg>  </network-graph></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="graph-container">  <network-graph    class="graph"    mode="layout"    classes="component interface issue bug done interface-connect component-connect issue-relation related-to duplicate dependency"    #graph  >    <style slot="style">      svg {        width: 100%;        height: 100%;      }    </style>    <svg slot="graph">      <style>        /* The show-relations variable is used to show/hide dashed issue relation edges */        /* It is toggled by the IssueGraphComponent when the user changes the dashed edges switch */        :root {          --show-relations: initial;        }        .ghost {          opacity: 0.5;        }        .link-handle {          display: none;          fill: black;          opacity: 0.1;        }        .link-handle > * {          transition: transform 0.25s ease-out;        }        .edge-group .link-handle {          display: initial;        }        .link-handle:hover {          opacity: 0.7;        }        .link-handle:hover > * {          transform: scale(1.5);        }        .text {          text-overflow: ellipsis;          word-break: break-word;        }        .text.title {          font-size: 12pt;          text-overflow: ellipsis;          word-break: break-all;        }        .badge-background {          fill: white;          opacity: 0.85;        }        .text.badge {          font-size: 6pt;          text-anchor: middle;          text-overflow: clip;        }        .background {          opacity: 0;        }        .dropzone {          stroke-dasharray: 2 1;          opacity: 0.3;          transition: opacity 0.2s ease-out;        }        .dropzone:hover {          opacity: 1;        }        .component.hovered .link-handle {          display: initial;        }        .node.component rect {          fill: #096dd9;          stroke: black;          stroke-width: 1.5;          fill-opacity: 0.5;        }        .component-name {          font-size: 8pt;          font-family: \'Arial Narrow\', Arial, sans-serif;          word-break: break-word;          user-select: none;        }        .interface-name {          font-size: 8pt;          font-family: \'Arial Narrow\', Arial, sans-serif;          word-break: break-word;          user-select: none;        }        .edge-group.issue-relation {          opacity: 0.7;        }        /* issue relation edge styling (use \'.related-to\', \'.duplicate\' and \'.dependency\' to style the individual types) */        .edge-group.issue-relation .edge {          stroke: grey;          stroke-dasharray: 3 5;          stroke-width: 3px;          stroke-linecap: round;        }        /* coloring of issue relation edges when issue folder is hovered */        .edge-group.issue-relation.highlight-outgoing .edge {          stroke: purple;        }        .edge-group.issue-relation.highlight-incoming .edge {          stroke: #008b8b;        }        .related-to {          display: var(--show-relations);        }        .related-to.edge-group.issue-relation.highlight-incoming,        .related-to.edge-group.issue-relation.highlight-outgoing {          display: initial;        }        .edge-group.issue-relation .marker {          fill: grey;        }        .edge-group.issue-relation.highlight-outgoing .marker {          fill: purple;        }        .edge-group.issue-relation.highlight-incoming .marker {          fill: #008b8b;        }      </style>      <defs class="templates">        <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>        <path          id="icon-undecided"          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"        ></path>        <path          id="icon-bug"          d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"        ></path>        <path          id="icon-feature"          d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z"        ></path>        <!-- Containers to group SVG elements -->        <!-- Component container -->        <g id="component" data-template-type="node">          <rect width="100" height="60" rx="10" ry="10" x="-50" y="-30" data-link-handles="edges"></rect>          <text            class="component-name text"            data-content="title"            data-click="title"            dominant-baseline="middle"            text-anchor="middle"            data-width="90"            data-height="38"            text-overflow="hidden"          ></text>          <title data-content="title"></title>        </g>        <!-- ? container -->        <clipPath id="clip1">          <rect x="5" y="5" width="57" height="90" />        </clipPath>        <!-- Interface container (for interface provision edge) -->        <g id="interface" data-template-type="node">          <circle cx="0" cy="0" r="7"></circle>          <text            class="interface-name text"            data-content="title"            data-click="title"            dominant-baseline="middle"            text-anchor="middle"            data-width="90"            data-height="38"            y="-20"            text-overflow="hidden"          ></text>          <title data-content="title"></title>        </g>        <!-- Issue Group container -->        <g id="issue-group-container" data-template-type="node">          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" class="dropzone" stroke="black" fill="white" x="-19" y="-15"></use>        </g>        <!-- Unclassified container -->        <g id="UNCLASSIFIED" data-template-type="node">          <!-- first entry for link handle calculation only -->          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>          <use href="#icon-undecided" fill="black" x="-12" y="-11"></use>          <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>          <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>        </g>        <!-- Feature Request container -->        <g id="FEATURE_REQUEST" data-template-type="node">          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>          <use href="#icon-feature" fill="#005eff" x="-12" y="-11"></use>          <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>          <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>        </g>        <!-- Bug container -->        <g id="BUG" data-template-type="node">          <rect class="background" x="-18" y="-14" width="36" height="28" data-link-handles="edges"></rect>          <use href="#icon-folder" stroke="black" fill="white" x="-19" y="-15"></use>          <use href="#icon-bug" fill="red" x="-12" y="-11"></use>          <rect class="badge-background" x="5" y="8" width="20" height="12" rx="6"></rect>          <text class="text badge" data-content="issueCount" x="15" y="18" width="21"></text>        </g>        <!-- Arrow container (for issue relation edge) -->        <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">          <path d="M -9 -4 L 0 0 L -9 4 z" />        </g>        <!-- Interface (Consumption) Connector container (for interface consumption edge) -->        <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z" />        </g>        <!--Interface (Provision) Connector container (for interface provision edge, before being created) -->        <g id="interface-connector-initial" data-template-type="marker" data-line-attachement-point="-1 0">          <text            class="interface-name text"            dominant-baseline="middle"            text-anchor="middle"            data-width="90"            data-height="38"            y="20"            text-overflow="hidden"            fill="red"          >            Create Interface / Connect          </text>        </g>      </defs>    </svg>  </network-graph>  <network-graph class="minimap" mode="display" classes="component interface issue bug done" #minimap>    <style slot="style">      svg {        width: 100%;        height: 100%;      }    </style>    <svg slot="graph">      <style>        .view-box {          fill: orange;          opacity: 0.5;        }        .link-handle {          display: none;        }      </style>      <defs class="templates">        <path id="icon-folder" d="M 36,29 l3,-24 h -6 M 0,3 l 3,26 h 33 l -3,-26 h -23 l -1,-3 h -8 z"></path>        <path          id="icon-undecided"          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"        ></path>        <path          id="icon-bug"          d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"        ></path>        <path          id="icon-feature"          d="M12,3c-0.46,0-0.93,0.04-1.4,0.14C7.84,3.67,5.64,5.9,5.12,8.66c-0.48,2.61,0.48,5.01,2.22,6.56C7.77,15.6,8,16.13,8,16.69 V19c0,1.1,0.9,2,2,2h0.28c0.35,0.6,0.98,1,1.72,1s1.38-0.4,1.72-1H14c1.1,0,2-0.9,2-2v-2.31c0-0.55,0.22-1.09,0.64-1.46 C18.09,13.95,19,12.08,19,10C19,6.13,15.87,3,12,3z M14,19h-4v-1h4V19z M14,17h-4v-1h4V17z M12.5,11.41V14h-1v-2.59L9.67,9.59 l0.71-0.71L12,10.5l1.62-1.62l0.71,0.71L12.5,11.41z"        ></path>        <g id="component" data-template-type="node">          <rect width="100" height="60" x="-50" y="-30" data-link-handles="edges"></rect>        </g>        <g id="interface" data-template-type="node">          <circle cx="0" cy="0" r="7"></circle>        </g>        <g id="issue" data-template-type="node">          <rect width="30" height="30" x="-15" y="-15" data-link-handles="edges"></rect>        </g>        <g id="bug" data-template-type="node">          <rect width="30" height="30" x="-15" y="-15" data-link-handles="edges"></rect>        </g>        <g id="UNCLASSIFIED" data-template-type="node">          <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges"></use>          <use href="#icon-undecided" fill="black" x="-12" y="-9"></use>        </g>        <g id="FEATURE_REQUEST" data-template-type="node">          <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges"></use>          <use href="#icon-feature" fill="#005eff" x="-12" y="-9"></use>        </g>        <g id="BUG" data-template-type="node">          <use href="#icon-folder" stroke="black" fill="white" x="-18" y="-13" data-link-handles="edges"></use>          <use href="#icon-bug" fill="red" x="-12" y="-9"></use>        </g>        <g id="arrow" data-template-type="marker" data-line-attachement-point="-9 0">          <path d="M -9 -4 L 0 0 L -9 4 z" />        </g>        <g id="interface-connector" data-template-type="marker" data-line-attachement-point="-1 0">          <path d="M 7 -8 a8,8 0 0,0 0,16 l 0,1 a9,9 0 0,1 0,-18 z" />        </g>      </defs>      <g class="zoom-group">        <g class="edges"></g>        <g class="nodes"></g>        <rect          class="view-box"          [attr.x]="currentVisibleArea?.x"          [attr.y]="currentVisibleArea?.y"          [attr.width]="currentVisibleArea?.width"          [attr.height]="currentVisibleArea?.height"        ></rect>      </g>    </svg>  </network-graph></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineEventAddedArtifactComponent', 'selector': 'app-timeline-event-added-artifact'},{'name': 'TimelineEventAddedNfcComponent', 'selector': 'app-timeline-event-added-nfc'},{'name': 'TimelineEventAddedToComponentComponent', 'selector': 'app-timeline-event-added-to-component'},{'name': 'TimelineEventAddedToLocationComponent', 'selector': 'app-timeline-event-added-to-location'},{'name': 'TimelineEventAssignedComponent', 'selector': 'app-timeline-event-assigned'},{'name': 'TimelineEventCategoryChangedComponent', 'selector': 'app-timeline-event-category-changed'},{'name': 'TimelineEventClosedComponent', 'selector': 'app-timeline-event-closed'},{'name': 'TimelineEventDeletedIssueCommentComponent', 'selector': 'app-timeline-event-deleted-issue-comment'},{'name': 'TimelineEventDueDateChangedComponent', 'selector': 'app-timeline-event-due-date-changed'},{'name': 'TimelineEventEstimatedTimeChangedComponent', 'selector': 'app-timeline-event-estimated-time-changed'},{'name': 'TimelineEventLabelledComponent', 'selector': 'app-timeline-event-labelled'},{'name': 'TimelineEventLinkComponent', 'selector': 'app-timeline-event-link'},{'name': 'TimelineEventMarkedDuplicateComponent', 'selector': 'app-timeline-event-marked-duplicate'},{'name': 'TimelineEventPinnedComponent', 'selector': 'app-timeline-event-pinned'},{'name': 'TimelineEventPriorityChangedComponent', 'selector': 'app-timeline-event-priority-changed'},{'name': 'TimelineEventReferencedByIssueComponent', 'selector': 'app-timeline-event-referenced-by-issue'},{'name': 'TimelineEventReferencedByOtherComponent', 'selector': 'app-timeline-event-referenced-by-other'},{'name': 'TimelineEventRemovedArtifactComponent', 'selector': 'app-timeline-event-removed-artifact'},{'name': 'TimelineEventRemovedFromComponentComponent', 'selector': 'app-timeline-event-removed-from-component'},{'name': 'TimelineEventRemovedFromLocationComponent', 'selector': 'app-timeline-event-removed-from-location'},{'name': 'TimelineEventRemovedNfcComponent', 'selector': 'app-timeline-event-removed-nfc'},{'name': 'TimelineEventRenamedComponent', 'selector': 'app-timeline-event-renamed'},{'name': 'TimelineEventReopenedComponent', 'selector': 'app-timeline-event-reopened'},{'name': 'TimelineEventStartDateChangedComponent', 'selector': 'app-timeline-event-start-date-changed'},{'name': 'TimelineEventUnassignedComponent', 'selector': 'app-timeline-event-unassigned'},{'name': 'TimelineEventUnlabelledComponent', 'selector': 'app-timeline-event-unlabelled'},{'name': 'TimelineEventUnlinkComponent', 'selector': 'app-timeline-event-unlink'},{'name': 'TimelineEventUnmarkedDuplicateComponent', 'selector': 'app-timeline-event-unmarked-duplicate'},{'name': 'TimelineEventUnpinnedComponent', 'selector': 'app-timeline-event-unpinned'},{'name': 'TimelineEventWasLinkedComponent', 'selector': 'app-timeline-event-was-linked'},{'name': 'TimelineEventWasUnlinkedComponent', 'selector': 'app-timeline-event-was-unlinked'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'IssueGraphComponent'};

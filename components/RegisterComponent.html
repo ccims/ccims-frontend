@@ -829,7 +829,7 @@ export class RegisterComponent {
    * @returns Observable emitting values indicating error when string entered in
    * control is not a valid username. Emits null when username is valid
    */
-  userNameAsyncValidator &#x3D; (control: FormControl) &#x3D;&gt;
+  userNameAsyncValidator &#x3D; (control: FormControl): Observable&lt;any&gt; &#x3D;&gt;
     new Observable((observer: Observer&lt;ValidationErrors | null&gt;) &#x3D;&gt; {
       this.userAvailablyQuery.fetch({username: control.value}).subscribe(
         ({data}) &#x3D;&gt; {
@@ -894,7 +894,7 @@ export class RegisterComponent {
     };
 
     this.registerUserMutation.mutate({input}).subscribe(
-      ({data}) &#x3D;&gt; {
+      () &#x3D;&gt; {
         this.router.navigate([&#x27;login&#x27;]);
       },
       (error) &#x3D;&gt; {

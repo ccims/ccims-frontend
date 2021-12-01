@@ -1891,7 +1891,7 @@ export class IssueSidebarComponent implements OnInit {
     return {username: search};
   }
 
-  applyLocalChangeset(key: keyof LocalIssueData, add: NodeId[], remove: NodeId[]) {
+  applyLocalChangeset(key: keyof LocalIssueData, add: NodeId[], remove: NodeId[]): void {
     const set &#x3D; this.localIssue[key];
     const keySet &#x3D; new Set([...set].map((id) &#x3D;&gt; encodeNodeId(id)));
 
@@ -1913,7 +1913,7 @@ export class IssueSidebarComponent implements OnInit {
     this.localIssueChange.emit(this.localIssue);
   }
 
-  applyComponentChangeset &#x3D; async (add: NodeId[], remove: NodeId[]) &#x3D;&gt; {
+  applyComponentChangeset &#x3D; async (add: NodeId[], remove: NodeId[]): Promise&lt;void&gt; &#x3D;&gt; {
     if (this.localIssue) {
       return this.applyLocalChangeset(&#x27;components&#x27;, add, remove);
     }
@@ -1928,7 +1928,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueComponent(mutId, issue, id);
     }
   };
-  applyLocationChangeset &#x3D; async (add: NodeId[], remove: NodeId[]) &#x3D;&gt; {
+  applyLocationChangeset &#x3D; async (add: NodeId[], remove: NodeId[]): Promise&lt;void&gt; &#x3D;&gt; {
     if (this.localIssue) {
       return this.applyLocalChangeset(&#x27;locations&#x27;, add, remove);
     }
@@ -1943,7 +1943,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueLocation(mutId, issue, id);
     }
   };
-  applyLabelChangeset &#x3D; async (add: NodeId[], remove: NodeId[]) &#x3D;&gt; {
+  applyLabelChangeset &#x3D; async (add: NodeId[], remove: NodeId[]): Promise&lt;void&gt; &#x3D;&gt; {
     if (this.localIssue) {
       return this.applyLocalChangeset(&#x27;labels&#x27;, add, remove);
     }
@@ -1957,7 +1957,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueLabel(mutId, issue, id);
     }
   };
-  applyAssigneeChangeset &#x3D; async (add: NodeId[], remove: NodeId[]) &#x3D;&gt; {
+  applyAssigneeChangeset &#x3D; async (add: NodeId[], remove: NodeId[]): Promise&lt;void&gt; &#x3D;&gt; {
     if (this.localIssue) {
       return this.applyLocalChangeset(&#x27;assignees&#x27;, add, remove);
     }
@@ -1971,7 +1971,7 @@ export class IssueSidebarComponent implements OnInit {
       await this.dataService.mutations.removeIssueAssignee(mutId, issue, id);
     }
   };
-  applyLinkedIssueChangeset &#x3D; async (add: NodeId[], remove: NodeId[]) &#x3D;&gt; {
+  applyLinkedIssueChangeset &#x3D; async (add: NodeId[], remove: NodeId[]): Promise&lt;void&gt; &#x3D;&gt; {
     if (this.localIssue) {
       return this.applyLocalChangeset(&#x27;linksToIssues&#x27;, add, remove);
     }
@@ -2032,7 +2032,7 @@ export class IssueSidebarComponent implements OnInit {
         });
     });
   };
-  onEditLabel({id}) {
+  onEditLabel({id}): void {
     this.dialogService.open(CreateEditLabelDialogComponent, {
       width: &#x27;400px&#x27;,
       data: {
@@ -2041,7 +2041,7 @@ export class IssueSidebarComponent implements OnInit {
       }
     });
   }
-  onDeleteLabel({id, preview}) {
+  onDeleteLabel({id, preview}): void {
     this.dialogService
       .open(RemoveDialogComponent, {
         data: {
@@ -2064,13 +2064,14 @@ export class IssueSidebarComponent implements OnInit {
         <pre class="line-numbers"><code class="language-html">&lt;!-- Components this issue is assigned to --&gt;
 &lt;div class&#x3D;&quot;issue-sidebar-row&quot;&gt;
   &lt;app-set-editor
-      #componentSet
-      [makeFilter]&#x3D;&quot;makeComponentFilter&quot;
-      [scoreKeys]&#x3D;&quot;[&#x27;name&#x27;]&quot;
-      [listSet]&#x3D;&quot;componentList&quot;
-      [listAll]&#x3D;&quot;allComponentsList&quot;
-      [hydrate]&#x3D;&quot;componentListPromise&quot;
-      [applyChangeset]&#x3D;&quot;applyComponentChangeset&quot;&gt;
+    #componentSet
+    [makeFilter]&#x3D;&quot;makeComponentFilter&quot;
+    [scoreKeys]&#x3D;&quot;[&#x27;name&#x27;]&quot;
+    [listSet]&#x3D;&quot;componentList&quot;
+    [listAll]&#x3D;&quot;allComponentsList&quot;
+    [hydrate]&#x3D;&quot;componentListPromise&quot;
+    [applyChangeset]&#x3D;&quot;applyComponentChangeset&quot;
+  &gt;
     &lt;span title&gt;Components&lt;/span&gt;
     &lt;span if-empty&gt;No components assigned&lt;/span&gt;
     &lt;ng-container *appItem&#x3D;&quot;let item&quot;&gt;
@@ -2089,7 +2090,8 @@ export class IssueSidebarComponent implements OnInit {
     [listSet]&#x3D;&quot;locationList&quot;
     [listAll]&#x3D;&quot;allLocationsList&quot;
     [hydrate]&#x3D;&quot;locationListPromise&quot;
-    [applyChangeset]&#x3D;&quot;applyLocationChangeset&quot;&gt;
+    [applyChangeset]&#x3D;&quot;applyLocationChangeset&quot;
+  &gt;
     &lt;span title&gt;Locations&lt;/span&gt;
     &lt;span if-empty&gt;No locations assigned&lt;/span&gt;
     &lt;ng-container *appItem&#x3D;&quot;let item&quot;&gt;
@@ -2116,7 +2118,8 @@ export class IssueSidebarComponent implements OnInit {
     itemOps&#x3D;&quot;create-edit-delete&quot;
     [createItem]&#x3D;&quot;onCreateLabel&quot;
     (editItem)&#x3D;&quot;onEditLabel($event)&quot;
-    (deleteItem)&#x3D;&quot;onDeleteLabel($event)&quot;&gt;
+    (deleteItem)&#x3D;&quot;onDeleteLabel($event)&quot;
+  &gt;
     &lt;span title&gt;Labels&lt;/span&gt;
     &lt;span if-empty&gt;No labels assigned&lt;/span&gt;
     &lt;ng-container *appItem&#x3D;&quot;let item&quot;&gt;
@@ -2136,7 +2139,8 @@ export class IssueSidebarComponent implements OnInit {
     [listSet]&#x3D;&quot;assigneeList&quot;
     [listAll]&#x3D;&quot;allAssigneeCandidatesList&quot;
     [hydrate]&#x3D;&quot;assigneeListPromise&quot;
-    [applyChangeset]&#x3D;&quot;applyAssigneeChangeset&quot;&gt;
+    [applyChangeset]&#x3D;&quot;applyAssigneeChangeset&quot;
+  &gt;
     &lt;span title&gt;Assignees&lt;/span&gt;
     &lt;span if-empty&gt;No one&lt;/span&gt;
     &lt;div *appItem&#x3D;&quot;let item&quot;&gt;
@@ -2160,8 +2164,7 @@ export class IssueSidebarComponent implements OnInit {
     &lt;span title&gt;Linked Issues&lt;/span&gt;
     &lt;span if-empty&gt;No issues linked&lt;/span&gt;
     &lt;div class&#x3D;&quot;linked-issue-item&quot; *appItem&#x3D;&quot;let item; let interactive &#x3D; interactive&quot;&gt;
-      &lt;app-issue-item [issue]&#x3D;&quot;item&quot; [extended]&#x3D;&quot;!interactive&quot; [interactive]&#x3D;&quot;interactive&quot;
-                      [projectId]&#x3D;&quot;projectId&quot;&gt;&lt;/app-issue-item&gt;
+      &lt;app-issue-item [issue]&#x3D;&quot;item&quot; [extended]&#x3D;&quot;!interactive&quot; [interactive]&#x3D;&quot;interactive&quot; [projectId]&#x3D;&quot;projectId&quot;&gt;&lt;/app-issue-item&gt;
     &lt;/div&gt;
   &lt;/app-set-editor&gt;
 &lt;/div&gt;
@@ -2181,8 +2184,7 @@ export class IssueSidebarComponent implements OnInit {
     &lt;span title&gt;Linked By Issues&lt;/span&gt;
     &lt;span if-empty&gt;No issues link to this issue&lt;/span&gt;
     &lt;div class&#x3D;&quot;linked-issue-item&quot; *appItem&#x3D;&quot;let item; let interactive &#x3D; interactive&quot;&gt;
-      &lt;app-issue-item [issue]&#x3D;&quot;item&quot; [extended]&#x3D;&quot;!interactive&quot; [interactive]&#x3D;&quot;interactive&quot;
-                      [projectId]&#x3D;&quot;projectId&quot;&gt;&lt;/app-issue-item&gt;
+      &lt;app-issue-item [issue]&#x3D;&quot;item&quot; [extended]&#x3D;&quot;!interactive&quot; [interactive]&#x3D;&quot;interactive&quot; [projectId]&#x3D;&quot;projectId&quot;&gt;&lt;/app-issue-item&gt;
     &lt;/div&gt;
   &lt;/app-set-editor&gt;
 &lt;/div&gt;
@@ -2193,7 +2195,7 @@ export class IssueSidebarComponent implements OnInit {
 &lt;div class&#x3D;&quot;issue-sidebar-row&quot;&gt;
   &lt;mat-label&gt;&lt;strong&gt;Interfaces, Artefacts &amp; NFR&lt;/strong&gt;&lt;/mat-label&gt;
   unimplemented
-  &lt;br/&gt;
+  &lt;br /&gt;
 &lt;/div&gt;
 </code></pre>
     </div>
@@ -2241,7 +2243,7 @@ export class IssueSidebarComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><!-- Components this issue is assigned to --><div class="issue-sidebar-row">  <app-set-editor      #componentSet      [makeFilter]="makeComponentFilter"      [scoreKeys]="[\'name\']"      [listSet]="componentList"      [listAll]="allComponentsList"      [hydrate]="componentListPromise"      [applyChangeset]="applyComponentChangeset">    <span title>Components</span>    <span if-empty>No components assigned</span>    <ng-container *appItem="let item">      <div>{{ item.name }}</div>    </ng-container>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue locations, interfaces as well as components --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeLocationFilter"    [scoreKeys]="[\'name\']"    [listSet]="locationList"    [listAll]="allLocationsList"    [hydrate]="locationListPromise"    [applyChangeset]="applyLocationChangeset">    <span title>Locations</span>    <span if-empty>No locations assigned</span>    <ng-container *appItem="let item">      <div *ngIf="item.__typename === \'Component\'">{{ item.name }}</div>      <div *ngIf="item.__typename === \'ComponentInterface\'">        <span class="location-containing-component-name" *ngIf="!!item.component"> {{ item.component.name }} › </span>        {{ item.name }}      </div>    </ng-container>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue labels --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeLabelFilter"    [scoreKeys]="[\'name\']"    [listSet]="labelList"    [listAll]="allLabelsList"    [hydrate]="labelListPromise"    [applyChangeset]="applyLabelChangeset"    itemOps="create-edit-delete"    [createItem]="onCreateLabel"    (editItem)="onEditLabel($event)"    (deleteItem)="onDeleteLabel($event)">    <span title>Labels</span>    <span if-empty>No labels assigned</span>    <ng-container *appItem="let item">      <app-issue-label [label]="item"></app-issue-label>    </ng-container>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue assignees --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeUserFilter"    [scoreKeys]="[\'username\', \'displayName\']"    emptySuggestionsLabel="Search for a user to see results"    [listSet]="assigneeList"    [listAll]="allAssigneeCandidatesList"    [hydrate]="assigneeListPromise"    [applyChangeset]="applyAssigneeChangeset">    <span title>Assignees</span>    <span if-empty>No one</span>    <div *appItem="let item">      <app-user-item [user]="item"></app-user-item>    </div>  </app-set-editor></div><mat-divider></mat-divider><!-- Issues the current issue is linked to --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeIssueFilter"    [scoreKeys]="[\'title\']"    [listSet]="linkedIssueList"    [listAll]="allLinkedIssuesList"    [hydrate]="linkedIssueListPromise"    [applyChangeset]="applyLinkedIssueChangeset"  >    <span title>Linked Issues</span>    <span if-empty>No issues linked</span>    <div class="linked-issue-item" *appItem="let item; let interactive = interactive">      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive"                      [projectId]="projectId"></app-issue-item>    </div>  </app-set-editor></div><mat-divider></mat-divider><!-- Issues the current issue is linked by --><div class="issue-sidebar-row" *ngIf="!localIssue">  <app-set-editor    [makeFilter]="makeIssueFilter"    [scoreKeys]="[\'title\']"    [listSet]="linkedByIssueList"    [editable]="false"    [hydrate]="linkedByIssueListPromise"    [applyChangeset]="null"  >    <span title>Linked By Issues</span>    <span if-empty>No issues link to this issue</span>    <div class="linked-issue-item" *appItem="let item; let interactive = interactive">      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive"                      [projectId]="projectId"></app-issue-item>    </div>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue interfaces, artefacts and NFR --><div class="issue-sidebar-row">  <mat-label><strong>Interfaces, Artefacts & NFR</strong></mat-label>  unimplemented  <br/></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!-- Components this issue is assigned to --><div class="issue-sidebar-row">  <app-set-editor    #componentSet    [makeFilter]="makeComponentFilter"    [scoreKeys]="[\'name\']"    [listSet]="componentList"    [listAll]="allComponentsList"    [hydrate]="componentListPromise"    [applyChangeset]="applyComponentChangeset"  >    <span title>Components</span>    <span if-empty>No components assigned</span>    <ng-container *appItem="let item">      <div>{{ item.name }}</div>    </ng-container>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue locations, interfaces as well as components --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeLocationFilter"    [scoreKeys]="[\'name\']"    [listSet]="locationList"    [listAll]="allLocationsList"    [hydrate]="locationListPromise"    [applyChangeset]="applyLocationChangeset"  >    <span title>Locations</span>    <span if-empty>No locations assigned</span>    <ng-container *appItem="let item">      <div *ngIf="item.__typename === \'Component\'">{{ item.name }}</div>      <div *ngIf="item.__typename === \'ComponentInterface\'">        <span class="location-containing-component-name" *ngIf="!!item.component"> {{ item.component.name }} › </span>        {{ item.name }}      </div>    </ng-container>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue labels --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeLabelFilter"    [scoreKeys]="[\'name\']"    [listSet]="labelList"    [listAll]="allLabelsList"    [hydrate]="labelListPromise"    [applyChangeset]="applyLabelChangeset"    itemOps="create-edit-delete"    [createItem]="onCreateLabel"    (editItem)="onEditLabel($event)"    (deleteItem)="onDeleteLabel($event)"  >    <span title>Labels</span>    <span if-empty>No labels assigned</span>    <ng-container *appItem="let item">      <app-issue-label [label]="item"></app-issue-label>    </ng-container>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue assignees --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeUserFilter"    [scoreKeys]="[\'username\', \'displayName\']"    emptySuggestionsLabel="Search for a user to see results"    [listSet]="assigneeList"    [listAll]="allAssigneeCandidatesList"    [hydrate]="assigneeListPromise"    [applyChangeset]="applyAssigneeChangeset"  >    <span title>Assignees</span>    <span if-empty>No one</span>    <div *appItem="let item">      <app-user-item [user]="item"></app-user-item>    </div>  </app-set-editor></div><mat-divider></mat-divider><!-- Issues the current issue is linked to --><div class="issue-sidebar-row">  <app-set-editor    [makeFilter]="makeIssueFilter"    [scoreKeys]="[\'title\']"    [listSet]="linkedIssueList"    [listAll]="allLinkedIssuesList"    [hydrate]="linkedIssueListPromise"    [applyChangeset]="applyLinkedIssueChangeset"  >    <span title>Linked Issues</span>    <span if-empty>No issues linked</span>    <div class="linked-issue-item" *appItem="let item; let interactive = interactive">      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>    </div>  </app-set-editor></div><mat-divider></mat-divider><!-- Issues the current issue is linked by --><div class="issue-sidebar-row" *ngIf="!localIssue">  <app-set-editor    [makeFilter]="makeIssueFilter"    [scoreKeys]="[\'title\']"    [listSet]="linkedByIssueList"    [editable]="false"    [hydrate]="linkedByIssueListPromise"    [applyChangeset]="null"  >    <span title>Linked By Issues</span>    <span if-empty>No issues link to this issue</span>    <div class="linked-issue-item" *appItem="let item; let interactive = interactive">      <app-issue-item [issue]="item" [extended]="!interactive" [interactive]="interactive" [projectId]="projectId"></app-issue-item>    </div>  </app-set-editor></div><mat-divider></mat-divider><!-- Issue interfaces, artefacts and NFR --><div class="issue-sidebar-row">  <mat-label><strong>Interfaces, Artefacts & NFR</strong></mat-label>  unimplemented  <br /></div></div>'
     var COMPONENTS = [{'name': 'AccessTokenDialogComponent', 'selector': 'app-access-token-dialog'},{'name': 'AddProjectMemberDialogComponent', 'selector': 'app-add-project-member-dialog'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CacheNodeComponent', 'selector': '[cache-node]'},{'name': 'CommentComponent', 'selector': 'app-comment'},{'name': 'ComponentContextMenuComponent', 'selector': ''},{'name': 'CreateComponentDialogComponent', 'selector': 'app-create-component-dialog'},{'name': 'CreateEditLabelDialogComponent', 'selector': 'app-create-edit-label-dialog-component'},{'name': 'CreateInterfaceDialogComponent', 'selector': 'app-create-interface-dialog'},{'name': 'CreateIssueDialogComponent', 'selector': 'app-create-issue-dialog'},{'name': 'CreateProjectDialogComponent', 'selector': 'app-create-project-dialog'},{'name': 'CursorPaginatorComponent', 'selector': 'app-cursor-paginator'},{'name': 'FrameComponent', 'selector': 'app-frame'},{'name': 'IssueCategoryComponent', 'selector': 'app-issue-category'},{'name': 'IssueContentsComponent', 'selector': 'app-issue-contents'},{'name': 'IssueDetailComponent', 'selector': 'app-issue-detail'},{'name': 'IssueFilterComponent', 'selector': 'app-issue-filter'},{'name': 'IssueGraphComponent', 'selector': 'app-issue-graph'},{'name': 'IssueGraphControlsComponent', 'selector': 'app-issue-graph-controls'},{'name': 'IssueIconComponent', 'selector': 'app-issue-icon'},{'name': 'IssueItemComponent', 'selector': 'app-issue-item'},{'name': 'IssueLabelComponent', 'selector': 'app-issue-label'},{'name': 'IssueListComponent', 'selector': 'app-issue-list'},{'name': 'IssueLocationComponent', 'selector': 'app-issue-location'},{'name': 'IssueSidebarComponent', 'selector': 'app-issue-sidebar'},{'name': 'LabelSearchComponent', 'selector': 'app-label-search'},{'name': 'LinkedIssueItemComponent', 'selector': 'app-issue-detail-linked-issue-item'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MarkdownEditorComponent', 'selector': 'app-markdown-editor'},{'name': 'MarkdownPreviewComponent', 'selector': 'app-markdown-preview'},{'name': 'NodeDetailsComponent', 'selector': 'app-node-details'},{'name': 'NodeDetailsPageComponent', 'selector': ''},{'name': 'ProfileSettingsDialogComponent', 'selector': 'app-profile-settings-dialog'},{'name': 'ProjectHeaderComponent', 'selector': 'app-project-header'},{'name': 'ProjectIssueListComponent', 'selector': 'app-project-issue-list'},{'name': 'ProjectListComponent', 'selector': 'app-project-list'},{'name': 'ProjectMembersComponent', 'selector': 'app-project-members'},{'name': 'ProjectOverviewComponent', 'selector': 'app-project-overview'},{'name': 'QueryComponent', 'selector': 'app-query-component'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'RemoveDialogComponent', 'selector': 'app-remove-dialog'},{'name': 'RemoveProjectMemberComponentComponent', 'selector': 'app-remove-project-member-component'},{'name': 'SetEditorComponent', 'selector': 'app-set-editor'},{'name': 'SetEditorDialogComponent', 'selector': 'app-set-editor-dialog'},{'name': 'SettingsDialogComponent', 'selector': 'app-settings-dialog'},{'name': 'SideNavComponent', 'selector': 'app-side-nav'},{'name': 'TextDisplayComponent', 'selector': 'app-text-display'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelineEventAddedArtifactComponent', 'selector': 'app-timeline-event-added-artifact'},{'name': 'TimelineEventAddedNfcComponent', 'selector': 'app-timeline-event-added-nfc'},{'name': 'TimelineEventAddedToComponentComponent', 'selector': 'app-timeline-event-added-to-component'},{'name': 'TimelineEventAddedToLocationComponent', 'selector': 'app-timeline-event-added-to-location'},{'name': 'TimelineEventAssignedComponent', 'selector': 'app-timeline-event-assigned'},{'name': 'TimelineEventCategoryChangedComponent', 'selector': 'app-timeline-event-category-changed'},{'name': 'TimelineEventClosedComponent', 'selector': 'app-timeline-event-closed'},{'name': 'TimelineEventDeletedIssueCommentComponent', 'selector': 'app-timeline-event-deleted-issue-comment'},{'name': 'TimelineEventDueDateChangedComponent', 'selector': 'app-timeline-event-due-date-changed'},{'name': 'TimelineEventEstimatedTimeChangedComponent', 'selector': 'app-timeline-event-estimated-time-changed'},{'name': 'TimelineEventLabelledComponent', 'selector': 'app-timeline-event-labelled'},{'name': 'TimelineEventLinkComponent', 'selector': 'app-timeline-event-link'},{'name': 'TimelineEventMarkedDuplicateComponent', 'selector': 'app-timeline-event-marked-duplicate'},{'name': 'TimelineEventPinnedComponent', 'selector': 'app-timeline-event-pinned'},{'name': 'TimelineEventPriorityChangedComponent', 'selector': 'app-timeline-event-priority-changed'},{'name': 'TimelineEventReferencedByIssueComponent', 'selector': 'app-timeline-event-referenced-by-issue'},{'name': 'TimelineEventReferencedByOtherComponent', 'selector': 'app-timeline-event-referenced-by-other'},{'name': 'TimelineEventRemovedArtifactComponent', 'selector': 'app-timeline-event-removed-artifact'},{'name': 'TimelineEventRemovedFromComponentComponent', 'selector': 'app-timeline-event-removed-from-component'},{'name': 'TimelineEventRemovedFromLocationComponent', 'selector': 'app-timeline-event-removed-from-location'},{'name': 'TimelineEventRemovedNfcComponent', 'selector': 'app-timeline-event-removed-nfc'},{'name': 'TimelineEventRenamedComponent', 'selector': 'app-timeline-event-renamed'},{'name': 'TimelineEventReopenedComponent', 'selector': 'app-timeline-event-reopened'},{'name': 'TimelineEventStartDateChangedComponent', 'selector': 'app-timeline-event-start-date-changed'},{'name': 'TimelineEventUnassignedComponent', 'selector': 'app-timeline-event-unassigned'},{'name': 'TimelineEventUnlabelledComponent', 'selector': 'app-timeline-event-unlabelled'},{'name': 'TimelineEventUnlinkComponent', 'selector': 'app-timeline-event-unlink'},{'name': 'TimelineEventUnmarkedDuplicateComponent', 'selector': 'app-timeline-event-unmarked-duplicate'},{'name': 'TimelineEventUnpinnedComponent', 'selector': 'app-timeline-event-unpinned'},{'name': 'TimelineEventWasLinkedComponent', 'selector': 'app-timeline-event-was-linked'},{'name': 'TimelineEventWasUnlinkedComponent', 'selector': 'app-timeline-event-was-unlinked'},{'name': 'TimelineItemComponent', 'selector': 'app-timeline-item'},{'name': 'TopToolbarComponent', 'selector': 'app-top-toolbar'},{'name': 'UserItemComponent', 'selector': 'app-user-item'}];
     var DIRECTIVES = [{'name': 'ItemDirective', 'selector': '[appItem]'},{'name': 'QueryBodyDirective', 'selector': '[appQueryBody]'},{'name': 'QueryButtonDirective', 'selector': '[appQueryButton]'},{'name': 'TimelineCoalescedItemsDirective', 'selector': '[appCoalescedTimelineItems]'},{'name': 'TimelineItemDeletedDirective', 'selector': '[appTimelineItemDeleted]'},{'name': 'TimelineSingleItemDirective', 'selector': '[appSingleTimelineItem]'}];
     var ACTUAL_COMPONENT = {'name': 'IssueSidebarComponent'};

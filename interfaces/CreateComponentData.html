@@ -176,7 +176,7 @@ export class CreateComponentDialogComponent {
   }
 
   // callback method for component creation
-  onOkClick(name: string, url: string, description: string, ims: string, provider: string): void {
+  onOkClick(name: string, url: string, description: string): void {
     // define the input for the database mutation - required fields are specified by the graphQL schema
     // TODO: Add component to IMS?
     const input: CreateComponentInput &#x3D; {

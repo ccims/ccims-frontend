@@ -70,12 +70,6 @@
 
 
 
-    <p class="comment">
-        <h3>Implements</h3>
-    </p>
-    <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-    </p>
 
 
 <section>
@@ -190,7 +184,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -271,8 +265,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:25</a></div>
                 </td>
             </tr>
 
@@ -310,8 +304,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:19</a></div>
                 </td>
             </tr>
 
@@ -349,8 +343,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:31</a></div>
                 </td>
             </tr>
 
@@ -392,7 +386,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -423,7 +417,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -454,7 +448,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/dialogs/settings-dialog/settings-dialog.component.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -467,15 +461,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Inject} from &#x27;@angular/core&#x27;;
-import {Component, OnInit} from &#x27;@angular/core&#x27;;
-import {FormControl, Validators} from &#x27;@angular/forms&#x27;;
-import {MatDialogRef, MAT_DIALOG_DATA} from &#x27;@angular/material/dialog&#x27;;
-import {Output, EventEmitter, Input} from &#x27;@angular/core&#x27;;
-import {BreakpointObserver, Breakpoints} from &#x27;@angular/cdk/layout&#x27;;
-import {Observable} from &#x27;rxjs&#x27;;
-import {map, shareReplay} from &#x27;rxjs/operators&#x27;;
-import {AuthenticationService} from &#x27;@app/auth/authentication.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component} from &#x27;@angular/core&#x27;;
+import {MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
 import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
 import {ProfileSettingsDialogComponent} from &#x27;../profile-settings-dialog/profile-settings-dialog.component&#x27;;
 import {AccessTokenDialogComponent} from &#x27;../access-token-dialog/access-token-dialog.component&#x27;;
@@ -485,28 +472,26 @@ import {AccessTokenDialogComponent} from &#x27;../access-token-dialog/access-tok
   templateUrl: &#x27;./settings-dialog.component.html&#x27;,
   styleUrls: [&#x27;./settings-dialog.component.scss&#x27;]
 })
-export class SettingsDialogComponent implements OnInit {
+export class SettingsDialogComponent {
   mode &#x3D; &#x27;Dark Mode&#x27;;
   modeIcon &#x3D; &#x27;dark_mode&#x27;;
 
   constructor(public dialogRef: MatDialogRef&lt;SettingsDialogComponent, boolean&gt;, private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
-
   //open the dialog with profile settings
-  public openProfileSettings() {
+  public openProfileSettings(): void {
     this.dialogRef.close();
     this.dialog.open(ProfileSettingsDialogComponent);
   }
 
   //open the dialog with access token settings
-  public openAccessTokenSettings() {
+  public openAccessTokenSettings(): void {
     this.dialogRef.close();
     this.dialog.open(AccessTokenDialogComponent);
   }
 
   //switch to dark mode / light mode (TODO)
-  public switchTheme() {
+  public switchTheme(): void {
     if (this.mode &#x3D;&#x3D;&#x3D; &#x27;Light Mode&#x27;) {
       this.mode &#x3D; &#x27;Dark Mode&#x27;;
     } else {

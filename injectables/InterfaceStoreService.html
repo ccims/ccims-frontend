@@ -305,7 +305,7 @@ as this file.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -376,7 +376,7 @@ as this file.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -589,7 +589,7 @@ as this file.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -638,7 +638,7 @@ export class InterfaceStoreService {
     private getConsumingComponentsQuery: GetConsumingComponentsGQL
   ) {}
 
-  public create(name: string, offeringComponentId: string, description?: string) {
+  public create(name: string, offeringComponentId: string, description?: string): Observable&lt;any&gt; {
     const input: CreateComponentInterfaceInput &#x3D; {
       name,
       description,
@@ -655,11 +655,11 @@ export class InterfaceStoreService {
     return this.getConsumingComponentsQuery.fetch({id}).pipe(map(({data}) &#x3D;&gt; data));
   }
 
-  public update(input: UpdateComponentInterfaceInput) {
+  public update(input: UpdateComponentInterfaceInput): Observable&lt;any&gt; {
     return this.updateInterfaceMutation.mutate({input});
   }
 
-  public delete(id: string) {
+  public delete(id: string): Observable&lt;any&gt; {
     const input: DeleteComponentInterfaceInput &#x3D; {
       componentInterface: id
     };

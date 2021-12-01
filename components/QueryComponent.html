@@ -388,7 +388,7 @@ onClick() {
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>listenTo(query: Observable<T>, success?: (value?: T) => void, error?: (error?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void)</code>
+                    <code>listenTo(query: Observable<T>, success?: (value?: T) => void, error?: (undefined) => void)</code>
                 </td>
             </tr>
 
@@ -951,7 +951,7 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
    * @param success The function to be called if the query was successful
    * @param error The function to be called if the query had an error
    */
-  public listenTo&lt;T&gt;(query: Observable&lt;T&gt;, success?: (value: T) &#x3D;&gt; void, error?: (error: any) &#x3D;&gt; void): void {
+  public listenTo&lt;T&gt;(query: Observable&lt;T&gt;, success?: (value: T) &#x3D;&gt; void, error?: (error) &#x3D;&gt; void): void {
     this.queryState &#x3D; QueryComponentState.Loading;
     this.changeDetector.detectChanges();
     this.subscription?.unsubscribe();

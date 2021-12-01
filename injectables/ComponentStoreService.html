@@ -305,7 +305,7 @@ other mutation and query objects.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -374,7 +374,7 @@ other mutation and query objects.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -719,7 +719,7 @@ other mutation and query objects.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -791,18 +791,18 @@ export class ComponentStoreService {
     return this.getComponentInterfacesQuery.fetch({id}).pipe(map(({data}) &#x3D;&gt; data));
   }
 
-  deleteComponent(id: string) {
+  deleteComponent(id: string): Observable&lt;any&gt; {
     const input: DeleteComponentInput &#x3D; {
       component: id
     };
     return this.deleteComponentMutation.mutate({input});
   }
 
-  createComponent(input: CreateComponentInput) {
+  createComponent(input: CreateComponentInput): Observable&lt;any&gt; {
     return this.createComponentMutation.mutate({input});
   }
 
-  updateComponent(input: UpdateComponentInput) {
+  updateComponent(input: UpdateComponentInput): Observable&lt;any&gt; {
     return this.updateComponentMutation.mutate({input});
   }
 }

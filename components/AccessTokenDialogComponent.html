@@ -70,12 +70,6 @@
 
 
 
-    <p class="comment">
-        <h3>Implements</h3>
-    </p>
-    <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-    </p>
 
 
 <section>
@@ -264,8 +258,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/dialogs/access-token-dialog/access-token-dialog.component.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">src/app/dialogs/access-token-dialog/access-token-dialog.component.ts:15</a></div>
                 </td>
             </tr>
 
@@ -303,8 +297,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">src/app/dialogs/access-token-dialog/access-token-dialog.component.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/app/dialogs/access-token-dialog/access-token-dialog.component.ts:19</a></div>
                 </td>
             </tr>
 
@@ -390,7 +384,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, OnInit} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component} from &#x27;@angular/core&#x27;;
 import {MatDialog, MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
 
 @Component({
@@ -398,19 +392,17 @@ import {MatDialog, MatDialogRef} from &#x27;@angular/material/dialog&#x27;;
   templateUrl: &#x27;./access-token-dialog.component.html&#x27;,
   styleUrls: [&#x27;./access-token-dialog.component.scss&#x27;]
 })
-export class AccessTokenDialogComponent implements OnInit {
+export class AccessTokenDialogComponent {
   selected &#x3D; &#x27;option2&#x27;;
 
   constructor(public dialogRef: MatDialogRef&lt;boolean&gt;, private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
-
   //close access token settings dialog
-  public closeDialog() {
+  public closeDialog(): void {
     this.dialogRef.close();
   }
 
-  public generateToken() {
+  public generateToken(): void {
     //TODO
   }
 }

@@ -383,7 +383,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                 </td>
@@ -419,7 +419,7 @@ export class IssueItemComponent {
   constructor(private router: Router) {}
 
   /** Returns the link URL for the issue. */
-  getIssueLink() {
+  getIssueLink(): string {
     return this.router.serializeUrl(this.router.createUrlTree([&#x27;/projects&#x27;, this.projectId, &#x27;issues&#x27;, this.issue.id]));
   }
 }

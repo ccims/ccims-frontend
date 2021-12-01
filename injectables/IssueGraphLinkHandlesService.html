@@ -453,7 +453,7 @@ export class IssueGraphLinkHandlesService {
    * @param graph Reference to the GraphEditor instance of the graph that is handled.
    * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
    */
-  manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
+  manageLinkHandles(graph: GraphEditor, minimap: GraphEditor): void {
     // calculation for link handles
     const linkHandleCalculation &#x3D; (
       edge: Edge | DraggedEdge,

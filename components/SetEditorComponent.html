@@ -937,7 +937,7 @@ export class SetEditorComponent&lt;T extends {id: string; __typename: string}, F
    * @internal
    * Opens the editor dialog.
    */
-  beginEditing() {
+  beginEditing(): void {
     this.dialogService.open&lt;SetEditorDialogComponent&lt;T, F&gt;&gt;(SetEditorDialogComponent, {
       width: &#x27;400px&#x27;,
       data: {

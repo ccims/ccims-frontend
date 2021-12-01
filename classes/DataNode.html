@@ -723,7 +723,7 @@ node.dataAsPromise().then(data =&gt; {
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Subscription</code>
 
                     </div>
                     <div class="io-description">
@@ -803,7 +803,7 @@ node.dataAsPromise().then(data =&gt; {
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Observable, Subscriber} from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Observable, Subscriber, Subscription} from &#x27;rxjs&#x27;;
 import {decodeNodeId, encodeNodeId, ListId, ListParams, NodeId, NodeIdEnc, nodeTypeFromTypename} from &#x27;./id&#x27;;
 import {QueriesService} from &#x27;./queries/queries.service&#x27;;
 import {ListResult, queryList, queryNode} from &#x27;./load&#x27;;
@@ -1024,7 +1024,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
   }
 
   /** Loads data. */
-  load() {
+  load(): void {
     this.hydrated &#x3D; false;
     this.loadImpl(this.innerQueryFn(this.id, this.currentQueryParams));
   }
@@ -1033,7 +1033,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
    * @internal
    * Use when data has not yet been loaded but is available from elsewhere.
    */
-  hydrateRaw(preparedData: Promise&lt;R&gt;) {
+  hydrateRaw(preparedData: Promise&lt;R&gt;): void {
     if (this.hasData) {
       return; // don&#x27;t need hydration
     }
@@ -1042,7 +1042,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
   }
 
   /** Will load data if it&#x27;s stale or not present. */
-  loadIfNeeded() {
+  loadIfNeeded(): void {
     if (this.loading) {
       return;
     }
@@ -1052,7 +1052,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
   }
 
   /** Loads data after a short delay. Will debounce. */
-  loadDebounced(interactive &#x3D; this.interactive) {
+  loadDebounced(interactive &#x3D; this.interactive): void {
     if (this.loadTimeout) {
       return;
     }
@@ -1066,7 +1066,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
   }
 
   /** Deletes current data. */
-  invalidate() {
+  invalidate(): void {
     this.currentData &#x3D; undefined;
     this.emitUpdateToAllSubscribers();
   }
@@ -1075,7 +1075,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
    * @ignore
    * Private: callback for adding a new subscriber.
    */
-  protected addSubscriber(subscriber: Subscriber&lt;T&gt;, lazy: boolean) {
+  protected addSubscriber(subscriber: Subscriber&lt;T&gt;, lazy: boolean): {unsubscribe: () &#x3D;&gt; void} {
     this.subscribers.add(subscriber);
     if (this.current !&#x3D;&#x3D; undefined) {
       // data is available right now! emit current state
@@ -1097,7 +1097,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
    * Will subscribe to the data, but not cause a reload unless there is no data.
    * @param args passed verbatim to [#subscribe]{@link Observable#subscribe}
    */
-  subscribeLazy(...args) {
+  subscribeLazy(...args): Subscription {
     this.isNextSubLazy &#x3D; true;
     return this.subscribe(...args);
   }
@@ -1106,7 +1106,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
    * @ignore
    * Internal: will send an update with the current data (.current) to all subscribers.
    */
-  emitUpdateToAllSubscribers() {
+  emitUpdateToAllSubscribers(): void {
     for (const sub of this.subscribers) {
       sub.next(this.current);
     }
@@ -1116,7 +1116,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
    * @ignore
    * Internal: will send the given error to all subscribers.
    */
-  emitErrorToAllSubscribers(error: unknown) {
+  emitErrorToAllSubscribers(error: unknown): void {
     for (const sub of this.subscribers) {
       sub.error(error);
     }
@@ -1126,7 +1126,7 @@ export abstract class DataQuery&lt;I, T, R, P&gt; extends Observable&lt;T&gt; {
    * @ignore
    * Updates current data with a result from innerQueryFn, and emits an update.
    */
-  insertResult(result: R) {
+  insertResult(result: R): void {
     this.currentData &#x3D; this.innerMapFn(result);
     this.emitUpdateToAllSubscribers();
   }
@@ -1187,7 +1187,7 @@ export class DataNode&lt;T&gt; extends DataQuery&lt;NodeId, T, T, void&gt; {
     throw new Error(&#x27;parameters not available on nodes&#x27;);
   }
 
-  loadIfNeeded() {
+  loadIfNeeded(): void {
     if (!this.loading &amp;&amp; Date.now() - this.lastLoadTime &gt; CACHE_STALE_TIME_MS) {
       this.load();
     }
@@ -1306,7 +1306,7 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
    * @internal
    * Updates the &#x60;params&#x60; value from list parameters
    */
-  setParams() {
+  setParams(): void {
     this.params &#x3D; {
       cursor: this.pCursor,
       count: this.pCount,
@@ -1316,7 +1316,7 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
   }
 
   /** Returns the total number of items. Null if not loaded. */
-  get totalCount() {
+  get totalCount(): number {
     return this.pTotalCount;
   }
 
@@ -1384,15 +1384,15 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
     return this.current?.has(encodeNodeId(key));
   }
 
-  get hasPrevPage() {
+  get hasPrevPage(): boolean {
     return !this.pageInfo || this.pageInfo.hasPreviousPage;
   }
-  get hasNextPage() {
+  get hasNextPage(): boolean {
     return !this.pageInfo || this.pageInfo.hasNextPage;
   }
 
   /** Moves the view to the first page. */
-  firstPage() {
+  firstPage(): boolean {
     this.cursor &#x3D; null;
     this.forward &#x3D; true;
     this.previouslyHadPageContents &#x3D; false;
@@ -1401,7 +1401,7 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
   }
 
   /** Moves the view to the previous page. */
-  prevPage() {
+  prevPage(): boolean {
     if (this.pageInfo &amp;&amp; !this.pageInfo.hasPreviousPage) {
       return false;
     }
@@ -1412,7 +1412,7 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
   }
 
   /** Moves the view to the next page. */
-  nextPage() {
+  nextPage(): boolean {
     if (this.pageInfo &amp;&amp; !this.pageInfo.hasNextPage) {
       return false;
     }
@@ -1431,7 +1431,7 @@ export class DataList&lt;T, F&gt; extends DataQuery&lt;ListId, Map&lt;NodeIdEnc,
    * @param data a promise that returns the API data
    * @typeParam IdT - equivalent to T
    */
-  hydrateInitial&lt;IdT extends T &amp; {id: string; __typename: string}&gt;(data: Promise&lt;HydrateList&lt;IdT&gt;&gt;) {
+  hydrateInitial&lt;IdT extends T &amp; {id: string; __typename: string}&gt;(data: Promise&lt;HydrateList&lt;IdT&gt;&gt;): void {
     this.hydrateRaw(
       data.then((value) &#x3D;&gt; ({
         totalCount: value.totalCount,

@@ -151,7 +151,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:178</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="177" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:177</a></div>
                         </td>
                     </tr>
 
@@ -171,7 +171,7 @@
             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="177" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:177</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="176" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:176</a></div>
                         </td>
                     </tr>
 
@@ -198,7 +198,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:180</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:179</a></div>
                         </td>
                     </tr>
 
@@ -224,7 +224,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:179</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/app/data/issue-graph/graph-data.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -260,8 +260,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:197</a></div>
                 </td>
             </tr>
 
@@ -338,8 +338,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="186"
-                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:186</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">src/app/data/issue-graph/graph-data.ts:185</a></div>
                 </td>
             </tr>
 
@@ -407,7 +407,6 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Component,
   ComponentInterface,
-  GetIssueGraphDataDocument,
   GetIssueGraphDataQuery,
   Issue,
   IssueCategory,
@@ -440,9 +439,9 @@ export class GraphDataFactory {
    * @param graphData the data with the unnecessary counts
    * @param activeCategories the categories corresponding to the activated toggles of the graph component
    */
-  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]) {
+  static removeFilteredData(graphData: GraphData, activeCategories: IssueCategory[]): GraphData {
     for (const location of graphData.graphLocations.values()) {
-      location.issues &#x3D; new Map([...location.issues].filter(([category, count]) &#x3D;&gt; activeCategories.includes(category)));
+      location.issues &#x3D; new Map([...location.issues].filter(([category]) &#x3D;&gt; activeCategories.includes(category)));
     }
     return graphData;
   }

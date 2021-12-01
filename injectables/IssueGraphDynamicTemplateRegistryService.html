@@ -208,7 +208,7 @@ export class IssueGraphDynamicTemplateRegistryService {
    * Manages the dynamic template registry of given GraphEditor instance.
    * @param graph Reference to the GraphEditor instance of the graph that is handled.
    */
-  manageDynamicTemplateRegistry(graph: GraphEditor) {
+  manageDynamicTemplateRegistry(graph: GraphEditor): void {
     graph.dynamicTemplateRegistry.addDynamicTemplate(&#x27;issue-group-container&#x27;, {
       renderInitialTemplate(g, grapheditor: GraphEditor, context: dynamicTemplate.DynamicTemplateContext&lt;Node&gt;): void {
         // template is empty

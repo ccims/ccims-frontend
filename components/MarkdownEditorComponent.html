@@ -375,7 +375,7 @@ export class MarkdownEditorComponent {
   /**
    * Send changes in the editor to the parent component over the EventEmitter
    */
-  codeDidChange() {
+  codeDidChange(): void {
     this.codeChange.emit(this.code);
   }
 }
