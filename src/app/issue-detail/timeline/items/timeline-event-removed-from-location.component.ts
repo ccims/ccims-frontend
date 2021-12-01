@@ -5,21 +5,20 @@ import {RemovedFromLocationEvent} from '../../../../generated/graphql-dgql';
 @Component({
   selector: 'app-timeline-event-removed-from-location',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem">
-        <ng-template appSingleTimelineItem>
-          <a>{{ timelineItem.user }}</a> removed this issue from location
-          <app-issue-location [projectId]="projectID" [location]="event.removedLocation"></app-issue-location>
-        </ng-template>
-        <ng-template appCoalescedTimelineItems>
-          <a>{{ timelineItem.user }}</a> removed this issue from locations
-          <ng-container *ngFor="let item of events">
-            <app-issue-location [projectId]="projectID" [location]="item.removedLocation"></app-issue-location>
-          </ng-container>
-        </ng-template>
-      </app-timeline-item>
-    `
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem">
+      <ng-template appSingleTimelineItem>
+        <a>{{ timelineItem.user }}</a> removed this issue from location
+        <app-issue-location [projectId]="projectID" [location]="event.removedLocation"></app-issue-location>
+      </ng-template>
+      <ng-template appCoalescedTimelineItems>
+        <a>{{ timelineItem.user }}</a> removed this issue from locations
+        <ng-container *ngFor="let item of events">
+          <app-issue-location [projectId]="projectID" [location]="item.removedLocation"></app-issue-location>
+        </ng-container>
+      </ng-template>
+    </app-timeline-item>
+  `
 })
 export class TimelineEventRemovedFromLocationComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

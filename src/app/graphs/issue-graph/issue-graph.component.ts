@@ -31,9 +31,9 @@ import {IssueGraphDynamicTemplateRegistryService} from './dynamic-template-regis
  */
 interface Positions {
   /** Positions of the nodes as the user arranged them */
-  nodes: { [prop: string]: Point };
+  nodes: {[prop: string]: Point};
   /** Positions (north, south, east, west) of the issue groups */
-  issueGroups: { [node: string]: string };
+  issueGroups: {[node: string]: string};
 }
 
 /**
@@ -265,7 +265,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return edge;
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets dragged
@@ -310,7 +310,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return edge;
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets added.
@@ -339,7 +339,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.addConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
-  }
+  };
 
   /**
    * Method gets triggered after an edge gets dropped.
@@ -363,7 +363,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     if (edge.type === issueGraphNodes.NodeType.Interface) {
       this.addInterfaceToComponent(event.detail.sourceNode.id, event.detail.dropPosition);
     }
-  }
+  };
 
   /**
    * Opens the interface creation dialog. If the user actually creates the interface
@@ -423,7 +423,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gs.removeConsumedInterface(sourceNode.id.toString(), targetNode.id.toString()).subscribe(() => this.reload$.next(null));
       }
     }
-  }
+  };
 
   /**
    * Adds event listeners to a given GraphEditor instance.
@@ -504,7 +504,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
       this.zoomOnRedraw = false;
       this.reload();
     }
-  }
+  };
 
   /**
    * Method gets triggered after a node is clicked.
@@ -561,7 +561,7 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
     // case: clicked issue folder
     // => determines issue count, opens corresponding issue page
     this.nodeClickIssueFolder(node);
-  }
+  };
 
   /**
    * Sets the context menu type.
@@ -1069,11 +1069,11 @@ export class IssueGraphComponent implements OnInit, OnDestroy, AfterViewInit {
 
     return rect
       ? {
-        x: rect.xMin,
-        y: rect.yMin,
-        width: rect.xMax - rect.xMin,
-        height: rect.yMax - rect.yMin
-      }
+          x: rect.xMin,
+          y: rect.yMin,
+          width: rect.xMax - rect.xMin,
+          height: rect.yMax - rect.yMin
+        }
       : null;
   }
 

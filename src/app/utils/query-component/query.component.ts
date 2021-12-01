@@ -157,7 +157,7 @@ export class QueryComponent implements OnDestroy, AfterViewInit {
    * @param success The function to be called if the query was successful
    * @param error The function to be called if the query had an error
    */
-  public listenTo<T>(query: Observable<T>, success?: (value: T) => void, error?: (error: any) => void): void {
+  public listenTo<T>(query: Observable<T>, success?: (value: T) => void, error?: (error) => void): void {
     this.queryState = QueryComponentState.Loading;
     this.changeDetector.detectChanges();
     this.subscription?.unsubscribe();

@@ -19,8 +19,7 @@
 
       <!-- Edit and delete comment buttons -->
       <!-- Delete button is only for comments and not for issue description displayed -->
-      <button *ngIf="!this.editBody && !this.isIssueBody" class="item-edit" color="warn" mat-flat-button
-              (click)="this.deleteComment()">
+      <button *ngIf="!this.editBody && !this.isIssueBody" class="item-edit" color="warn" mat-flat-button (click)="this.deleteComment()">
         Delete
       </button>
       <button
@@ -29,7 +28,8 @@
         style="margin-left: 6px"
         color="primary"
         mat-flat-button
-        (click)="this.editBody = !this.editBody">
+        (click)="this.editBody = !this.editBody"
+      >
         Edit
       </button>
     </div>
@@ -46,8 +46,7 @@
       <!-- Save/Cancel buttons -->
       <div class="edit-body-buttons">
         <button mat-raised-button (click)="this.editBody = !this.editBody">Cancel</button>
-        <button mat-raised-button style="margin-left: 6px" color="accent" [class.spinner]="savingBody"
-                (click)="editComment(bodyEdit.code)">
+        <button mat-raised-button style="margin-left: 6px" color="accent" [class.spinner]="savingBody" (click)="editComment(bodyEdit.code)">
           Save
         </button>
       </div>

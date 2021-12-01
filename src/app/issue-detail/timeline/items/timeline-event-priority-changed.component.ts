@@ -5,14 +5,13 @@ import {LinkEvent, PriorityChangedEvent} from '../../../../generated/graphql-dgq
 @Component({
   selector: 'app-timeline-event-priority-changed',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem">
-        <ng-template appSingleTimelineItem>
-          <a>{{ timelineItem.user }}</a> changed priority from {{ event.oldPriority }} to {{ event.newPriority }}
-        </ng-template>
-      </app-timeline-item>
-    `
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem">
+      <ng-template appSingleTimelineItem>
+        <a>{{ timelineItem.user }}</a> changed priority from {{ event.oldPriority }} to {{ event.newPriority }}
+      </ng-template>
+    </app-timeline-item>
+  `
 })
 export class TimelineEventPriorityChangedComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

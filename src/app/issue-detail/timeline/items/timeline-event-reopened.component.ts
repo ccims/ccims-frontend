@@ -4,12 +4,14 @@ import {CoalescedTimelineItem} from '@app/issue-detail/timeline/timeline.compone
 @Component({
   selector: 'app-timeline-event-reopened',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem">
-        <ng-template appSingleTimelineItem>Issue was closed by <a>{{ timelineItem.user }}</a></ng-template>
-        <app-timeline-item>
-    `
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem">
+      <ng-template appSingleTimelineItem
+        >Issue was closed by <a>{{ timelineItem.user }}</a></ng-template
+      >
+      <app-timeline-item> </app-timeline-item
+    ></app-timeline-item>
+  `
 })
 export class TimelineEventReopenedComponent {
   @Input() timelineItem: CoalescedTimelineItem;

@@ -48,7 +48,7 @@ export class TimelineItemDeletedDirective {
 })
 export class TimelineItemComponent implements AfterViewInit {
   /** Set the timeline item to show */
-  @Input() set timelineItem(item: CoalescedTimelineItem | undefined){
+  @Input() set timelineItem(item: CoalescedTimelineItem | undefined) {
     this.item = item;
     this.updateContents();
   }
@@ -76,8 +76,8 @@ export class TimelineItemComponent implements AfterViewInit {
     this.updateContents();
   }
 
-  private updateContents(){
-    if (!this.item){
+  private updateContents() {
+    if (!this.item) {
       return;
     }
 

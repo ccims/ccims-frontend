@@ -5,23 +5,22 @@ import {AssignedEvent} from '../../../../generated/graphql-dgql';
 @Component({
   selector: 'app-timeline-event-assigned',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!event.assignee">
-        <ng-template appSingleTimelineItem>
-          <span *ngIf="selfAssigned; else notSelfAssigned">
-            <a>{{ timelineItem.user }}</a> self-assigned this issue
-          </span>
-          <ng-template #notSelfAssigned>
-            <a>{{ timelineItem.user }}</a> assigned this issue to user
-            <a>{{ event.assignee.displayName }}</a>
-          </ng-template>
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!event.assignee">
+      <ng-template appSingleTimelineItem>
+        <span *ngIf="selfAssigned; else notSelfAssigned">
+          <a>{{ timelineItem.user }}</a> self-assigned this issue
+        </span>
+        <ng-template #notSelfAssigned>
+          <a>{{ timelineItem.user }}</a> assigned this issue to user
+          <a>{{ event.assignee.displayName }}</a>
         </ng-template>
-        <ng-template appTimelineItemDeleted>
-          <a>{{ timelineItem.user }}</a> assigned this issue to a deleted user
-        </ng-template>
-      </app-timeline-item>
-    `
+      </ng-template>
+      <ng-template appTimelineItemDeleted>
+        <a>{{ timelineItem.user }}</a> assigned this issue to a deleted user
+      </ng-template>
+    </app-timeline-item>
+  `
 })
 export class TimelineEventAssignedComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;

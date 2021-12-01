@@ -5,21 +5,22 @@ import {UnassignedEvent} from '../../../../generated/graphql-dgql';
 @Component({
   selector: 'app-timeline-event-unassigned',
   styleUrls: ['../timeline.component.scss'],
-  template:
-    `
-      <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!event.removedAssignee">
-        <ng-template appSingleTimelineItem>
-          <span *ngIf="selfAssigned; else notSelfAssigned">
-            <a>{{ timelineItem.user }}</a> self-unassigned
-          </span>
-          <ng-template #notSelfAssigned>
-            <a>{{ timelineItem.user }}</a> unassigned
-            <a>{{ event.removedAssignee.displayName }}</a>
-          </ng-template>
+  template: `
+    <app-timeline-item [timelineItem]="timelineItem" [showDeleted]="!event.removedAssignee">
+      <ng-template appSingleTimelineItem>
+        <span *ngIf="selfAssigned; else notSelfAssigned">
+          <a>{{ timelineItem.user }}</a> self-unassigned
+        </span>
+        <ng-template #notSelfAssigned>
+          <a>{{ timelineItem.user }}</a> unassigned
+          <a>{{ event.removedAssignee.displayName }}</a>
         </ng-template>
-        <ng-template appTimelineItemDeleted><a>{{ timelineItem.user }}</a> unassigned deleted user</ng-template>
-      </app-timeline-item>
-    `
+      </ng-template>
+      <ng-template appTimelineItemDeleted
+        ><a>{{ timelineItem.user }}</a> unassigned deleted user</ng-template
+      >
+    </app-timeline-item>
+  `
 })
 export class TimelineEventUnassignedComponent implements OnInit {
   @Input() timelineItem: CoalescedTimelineItem;
