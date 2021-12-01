@@ -31,7 +31,7 @@ In the upper right corner there is a button to create new components. The user i
 <img src="https://raw.githubusercontent.com/ccims/ccims-frontend/master/src/frontend-preview/graph.png" width="700"/>
 </p>
 
-A new interface is created by connecting two components. The user is expected to provide a name, a type, and optionally a description of the interface.
+A new interface is created by connecting two components. The user is expected to drag a node from the component to any position between the two components and specify a name, a type and optionally a description of the interface. Then the user can connect the other component to this node (interface).
 
 Clicking on a component displays a popup window with a list of issues and details associated with the current component. There, new issues can be created for this component ("Create issue" button), issues can be filtered, the details can be edited and the component can be deleted.
 Clicking on an interface displays a pop-up window with the interface details and the issues associated with that interface. The "Create Issue" button can be used to create new issues associated with this interface.
