@@ -110,7 +110,7 @@ export class RegisterComponent {
     };
 
     this.registerUserMutation.mutate({input}).subscribe(
-      ({data}) => {
+      () => {
         this.router.navigate(['login']);
       },
       (error) => {

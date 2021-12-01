@@ -16,6 +16,12 @@ export type TextDisplayEditCallbackFn = (saved: boolean) => void;
   styleUrls: ['./text-display.component.scss']
 })
 export class TextDisplayComponent {
+
+  private value: string;
+  editMode = false;
+  editText = '';
+  showPlaceholder = false;
+
   /** A callback function. */
   @Input() onEditFinished: TextDisplayEditCallbackFn;
   /** The title text. */
@@ -26,7 +32,7 @@ export class TextDisplayComponent {
     this.showPlaceholder = !value || value.length === 0;
   }
 
-  get text() {
+  get text(): string {
     return this.value;
   }
 
@@ -35,10 +41,6 @@ export class TextDisplayComponent {
   /** The placeholder will be shown if the content is empty */
   @Input() placeholder = '';
 
-  private value;
-  editMode = false;
-  editText = '';
-  showPlaceholder = false;
 
   finishEditing(saved: boolean): void {
     this.editMode = false;
@@ -51,7 +53,7 @@ export class TextDisplayComponent {
     }
   }
 
-  startEditing() {
+  startEditing(): void {
     this.editText = this.text;
     this.editMode = true;
   }
