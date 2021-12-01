@@ -562,7 +562,7 @@ IssueGraphComponent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createComponentNode(component: <a href="../classes/GraphComponent.html" target="_self">GraphComponent</a>, position: <a href="../interfaces/Position.html" target="_self">Position</a>)</code>
+<code>createComponentNode(component: <a href="../classes/GraphComponent.html" target="_self">GraphComponent</a>, position?: <a href="../interfaces/Position.html" target="_self">Position</a>)</code>
                 </td>
             </tr>
 
@@ -571,6 +571,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create a new <a href="../interfaces/ComponentNode.html">ComponentNode</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -581,6 +583,7 @@ IssueGraphComponent.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -595,6 +598,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The component data</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>position</td>
@@ -603,10 +610,14 @@ IssueGraphComponent.</p>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
+                                    <td>
+                                        <p>The initial position, nullable</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -646,6 +657,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create an edge consuming an interface</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -656,6 +669,7 @@ IssueGraphComponent.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -670,6 +684,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The component node id consuming the interface</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>interfaceId</td>
@@ -682,6 +700,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The interface node id providing the interface</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -712,7 +734,7 @@ IssueGraphComponent.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createInterfaceNode(intrface: <a href="../classes/GraphInterface.html" target="_self">GraphInterface</a>, position: <a href="../interfaces/Position.html" target="_self">Position</a>)</code>
+<code>createInterfaceNode(intrface: <a href="../classes/GraphInterface.html" target="_self">GraphInterface</a>, position?: <a href="../interfaces/Position.html" target="_self">Position</a>)</code>
                 </td>
             </tr>
 
@@ -721,6 +743,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create a new <a href="../interfaces/InterfaceNode.html">InterfaceNode</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -731,6 +755,7 @@ IssueGraphComponent.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -745,6 +770,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The interface data</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>position</td>
@@ -753,10 +782,14 @@ IssueGraphComponent.</p>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
+                                    <td>
+                                        <p>The initial position, nullable</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -796,6 +829,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create an edge connecting the component with the interface this component provides</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -806,6 +841,7 @@ IssueGraphComponent.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -820,6 +856,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The component node id providing the interface</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>interfaceId</td>
@@ -832,6 +872,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The interface node id</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -871,6 +915,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates a new <a href="../interfaces/IssueFolderNode.html">IssueFolderNode</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -881,6 +927,7 @@ IssueGraphComponent.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -895,6 +942,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The node (e.g. a <a href="../interfaces/ComponentNode.html">ComponentNode</a>) to which this issue folder belongs to</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>issueCategory</td>
@@ -907,6 +958,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The issue category</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>issueCount</td>
@@ -919,6 +974,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>How many issues of this category the node has assigned to it</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -958,6 +1017,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create a new <a href="../interfaces/IssueGroupContainerNode.html">IssueGroupContainerNode</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -968,6 +1029,7 @@ IssueGraphComponent.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -982,6 +1044,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The node (e.g. <a href="../interfaces/InterfaceNode.html">InterfaceNode</a> or <a href="../interfaces/ComponentNode.html">ComponentNode</a>) to which this container belongs to</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1021,6 +1087,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create a new <a href="../interfaces/RelationEdge.html">RelationEdge</a></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1032,6 +1100,7 @@ IssueGraphComponent.</p>
                                     <td>Type</td>
                                     <td>Optional</td>
                                     <td>Default value</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1048,6 +1117,10 @@ IssueGraphComponent.</p>
                                     <td>
                                     </td>
 
+                                    <td>
+                                        <p>The source node id</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>targetId</td>
@@ -1062,6 +1135,10 @@ IssueGraphComponent.</p>
                                     <td>
                                     </td>
 
+                                    <td>
+                                        <p>The target node id</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>edgeType</td>
@@ -1073,9 +1150,13 @@ IssueGraphComponent.</p>
                                     </td>
 
                                     <td>
-                                        <code>folderEdgeTypes.RelatedTo</code>
+                                        <code>FolderEdgeType.RelatedTo</code>
                                     </td>
 
+                                    <td>
+                                        <p>The type of edge</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1115,6 +1196,8 @@ IssueGraphComponent.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Encode the node id and the issue category into a folder id</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -1125,6 +1208,7 @@ IssueGraphComponent.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1139,6 +1223,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The id of the node the folder belongs to, e.g. a <a href="../interfaces/ComponentNode.html">ComponentNode</a></p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>issueCategory</td>
@@ -1151,6 +1239,10 @@ IssueGraphComponent.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The category of the issue</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

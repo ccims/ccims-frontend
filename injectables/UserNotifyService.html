@@ -363,7 +363,7 @@ export class UserNotifyService {
    */
   notifyError(message: string, error?: Error) {
     if (error !&#x3D;&#x3D; undefined) {
-      console.log(&#x27;Error:&#x27;, error);
+      console.error(&#x27;Error:&#x27;, error);
     }
 
     this.toastr.error(message, &#x27;Error!&#x27;, this.errorConfig);

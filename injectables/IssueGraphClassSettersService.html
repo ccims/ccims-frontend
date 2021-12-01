@@ -65,7 +65,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>This service is respoonsible for managing the class setters
+                <p>This service is responsible for managing the class setters
 of a given GraphEditor instance.
 Used in method initGraph of IssueGraphComponent.</p>
 
@@ -166,9 +166,7 @@ They are called on all nodes, pairs of edges and class names.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Reference to the GraphEditor instance of the graph that is handled.</li>
-</ul>
+                                        <p>Reference to the GraphEditor instance of the graph that is handled.</p>
 
                                     </td>
                                 </tr>
@@ -184,9 +182,7 @@ They are called on all nodes, pairs of edges and class names.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Reference to the GraphEditor instance of the minimap that is handled.</li>
-</ul>
+                                        <p>Reference to the GraphEditor instance of the minimap that is handled.</p>
 
                                     </td>
                                 </tr>
@@ -218,7 +214,7 @@ import GraphEditor from &#x27;@ustutt/grapheditor-webcomponent/lib/grapheditor&#
 import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 
 /**
- * This service is respoonsible for managing the class setters
+ * This service is responsible for managing the class setters
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
@@ -231,16 +227,13 @@ export class IssueGraphClassSettersService {
    * of given GraphEditor instances match their corresponding class names.
    * The setters return true if the class name is applied to the corresponding node / edge.
    * They are called on all nodes, pairs of edges and class names.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
+   * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageClassSetters(graph: GraphEditor, minimap: GraphEditor) {
     // node class setter
     const nodeClassSetter &#x3D; (className: string, node: Node) &#x3D;&gt; {
-      if (className &#x3D;&#x3D;&#x3D; node.type) {
-        return true;
-      }
-      return false;
+      return className &#x3D;&#x3D;&#x3D; node.type;
     };
 
     // applies noce class setter
@@ -255,10 +248,8 @@ export class IssueGraphClassSettersService {
       if (className &#x3D;&#x3D;&#x3D; &#x27;related-to&#x27; &amp;&amp; edge.type &#x3D;&#x3D;&#x3D; &#x27;relatedTo&#x27;) {
         return true;
       }
-      if (className &#x3D;&#x3D;&#x3D; &#x27;issue-relation&#x27; &amp;&amp; (edge.type &#x3D;&#x3D;&#x3D; &#x27;relatedTo&#x27; || edge.type &#x3D;&#x3D;&#x3D; &#x27;duplicate&#x27; || edge.type &#x3D;&#x3D;&#x3D; &#x27;dependency&#x27;)) {
-        return true;
-      }
-      return false;
+
+      return className &#x3D;&#x3D;&#x3D; &#x27;issue-relation&#x27; &amp;&amp; (edge.type &#x3D;&#x3D;&#x3D; &#x27;relatedTo&#x27; || edge.type &#x3D;&#x3D;&#x3D; &#x27;duplicate&#x27; || edge.type &#x3D;&#x3D;&#x3D; &#x27;dependency&#x27;);
     };
 
     // applies edge class setter

@@ -65,7 +65,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>This service is respoonsible for managing the dynamic template registry
+                <p>This service is responsible for managing the dynamic template registry
 of a given GraphEditor instance.
 Used in method initGraph of IssueGraphComponent.</p>
 
@@ -163,9 +163,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Reference to the GraphEditor instance of the graph that is handled.</li>
-</ul>
+                                        <p>Reference to the GraphEditor instance of the graph that is handled.</p>
 
                                     </td>
                                 </tr>
@@ -198,7 +196,7 @@ import {LinkHandle} from &#x27;@ustutt/grapheditor-webcomponent/lib/link-handle&
 import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 
 /**
- * This service is respoonsible for managing the dynamic template registry
+ * This service is responsible for managing the dynamic template registry
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
@@ -208,7 +206,7 @@ import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 export class IssueGraphDynamicTemplateRegistryService {
   /**
    * Manages the dynamic template registry of given GraphEditor instance.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
    */
   manageDynamicTemplateRegistry(graph: GraphEditor) {
     graph.dynamicTemplateRegistry.addDynamicTemplate(&#x27;issue-group-container&#x27;, {
