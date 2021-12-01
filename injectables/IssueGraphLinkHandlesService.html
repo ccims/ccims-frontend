@@ -65,7 +65,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>This service is respoonsible for managing the link handles
+                <p>This service is responsible for managing the link handles
 of a given GraphEditor instance.
 Used in method initGraph of IssueGraphComponent.</p>
 
@@ -173,9 +173,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Source of the edge that is handled.</li>
-</ul>
+                                        <p>Source of the edge that is handled.</p>
 
                                     </td>
                                 </tr>
@@ -191,9 +189,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Handles of the edge.</li>
-</ul>
+                                        <p>Handles of the edge.</p>
 
                                     </td>
                                 </tr>
@@ -209,9 +205,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Source handles of the edge.</li>
-</ul>
+                                        <p>Source handles of the edge.</p>
 
                                     </td>
                                 </tr>
@@ -289,9 +283,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Target of the edge that is handled.</li>
-</ul>
+                                        <p>Target of the edge that is handled.</p>
 
                                     </td>
                                 </tr>
@@ -307,9 +299,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Handles of the edge.</li>
-</ul>
+                                        <p>Handles of the edge.</p>
 
                                     </td>
                                 </tr>
@@ -325,9 +315,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Target handles of the edge.</li>
-</ul>
+                                        <p>Target handles of the edge.</p>
 
                                     </td>
                                 </tr>
@@ -403,9 +391,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Reference to the GraphEditor instance of the graph that is handled.</li>
-</ul>
+                                        <p>Reference to the GraphEditor instance of the graph that is handled.</p>
 
                                     </td>
                                 </tr>
@@ -421,9 +407,7 @@ Used in method initGraph of IssueGraphComponent.</p>
 
 
                                     <td>
-                                        <ul>
-<li>Reference to the GraphEditor instance of the minimap that is handled.</li>
-</ul>
+                                        <p>Reference to the GraphEditor instance of the minimap that is handled.</p>
 
                                     </td>
                                 </tr>
@@ -456,7 +440,7 @@ import {LinkHandle} from &#x27;@ustutt/grapheditor-webcomponent/lib/link-handle&
 import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 
 /**
- * This service is respoonsible for managing the link handles
+ * This service is responsible for managing the link handles
  * of a given GraphEditor instance.
  * Used in method initGraph of IssueGraphComponent.
  */
@@ -466,8 +450,8 @@ import {Node} from &#x27;@ustutt/grapheditor-webcomponent/lib/node&#x27;;
 export class IssueGraphLinkHandlesService {
   /**
    * Manages calculation of the link handles of given GraphEditor instances.
-   * @param  {GraphEditor} graph - Reference to the GraphEditor instance of the graph that is handled.
-   * @param  {GraphEditor} minimap - Reference to the GraphEditor instance of the minimap that is handled.
+   * @param graph Reference to the GraphEditor instance of the graph that is handled.
+   * @param minimap Reference to the GraphEditor instance of the minimap that is handled.
    */
   manageLinkHandles(graph: GraphEditor, minimap: GraphEditor) {
     // calculation for link handles
@@ -506,9 +490,9 @@ export class IssueGraphLinkHandlesService {
 
   /**
    * Calculates the source handles of a given edge.
-   * @param  {Node} source - Source of the edge that is handled.
-   * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
-   * @param  {LinkHandle[]} sourceHandles - Source handles of the edge.
+   * @param source Source of the edge that is handled.
+   * @param handles Handles of the edge.
+   * @param sourceHandles Source handles of the edge.
    */
   private calculateSourceHandles(
     source: Node,
@@ -542,9 +526,9 @@ export class IssueGraphLinkHandlesService {
 
   /**
    * Calculates the target handles of a given edge.
-   * @param  {Node} target - Target of the edge that is handled.
-   * @param  {{sourceHandles:LinkHandle[];targetHandles:LinkHandle[];}} handles - Handles of the edge.
-   * @param  {LinkHandle[]} targetHandles - Target handles of the edge.
+   * @param target Target of the edge that is handled.
+   * @param handles Handles of the edge.
+   * @param targetHandles Target handles of the edge.
    */
   private calculateTargetHandles(
     target: Node,

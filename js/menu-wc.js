@@ -78,13 +78,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AppModule.html" data-type="entity-link" >AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' : 'data-target="#xs-components-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' }>
+                                            'data-target="#components-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' : 'data-target="#xs-components-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' :
-                                            'id="xs-components-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' :
+                                            'id="xs-components-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' }>
                                             <li class="link">
                                                 <a href="components/AccessTokenDialogComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AccessTokenDialogComponent</a>
                                             </li>
@@ -170,6 +170,99 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                                 <a href="components/TimelineComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineComponent</a>
                                             </li>
                                             <li class="link">
+                                                <a href="components/TimelineEventAddedArtifactComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventAddedArtifactComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventAddedNfcComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventAddedNfcComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventAddedToComponentComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventAddedToComponentComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventAddedToLocationComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventAddedToLocationComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventAssignedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventAssignedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventCategoryChangedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventCategoryChangedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventClosedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventClosedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventDeletedIssueCommentComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventDeletedIssueCommentComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventDueDateChangedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventDueDateChangedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventEstimatedTimeChangedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventEstimatedTimeChangedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventLabelledComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventLabelledComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventLinkComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventLinkComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventMarkedDuplicateComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventMarkedDuplicateComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventPinnedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventPinnedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventPriorityChangedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventPriorityChangedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventReferencedByIssueComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventReferencedByIssueComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventReferencedByOtherComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventReferencedByOtherComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventRemovedArtifactComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventRemovedArtifactComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventRemovedFromComponentComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventRemovedFromComponentComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventRemovedFromLocationComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventRemovedFromLocationComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventRemovedNfcComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventRemovedNfcComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventRenamedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventRenamedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventReopenedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventReopenedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventStartDateChangedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventStartDateChangedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventUnassignedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventUnassignedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventUnlabelledComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventUnlabelledComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventUnlinkComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventUnlinkComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventUnmarkedDuplicateComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventUnmarkedDuplicateComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventUnpinnedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventUnpinnedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventWasLinkedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventWasLinkedComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineEventWasUnlinkedComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineEventWasUnlinkedComponent</a>
+                                            </li>
+                                            <li class="link">
                                                 <a href="components/TimelineItemComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineItemComponent</a>
                                             </li>
                                             <li class="link">
@@ -179,13 +272,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' : 'data-target="#xs-directives-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' }>
+                                        'data-target="#directives-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' : 'data-target="#xs-directives-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' :
-                                        'id="xs-directives-links-module-AppModule-7750008f5af93acb57a2fbcdd16aff0f"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' :
+                                        'id="xs-directives-links-module-AppModule-bda5328183f29ac43c3abcdc05d13ebf"' }>
                                         <li class="link">
                                             <a href="directives/TimelineCoalescedItemsDirective.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TimelineCoalescedItemsDirective</a>
                                         </li>
@@ -379,6 +472,99 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="components/TextDisplayComponent.html" data-type="entity-link" >TextDisplayComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventAddedArtifactComponent.html" data-type="entity-link" >TimelineEventAddedArtifactComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventAddedNfcComponent.html" data-type="entity-link" >TimelineEventAddedNfcComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventAddedToComponentComponent.html" data-type="entity-link" >TimelineEventAddedToComponentComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventAddedToLocationComponent.html" data-type="entity-link" >TimelineEventAddedToLocationComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventAssignedComponent.html" data-type="entity-link" >TimelineEventAssignedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventCategoryChangedComponent.html" data-type="entity-link" >TimelineEventCategoryChangedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventClosedComponent.html" data-type="entity-link" >TimelineEventClosedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventDeletedIssueCommentComponent.html" data-type="entity-link" >TimelineEventDeletedIssueCommentComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventDueDateChangedComponent.html" data-type="entity-link" >TimelineEventDueDateChangedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventEstimatedTimeChangedComponent.html" data-type="entity-link" >TimelineEventEstimatedTimeChangedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventLabelledComponent.html" data-type="entity-link" >TimelineEventLabelledComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventLinkComponent.html" data-type="entity-link" >TimelineEventLinkComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventMarkedDuplicateComponent.html" data-type="entity-link" >TimelineEventMarkedDuplicateComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventPinnedComponent.html" data-type="entity-link" >TimelineEventPinnedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventPriorityChangedComponent.html" data-type="entity-link" >TimelineEventPriorityChangedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventReferencedByIssueComponent.html" data-type="entity-link" >TimelineEventReferencedByIssueComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventReferencedByOtherComponent.html" data-type="entity-link" >TimelineEventReferencedByOtherComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventRemovedArtifactComponent.html" data-type="entity-link" >TimelineEventRemovedArtifactComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventRemovedFromComponentComponent.html" data-type="entity-link" >TimelineEventRemovedFromComponentComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventRemovedFromLocationComponent.html" data-type="entity-link" >TimelineEventRemovedFromLocationComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventRemovedNfcComponent.html" data-type="entity-link" >TimelineEventRemovedNfcComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventRenamedComponent.html" data-type="entity-link" >TimelineEventRenamedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventReopenedComponent.html" data-type="entity-link" >TimelineEventReopenedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventStartDateChangedComponent.html" data-type="entity-link" >TimelineEventStartDateChangedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventUnassignedComponent.html" data-type="entity-link" >TimelineEventUnassignedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventUnlabelledComponent.html" data-type="entity-link" >TimelineEventUnlabelledComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventUnlinkComponent.html" data-type="entity-link" >TimelineEventUnlinkComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventUnmarkedDuplicateComponent.html" data-type="entity-link" >TimelineEventUnmarkedDuplicateComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventUnpinnedComponent.html" data-type="entity-link" >TimelineEventUnpinnedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventWasLinkedComponent.html" data-type="entity-link" >TimelineEventWasLinkedComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/TimelineEventWasUnlinkedComponent.html" data-type="entity-link" >TimelineEventWasUnlinkedComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/TimelineItemComponent.html" data-type="entity-link" >TimelineItemComponent</a>
