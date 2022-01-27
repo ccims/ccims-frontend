@@ -73,6 +73,8 @@ Further information regarding the members who have worked on the frontend of the
 
 3. Speth, S., Krieger, N., Breitenbücher, U., & Becker, S. (2021). Gropius-VSC: IDE Support for Cross-Component Issue Management. In R. Heinrich, R. Mirrandola, & D. Weyns (Hrsg.), Companion Proceedings of the 15th European Conference on Software Architecture. CEUR. [http://ceur-ws.org/Vol-2978/tool-paper103.pdf](http://ceur-ws.org/Vol-2978/tool-paper103.pdf)
 
+4. Speth. S. (2021). Semi-automated Cross-Component Issue Management and Impact Analysis. In Proceedings of 2021 36th IEEE/ACM International Conference on Automated Software Engineering (ASE). [https://doi.org/10.1109/ASE51524.2021.9678830](https://doi.org/10.1109/ASE51524.2021.9678830)
+
 ## License
 
 Everything in this repository is [licensed under the MIT License](https://github.com/ccims/ccims-frontend/blob/master/LICENSE) unless otherwise specified.
