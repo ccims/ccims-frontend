@@ -2,7 +2,7 @@
 
 ## Introduction to Gropius
 
-Modern software systems are often built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous autonomous components, e.g., microservices. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.
+Modern software systems are often built as component-based architectures. The whole idea behind this type of architecture is to decompose functionality into autonomous components, e.g., microservices. This results into components that are (almost) entirely self-contained and reusable, thus making the whole software developing process much easier.
 
 Even though component-based architectures have many benefits like ease of deployment, there are also challenges that need to be resolved. One of the most critical occurs when different components are managed in different **issue management systems** (IMS). This can lead to issues (in one group of components) not having a direct link to the root issues (in another group of components) that caused them in the first place. Dependencies between components can thus cause bugs to propagate through the components along the call chain.
 
